@@ -1,0 +1,15 @@
+[submodule "third_party/miniply"]
+	path = third_party/miniply
+	url = https://github.com/vilya/miniply.git
+[submodule "third_party/spz"]
+	path = third_party/spz
+	url = https://github.com/nianticlabs/spz.git
+[submodule "third_party/googletest"]
+	path = third_party/googletest
+	url = https://github.com/google/googletest.git
+[submodule "third_party/zlib"]
+	path = third_party/zlib
+	url = https://github.com/madler/zlib.git
+[submodule "third_party/zstd"]
+	path = third_party/zstd
+	url = https://github.com/facebook/zstd.git

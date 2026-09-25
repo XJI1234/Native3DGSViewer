@@ -1,0 +1,18 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.0.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native3DGSViewer.Build", "Native3DGSViewer.Build.proj", "{C5120442-C13B-499B-AB57-2680967AAEDC}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|x64 = Debug|x64
+        Release|x64 = Release|x64
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {C5120442-C13B-499B-AB57-2680967AAEDC}.Debug|x64.ActiveCfg = Debug|x64
+        {C5120442-C13B-499B-AB57-2680967AAEDC}.Debug|x64.Build.0 = Debug|x64
+        {C5120442-C13B-499B-AB57-2680967AAEDC}.Release|x64.ActiveCfg = Release|x64
+        {C5120442-C13B-499B-AB57-2680967AAEDC}.Release|x64.Build.0 = Release|x64
+    EndGlobalSection
+EndGlobal
