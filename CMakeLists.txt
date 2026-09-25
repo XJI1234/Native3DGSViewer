@@ -72,9 +72,11 @@ add_subdirectory(third_party/googletest EXCLUDE_FROM_ALL)
 enable_testing()
 add_executable(Native3DGSViewer.Tests
   tests/model-io/model_io_tests.cpp)
+add_executable(model-io-fault-helper tests/model-io/fault_helper.cpp)
+target_include_directories(model-io-fault-helper PRIVATE include src/model-io/common)
 target_include_directories(Native3DGSViewer.Tests PRIVATE include src/model-io/common src/model-io/normalize)
 target_link_libraries(Native3DGSViewer.Tests PRIVATE model-io spz GTest::gtest_main)
-add_dependencies(Native3DGSViewer.Tests model-io-helper)
+add_dependencies(Native3DGSViewer.Tests model-io-helper model-io-fault-helper)
 add_test(NAME ModelIo COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>")
 
 set(VS_UNITTEST "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Auxiliary/VS/UnitTest")

@@ -1,6 +1,7 @@
 #include "model-io/model_loader.h"
 
 #include "../common/probe.h"
+#include "../common/test_loader.h"
 #include "../common/win_handle.h"
 #include "../normalize/normalize.h"
 
@@ -81,15 +82,18 @@ struct AttributeList
 };
 
 LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layout,
-                      Coordinates coordinates, std::stop_token stop)
+                      Coordinates coordinates, std::stop_token stop,
+                      const LoaderTestOptions &testOptions)
 {
     MEMORYSTATUSEX memory{sizeof(memory)};
     if (!GlobalMemoryStatusEx(&memory))
         return error(LoadErrorCode::IoFailure, LoadStage::Inspecting);
-    const uint64_t jobLimit = std::min<uint64_t>(6ull << 30, memory.ullAvailPhys / 2);
-    if (jobLimit < (1ull << 30) || layout.totalBytes > memory.ullAvailPhys / 2 ||
+    const uint64_t availableJobLimit = std::min<uint64_t>(6ull << 30, memory.ullAvailPhys / 2);
+    if (availableJobLimit < (1ull << 30) || layout.totalBytes > memory.ullAvailPhys / 2 ||
         layout.totalBytes > memory.ullAvailPageFile / 2)
         return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting, "CPU memory budget");
+    const uint64_t jobLimit =
+        testOptions.jobMemoryLimitBytes ? testOptions.jobMemoryLimitBytes : availableJobLimit;
     UniqueHandle mapping(CreateFileMappingW(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE,
                                             static_cast<DWORD>(layout.totalBytes >> 32),
                                             static_cast<DWORD>(layout.totalBytes), nullptr));
@@ -132,7 +136,8 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
     startup.StartupInfo.hStdError = logWrite.get();
     startup.StartupInfo.hStdInput = nullInput.get();
     startup.lpAttributeList = attrs.list;
-    const auto path = helper_path();
+    const auto path =
+        testOptions.helperPath.empty() ? helper_path() : testOptions.helperPath.wstring();
     if (path.empty())
         return error(LoadErrorCode::DecoderFailure, LoadStage::Inspecting, "Helper path");
     auto args = command_line(path, file, mapping.get(), statusWrite.get(), layout.totalBytes,
@@ -145,13 +150,19 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
                      "CreateProcess " + std::to_string(GetLastError()));
     UniqueHandle child(process.hProcess), thread(process.hThread);
     UniqueHandle job(CreateJobObjectW(nullptr, nullptr));
+    UniqueHandle jobEvents(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1));
     JOBOBJECT_EXTENDED_LIMIT_INFORMATION jobInfo{};
     jobInfo.BasicLimitInformation.LimitFlags =
         JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_JOB_MEMORY;
     jobInfo.JobMemoryLimit = static_cast<SIZE_T>(jobLimit);
-    if (!job.valid() ||
+    JOBOBJECT_ASSOCIATE_COMPLETION_PORT association{};
+    association.CompletionKey = job.get();
+    association.CompletionPort = jobEvents.get();
+    if (testOptions.failJobSetup || !job.valid() || !jobEvents.valid() ||
         !SetInformationJobObject(job.get(), JobObjectExtendedLimitInformation, &jobInfo,
                                  sizeof(jobInfo)) ||
+        !SetInformationJobObject(job.get(), JobObjectAssociateCompletionPortInformation,
+                                 &association, sizeof(association)) ||
         !AssignProcessToJobObject(job.get(), child.get()))
     {
         TerminateProcess(child.get(), 1);
@@ -180,7 +191,7 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
         WaitForSingleObject(child.get(), 3000);
         return error(LoadErrorCode::DecoderFailure, LoadStage::Decoding, "ResumeThread");
     }
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(180);
+    const auto deadline = std::chrono::steady_clock::now() + testOptions.timeout;
     bool cancelled = false, timedOut = false;
     while (WaitForSingleObject(child.get(), 20) == WAIT_TIMEOUT)
     {
@@ -204,10 +215,23 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
     }
     DWORD exitCode = 0, read = 0;
     GetExitCodeProcess(child.get(), &exitCode);
+    bool memoryLimitHit = false;
+    DWORD event = 0;
+    ULONG_PTR key = 0;
+    LPOVERLAPPED overlapped = nullptr;
+    while (GetQueuedCompletionStatus(jobEvents.get(), &event, &key, &overlapped, 0))
+        memoryLimitHit |= key == reinterpret_cast<ULONG_PTR>(job.get()) &&
+                          event == JOB_OBJECT_MSG_JOB_MEMORY_LIMIT;
     StatusMessage message{};
     const bool received = ReadFile(statusRead.get(), &message, sizeof(message), &read, nullptr) &&
                           read == sizeof(message) && message.magic == kStatusMagic &&
                           message.version == kProtocolVersion && message.length == sizeof(message);
+    JOBOBJECT_LIMIT_VIOLATION_INFORMATION violation{};
+    memoryLimitHit |= QueryInformationJobObject(job.get(), JobObjectLimitViolationInformation,
+                                                &violation, sizeof(violation), nullptr) &&
+                      (violation.ViolationLimitFlags & JOB_OBJECT_LIMIT_JOB_MEMORY);
+    if (memoryLimitHit)
+        return error(LoadErrorCode::ResourceLimit, LoadStage::Decoding, "Helper memory limit");
     if (!received)
         return error(exitCode == 0 ? LoadErrorCode::DecoderFailure : LoadErrorCode::DecoderCrashed,
                      LoadStage::Decoding, "Helper status missing");
@@ -265,6 +289,10 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
 class ModelLoader final : public IModelLoader
 {
   public:
+    explicit ModelLoader(LoaderTestOptions options = {}) : options_(std::move(options))
+    {
+    }
+
     LoadResult load(const LoadRequest &request, std::stop_token stop,
                     ProgressSink progress) override
     {
@@ -328,7 +356,8 @@ class ModelLoader final : public IModelLoader
             if (stop.stop_requested())
                 return error(LoadErrorCode::Cancelled, stage);
             report(LoadStage::Decoding, 0, inputBytes);
-            auto result = run_helper(file.get(), inputBytes, *layout, request.plyCoordinates, stop);
+            auto result =
+                run_helper(file.get(), inputBytes, *layout, request.plyCoordinates, stop, options_);
             if (std::holds_alternative<LoadError>(result))
                 return result;
             report(LoadStage::Validating, 0, inputBytes);
@@ -352,6 +381,9 @@ class ModelLoader final : public IModelLoader
             return error(LoadErrorCode::DecoderFailure, stage);
         }
     }
+
+  private:
+    LoaderTestOptions options_;
 };
 
 } // namespace
@@ -360,5 +392,13 @@ std::unique_ptr<IModelLoader> make_model_loader()
 {
     return std::make_unique<ModelLoader>();
 }
+
+namespace detail
+{
+std::unique_ptr<IModelLoader> make_model_loader_for_testing(LoaderTestOptions options)
+{
+    return std::make_unique<ModelLoader>(std::move(options));
+}
+} // namespace detail
 
 } // namespace gs::io

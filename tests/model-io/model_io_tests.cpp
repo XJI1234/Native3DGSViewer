@@ -2,6 +2,7 @@
 #include "model-io/model_loader.h"
 #include "normalize.h"
 #include "probe.h"
+#include "test_loader.h"
 #include <zlib.h>
 
 #include <Windows.h>
@@ -141,6 +142,28 @@ void write_spz(const std::filesystem::path &path, uint32_t version, uint32_t deg
     std::ofstream out(path, std::ios::binary);
     out.write(reinterpret_cast<const char *>(bytes.data()), bytes.size());
 }
+
+std::filesystem::path fault_helper_path()
+{
+    std::array<wchar_t, 32768> executable{};
+    const DWORD size =
+        GetModuleFileNameW(nullptr, executable.data(), static_cast<DWORD>(executable.size()));
+    if (!size || size >= executable.size())
+        return {};
+    return std::filesystem::path(executable.data()).parent_path() / L"model-io-fault-helper.exe";
+}
+
+struct FaultMode
+{
+    explicit FaultMode(const wchar_t *mode)
+    {
+        SetEnvironmentVariableW(L"MODEL_IO_FAULT_MODE", mode);
+    }
+    ~FaultMode()
+    {
+        SetEnvironmentVariableW(L"MODEL_IO_FAULT_MODE", nullptr);
+    }
+};
 } // namespace
 
 TEST(ModelIo, RejectsMissingFile)
@@ -338,6 +361,61 @@ TEST(ModelIo, RandomHeaderAndLayoutMutationsNeverPublishScene)
     }
 }
 
+TEST(ModelIoFault, IsolatesCrashMalformedIpcAndSharedData)
+{
+    TempFile file;
+    write_ply(file.path, names());
+    auto path = fault_helper_path();
+    ASSERT_TRUE(exists(path));
+    for (const auto &[mode, code] :
+         std::array{std::pair{L"crash", LoadErrorCode::DecoderCrashed},
+                    std::pair{L"malformed", LoadErrorCode::DecoderFailure},
+                    std::pair{L"corrupt", LoadErrorCode::InvalidAttribute},
+                    std::pair{L"flood", LoadErrorCode::DecoderFailure}})
+    {
+        FaultMode fault(mode);
+        auto loader = gs::io::detail::make_model_loader_for_testing({path});
+        expect_error(loader->load({file.path}, {}, {}), code);
+    }
+}
+
+TEST(ModelIoFault, BoundsTimeoutCancellationAndJobFailure)
+{
+    TempFile file;
+    write_ply(file.path, names());
+    auto path = fault_helper_path();
+    ASSERT_TRUE(exists(path));
+    {
+        FaultMode fault(L"hang");
+        auto loader =
+            gs::io::detail::make_model_loader_for_testing({path, std::chrono::milliseconds(100)});
+        expect_error(loader->load({file.path}, {}, {}), LoadErrorCode::Timeout);
+        std::stop_source cancel;
+        LoadResult result;
+        std::thread worker([&] {
+            auto next = gs::io::detail::make_model_loader_for_testing({path});
+            result = next->load({file.path}, cancel.get_token(), {});
+        });
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        cancel.request_stop();
+        worker.join();
+        expect_error(result, LoadErrorCode::Cancelled);
+    }
+    auto loader = gs::io::detail::make_model_loader_for_testing(
+        {path, std::chrono::milliseconds(180000), true});
+    expect_error(loader->load({file.path}, {}, {}), LoadErrorCode::DecoderFailure);
+}
+
+TEST(ModelIoFault, ReportsHelperJobMemoryLimit)
+{
+    TempFile file;
+    write_ply(file.path, names());
+    FaultMode fault(L"memory");
+    auto loader = gs::io::detail::make_model_loader_for_testing(
+        {fault_helper_path(), std::chrono::milliseconds(180000), false, 128ull << 20});
+    expect_error(loader->load({file.path}, {}, {}), LoadErrorCode::ResourceLimit);
+}
+
 TEST(ModelIo, FailureDoesNotPoisonNextLoad)
 {
     TempFile bad, good;
@@ -377,7 +455,7 @@ TEST(ModelIoCorpus, LoadsWorkspaceSamples)
     EXPECT_EQ(std::get<gs::SceneHandle>(result)->count, 1'179'648);
     result = load(smallSpz);
     ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(result)) << diagnostic(result);
-    EXPECT_GT(std::get<gs::SceneHandle>(result)->count, 100'000);
+    EXPECT_EQ(std::get<gs::SceneHandle>(result)->count, 509'812);
     result = load(largeSpz);
     ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(result)) << diagnostic(result);
     EXPECT_EQ(std::get<gs::SceneHandle>(result)->count, 3'914'609);
