@@ -46,7 +46,7 @@ enum class RenderErrorCode : uint8_t {
     UnsupportedDevice, InvalidSurface, InvalidCamera, InvalidScene,
     InvalidQualityConfig,
     ResourceLimit, OutOfVideoMemory, UploadFailed, ShaderFailure,
-    DeviceRemoved, SurfaceLost, Cancelled, InternalFailure
+    DeviceRemoved, SurfaceLost, Cancelled, InternalFailure, GpuTimeout
 };
 struct RenderError { RenderErrorCode code; HRESULT hresult = S_OK; std::string diagnostic; };
 using UploadTicket = uint64_t;
@@ -70,6 +70,8 @@ struct RenderStats {
     uint64_t candidate_splats = 0, drawn_splats = 0;
     uint64_t rejected_projection_splats = 0;
     uint64_t sort_reuse_count = 0, completed_upload_bytes = 0;
+    uint64_t sort_pass_count = 0;
+    uint64_t wrong_thread_frame_calls = 0;
     uint64_t local_budget_bytes = 0, local_usage_bytes = 0;
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
     uint32_t device_recovery_count = 0;

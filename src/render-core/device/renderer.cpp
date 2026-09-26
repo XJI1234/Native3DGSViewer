@@ -1,5 +1,8 @@
 #include "splat.h"
+#ifdef GS_RENDER_TEST_HOOKS
 #include "test_renderer.h"
+#endif
+#include "upload.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -12,11 +15,27 @@ namespace gs::render
 {
 namespace
 {
+#ifdef GS_RENDER_TEST_HOOKS
+namespace testing_build
+#else
+namespace production_build
+#endif
+{
 using namespace detail;
 using Clock = std::chrono::steady_clock;
 RenderError failure(RenderErrorCode code, HRESULT hr = S_OK, const char *text = "")
 {
     return {code, hr, std::string(text).substr(0, 512)};
+}
+bool same_camera(const CameraState &a, const CameraState &b)
+{
+    return a.position_rub.x == b.position_rub.x && a.position_rub.y == b.position_rub.y &&
+           a.position_rub.z == b.position_rub.z && a.orientation_xyzw.x == b.orientation_xyzw.x &&
+           a.orientation_xyzw.y == b.orientation_xyzw.y &&
+           a.orientation_xyzw.z == b.orientation_xyzw.z &&
+           a.orientation_xyzw.w == b.orientation_xyzw.w &&
+           a.vertical_fov_radians == b.vertical_fov_radians && a.near_plane == b.near_plane &&
+           a.far_plane == b.far_plane;
 }
 struct Command
 {
@@ -47,22 +66,20 @@ struct FrameSlot
     uint64_t fence = 0, frame = 0;
     double cpu_ms = 0, present_ms = 0;
 };
-struct PendingUpload
-{
-    std::shared_ptr<SceneGpu> scene;
-    ComPtr<ID3D12Resource> page;
-    ComPtr<ID3D12CommandAllocator> allocator;
-    ComPtr<ID3D12GraphicsCommandList> list;
-    uint64_t submitted = 0, completed = 0, page_bytes = 0, fence = 0;
-    bool cancelled = false, ready = false;
-    Clock::time_point deadline{};
-};
 class Renderer final : public IRenderer
 {
   public:
-    Renderer(QualityConfig quality, EventSink sink,
-             std::shared_ptr<RendererTestControl> control = {})
-        : quality_(quality), sink_(std::move(sink)), control_(std::move(control))
+    Renderer(QualityConfig quality, EventSink sink
+#ifdef GS_RENDER_TEST_HOOKS
+             ,
+             std::shared_ptr<RendererTestControl> control = {}
+#endif
+             )
+        : quality_(quality), sink_(std::move(sink))
+#ifdef GS_RENDER_TEST_HOOKS
+          ,
+          control_(std::move(control))
+#endif
     {
         initialize();
         publish_device();
@@ -83,6 +100,12 @@ class Renderer final : public IRenderer
         }
         catch (...)
         {
+            if (gpu_)
+            {
+                ComPtr<ID3D12Device5> device;
+                if (SUCCEEDED(gpu_->device.As(&device)))
+                    device->RemoveDevice();
+            }
         }
     }
     SurfaceGeneration surface_generation() const override
@@ -145,8 +168,10 @@ class Renderer final : public IRenderer
             return failure(RenderErrorCode::DeviceRemoved);
         if (commands_.size() >= 64)
             return failure(RenderErrorCode::ResourceLimit);
+#ifdef GS_RENDER_TEST_HOOKS
         if (control_ && control_->reject_budget)
             return failure(RenderErrorCode::OutOfVideoMemory);
+#endif
         DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
         if (FAILED(surface_adapter_->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL,
                                                           &local)) ||
@@ -187,6 +212,8 @@ class Renderer final : public IRenderer
             return failure(RenderErrorCode::DeviceRemoved);
         if (ticket == 0 || ticket != active_ticket_)
             return failure(RenderErrorCode::InvalidScene);
+        if (ticket == last_camera_ticket_ && same_camera(camera, last_camera_))
+            return {};
         if (active_cpu_)
         {
             for (float v : relative_camera(*active_cpu_, camera))
@@ -197,6 +224,8 @@ class Renderer final : public IRenderer
         c.ticket = ticket;
         c.camera = camera;
         enqueue(std::move(c));
+        last_camera_ = camera;
+        last_camera_ticket_ = ticket;
         return {};
     }
     std::optional<RenderError> resize(SurfaceGeneration generation, ViewportRevision revision,
@@ -234,10 +263,16 @@ class Renderer final : public IRenderer
     void render_frame() override
     {
         const auto caller = std::this_thread::get_id();
-        if (render_thread_ == std::thread::id{})
-            render_thread_ = caller;
-        if (render_thread_ != caller)
-            return;
+        {
+            std::lock_guard lock(mutex_);
+            if (render_thread_ == std::thread::id{})
+                render_thread_ = caller;
+            if (render_thread_ != caller)
+            {
+                ++stats_.wrong_thread_frame_calls;
+                return;
+            }
+        }
         try
         {
             if (fatal_)
@@ -246,10 +281,12 @@ class Renderer final : public IRenderer
                 rebuild_device();
             if (!fatal_)
             {
+#ifdef GS_RENDER_TEST_HOOKS
                 if (control_ && control_->fence_timeout.exchange(false))
                 {
                     gpu_->wait(gpu_->direct_fence.Get(), gpu_->direct_value + 1);
                 }
+#endif
                 process_commands();
                 pump_upload();
                 collect_stats();
@@ -272,7 +309,7 @@ class Renderer final : public IRenderer
                      failure(RenderErrorCode::DeviceRemoved, e.hr, e.operation));
             }
             else if (e.hr == DXGI_ERROR_DEVICE_REMOVED || e.hr == DXGI_ERROR_DEVICE_RESET ||
-                     e.hr == DXGI_ERROR_DEVICE_HUNG ||
+                     e.hr == DXGI_ERROR_DEVICE_HUNG || e.code == RenderErrorCode::GpuTimeout ||
                      (gpu_ && FAILED(gpu_->device->GetDeviceRemovedReason())))
             {
                 try
@@ -304,6 +341,13 @@ class Renderer final : public IRenderer
         }
         catch (const std::bad_alloc &)
         {
+            if (pending_)
+            {
+                emit(RendererEvent::Kind::SceneFailed, pending_->scene->ticket,
+                     failure(RenderErrorCode::ResourceLimit, E_OUTOFMEMORY,
+                             "Upload host allocation"));
+                abandon_pending();
+            }
             emit(RendererEvent::Kind::RenderFault, 0,
                  failure(RenderErrorCode::ResourceLimit, E_OUTOFMEMORY));
         }
@@ -328,8 +372,6 @@ class Renderer final : public IRenderer
             }
             catch (...)
             {
-                std::lock_guard lock(mutex_);
-                observer_failures_++;
                 OutputDebugStringA("render-core: event observer threw\n");
             }
         }
@@ -351,7 +393,11 @@ class Renderer final : public IRenderer
     }
     void initialize()
     {
-        gpu_ = std::make_unique<GpuDevice>(control_ != nullptr, adapter_luid_);
+        bool diagnostics = false;
+#ifdef GS_RENDER_TEST_HOOKS
+        diagnostics = control_ != nullptr;
+#endif
+        gpu_ = std::make_unique<GpuDevice>(diagnostics, adapter_luid_);
         adapter_luid_ = gpu_->adapter_description.AdapterLuid;
         pass_ = std::make_unique<SplatPass>(*gpu_, quality_);
         D3D12_DESCRIPTOR_HEAP_DESC heap{};
@@ -374,12 +420,12 @@ class Renderer final : public IRenderer
                                                   IID_PPV_ARGS(&slot.list)),
                   "Frame list");
             check(slot.list->Close(), "Frame close");
-            slot.readback =
-                gpu_->buffer(44, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
+            slot.readback = gpu_->buffer(sizeof(FrameReadback), D3D12_HEAP_TYPE_READBACK,
+                                         D3D12_RESOURCE_STATE_COPY_DEST);
             void *mapped = nullptr;
             D3D12_RANGE empty{};
             check(slot.readback->Map(0, &empty, &mapped), "Stats initialization");
-            memset(mapped, 0, 44);
+            memset(mapped, 0, sizeof(FrameReadback));
             slot.readback->Unmap(0, &empty);
         }
     }
@@ -414,7 +460,6 @@ class Renderer final : public IRenderer
     {
         if (!pending_)
             return;
-        pending_->cancelled = true;
         if (pending_->fence && gpu_->copy_fence->GetCompletedValue() < pending_->fence)
             abandoned_.push_back(std::move(pending_));
         else
@@ -479,15 +524,23 @@ class Renderer final : public IRenderer
                     drain_frames();
                     targets_ = {};
                     swapchain_ = std::move(c.swapchain);
+                    DXGI_SWAP_CHAIN_DESC1 d{};
+                    check(swapchain_->GetDesc1(&d), "Attach description");
+                    if (applied_revision_ == 0)
+                        viewport_ = {d.Width, d.Height};
+                    else if (viewport_.physical_width && viewport_.physical_height &&
+                             (d.Width != viewport_.physical_width ||
+                              d.Height != viewport_.physical_height))
+                        check(swapchain_->ResizeBuffers(d.BufferCount, viewport_.physical_width,
+                                                        viewport_.physical_height, d.Format,
+                                                        d.Flags),
+                              "Attach resize");
                     rebuild_targets();
                     surface_lost_ = false;
                     if (active_)
                         active_->sorted = false;
                     if (pending_)
                         pending_->scene->sorted = false;
-                    DXGI_SWAP_CHAIN_DESC1 d{};
-                    swapchain_->GetDesc1(&d);
-                    viewport_ = {d.Width, d.Height};
                 }
                 break;
             case Command::Kind::Detach:
@@ -503,6 +556,9 @@ class Renderer final : public IRenderer
                 if (c.generation != generation_ || c.revision <= applied_revision_)
                     break;
                 applied_revision_ = c.revision;
+                if (viewport_.physical_width == c.viewport.physical_width &&
+                    viewport_.physical_height == c.viewport.physical_height)
+                    break;
                 viewport_ = c.viewport;
                 if (active_)
                     active_->sorted = false;
@@ -527,8 +583,10 @@ class Renderer final : public IRenderer
     {
         try
         {
+#ifdef GS_RENDER_TEST_HOOKS
             if (control_ && control_->fail_allocation.exchange(false))
                 throw GpuFailure{E_OUTOFMEMORY, "Injected resource allocation"};
+#endif
             DXGI_QUERY_VIDEO_MEMORY_INFO budget{};
             check(gpu_->adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &budget),
                   "Local budget");
@@ -538,20 +596,8 @@ class Renderer final : public IRenderer
                      failure(RenderErrorCode::OutOfVideoMemory));
                 return;
             }
-            auto p = std::make_unique<PendingUpload>();
-            p->scene = pass_->allocate(std::move(scene), ticket, camera);
-            p->page =
-                gpu_->buffer(4ull << 20, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
-            p->page->SetName(L"Copy upload page");
-            check(gpu_->device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COPY,
-                                                       IID_PPV_ARGS(&p->allocator)),
-                  "Upload allocator");
-            check(gpu_->device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COPY,
-                                                  p->allocator.Get(), nullptr,
-                                                  IID_PPV_ARGS(&p->list)),
-                  "Upload list");
-            check(p->list->Close(), "Upload initial close");
-            pending_ = std::move(p);
+            pending_ = std::make_unique<UploadTransaction>(*gpu_, *pass_, std::move(scene), ticket,
+                                                           camera);
         }
         catch (const GpuFailure &e)
         {
@@ -562,86 +608,41 @@ class Renderer final : public IRenderer
                                                : RenderErrorCode::UploadFailed,
                          e.hr, e.operation));
         }
+        catch (const std::bad_alloc &)
+        {
+            emit(RendererEvent::Kind::SceneFailed, ticket,
+                 failure(RenderErrorCode::ResourceLimit, E_OUTOFMEMORY, "Upload host allocation"));
+        }
     }
     void pump_upload()
     {
         const auto copy_completed = gpu_->copy_fence->GetCompletedValue();
         if (copy_completed == UINT64_MAX)
             throw GpuFailure{DXGI_ERROR_DEVICE_REMOVED, "Copy fence"};
-        for (const auto &p : abandoned_)
-            if (copy_completed < p->fence && Clock::now() > p->deadline)
-                throw GpuFailure{DXGI_ERROR_DEVICE_HUNG, "Abandoned copy upload timeout"};
-        std::erase_if(abandoned_, [&](const auto &p) { return copy_completed >= p->fence; });
+        std::erase_if(abandoned_, [&](const auto &p) { return p->copy_complete(copy_completed); });
         if (!pending_ || pending_->ready)
             return;
         auto &p = *pending_;
-        auto completed = gpu_->copy_fence->GetCompletedValue();
-        if (completed == UINT64_MAX)
-            throw GpuFailure{DXGI_ERROR_DEVICE_REMOVED, "Copy fence"};
-        if (p.fence && completed < p.fence)
+        if (auto progress = p.advance(*gpu_))
         {
-            if (Clock::now() > p.deadline)
-                throw GpuFailure{DXGI_ERROR_DEVICE_HUNG, "Copy upload timeout"};
-            return;
-        }
-        if (p.fence)
-        {
-            p.completed += p.page_bytes;
-            p.fence = 0;
             events_.push_back({RendererEvent::Kind::UploadProgress,
                                p.scene->ticket,
                                generation_,
-                               p.completed,
-                               scene_bytes(*p.scene->cpu),
+                               progress->completed,
+                               progress->total,
                                {}});
             {
                 std::lock_guard lock(mutex_);
-                stats_.completed_upload_bytes = p.completed;
+                stats_.completed_upload_bytes = progress->completed;
             }
         }
-        const auto total = scene_bytes(*p.scene->cpu);
-        if (p.completed == total)
-        {
-            check(gpu_->direct->Wait(gpu_->copy_fence.Get(), gpu_->copy_value),
-                  "Direct copy dependency");
-            p.ready = true;
-            p.page.Reset();
-            return;
-        }
-        p.page_bytes = (std::min)(4ull << 20, total - p.submitted);
-        void *mapped = nullptr;
-        D3D12_RANGE empty{};
-        check(p.page->Map(0, &empty, &mapped), "Upload map");
-        const auto &s = *p.scene->cpu;
-        const std::array spans{s.centerLocal, s.scale, s.rotation, s.opacity, s.rgb0, s.shRest};
-        uint64_t base = 0;
-        for (auto span : spans)
-        {
-            const uint64_t end = base + span.size_bytes();
-            const auto first = (std::max)(base, p.submitted),
-                       last = (std::min)(end, p.submitted + p.page_bytes);
-            if (last > first)
-                memcpy(static_cast<uint8_t *>(mapped) + first - p.submitted,
-                       reinterpret_cast<const uint8_t *>(span.data()) + first - base,
-                       size_t(last - first));
-            base = end;
-        }
-        p.page->Unmap(0, nullptr);
-        check(p.allocator->Reset(), "Copy allocator reset");
-        check(p.list->Reset(p.allocator.Get(), nullptr), "Copy list reset");
-        // Copy queue promotion/decay keeps the resource COMMON between chunks.
-        p.list->CopyBufferRegion(p.scene->attributes.Get(), p.submitted, p.page.Get(), 0,
-                                 p.page_bytes);
-        check(p.list->Close(), "Copy close");
-        p.fence =
-            gpu_->submit(gpu_->copy.Get(), p.list.Get(), gpu_->copy_fence.Get(), gpu_->copy_value);
-        p.submitted += p.page_bytes;
-        p.deadline = Clock::now() + std::chrono::seconds(5);
-        if (control_ && control_->copy_fence_timeout.exchange(false))
+#ifdef GS_RENDER_TEST_HOOKS
+        if (p.fence && control_ && control_->copy_fence_timeout.exchange(false))
         {
             ++p.fence;
             p.deadline = Clock::now();
         }
+#endif
     }
     void collect_stats()
     {
@@ -652,14 +653,13 @@ class Renderer final : public IRenderer
             if (slot.fence && completed >= slot.fence && slot.frame)
             {
                 void *mapped = nullptr;
-                D3D12_RANGE range{0, 44};
+                D3D12_RANGE range{0, sizeof(FrameReadback)};
                 check(slot.readback->Map(0, &range, &mapped), "Stats readback");
-                uint64_t ticks[3];
-                memcpy(ticks, mapped, 24);
-                uint32_t count = 0;
-                memcpy(&count, static_cast<uint8_t *>(mapped) + 28, 4);
-                uint32_t rejected = 0;
-                memcpy(&rejected, static_cast<uint8_t *>(mapped) + 40, 4);
+                FrameReadback result{};
+                memcpy(&result, mapped, sizeof(result));
+                const auto &ticks = result.ticks;
+                uint32_t count = result.draw.instance_count;
+                uint32_t rejected = result.draw.rejected;
                 if (!slot.scene)
                 {
                     count = 0;
@@ -709,6 +709,10 @@ class Renderer final : public IRenderer
             transition(list, candidate->attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                        D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
             pass_->project_sort(list, *candidate, viewport_);
+            {
+                std::lock_guard lock(mutex_);
+                ++stats_.sort_pass_count;
+            }
             transition(list, candidate->attributes.Get(),
                        D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COMMON);
         }
@@ -734,7 +738,8 @@ class Renderer final : public IRenderer
         {
             transition(list, candidate->arguments.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
                        D3D12_RESOURCE_STATE_COPY_SOURCE);
-            list->CopyBufferRegion(slot.readback.Get(), 24, candidate->arguments.Get(), 0, 20);
+            list->CopyBufferRegion(slot.readback.Get(), offsetof(FrameReadback, draw),
+                                   candidate->arguments.Get(), 0, sizeof(DrawCounters));
             transition(list, candidate->arguments.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE,
                        D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
         }
@@ -771,6 +776,8 @@ class Renderer final : public IRenderer
                 {
                     active_ticket_ = pending_->scene->ticket;
                     active_cpu_ = pending_->scene->cpu;
+                    last_camera_ticket_ = active_ticket_;
+                    last_camera_ = pending_->scene->camera;
                 }
             }
             if (cancelled)
@@ -797,8 +804,10 @@ class Renderer final : public IRenderer
     }
     void recover(const GpuFailure &e)
     {
-        emit(RendererEvent::Kind::DeviceLost, 0,
-             failure(RenderErrorCode::DeviceRemoved, e.hr, e.operation));
+        emit(
+            RendererEvent::Kind::DeviceLost, 0,
+            failure(e.code == RenderErrorCode::GpuTimeout ? e.code : RenderErrorCode::DeviceRemoved,
+                    e.hr, e.operation));
         recovery_scene_ = active_ ? active_->cpu : SceneHandle{};
         recovery_ticket_ = active_ ? active_->ticket : 0;
         recovery_camera_ = active_ ? active_->camera : CameraState{};
@@ -811,10 +820,12 @@ class Renderer final : public IRenderer
                 D3D12_DRED_PAGE_FAULT_OUTPUT pageFault{};
                 dred->GetAutoBreadcrumbsOutput(&breadcrumbs);
                 dred->GetPageFaultAllocationOutput(&pageFault);
-                events_.back().error->diagnostic +=
-                    " DRED breadcrumbs=" +
-                    std::to_string(breadcrumbs.pHeadAutoBreadcrumbNode != nullptr) +
-                    " fault=" + std::to_string(pageFault.PageFaultVA);
+                auto &diagnostic = events_.back().error;
+                if (diagnostic)
+                    diagnostic->diagnostic +=
+                        " DRED breadcrumbs=" +
+                        std::to_string(breadcrumbs.pHeadAutoBreadcrumbNode != nullptr) +
+                        " fault=" + std::to_string(pageFault.PageFaultVA);
             }
         }
         if (pending_)
@@ -865,6 +876,7 @@ class Renderer final : public IRenderer
     void rebuild_device()
     {
         bool restored = false;
+        std::optional<RenderError> rebuild_error;
         for (int attempt = 0; attempt < 2 && recovery_attempts_ < 2;
              ++attempt, ++recovery_attempts_)
         {
@@ -874,8 +886,16 @@ class Renderer final : public IRenderer
                 restored = true;
                 break;
             }
-            catch (...)
+            catch (const GpuFailure &e)
             {
+                rebuild_error = failure(e.code, e.hr, e.operation);
+                gpu_.reset();
+                pass_.reset();
+            }
+            catch (const std::bad_alloc &)
+            {
+                rebuild_error = failure(RenderErrorCode::ResourceLimit, E_OUTOFMEMORY,
+                                        "Device rebuild allocation");
                 gpu_.reset();
                 pass_.reset();
             }
@@ -883,8 +903,10 @@ class Renderer final : public IRenderer
         if (!restored || ++recovery_cycles_ > 2)
         {
             fatal_ = true;
-            emit(RendererEvent::Kind::FatalDeviceError, 0,
-                 failure(RenderErrorCode::DeviceRemoved, DXGI_ERROR_DEVICE_REMOVED));
+            emit(
+                RendererEvent::Kind::FatalDeviceError, 0,
+                rebuild_error.value_or(failure(RenderErrorCode::DeviceRemoved,
+                                               DXGI_ERROR_DEVICE_REMOVED, "Recovery cycle limit")));
             return;
         }
         {
@@ -925,29 +947,40 @@ class Renderer final : public IRenderer
     UINT rtv_stride_ = 0;
     ComPtr<ID3D12QueryHeap> queries_;
     std::array<FrameSlot, 3> frames_;
-    std::unique_ptr<PendingUpload> pending_;
-    std::vector<std::unique_ptr<PendingUpload>> abandoned_;
+    std::unique_ptr<UploadTransaction> pending_;
+    std::vector<std::unique_ptr<UploadTransaction>> abandoned_;
     std::shared_ptr<SceneGpu> active_;
     SceneHandle active_cpu_;
     SceneHandle recovery_scene_;
     UploadTicket recovery_ticket_ = 0;
     CameraState recovery_camera_;
     UploadTicket next_ticket_ = 0, active_ticket_ = 0;
+    UploadTicket last_camera_ticket_ = 0;
+    CameraState last_camera_;
     SurfaceGeneration generation_ = 1;
     ViewportRevision accepted_revision_ = 0, applied_revision_ = 0;
     Viewport viewport_{};
     RenderStats stats_;
     std::vector<RendererEvent> events_;
     std::thread::id render_thread_;
-    uint64_t frame_number_ = 0, observer_failures_ = 0;
+    uint64_t frame_number_ = 0;
     std::atomic<bool> fatal_{false}, recovering_{false};
     uint32_t recovery_attempts_ = 0, recovery_cycles_ = 0;
     bool surface_lost_ = false;
     Clock::time_point rebind_deadline_{};
+#ifdef GS_RENDER_TEST_HOOKS
     std::shared_ptr<RendererTestControl> control_;
+#endif
     std::vector<std::string> reported_debug_;
 };
+}
+#ifdef GS_RENDER_TEST_HOOKS
+using namespace testing_build;
+#else
+using namespace production_build;
+#endif
 } // namespace
+#ifndef GS_RENDER_TEST_HOOKS
 std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer(QualityConfig quality,
                                                                       EventSink sink)
 {
@@ -960,7 +993,8 @@ std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer(QualityCon
     catch (const detail::GpuFailure &e)
     {
         return failure(e.hr == DXGI_ERROR_UNSUPPORTED ? RenderErrorCode::UnsupportedDevice
-                                                      : RenderErrorCode::ShaderFailure,
+                       : e.hr == E_OUTOFMEMORY        ? RenderErrorCode::OutOfVideoMemory
+                                                      : e.code,
                        e.hr, e.operation);
     }
     catch (const std::bad_alloc &)
@@ -968,8 +1002,10 @@ std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer(QualityCon
         return failure(RenderErrorCode::ResourceLimit, E_OUTOFMEMORY);
     }
 }
+#endif
 } // namespace gs::render
 
+#ifdef GS_RENDER_TEST_HOOKS
 namespace gs::render::detail
 {
 std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer_for_testing(
@@ -995,3 +1031,4 @@ std::vector<std::string> renderer_debug_errors(IRenderer &renderer)
     return native ? native->debug_errors() : std::vector<std::string>{"Wrong renderer"};
 }
 } // namespace gs::render::detail
+#endif

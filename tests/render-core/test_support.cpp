@@ -20,7 +20,8 @@ Image render_image(gs::SceneHandle scene, CameraState camera, QualityConfig qual
     for (auto span : {scene->centerLocal, scene->scale, scene->rotation, scene->opacity,
                       scene->rgb0, scene->shRest})
     {
-        memcpy(static_cast<uint8_t *>(mapped) + offset, span.data(), span.size_bytes());
+        if (!span.empty())
+            memcpy(static_cast<uint8_t *>(mapped) + offset, span.data(), span.size_bytes());
         offset += span.size_bytes();
     }
     upload->Unmap(0, nullptr);
@@ -93,13 +94,16 @@ Image render_image(gs::SceneHandle scene, CameraState camera, QualityConfig qual
                static_cast<const uint8_t *>(mapped) + size_t(y) * footprint.Footprint.RowPitch,
                size_t(rowBytes));
     readback->Unmap(0, &empty);
-    auto projected = gpu.readback(model->projected.Get(), scene->count * 48,
+    auto projected = gpu.readback(model->projected.Get(), scene->count * sizeof(ProjectedEllipse),
                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
     image.projected.resize(projected.size() / 4);
     memcpy(image.projected.data(), projected.data(), projected.size());
-    auto args = gpu.readback(model->arguments.Get(), 20, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-    memcpy(&image.candidates, args.data() + 4, 4);
-    memcpy(&image.rejected, args.data() + 16, 4);
+    auto args = gpu.readback(model->arguments.Get(), sizeof(DrawCounters),
+                             D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+    DrawCounters counters{};
+    memcpy(&counters, args.data(), sizeof(counters));
+    image.candidates = counters.instance_count;
+    image.rejected = counters.rejected;
     for (const auto &error : gpu.debug_errors())
         ADD_FAILURE() << error;
     return image;
@@ -119,6 +123,7 @@ void save_bmp(const Image &image, const std::filesystem::path &path)
     info.biBitCount = 32;
     info.biCompression = BI_RGB;
     std::ofstream out(path, std::ios::binary);
+    out.exceptions(std::ios::failbit | std::ios::badbit);
     out.write(reinterpret_cast<const char *>(&file), sizeof(file));
     out.write(reinterpret_cast<const char *>(&info), sizeof(info));
     out.write(reinterpret_cast<const char *>(image.bgra.data()), image.bgra.size());

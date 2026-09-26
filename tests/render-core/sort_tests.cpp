@@ -60,6 +60,12 @@ TEST(RenderGpu, StableRadixMatchesCpuIncludingEightMillionKeys)
             auto result = gpu.readback(buffers.values[0].Get(), uint64_t(n) * 4,
                                        D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
             EXPECT_EQ(memcmp(result.data(), expected.data(), result.size()), 0);
+            auto sorted_keys = gpu.readback(buffers.keys[0].Get(), uint64_t(n) * 4,
+                                            D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            std::vector<uint32_t> expected_keys(n);
+            std::transform(expected.begin(), expected.end(), expected_keys.begin(),
+                           [&](uint32_t index) { return keys[index]; });
+            EXPECT_EQ(memcmp(sorted_keys.data(), expected_keys.data(), sorted_keys.size()), 0);
         }
         for (const auto &error : gpu.debug_errors())
             ADD_FAILURE() << error;

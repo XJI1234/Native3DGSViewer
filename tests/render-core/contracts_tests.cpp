@@ -57,10 +57,20 @@ TEST(RenderContracts, SceneRejectsCountOverflowMissingStorageAndShLength)
     EXPECT_FALSE(validate_scene(scene));
     scene->count = UINT64_MAX;
     EXPECT_TRUE(validate_scene(scene));
+    EXPECT_EQ(scene_bytes(*scene), UINT64_MAX);
+    EXPECT_EQ(incremental_bytes(*scene), UINT64_MAX);
     scene->count = 1;
     scene->shDegree = 3;
     EXPECT_TRUE(validate_scene(scene));
     scene->shDegree = 0;
     scene->storage.reset();
     EXPECT_TRUE(validate_scene(scene));
+}
+TEST(RenderContracts, RotatedCameraUsesInverseQuaternionRows)
+{
+    const double half = std::sqrt(0.5);
+    const auto rows = world_to_camera({0, half, 0, half});
+    const std::array<float, 9> expected{0, 0, -1, 0, 1, 0, 1, 0, 0};
+    for (size_t i = 0; i < rows.size(); ++i)
+        EXPECT_NEAR(rows[i], expected[i], 1e-6);
 }

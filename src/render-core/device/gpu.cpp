@@ -6,10 +6,10 @@
 
 namespace gs::render::detail
 {
-void check(HRESULT hr, const char *operation)
+void check(HRESULT hr, const char *operation, RenderErrorCode code)
 {
     if (FAILED(hr))
-        throw GpuFailure{hr, operation};
+        throw GpuFailure{hr, operation, code};
 }
 void transition(ID3D12GraphicsCommandList *list, ID3D12Resource *resource,
                 D3D12_RESOURCE_STATES from, D3D12_RESOURCE_STATES to)
@@ -143,9 +143,18 @@ void GpuDevice::wait(ID3D12Fence *fence, uint64_t value)
     if (done >= value)
         return;
     check(fence->SetEventOnCompletion(value, event_), "Fence event registration");
-    if (WaitForSingleObject(event_, 5000) != WAIT_OBJECT_0)
-        throw GpuFailure{DXGI_ERROR_DEVICE_HUNG, "Fence timeout"};
+    const auto waited = WaitForSingleObject(event_, 5000);
+    const auto wait_error = waited == WAIT_FAILED ? GetLastError() : ERROR_SUCCESS;
     check(device->GetDeviceRemovedReason(), "Device removed");
+    done = fence->GetCompletedValue();
+    if (done == UINT64_MAX)
+        throw GpuFailure{DXGI_ERROR_DEVICE_REMOVED, "Fence removed"};
+    if (done >= value)
+        return;
+    if (waited == WAIT_FAILED)
+        throw GpuFailure{HRESULT_FROM_WIN32(wait_error), "Fence event wait"};
+    throw GpuFailure{HRESULT_FROM_WIN32(ERROR_TIMEOUT), "GPU fence deadline",
+                     RenderErrorCode::GpuTimeout};
 }
 std::vector<uint8_t> GpuDevice::readback(ID3D12Resource *resource, uint64_t bytes,
                                          D3D12_RESOURCE_STATES state)
@@ -199,13 +208,15 @@ std::vector<uint8_t> shader(const char *name)
                       (std::string(name) + ".cso");
     std::ifstream stream(path, std::ios::binary | std::ios::ate);
     if (!stream)
-        throw GpuFailure{E_FAIL, "Shader file"};
+        throw GpuFailure{E_FAIL, "Shader file", RenderErrorCode::ShaderFailure};
     auto size = stream.tellg();
+    if (size <= 0 || size > (16 << 20))
+        throw GpuFailure{E_FAIL, "Shader size", RenderErrorCode::ShaderFailure};
     std::vector<uint8_t> bytes(size);
     stream.seekg(0);
     stream.read(reinterpret_cast<char *>(bytes.data()), size);
     if (!stream)
-        throw GpuFailure{E_FAIL, "Shader read"};
+        throw GpuFailure{E_FAIL, "Shader read", RenderErrorCode::ShaderFailure};
     return bytes;
 }
 ComPtr<ID3D12RootSignature> root_signature(ID3D12Device *device,
@@ -216,7 +227,7 @@ ComPtr<ID3D12RootSignature> root_signature(ID3D12Device *device,
     desc.pParameters = parameters.data();
     ComPtr<ID3DBlob> blob, error;
     check(D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, &blob, &error),
-          "Root signature serialization");
+          "Root signature serialization", RenderErrorCode::ShaderFailure);
     ComPtr<ID3D12RootSignature> root;
     check(device->CreateRootSignature(0, blob->GetBufferPointer(), blob->GetBufferSize(),
                                       IID_PPV_ARGS(&root)),

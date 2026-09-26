@@ -100,3 +100,43 @@ TEST(RenderLifecycle, CommandsAreSafeWhileRenderThreadSubmits)
     worker.request_stop();
     worker.join();
 }
+
+TEST(RenderLifecycle, ResizeBeforeAttachSurvivesInitialSurfaceBinding)
+{
+    Session s;
+    auto g = s.renderer->surface_generation();
+    ASSERT_FALSE(s.renderer->resize(g, 1, {257, 129}));
+    ASSERT_FALSE(s.renderer->attach_swapchain(g, s.surface.Get()));
+    s.renderer->render_frame();
+    DXGI_SWAP_CHAIN_DESC1 desc{};
+    ASSERT_EQ(s.surface->GetDesc1(&desc), S_OK);
+    EXPECT_EQ(desc.Width, 257u);
+    EXPECT_EQ(desc.Height, 129u);
+}
+
+TEST(RenderLifecycle, IdenticalCameraAndViewportReuseExistingSort)
+{
+    Session s;
+    auto ticket = s.upload(make_scene());
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+    const auto before = s.renderer->get_stats();
+    for (uint64_t i = 1; i <= 10; ++i)
+    {
+        ASSERT_FALSE(s.renderer->set_camera(ticket, {}));
+        ASSERT_FALSE(s.renderer->resize(s.renderer->surface_generation(), i, {128, 128}));
+        s.renderer->render_frame();
+    }
+    EXPECT_EQ(s.renderer->get_stats().sort_pass_count, before.sort_pass_count);
+    EXPECT_GT(s.renderer->get_stats().sort_reuse_count, before.sort_reuse_count);
+}
+TEST(RenderLifecycle, WrongThreadFrameIsRejectedAndReported)
+{
+    Session s;
+    s.renderer->render_frame();
+    auto before = s.renderer->get_stats();
+    std::thread wrong([&] { s.renderer->render_frame(); });
+    wrong.join();
+    auto after = s.renderer->get_stats();
+    EXPECT_EQ(after.wrong_thread_frame_calls, before.wrong_thread_frame_calls + 1);
+    EXPECT_EQ(after.sort_pass_count, before.sort_pass_count);
+}

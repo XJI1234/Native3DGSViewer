@@ -12,6 +12,7 @@ void remove_device(Session &s)
 {
     ComPtr<ID3D12CommandQueue> queue;
     queue.Attach(s.renderer->addref_surface_queue(s.renderer->surface_generation()));
+    ASSERT_TRUE(queue);
     ComPtr<ID3D12Device5> device;
     ASSERT_EQ(queue->GetDevice(IID_PPV_ARGS(&device)), S_OK);
     device->RemoveDevice();
@@ -26,6 +27,7 @@ TEST(RenderRecovery, ActualDeviceRemovalRebindsAndRestoresRetainedScene)
     auto old = s.renderer->surface_generation();
     ComPtr<ID3D12CommandQueue> queue;
     queue.Attach(s.renderer->addref_surface_queue(old));
+    ASSERT_TRUE(queue);
     ComPtr<ID3D12Device5> device;
     ASSERT_EQ(queue->GetDevice(IID_PPV_ARGS(&device)), S_OK);
     const auto original_luid = device->GetAdapterLuid();
@@ -34,9 +36,12 @@ TEST(RenderRecovery, ActualDeviceRemovalRebindsAndRestoresRetainedScene)
     queue.Reset();
     s.surface.Reset();
     ASSERT_TRUE(s.pump_until([&] { return s.renderer->surface_generation() != old; }));
-    EXPECT_EQ(s.renderer->addref_surface_queue(old), nullptr);
+    ComPtr<ID3D12CommandQueue> obsolete_queue;
+    obsolete_queue.Attach(s.renderer->addref_surface_queue(old));
+    EXPECT_FALSE(obsolete_queue);
     s.bind();
     queue.Attach(s.renderer->addref_surface_queue(s.renderer->surface_generation()));
+    ASSERT_TRUE(queue);
     ASSERT_EQ(queue->GetDevice(IID_PPV_ARGS(&device)), S_OK);
     EXPECT_EQ(device->GetAdapterLuid().HighPart, original_luid.HighPart);
     EXPECT_EQ(device->GetAdapterLuid().LowPart, original_luid.LowPart);

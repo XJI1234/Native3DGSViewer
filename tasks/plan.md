@@ -1,5 +1,9 @@
 # render-core 实现计划
 
+## 引擎与 SDK 完善阶段
+
+依据 docs/SPEC-engine-sdk.md，核心缺陷回归、上传拆分、相机及异步引擎、SDK 安装/部署与独立消费验证已完成。OCR 初轮、变更审查和针对超时文件的定向复审均已完成，结果与构建证据归档至 docs/engine-sdk-verification.md。
+
 依据 docs/SPEC-render-core.md 实现 C++20 D3D12 独立模块。保持 model-io 无图形依赖；联合测试在测试目标连接两个模块。
 
 1. 公共契约及 CPU 验证：相机、质量、场景长度、增量预算；GoogleTest 边界验证。

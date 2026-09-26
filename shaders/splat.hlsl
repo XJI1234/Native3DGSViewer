@@ -56,7 +56,9 @@ void project(uint i:SV_DispatchThreadID)
     float alpha=asfloat(scene.Load(offsets0.w+i*4));
     float support=max(s.x,max(s.y,s.z))*quality.x;
     float depth=-p.z;
-    if(!all(isfinite(p)) || !all(isfinite(s))) { reject_projection(i); return; }
+    if(!all(isfinite(p)) || !all(isfinite(s)) || any(s<=0) || !all(isfinite(q)) ||
+       abs(dot(q,q)-1)>0.001 || !isfinite(alpha) || alpha<0 || alpha>1)
+    { reject_projection(i); return; }
     if(alpha<=quality.y ||
        depth+support<clip_planes.x || depth-support>clip_planes.y) { ellipses[i]=e; return; }
     float d=max(depth,clip_planes.x);
@@ -68,10 +70,18 @@ void project(uint i:SV_DispatchThreadID)
     float3 tx=float3(dot(jx,a0),dot(jx,a1),dot(jx,a2));
     float3 ty=float3(dot(jy,a0),dot(jy,a1),dot(jy,a2));
     float xx=dot(tx,tx)+quality.z,yy=dot(ty,ty)+quality.z,xy=dot(tx,ty);
-    float middle=(xx+yy)*0.5,disc=length(float2((xx-yy)*0.5,xy));
-    float major=middle+disc,minor=middle-disc;
+    float covariance_scale=max(xx,yy);
+    if(!isfinite(covariance_scale) || covariance_scale<=0) { reject_projection(i); return; }
+    float xxn=xx/covariance_scale,yyn=yy/covariance_scale,xyn=xy/covariance_scale;
+    float middle=(xxn+yyn)*0.5,disc=length(float2((xxn-yyn)*0.5,xyn));
+    float eigen_major=middle+disc;
+    // Gram determinant avoids subtracting nearly equal eigenvalues for thin splats.
+    float3 gram_cross=cross(tx/sqrt(covariance_scale),ty/sqrt(covariance_scale));
+    float blur=quality.z/covariance_scale;
+    float determinant=dot(gram_cross,gram_cross)+blur*(xxn+yyn-blur);
+    float major=covariance_scale*eigen_major,minor=covariance_scale*(determinant/eigen_major);
     if(!isfinite(major) || !isfinite(minor) || minor<=0) { reject_projection(i); return; }
-    float2 axis=abs(xy)>1e-10 ? normalize(float2(xy,major-xx)) : (xx>=yy ? float2(1,0) : float2(0,1));
+    float2 axis=abs(xyn)>1e-10 ? normalize(float2(xyn,eigen_major-xxn)) : (xx>=yy ? float2(1,0) : float2(0,1));
     e.axis0=axis*min(quality.x*sqrt(major),quality.w);
     e.axis1=float2(-axis.y,axis.x)*min(quality.x*sqrt(minor),quality.w);
     e.center=float2(viewport.z*0.5+viewport.x*p.x/d,viewport.w*0.5-viewport.y*p.y/d);

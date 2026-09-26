@@ -80,11 +80,12 @@ std::shared_ptr<SceneGpu> SplatPass::allocate(SceneHandle scene, UploadTicket ti
                   uint32_t(n * 40),
                   uint32_t(n * 44),
                   uint32_t(n * 56)};
-    s->projected =
-        gpu_.buffer(n * 48, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-                    D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+    s->projected = gpu_.buffer(n * sizeof(ProjectedEllipse), D3D12_HEAP_TYPE_DEFAULT,
+                               D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+                               D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
     s->projected->SetName(L"Projected ellipses");
-    s->arguments = gpu_.buffer(20, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+    s->arguments = gpu_.buffer(sizeof(DrawCounters), D3D12_HEAP_TYPE_DEFAULT,
+                               D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
                                D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
     s->arguments->SetName(L"Draw arguments");
     s->sorting = sort_.allocate(uint32_t(n));

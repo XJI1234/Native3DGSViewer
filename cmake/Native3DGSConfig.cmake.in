@@ -1,0 +1,16 @@
+@PACKAGE_INIT@
+if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR NOT MSVC)
+  message(FATAL_ERROR "Native3DGS SDK requires Windows x64 and the MSVC C++20 toolchain")
+endif()
+include("${CMAKE_CURRENT_LIST_DIR}/Native3DGSTargets.cmake")
+set(Native3DGS_RUNTIME_DIRECTORY "${PACKAGE_PREFIX_DIR}/bin")
+function(native3dgs_deploy_runtime target)
+  if(NOT TARGET "${target}")
+    message(FATAL_ERROR "Unknown SDK host target: ${target}")
+  endif()
+  add_custom_command(TARGET "${target}" POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${Native3DGS_RUNTIME_DIRECTORY}/model-io-helper.exe" "$<TARGET_FILE_DIR:${target}>"
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${Native3DGS_RUNTIME_DIRECTORY}/shaders" "$<TARGET_FILE_DIR:${target}>/shaders"
+    VERBATIM)
+endfunction()
+check_required_components(Native3DGS)
