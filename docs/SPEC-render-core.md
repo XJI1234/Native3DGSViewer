@@ -1,6 +1,14 @@
 # Spec: render-core（Windows 原生 3DGS 渲染核心）
 
-状态：待评审的技术实现规格；2026-09-26。依据[总技术计划](technical-development-plan.md)与[model-io 规格](SPEC-model-io.md)。本文规定首期单模型渲染，尚无代码或性能实测。
+状态：独立模块已实现，模块验证见[验证记录](render-core-verification.md)；Spark 画质、整机性能与桌面集成仍待验收；2026-09-26。依据[总技术计划](technical-development-plan.md)与[model-io 规格](SPEC-model-io.md)。本文规定首期单模型渲染。
+
+## 实现参数锁定
+
+- GPU 排序选用 MIT 许可的 AMD FidelityFX Parallel Sort，固定 `0c539948c8d196ae338d91efbc8ca495f1ea0d1d`，使用原版八次 4-bit LSD pass 替代原提议四次 8-bit pass；保留稳定 key/value、同键原始索引顺序及纯 GPU 帧图。GPU 对照测试必须包含 800 万键。
+- 最低 D3D12 feature level 12.0、Shader Model 6.0、WaveOps、wave lane 数 16-128；不回退软件适配器。DXC 来自锁定 Windows SDK 10.0.26100.0，构建编译并记录 SHA-256。
+- 交换链固定 BGRA8 UNORM、flip sequential、2-3 buffers、stretch、premultiplied alpha。训练 RGB 在 SH 求值后 clamp 到 [0,1]，直接输出到 UNORM，保留当前 Viewer 的显示编码色值域；不启用 sRGB RTV，不声称已经通过 Spark 色彩对照。
+- Gaussian quad 使用 max_stddev 截断和半径上限；近面相交的支撑范围保守保留并将投影深度钳到近面，完全位于相机后方或远面之外的支撑范围剔除。质量上界为 max_stddev<=8、blur<=64、radius<=16384，最大视口 16384x16384。
+- 所有 fence CPU 等待仅在渲染线程进行，单次上限 5 秒；设备恢复最多两次，surface 重绑等待 10 秒。
 
 ## 1. 目标与边界
 
@@ -60,6 +68,7 @@ struct RenderStats {
     std::optional<double> cpu_frame_ms, gpu_frame_ms;
     std::optional<double> gpu_sort_ms, gpu_draw_ms, present_call_ms;
     uint64_t candidate_splats = 0, drawn_splats = 0;
+    uint64_t rejected_projection_splats = 0;
     uint64_t sort_reuse_count = 0, completed_upload_bytes = 0;
     uint64_t local_budget_bytes = 0, local_usage_bytes = 0;
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
@@ -120,7 +129,7 @@ GPU 使用分离或分组的只读 structured buffers：局部中心、尺度/�
 
 相机使用 double 世界位置和模型 double 原点先在 CPU 求差，再以 float 相机相对坐标送 GPU，避免巨大世界坐标直接量化。右手、+Y 上、视线局部 -Z；投影深度映射 D3D `[0,1]`。尺寸全部用物理像素，宽/高为零时暂停提交并保留场景。近远面、FOV、四元数、尺寸和浮点有限性在命令边界验证；非法状态保留上一有效相机并发出 `InvalidCamera`，不得向 shader 传播 NaN。
 
-GPU 先用视锥与经 Gaussian 最大截断半径扩大的屏幕范围裁剪，近面交叉时采用保守处理；不能只检查中心而丢失可见椭圆。输出紧凑候选索引和 32 位排序键；默认按相机相对径向距离平方从远到近，诊断选项为视深度。距离计算使用不会在受支持场景范围内溢出的中间精度，再将有限非负 float32 的位模式按无符号整数编码并反序；超出可编码范围的候选进入明确的裁剪或错误路径，不得溢出为 NaN、Inf 或错误排序。视深度模式须规定符号与同样的单调编码。对相同键以原始 splat 索引确定顺序，同一适配器/驱动/配置下结果须跨帧确定；跨适配器的浮点键近似差异用图像容差验收。四次 8-bit LSD radix pass 包含直方图、前缀和与 scatter；scatter 不能用无序原子追加破坏同键稳定性，需保证每组内部稳定排名及组间确定偏移。所有中间缓冲从有界场景数量预分配；最坏点数、同键、线程组边界和扫描溢出须有 GPU/CPU 对照测试。M0 将 AMD FidelityFX Parallel Sort 的 D3D12 实现纳入成熟候选，核对固定版本、MIT 许可、key/value 排序、同键稳定性、wave 能力、显存峰值及 800 万点耗时；只有满足本契约才集成，否则评审确定性排序的其他 GPU 实现。M1 若所选实现达不到正确性或帧预算，记录证据并评审另一条 GPU 排序路线，禁止默默改成逐帧读回 CPU 排序。
+GPU 先用视锥与经 Gaussian 最大截断半径扩大的屏幕范围裁剪，近面交叉时采用保守处理；不能只检查中心而丢失可见椭圆。生成 32 位键和原始索引，剔除点以 UINT_MAX 标记；稳定排序后有效候选位于数组前部，GPU 计数直接驱动 ExecuteIndirect，不读回可见集。默认按相机相对径向距离平方从远到近，诊断选项为视深度。径向模式将最大坐标绝对值限制到 1e19，超出范围或非有限投影逐点拒绝并计数；有限非负 float32 位模式反序编码。视深度为 max(-view.z, 0)，采用相同单调编码；零距离使用 UINT_MAX-1，避免与剔除标记冲突。对相同键以原始 splat 索引确定顺序，同一适配器/驱动/配置下结果须跨帧确定；跨适配器的浮点键近似差异用图像容差验收。锁定 FidelityFX 的八次 4-bit LSD radix pass，包含直方图、前缀和与稳定 scatter；不能用无序原子追加破坏同键稳定性。所有中间缓冲从有界场景数量预分配，key/value 按完整 512 键块补齐；0/1、同键、线程组边界、百万及 800 万键已与 CPU stable_sort 对照。若所选实现达不到整帧预算，记录证据并评审另一条 GPU 排序路线，禁止逐帧读回 CPU 排序。
 
 每点 `Sigma3 = R diag(scale^2) R^T`，由透视投影 Jacobian 得 `Sigma2 = J Sigma3 J^T`；对角可加可配置像素方差用于与 Spark 的预模糊/抗锯齿参数对齐。验证正定性，求特征轴后按固定 `max_stddev` 与像素半径上限生成 quad；异常的投影结果只丢弃该帧该点并计数，正常输入不得造成整帧崩溃。SH 用相机相对方向、实际 `shDegree` 计算颜色，0 阶即 `rgb0`；方向基、系数符号和 clamp 顺序以合成图及 Spark 对照固定，不能假设 GL 与 HLSL 约定自动一致。像素 alpha 用 Gaussian 衰减与同值 `min_alpha` 截断；默认预乘 alpha，固定从远到近、`ONE / INV_SRC_ALPHA` 等价的 RGB/alpha 合成配置。sRGB/线性转换、RTV 格式和 UI 合成空间须在 M0 固定并用色条截图验证，避免靠错误 gamma 获得较快帧时间。
 
@@ -138,7 +147,7 @@ GPU 先用视锥与经 Gaussian 最大截断半径扩大的屏幕范围裁剪，
 
 建议 `include/render-core/` 放公共契约，`src/render-core/device/` 放设备/交换链，`scene/` 放上传与预算，`passes/` 放帧图，`shaders/` 放 HLSL，`tests/render-core/` 放 CPU 数学、GPU readback 与截图测试，`bench/` 放可重放相机路径。源文件 C++20，类/枚举 PascalCase，函数/变量 snake_case，DXC 编译产物和 root signature 由构建生成；固定编译目标、警告级别及 hash。仅在测试中允许 GPU readback，生产帧图不读回排序数组。
 
-M0 创建解决方案后须使下列命令可运行；现在只有规格，尚未执行构建：
+解决方案已支持下列构建与全量测试命令；独立/联合测试及结果见验证记录：
 
 ```powershell
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' .\Native3DGSViewer.sln /restore /m /p:Configuration=Release /p:Platform=x64
@@ -159,5 +168,9 @@ M0 创建解决方案后须使下列命令可运行；现在只有规格，尚�
 
 - [Spark 渲染入口](../../spark-2.0.0/src/SparkRenderer.ts)、[顶点投影](../../spark-2.0.0/src/shaders/splatVertex.glsl)、[像素混合](../../spark-2.0.0/src/shaders/splatFragment.glsl)仅用于行为对照；其旧版系统设计说明不作为当前排序实现依据。
 - [D3D12 编程指南](https://learn.microsoft.com/windows/win32/direct3d12/directx-12-programming-guide)、[DXGI composition swapchain](https://learn.microsoft.com/windows/win32/api/dxgi1_2/nf-dxgi1_2-idxgifactory2-createswapchainforcomposition)、[DXGI 显存预算](https://learn.microsoft.com/windows/win32/api/dxgi1_4/nf-dxgi1_4-idxgiadapter3-queryvideomemoryinfo)、[DRED](https://learn.microsoft.com/windows/win32/direct3d12/use-dred)。
-- [AMD FidelityFX Parallel Sort](https://gpuopen.com/fidelityfx-parallel-sort/) 是 M0 候选而非已选定依赖；该项目官方说明支持 D3D12、Shader Model 6.0+ 并采用 MIT 许可，仍须验证本项目的稳定同键排序要求。
-- M0 待实测确定：WinUI 3 composition swapchain 参数、最低 Shader Model/WaveOps 组合、GPU radix 在 800 万点的峰值显存和耗时、实际 Viewer 色彩与混合参数。决定后记录到锁定的 `QualityConfig`/设备能力表，不把未经验证的数值写成已支持事实。
+- [AMD FidelityFX Parallel Sort](https://gpuopen.com/fidelityfx-parallel-sort/) 已固定集成，许可/版本见 third_party/README.md；800 万键稳定性与独立排序耗时见验证记录。
+- 待验收：WinUI 3 实际 SwapChainPanel/DPI、完整渲染显存峰值、跨厂商硬件、实际 Viewer 色彩/混合对照与等画质性能。当前 composition swapchain 使用未绑定控件的模块测试 surface。
+
+## 宿主恢复约束
+
+同一适配器上的 D3D12 device 是单例。DeviceLost 回调交付后，宿主须暂停后续 render_frame，完成 UI 线程解绑并释放旧 swapchain、queue 和 device 的引用，再继续渲染调用；renderer 在下一次调用中重建同 LUID 设备并发布 SurfaceRebindRequired。设备移除路径不等待 SurfaceDetached。新 surface 重绑后保留场景重传，首次 Present 后发布 DeviceRestored。销毁 renderer 也在渲染线程执行，先停止所有命令入口调用。

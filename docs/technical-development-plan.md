@@ -140,6 +140,6 @@ F1-F5 各自需在启动前形成独立模块规格、验收样本与性能预�
 
 ## 8. 规格与资料来源
 
-能力图审阅后，按 `model-io`、`render-core`、`desktop-viewer` 顺序建立规格；[model-io 技术规格](SPEC-model-io.md)、[render-core 技术规格](SPEC-render-core.md)、[desktop-viewer 技术规格](SPEC-desktop-viewer.md)与[系统技术实现设计](system-technical-design.md)已起草，均待评审。每份规格写目标、接口、命令、工程结构、代码约定、测试和边界，并把本文件阶段任务拆成单次可验证的小任务。规格变更先更新文档再更改实现。本文件是总技术路线，后续任务清单应放入项目 `tasks/plan.md` 与 `tasks/todo.md`，避免将未批准的实施细节当作既成事实。
+能力图审阅后，按 `model-io`、`render-core`、`desktop-viewer` 顺序建立规格；[model-io 技术规格](SPEC-model-io.md)、[render-core 技术规格](SPEC-render-core.md)、[desktop-viewer 技术规格](SPEC-desktop-viewer.md)与[系统技术实现设计](system-technical-design.md)已建立。model-io 与 render-core 已实现并完成本机独立/联合模块测试，证据见 [model-io 验证记录](model-io-verification.md)与 [render-core 验证记录](render-core-verification.md)；桌面集成、Spark 画质与等画质性能门槛仍待验收。每份规格写目标、接口、命令、工程结构、代码约定、测试和边界，并把本文件阶段任务拆成单次可验证的小任务。规格变更先更新文档再更改实现。本文件是总技术路线，后续任务清单放入项目 `tasks/plan.md` 与 `tasks/todo.md`。
 
 主要依据：[Spark 2.0 新能力](../../spark-2.0.0/docs/docs/new-features-2.0.md)、[格式加载](../../spark-2.0.0/docs/docs/loading-splats.md)、[控制](../../spark-2.0.0/docs/docs/controls.md)、[性能说明](../../spark-2.0.0/docs/docs/performance.md)、[SparkRenderer 源码](../../spark-2.0.0/src/SparkRenderer.ts)、[现有 Viewer 视口](../../Viewer/src/components/SparkViewport.vue)、[D3D12 文档](https://learn.microsoft.com/windows/win32/direct3d12/directx-12-programming-guide)、[Windows App SDK 文档](https://learn.microsoft.com/windows/apps/windows-app-sdk/)。外部资料和第三方库在建仓时锁定版本并再次核对许可证。

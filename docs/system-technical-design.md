@@ -1,6 +1,6 @@
 # Windows 原生 3DGS 查看器系统技术实现设计
 
-状态：待评审的系统规格；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)及[desktop-viewer](SPEC-desktop-viewer.md)。model-io 工程和测试已建立；渲染器、桌面应用及性能基准仍待实施。
+状态：系统集成待验收；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)及[desktop-viewer](SPEC-desktop-viewer.md)。model-io 与 render-core 工程、独立测试及联合测试已建立；桌面应用、Spark 画质对照和整机性能基准仍待实施。模块证据见[render-core 验证记录](render-core-verification.md)。
 
 ## 1. 产品边界和验收总则
 
@@ -67,7 +67,7 @@
 | DXGI 预算变化、GPU 分配/上传失败 | `render-core` | 待命资源 fence 后清理；旧画面仍可用 | 释放外部 GPU 占用或选择小文件 |
 | 新旧模型并存超出 RAM/显存预算 | `model-io` 或 `render-core` | 拒绝待命模型，旧画面保持；显示增量需求和余量 | 用户主动关闭旧模型，等待 `SceneCleared` 后重试 |
 | 窗口 0x0、DPI/resize、surface 丢失 | desktop + renderer | 暂停 Present 或重建尺寸相关资源；UI 不冻结 | 有效 surface/尺寸恢复 |
-| D3D12 device removed | `render-core` + desktop | 停帧、DRED/原因日志；不等待可能永不完成的旧 fence。renderer 重建设备/队列并发 `SurfaceRebindRequired`，宿主用新队列重新绑定交换链，renderer 重传活动场景；UI 显示恢复中 | 首次 Present 成功后 Ready，超时/失败进入持续错误态 |
+| D3D12 device removed | `render-core` + desktop | 停帧、DRED/原因日志；不等待旧 fence。DeviceLost 后宿主暂停 render_frame，UI 解绑并释放旧 swapchain/queue/device；继续渲染调用重建同 LUID 设备并发 `SurfaceRebindRequired`，宿主重绑，renderer 重传活动场景 | 首次 Present 成功后 Ready，超时/失败进入持续错误态 |
 | 迟到回调、UI dispatcher 关闭 | desktop | 按代际丢弃、释放资源；不访问销毁的控件 | 无需重启 |
 
 错误码是程序判断依据，诊断字符串只用于限长本地日志；默认不存模型数据或完整路径。进度只报告可证实的阶段/字节，不捏造百分比。系统崩溃转储与日志收集须经用户主动导出，发布版默认本地存储并轮转。对意外 HRESULT、异常与 shader 编译失败提供带阶段的 `InternalFailure`，不能静默吞掉或无限 retry。
