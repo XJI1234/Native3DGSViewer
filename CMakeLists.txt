@@ -127,8 +127,11 @@ target_include_directories(Native3DGSViewer.SceneBench PRIVATE src/render-core/d
 target_compile_definitions(Native3DGSViewer.SceneBench PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.SceneBench PRIVATE native3dgs-engine)
 add_executable(Native3DGSViewer.Tests
-  tests/model-io/model_io_tests.cpp tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp
-  tests/render-core/test_support.cpp tests/render-core/image_tests.cpp tests/render-core/lifecycle_tests.cpp tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp tests/engine/camera_tests.cpp tests/engine/engine_tests.cpp)
+  tests/model-io/model_io_tests.cpp
+  tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp
+  tests/render-core/test_support.cpp tests/render-core/image_tests.cpp tests/render-core/lifecycle_tests.cpp
+  tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp
+  tests/engine/camera_tests.cpp tests/engine/engine_tests.cpp)
 add_executable(model-io-fault-helper tests/model-io/fault_helper.cpp)
 target_include_directories(model-io-fault-helper PRIVATE include src/model-io/common)
 target_include_directories(Native3DGSViewer.Tests PRIVATE include src/model-io/common src/model-io/normalize src/render-core/scene src/render-core/device src/render-core/passes)

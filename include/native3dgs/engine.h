@@ -43,6 +43,7 @@ struct Snapshot
     std::optional<io::LoadProgress> load_progress;
     uint64_t upload_done = 0, upload_total = 0, dropped_events = 0;
     render::CameraState camera{};
+    uint8_t flip_axes = 0;
     struct SceneInfo
     {
         uint64_t count = 0;
@@ -84,13 +85,17 @@ enum class CameraAction : uint8_t
     Fit,
     Reset,
     OrbitMode,
-    FlyMode
+    FlyMode,
+    FlipX,
+    FlipY,
+    FlipZ
 };
 struct CameraCommand
 {
     CameraAction action;
     double x = 0, y = 0, z = 0, seconds = 0;
     bool fast = false;
+    bool flip_enabled = false;
 };
 class IEngine
 {

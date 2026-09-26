@@ -2,7 +2,7 @@
 
 Native3DGS 是面向 Windows 的原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染引擎和 C++ SDK。它读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序，并通过 Direct3D 12 合成交换链渲染。SDK 提供异步加载、相机控制、渲染表面管理、诊断信息和设备恢复能力，桌面宿主可以专注于用户界面。
 
-**项目状态：**模型读取、渲染核心、引擎、测试和可安装 SDK 已实现。仓库目前**没有**桌面查看器或可见的 WinUI 窗口。附带的控制台宿主会运行原生渲染流程，但不显示窗口。当前仅在 NVIDIA RTX 3080 上完成验证；与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)。
+**项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。当前仅在 NVIDIA RTX 3080 上完成主要验证；与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
 
 ## 功能
 
@@ -13,7 +13,7 @@ Native3DGS 是面向 Windows 的原生 3D 高斯泼溅（3D Gaussian Splatting�
 - 支持异步加载与上传、成功后替换场景、有界事件队列、渲染统计及由宿主协同完成的设备丢失恢复。
 - 提供可重定位的 CMake SDK 包，包含静态库、公共头文件、预编译着色器、解码辅助程序、示例宿主和第三方许可声明。
 
-当前 SDK 一次显示一个本地场景。压缩 PLY 变体、SPLAT/KSPLAT/SOG、LoD、多模型、编辑、动画、远程加载及桌面界面属于后续工作，见[技术开发计划](docs/technical-development-plan.md)。
+当前 SDK 和查看器一次显示一个本地场景。压缩 PLY 变体、SPLAT/KSPLAT/SOG、LoD、多模型、编辑、动画及远程加载属于后续工作，见[技术开发计划](docs/technical-development-plan.md)。
 
 ## 架构与技术栈
 
@@ -40,6 +40,7 @@ PLY / SPZ 文件
 
 - Windows 11 x64；硬件 D3D12 适配器须支持 Feature Level 12.0、Shader Model 6.0 和 WaveOps。渲染器没有软件回退路径。
 - Visual Studio 2026，安装 **Desktop development with C++** 工作负载（MSVC 19.50）。Release 静态库使用动态 MSVC 运行库（`/MD`）；SDK 消费工程需要匹配的编译器及 VC 运行库。
+- 从源码编译 GUI 还需安装 Visual Studio 的 **WinUI 应用开发**组件；安装包用户无需 Visual Studio。
 - Windows SDK **10.0.26100.0**，包含 `dxc.exe`。当前 CMake 配置显式引用该版本的 DXC 路径。
 - 推荐 CMake 4.3 及以上版本（已验证 4.3.2；`CMakeLists.txt` 声明的最低版本为 3.30），另需 Git 和 PowerShell。构建使用 `Visual Studio 18 2026` 生成器。
 - 首次递归获取 Git 子模块需要网络连接。依赖的固定提交与许可证见 [third_party/README.md](third_party/README.md)。
@@ -48,12 +49,11 @@ PLY / SPZ 文件
 
 ## 从源码构建
 
-在 PowerShell 中执行以下命令。当前引擎和 SDK 位于 `codex/engine-sdk` 分支，合并到 `main` 前需要切换到该分支。已有仓库的开发者也应切换分支，并在配置前运行 `git submodule update --init --recursive`。
+在 PowerShell 中执行以下命令。已有仓库的开发者应在配置前运行 `git submodule update --init --recursive`。
 
 ```powershell
 git clone --recurse-submodules https://github.com/XJI1234/Native3DGSViewer.git
 cd Native3DGSViewer
-git switch codex/engine-sdk
 cmake -S . -B out/cmake -G "Visual Studio 18 2026" -A x64
 cmake --build out/cmake --config Release --parallel 8
 ```
@@ -64,7 +64,18 @@ cmake --build out/cmake --config Release --parallel 8
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' .\Native3DGSViewer.sln /restore /m /p:Configuration=Release /p:Platform=x64
 ```
 
-该解决方案调用相同的 CMake 构建流程。目前没有可启动的桌面应用程序。
+该解决方案调用相同的 CMake 构建流程，并编译 `out/Release/Native3DGSViewer.GUI.exe`。
+
+## 桌面查看器
+
+构建后启动 `out/Release/Native3DGSViewer.GUI.exe`，或运行 `packaging/build-installer.ps1 -SkipBuild`（需要 Inno Setup 6）生成 `out/installer/Native3DGSViewer-Setup-x64.exe`。安装包是当前用户自包含安装，带有运行库、解码辅助程序、shader 和第三方许可文件。打开窗口后选择一个 PLY/SPZ 文件，或将文件拖入视口；也可传入单个文件路径作为启动参数。
+
+- 固定模式：按住左键拖动，模型沿鼠标方向旋转；右键平移，滚轮缩放；“适配”和“重置”恢复模型视角。
+- 自由模式：点击视口并移动鼠标转向；W/A/S/D 移动，Q/E 下降/上升，Shift 加速，Esc 退出捕获。
+- “翻转 Y”镜像显示的 Y 坐标；再次点击恢复。此操作不修改模型文件，加载新模型时保持当前翻转设置。SDK 另提供 X、Y、Z 三轴独立翻转命令。
+- 打开新模型时旧模型保持可见；可取消加载或关闭当前模型。
+
+GUI 的 SDK 调用顺序与宿主生命周期见 [GUI 例程指南](GUI/README.md)。
 
 ## 运行示例宿主
 
@@ -154,7 +165,7 @@ cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 
 ## 已知限制与后续计划
 
-- 尚未实现 WinUI 3 桌面外壳、文件选择、拖放、输入映射及可见的 `SwapChainPanel` 集成。
+- 桌面安装包尚未在干净的第二台 Windows 11 机器验收，也未签名。
 - 尚未完成固定相机 Spark 图像对比（SSIM）、等画质 PresentMon 测量、长期稳定性、干净机器运行库部署及 AMD/Intel 兼容性验收。
 - 当前基准只测得 RTX 3080 上的 GPU 阶段耗时，不能证明相对于现有 Viewer 达到了规划中的 20% 性能提升。
 - 后续格式、多模型渲染、LoD、编辑和动画均需另立契约并补充测试。

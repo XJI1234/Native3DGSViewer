@@ -1,16 +1,16 @@
 # Spec: desktop-viewer（Windows 桌面查看与交互）
 
-状态：待评审的技术实现规格；2026-09-26。依据[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)和[render-core](SPEC-render-core.md)契约；当前只写文档。
+状态：GUI 基础实现已落地，完整验收仍在进行；2026-09-26。现行宿主接口为 [engine/SDK](SPEC-engine-sdk.md) 的 `gs::engine::IEngine`；已验证内容见[桌面查看器验证记录](desktop-viewer-verification.md)。下文早期 `ViewerCoordinator` 设计仅作为需求推导记录，实际可复用接口和操作以 [GUI 指南](../GUI/README.md)为准。
 
 ## 1. 目标与范围
 
 `desktop-viewer` 是 WinUI 3/C++/WinRT 宿主。用户可离线打开或拖入一个本地标准 PLY/SPZ，查看阶段进度、取消加载，使用轨道或自由飞行浏览，适配模型与重置视角。应用在无模型、正在加载、错误、显存不足和设备恢复时都有可理解的界面状态。桌面层负责相机意图与生命周期编排，不进行格式解析、逐点数据转换、D3D12 排序或着色。
 
-首期仅 Windows 11 x64、键鼠、单窗口单视口和单模型。不引入 MVVM 框架依赖；采用小型 ViewModel/状态机配合 WinUI 3 `x:Bind`/可观察属性，保留可测试的纯 C++ 相机与流程控制器。未来多视口、编辑和动画通过新控制器/命令扩展，不把所有行为塞入 `MainWindow` 代码隐藏文件。
+首期仅 Windows 11 x64、键鼠、单窗口单视口和单模型。不引入 MVVM 框架依赖；WinUI 窗口代码处理交互和快照呈现，可测试的纯 C++ 相机与流程控制器由 SDK 提供。未来多视口、编辑和动画通过 SDK 命令扩展。
 
 ## 2. 模块边界与接口
 
-桌面层依赖 `gs::io::IModelLoader` 和 `gs::render::IRenderer`。`model-io` 的 `load()` 阻塞且进度在工作线程调用；`render-core` 的上传和视角 API 非阻塞。UI 所有权在主 STA 线程，任何后台结果都通过 `DispatcherQueue::TryEnqueue` 回 UI；窗口关闭后用弱引用/生命周期 token 拒绝派发。渲染器事件先进入协调器，再发给 UI，不将 D3D12/COM 资源传给 XAML 绑定层。
+桌面层依赖 `gs::engine::IEngine`，由 SDK 持有加载和渲染线程。UI 所有权在主 STA 线程，定时读取 `snapshot()` 与 `poll_events()`；后台线程不直接调用 XAML 控件。窗口只管理交换链、文件选择、输入和可见状态。以下早期拟议接口已由 SDK 接口取代。
 
 建议的内部纯 C++ 接口：
 
@@ -76,7 +76,7 @@ Ready/Loading/Uploading/PreparingFrame --Close--> Cancelling --> Empty
 
 ## 4. 窗口、交换链与 DPI
 
-WinUI 3 窗口含一个 `SwapChainPanel` 视口、紧凑命令栏、状态/进度区及非阻断错误通知。命令栏提供打开、关闭当前模型、适配模型、重置视角和轨道/飞行模式切换；取消按钮只在有待命请求时可用。打开按钮在无模型和加载失败后仍可用。图形区域不嵌浏览器。可访问名称、键盘焦点和高对比度状态由 WinUI 控件提供。
+WinUI 3 窗口含一个 `SwapChainPanel` 视口、紧凑命令栏、状态/进度区及非阻断错误通知。命令栏提供打开、关闭当前模型、适配模型、重置视角、Y 坐标镜像和轨道/飞行模式切换；取消按钮只在有待命请求时可用。打开按钮在无模型和加载失败后仍可用。图形区域不嵌浏览器。可访问名称、键盘焦点和高对比度状态由 WinUI 控件提供。镜像仅改变查看结果，不修改 `SceneHandle` 或文件数据。
 
 M0 先实现 D3D12 三角形原型：renderer 创建设备/direct queue，桌面宿主按当前 generation 取得队列并创建 `CreateSwapChainForComposition` 交换链；UI 获取 `ISwapChainPanelNative` 并在 UI 线程调用 `SetSwapChain`，然后将交换链连同 generation 交给 renderer 保留。`SwapChainPanel` 的逻辑尺寸乘 `XamlRoot.RasterizationScale` 得目标物理像素，四舍五入并限制非零；使用 composition 缩放矩阵处理高 DPI 时，必须实测像素边界与触点映射一致。`SizeChanged`、`XamlRoot.Changed`、显示器迁移和最小化均经 UI 合并成带 generation 与递增 viewport revision 的 resize 命令，renderer 只应用该 generation 最新 revision。正常 resize 等待受影响 back-buffer fence 后释放旧 back-buffer 引用，再调用 `ResizeBuffers`；0x0 时暂停绘制。正常卸载/关窗先请求 renderer detach 并等待 `SurfaceDetached`，再在 UI 线程撤销绑定和释放宿主交换链引用；设备移除时旧 fence 可能不完成，走故障解绑路径而不等待 `SurfaceDetached`。设备重建时响应 `SurfaceRebindRequired(generation)`，使用新 direct queue 重建并重新绑定交换链；迟到的旧 generation 事件不执行。具体 WinUI interop 顺序以 M0 原型实测固定。
 
@@ -104,13 +104,15 @@ M0 先实现 D3D12 三角形原型：renderer 创建设备/direct queue，桌面
 
 ## 7. 工程、命令与测试
 
-建议 `src/desktop-viewer/app/` 放入口/窗口，`viewmodels/` 放快照映射，`coordinator/` 放生命周期与请求队列，`camera/` 放纯数学和控制器，`input/` 放 WinUI 事件适配；`tests/desktop-viewer/` 放纯 C++ 状态/相机单测与 UI 自动化。WinUI XAML 控件 ID 与可访问名称稳定；C++20 命名遵循 `model-io` 规格；没有第三方 UI 框架依赖。公开模块接口变更先更新本规格和消费者测试。
+当前例程位于 `GUI/`：XAML 窗口和事件适配在 `MainWindow.*`，后台协调器在 `viewer_engine.*`，纯 C++ 相机在 `camera.*`；相机测试在 `tests/desktop-viewer/`。后续可拆分 ViewModel/状态机并补 UI 自动化。WinUI XAML 控件 ID 与可访问名称应保持稳定；C++20 命名遵循 `model-io` 规格；没有第三方 UI 框架依赖。公开模块接口变更先更新本规格和消费者测试。
 
-M0 创建解决方案与测试项目后，构建/测试命令应与总计划相同；现阶段尚无可执行项目：
+当前构建、测试和打包命令：
 
 ```powershell
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' .\Native3DGSViewer.sln /restore /m /p:Configuration=Release /p:Platform=x64
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' .\out\Release\Native3DGSViewer.Tests.dll /Platform:x64
+ctest --test-dir out/cmake -C Release --output-on-failure
+& .\packaging\build-installer.ps1 -SkipBuild
 ```
 
 | 首期功能 | 验收操作 |
@@ -130,4 +132,4 @@ M0 创建解决方案与测试项目后，构建/测试命令应与总计划相�
 
 - [Spark 控制文档](../../spark-2.0.0/docs/docs/controls.md)和[现有 Viewer 视口](../../Viewer/src/components/SparkViewport.vue)仅作用户能力参照；Windows 键鼠映射按本文验收。
 - [WinUI 3 桌面应用](https://learn.microsoft.com/windows/apps/winui/winui3/)、[SwapChainPanel native 绑定](https://learn.microsoft.com/windows/win32/api/windows.ui.xaml.media.dxinterop/nf-windows-ui-xaml-media-dxinterop-iswapchainpanelnative-setswapchain)、[Windows App SDK 文件选择器](https://learn.microsoft.com/windows/apps/develop/files/).
-- M0 须在本机验证未打包 WinUI 3 的 picker HWND 初始化、SwapChainPanel DPI/alpha 行为和关闭顺序，锁定 Windows App SDK NuGet 版本；目前这些是设计约束，不宣称已有运行证据。
+- 本机已完成 WinUI 窗口启动与正常关闭、安装包安装/卸载冒烟检查；跨 DPI、跨设备与画质/性能门槛仍按[验证记录](desktop-viewer-verification.md)继续验收。

@@ -1,0 +1,22 @@
+#pragma once
+#include <windows.h>
+#ifdef GetCurrentTime
+#undef GetCurrentTime
+#endif
+#include <unknwn.h>
+#include <winrt/base.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Storage.h>
+#include <winrt/Windows.Storage.Pickers.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <winrt/Microsoft.UI.Xaml.Shapes.h>
+#include "MainWindow.xaml.h"

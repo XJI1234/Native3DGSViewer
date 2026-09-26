@@ -1,6 +1,6 @@
 # Windows 原生 3DGS 查看器系统技术实现设计
 
-状态：非 UI 引擎与 SDK 已实现，外部验收待完成；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)及[desktop-viewer](SPEC-desktop-viewer.md)。纯相机及请求协调移至独立 [engine/SDK](SPEC-engine-sdk.md)，供桌面宿主复用，依赖方向为 shared types → model-io/render-core → engine → desktop host。模块、联合与 SDK 消费测试见[引擎验证记录](engine-sdk-verification.md)。桌面应用、Spark 画质对照和整机性能基准仍待实施。
+状态：引擎、SDK 与桌面基础集成已实现，外部验收待完成；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)、[engine/SDK](SPEC-engine-sdk.md)及[desktop-viewer](SPEC-desktop-viewer.md)。依赖方向为 shared types → model-io/render-core → engine → desktop host。模块、SDK 消费和 GUI 本机测试见[引擎验证记录](engine-sdk-verification.md)与[桌面查看器验证记录](desktop-viewer-verification.md)；Spark 画质对照和整机性能基准仍待实施。
 
 ## 1. 产品边界和验收总则
 
@@ -15,18 +15,19 @@
 | `splat-types` | 不可变规范化场景和公共数学值类型 | `SplatScene`、`SourceFormat`、`SceneHandle`、只读数组 | C++20 标准库 |
 | `model-io` | 输入识别、隔离解码、验证和取消 | `IModelLoader::load`、`SceneHandle`、结构化错误/进度 | `splat-types` |
 | `render-core` | D3D12 设备、上传、排序、合成、统计/恢复 | `IRenderer`、ticket、事件、相机/质量配置 | `splat-types`、Windows 图形 API |
-| `desktop-viewer` | WinUI 窗口、文件入口、相机交互及流程编排 | 用户操作与可见状态 | `model-io`、`render-core` |
+| `engine` | 异步请求、相机、渲染线程和 surface 生命周期 | `gs::engine::IEngine` | `model-io`、`render-core` |
+| `desktop-viewer` | WinUI 窗口、文件入口、输入及可见状态 | 用户操作与 SDK 宿主示例 | `engine` |
 
 依赖方向单向：`splat-types` 先于两个底层模块；桌面层最后集成。`model-io` 不调用 D3D12，`render-core` 不知道 PLY/SPZ 或 WinUI，桌面层不接触逐点渲染数据。模块边界以三份规格的公共契约为准，本文定义跨模块时序和交付机制；有冲突时先修订提供者规格和消费者契约测试，再实施。
 
 ```text
-本地文件 -> desktop-viewer -> model-io client -> 每次加载的 helper 进程
-                         SceneHandle <--- 共享只读映射
-                         | upload_scene(scene, initial_camera)
-                         v
-                    render-core -> D3D12 queues -> composition swapchain
-                         | events/stats              |
-                         +--------> desktop-viewer <-+ SwapChainPanel
+本地文件 -> desktop-viewer -> IEngine::open -> model-io helper 进程
+                                 | SceneHandle
+                                 v
+                         engine -> render-core -> D3D12 queues
+                            | snapshot/events              |
+                            v                              v
+                     desktop-viewer <- SwapChainPanel <- composition swapchain
 ```
 
 辅助解码进程由 `model-io` 创建，使用 Job Object 限制内存与收尾；它是崩溃/资源隔离，不声称是恶意文件安全沙箱。宿主为 WinUI 3 单进程，内含 UI STA 线程、协调器工作线程与渲染线程。无需本地服务或联网。第三方源码及 zlib/ZSTD 的版本、补丁与许可证在 `third_party/manifest` 固定，发布包带许可清单。工程内允许 renderer 的 private 头引用 D3D12；公共边界尽量用值类型与 opaque handle，唯一 Win32 图形交界是 queue/swapchain COM 句柄。
@@ -51,7 +52,7 @@
 
 ## 5. 数据、画质与性能契约
 
-`model-io` 统一 RUB、double 世界原点 + float32 局部坐标、中心包围盒/最大尺度、xyzw 四元数、正尺度、opacity、训练色值域的 `rgb0` 和实际 SH 阶数。renderer 以 CPU double 差值生成相机相对 float 坐标，D3D 投影 `[0,1]` 深度并统一执行已锁定的颜色转换；禁止桌面层自行调整模型轴向。格式源坐标、SH 顺序/符号、颜色空间和截图相机均建立小样本测试。对不能确定坐标约定的 PLY，由用户/配置显式选择，默认 RDF；不猜测。
+`model-io` 统一 RUB、double 世界原点 + float32 局部坐标、中心包围盒/最大尺度、xyzw 四元数、正尺度、opacity、训练色值域的 `rgb0` 和实际 SH 阶数。renderer 以 CPU double 差值生成相机相对 float 坐标，D3D 投影 `[0,1]` 深度并统一执行已锁定的颜色转换；桌面层不改动模型数据或轴向契约。GUI 的“翻转 Y”是仅供浏览的显示镜像；SDK 提供 X、Y、Z 三轴独立镜像命令。格式源坐标、SH 顺序/符号、颜色空间和截图相机均建立小样本测试。对不能确定坐标约定的 PLY，由用户/配置显式选择，默认 RDF；不猜测。
 
 质量配置须记录排序模式、SH 上限、Gaussian 截断范围、最小 alpha、协方差 blur、透明混合、色彩空间、实际物理像素与 GPU shader hash。首期默认 GPU 径向排序，与 Spark 2.0 默认行为对齐；保留视深度诊断选项。等画质前须实测现有 Viewer 的实际参数和版本，不能仅看 Spark 2.0 默认值。GPU 每帧可见集、radix sort、椭圆投影、SH 着色及 alpha 混合不得读回 CPU 排序数据。着色器优化先过固定视角截图，再进入性能验收。
 
@@ -81,24 +82,27 @@ Native3DGSViewer/
   include/render-core/             渲染公共接口
   src/model-io/client,helper,codecs,normalize/
   src/render-core/device,scene,passes/
-  src/desktop-viewer/app,coordinator,camera,input,viewmodels/
+  GUI/                             WinUI 3 宿主、协调器与相机
+  packaging/                       Inno Setup 安装包脚本
   shaders/                         HLSL 与编译清单
-  tests/model-io,render-core,desktop-viewer,system/
+  tests/model-io,render-core,desktop-viewer/
   bench/                            固定相机路径与采样脚本
   third_party/                      版本、补丁和许可清单
   docs/                             技术计划、设计和证据
 ```
 
-VS 2026 C++20 x64 解决方案含 `splat-types`、`model-io` 客户端/辅助进程、`render-core`、WinUI 3 应用、GoogleTest 测试目标。Windows App SDK、Windows SDK/DXC、miniply、Niantic SPZ v3.0.0、zlib/ZSTD、GoogleTest 及可选 D3D12MA 均锁定可复现版本与许可。依赖升级需重跑损坏输入语料、设备恢复、图像和性能回归。调试构建启用 D3D12 Debug Layer/适用的 ASan；发布候选用 Release 和锁定 shader 编译产物。MSBuild 应生成未打包、自包含的 x64 应用与 helper 同目录 ZIP；M4 在干净 Windows 11 x64 机器验证 Windows App SDK runtime、VC runtime、DXC 编译产物/动态库与许可文件齐全，签名 MSIX 另立发布规格。
+VS 2026 C++20 x64 解决方案含 `splat-types`、`model-io` 客户端/辅助进程、`render-core`、WinUI 3 应用、GoogleTest 测试目标。Windows App SDK、Windows SDK/DXC、miniply、Niantic SPZ v3.0.0、zlib/ZSTD、GoogleTest 及可选 D3D12MA 均锁定可复现版本与许可。依赖升级需重跑损坏输入语料、设备恢复、图像和性能回归。发布候选使用 Release 和锁定 shader 编译产物。MSBuild 生成未打包、自包含的 x64 应用与 helper；Inno Setup 6 将运行时、VC CRT、shader 和许可打入安装包。干净 Windows 11 x64 机器的安装验证仍待完成，签名发布另立发布规格。
 
-以下命令现可构建与测试 model-io，产物路径固定在 `out/Release`；完整应用仍待后续阶段：
+以下命令可构建、测试并打包当前应用，程序位于 `out/Release`：
 
 ```powershell
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' .\Native3DGSViewer.sln /restore /m /p:Configuration=Release /p:Platform=x64
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' .\out\Release\Native3DGSViewer.Tests.dll /Platform:x64
+ctest --test-dir out/cmake -C Release --output-on-failure
+& .\packaging\build-installer.ps1 -SkipBuild
 ```
 
-VS 2026 两个可执行工具路径已在当前机器确认存在。实际构建、测试与运行命令要在创建解决方案后根据产物路径修订并写入 README；当前仅文档已存在。依赖版本、Windows App SDK 未打包自包含发布配置、WinUI 文件选择器 HWND、composition swapchain alpha/DPI 与设备 feature floor 都在 M0 原型中验证后固定。
+构建、测试、安装与操作命令见根目录 [README](../README.md) 和 [GUI 例程说明](../GUI/README.md)。跨 DPI、设备 feature floor 的更多硬件验证见桌面查看器验证记录。
 
 ## 8. 分阶段可运行检查点
 

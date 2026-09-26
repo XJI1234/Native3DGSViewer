@@ -9,6 +9,9 @@ namespace gs::engine
 namespace
 {
 using namespace render;
+constexpr uint8_t flip_x = static_cast<uint8_t>(FlipAxis::X);
+constexpr uint8_t flip_y = static_cast<uint8_t>(FlipAxis::Y);
+constexpr uint8_t flip_z = static_cast<uint8_t>(FlipAxis::Z);
 constexpr double pi = std::numbers::pi;
 std::optional<RenderError> invalid()
 {
@@ -58,6 +61,7 @@ std::optional<render::RenderError> CameraController::fit_scene(const SplatScene 
     if (!finite(extent) || extent.x < 0 || extent.y < 0 || extent.z < 0)
         return invalid();
     CameraController next;
+    next.flip_axes_ = flip_axes_;
     next.viewport_ = viewport;
     next.center_ = {std::midpoint(scene.bounds.min.x, scene.bounds.max.x),
                     std::midpoint(scene.bounds.min.y, scene.bounds.max.y),
@@ -188,6 +192,35 @@ std::optional<render::RenderError> CameraController::set_mode(ViewMode mode)
         focus_ = add(camera_.position_rub, rotate(camera_.orientation_xyzw, {0, 0, -distance_}));
     mode_ = mode;
     return {};
+}
+void CameraController::set_flip_axes(uint8_t mask)
+{
+    flip_axes_ = mask & (flip_x | flip_y | flip_z);
+}
+render::CameraState CameraController::camera() const
+{
+    if (!flip_axes_ || !has_scene_)
+        return camera_;
+    auto mirrored = camera_;
+    if (flip_axes_ & flip_x)
+        mirrored.position_rub.x = 2 * center_.x - camera_.position_rub.x;
+    if (flip_axes_ & flip_y)
+        mirrored.position_rub.y = 2 * center_.y - camera_.position_rub.y;
+    if (flip_axes_ & flip_z)
+        mirrored.position_rub.z = 2 * center_.z - camera_.position_rub.z;
+    const auto q = camera_.orientation_xyzw;
+    // Odd reflections need a local X reflection, compensated by the host's horizontal image mirror.
+    switch (flip_axes_)
+    {
+    case 1: mirrored.orientation_xyzw = {q.x, -q.y, -q.z, q.w}; break;
+    case 2: mirrored.orientation_xyzw = {q.y, q.x, q.w, q.z}; break;
+    case 3: mirrored.orientation_xyzw = {-q.y, q.x, q.w, -q.z}; break;
+    case 4: mirrored.orientation_xyzw = {-q.z, q.w, -q.x, q.y}; break;
+    case 5: mirrored.orientation_xyzw = {q.z, q.w, -q.x, -q.y}; break;
+    case 6: mirrored.orientation_xyzw = {q.w, -q.z, q.y, -q.x}; break;
+    case 7: mirrored.orientation_xyzw = {q.w, q.z, -q.y, -q.x}; break;
+    }
+    return mirrored;
 }
 void CameraController::reset()
 {

@@ -1,6 +1,6 @@
 # Spec: render-core（Windows 原生 3DGS 渲染核心）
 
-状态：独立模块已实现，模块验证见[验证记录](render-core-verification.md)；Spark 画质、整机性能与桌面集成仍待验收；2026-09-26。依据[总技术计划](technical-development-plan.md)与[model-io 规格](SPEC-model-io.md)。本文规定首期单模型渲染。
+状态：独立模块与桌面基础集成已实现，模块验证见[验证记录](render-core-verification.md)；Spark 画质与整机性能仍待验收；2026-09-26。当前由 [engine/SDK](SPEC-engine-sdk.md) 计算初始相机并调用本模块，下文早期“桌面层”表述指引擎宿主侧。本文规定首期单模型渲染。
 
 ## 实现参数锁定
 

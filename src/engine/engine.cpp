@@ -132,6 +132,19 @@ class Engine final : public IEngine
         case CameraAction::FlyMode:
             e = candidate.set_mode(ViewMode::Fly);
             break;
+        case CameraAction::FlipX:
+        case CameraAction::FlipY:
+        case CameraAction::FlipZ:
+        {
+            const uint8_t bit = command.action == CameraAction::FlipX ?
+                                    static_cast<uint8_t>(FlipAxis::X) :
+                                command.action == CameraAction::FlipY ?
+                                    static_cast<uint8_t>(FlipAxis::Y) :
+                                    static_cast<uint8_t>(FlipAxis::Z);
+            candidate.set_flip_axes(command.flip_enabled ? candidate.flip_axes() | bit :
+                                                         candidate.flip_axes() & ~bit);
+            break;
+        }
         default:
             return error(RenderErrorCode::InvalidCamera, "Unknown camera command");
         }
@@ -140,6 +153,13 @@ class Engine final : public IEngine
         if (!e)
         {
             camera_ = candidate;
+            if (command.action == CameraAction::FlipX ||
+                command.action == CameraAction::FlipY ||
+                command.action == CameraAction::FlipZ)
+            {
+                flip_axes_ = candidate.flip_axes();
+                state_.flip_axes = flip_axes_;
+            }
             state_.camera = candidate.camera();
         }
         return e;
@@ -324,6 +344,9 @@ class Engine final : public IEngine
                 // Cancellation after core activation is ordered after that successful commit.
                 active_scene_ = pending_->scene;
                 camera_ = pending_->camera;
+                camera_.set_flip_axes(flip_axes_);
+                pending_camera_sync_ = true;
+                camera_sync_fault_reported_ = false;
                 state_.active_request = pending_->id;
                 state_.active_ticket = e.ticket;
                 state_.camera = camera_.camera();
@@ -455,6 +478,7 @@ class Engine final : public IEngine
                     {
                         auto next = std::move(*decoded_);
                         decoded_.reset();
+                        next.camera.set_flip_axes(flip_axes_);
                         if (auto e = next.camera.fit_scene(*next.scene, config_.quality,
                                                            config_.viewport))
                             fail(next.id, *e);
@@ -476,6 +500,25 @@ class Engine final : public IEngine
                 if (render_enabled)
                     renderer_->render_frame();
                 std::unique_lock lock(mutex_);
+                if (pending_camera_sync_ && state_.active_ticket && !fatal_ &&
+                    !awaiting_release_ && state_.phase != Phase::Recovering)
+                {
+                    if (auto e = renderer_->set_camera(state_.active_ticket, camera_.camera()))
+                    {
+                        if (!camera_sync_fault_reported_)
+                        {
+                            state_.error = *e;
+                            push({EngineEvent::Kind::Fault, state_.active_request,
+                                  state_.surface_generation, state_.error});
+                            camera_sync_fault_reported_ = true;
+                        }
+                    }
+                    else
+                    {
+                        pending_camera_sync_ = false;
+                        camera_sync_fault_reported_ = false;
+                    }
+                }
                 state_.stats = renderer_->get_stats();
                 cv_.wait_for(lock, std::chrono::milliseconds(1),
                              [this] { return stopping_ || awaiting_release_; });
@@ -530,6 +573,9 @@ class Engine final : public IEngine
     std::optional<Pending> decoded_, pending_;
     SceneHandle active_scene_;
     CameraController camera_;
+    uint8_t flip_axes_ = 0;
+    bool pending_camera_sync_ = false;
+    bool camera_sync_fault_reported_ = false;
     RequestId next_request_ = 0;
     ViewportRevision revision_ = 0;
     bool initialized_ = false, stopping_ = false, load_started_ = false, load_stopped_ = false,

@@ -10,6 +10,12 @@ enum class ViewMode : uint8_t
     Orbit,
     Fly
 };
+enum class FlipAxis : uint8_t
+{
+    X = 1,
+    Y = 2,
+    Z = 4
+};
 struct FlyMotion
 {
     double right = 0, up = 0, forward = 0;
@@ -27,11 +33,11 @@ class CameraController
     std::optional<render::RenderError> look(double dx_px, double dy_px);
     std::optional<render::RenderError> fly(FlyMotion, double seconds);
     std::optional<render::RenderError> set_mode(ViewMode);
+    void set_flip_axes(uint8_t mask);
+    uint8_t flip_axes() const { return flip_axes_; }
     void reset();
-    const render::CameraState &camera() const
-    {
-        return camera_;
-    }
+    // View camera, including the display-only axis reflections.
+    render::CameraState camera() const;
     ViewMode mode() const
     {
         return mode_;
@@ -51,5 +57,6 @@ class CameraController
     double radius_ = 1, distance_ = 1, yaw_ = 0, pitch_ = 0;
     ViewMode mode_ = ViewMode::Orbit;
     bool has_scene_ = false;
+    uint8_t flip_axes_ = 0;
 };
 } // namespace gs::engine
