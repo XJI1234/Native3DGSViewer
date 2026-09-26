@@ -22,6 +22,11 @@ void remove_device(Session &s)
 TEST(RenderRecovery, ActualDeviceRemovalRebindsAndRestoresRetainedScene)
 {
     Session s;
+    const auto startup_stats = s.renderer->get_stats();
+    EXPECT_TRUE(startup_stats.sort_self_test_passed);
+    EXPECT_TRUE(startup_stats.sort_shader_mode == SortShaderMode::Standard ||
+                startup_stats.sort_shader_mode == SortShaderMode::FixedWave32 ||
+                startup_stats.sort_shader_mode == SortShaderMode::WaveAgnostic);
     auto ticket = s.upload(make_scene());
     ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
     auto old = s.renderer->surface_generation();

@@ -5,6 +5,50 @@
 #include <random>
 
 using namespace gs::render::detail;
+TEST(RenderGpu, Wave8CompatibleSortModesPassGpuSelfTest)
+{
+    try
+    {
+        GpuDevice gpu(true);
+        SortPass wave_agnostic(gpu, gs::render::SortShaderMode::WaveAgnostic);
+        wave_agnostic.validate();
+        EXPECT_EQ(wave_agnostic.mode(), gs::render::SortShaderMode::WaveAgnostic);
+
+        if (gpu.shader_model_6_6 && gpu.wave_max >= 32)
+        {
+            SortPass wave32(gpu, gs::render::SortShaderMode::FixedWave32);
+            wave32.validate();
+            EXPECT_TRUE(wave32.mode() == gs::render::SortShaderMode::FixedWave32 ||
+                        wave32.mode() == gs::render::SortShaderMode::WaveAgnostic);
+            if (wave32.mode() == gs::render::SortShaderMode::WaveAgnostic)
+                EXPECT_NE(wave32.wave32_fallback_hr(), S_OK);
+        }
+
+        if (gpu.wave_min >= 16)
+        {
+            SortPass standard(gpu);
+            standard.validate();
+            EXPECT_EQ(standard.mode(), gs::render::SortShaderMode::Standard);
+        }
+
+        gpu.wave_min = 8;
+        gpu.wave_max = 32;
+        SortPass automatic(gpu);
+        automatic.validate();
+        EXPECT_TRUE(automatic.mode() == gs::render::SortShaderMode::FixedWave32 ||
+                    automatic.mode() == gs::render::SortShaderMode::WaveAgnostic);
+        gpu.shader_model_6_6 = false;
+        SortPass automatic_fallback(gpu);
+        automatic_fallback.validate();
+        EXPECT_EQ(automatic_fallback.mode(), gs::render::SortShaderMode::WaveAgnostic);
+        for (const auto &error : gpu.debug_errors())
+            ADD_FAILURE() << error;
+    }
+    catch (const GpuFailure &failure)
+    {
+        FAIL() << failure.operation << " HRESULT=" << std::hex << failure.hr;
+    }
+}
 TEST(RenderGpu, StableRadixMatchesCpuIncludingEightMillionKeys)
 {
     try

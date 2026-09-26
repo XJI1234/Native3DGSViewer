@@ -35,6 +35,8 @@ class GpuDevice
     uint64_t timestamp_frequency = 0;
     DXGI_ADAPTER_DESC1 adapter_description{};
     uint32_t wave_min = 0, wave_max = 0;
+    bool shader_model_6_6 = false;
+    bool uma = false;
     ComPtr<ID3D12Resource> buffer(uint64_t, D3D12_HEAP_TYPE, D3D12_RESOURCE_STATES,
                                   D3D12_RESOURCE_FLAGS = D3D12_RESOURCE_FLAG_NONE);
     uint64_t submit(ID3D12CommandQueue *, ID3D12CommandList *, ID3D12Fence *, uint64_t &);
@@ -54,7 +56,10 @@ struct SortBuffers
 class SortPass
 {
   public:
-    explicit SortPass(GpuDevice &);
+    explicit SortPass(GpuDevice &, std::optional<SortShaderMode> requested_mode = {});
+    void validate();
+    SortShaderMode mode() const { return mode_; }
+    HRESULT wave32_fallback_hr() const { return wave32_fallback_hr_; }
     SortBuffers allocate(uint32_t);
     void record(ID3D12GraphicsCommandList *, SortBuffers &);
 
@@ -62,6 +67,10 @@ class SortPass
     GpuDevice &gpu_;
     ComPtr<ID3D12RootSignature> root_;
     std::array<ComPtr<ID3D12PipelineState>, 5> pipelines_;
+    SortShaderMode mode_ = SortShaderMode::Standard;
+    HRESULT wave32_fallback_hr_ = S_OK;
+    void load_pipelines(SortShaderMode);
+    bool self_test();
 };
 std::vector<uint8_t> shader(const char *);
 ComPtr<ID3D12RootSignature> root_signature(ID3D12Device *, std::span<const D3D12_ROOT_PARAMETER>);

@@ -63,12 +63,16 @@ GpuDevice::GpuDevice(bool diagnostics, std::optional<LUID> required_adapter)
                 D3D12CreateDevice(candidate.Get(), D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&found))))
             continue;
         D3D12_FEATURE_DATA_SHADER_MODEL sm{D3D_SHADER_MODEL_6_0};
+        D3D12_FEATURE_DATA_SHADER_MODEL sm66{D3D_SHADER_MODEL_6_6};
         D3D12_FEATURE_DATA_D3D12_OPTIONS1 options{};
         D3D12_FEATURE_DATA_FORMAT_SUPPORT format{DXGI_FORMAT_B8G8R8A8_UNORM};
         if (FAILED(found->CheckFeatureSupport(D3D12_FEATURE_SHADER_MODEL, &sm, sizeof(sm))) ||
+            sm.HighestShaderModel < D3D_SHADER_MODEL_6_0 ||
             FAILED(found->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS1, &options,
                                               sizeof(options))) ||
-            !options.WaveOps || options.WaveLaneCountMin < 16 || options.WaveLaneCountMax > 128 ||
+            !options.WaveOps || options.WaveLaneCountMin < 8 ||
+            options.WaveLaneCountMax < options.WaveLaneCountMin ||
+            options.WaveLaneCountMax > 128 ||
             FAILED(found->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &format,
                                               sizeof(format))) ||
             !(format.Support1 & D3D12_FORMAT_SUPPORT1_RENDER_TARGET) ||
@@ -79,15 +83,33 @@ GpuDevice::GpuDevice(bool diagnostics, std::optional<LUID> required_adapter)
         adapter_description = desc;
         wave_min = options.WaveLaneCountMin;
         wave_max = options.WaveLaneCountMax;
+        shader_model_6_6 = SUCCEEDED(found->CheckFeatureSupport(
+            D3D12_FEATURE_SHADER_MODEL, &sm66, sizeof(sm66))) &&
+            sm66.HighestShaderModel >= D3D_SHADER_MODEL_6_6;
         break;
     }
     if (!device)
-        throw GpuFailure{DXGI_ERROR_UNSUPPORTED, "D3D12 hardware SM6 wave16-128"};
+        throw GpuFailure{DXGI_ERROR_UNSUPPORTED, "D3D12 hardware SM6 WaveOps wave8-128"};
+    D3D12_FEATURE_DATA_ARCHITECTURE1 architecture{};
+    if (SUCCEEDED(device->CheckFeatureSupport(D3D12_FEATURE_ARCHITECTURE1, &architecture,
+                                              sizeof(architecture))))
+    {
+        uma = architecture.UMA != FALSE;
+    }
+    else
+    {
+        D3D12_FEATURE_DATA_ARCHITECTURE legacy{};
+        check(device->CheckFeatureSupport(D3D12_FEATURE_ARCHITECTURE, &legacy,
+                                          sizeof(legacy)), "GPU memory architecture");
+        uma = legacy.UMA != FALSE;
+    }
     const auto diagnostic = std::wstring(L"render-core: ") + adapter_description.Description +
                             L" LUID=" + std::to_wstring(adapter_description.AdapterLuid.HighPart) +
                             L":" + std::to_wstring(adapter_description.AdapterLuid.LowPart) +
                             L" FL12.0 SM6.0 wave=" + std::to_wstring(wave_min) + L"-" +
-                            std::to_wstring(wave_max) + L"\n";
+                            std::to_wstring(wave_max) + L" UMA=" +
+                            std::to_wstring(uma) + L" SM6.6=" +
+                            std::to_wstring(shader_model_6_6) + L"\n";
     OutputDebugStringW(diagnostic.c_str());
     D3D12_COMMAND_QUEUE_DESC q{};
     q.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;

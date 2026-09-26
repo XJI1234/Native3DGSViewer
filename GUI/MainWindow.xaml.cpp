@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MainWindow.xaml.h"
+#include "app_log.h"
 #if __has_include("MainWindow.xaml.g.hpp")
 #include "MainWindow.xaml.g.hpp"
 #elif __has_include("MainWindow.xaml.g.hpp.backup")
@@ -30,6 +31,47 @@ namespace
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 std::jthread shutdown_thread;
+
+void log_render_error(std::string_view event, const gs::render::RenderError &error,
+                      gs::engine::RequestId request = 0)
+{
+    viewer::log::write("error", event,
+                       {{"request", std::to_string(request)},
+                        {"code", std::to_string(static_cast<int>(error.code))},
+                        {"hr", viewer::log::hresult(error.hresult)},
+                        {"diagnostic", error.diagnostic}});
+}
+
+void log_engine_error(std::string_view event, const gs::engine::EngineError &error,
+                      gs::engine::RequestId request)
+{
+    if (const auto *render = std::get_if<gs::render::RenderError>(&error))
+        log_render_error(event, *render, request);
+    else
+    {
+        const auto &load = std::get<gs::io::LoadError>(error);
+        viewer::log::write("error", event,
+                           {{"request", std::to_string(request)},
+                            {"code", std::to_string(static_cast<int>(load.code))},
+                            {"stage", std::to_string(static_cast<int>(load.stage))},
+                            {"diagnostic", load.diagnostic}});
+    }
+}
+
+void log_current_exception(std::string_view event)
+{
+    try { throw; }
+    catch (const winrt::hresult_error &error)
+    {
+        viewer::log::write("error", event,
+                           {{"hr", viewer::log::hresult(error.code())}});
+    }
+    catch (const std::exception &error)
+    {
+        viewer::log::write("error", event, {{"diagnostic", error.what()}});
+    }
+    catch (...) { viewer::log::write("error", event); }
+}
 } // namespace
 
 void wait_for_viewer_shutdown()
@@ -52,6 +94,7 @@ MainWindow::MainWindow()
 
 void MainWindow::initialize_viewer()
 {
+    viewer::log::write("info", "window_initialize");
     build_interface();
     open_button_.IsEnabled(false);
     connect_events();
@@ -64,10 +107,25 @@ void MainWindow::initialize_viewer()
     {
         engine_ = std::move(*ready);
         open_button_.IsEnabled(true);
+        const auto startup = engine_->snapshot();
+        const char *sort_mode = startup.stats.sort_shader_mode ==
+            gs::render::SortShaderMode::FixedWave32 ? "fixed_wave32" :
+            startup.stats.sort_shader_mode == gs::render::SortShaderMode::WaveAgnostic ?
+            "wave_agnostic" : "standard";
+        viewer::log::write("info", "engine_created",
+                           {{"generation", std::to_string(startup.surface_generation)},
+                            {"sort_mode", sort_mode},
+                            {"sort_self_test", startup.stats.sort_self_test_passed ? "passed" : "not_run"},
+                            {"wave32_fallback_hr", viewer::log::hresult(
+                                startup.stats.wave32_fallback_hr)}});
         try { create_surface(); if (generation_) set_status(L"就绪"); }
-        catch (...) { set_status(L"无法创建渲染视口"); }
+        catch (...) { log_current_exception("surface_create_exception"); set_status(L"无法创建渲染视口"); }
     }
-    else set_status(L"当前设备不支持此渲染器");
+    else
+    {
+        log_render_error("engine_create_failed", std::get<gs::render::RenderError>(created));
+        set_status(L"当前设备不支持此渲染器");
+    }
     int count = 0;
     auto args = CommandLineToArgvW(GetCommandLineW(), &count);
     if (args)
@@ -134,8 +192,8 @@ void MainWindow::connect_events()
     if (xaml_root_)
         xaml_root_changed_ = xaml_root_.Changed([this](auto&&, auto&&) { resize_surface(); });
     scene_panel_.PointerPressed([this](auto&&, auto&& args) {
-        last_pointer_ = args.GetCurrentPoint(scene_panel_).Position();
-        right_drag_ = args.GetCurrentPoint(scene_panel_).Properties().IsRightButtonPressed();
+        last_pointer_ = args.GetCurrentPoint(root_).Position();
+        right_drag_ = args.GetCurrentPoint(root_).Properties().IsRightButtonPressed();
         dragging_ = true;
         if (fly_mode_) fly_capture_ = true;
         scene_panel_.CapturePointer(args.Pointer());
@@ -192,6 +250,7 @@ void MainWindow::connect_events()
         engine_->detach_swapchain(generation_);
     });
     Closed([this](auto&&, auto&&) {
+        viewer::log::write("info", "window_closed");
         closing_ = true;
         timer_.Stop();
         if (xaml_root_) xaml_root_.Changed(xaml_root_changed_);
@@ -225,7 +284,13 @@ void MainWindow::create_surface()
     if (!generation) return;
     winrt::com_ptr<ID3D12CommandQueue> queue;
     queue.attach(engine_->addref_surface_queue(generation));
-    if (!queue) { set_status(L"无法初始化图形设备"); return; }
+    if (!queue)
+    {
+        viewer::log::write("error", "surface_queue_unavailable",
+                           {{"generation", std::to_string(generation)}});
+        set_status(L"无法初始化图形设备");
+        return;
+    }
     winrt::com_ptr<IDXGIFactory2> factory;
     winrt::check_hresult(CreateDXGIFactory2(0, IID_PPV_ARGS(factory.put())));
     DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -246,19 +311,26 @@ void MainWindow::create_surface()
     winrt::check_hresult(swapchain_->SetMatrixTransform(&matrix));
     auto native = scene_panel_.as<ISwapChainPanelNative>();
     winrt::check_hresult(native->SetSwapChain(swapchain_.get()));
-    const bool attached = !engine_->attach_swapchain(generation, swapchain_.get());
-    if (!attached)
+    if (auto error = engine_->attach_swapchain(generation, swapchain_.get()))
     {
+        log_render_error("surface_attach_failed", *error);
         release_surface();
         set_status(L"无法绑定渲染视口");
         return;
     }
     generation_ = generation;
+    viewer::log::write("info", "surface_attached",
+                       {{"generation", std::to_string(generation)},
+                        {"width", std::to_string(size.physical_width)},
+                        {"height", std::to_string(size.physical_height)}});
     resize_surface();
 }
 
 void MainWindow::release_surface()
 {
+    if (generation_)
+        viewer::log::write("info", "surface_released",
+                           {{"generation", std::to_string(generation_)}});
     if (scene_panel_)
         if (auto native = scene_panel_.try_as<ISwapChainPanelNative>()) native->SetSwapChain(nullptr);
     swapchain_ = nullptr;
@@ -274,7 +346,8 @@ void MainWindow::resize_surface()
         winrt::check_hresult(swapchain_->SetMatrixTransform(&matrix));
     }
     if (engine_ && generation_)
-        engine_->resize(generation_, viewport());
+        if (auto error = engine_->resize(generation_, viewport()))
+            log_render_error("surface_resize_failed", *error);
 }
 void MainWindow::set_busy(std::wstring_view text)
 {
@@ -318,10 +391,21 @@ void MainWindow::set_flip_y(bool enabled)
 void MainWindow::open_path(std::filesystem::path path)
 {
     if (!engine_) return;
+    viewer::log::write("info", "model_open_requested",
+                       {{"extension", viewer::log::utf8(path.extension().wstring())}});
     auto request = engine_->open({path});
     if (auto *id = std::get_if<gs::engine::RequestId>(&request))
+    {
         request_id_ = *id;
-    else { set_status(L"无法打开此模型文件"); return; }
+        viewer::log::write("info", "model_open_queued",
+                           {{"request", std::to_string(request_id_)}});
+    }
+    else
+    {
+        log_render_error("model_open_rejected", std::get<gs::render::RenderError>(request));
+        set_status(L"无法打开此模型文件");
+        return;
+    }
     pending_path_ = std::move(path);
     set_busy(L"正在读取模型");
     set_status(L"正在打开模型");
@@ -351,7 +435,7 @@ winrt::fire_and_forget MainWindow::pick_file()
         auto file = co_await picker.PickSingleFileAsync();
         if (!closing_ && file) open_path(std::filesystem::path{file.Path().c_str()});
     }
-    catch (...) { if (!closing_) set_status(L"无法打开文件选择器"); }
+    catch (...) { log_current_exception("file_picker_failed"); if (!closing_) set_status(L"无法打开文件选择器"); }
 }
 
 winrt::fire_and_forget MainWindow::accept_drop(DragEventArgs args)
@@ -374,14 +458,14 @@ winrt::fire_and_forget MainWindow::accept_drop(DragEventArgs args)
             }
         }
     }
-    catch (...) { if (!closing_) set_status(L"无法读取拖入的文件"); }
+    catch (...) { log_current_exception("model_drop_failed"); if (!closing_) set_status(L"无法读取拖入的文件"); }
     deferral.Complete();
 }
 
 void MainWindow::on_pointer_move(Microsoft::UI::Xaml::Input::PointerRoutedEventArgs args)
 {
     if (!engine_ || !scene_ready_ || (!dragging_ && !fly_capture_)) return;
-    auto point = args.GetCurrentPoint(scene_panel_).Position();
+    auto point = args.GetCurrentPoint(root_).Position();
     const double dx = point.X - last_pointer_.X;
     const double dy = point.Y - last_pointer_.Y;
     last_pointer_ = point;
@@ -430,6 +514,8 @@ void MainWindow::update_engine()
         switch (event.kind)
         {
         case Kind::DeviceLost:
+            if (event.error) log_engine_error("device_lost", *event.error, event.request);
+            else viewer::log::write("warn", "device_lost");
             keys_.fill(false); fly_capture_ = dragging_ = false;
             flip_y_button_.IsEnabled(false);
             release_surface();
@@ -438,18 +524,28 @@ void MainWindow::update_engine()
             engine_->acknowledge_device_release(event.generation);
             break;
         case Kind::SurfaceDetached:
+            viewer::log::write("info", "surface_detached",
+                               {{"generation", std::to_string(event.generation)}});
             if (waiting_for_detach_ && event.generation == generation_)
             {
                 release_surface(); waiting_for_detach_ = false; Close(); return;
             }
             break;
         case Kind::SurfaceRebindRequired:
+            viewer::log::write("info", "surface_rebind_requested",
+                               {{"generation", std::to_string(event.generation)}});
             release_surface();
-            try { create_surface(); } catch (...) { set_status(L"无法恢复渲染视口"); }
+            try { create_surface(); }
+            catch (...) { log_current_exception("surface_rebind_failed"); set_status(L"无法恢复渲染视口"); }
             break;
         case Kind::SceneReady:
             if (event.request == request_id_)
             {
+                const auto scene = engine_->snapshot().active_scene;
+                viewer::log::write("info", "scene_ready",
+                                   {{"request", std::to_string(event.request)},
+                                    {"splats", scene ? std::to_string(scene->count) : "unknown"},
+                                    {"sh_degree", scene ? std::to_string(scene->sh_degree) : "unknown"}});
                 model_text_.Text(hstring{pending_path_.filename().wstring()});
                 empty_text_.Visibility(Visibility::Collapsed);
                 close_button_.IsEnabled(true); fit_button_.IsEnabled(true);
@@ -458,8 +554,14 @@ void MainWindow::update_engine()
                                          : gs::engine::CameraAction::OrbitMode);
                 finish_busy(); set_status(L"就绪");
             }
+            else
+                viewer::log::write("info", "scene_ready_superseded",
+                                   {{"request", std::to_string(event.request)}});
             break;
         case Kind::SceneFailed:
+            if (event.error) log_engine_error("scene_failed", *event.error, event.request);
+            else viewer::log::write("error", "scene_failed",
+                                    {{"request", std::to_string(event.request)}});
             if (event.request == request_id_ &&
                 (!event.error || !std::holds_alternative<gs::render::RenderError>(*event.error) ||
                  std::get<gs::render::RenderError>(*event.error).code !=
@@ -476,15 +578,20 @@ void MainWindow::update_engine()
             }
             break;
         case Kind::SceneCleared:
+            viewer::log::write("info", "scene_cleared");
             model_text_.Text(L""); empty_text_.Visibility(Visibility::Visible);
             close_button_.IsEnabled(false); fit_button_.IsEnabled(false);
             reset_button_.IsEnabled(false); flip_y_button_.IsEnabled(false);
             finish_busy(); set_status(L"就绪");
             break;
         case Kind::DeviceRestored:
+            viewer::log::write("info", "device_restored",
+                               {{"generation", std::to_string(event.generation)}});
             flip_y_button_.IsEnabled(engine_->snapshot().active_scene.has_value());
             finish_busy(); set_status(L"就绪"); break;
         case Kind::Fault:
+            if (event.error) log_engine_error("engine_fault", *event.error, event.request);
+            else viewer::log::write("error", "engine_fault");
             finish_busy(); set_status(L"图形设备恢复失败"); break;
         default: break;
         }

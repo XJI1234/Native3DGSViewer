@@ -37,6 +37,8 @@ $env:ASAN_OPTIONS='halt_on_error=1'
 Release `/MD`、Windows x64、匹配 MSVC 19.50 的四个静态库、五个公共头、helper、九个 shader、CMake Config/Version/Targets、console 宿主、使用说明与五项运行依赖的许可证。没有测试 hook、GoogleTest、源码绝对路径或第三方编译需求。SDK 不承诺跨编译器 STL ABI；VC runtime 由部署宿主安装。ZIP 通过 CPack SDK component 生成，产物位于 `out/packages/Native3DGS-SDK-0.1.0-windows-x64-SDK.zip`。
 ZIP 独立解包、重定位、消费构建与真实 PLY 运行已通过，输出 `SDK OK frames=35 active=1 splats=1179648`。VS 在系统 temp 中构建给出 MSB8029（增量构建目录警告）；消费验证是单次全新构建，无错误。测试成功后移除临时目录。
 
+0.1.1 发布包增加完整 `docs/`、GUI 宿主说明和 wave32/wave-agnostic shader 变体。对 `Native3DGS-SDK-0.1.1-windows-x64-SDK.zip` 的文件清单检查确认公共库、头、helper、变体 shader、规格和验证文档都存在；独立解包、重定位、编译并运行 1,179,648 点 PLY，输出 `SDK OK frames=35 active=1 splats=1179648`。Release 构建和五组 CTest 均通过。
+
 ## GPU 阶段基准
 
 统一 1920×1080、Radial、实际 SH 0/3、SH cap=3、stddev=3、alpha=0、blur=0、radius=1024、BGRA8 UNORM 预乘混合。每 case 预热 60 帧，采样 300 帧；固定相机 cached/force 渲染相同场景和画质。orbit 每帧相同一像素轨道增量，每帧重新投影/排序。全部使用硬件 GPU timestamp、无 CPU 排序回退；独立进程串行运行。

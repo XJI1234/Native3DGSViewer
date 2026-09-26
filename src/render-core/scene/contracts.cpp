@@ -49,7 +49,7 @@ uint64_t incremental_bytes(const SplatScene &s)
         return UINT64_MAX;
     // Attributes, projected ellipses, two key/value pairs, sort scratch and copy pages.
     return scene_bytes(s) + s.count * (48ull + 16ull) + 16ull * ((s.count + 511) / 512) * 4 +
-           (8ull << 20);
+           upload_reserve_bytes;
 }
 bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage)
 {
@@ -57,6 +57,13 @@ bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage)
         return false;
     const auto available = budget - usage;
     return required <= (available / 5) * 4 + (available % 5) * 4 / 5;
+}
+bool fits_scene_budgets(uint64_t scene_required, uint64_t upload_required,
+                        uint64_t local_budget, uint64_t local_usage,
+                        uint64_t nonlocal_budget, uint64_t nonlocal_usage, bool uma)
+{
+    return fits_budget(scene_required, local_budget, local_usage) &&
+           (uma || fits_budget(upload_required, nonlocal_budget, nonlocal_usage));
 }
 std::optional<RenderError> validate_scene(const SceneHandle &s)
 {

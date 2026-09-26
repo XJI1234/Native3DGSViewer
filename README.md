@@ -2,7 +2,7 @@
 
 Native3DGS 是面向 Windows 的原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染引擎和 C++ SDK。它读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序，并通过 Direct3D 12 合成交换链渲染。SDK 提供异步加载、相机控制、渲染表面管理、诊断信息和设备恢复能力，桌面宿主可以专注于用户界面。
 
-**项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。当前仅在 NVIDIA RTX 3080 上完成主要验证；与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
+**项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。RTX 3080 已完成主要本机验证；Windows 11 23H2 的 Intel Arc 核显已实机打开 SPZ/PLY 并正常浏览。与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
 
 ## 功能
 
@@ -45,7 +45,7 @@ PLY / SPZ 文件
 - 推荐 CMake 4.3 及以上版本（已验证 4.3.2；`CMakeLists.txt` 声明的最低版本为 3.30），另需 Git 和 PowerShell。构建使用 `Visual Studio 18 2026` 生成器。
 - 首次递归获取 Git 子模块需要网络连接。依赖的固定提交与许可证见 [third_party/README.md](third_party/README.md)。
 
-工程目前仅面向 Windows x64。已测试的 GPU 为 RTX 3080；AMD、Intel 及其他 NVIDIA 设备仍需实机验证。
+工程目前仅面向 Windows x64。已测试 RTX 3080 和 Intel Arc 核显；AMD、其他 NVIDIA 设备及跨机器性能仍需验证。
 
 ## 从源码构建
 
@@ -142,7 +142,7 @@ native3dgs_deploy_runtime(my-viewer)
 cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 ```
 
-产物为 `out/packages/Native3DGS-SDK-0.1.0-windows-x64-SDK.zip`。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
+产物为 `out/packages/Native3DGS-SDK-0.1.1-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
 
 ## 修改源码
 
@@ -165,12 +165,12 @@ cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 
 ## 已知限制与后续计划
 
-- 桌面安装包尚未在干净的第二台 Windows 11 机器验收，也未签名。
-- 尚未完成固定相机 Spark 图像对比（SSIM）、等画质 PresentMon 测量、长期稳定性、干净机器运行库部署及 AMD/Intel 兼容性验收。
+- 桌面安装包已在第二台 Windows 11 23H2 / Intel Arc 机器打开两种模型；未完成完整的干净系统依赖矩阵验收，安装包尚未签名。
+- 尚未完成固定相机 Spark 图像对比（SSIM）、等画质 PresentMon 测量、长期稳定性及 AMD/Intel 的完整兼容性矩阵。
 - 当前基准只测得 RTX 3080 上的 GPU 阶段耗时，不能证明相对于现有 Viewer 达到了规划中的 20% 性能提升。
 - 后续格式、多模型渲染、LoD、编辑和动画均需另立契约并补充测试。
 
-[技术开发计划](docs/technical-development-plan.md)和[系统技术设计](docs/system-technical-design.md)列出了后续里程碑及验收条件。
+[技术开发计划](docs/technical-development-plan.md)和[系统技术设计](docs/system-technical-design.md)列出了后续里程碑及验收条件。[兼容性调试经验](docs/compatibility-lessons.md)记录 Intel Arc、UMA、wave8 和镜像输入的排查结论。
 
 ## 参与贡献
 

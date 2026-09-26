@@ -5,7 +5,7 @@
 ## 实现参数锁定
 
 - GPU 排序选用 MIT 许可的 AMD FidelityFX Parallel Sort，固定 `0c539948c8d196ae338d91efbc8ca495f1ea0d1d`，使用原版八次 4-bit LSD pass 替代原提议四次 8-bit pass；保留稳定 key/value、同键原始索引顺序及纯 GPU 帧图。GPU 对照测试必须包含 800 万键。
-- 最低 D3D12 feature level 12.0、Shader Model 6.0、WaveOps、wave lane 数 16-128；不回退软件适配器。DXC 来自锁定 Windows SDK 10.0.26100.0，构建编译并记录 SHA-256。
+- 最低 D3D12 feature level 12.0、Shader Model 6.0、WaveOps；支持 wave lane 最小值 8、最大值 32 的设备，不回退软件适配器。排序在原有 wave16+ 路径、经设备验证的 SM6.6 固定 wave32 路径和 wave8 安全路径间选择。DXC 来自锁定 Windows SDK 10.0.26100.0，构建编译并记录 SHA-256。
 - 交换链固定 BGRA8 UNORM、flip sequential、2-3 buffers、stretch、premultiplied alpha。训练 RGB 在 SH 求值后 clamp 到 [0,1]，直接输出到 UNORM，保留当前 Viewer 的显示编码色值域；不启用 sRGB RTV，不声称已经通过 Spark 色彩对照。
 - Gaussian quad 使用 max_stddev 截断和半径上限；近面相交的支撑范围保守保留并将投影深度钳到近面，完全位于相机后方或远面之外的支撑范围剔除。质量上界为 max_stddev<=8、blur<=64、radius<=16384，最大视口 16384x16384。
 - 所有 fence CPU 等待仅在渲染线程进行，单次上限 5 秒；设备恢复最多两次，surface 重绑等待 10 秒。
@@ -107,13 +107,15 @@ create_renderer(QualityConfig, EventSink);
 
 ## 3. 设备、线程与 GPU 资源
 
-启动时枚举 DXGI 硬件适配器，排除软件适配器；按配置的 LUID 优先，其次选高性能适配器。要求可创建 D3D12 设备、所需 Shader Model、WaveOps 和 SRV/UAV 格式；能力不足返回 `UnsupportedDevice`，不悄悄改成 WARP 或 WebView。固定 adapter LUID、驱动和 feature 查询结果写入诊断；运行时根据能力选择经过测试的 wave size/线程组变体，不能假定 NVIDIA wave32。M0 原型确认具体 feature level 与 DXC target 后锁定最低要求。
+启动时枚举 DXGI 硬件适配器，排除软件适配器；按配置的 LUID 优先，其次选高性能适配器。要求可创建 D3D12 设备、所需 Shader Model、WaveOps 和 SRV/UAV 格式；能力不足返回 `UnsupportedDevice`，不悄悄改成 WARP 或 WebView。固定 adapter LUID、驱动和 feature 查询结果写入诊断；运行时根据能力选择经过测试的排序变体，不能假定 NVIDIA wave32。若最小 wave lane 小于 16，优先验证 SM6.6 固定 wave32 变体；不支持或自检失败时验证 wave8 安全变体。排序 GPU 读回自检在 renderer 初始化时完成，验证固定夹具的键和值及稳定顺序；失败时返回 `ShaderFailure`，不得继续绘制。`RenderStats` 公开已选择的排序变体及自检通过状态，供宿主记录诊断。
 
 一个渲染线程独占 direct queue、命令分配器/列表、描述符堆、交换链 back buffer、PSO 与帧状态；一个 copy queue 负责分块上传，独立 fence 表示完成。首期不启用并发 compute queue，避免排序和混合之间复杂的跨队列同步。每帧资源用 2-3 个 fence 标记的槽循环利用；只有对应 direct fence 完成才重用命令分配器、上传页、排序缓冲或 back buffer。copy queue 写完默认堆后，direct queue 用 `Wait(copyFence, value)` 建立 GPU 依赖，再做资源状态转换。所有 GPU 资源由 RAII 包装，释放延迟到最后使用它的 fence 完成，禁止 UI 线程直接 `Release` 仍在使用的资源。
 
 `SceneHandle` 从 `upload_scene` 入队起一直保留到最后一块 copy fence 完成。首期对当前活动场景继续保留 CPU 句柄，以便设备恢复时重新上传同一快照；取消的待命场景在 copy fence 安全点释放。此选择提高 RAM 常驻量，需计入预算并在 M3 实测。异步上传对 UI 显示阶段/真实已完成 copy fence 的字节进度，不在 UI 线程拷贝整场景。`SceneCleared` 事件的 `ticket` 必须是实际被清除的活动场景 ticket；若清除时无活动场景则为 0，桌面层据此过滤过期完成事件。
 
 `QueryVideoMemoryInfo` 的 local/non-local 预算和当前进程用量仅作动态预检，实际创建资源及 residency 仍可能失败。以 `Budget - CurrentUsage` 求当前增量余量；旧场景与已有 back buffer 已在 `CurrentUsage` 中，不能再次从余量扣除。启动上传前受检估算新场景属性/SH 缓冲、索引与 radix 临时缓冲、额外帧资源、可能同时存在的新旧尺寸 back buffer 及上传页的增量峰值；按所属内存段分别比较，默认最多使用可用余量的 80%。预算不足返回 `OutOfVideoMemory` 并保留旧场景，不靠截断点数或 SH 降级。创建失败时清理待命资源、采集新预算并报告增量需求/可用容量；绝不通过无限重试造成卡死。D3D12MA 可在 M0 许可/版本核对后用于堆分配，但不得改变 fence 所有权与预算语义；无此依赖时先用 D3D12 committed resource 实现正确性原型。
+
+集成显卡是否采用统一内存由 `D3D12_FEATURE_ARCHITECTURE1.UMA` 判定；不支持该查询时回退到 `D3D12_FEATURE_ARCHITECTURE.UMA`，不由 `DedicatedVideoMemory` 数值猜测。UMA 设备的上传页已经包含在 local 增量估算中，不再额外要求 non-local 预算或其查询成功；非 UMA 设备仍分别检查 local 场景资源和 non-local 上传页。任何预检拒绝都须返回阶段、UMA 标记、local/non-local 预算与用量、估算需求，供宿主日志区分预算压力与实际 D3D12 分配失败。物理内存总量不替代 DXGI 动态预算，也不保证任意规模的模型都能加载。
 
 ## 4. 场景上传与原子激活
 

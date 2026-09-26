@@ -439,6 +439,7 @@ class Engine final : public IEngine
                     if (auto e = renderer_->resize(state_.surface_generation, ++revision_,
                                                    config_.viewport))
                         init_error_ = *e;
+                    state_.stats = renderer_->get_stats();
                 }
                 initialized_ = true;
                 cv_.notify_all();

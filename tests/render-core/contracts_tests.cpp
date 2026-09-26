@@ -42,6 +42,13 @@ TEST(RenderContracts, BudgetUsesIncrementalHeadroomWithoutCountingOldSceneTwice)
     EXPECT_FALSE(fits_budget(1, 100, 101));
     EXPECT_TRUE(fits_budget(0, UINT64_MAX, 0));
 }
+TEST(RenderContracts, UmaUploadDoesNotRequireNonlocalSegment)
+{
+    EXPECT_TRUE(fits_scene_budgets(800, 8, 1100, 100, 0, 0, true));
+    EXPECT_FALSE(fits_scene_budgets(801, 8, 1100, 100, 0, 0, true));
+    EXPECT_FALSE(fits_scene_budgets(800, 8, 1100, 100, 0, 0, false));
+    EXPECT_TRUE(fits_scene_budgets(800, 8, 1100, 100, 110, 100, false));
+}
 TEST(RenderContracts, RelativeCameraSubtractsDoubleOriginBeforeFloatConversion)
 {
     gs::SplatScene scene;

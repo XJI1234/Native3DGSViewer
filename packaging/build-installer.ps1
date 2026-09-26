@@ -24,6 +24,9 @@ if (-not $SkipBuild) {
 
 $shaders = @('count', 'reduce', 'scan', 'scan_add', 'scatter', 'reset_args',
              'project', 'vertex', 'pixel') | ForEach-Object { "shaders\$_.cso" }
+$shaders += @('count', 'reduce', 'scan', 'scan_add', 'scatter') | ForEach-Object {
+    @("shaders\${_}_wave32.cso", "shaders\${_}_wave_agnostic.cso")
+}
 foreach ($required in (@('Native3DGSViewer.GUI.exe', 'model-io-helper.exe', 'App.xbf',
                          'MainWindow.xbf', 'Native3DGSViewer.GUI.pri') + $shaders)) {
     if (-not (Test-Path -LiteralPath (Join-Path $release $required))) {
@@ -49,7 +52,7 @@ Get-ChildItem -LiteralPath $release -File |
                    $_.Name -ne 'Native3DGSViewer.Tests.dll' } |
     ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $resolvedStage }
 Get-ChildItem -LiteralPath $release -Directory |
-    Where-Object { $_.Name -ne 'out' } |
+    Where-Object { $_.Name -notin @('out', 'logs') } |
     ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $resolvedStage -Recurse }
 
 $crt = Get-ChildItem -LiteralPath (Join-Path $vsRoot 'VC\Redist\MSVC') -Directory |
@@ -91,6 +94,7 @@ if (-not $IsccPath) {
     }
 }
 if (-not (Test-Path -LiteralPath $IsccPath)) { throw "Inno Setup compiler not found: $IsccPath" }
-& $IsccPath "/DStageDir=$resolvedStage" "/DOutputDir=$installer" (Join-Path $PSScriptRoot 'viewer.iss')
+$defines = @("/DStageDir=$resolvedStage", "/DOutputDir=$installer")
+& $IsccPath @defines (Join-Path $PSScriptRoot 'viewer.iss')
 if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed.' }
 Get-Item -LiteralPath (Join-Path $installer 'Native3DGSViewer-Setup-x64.exe')

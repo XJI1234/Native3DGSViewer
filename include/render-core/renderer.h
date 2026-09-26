@@ -89,8 +89,17 @@ struct RendererEvent
     uint64_t bytes_done = 0, bytes_total = 0;
     std::optional<RenderError> error;
 };
+enum class SortShaderMode : uint8_t
+{
+    Standard,
+    FixedWave32,
+    WaveAgnostic
+};
 struct RenderStats
 {
+    SortShaderMode sort_shader_mode = SortShaderMode::Standard;
+    bool sort_self_test_passed = false;
+    HRESULT wave32_fallback_hr = S_OK;
     uint64_t presented_frame_id = 0;
     std::optional<double> cpu_frame_ms, gpu_frame_ms, gpu_sort_ms, gpu_draw_ms, present_call_ms;
     uint64_t candidate_splats = 0, drawn_splats = 0, sort_reuse_count = 0,
