@@ -4,16 +4,18 @@
 #ifndef OutputDir
   #error OutputDir is required
 #endif
+#define ViewerVersion "0.1.1"
+#define SetupFilename "Native3DGSViewer-Setup-x64"
 
 [Setup]
 AppId={{D7C155A0-3A8A-4D9A-98C2-5869E3CBF043}
 AppName=3DGS Viewer
-AppVersion=0.1.0
+AppVersion={#ViewerVersion}
 AppPublisher=Native3DGSViewer
 DefaultDirName={localappdata}\Programs\3DGS Viewer
 DefaultGroupName=3DGS Viewer
 OutputDir={#OutputDir}
-OutputBaseFilename=Native3DGSViewer-Setup-x64
+OutputBaseFilename={#SetupFilename}
 UninstallDisplayIcon={app}\Native3DGSViewer.GUI.exe
 Compression=lzma2
 SolidCompression=yes

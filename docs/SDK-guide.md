@@ -1,4 +1,4 @@
-# Native3DGS SDK 0.1
+# Native3DGS SDK 0.1.1
 
 Windows 11 x64, VS 2026/MSVC 19.50, C++20, Release `/MD`. Install the matching VC runtime on the destination machine. The SDK supplies native static libraries; consumers must use the matching compiler/runtime. Desktop UI is owned by the consumer.
 
@@ -17,6 +17,8 @@ Create an engine, obtain its snapshot's surface generation, then call `addref_su
 
 `open` returns a request ID. Poll `snapshot` for real decode/upload progress and errors. Scene/camera replacement commits after the first successful Present. A failed/cancelled replacement retains the active scene. `camera_command` provides orbit, pan, dolly, look, fly, mode, fit, reset, FlipX, FlipY and FlipZ. For each axis command, set `CameraCommand::flip_enabled` to the desired Boolean state. Axes can be combined; when an odd number are enabled, the host must mirror the composed image horizontally. Even combinations need no screen mirror. This changes only the view, never the model. Other inputs use physical pixels and seconds. `resize` accepts physical dimensions; 0x0 pauses presentation. Call `close` and wait for `SceneCleared` before assuming memory is released.
 
+Renderer creation runs a bounded GPU radix-sort readback test before the engine becomes ready. `snapshot().stats.sort_shader_mode` reports `Standard`, `FixedWave32` or `WaveAgnostic`; `sort_self_test_passed` confirms the selected variant. `wave32_fallback_hr` is nonzero if fixed wave32 pipeline setup or validation failed and the wave-agnostic variant passed. A failed final self-test returns `ShaderFailure` from `create_engine` and no surface queue is exposed.
+
 Poll `poll_events` regularly. The bounded queue reports dropped events in the snapshot; snapshots remain authoritative. On `DeviceLost`, unbind the old UI surface and release every old swapchain/queue/device reference, then acknowledge the reported generation. Recovery pauses for at most ten seconds. Wait for `SurfaceRebindRequired`, acquire the new generation's queue, create and attach a fresh surface. Ready resumes after Present. A timeout is a persistent failure; shut down and create a new engine after resolving the cause.
 
 For an intentional surface detach, wait for `SurfaceDetached` before releasing host references or recreating buffers. `request_shutdown` returns immediately; poll Stopped or call `wait_until_stopped` from a background thread. Destroy after Stopped. Destruction joins workers and can block if invoked early. Do not issue commands concurrently with object destruction.
@@ -24,4 +26,4 @@ The console validation host ends its process with exit code 2 if shutdown exceed
 
 See `SPEC-engine-sdk.md`, `GUI/README.md` and verification records for scope and evidence. Spark SSIM, PresentMon and AMD/Intel gates remain external acceptance work.
 
-The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.1.0-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console.
+The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.1.1-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.

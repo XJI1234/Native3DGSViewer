@@ -70,12 +70,14 @@
     <Manifest Include="app.manifest" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h" />
+    <ClInclude Include="app_log.h" />
     <ClInclude Include="MainWindow.xaml.h" />
     <ClInclude Include="MainWindow.xaml.bootstrap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp"><PrecompiledHeader>Create</PrecompiledHeader></ClCompile>
     <ClCompile Include="App.xaml.cpp" />
+    <ClCompile Include="app_log.cpp" />
     <ClCompile Include="MainWindow.xaml.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />

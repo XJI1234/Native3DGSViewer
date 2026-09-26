@@ -8,6 +8,7 @@
 #include <cmath>
 #include <d3d12sdklayers.h>
 #include <deque>
+#include <cstdio>
 #include <mutex>
 #include <thread>
 
@@ -26,6 +27,24 @@ using Clock = std::chrono::steady_clock;
 RenderError failure(RenderErrorCode code, HRESULT hr = S_OK, const char *text = "")
 {
     return {code, hr, std::string(text).substr(0, 512)};
+}
+std::string budget_diagnostic(const char *stage, uint64_t required,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &local,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &nonlocal, bool uma,
+                              HRESULT nonlocal_hr)
+{
+    char query_hr[11]{};
+    snprintf(query_hr, sizeof(query_hr), "0x%08X", static_cast<uint32_t>(nonlocal_hr));
+    return std::string(stage) + " UMA=" + (uma ? "1" : "0") +
+           " required_local=" + std::to_string(required) +
+           " local_budget=" + std::to_string(local.Budget) +
+           " local_usage=" + std::to_string(local.CurrentUsage) +
+           " required_nonlocal=" + std::to_string(uma ? 0 : upload_reserve_bytes) +
+           " nonlocal_query_hr=" + query_hr +
+           " nonlocal_budget=" + (SUCCEEDED(nonlocal_hr) ?
+               std::to_string(nonlocal.Budget) : "unavailable") +
+           " nonlocal_usage=" + (SUCCEEDED(nonlocal_hr) ?
+               std::to_string(nonlocal.CurrentUsage) : "unavailable");
 }
 bool same_camera(const CameraState &a, const CameraState &b)
 {
@@ -173,14 +192,22 @@ class Renderer final : public IRenderer
             return failure(RenderErrorCode::OutOfVideoMemory);
 #endif
         DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
-        if (FAILED(surface_adapter_->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL,
-                                                          &local)) ||
-            FAILED(surface_adapter_->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL,
-                                                          &nonlocal)))
-            return failure(RenderErrorCode::InternalFailure);
-        if (!fits_budget(incremental_bytes(*scene), local.Budget, local.CurrentUsage) ||
-            !fits_budget(8ull << 20, nonlocal.Budget, nonlocal.CurrentUsage))
-            return failure(RenderErrorCode::OutOfVideoMemory);
+        const auto local_hr = surface_adapter_->QueryVideoMemoryInfo(
+            0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local);
+        if (FAILED(local_hr))
+            return failure(RenderErrorCode::InternalFailure, local_hr, "Local budget");
+        const auto nonlocal_hr = surface_adapter_->QueryVideoMemoryInfo(
+            0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
+        if (!surface_uma_ && FAILED(nonlocal_hr))
+            return failure(RenderErrorCode::InternalFailure, nonlocal_hr, "Nonlocal budget");
+        const auto required = incremental_bytes(*scene);
+        if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
+                                nonlocal.Budget, nonlocal.CurrentUsage, surface_uma_))
+        {
+            const auto diagnostic = budget_diagnostic("upload_admission", required, local,
+                                                       nonlocal, surface_uma_, nonlocal_hr);
+            return failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str());
+        }
         Command c{Command::Kind::Upload};
         c.ticket = ++next_ticket_;
         c.scene = std::move(scene);
@@ -400,6 +427,13 @@ class Renderer final : public IRenderer
         gpu_ = std::make_unique<GpuDevice>(diagnostics, adapter_luid_);
         adapter_luid_ = gpu_->adapter_description.AdapterLuid;
         pass_ = std::make_unique<SplatPass>(*gpu_, quality_);
+        pass_->sort().validate();
+        {
+            std::lock_guard lock(mutex_);
+            stats_.sort_shader_mode = pass_->sort().mode();
+            stats_.sort_self_test_passed = true;
+            stats_.wave32_fallback_hr = pass_->sort().wave32_fallback_hr();
+        }
         D3D12_DESCRIPTOR_HEAP_DESC heap{};
         heap.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
         heap.NumDescriptors = 3;
@@ -435,6 +469,7 @@ class Renderer final : public IRenderer
         surface_queue_ = gpu_->direct;
         surface_device_ = gpu_->device;
         surface_adapter_ = gpu_->adapter;
+        surface_uma_ = gpu_->uma;
     }
     void rebuild_targets()
     {
@@ -587,13 +622,21 @@ class Renderer final : public IRenderer
             if (control_ && control_->fail_allocation.exchange(false))
                 throw GpuFailure{E_OUTOFMEMORY, "Injected resource allocation"};
 #endif
-            DXGI_QUERY_VIDEO_MEMORY_INFO budget{};
-            check(gpu_->adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &budget),
+            DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
+            check(gpu_->adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local),
                   "Local budget");
-            if (!fits_budget(incremental_bytes(*scene), budget.Budget, budget.CurrentUsage))
+            const auto nonlocal_hr = gpu_->adapter->QueryVideoMemoryInfo(
+                0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
+            if (!gpu_->uma)
+                check(nonlocal_hr, "Nonlocal budget");
+            const auto required = incremental_bytes(*scene);
+            if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
+                                    nonlocal.Budget, nonlocal.CurrentUsage, gpu_->uma))
             {
+                const auto diagnostic = budget_diagnostic("upload_begin", required, local,
+                                                           nonlocal, gpu_->uma, nonlocal_hr);
                 emit(RendererEvent::Kind::SceneFailed, ticket,
-                     failure(RenderErrorCode::OutOfVideoMemory));
+                     failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str()));
                 return;
             }
             pending_ = std::make_unique<UploadTransaction>(*gpu_, *pass_, std::move(scene), ticket,
@@ -941,6 +984,7 @@ class Renderer final : public IRenderer
     ComPtr<ID3D12CommandQueue> surface_queue_;
     ComPtr<ID3D12Device> surface_device_;
     ComPtr<IDXGIAdapter3> surface_adapter_;
+    bool surface_uma_ = false;
     ComPtr<IDXGISwapChain3> swapchain_;
     std::array<ComPtr<ID3D12Resource>, 3> targets_;
     ComPtr<ID3D12DescriptorHeap> rtv_;

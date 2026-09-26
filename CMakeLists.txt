@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(Native3DGSViewer VERSION 0.1.0 LANGUAGES C CXX)
+project(Native3DGSViewer VERSION 0.1.1 LANGUAGES C CXX)
 
 if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
   message(FATAL_ERROR "Native3DGSViewer requires Windows x64")
@@ -86,6 +86,25 @@ foreach(ENTRY count reduce scan scan_add scatter)
       -Fo "${OUTPUT}" "${CMAKE_SOURCE_DIR}/shaders/parallel_sort.hlsl"
     DEPENDS shaders/parallel_sort.hlsl third_party/parallel-sort/ffx-parallelsort/FFX_ParallelSort.h VERBATIM)
   list(APPEND RENDER_SHADER_OUTPUTS "${OUTPUT}")
+  foreach(VARIANT wave32 wave_agnostic)
+    set(VARIANT_OUTPUT "${RENDER_SHADER_DIRECTORY}/${ENTRY}_${VARIANT}.cso")
+    if(VARIANT STREQUAL "wave32")
+      set(VARIANT_PROFILE cs_6_6)
+      set(VARIANT_DEFINE GS_FORCE_WAVE32)
+    else()
+      set(VARIANT_PROFILE cs_6_0)
+      set(VARIANT_DEFINE GS_WAVE_AGNOSTIC)
+    endif()
+    add_custom_command(OUTPUT "${VARIANT_OUTPUT}"
+      COMMAND "${DXC}" -T ${VARIANT_PROFILE} -E ${ENTRY} -O3 -WX -Ges
+        -D ${VARIANT_DEFINE}
+        -I "${CMAKE_SOURCE_DIR}/shaders"
+        -I "${CMAKE_SOURCE_DIR}/third_party/parallel-sort/ffx-parallelsort"
+        -Fo "${VARIANT_OUTPUT}" "${CMAKE_SOURCE_DIR}/shaders/parallel_sort.hlsl"
+      DEPENDS shaders/parallel_sort.hlsl shaders/FFX_ParallelSort_WaveAgnostic.h
+        third_party/parallel-sort/ffx-parallelsort/FFX_ParallelSort.h VERBATIM)
+    list(APPEND RENDER_SHADER_OUTPUTS "${VARIANT_OUTPUT}")
+  endforeach()
 endforeach()
 foreach(ENTRY reset_args project vertex pixel)
   if(ENTRY STREQUAL "vertex")
@@ -174,6 +193,8 @@ install(FILES "${CMAKE_BINARY_DIR}/Native3DGSConfig.cmake" "${CMAKE_BINARY_DIR}/
 install(DIRECTORY examples/sdk-host/ DESTINATION examples/sdk-host COMPONENT SDK)
 install(FILES docs/SPEC-engine-sdk.md docs/SDK-guide.md README.md docs/engine-sdk-verification.md
   DESTINATION share/Native3DGS COMPONENT SDK)
+install(DIRECTORY docs/ DESTINATION share/Native3DGS/docs COMPONENT SDK)
+install(FILES GUI/README.md DESTINATION share/Native3DGS/GUI COMPONENT SDK)
 install(FILES third_party/README.md DESTINATION share/Native3DGS RENAME dependencies.md COMPONENT SDK)
 foreach(DEP miniply spz zlib zstd parallel-sort)
   if(DEP STREQUAL "miniply")

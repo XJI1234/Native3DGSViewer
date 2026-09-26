@@ -30,6 +30,7 @@ class SplatPass
 {
   public:
     SplatPass(GpuDevice &, QualityConfig);
+    SortPass &sort() { return sort_; }
     std::shared_ptr<SceneGpu> allocate(SceneHandle, UploadTicket, CameraState);
     FrameConstants constants(const SceneGpu &, Viewport) const;
     void project_sort(ID3D12GraphicsCommandList *, SceneGpu &, Viewport);
