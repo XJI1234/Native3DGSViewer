@@ -1,6 +1,6 @@
 # Windows 原生 3DGS 查看器系统技术实现设计
 
-状态：系统集成待验收；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)及[desktop-viewer](SPEC-desktop-viewer.md)。model-io 与 render-core 工程、独立测试及联合测试已建立；桌面应用、Spark 画质对照和整机性能基准仍待实施。模块证据见[render-core 验证记录](render-core-verification.md)。
+状态：非 UI 引擎与 SDK 已实现，外部验收待完成；2026-09-26。本文件整合[总技术计划](technical-development-plan.md)、[model-io](SPEC-model-io.md)、[render-core](SPEC-render-core.md)及[desktop-viewer](SPEC-desktop-viewer.md)。纯相机及请求协调移至独立 [engine/SDK](SPEC-engine-sdk.md)，供桌面宿主复用，依赖方向为 shared types → model-io/render-core → engine → desktop host。模块、联合与 SDK 消费测试见[引擎验证记录](engine-sdk-verification.md)。桌面应用、Spark 画质对照和整机性能基准仍待实施。
 
 ## 1. 产品边界和验收总则
 

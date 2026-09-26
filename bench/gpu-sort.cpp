@@ -1,4 +1,6 @@
 #include "gpu.h"
+#include <charconv>
+#include <cstring>
 #include <iostream>
 #include <numeric>
 #include <random>
@@ -6,10 +8,18 @@
 using namespace gs::render::detail;
 int main(int argc, char **argv)
 {
-    const uint32_t n = argc > 1 ? uint32_t(std::stoul(argv[1])) : 8'000'000;
-    const uint32_t iterations = argc > 2 ? uint32_t(std::stoul(argv[2])) : 3;
-    if (n == 0 || n > 8'000'000 || iterations == 0 || iterations > 1000)
+    uint32_t n = 8'000'000, iterations = 3;
+    auto parse = [](const char *text, uint32_t &value) {
+        const auto end = text + std::strlen(text);
+        const auto result = std::from_chars(text, end, value);
+        return result.ec == std::errc{} && result.ptr == end;
+    };
+    if (argc > 3 || (argc > 1 && !parse(argv[1], n)) || (argc > 2 && !parse(argv[2], iterations)) ||
+        n == 0 || n > 8'000'000 || iterations == 0 || iterations > 1000)
+    {
+        std::cerr << "Usage: SortBench [count:1..8000000] [iterations:1..1000]\n";
         return 2;
+    }
     try
     {
         GpuDevice gpu;
@@ -56,7 +66,7 @@ int main(int argc, char **argv)
         q.Count = 2;
         check(gpu.device->CreateQueryHeap(&q, IID_PPV_ARGS(&queries)), "Benchmark timestamps");
         auto readback = gpu.buffer(16, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
-        std::cout << "iteration,count,gpu_sort_ms\n";
+        std::wcout << L"iteration,count,gpu_sort_ms\n";
         for (uint32_t i = 0; i < iterations; ++i)
         {
             check(allocator->Reset(), "Benchmark allocator reset");
@@ -74,8 +84,8 @@ int main(int argc, char **argv)
             uint64_t ticks[2];
             memcpy(ticks, mapped, 16);
             readback->Unmap(0, &empty);
-            std::cout << i << "," << n << ","
-                      << 1000.0 * (ticks[1] - ticks[0]) / gpu.timestamp_frequency << "\n";
+            std::wcout << i << L"," << n << L","
+                       << 1000.0 * (ticks[1] - ticks[0]) / gpu.timestamp_frequency << L"\n";
         }
     }
     catch (const GpuFailure &e)

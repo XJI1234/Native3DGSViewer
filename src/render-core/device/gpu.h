@@ -13,8 +13,9 @@ struct GpuFailure
 {
     HRESULT hr;
     const char *operation;
+    RenderErrorCode code = RenderErrorCode::InternalFailure;
 };
-void check(HRESULT, const char *);
+void check(HRESULT, const char *, RenderErrorCode = RenderErrorCode::InternalFailure);
 void transition(ID3D12GraphicsCommandList *, ID3D12Resource *, D3D12_RESOURCE_STATES,
                 D3D12_RESOURCE_STATES);
 void uav_barrier(ID3D12GraphicsCommandList *);

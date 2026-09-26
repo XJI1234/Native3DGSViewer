@@ -57,7 +57,8 @@ enum class RenderErrorCode : uint8_t
     DeviceRemoved,
     SurfaceLost,
     Cancelled,
-    InternalFailure
+    InternalFailure,
+    GpuTimeout
 };
 struct RenderError
 {
@@ -95,6 +96,8 @@ struct RenderStats
     uint64_t candidate_splats = 0, drawn_splats = 0, sort_reuse_count = 0,
              completed_upload_bytes = 0;
     uint64_t rejected_projection_splats = 0;
+    uint64_t sort_pass_count = 0;
+    uint64_t wrong_thread_frame_calls = 0;
     uint64_t local_budget_bytes = 0, local_usage_bytes = 0;
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
     uint32_t device_recovery_count = 0;

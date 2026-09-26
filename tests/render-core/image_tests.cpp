@@ -125,3 +125,15 @@ TEST(RenderImage, ColorClampAndShCapAreAppliedAfterEvaluation)
     EXPECT_FLOAT_EQ(image.projected[7], 0);
     EXPECT_FLOAT_EQ(image.projected[8], 0.4f);
 }
+
+TEST(RenderImage, ThinAnisotropicSplatRetainsPositiveMinorAxis)
+{
+    auto image = render_image(make_scene(1, 0, [](SceneData &s) {
+        s.scales = {0.4f, 0.00004f, 0.2f};
+        s.rotations = {0, 0, float(std::sin(0.37)), float(std::cos(0.37))};
+    }));
+    ASSERT_EQ(image.candidates, 1u);
+    const double f = 64 / std::tan(CameraState{}.vertical_fov_radians / 2);
+    EXPECT_NEAR(std::hypot(image.projected[4], image.projected[5]), 3 * f * 0.00004 / 2, 1e-6);
+    EXPECT_EQ(image.rejected, 0u);
+}

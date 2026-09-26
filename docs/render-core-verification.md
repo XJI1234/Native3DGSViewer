@@ -3,6 +3,7 @@
 2026-09-26，Windows 11 x64，VS 2026 / MSVC 19.50，CMake 4.3.2，clang-format 20.1.8。
 本机硬件为 NVIDIA GeForce RTX 3080，驱动 32.0.16.1656，FL12.0、SM6.0、WaveOps，wave lane 32。
 模块契约见 [SPEC-render-core](SPEC-render-core.md)，源码入口为 `include/render-core/renderer.h`。
+本记录保留初版 f328bd7 的证据；SDK 完善后的数值回归、相机/引擎测试、当前 shader 哈希与基准见 [engine-sdk-verification](engine-sdk-verification.md)。
 
 ## 构建与模块测试
 

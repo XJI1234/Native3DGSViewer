@@ -1,12 +1,12 @@
 #include "contracts.h"
-#include <algorithm>
 #include <cmath>
-#include <limits>
 
 namespace gs::render::detail
 {
 namespace
 {
+constexpr uint64_t max_splats = 8'000'000;
+constexpr uint8_t max_sh_degree = 3;
 bool finite3(Double3 v)
 {
     return std::isfinite(v.x) && std::isfinite(v.y) && std::isfinite(v.z);
@@ -39,10 +39,14 @@ std::optional<RenderError> validate_camera(const CameraState &c)
 }
 uint64_t scene_bytes(const SplatScene &s)
 {
+    if (s.count > max_splats || s.shDegree > max_sh_degree)
+        return UINT64_MAX;
     return s.count * (14ull + 3ull * ((s.shDegree + 1) * (s.shDegree + 1) - 1)) * sizeof(float);
 }
 uint64_t incremental_bytes(const SplatScene &s)
 {
+    if (s.count > max_splats || s.shDegree > max_sh_degree)
+        return UINT64_MAX;
     // Attributes, projected ellipses, two key/value pairs, sort scratch and copy pages.
     return scene_bytes(s) + s.count * (48ull + 16ull) + 16ull * ((s.count + 511) / 512) * 4 +
            (8ull << 20);
@@ -56,10 +60,11 @@ bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage)
 }
 std::optional<RenderError> validate_scene(const SceneHandle &s)
 {
-    if (!s || s->count == 0 || s->count > 8'000'000 || s->shDegree > 3 || !s->storage ||
-        !finite3(s->worldOrigin) || !finite3(s->bounds.min) || !finite3(s->bounds.max) ||
-        !std::isfinite(s->maxScale) || s->maxScale <= 0 || s->bounds.min.x > s->bounds.max.x ||
-        s->bounds.min.y > s->bounds.max.y || s->bounds.min.z > s->bounds.max.z)
+    if (!s || s->count == 0 || s->count > max_splats || s->shDegree > max_sh_degree ||
+        !s->storage || !finite3(s->worldOrigin) || !finite3(s->bounds.min) ||
+        !finite3(s->bounds.max) || !std::isfinite(s->maxScale) || s->maxScale <= 0 ||
+        s->bounds.min.x > s->bounds.max.x || s->bounds.min.y > s->bounds.max.y ||
+        s->bounds.min.z > s->bounds.max.z)
         return invalid(RenderErrorCode::InvalidScene);
     const auto n = s->count;
     if (s->centerLocal.size() != 3 * n || s->scale.size() != 3 * n || s->rotation.size() != 4 * n ||

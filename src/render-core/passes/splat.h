@@ -1,6 +1,7 @@
 #pragma once
 #include "contracts.h"
 #include "gpu.h"
+#include "layout.h"
 
 namespace gs::render::detail
 {
