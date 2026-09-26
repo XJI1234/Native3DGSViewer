@@ -15,18 +15,19 @@
 | `splat-types` | 不可变规范化场景和公共数学值类型 | `SplatScene`、`SourceFormat`、`SceneHandle`、只读数组 | C++20 标准库 |
 | `model-io` | 输入识别、隔离解码、验证和取消 | `IModelLoader::load`、`SceneHandle`、结构化错误/进度 | `splat-types` |
 | `render-core` | D3D12 设备、上传、排序、合成、统计/恢复 | `IRenderer`、ticket、事件、相机/质量配置 | `splat-types`、Windows 图形 API |
-| `desktop-viewer` | WinUI 窗口、文件入口、相机交互及流程编排 | 用户操作与可见状态 | `model-io`、`render-core` |
+| `engine` | 异步请求、相机、渲染线程和 surface 生命周期 | `gs::engine::IEngine` | `model-io`、`render-core` |
+| `desktop-viewer` | WinUI 窗口、文件入口、输入及可见状态 | 用户操作与 SDK 宿主示例 | `engine` |
 
 依赖方向单向：`splat-types` 先于两个底层模块；桌面层最后集成。`model-io` 不调用 D3D12，`render-core` 不知道 PLY/SPZ 或 WinUI，桌面层不接触逐点渲染数据。模块边界以三份规格的公共契约为准，本文定义跨模块时序和交付机制；有冲突时先修订提供者规格和消费者契约测试，再实施。
 
 ```text
-本地文件 -> desktop-viewer -> model-io client -> 每次加载的 helper 进程
-                         SceneHandle <--- 共享只读映射
-                         | upload_scene(scene, initial_camera)
-                         v
-                    render-core -> D3D12 queues -> composition swapchain
-                         | events/stats              |
-                         +--------> desktop-viewer <-+ SwapChainPanel
+本地文件 -> desktop-viewer -> IEngine::open -> model-io helper 进程
+                                 | SceneHandle
+                                 v
+                         engine -> render-core -> D3D12 queues
+                            | snapshot/events              |
+                            v                              v
+                     desktop-viewer <- SwapChainPanel <- composition swapchain
 ```
 
 辅助解码进程由 `model-io` 创建，使用 Job Object 限制内存与收尾；它是崩溃/资源隔离，不声称是恶意文件安全沙箱。宿主为 WinUI 3 单进程，内含 UI STA 线程、协调器工作线程与渲染线程。无需本地服务或联网。第三方源码及 zlib/ZSTD 的版本、补丁与许可证在 `third_party/manifest` 固定，发布包带许可清单。工程内允许 renderer 的 private 头引用 D3D12；公共边界尽量用值类型与 opaque handle，唯一 Win32 图形交界是 queue/swapchain COM 句柄。
@@ -51,7 +52,7 @@
 
 ## 5. 数据、画质与性能契约
 
-`model-io` 统一 RUB、double 世界原点 + float32 局部坐标、中心包围盒/最大尺度、xyzw 四元数、正尺度、opacity、训练色值域的 `rgb0` 和实际 SH 阶数。renderer 以 CPU double 差值生成相机相对 float 坐标，D3D 投影 `[0,1]` 深度并统一执行已锁定的颜色转换；桌面层不改动模型数据或轴向契约。GUI 的“翻转 Z”是仅供浏览的显示镜像，由相机与视口呈现变换完成。格式源坐标、SH 顺序/符号、颜色空间和截图相机均建立小样本测试。对不能确定坐标约定的 PLY，由用户/配置显式选择，默认 RDF；不猜测。
+`model-io` 统一 RUB、double 世界原点 + float32 局部坐标、中心包围盒/最大尺度、xyzw 四元数、正尺度、opacity、训练色值域的 `rgb0` 和实际 SH 阶数。renderer 以 CPU double 差值生成相机相对 float 坐标，D3D 投影 `[0,1]` 深度并统一执行已锁定的颜色转换；桌面层不改动模型数据或轴向契约。GUI 的“翻转 Y”是仅供浏览的显示镜像；SDK 提供 X、Y、Z 三轴独立镜像命令。格式源坐标、SH 顺序/符号、颜色空间和截图相机均建立小样本测试。对不能确定坐标约定的 PLY，由用户/配置显式选择，默认 RDF；不猜测。
 
 质量配置须记录排序模式、SH 上限、Gaussian 截断范围、最小 alpha、协方差 blur、透明混合、色彩空间、实际物理像素与 GPU shader hash。首期默认 GPU 径向排序，与 Spark 2.0 默认行为对齐；保留视深度诊断选项。等画质前须实测现有 Viewer 的实际参数和版本，不能仅看 Spark 2.0 默认值。GPU 每帧可见集、radix sort、椭圆投影、SH 着色及 alpha 混合不得读回 CPU 排序数据。着色器优化先过固定视角截图，再进入性能验收。
 

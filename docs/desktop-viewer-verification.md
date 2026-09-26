@@ -5,12 +5,12 @@
 ## 已验证
 
 - Release x64 解决方案构建成功，生成 `out/Release/Native3DGSViewer.GUI.exe`。
-- `ctest --test-dir out/cmake -C Release --output-on-failure`：ModelIo、RenderCore、ModelRenderIntegration、DesktopViewer 四组通过。
+- `ctest --test-dir out/cmake -C Release --output-on-failure`：ModelIo、RenderCore、ModelRenderIntegration、Engine、InstalledSDK 五组通过。Engine 组覆盖 X/Y/Z 各轴组合的几何关系与加载期间翻转状态保持。
 - `packaging/build-installer.ps1 -SkipBuild` 生成自包含 Inno Setup 安装包；包内含模型辅助进程、9 个 shader、Windows App SDK 文件、应用本地 VC 运行库与第三方许可。
-- 安装包静默安装到独立目录后，使用 `hornedlizard.spz` 启动程序；向窗口发送正常关闭消息后进程退出；静默卸载成功。
-- 用户使用自己的模型确认现有查看效果良好。Z 镜像的相机空间关系由非默认角度测试覆盖。
+- 安装包静默安装到独立目录后，使用父目录的 `1.ply` 启动程序；窗口正常关闭且退出码为 0；静默卸载成功。
+- 用户使用自己的模型确认先前查看效果良好。当前版本的 SDK 接入、三轴翻转和固定模式拖拽方向尚待用户以该模型重新人工确认。
 
-本次安装包 SHA-256：`8830F84A49A7A84E2905AE43BA0B9111F2C69695AA4CD85B21753BD91ECB24BB`。产物位于 `out/installer/Native3DGSViewer-Setup-x64.exe`，属于本机构建产物，不纳入 Git。
+本次安装包 SHA-256：`ABB4E50C315C9119383190C64309C314C4341C2670EFAC99E490B3F78DA3B6C3`。产物位于 `out/installer/Native3DGSViewer-Setup-x64.exe`，属于本机构建产物，不纳入 Git。
 
 ## 待验收
 

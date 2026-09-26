@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <numeric>
 #include <gtest/gtest.h>
 #include <thread>
 #include <wrl/client.h>
@@ -159,6 +160,46 @@ TEST(EngineRuntime, LatestRequestWinsAndCancelPreservesActiveScene)
     EXPECT_FALSE(s.engine->resize(generation, {128, 128}));
     ASSERT_TRUE(until([&] { return s.engine->snapshot().phase == Phase::Ready; }));
     EXPECT_EQ(s.engine->snapshot().active_request, last);
+}
+TEST(EngineRuntime, AxisFlipsPersistAcrossPendingSceneActivation)
+{
+    Fixture file;
+    Session s;
+    auto first = s.open(file.path);
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().active_request == first; }));
+    const auto original = s.engine->snapshot().camera;
+    const auto generation = s.engine->snapshot().surface_generation;
+    ASSERT_FALSE(s.engine->resize(generation, {0, 0}));
+    const auto second = s.open(file.path);
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().phase == Phase::Uploading; }));
+    CameraCommand flip{CameraAction::FlipY};
+    flip.flip_enabled = true;
+    ASSERT_FALSE(s.engine->camera_command(flip));
+    EXPECT_EQ(s.engine->snapshot().flip_axes, 2);
+    ASSERT_FALSE(s.engine->resize(generation, {128, 128}));
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().active_request == second; }));
+    const auto state = s.engine->snapshot();
+    ASSERT_TRUE(state.active_scene);
+    EXPECT_NEAR(state.camera.orientation_xyzw.z, 1, 1e-9);
+    flip.flip_enabled = false;
+    ASSERT_FALSE(s.engine->camera_command(flip));
+    EXPECT_EQ(s.engine->snapshot().flip_axes, 0);
+    EXPECT_NEAR(s.engine->snapshot().camera.position_rub.z, original.position_rub.z, 1e-9);
+    EXPECT_NEAR(s.engine->snapshot().camera.orientation_xyzw.w, 1, 1e-9);
+    flip.action = CameraAction::FlipX;
+    flip.flip_enabled = true;
+    ASSERT_FALSE(s.engine->camera_command(flip));
+    flip.action = CameraAction::FlipZ;
+    ASSERT_FALSE(s.engine->camera_command(flip));
+    EXPECT_EQ(s.engine->snapshot().flip_axes, 5);
+    const double center_z = std::midpoint(state.active_scene->bounds.min.z,
+                                          state.active_scene->bounds.max.z);
+    EXPECT_NEAR(s.engine->snapshot().camera.position_rub.z,
+                2 * center_z - original.position_rub.z, 1e-9);
+    flip.action = CameraAction::FlipY;
+    ASSERT_FALSE(s.engine->camera_command(flip));
+    EXPECT_EQ(s.engine->snapshot().flip_axes, 7);
+    EXPECT_NEAR(s.engine->snapshot().camera.orientation_xyzw.x, 1, 1e-9);
 }
 TEST(EngineRuntime, BoundedEventsAndShutdownRejectNewWork)
 {

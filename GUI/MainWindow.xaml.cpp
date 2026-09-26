@@ -2,9 +2,11 @@
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.xaml.g.hpp")
 #include "MainWindow.xaml.g.hpp"
-#else
+#elif __has_include("MainWindow.xaml.g.hpp.backup")
 // The WinUI XAML target moves the second-pass generated implementation to .backup.
 #include "MainWindow.xaml.g.hpp.backup"
+#else
+#include "MainWindow.xaml.bootstrap.h"
 #endif
 
 #include <commctrl.h>
@@ -57,15 +59,15 @@ void MainWindow::initialize_viewer()
     winrt::check_hresult(QueryInterface(IID_PPV_ARGS(native.put())));
     winrt::check_hresult(native->get_WindowHandle(&hwnd_));
     SetWindowSubclass(hwnd_, keyboard_proc, 1, reinterpret_cast<DWORD_PTR>(this));
-    auto weak = get_weak();
-    auto dispatcher = DispatcherQueue();
-    engine_ = std::make_unique<gs::desktop::ViewerEngine>(
-        [weak, dispatcher](gs::desktop::EngineMessage message) mutable {
-            dispatcher.TryEnqueue([weak, message = std::move(message)]() mutable {
-                if (auto self = weak.get()) self->on_engine_message(std::move(message));
-            });
-        });
-    engine_->start();
+    auto created = gs::engine::create_engine();
+    if (auto *ready = std::get_if<std::unique_ptr<gs::engine::IEngine>>(&created))
+    {
+        engine_ = std::move(*ready);
+        open_button_.IsEnabled(true);
+        try { create_surface(); if (generation_) set_status(L"就绪"); }
+        catch (...) { set_status(L"无法创建渲染视口"); }
+    }
+    else set_status(L"当前设备不支持此渲染器");
     int count = 0;
     auto args = CommandLineToArgvW(GetCommandLineW(), &count);
     if (args)
@@ -73,6 +75,7 @@ void MainWindow::initialize_viewer()
         if (count == 2) initial_path_ = args[1];
         LocalFree(args);
     }
+    try_open_initial();
 }
 
 void MainWindow::build_interface()
@@ -83,7 +86,7 @@ void MainWindow::build_interface()
     close_button_ = root_.FindName(L"CloseButton").as<Button>();
     fit_button_ = root_.FindName(L"FitButton").as<Button>();
     reset_button_ = root_.FindName(L"ResetButton").as<Button>();
-    flip_z_button_ = root_.FindName(L"FlipZButton").as<Microsoft::UI::Xaml::Controls::Primitives::ToggleButton>();
+    flip_y_button_ = root_.FindName(L"FlipYButton").as<Microsoft::UI::Xaml::Controls::Primitives::ToggleButton>();
     cancel_button_ = root_.FindName(L"CancelButton").as<Button>();
     orbit_button_ = root_.FindName(L"OrbitButton").as<RadioButton>();
     fly_button_ = root_.FindName(L"FlyButton").as<RadioButton>();
@@ -97,43 +100,33 @@ void MainWindow::build_interface()
 void MainWindow::connect_events()
 {
     open_button_.Click([this](auto&&, auto&&) { pick_file(); });
-    close_button_.Click([this](auto&&, auto&&) { if (engine_) engine_->clear(); });
+    close_button_.Click([this](auto&&, auto&&) { if (engine_) engine_->close(); });
     cancel_button_.Click([this](auto&&, auto&&) {
-        if (engine_) engine_->cancel();
-        ++request_id_;
+        if (engine_) engine_->cancel(request_id_);
         finish_busy();
-        set_status(active_ticket_ ? L"已取消，继续显示当前模型" : L"已取消");
+        set_status(engine_ && engine_->snapshot().active_scene ? L"已取消，继续显示当前模型" : L"已取消");
     });
-    fit_button_.Click([this](auto&&, auto&&) {
-        if (scene_ && camera_.fit(*scene_, viewport(), 3)) submit_camera();
+    fit_button_.Click([this](auto&&, auto&&) { camera_command(gs::engine::CameraAction::Fit); });
+    reset_button_.Click([this](auto&&, auto&&) { camera_command(gs::engine::CameraAction::Reset); });
+    flip_y_button_.Checked([this](auto&&, auto&&) {
+        if (!updating_flip_button_) set_flip_y(true);
     });
-    reset_button_.Click([this](auto&&, auto&&) { camera_.reset(); submit_camera(); });
-    flip_z_button_.Checked([this](auto&&, auto&&) {
-        flip_z_ = true;
-        camera_.set_flip_z(true);
-        submit_camera();
-        auto transform = Microsoft::UI::Xaml::Media::ScaleTransform{};
-        transform.ScaleX(-1);
-        transform.CenterX(scene_panel_.ActualWidth() / 2);
-        scene_panel_.RenderTransform(transform);
-    });
-    flip_z_button_.Unchecked([this](auto&&, auto&&) {
-        flip_z_ = false;
-        camera_.set_flip_z(false);
-        submit_camera();
-        scene_panel_.RenderTransform(Microsoft::UI::Xaml::Media::Transform{nullptr});
+    flip_y_button_.Unchecked([this](auto&&, auto&&) {
+        if (!updating_flip_button_) set_flip_y(false);
     });
     orbit_button_.Checked([this](auto&&, auto&&) {
-        camera_.set_mode(gs::desktop::ViewMode::Orbit);
+        fly_mode_ = false;
+        camera_command(gs::engine::CameraAction::OrbitMode);
         fly_capture_ = false; keys_.fill(false); scene_panel_.ReleasePointerCaptures();
     });
     fly_button_.Checked([this](auto&&, auto&&) {
-        camera_.set_mode(gs::desktop::ViewMode::Fly); keys_.fill(false);
+        fly_mode_ = true;
+        camera_command(gs::engine::CameraAction::FlyMode); keys_.fill(false);
     });
     scene_panel_.SizeChanged([this](auto&&, auto&&) {
-        if (flip_z_)
+        if (flip_y_)
             scene_panel_.RenderTransform().as<Microsoft::UI::Xaml::Media::ScaleTransform>().CenterX(scene_panel_.ActualWidth() / 2);
-        if (!generation_ && engine_ && engine_->has_renderer()) create_surface();
+        if (!generation_ && engine_) create_surface();
         else resize_surface();
         try_open_initial();
     });
@@ -144,7 +137,7 @@ void MainWindow::connect_events()
         last_pointer_ = args.GetCurrentPoint(scene_panel_).Position();
         right_drag_ = args.GetCurrentPoint(scene_panel_).Properties().IsRightButtonPressed();
         dragging_ = true;
-        if (camera_.mode() == gs::desktop::ViewMode::Fly) fly_capture_ = true;
+        if (fly_mode_) fly_capture_ = true;
         scene_panel_.CapturePointer(args.Pointer());
     });
     scene_panel_.PointerMoved([this](auto&&, auto&& args) { on_pointer_move(args); });
@@ -157,9 +150,9 @@ void MainWindow::connect_events()
         scene_panel_.ReleasePointerCaptures();
     });
     scene_panel_.PointerWheelChanged([this](auto&&, auto&& args) {
-        if (!active_ticket_ || camera_.mode() != gs::desktop::ViewMode::Orbit) return;
-        camera_.zoom(args.GetCurrentPoint(scene_panel_).Properties().MouseWheelDelta() / 120.0);
-        submit_camera();
+        if (!engine_ || !scene_ready_ || fly_mode_) return;
+        camera_command(gs::engine::CameraAction::Dolly,
+                       args.GetCurrentPoint(scene_panel_).Properties().MouseWheelDelta() / 120.0);
     });
     scene_panel_.DragOver([](auto&&, auto&& args) {
         args.AcceptedOperation(Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
@@ -168,6 +161,7 @@ void MainWindow::connect_events()
     timer_ = DispatcherTimer{};
     timer_.Interval(std::chrono::milliseconds(16));
     timer_.Tick([this](auto&&, auto&&) {
+        update_engine();
         auto now = std::chrono::steady_clock::now();
         auto dt = std::chrono::duration<double>(now - last_tick_).count();
         last_tick_ = now;
@@ -178,24 +172,24 @@ void MainWindow::connect_events()
             Close();
             return;
         }
-        if (active_ticket_ && fly_capture_ &&
+        if (engine_ && scene_ready_ && fly_capture_ &&
             std::any_of(keys_.begin(), keys_.end(), [](bool v) { return v; }))
         {
-            camera_.move(dt, keys_, shift_);
-            submit_camera();
+            camera_command(gs::engine::CameraAction::Fly,
+                           double(keys_[3]) - double(keys_[2]),
+                           double(keys_[5]) - double(keys_[4]),
+                           double(keys_[0]) - double(keys_[1]), dt, shift_);
         }
     });
     timer_.Start();
     app_window_ = AppWindow();
     app_window_closing_ = app_window_.Closing([this](auto&&, Microsoft::UI::Windowing::AppWindowClosingEventArgs const& args) {
-        if (!generation_ || !engine_ || !engine_->has_renderer()) return;
+        if (!generation_ || !engine_) return;
         args.Cancel(true);
         if (waiting_for_detach_) return;
         waiting_for_detach_ = true;
         detach_started_ = std::chrono::steady_clock::now();
-        engine_->with_renderer([this](auto *renderer) {
-            if (renderer) renderer->detach_swapchain(generation_);
-        });
+        engine_->detach_swapchain(generation_);
     });
     Closed([this](auto&&, auto&&) {
         closing_ = true;
@@ -206,7 +200,7 @@ void MainWindow::connect_events()
         release_surface();
         if (engine_)
         {
-            engine_->stop();
+            engine_->request_shutdown();
             shutdown_thread = std::jthread([engine = std::move(engine_)]() mutable { engine.reset(); });
         }
     });
@@ -227,14 +221,10 @@ void MainWindow::create_surface()
 {
     auto size = viewport();
     if (!engine_ || !size.physical_width || !size.physical_height) return;
-    const auto generation = engine_->with_renderer([](auto *renderer) {
-        return renderer ? renderer->surface_generation() : gs::render::SurfaceGeneration{0};
-    });
+    const auto generation = engine_->snapshot().surface_generation;
     if (!generation) return;
     winrt::com_ptr<ID3D12CommandQueue> queue;
-    queue.attach(engine_->with_renderer([generation](auto *renderer) {
-        return renderer ? renderer->addref_surface_queue(generation) : nullptr;
-    }));
+    queue.attach(engine_->addref_surface_queue(generation));
     if (!queue) { set_status(L"无法初始化图形设备"); return; }
     winrt::com_ptr<IDXGIFactory2> factory;
     winrt::check_hresult(CreateDXGIFactory2(0, IID_PPV_ARGS(factory.put())));
@@ -256,9 +246,7 @@ void MainWindow::create_surface()
     winrt::check_hresult(swapchain_->SetMatrixTransform(&matrix));
     auto native = scene_panel_.as<ISwapChainPanelNative>();
     winrt::check_hresult(native->SetSwapChain(swapchain_.get()));
-    const bool attached = engine_->with_renderer([&](auto *renderer) {
-        return renderer && !renderer->attach_swapchain(generation, swapchain_.get());
-    });
+    const bool attached = !engine_->attach_swapchain(generation, swapchain_.get());
     if (!attached)
     {
         release_surface();
@@ -266,7 +254,6 @@ void MainWindow::create_surface()
         return;
     }
     generation_ = generation;
-    revision_ = 0;
     resize_surface();
 }
 
@@ -287,35 +274,62 @@ void MainWindow::resize_surface()
         winrt::check_hresult(swapchain_->SetMatrixTransform(&matrix));
     }
     if (engine_ && generation_)
-        engine_->with_renderer([this](auto *renderer) {
-            if (renderer) renderer->resize(generation_, ++revision_, viewport());
-        });
+        engine_->resize(generation_, viewport());
 }
 void MainWindow::set_busy(std::wstring_view text)
 {
-    busy_text_.Text(hstring{text});
-    busy_panel_.Visibility(Visibility::Visible);
+    if (busy_panel_.Visibility() != Visibility::Visible ||
+        std::wstring_view{busy_text_.Text()} != text)
+        busy_text_.Text(hstring{text});
+    if (busy_panel_.Visibility() != Visibility::Visible)
+        busy_panel_.Visibility(Visibility::Visible);
 }
 void MainWindow::finish_busy() { busy_panel_.Visibility(Visibility::Collapsed); }
 void MainWindow::set_status(std::wstring_view text) { status_text_.Text(hstring{text}); }
-void MainWindow::submit_camera()
+void MainWindow::camera_command(gs::engine::CameraAction action, double x, double y,
+                                double z, double seconds, bool fast)
 {
-    if (active_ticket_ && engine_)
-        engine_->with_renderer([this](auto *renderer) {
-            if (renderer) renderer->set_camera(active_ticket_, camera_.camera());
-        });
+    if (engine_ && engine_->camera_command({action, x, y, z, seconds, fast}) &&
+        (action == gs::engine::CameraAction::Fit || action == gs::engine::CameraAction::Reset))
+        set_status(L"无法调整视角");
+}
+void MainWindow::set_flip_y(bool enabled)
+{
+    gs::engine::CameraCommand command{gs::engine::CameraAction::FlipY};
+    command.flip_enabled = enabled;
+    if (!engine_ || engine_->camera_command(command))
+    {
+        updating_flip_button_ = true;
+        flip_y_button_.IsChecked(flip_y_);
+        updating_flip_button_ = false;
+        set_status(L"无法翻转视角");
+        return;
+    }
+    flip_y_ = enabled;
+    if (enabled)
+    {
+        auto transform = Microsoft::UI::Xaml::Media::ScaleTransform{};
+        transform.ScaleX(-1);
+        transform.CenterX(scene_panel_.ActualWidth() / 2);
+        scene_panel_.RenderTransform(transform);
+    }
+    else scene_panel_.RenderTransform(Microsoft::UI::Xaml::Media::Transform{nullptr});
 }
 void MainWindow::open_path(std::filesystem::path path)
 {
     if (!engine_) return;
-    request_id_ = engine_->open(std::move(path), viewport(), flip_z_);
+    auto request = engine_->open({path});
+    if (auto *id = std::get_if<gs::engine::RequestId>(&request))
+        request_id_ = *id;
+    else { set_status(L"无法打开此模型文件"); return; }
+    pending_path_ = std::move(path);
     set_busy(L"正在读取模型");
     set_status(L"正在打开模型");
 }
 
 void MainWindow::try_open_initial()
 {
-    if (initial_path_.empty() || !engine_ || !engine_->has_renderer() ||
+    if (initial_path_.empty() || !engine_ ||
         !viewport().physical_width) return;
     auto path = std::move(initial_path_);
     initial_path_.clear();
@@ -366,16 +380,17 @@ winrt::fire_and_forget MainWindow::accept_drop(DragEventArgs args)
 
 void MainWindow::on_pointer_move(Microsoft::UI::Xaml::Input::PointerRoutedEventArgs args)
 {
-    if (!active_ticket_ || (!dragging_ && !fly_capture_)) return;
+    if (!engine_ || !scene_ready_ || (!dragging_ && !fly_capture_)) return;
     auto point = args.GetCurrentPoint(scene_panel_).Position();
     const double dx = point.X - last_pointer_.X;
     const double dy = point.Y - last_pointer_.Y;
     last_pointer_ = point;
-    if (camera_.mode() == gs::desktop::ViewMode::Fly || !right_drag_)
-        camera_.rotate(dx, dy);
+    if (fly_mode_)
+        camera_command(gs::engine::CameraAction::Look, dx, dy);
+    else if (right_drag_)
+        camera_command(gs::engine::CameraAction::Pan, dx, dy);
     else
-        camera_.pan(dx, dy, scene_panel_.ActualHeight());
-    submit_camera();
+        camera_command(gs::engine::CameraAction::Orbit, -dx, -dy);
 }
 
 void MainWindow::on_key(UINT message, WPARAM key)
@@ -406,127 +421,91 @@ LRESULT CALLBACK MainWindow::keyboard_proc(HWND hwnd, UINT message, WPARAM key, 
     return DefSubclassProc(hwnd, message, key, other);
 }
 
-void MainWindow::on_engine_message(gs::desktop::EngineMessage message)
+void MainWindow::update_engine()
 {
-    using Kind = gs::desktop::EngineMessage::Kind;
-    using Event = gs::render::RendererEvent::Kind;
-    if (closing_) return;
-    switch (message.kind)
+    if (!engine_ || closing_) return;
+    for (const auto &event : engine_->poll_events())
     {
-    case Kind::Ready:
-        open_button_.IsEnabled(true);
-        try { create_surface(); set_status(L"就绪"); try_open_initial(); }
-        catch (...) { set_status(L"无法创建渲染视口"); }
-        break;
-    case Kind::InitFailed:
-        finish_busy(); set_status(L"当前设备不支持此渲染器"); break;
-    case Kind::LoadProgress:
-        if (message.request_id == request_id_)
+        using Kind = gs::engine::EngineEvent::Kind;
+        switch (event.kind)
         {
-            switch (message.progress.stage)
-            {
-            case gs::io::LoadStage::Opening: set_busy(L"正在打开文件"); break;
-            case gs::io::LoadStage::Inspecting: set_busy(L"正在检查模型"); break;
-            case gs::io::LoadStage::Decoding: set_busy(L"正在读取模型"); break;
-            case gs::io::LoadStage::Validating: set_busy(L"正在验证模型"); break;
-            default: break;
-            }
-        }
-        break;
-    case Kind::UploadStarted:
-        if (message.request_id == request_id_ && message.ticket != active_ticket_)
-        {
-            pending_ticket_ = message.ticket;
-            set_busy(L"正在准备画面");
-        }
-        break;
-    case Kind::LoadFailed:
-        if (message.request_id == request_id_)
-        {
-            finish_busy();
-            set_status(message.load_error == gs::io::LoadErrorCode::OutOfMemory
-                           ? L"内存或显存不足，当前模型仍可浏览" : L"无法打开此模型文件");
-        }
-        break;
-    case Kind::RendererEvent: {
-        const auto &event = message.render_event;
-        if (event.kind == Event::DeviceLost)
-        {
-            keys_.fill(false); fly_capture_ = false; dragging_ = false;
+        case Kind::DeviceLost:
+            keys_.fill(false); fly_capture_ = dragging_ = false;
+            flip_y_button_.IsEnabled(false);
             release_surface();
-            if (waiting_for_detach_)
-            {
-                waiting_for_detach_ = false;
-                Close();
-                break;
-            }
+            if (waiting_for_detach_) { waiting_for_detach_ = false; Close(); return; }
             set_busy(L"正在恢复图形设备");
-            engine_->acknowledge_device_lost();
-        }
-        else if (event.kind == Event::SurfaceDetached && waiting_for_detach_ &&
-                 event.surface_generation == generation_)
-        {
-            release_surface();
-            waiting_for_detach_ = false;
-            Close();
-        }
-        else if (event.kind == Event::SurfaceRebindRequired)
-        {
+            engine_->acknowledge_device_release(event.generation);
+            break;
+        case Kind::SurfaceDetached:
+            if (waiting_for_detach_ && event.generation == generation_)
+            {
+                release_surface(); waiting_for_detach_ = false; Close(); return;
+            }
+            break;
+        case Kind::SurfaceRebindRequired:
             release_surface();
             try { create_surface(); } catch (...) { set_status(L"无法恢复渲染视口"); }
-        }
-        else if (event.kind == Event::SceneReady)
-        {
-            gs::desktop::CameraController camera;
-            std::filesystem::path path;
-            gs::SceneHandle scene;
-            if (engine_->take_upload(event.ticket, camera, path, scene))
+            break;
+        case Kind::SceneReady:
+            if (event.request == request_id_)
             {
-                camera_ = camera;
-                camera_.set_mode(fly_button_.IsChecked().GetBoolean() ?
-                    gs::desktop::ViewMode::Fly : gs::desktop::ViewMode::Orbit);
-                camera_.set_flip_z(flip_z_);
-                scene_ = std::move(scene);
-                active_ticket_ = event.ticket;
-                pending_ticket_ = 0;
-                model_text_.Text(hstring{path.filename().wstring()});
+                model_text_.Text(hstring{pending_path_.filename().wstring()});
                 empty_text_.Visibility(Visibility::Collapsed);
-                close_button_.IsEnabled(true); fit_button_.IsEnabled(true); reset_button_.IsEnabled(true);
-                flip_z_button_.IsEnabled(true);
-                submit_camera();
+                close_button_.IsEnabled(true); fit_button_.IsEnabled(true);
+                reset_button_.IsEnabled(true); flip_y_button_.IsEnabled(true);
+                camera_command(fly_mode_ ? gs::engine::CameraAction::FlyMode
+                                         : gs::engine::CameraAction::OrbitMode);
                 finish_busy(); set_status(L"就绪");
             }
-            else if (event.ticket == active_ticket_) { finish_busy(); set_status(L"就绪"); }
-        }
-        else if (event.kind == Event::SceneFailed && event.ticket == pending_ticket_)
-        {
-            pending_ticket_ = 0;
-            if (!event.error || event.error->code != gs::render::RenderErrorCode::Cancelled)
+            break;
+        case Kind::SceneFailed:
+            if (event.request == request_id_ &&
+                (!event.error || !std::holds_alternative<gs::render::RenderError>(*event.error) ||
+                 std::get<gs::render::RenderError>(*event.error).code !=
+                     gs::render::RenderErrorCode::Cancelled))
             {
-                finish_busy(); set_status(L"无法生成模型画面");
+                finish_busy();
+                const bool out_of_memory = event.error &&
+                    ((std::holds_alternative<gs::io::LoadError>(*event.error) &&
+                      std::get<gs::io::LoadError>(*event.error).code == gs::io::LoadErrorCode::OutOfMemory) ||
+                     (std::holds_alternative<gs::render::RenderError>(*event.error) &&
+                      std::get<gs::render::RenderError>(*event.error).code ==
+                          gs::render::RenderErrorCode::OutOfVideoMemory));
+                set_status(out_of_memory ? L"内存或显存不足，当前模型仍可浏览" : L"无法打开此模型文件");
             }
-        }
-        else if (event.kind == Event::SceneCleared && event.ticket == active_ticket_)
-        {
-            active_ticket_ = 0; scene_.reset();
+            break;
+        case Kind::SceneCleared:
             model_text_.Text(L""); empty_text_.Visibility(Visibility::Visible);
-            close_button_.IsEnabled(false); fit_button_.IsEnabled(false); reset_button_.IsEnabled(false);
-            flip_z_button_.IsEnabled(false);
+            close_button_.IsEnabled(false); fit_button_.IsEnabled(false);
+            reset_button_.IsEnabled(false); flip_y_button_.IsEnabled(false);
             finish_busy(); set_status(L"就绪");
+            break;
+        case Kind::DeviceRestored:
+            flip_y_button_.IsEnabled(engine_->snapshot().active_scene.has_value());
+            finish_busy(); set_status(L"就绪"); break;
+        case Kind::Fault:
+            finish_busy(); set_status(L"图形设备恢复失败"); break;
+        default: break;
         }
-        else if (event.kind == Event::FatalDeviceError)
-        {
-            if (waiting_for_detach_)
-            {
-                release_surface();
-                waiting_for_detach_ = false;
-                Close();
-                break;
-            }
-            finish_busy(); set_status(L"图形设备恢复失败");
-        }
-        break;
     }
+    const auto state = engine_->snapshot();
+    scene_ready_ = state.active_scene.has_value() &&
+                   state.phase != gs::engine::Phase::Recovering &&
+                   state.phase != gs::engine::Phase::Closing &&
+                   state.phase != gs::engine::Phase::Failed;
+    if (state.phase == gs::engine::Phase::Uploading)
+        set_busy(L"正在准备画面");
+    else if (state.phase == gs::engine::Phase::Loading && state.load_progress)
+    {
+        switch (state.load_progress->stage)
+        {
+        case gs::io::LoadStage::Opening: set_busy(L"正在打开文件"); break;
+        case gs::io::LoadStage::Inspecting: set_busy(L"正在检查模型"); break;
+        case gs::io::LoadStage::Decoding: set_busy(L"正在读取模型"); break;
+        case gs::io::LoadStage::Validating: set_busy(L"正在验证模型"); break;
+        default: break;
+        }
     }
 }
 }

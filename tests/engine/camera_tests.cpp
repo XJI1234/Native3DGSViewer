@@ -109,3 +109,75 @@ TEST(EngineCamera, FarOriginAndResizeKeepDoublePose)
     ASSERT_FALSE(c.orbit(100, 0));
     EXPECT_GT(c.camera().position_rub.x, 1e12);
 }
+
+TEST(EngineCamera, AxisFlipsMirrorViewAndSurviveFit)
+{
+    CameraController c;
+    auto scene = std::make_shared<gs::SplatScene>(*render_test::make_scene());
+    scene->bounds = {{1, 2, -3}, {3, 4, -1}};
+    ASSERT_FALSE(c.fit_scene(*scene, {}, {800, 600}));
+    ASSERT_FALSE(c.orbit(130, 45));
+    ASSERT_FALSE(c.pan(20, -10));
+    const auto original = c.camera();
+    const gs::Double3 center{2, 3, -2};
+    EXPECT_NE(original.position_rub.x, center.x);
+    EXPECT_NE(original.position_rub.y, center.y);
+    const auto rotate = [](gs::render::Quaterniond q, gs::Double3 v) {
+        const gs::Double3 a{q.x, q.y, q.z};
+        const auto cross = [](gs::Double3 u, gs::Double3 w) {
+            return gs::Double3{u.y * w.z - u.z * w.y, u.z * w.x - u.x * w.z,
+                               u.x * w.y - u.y * w.x};
+        };
+        const auto first = cross(a, v);
+        const auto second = cross(a, {first.x + q.w * v.x, first.y + q.w * v.y,
+                                      first.z + q.w * v.z});
+        return gs::Double3{v.x + 2 * second.x, v.y + 2 * second.y, v.z + 2 * second.z};
+    };
+    const auto forward = rotate(original.orientation_xyzw, {0, 0, -1});
+    const auto right = rotate(original.orientation_xyzw, {1, 0, 0});
+    for (uint8_t mask = 1; mask < 8; ++mask)
+    {
+        c.set_flip_axes(mask);
+        const auto mirrored = c.camera();
+        const auto f = rotate(mirrored.orientation_xyzw, {0, 0, -1});
+        const auto r = rotate(mirrored.orientation_xyzw, {1, 0, 0});
+        const int sx = mask & 1 ? -1 : 1, sy = mask & 2 ? -1 : 1,
+                  sz = mask & 4 ? -1 : 1;
+        const int screen = (int(bool(mask & 1)) + int(bool(mask & 2)) +
+                            int(bool(mask & 4))) % 2 ? -1 : 1;
+        SCOPED_TRACE(int(mask));
+        EXPECT_NEAR(mirrored.position_rub.x,
+                    center.x + sx * (original.position_rub.x - center.x), 1e-12);
+        EXPECT_NEAR(mirrored.position_rub.y,
+                    center.y + sy * (original.position_rub.y - center.y), 1e-12);
+        EXPECT_NEAR(mirrored.position_rub.z,
+                    center.z + sz * (original.position_rub.z - center.z),
+                    1e-12);
+        EXPECT_NEAR(f.x, sx * forward.x, 1e-12);
+        EXPECT_NEAR(f.y, sy * forward.y, 1e-12);
+        EXPECT_NEAR(f.z, sz * forward.z, 1e-12);
+        EXPECT_NEAR(r.x, screen * sx * right.x, 1e-12);
+        EXPECT_NEAR(r.y, screen * sy * right.y, 1e-12);
+        EXPECT_NEAR(r.z, screen * sz * right.z, 1e-12);
+        const auto q = mirrored.orientation_xyzw;
+        EXPECT_NEAR(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w, 1, 1e-12);
+    }
+    c.set_flip_axes(0);
+    const auto restored = c.camera();
+    EXPECT_DOUBLE_EQ(restored.position_rub.x, original.position_rub.x);
+    EXPECT_DOUBLE_EQ(restored.position_rub.y, original.position_rub.y);
+    EXPECT_DOUBLE_EQ(restored.position_rub.z, original.position_rub.z);
+    EXPECT_DOUBLE_EQ(restored.orientation_xyzw.w, original.orientation_xyzw.w);
+    c.set_flip_axes(2);
+    ASSERT_FALSE(c.fit_scene(*scene, {}, {800, 600}));
+    const auto fitted_mirror = c.camera();
+    CameraController plain;
+    ASSERT_FALSE(plain.fit_scene(*scene, {}, {800, 600}));
+    EXPECT_EQ(c.flip_axes(), 2);
+    EXPECT_DOUBLE_EQ(fitted_mirror.orientation_xyzw.z, 1);
+    EXPECT_DOUBLE_EQ(plain.camera().orientation_xyzw.z, 0);
+    c.reset();
+    c.set_flip_axes(0);
+    const auto reset = c.camera();
+    EXPECT_DOUBLE_EQ(reset.orientation_xyzw.w, 1);
+}

@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Read `docs/technical-development-plan.md` and `docs/system-technical-design.md` for scope, then the module specifications and `docs/SPEC-engine-sdk.md` for contracts. `model-io`, `render-core`, shared scene types, and `src/engine/` are implemented; the desktop app remains planned. Tests are in `tests/model-io/`, `tests/render-core/`, `tests/engine/`, and `tests/sdk/`. Evidence and outstanding acceptance gates are in the verification documents. Pinned source dependencies and licenses are in `third_party/` submodules. Reference PLY/SPZ samples are in the parent workspace, not this project.
+Read `docs/technical-development-plan.md` and `docs/system-technical-design.md` for scope, then the module specifications and `docs/SPEC-engine-sdk.md` for contracts. `model-io`, `render-core`, shared scene types, `src/engine/`, and the WinUI desktop app in `GUI/` are implemented. Tests are in `tests/model-io/`, `tests/render-core/`, `tests/engine/`, and `tests/sdk/`. Evidence and outstanding acceptance gates are in the verification documents. Pinned source dependencies and licenses are in `third_party/` submodules. Reference PLY/SPZ samples are in the parent workspace, not this project.
 
 ## Build, Test, and Development Commands
 
@@ -13,7 +13,7 @@ Initialize dependencies with `git submodule update --init --recursive`. The solu
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' .\out\Release\Native3DGSViewer.Tests.dll /Platform:x64
 ```
 
-The first command builds Release x64 to `out/Release`; the second runs the full GoogleTest executable through a native VS test bridge DLL. Run `ctest --test-dir out/cmake -C Release --output-on-failure` for separate model-io, render-core, joint, engine and installed SDK groups. Build the SDK with `cmake --install out/cmake --config Release --prefix out/sdk --component SDK`; see `docs/SDK-guide.md`. Render tests require a hardware D3D12 FL12.0/SM6.0/WaveOps adapter. No desktop application exists yet.
+The first command builds Release x64 to `out/Release`; the second runs the full GoogleTest executable through a native VS test bridge DLL. Run `ctest --test-dir out/cmake -C Release --output-on-failure` for separate model-io, render-core, joint, engine and installed SDK groups. Build the SDK with `cmake --install out/cmake --config Release --prefix out/sdk --component SDK`; see `docs/SDK-guide.md`. Render tests require a hardware D3D12 FL12.0/SM6.0/WaveOps adapter. `GUI/README.md` documents the desktop host and `packaging/build-installer.ps1` builds its installer.
 
 ## Coding Style & Naming Conventions
 

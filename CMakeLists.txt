@@ -127,7 +127,7 @@ target_include_directories(Native3DGSViewer.SceneBench PRIVATE src/render-core/d
 target_compile_definitions(Native3DGSViewer.SceneBench PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.SceneBench PRIVATE native3dgs-engine)
 add_executable(Native3DGSViewer.Tests
-  tests/model-io/model_io_tests.cpp tests/desktop-viewer/camera_tests.cpp GUI/camera.cpp
+  tests/model-io/model_io_tests.cpp
   tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp
   tests/render-core/test_support.cpp tests/render-core/image_tests.cpp tests/render-core/lifecycle_tests.cpp
   tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp
@@ -145,7 +145,6 @@ add_test(NAME Engine COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_fil
 add_test(NAME InstalledSDK COMMAND pwsh -NoProfile -File "${CMAKE_SOURCE_DIR}/tests/sdk/installed-sdk.ps1"
   -BuildDirectory "${CMAKE_BINARY_DIR}" -Configuration "$<CONFIG>" -Scene "${CMAKE_SOURCE_DIR}/../1.ply")
 set_tests_properties(InstalledSDK PROPERTIES CONFIGURATIONS Release TIMEOUT 180)
-add_test(NAME DesktopViewer COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_filter=DesktopViewer.*)
 
 set(VS_UNITTEST "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Auxiliary/VS/UnitTest")
 add_library(Native3DGSViewer.TestBridge SHARED tests/model-io/vstest_bridge.cpp)

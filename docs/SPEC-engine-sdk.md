@@ -16,6 +16,7 @@ gs::engine::CameraController 使用 double 世界位置、焦点和四元数。�
 - orbit/平移/指数 dolly；pitch 限制到 ±(π/2-0.001)，缩放有限上下界。Fly 模式支持 look 和本地 right/up/forward 运动，Shift 为 4 倍速度，单次 dt 最大 0.1 秒。
 - 模式切换保持当前姿态；reset 恢复首次 fit 保存的相机；resize 不改变姿态，显式 fit 才重算距离。一个 CameraController 对应一个模型，新模型使用新 controller；后续 fit 保留首次 fit 的 reset 基线和当前模式。
 - 非有限输入、零/超限 viewport、不可支持场景均被拒绝；固定输入回放的数值可重复。
+- FlipX、FlipY、FlipZ 命令分别以 `CameraCommand::flip_enabled` 设置三个世界坐标轴的显示镜像，可同时启用多个轴。镜像以模型包围盒中心为固定轴心，轨道平移或自由飞行后仍不移动该轴心。引擎保持原始场景只读，通过镜像视点和相机朝向生成渲染视图。开启奇数个轴时宿主对合成画面做水平镜像以补偿反射；偶数个轴时无需屏幕镜像。翻转位掩码跨模型加载保留，reset/fit 和模式切换不改变它。
 
 ## 引擎契约
 
@@ -23,7 +24,7 @@ IEngine 以线程安全、非阻塞命令向桌面宿主提供 open/cancel/close
 
 - open 每次返回递增 RequestId；仅保留最新一个未启动请求。新请求停止旧解码并撤销旧上传；旧活动场景仍显示。过期解码结果/进度和 renderer ticket 无权改变当前请求。
 - 成功解码后在后台 fit 初始相机并上传；只有 SceneReady 才提交活动模型、相机及 reset 基线。取消/失败恢复旧模型及旧相机。close 取消待命工作，SceneCleared 的 ticket 匹配才清除活动快照；恢复过程中 renderer 尚无活动 scene 而报告 ticket 0 时，正在 Closing 的引擎也接受清场完成。取消和关闭清空请求专属进度。
-- 快照包含 phase、当前/活动 RequestId、活动 ticket、加载和上传进度、活动相机、统计、surface generation 与结构化错误。事件轮询供宿主处理 surface 生命周期；进度通过快照提供。队列有界，丢弃计数公开，不让未轮询宿主造成无限内存增长。
+- 快照包含 phase、当前/活动 RequestId、活动 ticket、加载和上传进度、活动相机、三轴翻转位掩码、统计、surface generation 与结构化错误。事件轮询供宿主处理 surface 生命周期；进度通过快照提供。队列有界，丢弃计数公开，不让未轮询宿主造成无限内存增长。
 - DeviceLost 后渲染线程暂停。宿主在 UI 线程解绑并释放旧 swapchain/queue/device，再调用 acknowledge_device_release(generation)；bool 返回值表示当前等待的 generation 是否接受了确认，过期/重复确认返回 false。只有确认后才重建同 LUID 设备。确认等待最长 10 秒，超时为持续错误。新 generation 的 SurfaceRebindRequired 由宿主绑定新 surface；renderer 首次 Present 后才恢复 Ready。
 - request_shutdown 非阻塞，停止加载/输入/新命令；渲染线程完成 fence 安全解绑及 renderer 销毁后进入 Stopped。wait_until_stopped 有调用者指定超时；UI 应轮询或在后台等待。析构负责最终 join，应在已 Stopped 后销毁，或交给后台线程。
 - 所有错误通过值返回或快照提供；不从后台线程调用宿主/UI 回调。

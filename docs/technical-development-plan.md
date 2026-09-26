@@ -1,7 +1,7 @@
 # Windows 原生 3DGS 查看器技术开发计划
 
 状态：开发前技术方案；2026-09-25。本文是实施依据，不表示渲染器已经建成或达到性能目标。
-实现状态补充（2026-09-26）：首期非 UI 组件已封装为原生 [engine/SDK](SPEC-engine-sdk.md)，测试和性能诊断见[验证记录](engine-sdk-verification.md)。原桌面层的纯相机/加载协调由 SDK 提供；实际桌面外壳和外部画质/性能门槛仍待完成。
+实现状态补充（2026-09-26）：首期非 UI 组件已封装为原生 [engine/SDK](SPEC-engine-sdk.md)，WinUI 3 桌面例程及安装包已实现，见[GUI 指南](../GUI/README.md)和[桌面验证记录](desktop-viewer-verification.md)。外部画质/性能门槛仍待完成。
 
 ## 1. 目标与边界
 
@@ -18,9 +18,10 @@
 | `splat-types` | 不可变场景值类型、格式标识和只读句柄 | `SplatScene`、`SourceFormat`、`SceneHandle` | 无 |
 | `model-io` | 本地 PLY/SPZ 识别、解码、校验、进度与取消；产出统一数据 | `IModelLoader::load`、`LoadResult`、进度/错误 | `splat-types` |
 | `render-core` | D3D12 设备、资源、排序、splat 光栅化、统计 | `upload_scene`、`set_camera`、`resize`、`render_frame`、`get_stats` | `splat-types`；不依赖解码器或 WinUI |
-| `desktop-viewer` | WinUI 3 窗口、文件选择与拖放、相机控制、加载状态 | 调用前两模块，拥有视口和输入事件 | `model-io`、`render-core` |
+| `engine` | 异步加载、相机、渲染及 surface 生命周期 | `gs::engine::IEngine` | `model-io`、`render-core` |
+| `desktop-viewer` | WinUI 3 窗口、文件选择与拖放、输入及加载状态 | 调用 `IEngine`，拥有视口和输入事件 | `engine` |
 
-依赖方向为 `splat-types -> {model-io, render-core} -> desktop-viewer`；两个底层模块不相互依赖。能力图先作为规格评审门槛；确认后分别制定三个模块规格，再按本计划分解实现任务。后续新增格式由 `model-io` 提供，新增 LoD/多视角由 `render-core` 提供，桌面层只编排用户操作。
+依赖方向为 `splat-types -> {model-io, render-core} -> engine -> desktop-viewer`；两个底层模块不相互依赖。后续新增格式由 `model-io` 提供，新增 LoD/多视角由 `render-core` 提供，桌面层只编排用户操作。
 
 统一 `SplatScene` 至少包含：splat 数量、float32 中心、尺度、单位四元数、[0,1] 不透明度、SH 0-3 阶系数及实际阶数、中心包围盒与最大尺度、源格式、坐标约定。DC/SH 保持 3DGS 训练色值域，颜色空间转换由 renderer 统一处理。CPU 解码结果采用分量数组，GPU 上传前按着色器访问模式打包；边界只批量传输缓冲区，不逐 splat 调用。不存在的高阶 SH 不参与着色，保留输入的实际最高阶；非有限数、非法尺度/旋转、截断文件和超大声明数量必须产生可解释的 `LoadError`。解析器先按文件头/格式签名确认类型，不能只信扩展名。
 

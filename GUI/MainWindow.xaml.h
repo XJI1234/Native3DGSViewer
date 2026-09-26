@@ -1,6 +1,6 @@
 #pragma once
 #include "MainWindow.g.h"
-#include "viewer_engine.h"
+#include "native3dgs/engine.h"
 #include <dxgi1_4.h>
 #include <winrt/Microsoft.UI.Windowing.h>
 
@@ -15,7 +15,6 @@ namespace winrt::Native3DGSViewer::implementation
 struct MainWindow : MainWindowT<MainWindow>
 {
     MainWindow();
-    void on_engine_message(gs::desktop::EngineMessage message);
   private:
     void build_interface();
     void initialize_viewer();
@@ -27,7 +26,10 @@ struct MainWindow : MainWindowT<MainWindow>
     void set_busy(std::wstring_view text);
     void finish_busy();
     void set_status(std::wstring_view text);
-    void submit_camera();
+    void update_engine();
+    void camera_command(gs::engine::CameraAction action, double x = 0, double y = 0,
+                        double z = 0, double seconds = 0, bool fast = false);
+    void set_flip_y(bool enabled);
     void open_path(std::filesystem::path path);
     void try_open_initial();
     winrt::fire_and_forget pick_file();
@@ -40,30 +42,27 @@ struct MainWindow : MainWindowT<MainWindow>
     Microsoft::UI::Xaml::Controls::SwapChainPanel scene_panel_{nullptr};
     Microsoft::UI::Xaml::Controls::Button open_button_{nullptr}, close_button_{nullptr};
     Microsoft::UI::Xaml::Controls::Button fit_button_{nullptr}, reset_button_{nullptr};
-    Microsoft::UI::Xaml::Controls::Primitives::ToggleButton flip_z_button_{nullptr};
+    Microsoft::UI::Xaml::Controls::Primitives::ToggleButton flip_y_button_{nullptr};
     Microsoft::UI::Xaml::Controls::Button cancel_button_{nullptr};
     Microsoft::UI::Xaml::Controls::RadioButton orbit_button_{nullptr}, fly_button_{nullptr};
     Microsoft::UI::Xaml::Controls::TextBlock empty_text_{nullptr}, busy_text_{nullptr};
     Microsoft::UI::Xaml::Controls::TextBlock status_text_{nullptr}, model_text_{nullptr};
     Microsoft::UI::Xaml::Controls::Border busy_panel_{nullptr};
     Microsoft::UI::Xaml::DispatcherTimer timer_{nullptr};
-    std::unique_ptr<gs::desktop::ViewerEngine> engine_;
-    gs::desktop::CameraController camera_;
-    gs::SceneHandle scene_;
+    std::unique_ptr<gs::engine::IEngine> engine_;
     std::filesystem::path initial_path_;
+    std::filesystem::path pending_path_;
     winrt::com_ptr<IDXGISwapChain3> swapchain_;
-    gs::render::UploadTicket active_ticket_ = 0;
-    gs::render::UploadTicket pending_ticket_ = 0;
     gs::render::SurfaceGeneration generation_ = 0;
-    gs::render::ViewportRevision revision_ = 0;
-    uint64_t request_id_ = 0;
+    gs::engine::RequestId request_id_ = 0;
     HWND hwnd_ = nullptr;
     std::array<bool, 6> keys_{};
     bool shift_ = false, dragging_ = false, right_drag_ = false, fly_capture_ = false;
     bool closing_ = false;
     bool waiting_for_detach_ = false;
     bool initialized_ = false;
-    bool flip_z_ = false;
+    bool flip_y_ = false, fly_mode_ = false, updating_flip_button_ = false;
+    bool scene_ready_ = false;
     Microsoft::UI::Xaml::XamlRoot xaml_root_{nullptr};
     winrt::event_token xaml_root_changed_{};
     Microsoft::UI::Windowing::AppWindow app_window_{nullptr};

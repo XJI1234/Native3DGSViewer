@@ -10,7 +10,7 @@
                 <Button x:Name="CloseButton" Content="关闭模型" MinHeight="36" IsEnabled="False" />
                 <Button x:Name="FitButton" Content="适配" MinHeight="36" IsEnabled="False" />
                 <Button x:Name="ResetButton" Content="重置" MinHeight="36" IsEnabled="False" />
-                <ToggleButton x:Name="FlipZButton" Content="翻转 Z" MinHeight="36" IsEnabled="False" />
+                <ToggleButton x:Name="FlipYButton" Content="翻转 Y" MinHeight="36" IsEnabled="False" />
             </StackPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
                 <RadioButton x:Name="OrbitButton" Content="固定" GroupName="ViewMode" IsChecked="True" />

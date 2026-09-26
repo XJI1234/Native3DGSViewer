@@ -55,7 +55,7 @@
       <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\out\$(Configuration)\model-io.lib;$(MSBuildProjectDirectory)\..\out\$(Configuration)\render-core.lib;$(MSBuildProjectDirectory)\..\out\$(Configuration)\zlibstatic.lib;d3d12.lib;dxgi.lib;dxguid.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\out\$(Configuration)\native3dgs-engine.lib;$(MSBuildProjectDirectory)\..\out\$(Configuration)\model-io.lib;$(MSBuildProjectDirectory)\..\out\$(Configuration)\render-core.lib;$(MSBuildProjectDirectory)\..\out\$(Configuration)\zlibstatic.lib;d3d12.lib;dxgi.lib;dxguid.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -71,16 +71,13 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="MainWindow.xaml.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="viewer_engine.h" />
+    <ClInclude Include="MainWindow.xaml.bootstrap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp"><PrecompiledHeader>Create</PrecompiledHeader></ClCompile>
     <ClCompile Include="App.xaml.cpp" />
     <ClCompile Include="MainWindow.xaml.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="camera.cpp"><PrecompiledHeader>NotUsing</PrecompiledHeader></ClCompile>
-    <ClCompile Include="viewer_engine.cpp"><PrecompiledHeader>NotUsing</PrecompiledHeader></ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
