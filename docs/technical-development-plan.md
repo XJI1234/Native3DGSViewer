@@ -31,11 +31,11 @@
 ### 3.1 技术栈与工程组织
 
 - 渲染与数据接口：C++20、Direct3D 12、DXGI、DirectXMath、HLSL Shader Model 6.x、Windows SDK 的 DXC。使用 VS 2026 x64 工具链；提交锁定版本的依赖清单与着色器编译配置。
-- 桌面外壳：WinUI 3 / C++/WinRT，`SwapChainPanel` 承载 D3D12 交换链；WinUI UI 线程只处理交互和状态，文件解码与渲染提交不阻塞它。首期以 Windows App SDK 自包含的未打包应用和 ZIP 交付，M4 在干净的 Windows 11 机器上验证运行；签名 MSIX 另列后续发布任务。
+- 桌面外壳：WinUI 3 / C++/WinRT，`SwapChainPanel` 承载 D3D12 交换链；WinUI UI 线程只处理交互和状态，文件解码与渲染提交不阻塞它。当前以 Windows App SDK 自包含的未打包应用和 Inno Setup 安装包交付；干净 Windows 11 机器的验证及正式签名仍是后续发布任务。
 - 解码：采用 [miniply](https://github.com/vilya/miniply) 解析标准二进制 PLY，采用 [Niantic SPZ](https://github.com/nianticlabs/spz) 的原生 C++ 库解析 SPZ；两者锁定具体提交并做输入限制及许可复核。原始 3DGS 的 log-scale、logit-opacity 与 SH DC 转换在 `model-io` 中统一，不在着色器中对不同格式重复分支。
 - 工程：Visual Studio 2026 解决方案管理 WinUI 应用、静态库与 GoogleTest 项目；MSBuild `/restore` 构建，vcpkg manifest 管理测试依赖，miniply/SPZ 以锁定提交的源码依赖集成。性能用 PIX、GPU 时间戳及 PresentMon 定位瓶颈。
 
-项目建议结构：`src/model-io/`、`src/render-core/`、`src/desktop-viewer/`、`include/splat-types/`、`shaders/`、`tests/`、`bench/`、`docs/`。GPU 特性通过运行时检测，无法创建所需 D3D12 设备时显示明确错误，不回落到 WebView 渲染。
+当前结构：`src/model-io/`、`src/render-core/`、`GUI/`、`packaging/`、`include/splat-types/`、`shaders/`、`tests/`、`bench/`、`docs/`。GPU 特性通过运行时检测，无法创建所需 D3D12 设备时显示明确错误，不回落到 WebView 渲染。
 
 ### 3.2 帧与加载的数据流
 
@@ -103,11 +103,13 @@ M1/M2 估算已包含 [model-io 规格](SPEC-model-io.md)规定的辅助解码�
 
 ### 5.3 拟定构建与测试命令
 
-以下命令现可构建并测试 model-io 工程；尚无桌面应用可运行：
+以下命令现可构建并测试桌面应用及底层模块：
 
 ```powershell
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe' .\Native3DGSViewer.sln /restore /m /p:Configuration=Release /p:Platform=x64
 & 'C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' .\out\Release\Native3DGSViewer.Tests.dll /Platform:x64
+ctest --test-dir out/cmake -C Release --output-on-failure
+& .\packaging\build-installer.ps1 -SkipBuild
 ```
 
 M0 需核实 WinUI 3/C++ 模板、Windows App SDK 版本、MSBuild 产物路径与所需 D3D12 feature level，并把测试 DLL 路径固定到构建配置。着色器由项目构建调用 DXC 编译；测试至少覆盖解码、统一数据转换、相机数学、GPU 截图及端到端打开/取消。性能脚本应单独运行，避免把易波动的 FPS 断言放进普通单元测试。

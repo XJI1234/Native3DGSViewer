@@ -6,5 +6,6 @@
   <Target Name="Build">
     <Exec Command="cmake -S &quot;$(MSBuildProjectDirectory)&quot; -B &quot;$(MSBuildProjectDirectory)\out\cmake&quot; -G &quot;Visual Studio 18 2026&quot; -A x64" />
     <Exec Command="cmake --build &quot;$(MSBuildProjectDirectory)\out\cmake&quot; --config $(Configuration) --parallel 4" />
+    <MSBuild Projects="$(MSBuildProjectDirectory)\GUI\Native3DGSViewer.GUI.vcxproj" Targets="Restore;Build" Properties="Configuration=$(Configuration);Platform=x64" />
   </Target>
 </Project>
