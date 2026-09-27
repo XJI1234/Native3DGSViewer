@@ -33,8 +33,8 @@
 
 - 渲染与数据接口：C++20、Direct3D 12、DXGI、DirectXMath、HLSL Shader Model 6.x、Windows SDK 的 DXC。使用 VS 2026 x64 工具链；提交锁定版本的依赖清单与着色器编译配置。
 - 桌面外壳：WinUI 3 / C++/WinRT，`SwapChainPanel` 承载 D3D12 交换链；WinUI UI 线程只处理交互和状态，文件解码与渲染提交不阻塞它。当前以 Windows App SDK 自包含的未打包应用和 Inno Setup 安装包交付；干净 Windows 11 机器的验证及正式签名仍是后续发布任务。
-- 解码：采用 [miniply](https://github.com/vilya/miniply) 解析标准二进制 PLY，采用 [Niantic SPZ](https://github.com/nianticlabs/spz) 的原生 C++ 库解析 SPZ；两者锁定具体提交并做输入限制及许可复核。原始 3DGS 的 log-scale、logit-opacity 与 SH DC 转换在 `model-io` 中统一，不在着色器中对不同格式重复分支。
-- 工程：Visual Studio 2026 解决方案管理 WinUI 应用、静态库与 GoogleTest 项目；MSBuild `/restore` 构建，vcpkg manifest 管理测试依赖，miniply/SPZ 以锁定提交的源码依赖集成。性能用 PIX、GPU 时间戳及 PresentMon 定位瓶颈。
+- 解码：标准二进制 PLY 由 `model-io` 预检头部并按块读取，SPZ 采用 [Niantic SPZ](https://github.com/nianticlabs/spz) 的原生 C++ 库；依赖锁定具体提交并做输入限制及许可复核。原始 3DGS 的 log-scale、logit-opacity 与 SH DC 转换在 `model-io` 中统一，不在着色器中对不同格式重复分支。
+- 工程：Visual Studio 2026 解决方案管理 WinUI 应用、静态库与 GoogleTest 项目；MSBuild `/restore` 构建，vcpkg manifest 管理测试依赖，SPZ 以锁定提交的源码依赖集成，miniply 仅保留为历史参考。性能用 PIX、GPU 时间戳及 PresentMon 定位瓶颈。
 
 当前结构：`src/model-io/`、`src/render-core/`、`GUI/`、`packaging/`、`include/splat-types/`、`shaders/`、`tests/`、`bench/`、`docs/`。GPU 特性通过运行时检测，无法创建所需 D3D12 设备时显示明确错误，不回落到 WebView 渲染。
 

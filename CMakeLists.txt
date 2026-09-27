@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(Native3DGSViewer VERSION 0.1.1 LANGUAGES C CXX)
+project(Native3DGSViewer VERSION 0.1.2 LANGUAGES C CXX)
 
 if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
   message(FATAL_ERROR "Native3DGSViewer requires Windows x64")
@@ -12,7 +12,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/$<CONFIG>")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/third_party/spz/src/cc/load-spz.cc" OR
-   NOT EXISTS "${CMAKE_SOURCE_DIR}/third_party/miniply/miniply.cpp" OR
    NOT EXISTS "${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/src/gtest-all.cc" OR
    NOT EXISTS "${CMAKE_SOURCE_DIR}/third_party/parallel-sort/ffx-parallelsort/FFX_ParallelSort.h")
   message(FATAL_ERROR "Initialize pinned submodules: git submodule update --init --recursive")
@@ -37,20 +36,6 @@ add_library(spz STATIC
 target_include_directories(spz PUBLIC third_party/spz/src/cc)
 target_link_libraries(spz PUBLIC zlibstatic libzstd_static)
 
-# The pinned miniply accepts only narrow filenames. Build a generated adapter
-# with its constructor taking the already-open CRT stream; keep upstream intact.
-set(MINIPLY_GENERATED "${CMAKE_BINARY_DIR}/generated/miniply")
-file(MAKE_DIRECTORY "${MINIPLY_GENERATED}")
-file(READ "${CMAKE_SOURCE_DIR}/third_party/miniply/miniply.h" MINI_H)
-string(REPLACE "PLYReader(const char* filename);" "PLYReader(FILE* stream);" MINI_H "${MINI_H}")
-file(WRITE "${MINIPLY_GENERATED}/miniply.h" "${MINI_H}")
-file(READ "${CMAKE_SOURCE_DIR}/third_party/miniply/miniply.cpp" MINI_CPP)
-string(REPLACE "PLYReader::PLYReader(const char* filename)" "PLYReader::PLYReader(FILE* stream)" MINI_CPP "${MINI_CPP}")
-string(REPLACE "if (file_open(&m_f, filename, \"rb\") != 0)" "m_f = stream;\n    if (m_f == nullptr)" MINI_CPP "${MINI_CPP}")
-file(WRITE "${MINIPLY_GENERATED}/miniply.cpp" "${MINI_CPP}")
-add_library(miniply STATIC "${MINIPLY_GENERATED}/miniply.cpp")
-target_include_directories(miniply PUBLIC "${MINIPLY_GENERATED}")
-
 add_library(model-io STATIC
   src/model-io/client/model_loader.cpp
   src/model-io/common/probe.cpp
@@ -65,8 +50,8 @@ add_executable(model-io-helper
   src/model-io/common/probe.cpp
   src/model-io/normalize/normalize.cpp)
 target_include_directories(model-io-helper PRIVATE include src/model-io/common
-  third_party/spz/src/cc "${MINIPLY_GENERATED}")
-target_link_libraries(model-io-helper PRIVATE miniply spz zlibstatic)
+  third_party/spz/src/cc)
+target_link_libraries(model-io-helper PRIVATE spz zlibstatic)
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/googletest EXCLUDE_FROM_ALL)
@@ -218,7 +203,7 @@ option(NATIVE3DGS_ENABLE_ASAN "Instrument engine, decoders and tests with MSVC A
 if(NATIVE3DGS_ENABLE_ASAN)
   foreach(TARGET_NAME native3dgs-engine render-core render-core-testing model-io model-io-helper
       Native3DGSViewer.Tests Native3DGSViewer.SortBench Native3DGSViewer.SceneBench
-      miniply spz zlibstatic libzstd_static gtest gtest_main)
+      spz zlibstatic libzstd_static gtest gtest_main)
     target_compile_options(${TARGET_NAME} PRIVATE /fsanitize=address /Zi)
   endforeach()
   # Fault helper deliberately exhausts a 128 MiB Job; instrument the actual decoder instead.

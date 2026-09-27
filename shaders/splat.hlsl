@@ -11,6 +11,7 @@ cbuffer Frame : register(b0)
 };
 struct Ellipse { float2 center; float2 axis0; float2 axis1; float4 color; float2 reserved; };
 ByteAddressBuffer scene : register(t0);
+ByteAddressBuffer sh_scene : register(t3);
 RWStructuredBuffer<Ellipse> ellipses : register(u0);
 RWStructuredBuffer<uint> keys : register(u1);
 RWStructuredBuffer<uint> indexes : register(u2);
@@ -33,7 +34,7 @@ float3 sh_color(float3 rgb,float3 dir,uint i)
     b[12]=-0.4570457994644658*x*(4*z*z-x*x-y*y);
     b[13]=1.445305721320277*z*(x*x-y*y); b[14]=-0.5900435899266435*x*(x*x-3*y*y);
     uint n=(meta.y+1)*(meta.y+1)-1;
-    for(uint j=0;j<n;++j) rgb+=asfloat(scene.Load3(offsets1.y+(i*meta.z+j*3)*4))*b[j];
+    for(uint j=0;j<n;++j) rgb+=asfloat(sh_scene.Load3((i*meta.z+j*3)*4))*b[j];
     return saturate(rgb);
 }
 [numthreads(1,1,1)]
@@ -45,8 +46,9 @@ void reject_projection(uint i)
     uint ignored; InterlockedAdd(arguments[4],1,ignored);
 }
 [numthreads(256,1,1)]
-void project(uint i:SV_DispatchThreadID)
+void project(uint3 group:SV_GroupID, uint lane:SV_GroupIndex)
 {
+    uint i=(group.y*65535+group.x)*256+lane;
     if(i>=meta.x) return;
     keys[i]=0xffffffff; indexes[i]=i;
     Ellipse e=(Ellipse)0;

@@ -39,8 +39,13 @@ SceneWriter::SceneWriter(SceneHeader *header, bool rdf) : header_(header), rdf_(
 {
 }
 
-bool SceneWriter::write(uint64_t i, const RawSplat &raw)
+bool SceneWriter::write(uint64_t i, const RawSplat &raw, SplatWriteError *failure)
 {
+    auto reject = [failure](SplatAttribute attribute, uint32_t component) {
+        if (failure)
+            *failure = {attribute, component};
+        return false;
+    };
     constexpr double kC0 = 0.28209479177387814;
     const auto flips =
         spz::coordinateConverter(spz::CoordinateSystem::RDF, spz::CoordinateSystem::RUB);
@@ -48,7 +53,11 @@ bool SceneWriter::write(uint64_t i, const RawSplat &raw)
     {
         if (!std::isfinite(raw.position[k]) || !std::isfinite(raw.logScale[k]) ||
             !std::isfinite(raw.dc[k]))
-            return false;
+            return reject(!std::isfinite(raw.position[k])
+                              ? SplatAttribute::Position
+                              : !std::isfinite(raw.logScale[k]) ? SplatAttribute::Scale
+                                                                : SplatAttribute::Dc,
+                          k);
         const double world = double(raw.position[k]) * (rdf_ ? flips.flipP[k] : 1.0);
         array(header_, Center)[3 * i + k] = static_cast<float>(world);
         min_[k] = std::min(min_[k], world);
@@ -56,23 +65,23 @@ bool SceneWriter::write(uint64_t i, const RawSplat &raw)
         const double scale = std::exp(double(raw.logScale[k]));
         if (!std::isfinite(scale) || scale <= 0 ||
             scale * scale > std::numeric_limits<float>::max() || static_cast<float>(scale) == 0)
-            return false;
+            return reject(SplatAttribute::Scale, k);
         array(header_, Scale)[3 * i + k] = static_cast<float>(scale);
         maxScale_ = std::max(maxScale_, scale);
         const double color = 0.5 + kC0 * double(raw.dc[k]);
         if (!std::isfinite(color) || std::abs(color) > std::numeric_limits<float>::max())
-            return false;
+            return reject(SplatAttribute::Dc, k);
         array(header_, Rgb0)[3 * i + k] = static_cast<float>(color);
     }
     double norm = 0;
     for (int k = 0; k < 4; ++k)
     {
         if (!std::isfinite(raw.rotationXyzw[k]))
-            return false;
+            return reject(SplatAttribute::Rotation, k);
         norm += double(raw.rotationXyzw[k]) * raw.rotationXyzw[k];
     }
     if (!std::isfinite(norm) || norm < 1e-20)
-        return false;
+        return reject(SplatAttribute::Rotation, UINT32_MAX);
     norm = std::sqrt(norm);
     for (int k = 0; k < 4; ++k)
     {
@@ -80,8 +89,8 @@ bool SceneWriter::write(uint64_t i, const RawSplat &raw)
         array(header_, Rotation)[4 * i + k] =
             static_cast<float>(double(raw.rotationXyzw[k]) * flip / norm);
     }
-    if (!std::isfinite(raw.logitAlpha) && !(raw.quantizedAlpha && std::isinf(raw.logitAlpha)))
-        return false;
+    if (std::isnan(raw.logitAlpha))
+        return reject(SplatAttribute::Opacity, 0);
     const double alpha = std::isinf(raw.logitAlpha) ? (raw.logitAlpha > 0 ? 1.0 : 0.0)
                          : raw.logitAlpha >= 0 ? 1.0 / (1.0 + std::exp(-double(raw.logitAlpha)))
                                                : std::exp(double(raw.logitAlpha)) /
@@ -91,7 +100,7 @@ bool SceneWriter::write(uint64_t i, const RawSplat &raw)
     for (uint64_t j = 0; j < n; ++j)
     {
         if (!std::isfinite(raw.sh[j]))
-            return false;
+            return reject(SplatAttribute::Sh, static_cast<uint32_t>(j));
         const float flip = rdf_ ? flips.flipSh[j / 3] : 1.0f;
         array(header_, ShRest)[i * n + j] = raw.sh[j] * flip;
     }

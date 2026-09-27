@@ -3,10 +3,12 @@
 #include "../normalize/normalize.h"
 
 #include "load-spz.h"
-#include "miniply.h"
-
+#include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <memory>
 #include <vector>
 
 namespace gs::io::detail
@@ -24,25 +26,30 @@ LoadError failed(LoadErrorCode code, std::string reason)
 std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coordinates coordinates,
                                     SceneHeader *output)
 {
-    miniply::PLYReader reader(stream); // Owns stream.
-    if (!reader.valid() || reader.file_type() != miniply::PLYFileType::Binary)
-        return failed(LoadErrorCode::InvalidHeader, "miniply rejected header");
-    while (reader.has_element() && !reader.element_is("vertex"))
-        reader.next_element();
-    if (!reader.has_element() || reader.num_rows() != probe.probe.count || !reader.load_element())
-        return failed(LoadErrorCode::TruncatedData, "miniply vertex read");
+    std::unique_ptr<FILE, decltype(&fclose)> file(stream, fclose);
+    if (_fseeki64(stream, static_cast<__int64>(probe.ply.vertexOffset), SEEK_SET))
+        return failed(LoadErrorCode::IoFailure, "PLY vertex seek");
     const uint32_t rest = 3 * ((probe.probe.degree + 1) * (probe.probe.degree + 1) - 1);
     std::array<const char *, 14> base{"x",       "y",      "z",      "scale_0", "scale_1",
                                       "scale_2", "rot_1",  "rot_2",  "rot_3",   "rot_0",
                                       "opacity", "f_dc_0", "f_dc_1", "f_dc_2"};
-    std::vector<uint32_t> indexes;
-    indexes.reserve(base.size() + rest);
+    std::vector<uint32_t> offsets;
+    offsets.reserve(base.size() + rest);
+    const auto property_offset = [&](const char *name) -> std::optional<uint32_t> {
+        const auto it = std::find_if(probe.ply.properties.begin(), probe.ply.properties.end(),
+                                     [name](const PlyProperty &property) {
+                                         return property.name == name && property.isFloat;
+                                     });
+        if (it == probe.ply.properties.end())
+            return std::nullopt;
+        return it->offset;
+    };
     for (const char *name : base)
     {
-        const uint32_t index = reader.find_property(name);
-        if (index == miniply::kInvalidIndex)
+        auto offset = property_offset(name);
+        if (!offset)
             return failed(LoadErrorCode::InvalidHeader, "Missing vertex property");
-        indexes.push_back(index);
+        offsets.push_back(*offset);
     }
     std::vector<std::string> restNames;
     restNames.reserve(rest);
@@ -55,31 +62,79 @@ std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coor
     }
     for (const auto &name : restNames)
     {
-        const uint32_t index = reader.find_property(name.c_str());
-        if (index == miniply::kInvalidIndex)
+        auto offset = property_offset(name.c_str());
+        if (!offset)
             return failed(LoadErrorCode::InvalidHeader, "Missing SH property");
-        indexes.push_back(index);
+        offsets.push_back(*offset);
     }
-    const size_t width = indexes.size();
-    std::vector<float> rows(probe.probe.count * width);
-    if (!reader.extract_properties(indexes.data(), static_cast<uint32_t>(width),
-                                   miniply::PLYPropertyType::Float, rows.data()))
-        return failed(LoadErrorCode::DecoderFailure, "miniply extract");
+    constexpr size_t chunkBytes = 4ull << 20;
+    if (!probe.ply.stride || probe.ply.stride > (64ull << 20))
+        return failed(LoadErrorCode::ResourceLimit, "PLY vertex stride");
+    const size_t chunkRows = (std::max)(size_t{1}, chunkBytes / probe.ply.stride);
+    std::vector<uint8_t> bytes(chunkRows * probe.ply.stride);
     SceneWriter writer(output, coordinates == Coordinates::Rdf);
     std::vector<float> sh(rest);
-    for (uint64_t i = 0; i < probe.probe.count; ++i)
+    for (uint64_t start = 0; start < probe.probe.count; start += chunkRows)
     {
-        const float *row = rows.data() + i * width;
-        for (uint32_t coefficient = 0; coefficient < rest / 3; ++coefficient)
+        const size_t count = static_cast<size_t>((std::min)(uint64_t(chunkRows),
+                                                              probe.probe.count - start));
+        const size_t size = count * probe.ply.stride;
+        const size_t read = fread(bytes.data(), 1, size, stream);
+        if (read != size)
         {
-            for (uint32_t channel = 0; channel < 3; ++channel)
+            auto reason = failed(ferror(stream) ? LoadErrorCode::IoFailure
+                                                : LoadErrorCode::TruncatedData,
+                                 "PLY vertex read");
+            reason.byteOffset = probe.ply.vertexOffset + start * probe.ply.stride + read;
+            return reason;
+        }
+        for (size_t item = 0; item < count; ++item)
+        {
+            const uint8_t *row = bytes.data() + item * probe.ply.stride;
+            std::array<float, 14> values{};
+            for (size_t j = 0; j < values.size(); ++j)
+                std::memcpy(&values[j], row + offsets[j], sizeof(float));
+            for (uint32_t coefficient = 0; coefficient < rest / 3; ++coefficient)
             {
-                sh[coefficient * 3 + channel] = row[14 + channel * (rest / 3) + coefficient];
+                for (uint32_t channel = 0; channel < 3; ++channel)
+                    std::memcpy(&sh[coefficient * 3 + channel],
+                                row + offsets[14 + channel * (rest / 3) + coefficient],
+                                sizeof(float));
+            }
+            RawSplat raw{values.data(), values.data() + 3, values.data() + 6,
+                         values[10], values.data() + 11, sh.data()};
+            SplatWriteError problem{};
+            if (!writer.write(start + item, raw, &problem))
+            {
+                size_t property = 0;
+                std::string attribute;
+                switch (problem.attribute)
+                {
+                case SplatAttribute::Position: property = problem.component; break;
+                case SplatAttribute::Scale: property = 3 + problem.component; break;
+                case SplatAttribute::Rotation:
+                    property = 6 + (problem.component == UINT32_MAX ? 0 : problem.component);
+                    if (problem.component == UINT32_MAX)
+                        attribute = "rotation";
+                    break;
+                case SplatAttribute::Opacity: property = 10; break;
+                case SplatAttribute::Dc: property = 11 + problem.component; break;
+                case SplatAttribute::Sh:
+                    property = 14 + (problem.component % 3) * (rest / 3) +
+                               problem.component / 3;
+                    break;
+                }
+                if (attribute.empty())
+                    attribute = property < base.size() ? base[property]
+                                                       : restNames[property - base.size()];
+                auto reason = failed(LoadErrorCode::InvalidAttribute,
+                                     "Invalid PLY splat at index " + std::to_string(start + item) +
+                                         " (" + attribute + ")");
+                reason.byteOffset = probe.ply.vertexOffset +
+                                    (start + item) * probe.ply.stride + offsets[property];
+                return reason;
             }
         }
-        RawSplat raw{row, row + 3, row + 6, row[10], row + 11, sh.data()};
-        if (!writer.write(i, raw))
-            return failed(LoadErrorCode::InvalidAttribute, "Non-finite or invalid PLY splat");
     }
     if (!writer.finish())
         return failed(LoadErrorCode::InvalidAttribute, "PLY bounds");
@@ -107,8 +162,7 @@ std::optional<LoadError> decode_spz(std::span<const uint8_t> input, const ProbeR
                      cloud.rotations.data() + 4 * i,
                      cloud.alphas[i],
                      cloud.colors.data() + 3 * i,
-                     rest ? cloud.sh.data() + rest * i : nullptr,
-                     true};
+                     rest ? cloud.sh.data() + rest * i : nullptr};
         if (!writer.write(i, raw))
         {
             auto reason = failed(LoadErrorCode::InvalidAttribute,

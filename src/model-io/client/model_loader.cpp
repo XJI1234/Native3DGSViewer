@@ -88,10 +88,14 @@ LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layou
     MEMORYSTATUSEX memory{sizeof(memory)};
     if (!GlobalMemoryStatusEx(&memory))
         return error(LoadErrorCode::IoFailure, LoadStage::Inspecting);
-    const uint64_t availableJobLimit = std::min<uint64_t>(6ull << 30, memory.ullAvailPhys / 2);
-    if (availableJobLimit < (1ull << 30) || layout.totalBytes > memory.ullAvailPhys / 2 ||
+    const uint64_t availableJobLimit =
+        std::min<uint64_t>(memory.ullAvailPhys / 2, memory.ullAvailPageFile / 2);
+    if (availableJobLimit < (64ull << 20) || layout.totalBytes > memory.ullAvailPhys / 2 ||
         layout.totalBytes > memory.ullAvailPageFile / 2)
-        return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting, "CPU memory budget");
+        return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting,
+                     "CPU memory budget: scene=" + std::to_string(layout.totalBytes) +
+                         " available_physical=" + std::to_string(memory.ullAvailPhys) +
+                         " available_commit=" + std::to_string(memory.ullAvailPageFile));
     const uint64_t jobLimit =
         testOptions.jobMemoryLimitBytes ? testOptions.jobMemoryLimitBytes : availableJobLimit;
     UniqueHandle mapping(CreateFileMappingW(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE,
@@ -320,9 +324,7 @@ class ModelLoader final : public IModelLoader
             if (stop.stop_requested())
                 return error(LoadErrorCode::Cancelled, stage);
             report(LoadStage::Opening);
-            if (request.limits.maxInputBytes > (1ull << 30) ||
-                request.limits.maxSplats > 8'000'000 ||
-                request.limits.maxSceneBytes > (2ull << 30) ||
+            if (request.limits.maxSplats > UINT32_MAX ||
                 request.plyCoordinates > Coordinates::Rub)
                 return error(LoadErrorCode::ResourceLimit, stage,
                              "Limits may only tighten defaults");
@@ -337,7 +339,7 @@ class ModelLoader final : public IModelLoader
                 return error(LoadErrorCode::IoFailure, stage);
             if (size.QuadPart < 0 ||
                 static_cast<uint64_t>(size.QuadPart) > request.limits.maxInputBytes)
-                return error(LoadErrorCode::ResourceLimit, stage);
+                return error(LoadErrorCode::ResourceLimit, stage, "Input byte limit");
             const uint64_t inputBytes = static_cast<uint64_t>(size.QuadPart);
             std::vector<uint8_t> prefix(
                 static_cast<size_t>(std::min<uint64_t>(inputBytes, 1 << 20)));

@@ -73,6 +73,16 @@ TEST(RenderContracts, SceneRejectsCountOverflowMissingStorageAndShLength)
     scene->storage.reset();
     EXPECT_TRUE(validate_scene(scene));
 }
+TEST(RenderContracts, LargeSceneUsesMeasuredResourceSize)
+{
+    gs::SplatScene scene;
+    scene.count = 22'480'361;
+    scene.shDegree = 3;
+    EXPECT_EQ(scene_bytes(scene), 5'305'365'196ull);
+    EXPECT_NE(incremental_bytes(scene), UINT64_MAX);
+    scene.count = UINT32_MAX / 180 + 1;
+    EXPECT_EQ(scene_bytes(scene), UINT64_MAX);
+}
 TEST(RenderContracts, RotatedCameraUsesInverseQuaternionRows)
 {
     const double half = std::sqrt(0.5);

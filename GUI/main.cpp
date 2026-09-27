@@ -9,7 +9,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     if (!logging)
         MessageBoxW(nullptr, L"无法在安装目录创建日志，请检查写入权限。", L"3DGS Viewer",
                     MB_OK | MB_ICONWARNING);
-    viewer::log::write("info", "app_start", {{"version", "0.1.1"}});
+    viewer::log::write("info", "app_start", {{"version", "0.1.2"}});
     if (logging) viewer::log::record_host_diagnostics();
     int exit_code = 0;
     try

@@ -58,7 +58,17 @@ Image render_image(gs::SceneHandle scene, CameraState camera, QualityConfig qual
           "Image list");
     transition(list.Get(), model->attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                D3D12_RESOURCE_STATE_COPY_DEST);
-    list->CopyBufferRegion(model->attributes.Get(), 0, upload.Get(), 0, scene_bytes(*scene));
+    const uint64_t base_bytes = scene->count * 56;
+    list->CopyBufferRegion(model->attributes.Get(), 0, upload.Get(), 0, base_bytes);
+    if (model->sh_attributes)
+    {
+        transition(list.Get(), model->sh_attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
+                   D3D12_RESOURCE_STATE_COPY_DEST);
+        list->CopyBufferRegion(model->sh_attributes.Get(), 0, upload.Get(), base_bytes,
+                               scene_bytes(*scene) - base_bytes);
+        transition(list.Get(), model->sh_attributes.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
+                   D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+    }
     transition(list.Get(), model->attributes.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
                D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
     pass.project_sort(list.Get(), *model, viewport);

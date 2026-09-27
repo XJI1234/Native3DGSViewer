@@ -15,14 +15,29 @@ struct RawSplat
     float logitAlpha;
     const float *dc;
     const float *sh;
-    bool quantizedAlpha = false;
+};
+
+enum class SplatAttribute : uint8_t
+{
+    Position,
+    Scale,
+    Rotation,
+    Opacity,
+    Dc,
+    Sh
+};
+
+struct SplatWriteError
+{
+    SplatAttribute attribute;
+    uint32_t component;
 };
 
 class SceneWriter
 {
   public:
     SceneWriter(SceneHeader *header, bool rdf);
-    bool write(uint64_t index, const RawSplat &raw);
+    bool write(uint64_t index, const RawSplat &raw, SplatWriteError *failure = nullptr);
     bool finish();
 
   private:

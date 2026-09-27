@@ -121,7 +121,7 @@ create_renderer(QualityConfig, EventSink);
 
 场景状态为 `Queued -> Budgeted -> Uploading -> GpuReady -> FirstFrameReady -> Active`，终态另有 `Failed/Cancelled`。旧 `Active` 在新场景完成首次排序与一次成功 Present 之前持续保留。上传前再次校验 `count`、每数组长度、SH 阶数及受检内存计算；GPU 布局版本由 renderer 内部定义并由 shader 编译常量验证，不暴露给 `model-io`。
 
-GPU 使用分离或分组的只读 structured buffers：局部中心、尺度/旋转、opacity/`rgb0`、仅存在的 SH 系数。布局按访问与对齐实测选择，保留源全精度 float32 作为正确性基线；后续量化属于单独画质评审。按固定大小页拷贝到 upload heap，copy queue 上传到 default heap；进度表示完成 copy fence 的字节，不把 CPU memcpy 当作已上传。每页和总量都用 64 位受检计算。切换时生成新场景自己的索引/排序缓冲，不复用旧场景尚在飞行的缓冲。
+GPU 使用两个只读字节缓冲：基础属性为每点 56 字节，仅存在的 SH 系数单独存放。每个缓冲的字节数必须在 32 位 shader 地址范围内；场景总字节数可超过 4 GiB。保留源全精度 float32 作为正确性基线；后续量化属于单独画质评审。按 4 MiB 页拷贝到 upload heap，copy queue 上传到 default heap；进度表示完成 copy fence 的字节，不把 CPU memcpy 当作已上传。每页和总量都用 64 位受检计算。切换时生成新场景自己的索引/排序缓冲，不复用旧场景尚在飞行的缓冲。投影使用二维线程组网格处理超过 65,535 组的场景。
 
 取消 ticket 只撤销未提交工作；已提交的 GPU 命令无法强制取消，标为 abandoned 并在 fence 后回收。过期 ticket 的完成事件不得激活模型。激活在渲染线程帧边界一次性替换 `SceneGpuHandle` 和初始相机快照，首次 Present 成功后才发出 `SceneReady`；若 Present 失败则恢复旧活动快照或转入设备恢复。旧 GPU 场景延迟到最后引用它的 direct fence 完成再释放。失败、取消、OOM 时保持旧场景和相机。`clear_scene()` 先取消待命 ticket，在帧边界卸载活动 GPU/CPU 场景，相关 fence 安全后发 `SceneCleared`；这是显存紧张时明确的用户操作，不与失败回退混用。设备移除是例外：旧 GPU 资源也失效，但保留 CPU 快照、显示恢复状态并尝试重建。
 

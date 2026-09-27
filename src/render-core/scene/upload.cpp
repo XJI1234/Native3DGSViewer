@@ -73,7 +73,15 @@ std::optional<UploadProgress> UploadTransaction::advance(GpuDevice &gpu)
     check(allocator_->Reset(), "Copy allocator reset");
     check(list_->Reset(allocator_.Get(), nullptr), "Copy list reset");
     // Copy queue promotion/decay keeps attributes COMMON between completed chunks.
-    list_->CopyBufferRegion(scene->attributes.Get(), submitted_, page_.Get(), 0, page_bytes_);
+    const uint64_t base_bytes = scene->cpu->count * 56;
+    const uint64_t base_copy = submitted_ < base_bytes
+                                   ? (std::min)(page_bytes_, base_bytes - submitted_)
+                                   : 0;
+    if (base_copy)
+        list_->CopyBufferRegion(scene->attributes.Get(), submitted_, page_.Get(), 0, base_copy);
+    if (page_bytes_ > base_copy)
+        list_->CopyBufferRegion(scene->sh_attributes.Get(), submitted_ + base_copy - base_bytes,
+                                page_.Get(), base_copy, page_bytes_ - base_copy);
     check(list_->Close(), "Copy close");
     fence = gpu.submit(gpu.copy.Get(), list_.Get(), gpu.copy_fence.Get(), gpu.copy_value);
     submitted_ += page_bytes_;
