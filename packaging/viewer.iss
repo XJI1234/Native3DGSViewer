@@ -4,7 +4,7 @@
 #ifndef OutputDir
   #error OutputDir is required
 #endif
-#define ViewerVersion "0.1.2"
+#define ViewerVersion "0.2.0"
 #define SetupFilename "Native3DGSViewer-Setup-x64"
 
 [Setup]

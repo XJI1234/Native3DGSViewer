@@ -1,0 +1,19 @@
+#version 450
+layout(local_size_x = 128) in;
+struct KeyValue { uint key; uint value; };
+layout(set = 0, binding = 0, std430) readonly buffer Keys { KeyValue keys[]; };
+layout(set = 0, binding = 1, std430) writeonly buffer Histogram { uint counts[]; };
+layout(push_constant) uniform Params { uint count; uint groups; uint shift; } p;
+shared uint local_count[16];
+void main()
+{
+    uint lane = gl_LocalInvocationID.x;
+    if (lane < 16) local_count[lane] = 0;
+    barrier();
+    uint index = gl_GlobalInvocationID.x;
+    if (index < p.count)
+        atomicAdd(local_count[(keys[index].key >> p.shift) & 15u], 1u);
+    barrier();
+    if (lane < 16)
+        counts[lane * p.groups + gl_WorkGroupID.x] = local_count[lane];
+}

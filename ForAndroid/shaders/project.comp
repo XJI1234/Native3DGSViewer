@@ -1,0 +1,114 @@
+#version 450
+layout(local_size_x = 128) in;
+layout(set = 0, binding = 0, std430) readonly buffer Scene { float data[]; } scene;
+layout(set = 0, binding = 1, std430) readonly buffer Sh { float data[]; } sh;
+struct Ellipse { vec2 center; vec2 axis0; vec2 axis1; vec2 pad; vec4 color; };
+layout(set = 0, binding = 2, std430) writeonly buffer Projected { Ellipse items[]; } projected;
+struct KeyValue { uint key; uint value; };
+layout(set = 0, binding = 3, std430) writeonly buffer Pairs { KeyValue items[]; } pairs;
+layout(set = 0, binding = 4, std140) uniform Frame {
+    vec4 row[3];
+    vec4 camera;
+    vec4 viewport;
+    vec4 quality;
+    vec4 clip_planes;
+    uvec4 meta;
+    uvec4 offsets0;
+    uvec4 offsets1;
+} frame;
+
+vec3 load3(uint offset, uint i) { return vec3(scene.data[offset + i * 3],
+    scene.data[offset + i * 3 + 1], scene.data[offset + i * 3 + 2]); }
+vec3 to_view(vec3 p) { return vec3(dot(frame.row[0].xyz, p),
+    dot(frame.row[1].xyz, p), dot(frame.row[2].xyz, p)); }
+vec3 rotate(vec4 q, vec3 p) { return p + 2.0 * cross(q.xyz, cross(q.xyz, p) + q.w * p); }
+vec3 sh_color(vec3 rgb, vec3 dir, uint index)
+{
+    float x = dir.x, y = dir.y, z = dir.z;
+    float b[15];
+    b[0] = -0.4886025119029199 * y; b[1] = 0.4886025119029199 * z;
+    b[2] = -0.4886025119029199 * x;
+    b[3] = 1.0925484305920792 * x * y; b[4] = -1.0925484305920792 * y * z;
+    b[5] = 0.31539156525252005 * (2.0 * z * z - x * x - y * y);
+    b[6] = -1.0925484305920792 * x * z;
+    b[7] = 0.5462742152960396 * (x * x - y * y);
+    b[8] = -0.5900435899266435 * y * (3.0 * x * x - y * y);
+    b[9] = 2.890611442640554 * x * y * z;
+    b[10] = -0.4570457994644658 * y * (4.0 * z * z - x * x - y * y);
+    b[11] = 0.3731763325901154 * z * (2.0 * z * z - 3.0 * x * x - 3.0 * y * y);
+    b[12] = -0.4570457994644658 * x * (4.0 * z * z - x * x - y * y);
+    b[13] = 1.445305721320277 * z * (x * x - y * y);
+    b[14] = -0.5900435899266435 * x * (x * x - 3.0 * y * y);
+    uint terms = (frame.meta.y + 1u) * (frame.meta.y + 1u) - 1u;
+    for (uint j = 0; j < terms; ++j)
+    {
+        uint offset = index * frame.meta.z + j * 3u;
+        rgb += vec3(sh.data[offset], sh.data[offset + 1u], sh.data[offset + 2u]) * b[j];
+    }
+    return clamp(rgb, 0.0, 1.0);
+}
+void main()
+{
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= frame.meta.x) return;
+    pairs.items[i].key = 0xffffffffu;
+    pairs.items[i].value = i;
+    projected.items[i] = Ellipse(vec2(0), vec2(0), vec2(0), vec2(0), vec4(0));
+    vec3 delta = load3(frame.offsets0.x, i) - frame.camera.xyz;
+    vec3 p = to_view(delta);
+    vec3 s = load3(frame.offsets0.y, i);
+    uint qoffset = frame.offsets0.z + i * 4u;
+    vec4 q = vec4(scene.data[qoffset], scene.data[qoffset + 1u],
+                  scene.data[qoffset + 2u], scene.data[qoffset + 3u]);
+    float alpha = scene.data[frame.offsets0.w + i];
+    float support = max(s.x, max(s.y, s.z)) * frame.quality.x;
+    float depth = -p.z;
+    if (any(isnan(p)) || any(isinf(p)) || any(isnan(s)) || any(isinf(s)) ||
+        any(lessThanEqual(s, vec3(0))) || any(isnan(q)) || any(isinf(q)) ||
+        abs(dot(q, q) - 1.0) > 0.001 || isnan(alpha) || isinf(alpha) ||
+        alpha <= frame.quality.y || alpha > 1.0 ||
+        depth + support < frame.clip_planes.x || depth - support > frame.clip_planes.y)
+        return;
+    float d = max(depth, frame.clip_planes.x);
+    vec3 jx = vec3(frame.viewport.x / d, 0, frame.viewport.x * p.x / (d * d));
+    vec3 jy = vec3(0, -frame.viewport.y / d, -frame.viewport.y * p.y / (d * d));
+    vec3 a0 = to_view(rotate(q, vec3(s.x, 0, 0)));
+    vec3 a1 = to_view(rotate(q, vec3(0, s.y, 0)));
+    vec3 a2 = to_view(rotate(q, vec3(0, 0, s.z)));
+    vec3 tx = vec3(dot(jx, a0), dot(jx, a1), dot(jx, a2));
+    vec3 ty = vec3(dot(jy, a0), dot(jy, a1), dot(jy, a2));
+    float xx = dot(tx, tx) + frame.quality.z;
+    float yy = dot(ty, ty) + frame.quality.z;
+    float xy = dot(tx, ty);
+    float covariance_scale = max(xx, yy);
+    if (isnan(covariance_scale) || isinf(covariance_scale) || covariance_scale <= 0.0) return;
+    float xxn = xx / covariance_scale, yyn = yy / covariance_scale, xyn = xy / covariance_scale;
+    float middle = (xxn + yyn) * 0.5;
+    float disc = length(vec2((xxn - yyn) * 0.5, xyn));
+    float eigen_major = middle + disc;
+    vec3 gram_cross = cross(tx / sqrt(covariance_scale), ty / sqrt(covariance_scale));
+    float blur = frame.quality.z / covariance_scale;
+    float determinant = dot(gram_cross, gram_cross) + blur * (xxn + yyn - blur);
+    float major = covariance_scale * eigen_major;
+    float minor = covariance_scale * (determinant / eigen_major);
+    if (isnan(major) || isinf(major) || isnan(minor) || isinf(minor) || minor <= 0.0) return;
+    vec2 axis = abs(xyn) > 1e-10 ? normalize(vec2(xyn, eigen_major - xxn))
+                                 : (xx >= yy ? vec2(1, 0) : vec2(0, 1));
+    Ellipse e;
+    e.axis0 = axis * min(frame.quality.x * sqrt(major), frame.quality.w);
+    e.axis1 = vec2(-axis.y, axis.x) * min(frame.quality.x * sqrt(minor), frame.quality.w);
+    e.center = vec2(frame.viewport.z * 0.5 + frame.viewport.x * p.x / d,
+                    frame.viewport.w * 0.5 - frame.viewport.y * p.y / d);
+    e.pad = vec2(0);
+    vec2 extent = abs(e.axis0) + abs(e.axis1);
+    if (any(lessThan(e.center + extent, vec2(0))) ||
+        any(greaterThan(e.center - extent, frame.viewport.zw))) return;
+    float largest = max(abs(delta.x), max(abs(delta.y), abs(delta.z)));
+    float metric = frame.meta.w == 0u ? dot(delta, delta) : max(depth, 0.0);
+    if (largest > 1e19 || isnan(metric) || isinf(metric)) return;
+    vec3 direction = largest > 0.0 ? normalize(delta / largest) : vec3(0, 0, 1);
+    e.color = vec4(sh_color(load3(frame.offsets1.x, i), direction, i), alpha);
+    projected.items[i] = e;
+    uint key = ~floatBitsToUint(metric);
+    pairs.items[i].key = key == 0xffffffffu ? 0xfffffffeu : key;
+}

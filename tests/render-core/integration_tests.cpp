@@ -19,7 +19,10 @@ TEST(ModelRenderIntegration, LoadsUploadsPresentsAndRendersWorkspacePlyAndSpz)
     {
         SCOPED_TRACE(i);
         auto decoded = gs::io::make_model_loader()->load({samples[i]}, {}, {});
-        ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(decoded));
+        ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(decoded))
+            << "code=" << static_cast<int>(std::get<gs::io::LoadError>(decoded).code)
+            << " stage=" << static_cast<int>(std::get<gs::io::LoadError>(decoded).stage)
+            << " diagnostic=" << std::get<gs::io::LoadError>(decoded).diagnostic;
         auto scene = std::get<gs::SceneHandle>(decoded);
         CameraState camera;
         const auto &a = scene->bounds.min;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 project(Native3DGSHost LANGUAGES CXX)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-find_package(Native3DGS 0.1 CONFIG REQUIRED)
+find_package(Native3DGS 0.2 CONFIG REQUIRED)
 add_executable(sdk-host main.cpp)
 target_compile_features(sdk-host PRIVATE cxx_std_20)
 target_compile_definitions(sdk-host PRIVATE NOMINMAX)
