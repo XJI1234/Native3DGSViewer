@@ -1,10 +1,13 @@
 #include "model-io/model_loader.h"
 #include "native3dgs/camera.h"
 #include "splat.h"
+#include "upload.h"
+#include <chrono>
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
 #include <string_view>
+#include <thread>
 
 using namespace gs::render;
 using namespace gs::render::detail;
@@ -12,11 +15,12 @@ int wmain(int argc, wchar_t **argv)
 {
     if (argc != 4)
     {
-        std::cerr << "Usage: SceneBench file.ply|spz cached|force|orbit frames:1..10000\n";
+        std::cerr << "Usage: SceneBench file.ply|spz load|smoke|cached|force|orbit frames:1..10000\n";
         return 2;
     }
     std::wstring_view mode(argv[2]);
-    if (mode != L"cached" && mode != L"force" && mode != L"orbit")
+    if (mode != L"load" && mode != L"smoke" && mode != L"cached" &&
+        mode != L"force" && mode != L"orbit")
         return 2;
     uint32_t frames = 0;
     std::wstring_view count(argv[3]);
@@ -30,10 +34,24 @@ int wmain(int argc, wchar_t **argv)
         return 2;
     try
     {
+        const auto load_start = std::chrono::steady_clock::now();
         auto loaded = gs::io::make_model_loader()->load({argv[1]}, {}, {});
         if (auto e = std::get_if<gs::io::LoadError>(&loaded))
-            throw std::runtime_error(e->diagnostic);
+            throw std::runtime_error("Load failed: code=" +
+                                     std::to_string(static_cast<int>(e->code)) +
+                                     " stage=" + std::to_string(static_cast<int>(e->stage)) +
+                                     " " + e->diagnostic);
         auto scene = std::get<gs::SceneHandle>(loaded);
+        if (mode == L"load")
+        {
+            const auto elapsed = std::chrono::duration<double, std::milli>(
+                                     std::chrono::steady_clock::now() - load_start)
+                                     .count();
+            std::cout << "splats=" << scene->count << " sh_degree=" << unsigned(scene->shDegree)
+                      << " scene_bytes=" << scene_bytes(*scene) << " load_ms=" << elapsed
+                      << '\n';
+            return 0;
+        }
         const Viewport viewport{1920, 1080};
         const QualityConfig quality{};
         gs::engine::CameraController camera;
@@ -41,27 +59,36 @@ int wmain(int argc, wchar_t **argv)
             throw std::runtime_error(e->diagnostic);
         GpuDevice gpu;
         SplatPass pass(gpu, quality);
-        auto model = pass.allocate(scene, 1, camera.camera());
+        DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
+        check(gpu.adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local),
+              "Scene benchmark local budget");
+        const auto nonlocal_hr = gpu.adapter->QueryVideoMemoryInfo(
+            0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
+        if (!gpu.uma)
+            check(nonlocal_hr, "Scene benchmark nonlocal budget");
+        const auto required = incremental_bytes(*scene);
+        std::cout << "gpu_required_bytes=" << required << " local_budget_bytes=" << local.Budget
+                  << " local_usage_bytes=" << local.CurrentUsage << " admission="
+                  << fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                                        local.CurrentUsage, nonlocal.Budget,
+                                        nonlocal.CurrentUsage, gpu.uma)
+                  << '\n';
+        UploadTransaction upload(gpu, pass, scene, 1, camera.camera());
+        while (!upload.ready)
+        {
+            upload.advance(gpu);
+            if (!upload.ready)
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        auto model = upload.scene;
         std::wcout << L"Adapter: " << gpu.adapter_description.Description << L" mode=" << mode
                    << L" SH=" << unsigned(scene->shDegree) << L" viewport="
                    << viewport.physical_width << L"x" << viewport.physical_height
                    << L" radial stddev=" << quality.max_stddev << L" alpha=" << quality.min_alpha
                    << L" blur=" << quality.covariance_blur_px2 << L" radius="
                    << quality.max_pixel_radius_px << L"\n";
-        auto upload = gpu.buffer(scene_bytes(*scene), D3D12_HEAP_TYPE_UPLOAD,
-                                 D3D12_RESOURCE_STATE_GENERIC_READ);
         void *mapped = nullptr;
         D3D12_RANGE empty{};
-        check(upload->Map(0, &empty, &mapped), "Scene benchmark map");
-        uint64_t offset = 0;
-        for (auto span : {scene->centerLocal, scene->scale, scene->rotation, scene->opacity,
-                          scene->rgb0, scene->shRest})
-        {
-            if (!span.empty())
-                memcpy(static_cast<uint8_t *>(mapped) + offset, span.data(), span.size_bytes());
-            offset += span.size_bytes();
-        }
-        upload->Unmap(0, nullptr);
         ComPtr<ID3D12CommandAllocator> allocator;
         ComPtr<ID3D12GraphicsCommandList> list;
         check(gpu.device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
@@ -70,14 +97,7 @@ int wmain(int argc, wchar_t **argv)
         check(gpu.device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(),
                                             nullptr, IID_PPV_ARGS(&list)),
               "Scene list");
-        transition(list.Get(), model->attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
-                   D3D12_RESOURCE_STATE_COPY_DEST);
-        list->CopyBufferRegion(model->attributes.Get(), 0, upload.Get(), 0, scene_bytes(*scene));
-        transition(list.Get(), model->attributes.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
-                   D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
         check(list->Close(), "Scene upload close");
-        gpu.wait(gpu.direct_fence.Get(), gpu.submit(gpu.direct.Get(), list.Get(),
-                                                    gpu.direct_fence.Get(), gpu.direct_value));
         D3D12_RESOURCE_DESC td{};
         td.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
         td.Width = viewport.physical_width;
@@ -108,7 +128,8 @@ int wmain(int argc, wchar_t **argv)
         auto readback = gpu.buffer(24, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
         std::wcout << L"frame,count,projection_sort_ms,draw_ms,gpu_total_ms\n";
         // A fixed number of warm-up frames makes this a stage diagnostic, not the acceptance run.
-        for (uint32_t i = 0; i < frames + 60; ++i)
+        const uint32_t warmup = mode == L"smoke" ? 0 : 60;
+        for (uint32_t i = 0; i < frames + warmup; ++i)
         {
             check(allocator->Reset(), "Scene allocator reset");
             check(list->Reset(allocator.Get(), nullptr), "Scene list reset");
@@ -138,8 +159,8 @@ int wmain(int argc, wchar_t **argv)
             check(readback->Map(0, &range, &mapped), "Scene times");
             memcpy(ticks, mapped, sizeof(ticks));
             readback->Unmap(0, &empty);
-            if (i >= 60)
-                std::wcout << i - 60 << ',' << scene->count << ','
+            if (i >= warmup)
+                std::wcout << i - warmup << ',' << scene->count << ','
                            << 1000.0 * (ticks[1] - ticks[0]) / gpu.timestamp_frequency << ','
                            << 1000.0 * (ticks[2] - ticks[1]) / gpu.timestamp_frequency << ','
                            << 1000.0 * (ticks[2] - ticks[0]) / gpu.timestamp_frequency << '\n';

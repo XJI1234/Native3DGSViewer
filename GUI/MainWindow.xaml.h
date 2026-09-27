@@ -69,6 +69,9 @@ struct MainWindow : MainWindowT<MainWindow>
     winrt::event_token app_window_closing_{};
     Windows::Foundation::Point last_pointer_{};
     std::chrono::steady_clock::time_point last_tick_ = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point request_started_{};
+    std::chrono::steady_clock::time_point last_metrics_{};
+    uint64_t last_logged_frame_ = 0;
     std::chrono::steady_clock::time_point detach_started_{};
 };
 void wait_for_viewer_shutdown();

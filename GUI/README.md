@@ -25,10 +25,12 @@ Y 镜像由相机视图与 `SwapChainPanel` 的水平显示镜像共同完成；
 
 ## 日志
 
-每次启动优先在程序所在目录的 `logs` 文件夹生成一个以 UTC 启动时间和进程号命名的 `.log` 文件；目录不可写时回退到 `%LOCALAPPDATA%\Native3DGSViewer\logs`，两个位置都不可写才提示。启动时清理这两个位置中当前使用目录内超过 30 天、名称符合程序格式的旧日志。每行是一条 JSON 记录，包含操作系统版本、CPU/内存、DXGI 显卡及 D3D12 能力探测、引擎和视口启动结果、成功加载的点数与 SH 阶数、失败诊断和设备恢复事件。日志不写入模型的完整路径，也不记录逐帧信息；普通记录与错误由系统缓存，启动关键节点及正常关闭时刷新。
+每次启动优先在程序所在目录的 `logs` 文件夹生成一个以 UTC 启动时间和进程号命名的 `.log` 文件；目录不可写时回退到 `%LOCALAPPDATA%\Native3DGSViewer\logs`，两个位置都不可写才提示。启动时清理这两个位置中当前使用目录内超过 30 天、名称符合程序格式的旧日志。每行是一条 JSON 记录，包含操作系统版本、CPU/内存、DXGI 显卡及 D3D12 能力探测、引擎和视口启动结果、输入字节数、加载耗时、成功加载的点数与 SH 阶数、失败诊断及字节偏移、设备恢复事件。活跃场景每 5 秒至多记录一次 `render_sample`，含 CPU/GPU 帧时间、GPU 排序时间、绘制点数和 DXGI 预算/用量。日志不写入模型的完整路径，也不逐帧写盘。
 
 正式版启动时，引擎在开放视口前自动执行 65,537 个键和值的 GPU 稳定排序读回测试。`engine_created` 中的 `sort_self_test=passed` 表示通过，`sort_mode` 表示使用 `standard`、`fixed_wave32` 或 `wave_agnostic`；`wave32_fallback_hr` 非零表示固定 wave32 管线创建或校验失败并已回退。自检完全失败时，`engine_create_failed` 记录失败的排序变体，不会继续渲染。故障设备测试时请发送本次启动对应的完整日志。
 
 集成显卡通过 D3D12 的 UMA 能力判断共享内存，不要求独立的 non-local 上传预算。模型仍须符合 DXGI 当前 local 预算的 80% 增量余量限制。若加载失败，`scene_failed` 的 `diagnostic` 会记录 `upload_admission` 或 `upload_begin`、`UMA`、local/non-local 预算与当前用量、查询结果及估算需求；请连同该次完整日志提供，以确认是预检拒绝还是实际资源分配失败。物理内存容量本身不保证任意模型都能加载。
 
 从仓库根目录运行 `./packaging/build-installer.ps1` 生成 `out/installer/Native3DGSViewer-Setup-x64.exe`。安装包不携带构建机上的日志。
+
+大场景按实际 CPU 可用内存、提交余量及 DXGI 当前显存预算准入。SH 3 阶属性拆分为基础缓冲和 SH 缓冲，单缓冲地址仍受 32 位字节偏移约束；达到该技术边界会返回不支持的场景错误。22,480,361 点 SH3 的 PLY 已在 RTX 3080 上完成加载和 GPU 单帧烟雾测试；首次排序开销较高，具体交互性能以 `render_sample` 和同机基准为准。

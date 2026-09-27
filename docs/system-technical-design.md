@@ -91,7 +91,7 @@ Native3DGSViewer/
   docs/                             技术计划、设计和证据
 ```
 
-VS 2026 C++20 x64 解决方案含 `splat-types`、`model-io` 客户端/辅助进程、`render-core`、WinUI 3 应用、GoogleTest 测试目标。Windows App SDK、Windows SDK/DXC、miniply、Niantic SPZ v3.0.0、zlib/ZSTD、GoogleTest 及可选 D3D12MA 均锁定可复现版本与许可。依赖升级需重跑损坏输入语料、设备恢复、图像和性能回归。发布候选使用 Release 和锁定 shader 编译产物。MSBuild 生成未打包、自包含的 x64 应用与 helper；Inno Setup 6 将运行时、VC CRT、shader 和许可打入安装包。干净 Windows 11 x64 机器的安装验证仍待完成，签名发布另立发布规格。
+VS 2026 C++20 x64 解决方案含 `splat-types`、`model-io` 客户端/辅助进程、`render-core`、WinUI 3 应用、GoogleTest 测试目标。Windows App SDK、Windows SDK/DXC、Niantic SPZ v3.0.0、zlib/ZSTD、GoogleTest 及可选 D3D12MA 均锁定可复现版本与许可；miniply 源码仅保留为历史参考。依赖升级需重跑损坏输入语料、设备恢复、图像和性能回归。发布候选使用 Release 和锁定 shader 编译产物。MSBuild 生成未打包、自包含的 x64 应用与 helper；Inno Setup 6 将运行时、VC CRT、shader 和许可打入安装包。干净 Windows 11 x64 机器的安装验证仍待完成，签名发布另立发布规格。
 
 以下命令可构建、测试并打包当前应用，程序位于 `out/Release`：
 

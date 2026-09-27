@@ -1,4 +1,5 @@
 #include "splat.h"
+#include <algorithm>
 #include <cmath>
 
 namespace gs::render::detail
@@ -6,7 +7,7 @@ namespace gs::render::detail
 SplatPass::SplatPass(GpuDevice &gpu, QualityConfig quality)
     : gpu_(gpu), quality_(quality), sort_(gpu)
 {
-    std::array<D3D12_ROOT_PARAMETER, 8> p{};
+    std::array<D3D12_ROOT_PARAMETER, 9> p{};
     p[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
     p[0].Constants = {0, 0, 40};
     p[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
@@ -20,6 +21,8 @@ SplatPass::SplatPass(GpuDevice &gpu, QualityConfig quality)
     p[6].Descriptor = {1, 0};
     p[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
     p[7].Descriptor = {2, 0};
+    p[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+    p[8].Descriptor = {3, 0};
     root_ = root_signature(gpu.device.Get(), p);
     for (auto pair : {std::pair{"project", &project_}, std::pair{"reset_args", &reset_}})
     {
@@ -70,16 +73,21 @@ std::shared_ptr<SceneGpu> SplatPass::allocate(SceneHandle scene, UploadTicket ti
     s->cpu = std::move(scene);
     s->ticket = ticket;
     s->camera = camera;
-    s->attributes =
-        gpu_.buffer(scene_bytes(*s->cpu), D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_COMMON);
-    s->attributes->SetName(L"Scene attributes");
     const uint64_t n = s->cpu->count;
+    s->attributes = gpu_.buffer(n * 56, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_COMMON);
+    s->attributes->SetName(L"Scene attributes");
+    const uint64_t sh_bytes = scene_bytes(*s->cpu) - n * 56;
+    if (sh_bytes)
+    {
+        s->sh_attributes = gpu_.buffer(sh_bytes, D3D12_HEAP_TYPE_DEFAULT,
+                                       D3D12_RESOURCE_STATE_COMMON);
+        s->sh_attributes->SetName(L"Scene SH attributes");
+    }
     s->offsets = {0,
                   uint32_t(n * 12),
                   uint32_t(n * 24),
                   uint32_t(n * 40),
-                  uint32_t(n * 44),
-                  uint32_t(n * 56)};
+                  uint32_t(n * 44), 0};
     s->projected = gpu_.buffer(n * sizeof(ProjectedEllipse), D3D12_HEAP_TYPE_DEFAULT,
                                D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
                                D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
@@ -123,6 +131,8 @@ void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewp
     list->SetComputeRootSignature(root_.Get());
     list->SetComputeRoot32BitConstants(0, 40, &c, 0);
     list->SetComputeRootShaderResourceView(1, s.attributes->GetGPUVirtualAddress());
+    list->SetComputeRootShaderResourceView(8, s.sh_attributes ? s.sh_attributes->GetGPUVirtualAddress()
+                                                           : s.attributes->GetGPUVirtualAddress());
     list->SetComputeRootUnorderedAccessView(2, s.projected->GetGPUVirtualAddress());
     list->SetComputeRootUnorderedAccessView(3, s.sorting.keys[0]->GetGPUVirtualAddress());
     list->SetComputeRootUnorderedAccessView(4, s.sorting.values[0]->GetGPUVirtualAddress());
@@ -131,7 +141,8 @@ void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewp
     list->Dispatch(1, 1, 1);
     uav_barrier(list);
     list->SetPipelineState(project_.Get());
-    list->Dispatch((c.meta[0] + 255) / 256, 1, 1);
+    const uint32_t groups = (c.meta[0] + 255) / 256;
+    list->Dispatch((std::min)(groups, 65535u), (groups + 65534) / 65535, 1);
     uav_barrier(list);
     sort_.record(list, s.sorting);
     s.sorted = true;
@@ -148,6 +159,9 @@ void SplatPass::draw(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport view
                D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
     list->SetGraphicsRootSignature(root_.Get());
     list->SetGraphicsRoot32BitConstants(0, 40, &c, 0);
+    list->SetGraphicsRootShaderResourceView(1, s.attributes->GetGPUVirtualAddress());
+    list->SetGraphicsRootShaderResourceView(8, s.sh_attributes ? s.sh_attributes->GetGPUVirtualAddress()
+                                                           : s.attributes->GetGPUVirtualAddress());
     list->SetGraphicsRootShaderResourceView(6, s.projected->GetGPUVirtualAddress());
     list->SetGraphicsRootShaderResourceView(7, s.sorting.values[0]->GetGPUVirtualAddress());
     list->SetPipelineState(draw_.Get());

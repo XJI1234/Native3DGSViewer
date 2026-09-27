@@ -21,7 +21,7 @@ struct SceneGpu
     SceneHandle cpu;
     UploadTicket ticket = 0;
     CameraState camera;
-    ComPtr<ID3D12Resource> attributes, projected, arguments;
+    ComPtr<ID3D12Resource> attributes, sh_attributes, projected, arguments;
     SortBuffers sorting;
     std::array<uint32_t, 6> offsets{};
     bool sorted = false;

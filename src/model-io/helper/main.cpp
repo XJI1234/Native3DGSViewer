@@ -59,19 +59,20 @@ int wmain(int argc, wchar_t **argv)
         }
         UniqueHandle inputMap(
             CreateFileMappingW(file.get(), nullptr, PAGE_READONLY, 0, 0, nullptr));
-        UniqueView input(inputMap.valid() ? MapViewOfFile(inputMap.get(), FILE_MAP_READ, 0, 0, 0)
-                                          : nullptr);
+        const size_t prefixBytes = static_cast<size_t>(
+            std::min<uint64_t>(inputBytes, 1ull << 20));
+        UniqueView inputPrefix(inputMap.valid()
+                                   ? MapViewOfFile(inputMap.get(), FILE_MAP_READ, 0, 0, prefixBytes)
+                                   : nullptr);
         UniqueView outputView(MapViewOfFile(output.get(), FILE_MAP_WRITE, 0, 0, 0));
-        if (!input.get() || !outputView.get())
+        if (!inputPrefix.get() || !outputView.get())
         {
             send_status(status.get(), error(LoadErrorCode::OutOfMemory, LoadStage::Decoding));
             return 1;
         }
-        const auto *bytes = static_cast<const uint8_t *>(input.get());
         LoadLimits limits;
-        auto probe =
-            probe_file({bytes, static_cast<size_t>(std::min<uint64_t>(inputBytes, 1 << 20))},
-                       inputBytes, limits);
+        auto probe = probe_file({static_cast<const uint8_t *>(inputPrefix.get()), prefixBytes},
+                                inputBytes, limits);
         if (!probe.ok)
         {
             send_status(status.get(), probe.failure);
@@ -112,7 +113,12 @@ int wmain(int argc, wchar_t **argv)
         }
         else
         {
-            failure = decode_spz({bytes, static_cast<size_t>(inputBytes)}, probe, header);
+            UniqueView input(MapViewOfFile(inputMap.get(), FILE_MAP_READ, 0, 0, 0));
+            failure = input.get()
+                          ? decode_spz({static_cast<const uint8_t *>(input.get()),
+                                        static_cast<size_t>(inputBytes)}, probe, header)
+                          : std::optional<LoadError>(error(LoadErrorCode::OutOfMemory,
+                                                           LoadStage::Decoding));
         }
         if (!failure && !validate_scene(*header, outputBytes))
             failure = error(LoadErrorCode::InvalidAttribute, LoadStage::Validating);

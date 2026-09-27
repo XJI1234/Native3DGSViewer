@@ -63,7 +63,8 @@ float value(std::string_view name)
 
 void write_ply(const std::filesystem::path &path, const std::vector<std::string> &properties,
                uint32_t count = 1, std::string encoding = "binary_little_endian",
-               std::string invalid = {}, float invalidValue = 0, bool crlf = false)
+               std::string invalid = {}, float invalidValue = 0, bool crlf = false,
+               uint32_t invalidIndex = UINT32_MAX)
 {
     std::ofstream out(path, std::ios::binary);
     const char *eol = crlf ? "\r\n" : "\n";
@@ -75,7 +76,9 @@ void write_ply(const std::filesystem::path &path, const std::vector<std::string>
     for (uint32_t i = 0; i < count; ++i)
         for (const auto &name : properties)
         {
-            float v = name == invalid ? invalidValue : value(name);
+            float v = name == invalid && (invalidIndex == UINT32_MAX || i == invalidIndex)
+                          ? invalidValue
+                          : value(name);
             out.write(reinterpret_cast<const char *>(&v), sizeof(v));
         }
     float extra = 7;
@@ -216,7 +219,7 @@ TEST(ModelIo, ConvertsChannelMajorShForEveryDegree)
 
 TEST(ModelIo, RejectsMalformedPly)
 {
-    TempFile missing, partial, ascii, truncated, nan;
+    TempFile missing, partial, ascii, truncated, nan, scale;
     auto properties = names();
     properties.erase(std::remove(properties.begin(), properties.end(), "rot_0"), properties.end());
     write_ply(missing.path, properties);
@@ -232,6 +235,51 @@ TEST(ModelIo, RejectsMalformedPly)
     expect_error(load(truncated.path), LoadErrorCode::TruncatedData);
     write_ply(nan.path, names(), 1, "binary_little_endian", "x",
               std::numeric_limits<float>::quiet_NaN());
+    const auto nan_result = load(nan.path);
+    expect_error(nan_result, LoadErrorCode::InvalidAttribute);
+    ASSERT_TRUE(std::holds_alternative<LoadError>(nan_result));
+    EXPECT_NE(std::get<LoadError>(nan_result).diagnostic.find("x"), std::string::npos);
+    EXPECT_TRUE(std::get<LoadError>(nan_result).byteOffset.has_value());
+    write_ply(scale.path, names(), 1, "binary_little_endian", "scale_0", 100);
+    const auto scale_result = load(scale.path);
+    expect_error(scale_result, LoadErrorCode::InvalidAttribute);
+    ASSERT_TRUE(std::holds_alternative<LoadError>(scale_result));
+    EXPECT_NE(std::get<LoadError>(scale_result).diagnostic.find("scale_0"),
+              std::string::npos);
+}
+
+TEST(ModelIo, StreamsAcrossMultiplePlyChunks)
+{
+    constexpr uint32_t count = 200'001;
+    TempFile file;
+    write_ply(file.path, names(), count);
+    auto loaded = load(file.path);
+    ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(loaded)) << diagnostic(loaded);
+    EXPECT_EQ(std::get<gs::SceneHandle>(loaded)->count, count);
+    write_ply(file.path, names(), count, "binary_little_endian", "x",
+              std::numeric_limits<float>::quiet_NaN(), false, count - 1);
+    auto invalid = load(file.path);
+    expect_error(invalid, LoadErrorCode::InvalidAttribute);
+    ASSERT_TRUE(std::holds_alternative<LoadError>(invalid));
+    EXPECT_NE(std::get<LoadError>(invalid).diagnostic.find("index 200000 (x)"),
+              std::string::npos);
+}
+
+TEST(ModelIo, ConvertsInfinitePlyOpacityLogits)
+{
+    for (const auto [logit, expected] :
+         {std::pair{std::numeric_limits<float>::infinity(), 1.0f},
+          std::pair{-std::numeric_limits<float>::infinity(), 0.0f}})
+    {
+        TempFile file;
+        write_ply(file.path, names(), 1, "binary_little_endian", "opacity", logit);
+        auto result = load(file.path);
+        ASSERT_TRUE(std::holds_alternative<gs::SceneHandle>(result)) << diagnostic(result);
+        EXPECT_FLOAT_EQ(std::get<gs::SceneHandle>(result)->opacity[0], expected);
+    }
+    TempFile nan;
+    write_ply(nan.path, names(), 1, "binary_little_endian", "opacity",
+              std::numeric_limits<float>::quiet_NaN());
     expect_error(load(nan.path), LoadErrorCode::InvalidAttribute);
 }
 
@@ -242,7 +290,7 @@ TEST(ModelIo, EnforcesLimitsCancellationAndObserverErrors)
     LoadLimits limits;
     limits.maxSplats = 0;
     expect_error(load(file.path, Coordinates::Rdf, limits), LoadErrorCode::ResourceLimit);
-    limits.maxSplats = 8'000'001;
+    limits.maxSplats = uint64_t(UINT32_MAX) + 1;
     expect_error(load(file.path, Coordinates::Rdf, limits), LoadErrorCode::ResourceLimit);
     std::stop_source stop;
     stop.request_stop();

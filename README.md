@@ -29,7 +29,7 @@ PLY / SPZ 文件
 | 组件 | 技术与职责 |
 | --- | --- |
 | `splat-types` | C++20 不可变场景数据和共享契约，位于 `include/splat-types/`。 |
-| `model-io` | 使用 [miniply](https://github.com/vilya/miniply)、[Niantic SPZ](https://github.com/nianticlabs/spz)、zlib 和 zstd；解码运行于受资源限制的辅助进程，不依赖 D3D12。 |
+| `model-io` | PLY 按块读取并规范化，SPZ 使用 [Niantic SPZ](https://github.com/nianticlabs/spz)、zlib 和 zstd；解码运行于受资源限制的辅助进程，不依赖 D3D12。 |
 | `render-core` | 使用 Direct3D 12、DXGI、HLSL Shader Model 6.0、Windows SDK DXC 和 [FidelityFX Parallel Sort](https://github.com/GPUOpen-Effects/FidelityFX-ParallelSort)，不依赖文件解码器或 WinUI。 |
 | `native3dgs-engine` | 基于 C++20 协调相机、工作线程、请求事务、状态快照、事件和设备恢复。 |
 | SDK 与测试 | 使用 CMake/CPack、MSVC、GoogleTest、独立 SDK 消费工程及 GPU 图像和生命周期测试。 |
@@ -116,11 +116,14 @@ GPU 阶段诊断可使用独立的 Release 基准程序；这些结果不能代�
 ```powershell
 $scene = 'C:\models\example.ply'  # 改为已有的 PLY 或 SPZ 文件路径。
 & .\out\Release\Native3DGSViewer.SortBench.exe 8000000 100
+& .\out\Release\Native3DGSViewer.SceneBench.exe $scene load 1
+& .\out\Release\Native3DGSViewer.SceneBench.exe $scene smoke 1
 & .\out\Release\Native3DGSViewer.SceneBench.exe $scene cached 300
 & .\out\Release\Native3DGSViewer.SceneBench.exe $scene force 300
 ```
 
 硬件、样本哈希、测试证据和基准条件见[引擎验证记录](docs/engine-sdk-verification.md)及[渲染核心验证记录](docs/render-core-verification.md)。
+本次大场景加载、显存预算和单帧实测见[大场景验证记录](docs/large-scene-verification.md)。
 
 ## 在其他工程中使用 SDK
 
@@ -142,7 +145,7 @@ native3dgs_deploy_runtime(my-viewer)
 cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 ```
 
-产物为 `out/packages/Native3DGS-SDK-0.1.1-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
+产物为 `out/packages/Native3DGS-SDK-0.1.2-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
 
 ## 修改源码
 

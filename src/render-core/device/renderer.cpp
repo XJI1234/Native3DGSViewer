@@ -751,6 +751,9 @@ class Renderer final : public IRenderer
         {
             transition(list, candidate->attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                        D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+            if (candidate->sh_attributes)
+                transition(list, candidate->sh_attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
+                           D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
             pass_->project_sort(list, *candidate, viewport_);
             {
                 std::lock_guard lock(mutex_);
@@ -758,6 +761,10 @@ class Renderer final : public IRenderer
             }
             transition(list, candidate->attributes.Get(),
                        D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COMMON);
+            if (candidate->sh_attributes)
+                transition(list, candidate->sh_attributes.Get(),
+                           D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
+                           D3D12_RESOURCE_STATE_COMMON);
         }
         else if (candidate)
         {

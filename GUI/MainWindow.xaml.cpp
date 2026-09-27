@@ -54,6 +54,8 @@ void log_engine_error(std::string_view event, const gs::engine::EngineError &err
                            {{"request", std::to_string(request)},
                             {"code", std::to_string(static_cast<int>(load.code))},
                             {"stage", std::to_string(static_cast<int>(load.stage))},
+                            {"byte_offset", load.byteOffset ? std::to_string(*load.byteOffset)
+                                                            : "unknown"},
                             {"diagnostic", load.diagnostic}});
     }
 }
@@ -397,6 +399,7 @@ void MainWindow::open_path(std::filesystem::path path)
     if (auto *id = std::get_if<gs::engine::RequestId>(&request))
     {
         request_id_ = *id;
+        request_started_ = std::chrono::steady_clock::now();
         viewer::log::write("info", "model_open_queued",
                            {{"request", std::to_string(request_id_)}});
     }
@@ -541,11 +544,20 @@ void MainWindow::update_engine()
         case Kind::SceneReady:
             if (event.request == request_id_)
             {
-                const auto scene = engine_->snapshot().active_scene;
+                const auto snapshot = engine_->snapshot();
+                const auto scene = snapshot.active_scene;
+                const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - request_started_).count();
                 viewer::log::write("info", "scene_ready",
                                    {{"request", std::to_string(event.request)},
                                     {"splats", scene ? std::to_string(scene->count) : "unknown"},
-                                    {"sh_degree", scene ? std::to_string(scene->sh_degree) : "unknown"}});
+                                    {"sh_degree", scene ? std::to_string(scene->sh_degree) : "unknown"},
+                                    {"input_bytes", snapshot.load_progress &&
+                                                            snapshot.load_progress->totalBytes
+                                                        ? std::to_string(
+                                                              *snapshot.load_progress->totalBytes)
+                                                        : "unknown"},
+                                    {"open_elapsed_ms", std::to_string(elapsed_ms)}});
                 model_text_.Text(hstring{pending_path_.filename().wstring()});
                 empty_text_.Visibility(Visibility::Collapsed);
                 close_button_.IsEnabled(true); fit_button_.IsEnabled(true);
@@ -559,6 +571,13 @@ void MainWindow::update_engine()
                                    {{"request", std::to_string(event.request)}});
             break;
         case Kind::SceneFailed:
+            if (event.request == request_id_)
+                viewer::log::write("info", "model_open_duration",
+                                   {{"request", std::to_string(event.request)},
+                                    {"open_elapsed_ms", std::to_string(
+                                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                                            std::chrono::steady_clock::now() - request_started_)
+                                            .count())}});
             if (event.error) log_engine_error("scene_failed", *event.error, event.request);
             else viewer::log::write("error", "scene_failed",
                                     {{"request", std::to_string(event.request)}});
@@ -597,6 +616,24 @@ void MainWindow::update_engine()
         }
     }
     const auto state = engine_->snapshot();
+    const auto now = std::chrono::steady_clock::now();
+    if (state.active_scene && state.stats.presented_frame_id != 0 &&
+        state.stats.presented_frame_id != last_logged_frame_ &&
+        now - last_metrics_ >= std::chrono::seconds(5))
+    {
+        const auto &stats = state.stats;
+        viewer::log::write("info", "render_sample",
+                           {{"request", std::to_string(state.active_request)},
+                            {"frame", std::to_string(stats.presented_frame_id)},
+                            {"cpu_frame_ms", std::to_string(stats.cpu_frame_ms.value_or(-1))},
+                            {"gpu_frame_ms", std::to_string(stats.gpu_frame_ms.value_or(-1))},
+                            {"gpu_sort_ms", std::to_string(stats.gpu_sort_ms.value_or(-1))},
+                            {"drawn_splats", std::to_string(stats.drawn_splats)},
+                            {"local_budget_bytes", std::to_string(stats.local_budget_bytes)},
+                            {"local_usage_bytes", std::to_string(stats.local_usage_bytes)}});
+        last_logged_frame_ = stats.presented_frame_id;
+        last_metrics_ = now;
+    }
     scene_ready_ = state.active_scene.has_value() &&
                    state.phase != gs::engine::Phase::Recovering &&
                    state.phase != gs::engine::Phase::Closing &&

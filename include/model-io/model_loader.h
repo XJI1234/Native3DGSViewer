@@ -29,9 +29,9 @@ enum class LoadStage : uint8_t
 
 struct LoadLimits
 {
-    uint64_t maxInputBytes = 1ull << 30;
-    uint64_t maxSplats = 8'000'000;
-    uint64_t maxSceneBytes = 2ull << 30;
+    uint64_t maxInputBytes = UINT64_MAX;
+    uint64_t maxSplats = UINT32_MAX;
+    uint64_t maxSceneBytes = UINT64_MAX;
 };
 
 struct LoadRequest
