@@ -81,19 +81,38 @@ struct AttributeList
     }
 };
 
-LoadResult run_helper(HANDLE file, uint64_t inputBytes, const SceneHeader &layout,
+LoadResult run_helper(HANDLE file, uint64_t inputBytes, const Probe &probe,
+                      const SceneHeader &layout,
                       Coordinates coordinates, std::stop_token stop,
                       const LoaderTestOptions &testOptions)
 {
     MEMORYSTATUSEX memory{sizeof(memory)};
     if (!GlobalMemoryStatusEx(&memory))
         return error(LoadErrorCode::IoFailure, LoadStage::Inspecting);
-    const uint64_t availableJobLimit =
-        std::min<uint64_t>(memory.ullAvailPhys / 2, memory.ullAvailPageFile / 2);
-    if (availableJobLimit < (64ull << 20) || layout.totalBytes > memory.ullAvailPhys / 2 ||
-        layout.totalBytes > memory.ullAvailPageFile / 2)
+    const uint64_t physicalBudget = memory.ullAvailPhys / 5 * 4 +
+                                    (memory.ullAvailPhys % 5) * 4 / 5;
+    const uint64_t commitBudget = memory.ullAvailPageFile / 5 * 4 +
+                                  (memory.ullAvailPageFile % 5) * 4 / 5;
+    const uint64_t availableJobLimit = std::min<uint64_t>(physicalBudget, commitBudget);
+    uint64_t temporary = 4ull << 20;
+    if (probe.format == SourceFormat::Spz)
+    {
+        const uint64_t rest = 3ull * ((probe.degree + 1) * (probe.degree + 1) - 1);
+        if (!checked_mul(probe.count, 76 + 5 * rest, temporary) ||
+            !checked_add(temporary, inputBytes, temporary))
+            return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting,
+                         "SPZ peak byte overflow");
+    }
+    uint64_t estimatedPeak = 0;
+    if (!checked_add(layout.totalBytes, temporary, estimatedPeak) ||
+        !checked_add(estimatedPeak, 64ull << 20, estimatedPeak))
+        return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting,
+                     "CPU peak byte overflow");
+    if (availableJobLimit < (64ull << 20) || estimatedPeak > physicalBudget ||
+        estimatedPeak > commitBudget)
         return error(LoadErrorCode::ResourceLimit, LoadStage::Inspecting,
                      "CPU memory budget: scene=" + std::to_string(layout.totalBytes) +
+                         " peak=" + std::to_string(estimatedPeak) +
                          " available_physical=" + std::to_string(memory.ullAvailPhys) +
                          " available_commit=" + std::to_string(memory.ullAvailPageFile));
     const uint64_t jobLimit =
@@ -359,7 +378,8 @@ class ModelLoader final : public IModelLoader
                 return error(LoadErrorCode::Cancelled, stage);
             report(LoadStage::Decoding, 0, inputBytes);
             auto result =
-                run_helper(file.get(), inputBytes, *layout, request.plyCoordinates, stop, options_);
+                run_helper(file.get(), inputBytes, probe.probe, *layout,
+                           request.plyCoordinates, stop, options_);
             if (std::holds_alternative<LoadError>(result))
                 return result;
             report(LoadStage::Validating, 0, inputBytes);

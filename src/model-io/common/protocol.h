@@ -1,6 +1,6 @@
 #pragma once
 
-#include "model-io/model_loader.h"
+#include "model-io/model_types.h"
 
 #include <algorithm>
 #include <array>

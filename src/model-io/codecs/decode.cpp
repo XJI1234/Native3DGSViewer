@@ -2,6 +2,9 @@
 
 #include "../normalize/normalize.h"
 
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 #include "load-spz.h"
 #include <algorithm>
 #include <array>
@@ -24,10 +27,16 @@ LoadError failed(LoadErrorCode code, std::string reason)
 } // namespace
 
 std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coordinates coordinates,
-                                    SceneHeader *output)
+                                    SceneHeader *output, const std::function<bool()> &cancelled,
+                                    const std::function<void(uint64_t)> &progress)
 {
     std::unique_ptr<FILE, decltype(&fclose)> file(stream, fclose);
-    if (_fseeki64(stream, static_cast<__int64>(probe.ply.vertexOffset), SEEK_SET))
+#ifdef _WIN32
+    const int seek_result = _fseeki64(stream, static_cast<__int64>(probe.ply.vertexOffset), SEEK_SET);
+#else
+    const int seek_result = fseeko(stream, static_cast<off_t>(probe.ply.vertexOffset), SEEK_SET);
+#endif
+    if (seek_result)
         return failed(LoadErrorCode::IoFailure, "PLY vertex seek");
     const uint32_t rest = 3 * ((probe.probe.degree + 1) * (probe.probe.degree + 1) - 1);
     std::array<const char *, 14> base{"x",       "y",      "z",      "scale_0", "scale_1",
@@ -76,6 +85,8 @@ std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coor
     std::vector<float> sh(rest);
     for (uint64_t start = 0; start < probe.probe.count; start += chunkRows)
     {
+        if (cancelled && cancelled())
+            return failed(LoadErrorCode::Cancelled, "PLY decode cancelled");
         const size_t count = static_cast<size_t>((std::min)(uint64_t(chunkRows),
                                                               probe.probe.count - start));
         const size_t size = count * probe.ply.stride;
@@ -135,6 +146,8 @@ std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coor
                 return reason;
             }
         }
+        if (progress)
+            progress(probe.ply.vertexOffset + (start + count) * probe.ply.stride);
     }
     if (!writer.finish())
         return failed(LoadErrorCode::InvalidAttribute, "PLY bounds");
@@ -142,8 +155,10 @@ std::optional<LoadError> decode_ply(FILE *stream, const ProbeResult &probe, Coor
 }
 
 std::optional<LoadError> decode_spz(std::span<const uint8_t> input, const ProbeResult &probe,
-                                    SceneHeader *output)
+                                    SceneHeader *output, const std::function<bool()> &cancelled)
 {
+    if (cancelled && cancelled())
+        return failed(LoadErrorCode::Cancelled, "SPZ decode cancelled");
     spz::UnpackOptions options;
     options.to = spz::CoordinateSystem::RUB;
     auto cloud = spz::loadSpz(input.data(), input.size(), options);
@@ -157,6 +172,8 @@ std::optional<LoadError> decode_spz(std::span<const uint8_t> input, const ProbeR
     SceneWriter writer(output, false);
     for (uint64_t i = 0; i < n; ++i)
     {
+        if ((i & 1023) == 0 && cancelled && cancelled())
+            return failed(LoadErrorCode::Cancelled, "SPZ decode cancelled");
         RawSplat raw{cloud.positions.data() + 3 * i,
                      cloud.scales.data() + 3 * i,
                      cloud.rotations.data() + 4 * i,

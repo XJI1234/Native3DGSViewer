@@ -1,0 +1,24 @@
+#version 450
+layout(local_size_x = 128) in;
+layout(set = 0, binding = 0, std430) readonly buffer Input { uint source[]; };
+layout(set = 0, binding = 1, std430) writeonly buffer Output { uint prefix[]; };
+layout(set = 0, binding = 2, std430) writeonly buffer Sums { uint sums[]; };
+layout(push_constant) uniform Params { uint count; uint groups; uint shift; } p;
+shared uint partial[128];
+void main()
+{
+    uint lane = gl_LocalInvocationID.x;
+    uint index = gl_GlobalInvocationID.x;
+    uint value = index < p.count ? source[index] : 0u;
+    partial[lane] = value;
+    barrier();
+    for (uint step = 1; step < 128; step <<= 1)
+    {
+        uint previous = lane >= step ? partial[lane - step] : 0u;
+        barrier();
+        partial[lane] += previous;
+        barrier();
+    }
+    if (index < p.count) prefix[index] = partial[lane] - value;
+    if (lane == 127) sums[gl_WorkGroupID.x] = partial[lane];
+}

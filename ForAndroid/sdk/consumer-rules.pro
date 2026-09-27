@@ -1,0 +1,4 @@
+-keep class org.native3dgs.sdk.EngineBridge { *; }
+-keep class org.native3dgs.sdk.NativeDecoder { *; }
+-keep class org.native3dgs.sdk.DecodeResult { *; }
+-keep interface org.native3dgs.sdk.DecodeObserver { *; }

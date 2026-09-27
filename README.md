@@ -1,8 +1,10 @@
 # Native3DGS
 
-Native3DGS 是面向 Windows 的原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染引擎和 C++ SDK。它读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序，并通过 Direct3D 12 合成交换链渲染。SDK 提供异步加载、相机控制、渲染表面管理、诊断信息和设备恢复能力，桌面宿主可以专注于用户界面。
+Native3DGS 是原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染工程。Windows 版提供 Direct3D 12 引擎、C++ SDK 和 WinUI 3 查看器；`ForAndroid/` 提供 Vulkan 1.1 引擎、原生 C SDK 与 Kotlin AAR 技术预览。两平台读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序。
 
 **项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。RTX 3080 已完成主要本机验证；Windows 11 23H2 的 Intel Arc 核显已实机打开 SPZ/PLY 并正常浏览。与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
+
+当前发行说明见 [0.2.0](docs/release-0.2.0.md)；本轮资源与 Android 集成经验见[开发记忆](docs/development-memory.md)。
 
 ## 功能
 
@@ -45,7 +47,11 @@ PLY / SPZ 文件
 - 推荐 CMake 4.3 及以上版本（已验证 4.3.2；`CMakeLists.txt` 声明的最低版本为 3.30），另需 Git 和 PowerShell。构建使用 `Visual Studio 18 2026` 生成器。
 - 首次递归获取 Git 子模块需要网络连接。依赖的固定提交与许可证见 [third_party/README.md](third_party/README.md)。
 
-工程目前仅面向 Windows x64。已测试 RTX 3080 和 Intel Arc 核显；AMD、其他 NVIDIA 设备及跨机器性能仍需验证。
+Windows 工程面向 x64；Android SDK 面向 Android 10+ `arm64-v8a`。Windows 已测试 RTX 3080 和 Intel Arc 核显；Android 已在报告 Android 15、`x86_64`、模拟 Adreno 640 的设备上通过模块与仪器测试，arm64 真机画质、热稳定性和性能仍待验证。
+
+## Android 引擎与 SDK
+
+Android 实现、七模块规格、任务清单和构建命令见 [ForAndroid/README.md](ForAndroid/README.md)。[Android SDK 接入指南](ForAndroid/docs/SDK-guide.md)说明系统文档选择器、隔离解码 Service、`SurfaceView` 生命周期、Kotlin 状态流和原生 C ABI。当前发行包为 `native3dgs-android-0.2.0.zip`，包含 AAR、`arm64-v8a` 原生库、公共头、SPIR-V、示例、文档、许可证和哈希清单；实际查看器 App 尚未实现。验证与限制见[Android 引擎记录](ForAndroid/docs/verification/engine-2026-09-27.md)。
 
 ## 从源码构建
 
@@ -130,7 +136,7 @@ $scene = 'C:\models\example.ply'  # 改为已有的 PLY 或 SPZ 文件路径。
 使用匹配的 MSVC 工具链创建 Release x64 CMake 工程，将 `CMAKE_PREFIX_PATH` 指向已安装的 SDK（或解压后的 SDK ZIP）。在工程中配置目标的最小示例如下：
 
 ```cmake
-find_package(Native3DGS 0.1 CONFIG REQUIRED)
+find_package(Native3DGS 0.2 CONFIG REQUIRED)
 add_executable(my-viewer main.cpp)
 target_compile_features(my-viewer PRIVATE cxx_std_20)
 target_link_libraries(my-viewer PRIVATE Native3DGS::Engine dxgi d3d12)
@@ -145,7 +151,7 @@ native3dgs_deploy_runtime(my-viewer)
 cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 ```
 
-产物为 `out/packages/Native3DGS-SDK-0.1.2-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
+产物为 `out/packages/Native3DGS-SDK-0.2.0-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
 
 ## 修改源码
 

@@ -1,0 +1,22 @@
+#version 450
+layout(local_size_x = 1) in;
+struct KeyValue { uint key; uint value; };
+layout(set = 0, binding = 0, std430) readonly buffer KeysIn { KeyValue keys_in[]; };
+layout(set = 0, binding = 1, std430) readonly buffer Prefix { uint prefix[]; };
+layout(set = 0, binding = 2, std430) writeonly buffer KeysOut { KeyValue keys_out[]; };
+layout(push_constant) uniform Params { uint count; uint groups; uint shift; } p;
+void main()
+{
+    uint group = gl_WorkGroupID.x;
+    uint local_count[16];
+    for (uint i = 0; i < 16; ++i) local_count[i] = 0u;
+    uint start = group * 128u;
+    uint end = min(start + 128u, p.count);
+    for (uint i = start; i < end; ++i)
+    {
+        uint key = keys_in[i].key;
+        uint bin = (key >> p.shift) & 15u;
+        uint target = prefix[bin * p.groups + group] + local_count[bin]++;
+        keys_out[target] = keys_in[i];
+    }
+}
