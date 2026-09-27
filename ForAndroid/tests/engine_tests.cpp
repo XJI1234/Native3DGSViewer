@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
+#include <future>
+#include <thread>
 
 namespace
 {
@@ -166,4 +168,113 @@ TEST(AndroidEngine, SurfaceIsReadyOnlyAfterRestoredPresent)
     EXPECT_FALSE(engine.surface_restored(1));
     EXPECT_TRUE(engine.surface_restored(2));
     EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
+}
+
+TEST(AndroidEngine, DetachedReplacementFailureWaitsForRestoredPresent)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto first = engine.begin_open();
+    auto original = std::make_shared<gs::SplatScene>(scene());
+    ASSERT_TRUE(engine.decoded(first, original, 800, 600));
+    ASSERT_TRUE(engine.upload_started(first, 1));
+    ASSERT_TRUE(engine.presented(first, 1, 1));
+    const auto replacement = engine.begin_open();
+    ASSERT_TRUE(engine.detach_surface(1));
+    ASSERT_TRUE(engine.fail(replacement, gs::android::engine::Error::Decode));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Recovering);
+    ASSERT_TRUE(engine.attach_surface(2));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Recovering);
+    ASSERT_TRUE(engine.surface_restored(2));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
+}
+
+TEST(AndroidEngine, ReplacingSurfaceRequiresNewPresent)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto request = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(request, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(request, 1));
+    ASSERT_TRUE(engine.presented(request, 1, 1));
+    ASSERT_TRUE(engine.attach_surface(2));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Recovering);
+    ASSERT_TRUE(engine.surface_restored(2));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
+}
+
+TEST(AndroidEngine, CameraCallbackCanInspectSnapshot)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto request = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(request, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(request, 1));
+    ASSERT_TRUE(engine.presented(request, 1, 1));
+    EXPECT_TRUE(engine.camera_command([&](auto &camera) {
+        EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
+        return camera.orbit(-20, 0);
+    }));
+}
+
+TEST(AndroidEngine, RestoredOldSceneDuringReplacementIsReadyAfterFailure)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto first = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(first, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(first, 1));
+    ASSERT_TRUE(engine.presented(first, 1, 1));
+    const auto replacement = engine.begin_open();
+    ASSERT_TRUE(engine.attach_surface(2));
+    ASSERT_TRUE(engine.surface_restored(2));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Loading);
+    ASSERT_TRUE(engine.fail(replacement, gs::android::engine::Error::Decode));
+    EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
+}
+
+TEST(AndroidEngine, ConcurrentCameraCommandsBothApply)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto request = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(request, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(request, 1));
+    ASSERT_TRUE(engine.presented(request, 1, 1));
+    std::promise<void> entered, release;
+    auto released = release.get_future();
+    bool first = false, second = false;
+    std::thread a([&] {
+        first = engine.camera_command([&](auto &camera) {
+            entered.set_value();
+            released.wait();
+            return camera.orbit(-20, 0);
+        });
+    });
+    entered.get_future().wait();
+    std::thread b([&] {
+        second = engine.camera_command([](auto &camera) { return camera.orbit(-20, 0); });
+    });
+    release.set_value();
+    a.join();
+    b.join();
+    EXPECT_TRUE(first);
+    EXPECT_TRUE(second);
+}
+
+TEST(AndroidEngine, CameraCallbackIsNotRepeatedAfterResize)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto request = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(request, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(request, 1));
+    ASSERT_TRUE(engine.presented(request, 1, 1));
+    int calls = 0;
+    EXPECT_FALSE(engine.camera_command([&](auto &camera) {
+        ++calls;
+        EXPECT_TRUE(engine.resize(1, 1, 640, 480));
+        return camera.orbit(-20, 0);
+    }));
+    EXPECT_EQ(calls, 1);
 }

@@ -55,6 +55,7 @@ struct State : std::enable_shared_from_this<State>
     ANativeWindow *pending_window = nullptr;
     uint64_t pending_generation = 0;
     uint64_t detach_generation = 0;
+    bool viewport_changed = false;
     bool clear_requested = false;
     uint64_t clear_request_id = 0;
     bool io_done = false;
@@ -86,7 +87,7 @@ struct State : std::enable_shared_from_this<State>
         try { render_thread = std::thread([self] { self->render_loop(); }); }
         catch (...)
         {
-            closed = true;
+            { std::lock_guard lock(mutex); closed = true; }
             condition.notify_all();
             io_thread.join();
             throw;
@@ -163,14 +164,21 @@ struct State : std::enable_shared_from_this<State>
             uint64_t cleared_id = 0;
             {
                 std::unique_lock lock(mutex);
-                condition.wait_for(lock, std::chrono::milliseconds(16), [&] {
+                auto awakened = [&] {
                     return closed || pending_window || detach_generation ||
-                           clear_requested || decoded.has_value();
-                });
+                           viewport_changed || clear_requested || decoded.has_value();
+                };
+                const bool surface_ready = window && ANativeWindow_getWidth(window) > 0 &&
+                                           ANativeWindow_getHeight(window) > 0;
+                if (surface_ready && (ready || transactions.active_scene()))
+                    condition.wait_for(lock, std::chrono::milliseconds(16), awakened);
+                else
+                    condition.wait(lock, awakened);
                 if (closed) break;
                 replacement = std::exchange(pending_window, nullptr);
                 replacement_generation = std::exchange(pending_generation, 0);
                 detach = std::exchange(detach_generation, 0);
+                viewport_changed = false;
                 clear = std::exchange(clear_requested, false);
                 cleared_id = std::exchange(clear_request_id, 0);
                 if (decoded) ready = std::exchange(decoded, std::nullopt);
@@ -352,14 +360,14 @@ struct State : std::enable_shared_from_this<State>
                                 error.what());
             if (ready) transactions.fail(ready->request_id, Error::Device);
             transactions.render_failure(generation, Error::Device);
-            closed = true;
+            { std::lock_guard lock(mutex); closed = true; }
         }
         catch (...)
         {
             __android_log_print(ANDROID_LOG_ERROR, "Native3DGS", "Render thread failure");
             if (ready) transactions.fail(ready->request_id, Error::Device);
             transactions.render_failure(generation, Error::Device);
-            closed = true;
+            { std::lock_guard lock(mutex); closed = true; }
         }
         condition.notify_all();
         renderer.reset();
@@ -373,8 +381,11 @@ struct State : std::enable_shared_from_this<State>
 
     void stop()
     {
-        closed = true;
-        latest_request = 0;
+        {
+            std::lock_guard lock(mutex);
+            closed = true;
+            latest_request = 0;
+        }
         transactions.shutdown();
         condition.notify_all();
         if (io_thread.joinable()) io_thread.join();
@@ -531,7 +542,7 @@ extern "C" gs_android_result_t gs_android_detach_surface(gs_android_engine_t *en
             state->pending_window = nullptr;
             state->pending_generation = 0;
         }
-        state->detach_generation = generation;
+        state->detach_generation = std::max(state->detach_generation, generation);
     }
     state->condition.notify_all();
     return GS_ANDROID_OK;
@@ -548,6 +559,8 @@ extern "C" gs_android_result_t gs_android_resize(gs_android_engine_t *engine,
         return GS_ANDROID_INVALID_ARGUMENT;
     state->viewport_width = width;
     state->viewport_height = height;
+    state->viewport_changed = true;
+    state->condition.notify_all();
     return GS_ANDROID_OK;
 }
 

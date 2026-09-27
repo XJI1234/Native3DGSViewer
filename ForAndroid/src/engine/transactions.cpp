@@ -29,7 +29,8 @@ bool Transactions::decoded(uint64_t request_id, SceneHandle scene, uint32_t widt
     CameraController candidate = camera_;
     if (!candidate.fit(*scene, width, height))
     {
-        state_.phase = active_ ? Phase::Ready : Phase::Failed;
+        state_.phase = active_ ? (active_presented_ ? Phase::Ready : Phase::Recovering)
+                               : Phase::Failed;
         state_.error = Error::Decode;
         return false;
     }
@@ -59,10 +60,12 @@ bool Transactions::presented(uint64_t request_id, uint64_t ticket,
         return false;
     active_ = std::move(pending_);
     camera_ = std::move(pending_camera_);
+    ++camera_revision_;
     state_.active_request_id = request_id;
     state_.scene_count = active_->count;
     state_.camera = camera_.pose();
     state_.phase = Phase::Ready;
+    active_presented_ = true;
     state_.error = Error::None;
     return true;
 }
@@ -76,7 +79,8 @@ bool Transactions::fail(uint64_t request_id, Error error)
         return false;
     pending_.reset();
     state_.upload_ticket = 0;
-    state_.phase = active_ ? Phase::Ready : Phase::Failed;
+    state_.phase = active_ ? (active_presented_ ? Phase::Ready : Phase::Recovering)
+                           : Phase::Failed;
     state_.error = error;
     return true;
 }
@@ -92,6 +96,8 @@ void Transactions::clear_scene()
     if (state_.phase == Phase::Stopping || state_.phase == Phase::Stopped) return;
     pending_.reset();
     active_.reset();
+    active_presented_ = false;
+    ++camera_revision_;
     state_.request_id = 0;
     state_.active_request_id = 0;
     state_.upload_ticket = 0;
@@ -109,6 +115,11 @@ bool Transactions::attach_surface(uint64_t generation)
         state_.phase == Phase::Stopping || state_.phase == Phase::Stopped)
         return false;
     has_surface_ = true;
+    if (active_)
+    {
+        active_presented_ = false;
+        if (state_.phase == Phase::Ready) state_.phase = Phase::Recovering;
+    }
     state_.surface_generation = generation;
     state_.viewport_revision = 0;
     return true;
@@ -119,6 +130,7 @@ bool Transactions::detach_surface(uint64_t generation)
     std::lock_guard lock(mutex_);
     if (!has_surface_ || generation != state_.surface_generation) return false;
     has_surface_ = false;
+    active_presented_ = false;
     if (active_ && state_.phase == Phase::Ready)
         state_.phase = Phase::Recovering;
     return true;
@@ -133,7 +145,11 @@ bool Transactions::resize(uint64_t generation, uint64_t revision, uint32_t width
         width > 16384 || height > 16384)
         return false;
     state_.viewport_revision = revision;
-    if (camera_.has_scene()) camera_.resize(width, height);
+    if (camera_.has_scene())
+    {
+        camera_.resize(width, height);
+        ++camera_revision_;
+    }
     if (pending_) pending_camera_.resize(width, height);
     return true;
 }
@@ -145,6 +161,7 @@ bool Transactions::render_failure(uint64_t generation, Error error)
         state_.phase == Phase::Stopping || state_.phase == Phase::Stopped)
         return false;
     state_.error = error;
+    active_presented_ = false;
     if (state_.phase != Phase::Loading && state_.phase != Phase::Uploading)
         state_.phase = active_ ? Phase::Recovering : Phase::Failed;
     return true;
@@ -153,9 +170,10 @@ bool Transactions::render_failure(uint64_t generation, Error error)
 bool Transactions::surface_restored(uint64_t generation)
 {
     std::lock_guard lock(mutex_);
-    if (!has_surface_ || generation != state_.surface_generation || !active_ ||
-        state_.phase != Phase::Recovering)
+    if (!has_surface_ || generation != state_.surface_generation || !active_)
         return false;
+    active_presented_ = true;
+    if (state_.phase != Phase::Recovering) return true;
     state_.phase = Phase::Ready;
     if (state_.error == Error::Surface || state_.error == Error::Device)
         state_.error = Error::None;
@@ -164,13 +182,28 @@ bool Transactions::surface_restored(uint64_t generation)
 
 bool Transactions::camera_command(const std::function<bool(CameraController &)> &command)
 {
+    if (!command) return false;
+    std::lock_guard command_lock(camera_command_mutex_);
+    CameraController candidate;
+    SceneHandle scene;
+    uint64_t revision = 0;
+    {
+        std::lock_guard lock(mutex_);
+        if (!active_ || state_.phase == Phase::Stopping ||
+            state_.phase == Phase::Stopped)
+            return false;
+        candidate = camera_;
+        scene = active_;
+        revision = camera_revision_;
+    }
+    try { if (!command(candidate)) return false; }
+    catch (...) { return false; }
     std::lock_guard lock(mutex_);
-    if (!active_ || !command || state_.phase == Phase::Stopping ||
-        state_.phase == Phase::Stopped)
+    if (active_ != scene || camera_revision_ != revision ||
+        state_.phase == Phase::Stopping || state_.phase == Phase::Stopped)
         return false;
-    auto candidate = camera_;
-    if (!command(candidate)) return false;
     camera_ = std::move(candidate);
+    ++camera_revision_;
     state_.camera = camera_.pose();
     return true;
 }
@@ -183,6 +216,7 @@ bool Transactions::fit_active(uint32_t width, uint32_t height)
     auto candidate = camera_;
     if (!candidate.fit(*active_, width, height)) return false;
     camera_ = std::move(candidate);
+    ++camera_revision_;
     state_.camera = camera_.pose();
     return true;
 }
@@ -193,6 +227,8 @@ void Transactions::shutdown()
     state_.phase = Phase::Stopping;
     pending_.reset();
     active_.reset();
+    active_presented_ = false;
+    ++camera_revision_;
     has_surface_ = false;
     state_.scene_count = 0;
     state_.phase = Phase::Stopped;

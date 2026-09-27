@@ -341,6 +341,11 @@ LoadResult import_shared_fd(int fd, uint64_t max_scene_bytes,
         return failure(LoadErrorCode::OutOfMemory, LoadStage::Validating,
                        "Shared scene allocation");
     }
+    catch (...)
+    {
+        return failure(LoadErrorCode::ObserverFailure, LoadStage::Validating,
+                       "Shared scene observer failure");
+    }
 }
 
 SharedLoadResult load_shared_fd(const FdLoadRequest &request,

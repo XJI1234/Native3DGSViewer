@@ -1,5 +1,8 @@
 # Native3DGS SDK 0.2.0
 
+逐项接口、调用语法、返回值和线程/所有权约束见
+[Windows SDK 接口手册](SDK-API-reference.md)。
+
 Windows 11 x64, VS 2026/MSVC 19.50, C++20, Release `/MD`. Install the matching VC runtime on the destination machine. The SDK supplies native static libraries; consumers must use the matching compiler/runtime. Desktop UI is owned by the consumer.
 
 ```powershell

@@ -43,6 +43,7 @@ class Transactions
     bool resize(uint64_t generation, uint64_t revision, uint32_t width, uint32_t height);
     bool render_failure(uint64_t generation, Error error);
     bool surface_restored(uint64_t generation);
+    // Invokes command once outside the state lock. A concurrent resize/fit may reject the result.
     bool camera_command(const std::function<bool(CameraController &)> &command);
     bool fit_active(uint32_t width, uint32_t height);
     void shutdown();
@@ -54,13 +55,16 @@ class Transactions
 
   private:
     mutable std::mutex mutex_;
+    std::mutex camera_command_mutex_;
     Snapshot state_{};
     SceneHandle active_;
     SceneHandle pending_;
     CameraController camera_;
     CameraController pending_camera_;
     uint64_t next_request_ = 0;
+    uint64_t camera_revision_ = 0;
     bool has_surface_ = false;
+    bool active_presented_ = false;
 };
 
 } // namespace gs::android::engine

@@ -20,6 +20,15 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class EngineIntegrationTest {
+    @Test fun idleEngineCloseDoesNotStall() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        repeat(32) {
+            val engine = Native3dgsEngine(context)
+            runBlocking { engine.closeAndWait() }
+            assertEquals(EnginePhase.Stopped, engine.state.value.phase)
+        }
+    }
+
     private fun fixture(context: android.content.Context): java.io.File {
         val file = java.io.File.createTempFile("engine-fixture-", ".ply", context.cacheDir)
         val header = "ply\nformat binary_little_endian 1.0\nelement vertex 1\n" +

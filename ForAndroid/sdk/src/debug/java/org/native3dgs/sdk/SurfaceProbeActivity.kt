@@ -41,7 +41,7 @@ class SurfaceProbeActivity : Activity(), SurfaceHolder.Callback {
                 else NativeDecoder.probeSurface(holder.surface) { captureFrame(generation) }
                 if (surfaceGeneration.get() == generation) probeResult = result
             } finally {
-                completed.countDown()
+                if (surfaceGeneration.get() == generation) completed.countDown()
             }
         }
     }
@@ -54,12 +54,15 @@ class SurfaceProbeActivity : Activity(), SurfaceHolder.Callback {
         val finished = AtomicBoolean()
         fun finish(status: Int, bitmap: Bitmap? = null) {
             if (finished.compareAndSet(false, true)) {
-                if (surfaceGeneration.get() == generation) {
+                val active = surfaceGeneration.get() == generation
+                if (active) {
                     copyResult = status
                     if (status == PixelCopy.SUCCESS) captured = bitmap
                 }
+                if (status != PixelCopy.SUCCESS || !active)
+                    bitmap?.recycle()
                 copied.countDown()
-            }
+            } else bitmap?.recycle()
         }
         main.post {
             if (finished.get() || surfaceGeneration.get() != generation ||
@@ -77,7 +80,7 @@ class SurfaceProbeActivity : Activity(), SurfaceHolder.Callback {
             fun copy() {
                 if (finished.get() || surfaceGeneration.get() != generation ||
                     !viewport.holder.surface.isValid) {
-                    finish(PixelCopy.ERROR_SOURCE_INVALID)
+                    finish(PixelCopy.ERROR_SOURCE_INVALID, bitmap)
                     return
                 }
                 try {
@@ -87,12 +90,15 @@ class SurfaceProbeActivity : Activity(), SurfaceHolder.Callback {
                         else finish(status, bitmap)
                     }, main)
                 } catch (_: IllegalArgumentException) {
-                    finish(PixelCopy.ERROR_SOURCE_INVALID)
+                    finish(PixelCopy.ERROR_SOURCE_INVALID, bitmap)
                 }
             }
             copy()
         }
-        if (!copied.await(5, TimeUnit.SECONDS)) finish(PixelCopy.ERROR_TIMEOUT)
+        if (!copied.await(5, TimeUnit.SECONDS)) {
+            finish(PixelCopy.ERROR_TIMEOUT)
+            copied.await()
+        }
     }
 
     override fun onDestroy() {

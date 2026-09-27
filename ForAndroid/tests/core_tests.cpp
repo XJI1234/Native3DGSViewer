@@ -102,7 +102,11 @@ int run_joint_cases()
     }
     close(fd);
     int pipe_fds[2]{};
-    expect(pipe(pipe_fds) == 0, "create provider pipe");
+    if (pipe(pipe_fds) != 0)
+    {
+        expect(false, "create provider pipe");
+        return 1;
+    }
     std::thread writer([&] { write_fixture(pipe_fds[1], 0, false); close(pipe_fds[1]); });
     gs::android::io::FdLoadRequest stream_request{pipe_fds[0]};
     stream_request.temporary_directory = "/data/local/tmp";
