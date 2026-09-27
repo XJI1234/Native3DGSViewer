@@ -176,7 +176,8 @@ write_basic_package_version_file("${CMAKE_BINARY_DIR}/Native3DGSConfigVersion.cm
 install(FILES "${CMAKE_BINARY_DIR}/Native3DGSConfig.cmake" "${CMAKE_BINARY_DIR}/Native3DGSConfigVersion.cmake"
   DESTINATION lib/cmake/Native3DGS COMPONENT SDK)
 install(DIRECTORY examples/sdk-host/ DESTINATION examples/sdk-host COMPONENT SDK)
-install(FILES docs/SPEC-engine-sdk.md docs/SDK-guide.md README.md docs/engine-sdk-verification.md
+install(FILES docs/SPEC-engine-sdk.md docs/SDK-guide.md docs/SDK-API-reference.md README.md
+  docs/engine-sdk-verification.md
   DESTINATION share/Native3DGS COMPONENT SDK)
 install(DIRECTORY docs/ DESTINATION share/Native3DGS/docs COMPONENT SDK)
 install(FILES GUI/README.md DESTINATION share/Native3DGS/GUI COMPONENT SDK)

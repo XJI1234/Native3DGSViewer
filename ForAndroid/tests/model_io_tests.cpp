@@ -143,6 +143,23 @@ TEST(AndroidModelIo, SharedImportCanBeCancelled)
     EXPECT_EQ(std::get<gs::io::LoadError>(imported).code, gs::io::LoadErrorCode::Cancelled);
 }
 
+TEST(AndroidModelIo, SharedImportTranslatesThrowingObserver)
+{
+    const int input = fixture(0);
+    ASSERT_GE(input, 0);
+    auto decoded = gs::android::io::load_shared_fd({input});
+    close(input);
+    ASSERT_TRUE(std::holds_alternative<gs::android::io::SharedScene>(decoded));
+    const int transferred = std::get<gs::android::io::SharedScene>(decoded).duplicate_fd();
+    ASSERT_GE(transferred, 0);
+    auto imported = gs::android::io::import_shared_fd(transferred, UINT64_MAX,
+        []() -> bool { throw std::runtime_error("observer"); });
+    close(transferred);
+    ASSERT_TRUE(std::holds_alternative<gs::io::LoadError>(imported));
+    EXPECT_EQ(std::get<gs::io::LoadError>(imported).code,
+              gs::io::LoadErrorCode::ObserverFailure);
+}
+
 TEST(AndroidModelIo, EmptyRegularFileIsTruncated)
 {
     char path[] = "/data/local/tmp/gs-empty-XXXXXX";

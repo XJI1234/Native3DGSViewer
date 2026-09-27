@@ -192,7 +192,10 @@ CameraPose CameraController::pose() const
         mirrored.position.y = center_.y + (center_.y - camera_.position.y);
     if (flip_axes_ & 4)
         mirrored.position.z = center_.z + (center_.z - camera_.position.z);
-    if (!finite(mirrored.position)) return camera_;
+    const auto relative = subtract(mirrored.position, origin_);
+    if (!finite(relative) || std::max({std::abs(relative.x), std::abs(relative.y),
+                                      std::abs(relative.z)}) > 1e19)
+        return camera_;
     const auto &q = camera_.orientation;
     switch (flip_axes_)
     {

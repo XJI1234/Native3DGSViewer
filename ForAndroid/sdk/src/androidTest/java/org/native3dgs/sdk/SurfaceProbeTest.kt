@@ -29,8 +29,8 @@ class SurfaceProbeTest {
             assertTrue("front red should dominate back blue", Color.red(center) > Color.blue(center))
             assertTrue(Color.red(center) > Color.green(center))
             assertEquals(Color.WHITE, bitmap.getPixel(10, 10))
-            bitmap.recycle()
         } finally {
+            activity.captured?.recycle()
             instrumentation.runOnMainSync { activity.finish() }
         }
     }
@@ -51,10 +51,12 @@ class SurfaceProbeTest {
             assertTrue(Color.green(center) in 10..240)
             assertTrue(Color.blue(center) in 10..240)
             assertEquals(Color.WHITE, bitmap.getPixel(10, 10))
-            val output = java.io.File(context.getExternalFilesDir(null), "surface-probe.png")
-            output.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
-            bitmap.recycle()
+            try {
+                val output = java.io.File(context.cacheDir, "surface-probe.png")
+                output.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+            } catch (_: java.io.IOException) { }
         } finally {
+            activity.captured?.recycle()
             instrumentation.runOnMainSync { activity.finish() }
         }
     }

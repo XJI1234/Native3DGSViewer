@@ -33,9 +33,11 @@ class SurfaceProbe
     SurfaceProbe &operator=(const SurfaceProbe &) = delete;
     ~SurfaceProbe()
     {
+        // A timed-out submission may still reference every Vulkan resource below.
+        if (abandon) return;
         if (device)
         {
-            if (submitted) vkDeviceWaitIdle(device);
+            if (submitted && !device_lost) vkDeviceWaitIdle(device);
             if (fence) vkDestroyFence(device, fence, nullptr);
             if (acquired) vkDestroySemaphore(device, acquired, nullptr);
             if (finished) vkDestroySemaphore(device, finished, nullptr);
@@ -274,9 +276,13 @@ class SurfaceProbe
         present.pSwapchains = &swapchain;
         present.pImageIndices = &image;
         const auto status = vkQueuePresentKHR(queue, &present);
+        if (status == VK_ERROR_DEVICE_LOST) device_lost = true;
         if (status != VK_SUCCESS && status != VK_SUBOPTIMAL_KHR)
             check(status, "vkQueuePresentKHR");
-        check(vkWaitForFences(device, 1, &fence, VK_TRUE, 5'000'000'000ull), "Surface submit fence");
+        const auto waited = vkWaitForFences(device, 1, &fence, VK_TRUE, 5'000'000'000ull);
+        if (waited == VK_TIMEOUT) abandon = true;
+        if (waited == VK_ERROR_DEVICE_LOST) device_lost = true;
+        check(waited, "Surface submit fence");
     }
 
   private:
@@ -364,6 +370,8 @@ class SurfaceProbe
     VkSemaphore finished = VK_NULL_HANDLE;
     VkFence fence = VK_NULL_HANDLE;
     bool submitted = false;
+    bool abandon = false;
+    bool device_lost = false;
 };
 }
 
