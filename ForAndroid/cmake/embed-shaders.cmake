@@ -1,5 +1,5 @@
 file(WRITE "${OUTPUT}" "#pragma once\n#include <cstdint>\nnamespace gs::android::render::embedded {\n")
-foreach(NAME triangle_vert triangle_frag splat_vert splat_frag histogram scan add_prefix scatter project)
+foreach(NAME triangle_vert triangle_frag splat_vert splat_frag histogram scan add_prefix scatter scatter_subgroup project)
     file(READ "${DIRECTORY}/${NAME}.spv" CODE HEX)
     string(REGEX REPLACE "([0-9a-f][0-9a-f])" "0x\\1," BYTES "${CODE}")
     file(APPEND "${OUTPUT}" "alignas(4) inline constexpr uint8_t ${NAME}[] = {${BYTES}};\n")

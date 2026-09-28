@@ -6,7 +6,10 @@
 #include <algorithm>
 #include <array>
 #include <bit>
+#include <chrono>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <memory>
@@ -19,8 +22,6 @@ namespace gs::android::render
 {
 namespace
 {
-constexpr uint32_t kGroupWidth = 128;
-
 void require(VkResult status, const char *operation)
 {
     if (status != VK_SUCCESS)
@@ -29,7 +30,7 @@ void require(VkResult status, const char *operation)
 
 uint32_t groups_for(uint32_t count)
 {
-    return count / kGroupWidth + (count % kGroupWidth != 0);
+    return count / 128 + (count % 128 != 0);
 }
 
 std::vector<uint32_t> read_shader(const std::string &path)
@@ -43,7 +44,9 @@ std::vector<uint32_t> read_shader(const std::string &path)
             {":histogram", embedded::histogram, sizeof(embedded::histogram)},
             {":scan", embedded::scan, sizeof(embedded::scan)},
             {":add_prefix", embedded::add_prefix, sizeof(embedded::add_prefix)},
-            {":scatter", embedded::scatter, sizeof(embedded::scatter)}};
+            {":scatter", embedded::scatter, sizeof(embedded::scatter)},
+            {":scatter_subgroup", embedded::scatter_subgroup,
+             sizeof(embedded::scatter_subgroup)}};
         for (const auto &source : embedded_sources)
             if (path == source.name)
         {
@@ -85,11 +88,11 @@ class SortContext
   public:
     SortContext(const SortContext &) = delete;
     SortContext &operator=(const SortContext &) = delete;
-    explicit SortContext(const std::string &shader_directory)
+    explicit SortContext(const std::string &shader_directory, bool subgroup_scatter = false)
     {
         try
         {
-            initialize(shader_directory);
+            initialize(shader_directory, subgroup_scatter);
         }
         catch (...)
         {
@@ -98,7 +101,7 @@ class SortContext
         }
     }
 
-    void initialize(const std::string &shader_directory)
+    void initialize(const std::string &shader_directory, bool subgroup_scatter)
     {
         VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO};
         app.apiVersion = VK_API_VERSION_1_1;
@@ -171,8 +174,8 @@ class SortContext
         layout_info.pPushConstantRanges = &push;
         require(vkCreatePipelineLayout(device_, &layout_info, nullptr, &pipeline_layout_),
                 "vkCreatePipelineLayout");
-        constexpr std::array<const char *, 4> names{"histogram", "scan", "add_prefix",
-                                                     "scatter"};
+        const std::array<const char *, 4> names{"histogram", "scan", "add_prefix",
+                                               subgroup_scatter ? "scatter_subgroup" : "scatter"};
         for (size_t i = 0; i < names.size(); ++i)
         {
             const auto code = read_shader(shader_directory.empty()
@@ -453,7 +456,14 @@ void verify_case(SortContext &context, const std::vector<uint32_t> &keys)
                          {count, group_count, shift}, group_count);
         std::swap(input, output);
     }
+    const auto submit_started = std::chrono::steady_clock::now();
     context.submit();
+    if (count >= 1'000'000 && std::getenv("GS_SORT_BENCH"))
+    {
+        const auto elapsed = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - submit_started).count();
+        std::fprintf(stderr, "radix submit_fence_wall_ms=%.3f count=%u\n", elapsed, count);
+    }
     const auto gpu_pairs = context.read(input, count * 2);
     std::stable_sort(values.begin(), values.end(), [&](uint32_t a, uint32_t b) {
         return keys[a] < keys[b];
@@ -468,11 +478,12 @@ void verify_case(SortContext &context, const std::vector<uint32_t> &keys)
 }
 } // namespace
 
-std::string sort_self_test(const std::string &shader_directory)
+static std::string run_sort_self_test(const std::string &shader_directory,
+                                      bool subgroup_scatter)
 {
     try
     {
-        SortContext context(shader_directory);
+        SortContext context(shader_directory, subgroup_scatter);
         verify_case(context, {});
         verify_case(context, {7});
         verify_case(context, {4, 4, 4, 4, 4});
@@ -497,8 +508,19 @@ std::string sort_self_test(const std::string &shader_directory)
     }
 }
 
-std::string sort_scene_self_test(const gs::SceneHandle &scene,
-                                  const std::string &shader_directory)
+std::string sort_self_test(const std::string &shader_directory)
+{
+    return run_sort_self_test(shader_directory, false);
+}
+
+std::string sort_subgroup_self_test(const std::string &shader_directory)
+{
+    return run_sort_self_test(shader_directory, true);
+}
+
+static std::string run_scene_self_test(const gs::SceneHandle &scene,
+                                       const std::string &shader_directory,
+                                       bool subgroup_scatter)
 {
     try
     {
@@ -516,7 +538,7 @@ std::string sort_scene_self_test(const gs::SceneHandle &scene,
                 return "Scene diagnostic distance overflow";
             keys[i] = ~std::bit_cast<uint32_t>(distance);
         }
-        SortContext context(shader_directory);
+        SortContext context(shader_directory, subgroup_scatter);
         verify_case(context, keys);
         return {};
     }
@@ -524,6 +546,18 @@ std::string sort_scene_self_test(const gs::SceneHandle &scene,
     {
         return error.what();
     }
+}
+
+std::string sort_scene_self_test(const gs::SceneHandle &scene,
+                                  const std::string &shader_directory)
+{
+    return run_scene_self_test(scene, shader_directory, false);
+}
+
+std::string sort_scene_subgroup_self_test(const gs::SceneHandle &scene,
+                                           const std::string &shader_directory)
+{
+    return run_scene_self_test(scene, shader_directory, true);
 }
 
 } // namespace gs::android::render

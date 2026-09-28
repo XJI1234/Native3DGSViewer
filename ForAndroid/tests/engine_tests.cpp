@@ -30,6 +30,17 @@ double screen_x(const gs::android::engine::CameraPose &camera, gs::Double3 point
     const double horizontal = right_x * delta.x + right_y * delta.y + right_z * delta.z;
     return camera.horizontal_mirror ? -horizontal : horizontal;
 }
+
+double screen_y(const gs::android::engine::CameraPose &camera, gs::Double3 point)
+{
+    const auto &q = camera.orientation;
+    const gs::Double3 delta{point.x - camera.position.x, point.y - camera.position.y,
+                            point.z - camera.position.z};
+    const double up_x = 2 * (q[0] * q[1] - q[2] * q[3]);
+    const double up_y = 1 - 2 * (q[0] * q[0] + q[2] * q[2]);
+    const double up_z = 2 * (q[1] * q[2] + q[0] * q[3]);
+    return up_x * delta.x + up_y * delta.y + up_z * delta.z;
+}
 } // namespace
 
 TEST(AndroidCamera, LeftDragMovesSurfacePointLeftWithAnyFlip)
@@ -46,6 +57,20 @@ TEST(AndroidCamera, LeftDragMovesSurfacePointLeftWithAnyFlip)
         // An odd reflection is compensated by the host's horizontal image mirror.
         EXPECT_LT(after - before, 0) << static_cast<int>(flip);
     }
+}
+
+TEST(AndroidCamera, VerticalDragChangesPitchWithoutYawInLandscape)
+{
+    gs::android::engine::CameraController camera;
+    ASSERT_TRUE(camera.fit(scene(), 1920, 900));
+    const auto before = camera.pose();
+    const gs::Double3 point{0, 1, 0};
+    ASSERT_TRUE(camera.orbit(0, 100));
+    const auto after = camera.pose();
+    EXPECT_NEAR(screen_x(after, point), screen_x(before, point), 1e-10);
+    EXPECT_NE(screen_y(after, point), screen_y(before, point));
+    EXPECT_NE(after.orientation[0], before.orientation[0]);
+    EXPECT_NEAR(after.orientation[1], before.orientation[1], 1e-10);
 }
 
 TEST(AndroidCamera, FlyMotionIsBoundedAndRejectsNonFiniteInput)
@@ -215,6 +240,23 @@ TEST(AndroidEngine, CameraCallbackCanInspectSnapshot)
         EXPECT_EQ(engine.snapshot().phase, gs::android::engine::Phase::Ready);
         return camera.orbit(-20, 0);
     }));
+}
+
+TEST(AndroidEngine, CameraRevisionTracksChangesForOnDemandRendering)
+{
+    gs::android::engine::Transactions engine;
+    ASSERT_TRUE(engine.attach_surface(1));
+    const auto request = engine.begin_open();
+    ASSERT_TRUE(engine.decoded(request, std::make_shared<gs::SplatScene>(scene()), 800, 600));
+    ASSERT_TRUE(engine.upload_started(request, 1));
+    ASSERT_TRUE(engine.presented(request, 1, 1));
+    const auto initial = engine.snapshot().camera_revision;
+    EXPECT_EQ(initial, engine.snapshot().camera_revision);
+    ASSERT_TRUE(engine.camera_command([](auto &camera) { return camera.orbit(20, 0); }));
+    EXPECT_GT(engine.snapshot().camera_revision, initial);
+    const auto moved = engine.snapshot().camera_revision;
+    ASSERT_TRUE(engine.resize(1, 1, 900, 600));
+    EXPECT_GT(engine.snapshot().camera_revision, moved);
 }
 
 TEST(AndroidEngine, RestoredOldSceneDuringReplacementIsReadyAfterFailure)

@@ -141,7 +141,7 @@ std::optional<LoadError> read_exact(int fd, void *target, size_t bytes,
     {
         if (cancelled && cancelled())
             return failure(LoadErrorCode::Cancelled, stage, "Input copy cancelled");
-        const size_t chunk = std::min<size_t>(bytes - done, 1 << 16);
+        const size_t chunk = std::min<size_t>(bytes - done, 1 << 20);
         const ssize_t count = pread(fd, static_cast<uint8_t *>(target) + done, chunk,
                                     static_cast<off_t>(done));
         if (count < 0 && errno == EINTR) continue;

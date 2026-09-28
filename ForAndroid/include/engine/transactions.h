@@ -22,6 +22,7 @@ struct Snapshot
     uint64_t upload_ticket = 0;
     uint64_t surface_generation = 0;
     uint64_t viewport_revision = 0;
+    uint64_t camera_revision = 0;
     uint64_t scene_count = 0;
     Error error = Error::None;
     CameraPose camera{};

@@ -72,6 +72,21 @@ void expect_error(const gs::io::LoadResult &result, gs::io::LoadErrorCode code,
 }
 } // namespace
 
+TEST(AndroidModelIo, ExternalSpzSample)
+{
+    const char *path = std::getenv("GS_EXTERNAL_SAMPLE");
+    if (!path) GTEST_SKIP() << "Set GS_EXTERNAL_SAMPLE to test an external scene";
+    const int fd = open(path, O_RDONLY | O_CLOEXEC);
+    ASSERT_GE(fd, 0);
+    auto result = gs::android::io::load_shared_fd({fd});
+    close(fd);
+    if (const auto *error = std::get_if<gs::io::LoadError>(&result))
+        FAIL() << "code=" << static_cast<int>(error->code)
+               << " stage=" << static_cast<int>(error->stage)
+               << " diagnostic=" << error->diagnostic;
+    EXPECT_GT(std::get<gs::android::io::SharedScene>(result).scene()->count, 0);
+}
+
 TEST(AndroidModelIo, ImportCopiesWritableSenderScene)
 {
     const int input = fixture(0);

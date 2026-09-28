@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">3DGS Viewer</string>
+    <string name="viewport">模型视口</string>
+    <string name="joystick">移动摇杆</string>
+    <string name="empty_scene">打开 PLY 或 SPZ 模型</string>
+    <string name="unsupported_device">此设备无法运行 3DGS 查看器</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+    <string name="fit">适配</string>
+    <string name="reset">重置</string>
+    <string name="flip_y">翻转 Y</string>
+    <string name="fixed">固定</string>
+    <string name="free">自由</string>
+    <string name="full_quality">全质量</string>
+    <string name="mobile_quality">移动画质</string>
+    <string name="render_scale">%1$d%%</string>
+    <string name="cancel">取消</string>
+    <string name="retry">重试</string>
+    <string name="up">上升</string>
+    <string name="down">下降</string>
+    <string name="ready">就绪</string>
+    <string name="opening">正在打开模型</string>
+    <string name="loading">正在读取模型</string>
+    <string name="uploading">正在准备画面</string>
+    <string name="recovering">正在恢复图形设备</string>
+    <string name="checking_device">正在检查图形设备</string>
+    <string name="device_unavailable">图形设备不可用</string>
+    <string name="device_unsupported">图形设备不支持</string>
+    <string name="operation_failed">操作未完成，请重试</string>
+    <string name="render_failed">渲染失败，请重试</string>
+    <string name="open_failed">无法打开此模型文件</string>
+    <string name="out_of_memory">内存不足，当前模型仍可浏览</string>
+    <string name="cancelled">已取消</string>
+    <string name="cancelled_kept_scene">已取消，继续显示当前模型</string>
+    <string name="selected_model">已选模型</string>
+</resources>

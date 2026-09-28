@@ -1,0 +1,10 @@
+<resources>
+    <style name="ViewerTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#126D73</item>
+        <item name="android:statusBarColor">#F7F8FA</item>
+        <item name="android:navigationBarColor">#F7F8FA</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

@@ -1,9 +1,11 @@
 #define VK_USE_PLATFORM_ANDROID_KHR
 #include "render-core/scene_renderer.h"
 #include "render-core/device_probe.h"
+#include "render-core/gpu_timing.h"
 #include "embedded_shaders.h"
 
 #include <vulkan/vulkan.h>
+#include <android/log.h>
 
 #include <algorithm>
 #include <array>
@@ -54,7 +56,7 @@ struct SceneBuffers
 {
     SceneHandle cpu;
     Buffer attributes;
-    Buffer sh;
+    std::array<Buffer, 6> sh;
     Buffer projected;
     std::array<Buffer, 2> pairs;
     Buffer histogram;
@@ -63,6 +65,7 @@ struct SceneBuffers
     uint32_t count = 0;
     uint32_t group_count = 0;
     uint32_t sh_width = 0;
+    uint32_t sh_chunk_points = 0;
 };
 
 struct alignas(16) FrameConstants
@@ -159,6 +162,32 @@ struct SceneRenderer::Impl
             throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "No graphics/compute/present queue");
         vkGetPhysicalDeviceProperties(physical, &properties);
         vkGetPhysicalDeviceMemoryProperties(physical, &memory_properties);
+        VkPhysicalDeviceSubgroupProperties subgroup{
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES};
+        VkPhysicalDeviceProperties2 extended{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2};
+        extended.pNext = &subgroup;
+        vkGetPhysicalDeviceProperties2(physical, &extended);
+        const auto required = VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
+        if (properties.vendorID == 0x5143 &&
+            std::strstr(properties.deviceName, "Adreno (TM) 735") != nullptr &&
+            (subgroup.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) &&
+            (subgroup.supportedOperations & required) == required &&
+            subgroup.subgroupSize && subgroup.subgroupSize <= 128 &&
+            128 % subgroup.subgroupSize == 0)
+        {
+            const auto diagnostic = sort_subgroup_self_test({});
+            subgroup_scatter_enabled = diagnostic.empty();
+            if (!subgroup_scatter_enabled)
+                __android_log_print(ANDROID_LOG_WARN, "Native3DGS",
+                                    "Subgroup sort self-test failed: %s", diagnostic.c_str());
+        }
+        uint32_t family_count = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(physical, &family_count, nullptr);
+        std::vector<VkQueueFamilyProperties> family_properties(family_count);
+        vkGetPhysicalDeviceQueueFamilyProperties(physical, &family_count,
+                                                 family_properties.data());
+        timestamp_valid_bits = family_properties[queue_family].timestampValidBits;
+        timestamps_supported = timestamp_valid_bits != 0;
         const float priority = 1;
         VkDeviceQueueCreateInfo queue_info{VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO};
         queue_info.queueFamilyIndex = queue_family;
@@ -200,9 +229,20 @@ struct SceneRenderer::Impl
         check(vkAllocateCommandBuffers(device, &command_info, &command), "vkAllocateCommandBuffers");
         VkSemaphoreCreateInfo semaphore_info{VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
         check(vkCreateSemaphore(device, &semaphore_info, nullptr, &acquired), "Acquire semaphore");
-        check(vkCreateSemaphore(device, &semaphore_info, nullptr, &finished), "Present semaphore");
+        finished.resize(views.size());
+        for (auto &semaphore : finished)
+            check(vkCreateSemaphore(device, &semaphore_info, nullptr, &semaphore),
+                  "Present semaphore");
         VkFenceCreateInfo fence_info{VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
         check(vkCreateFence(device, &fence_info, nullptr, &fence), "Frame fence");
+        if (timestamps_supported)
+        {
+            VkQueryPoolCreateInfo queries{VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO};
+            queries.queryType = VK_QUERY_TYPE_TIMESTAMP;
+            queries.queryCount = 4;
+            if (vkCreateQueryPool(device, &queries, nullptr, &timestamp_pool) != VK_SUCCESS)
+                timestamps_supported = false;
+        }
     }
 
     void create_swapchain()
@@ -210,8 +250,15 @@ struct SceneRenderer::Impl
         VkSurfaceCapabilitiesKHR capabilities{};
         check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical, surface, &capabilities),
               "Surface capabilities");
+        __android_log_print(ANDROID_LOG_INFO, "Native3dgsSurface",
+            "window=%dx%d extent=%ux%u current=%u supported=0x%x",
+            ANativeWindow_getWidth(window), ANativeWindow_getHeight(window),
+            capabilities.currentExtent.width, capabilities.currentExtent.height,
+            capabilities.currentTransform, capabilities.supportedTransforms);
         if (!(capabilities.supportedUsageFlags & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT))
             throw VulkanFailure(VK_ERROR_FORMAT_NOT_SUPPORTED, "Surface color attachment");
+        if (!(capabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR))
+            throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Identity Surface transform");
         uint32_t format_count = 0;
         check(vkGetPhysicalDeviceSurfaceFormatsKHR(physical, surface, &format_count, nullptr),
               "Surface format count");
@@ -236,6 +283,8 @@ struct SceneRenderer::Impl
                                                capabilities.maxImageExtent.height)};
         if (!extent.width || !extent.height)
             throw VulkanFailure(VK_ERROR_OUT_OF_DATE_KHR, "Zero Surface extent");
+        window_extent = {static_cast<uint32_t>(ANativeWindow_getWidth(window)),
+                         static_cast<uint32_t>(ANativeWindow_getHeight(window))};
         VkSwapchainCreateInfoKHR info{VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR};
         info.surface = surface;
         info.minImageCount = capabilities.minImageCount + 1;
@@ -247,7 +296,8 @@ struct SceneRenderer::Impl
         info.imageArrayLayers = 1;
         info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
         info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-        info.preTransform = capabilities.currentTransform;
+        // Projection and touch coordinates use the logical, unrotated Surface dimensions.
+        info.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
         for (auto mode : {VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
                           VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
                           VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
@@ -374,7 +424,7 @@ struct SceneRenderer::Impl
     void release_scene(SceneBuffers &scene) noexcept
     {
         release(scene.attributes);
-        release(scene.sh);
+        for (auto &chunk : scene.sh) release(chunk);
         release(scene.projected);
         for (auto &pair : scene.pairs) release(pair);
         release(scene.histogram);
@@ -435,6 +485,18 @@ struct SceneRenderer::Impl
         candidate.count = static_cast<uint32_t>(cpu->count);
         candidate.group_count = groups_for(candidate.count);
         candidate.sh_width = 3u * ((cpu->shDegree + 1u) * (cpu->shDegree + 1u) - 1u);
+        const uint64_t sh_stride = uint64_t(candidate.sh_width) * sizeof(float);
+        candidate.sh_chunk_points = candidate.sh_width
+            ? static_cast<uint32_t>(std::min<uint64_t>(candidate.count,
+                properties.limits.maxStorageBufferRange / sh_stride))
+            : candidate.count;
+        if (!candidate.sh_chunk_points ||
+            (uint64_t(candidate.count) + candidate.sh_chunk_points - 1) /
+                candidate.sh_chunk_points > candidate.sh.size())
+            throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "SH descriptor range");
+        if (properties.limits.maxPerStageDescriptorStorageBuffers < 9 ||
+            properties.limits.maxDescriptorSetStorageBuffers < 9)
+            throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "SH descriptor count");
         try
         {
             const uint64_t n = candidate.count;
@@ -442,7 +504,16 @@ struct SceneRenderer::Impl
             if (histogram_count > UINT32_MAX)
                 throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Histogram index range");
             candidate.attributes = allocate(n * 56);
-            candidate.sh = allocate(n * candidate.sh_width * sizeof(float));
+            for (size_t chunk = 0; chunk < candidate.sh.size(); ++chunk)
+            {
+                const uint64_t first = uint64_t(chunk) * candidate.sh_chunk_points;
+                if (first >= n) break;
+                const uint64_t points = std::min<uint64_t>(candidate.sh_chunk_points, n - first);
+                candidate.sh[chunk] = allocate(points * sh_stride);
+                if (candidate.sh_width)
+                    write(candidate.sh[chunk], cpu->shRest.data() + first * candidate.sh_width,
+                          points * sh_stride);
+            }
             candidate.projected = allocate(n * 48);
             for (auto &pair : candidate.pairs) pair = allocate(n * 8);
             candidate.histogram = allocate(histogram_count * sizeof(uint32_t));
@@ -468,8 +539,6 @@ struct SceneRenderer::Impl
             std::memcpy(bytes + n * 40, cpu->opacity.data(), cpu->opacity.size_bytes());
             std::memcpy(bytes + n * 44, cpu->rgb0.data(), cpu->rgb0.size_bytes());
             vkUnmapMemory(device, candidate.attributes.memory);
-            if (!cpu->shRest.empty())
-                write(candidate.sh, cpu->shRest.data(), cpu->shRest.size_bytes());
         }
         catch (...)
         {
@@ -502,8 +571,30 @@ struct SceneRenderer::Impl
     void wait_frame()
     {
         if (!in_flight || device_lost) return;
+        const auto started = std::chrono::steady_clock::now();
         const auto result = vkWaitForFences(device, 1, &fence, VK_TRUE, 5'000'000'000ull);
         check(result, "Frame fence wait");
+        fence_wait_us += static_cast<uint64_t>(std::chrono::duration_cast<
+            std::chrono::microseconds>(std::chrono::steady_clock::now() - started).count());
+        if (timestamps_supported)
+        {
+            std::array<uint64_t, 4> ticks{};
+            if (vkGetQueryPoolResults(device, timestamp_pool, 0, 4, sizeof(ticks),
+                                      ticks.data(), sizeof(uint64_t),
+                                      VK_QUERY_RESULT_64_BIT) == VK_SUCCESS)
+            {
+                ++measured_gpu_frames;
+                for (size_t stage = 0; stage < gpu_stage_us.size(); ++stage)
+                {
+                    const auto duration = double(timestamp_delta(
+                        ticks[stage], ticks[stage + 1], timestamp_valid_bits)) *
+                        properties.limits.timestampPeriod / 1000.0;
+                    gpu_stage_us[stage] += duration;
+                    completed_gpu_stage_us[stage] = static_cast<uint64_t>(std::llround(duration));
+                }
+                completed_gpu_frame_id = in_flight_frame_id;
+            }
+        }
         in_flight = false;
     }
 
@@ -515,8 +606,10 @@ struct SceneRenderer::Impl
             release_scene(scene);
             release_scene(previous);
             if (fence) vkDestroyFence(device, fence, nullptr);
+            if (timestamp_pool) vkDestroyQueryPool(device, timestamp_pool, nullptr);
             if (acquired) vkDestroySemaphore(device, acquired, nullptr);
-            if (finished) vkDestroySemaphore(device, finished, nullptr);
+            for (auto semaphore : finished)
+                if (semaphore) vkDestroySemaphore(device, semaphore, nullptr);
             if (command_pool) vkDestroyCommandPool(device, command_pool, nullptr);
             if (descriptor_pool) vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
             for (auto pipeline : sort_pipelines)
@@ -547,6 +640,7 @@ struct SceneRenderer::Impl
     FrameResult render(const engine::CameraPose &camera);
     VkDescriptorSet descriptor(VkDescriptorSetLayout layout, std::initializer_list<Buffer *> buffers,
                                uint32_t uniform_binding = UINT32_MAX);
+    VkDescriptorSet project_descriptor();
     void dispatch(uint32_t pipeline, std::initializer_list<Buffer *> buffers,
                   uint32_t count, uint32_t shift, uint32_t groups);
     void barrier(VkPipelineStageFlags destination, VkAccessFlags access);
@@ -563,6 +657,7 @@ struct SceneRenderer::Impl
     VkSwapchainKHR swapchain = VK_NULL_HANDLE;
     VkFormat format = VK_FORMAT_UNDEFINED;
     VkExtent2D extent{};
+    VkExtent2D window_extent{};
     VkRenderPass render_pass = VK_NULL_HANDLE;
     std::vector<VkImageView> views;
     std::vector<VkFramebuffer> framebuffers;
@@ -579,11 +674,23 @@ struct SceneRenderer::Impl
     VkCommandPool command_pool = VK_NULL_HANDLE;
     VkCommandBuffer command = VK_NULL_HANDLE;
     VkSemaphore acquired = VK_NULL_HANDLE;
-    VkSemaphore finished = VK_NULL_HANDLE;
+    std::vector<VkSemaphore> finished;
     VkFence fence = VK_NULL_HANDLE;
+    VkQueryPool timestamp_pool = VK_NULL_HANDLE;
+    bool timestamps_supported = false;
+    uint32_t timestamp_valid_bits = 0;
+    uint64_t measured_frames = 0;
+    uint64_t measured_gpu_frames = 0;
+    std::array<double, 3> gpu_stage_us{};
+    std::array<uint64_t, 3> completed_gpu_stage_us{};
+    uint64_t completed_gpu_frame_id = 0;
+    uint64_t submitted_frames = 0;
+    uint64_t in_flight_frame_id = 0;
+    uint64_t fence_wait_us = 0;
     bool in_flight = false;
     bool device_lost = false;
     bool memory_budget_enabled = false;
+    bool subgroup_scatter_enabled = false;
     SceneBuffers scene;
     SceneBuffers previous;
     bool has_pending = false;
@@ -606,10 +713,16 @@ void SceneRenderer::Impl::create_descriptors()
     make_layout({VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                  VK_DESCRIPTOR_TYPE_STORAGE_BUFFER}, VK_SHADER_STAGE_COMPUTE_BIT,
                 sort_set_layout);
-    make_layout({VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                 VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER}, VK_SHADER_STAGE_COMPUTE_BIT,
-                project_set_layout);
+    std::array<VkDescriptorSetLayoutBinding, 5> project_bindings{};
+    for (uint32_t i = 0; i < project_bindings.size(); ++i)
+        project_bindings[i] = {i, i == 4 ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER
+            : VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, i == 1 ? 6u : 1u,
+            VK_SHADER_STAGE_COMPUTE_BIT, nullptr};
+    VkDescriptorSetLayoutCreateInfo project_info{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO};
+    project_info.bindingCount = project_bindings.size();
+    project_info.pBindings = project_bindings.data();
+    check(vkCreateDescriptorSetLayout(device, &project_info, nullptr, &project_set_layout),
+          "vkCreateDescriptorSetLayout project");
     make_layout({VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                  VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER}, VK_SHADER_STAGE_VERTEX_BIT,
                 draw_set_layout);
@@ -642,11 +755,15 @@ void SceneRenderer::Impl::create_descriptors()
 
 void SceneRenderer::Impl::create_pipelines()
 {
+    const uint8_t *scatter_code = subgroup_scatter_enabled
+        ? embedded::scatter_subgroup : embedded::scatter;
+    const size_t scatter_bytes = subgroup_scatter_enabled
+        ? sizeof(embedded::scatter_subgroup) : sizeof(embedded::scatter);
     const struct Shader { const uint8_t *code; size_t bytes; } sort_shaders[] = {
         {embedded::histogram, sizeof(embedded::histogram)},
         {embedded::scan, sizeof(embedded::scan)},
         {embedded::add_prefix, sizeof(embedded::add_prefix)},
-        {embedded::scatter, sizeof(embedded::scatter)}};
+        {scatter_code, scatter_bytes}};
     for (size_t i = 0; i < sort_pipelines.size(); ++i)
     {
         VkShaderModule module = shader_module(device, sort_shaders[i].code,
@@ -657,11 +774,24 @@ void SceneRenderer::Impl::create_pipelines()
         info.stage.module = module;
         info.stage.pName = "main";
         info.layout = sort_layout;
-        const auto status = vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &info,
-                                                     nullptr, &sort_pipelines[i]);
+        VkResult status = vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &info,
+                                                    nullptr, &sort_pipelines[i]);
         vkDestroyShaderModule(device, module, nullptr);
+        if (status != VK_SUCCESS && i == 3 && subgroup_scatter_enabled)
+        {
+            subgroup_scatter_enabled = false;
+            __android_log_print(ANDROID_LOG_WARN, "Native3DGS",
+                                "Subgroup sort pipeline failed (%d); using baseline", status);
+            module = shader_module(device, embedded::scatter, sizeof(embedded::scatter));
+            info.stage.module = module;
+            status = vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &info,
+                                              nullptr, &sort_pipelines[i]);
+            vkDestroyShaderModule(device, module, nullptr);
+        }
         check(status, "Sort pipeline");
     }
+    __android_log_print(ANDROID_LOG_INFO, "Native3DGS", "Sort path=%s",
+                        subgroup_scatter_enabled ? "subgroup" : "baseline");
     {
         VkShaderModule module = shader_module(device, embedded::project,
                                                sizeof(embedded::project));
@@ -772,6 +902,40 @@ VkDescriptorSet SceneRenderer::Impl::descriptor(VkDescriptorSetLayout layout,
     return set;
 }
 
+VkDescriptorSet SceneRenderer::Impl::project_descriptor()
+{
+    VkDescriptorSetAllocateInfo allocation{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO};
+    allocation.descriptorPool = descriptor_pool;
+    allocation.descriptorSetCount = 1;
+    allocation.pSetLayouts = &project_set_layout;
+    VkDescriptorSet set = VK_NULL_HANDLE;
+    check(vkAllocateDescriptorSets(device, &allocation, &set), "vkAllocateDescriptorSets project");
+    std::array<VkDescriptorBufferInfo, 10> infos{};
+    infos[0] = {scene.attributes.handle, 0, scene.attributes.bytes};
+    for (size_t i = 0; i < scene.sh.size(); ++i)
+    {
+        const auto &buffer = scene.sh[i].handle ? scene.sh[i] : scene.sh[0];
+        infos[i + 1] = {buffer.handle, 0, buffer.bytes};
+    }
+    infos[7] = {scene.projected.handle, 0, scene.projected.bytes};
+    infos[8] = {scene.pairs[0].handle, 0, scene.pairs[0].bytes};
+    infos[9] = {scene.constants.handle, 0, scene.constants.bytes};
+    std::array<VkWriteDescriptorSet, 5> writes{};
+    const uint32_t first[] = {0, 1, 7, 8, 9};
+    for (uint32_t i = 0; i < writes.size(); ++i)
+    {
+        writes[i] = {VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET};
+        writes[i].dstSet = set;
+        writes[i].dstBinding = i;
+        writes[i].descriptorCount = i == 1 ? 6u : 1u;
+        writes[i].descriptorType = i == 4 ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER
+                                               : VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        writes[i].pBufferInfo = &infos[first[i]];
+    }
+    vkUpdateDescriptorSets(device, writes.size(), writes.data(), 0, nullptr);
+    return set;
+}
+
 void SceneRenderer::Impl::barrier(VkPipelineStageFlags destination, VkAccessFlags access)
 {
     VkMemoryBarrier barrier{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
@@ -799,8 +963,9 @@ void SceneRenderer::Impl::dispatch(uint32_t pipeline, std::initializer_list<Buff
 FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
 {
     if (!scene.cpu) return {FrameStatus::NoScene, VK_SUCCESS, {}};
-    if (ANativeWindow_getWidth(window) <= 0 || ANativeWindow_getHeight(window) <= 0)
-        return {FrameStatus::SurfaceChanged, VK_ERROR_OUT_OF_DATE_KHR, "Zero Surface size"};
+    if (ANativeWindow_getWidth(window) != static_cast<int>(window_extent.width) ||
+        ANativeWindow_getHeight(window) != static_cast<int>(window_extent.height))
+        return {FrameStatus::SurfaceChanged, VK_ERROR_OUT_OF_DATE_KHR, "Surface size changed"};
     try
     {
         wait_frame();
@@ -831,26 +996,34 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
         constants.clip_planes = {float(camera.near_plane), float(camera.far_plane), 0, 0};
         constants.meta = {scene.count, scene.cpu->shDegree, scene.sh_width, 1};
         constants.offsets0 = {0, scene.count * 3u, scene.count * 6u, scene.count * 10u};
-        constants.offsets1 = {scene.count * 11u, camera.horizontal_mirror ? 1u : 0u, 0, 0};
+        constants.offsets1 = {scene.count * 11u, camera.horizontal_mirror ? 1u : 0u,
+                              scene.sh_chunk_points, 0};
         write(scene.constants, &constants, sizeof(constants));
 
         VkCommandBufferBeginInfo begin{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
         check(vkBeginCommandBuffer(command, &begin), "vkBeginCommandBuffer");
+        if (timestamps_supported)
+        {
+            vkCmdResetQueryPool(command, timestamp_pool, 0, 4);
+            vkCmdWriteTimestamp(command, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                                timestamp_pool, 0);
+        }
         VkMemoryBarrier host{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
         host.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
         host.dstAccessMask = VK_ACCESS_UNIFORM_READ_BIT | VK_ACCESS_SHADER_READ_BIT;
         vkCmdPipelineBarrier(command, VK_PIPELINE_STAGE_HOST_BIT,
                              VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &host,
                              0, nullptr, 0, nullptr);
-        auto project_set = descriptor(project_set_layout,
-            {&scene.attributes, &scene.sh, &scene.projected, &scene.pairs[0],
-             &scene.constants}, 4);
+        auto project_set = project_descriptor();
         vkCmdBindPipeline(command, VK_PIPELINE_BIND_POINT_COMPUTE, project_pipeline);
         vkCmdBindDescriptorSets(command, VK_PIPELINE_BIND_POINT_COMPUTE, project_layout,
                                 0, 1, &project_set, 0, nullptr);
         vkCmdDispatch(command, scene.group_count, 1, 1);
         barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
                 VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT);
+        if (timestamps_supported)
+            vkCmdWriteTimestamp(command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                                timestamp_pool, 1);
 
         Buffer *input = &scene.pairs[0], *output = &scene.pairs[1];
         for (uint32_t shift = 0; shift < 32; shift += 4)
@@ -874,6 +1047,9 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
             std::swap(input, output);
         }
         barrier(VK_PIPELINE_STAGE_VERTEX_SHADER_BIT, VK_ACCESS_SHADER_READ_BIT);
+        if (timestamps_supported)
+            vkCmdWriteTimestamp(command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                                timestamp_pool, 2);
 
         VkClearValue clear{};
         clear.color = {{1, 1, 1, 1}};
@@ -895,6 +1071,9 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
                                 0, 1, &draw_set, 0, nullptr);
         vkCmdDraw(command, 6, scene.count, 0, 0);
         vkCmdEndRenderPass(command);
+        if (timestamps_supported)
+            vkCmdWriteTimestamp(command, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                                timestamp_pool, 3);
         check(vkEndCommandBuffer(command), "vkEndCommandBuffer");
         const VkPipelineStageFlags stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO};
@@ -904,25 +1083,53 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
         submit.commandBufferCount = 1;
         submit.pCommandBuffers = &command;
         submit.signalSemaphoreCount = 1;
-        submit.pSignalSemaphores = &finished;
+        submit.pSignalSemaphores = &finished[image];
         check(vkResetFences(device, 1, &fence), "vkResetFences");
         check(vkQueueSubmit(queue, 1, &submit, fence), "vkQueueSubmit");
         in_flight = true;
+        in_flight_frame_id = ++submitted_frames;
         VkPresentInfoKHR present{VK_STRUCTURE_TYPE_PRESENT_INFO_KHR};
         present.waitSemaphoreCount = 1;
-        present.pWaitSemaphores = &finished;
+        present.pWaitSemaphores = &finished[image];
         present.swapchainCount = 1;
         present.pSwapchains = &swapchain;
         present.pImageIndices = &image;
         const auto result = vkQueuePresentKHR(queue, &present);
-        // The submit fence does not include presentation's wait on the binary semaphore.
-        check(vkQueueWaitIdle(queue), "Present queue idle");
-        if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+        const auto present_call_ns = static_cast<uint64_t>(std::chrono::duration_cast<
+            std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());
+        if (++measured_frames == 120)
+        {
+            if (measured_gpu_frames)
+                __android_log_print(ANDROID_LOG_DEBUG, "Native3DGSPerf",
+                    "gpu_project_us=%.0f gpu_sort_us=%.0f gpu_draw_us=%.0f fence_wait_us=%llu",
+                    gpu_stage_us[0] / measured_gpu_frames, gpu_stage_us[1] / measured_gpu_frames,
+                    gpu_stage_us[2] / measured_gpu_frames,
+                    static_cast<unsigned long long>(fence_wait_us / measured_frames));
+            else
+                __android_log_print(ANDROID_LOG_DEBUG, "Native3DGSPerf",
+                    "gpu_timestamps=unavailable fence_wait_us=%llu",
+                    static_cast<unsigned long long>(fence_wait_us / measured_frames));
+            measured_frames = measured_gpu_frames = fence_wait_us = 0;
+            gpu_stage_us = {};
+        }
+        // Android may report SUBOPTIMAL for a valid identity image on a rotated Surface.
+        if (result == VK_ERROR_OUT_OF_DATE_KHR)
             return {FrameStatus::SurfaceChanged, result, "Present Surface"};
-        check(result, "vkQueuePresentKHR");
-        wait_frame();
-        return {FrameStatus::Presented, acquire == VK_SUBOPTIMAL_KHR ? acquire : VK_SUCCESS,
-                acquire == VK_SUBOPTIMAL_KHR ? "Acquire Surface" : ""};
+        if (result != VK_SUBOPTIMAL_KHR) check(result, "vkQueuePresentKHR");
+        FrameResult frame;
+        frame.status = FrameStatus::Presented;
+        frame.platform_result = result == VK_SUBOPTIMAL_KHR ? result
+            : acquire == VK_SUBOPTIMAL_KHR ? acquire : VK_SUCCESS;
+        frame.frame_id = in_flight_frame_id;
+        frame.present_call_ns = present_call_ns;
+        frame.gpu_frame_id = completed_gpu_frame_id;
+        frame.gpu_project_us = completed_gpu_stage_us[0];
+        frame.gpu_sort_us = completed_gpu_stage_us[1];
+        frame.gpu_draw_us = completed_gpu_stage_us[2];
+        frame.width = extent.width;
+        frame.height = extent.height;
+        frame.submitted_splats = scene.count;
+        return frame;
     }
     catch (const VulkanFailure &failure)
     {

@@ -124,6 +124,8 @@ class SurfaceProbe
               "vkGetPhysicalDeviceSurfaceCapabilitiesKHR");
         if (!(capabilities.supportedUsageFlags & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT))
             throw ProbeFailure(VK_ERROR_FORMAT_NOT_SUPPORTED, "Surface color attachment usage");
+        if (!(capabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR))
+            throw ProbeFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Identity Surface transform");
         uint32_t format_count = 0;
         check(vkGetPhysicalDeviceSurfaceFormatsKHR(physical, surface, &format_count, nullptr),
               "Surface format count");
@@ -157,7 +159,7 @@ class SurfaceProbe
         swapchain_info.imageArrayLayers = 1;
         swapchain_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
         swapchain_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-        swapchain_info.preTransform = capabilities.currentTransform;
+        swapchain_info.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
         constexpr std::array<VkCompositeAlphaFlagBitsKHR, 4> alpha_modes{
             VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR, VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
             VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR, VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR};

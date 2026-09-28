@@ -12,6 +12,7 @@ import android.os.ParcelFileDescriptor
 import android.os.Process
 import android.os.RemoteException
 import android.os.SystemClock
+import android.util.Log
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -74,6 +75,7 @@ internal class DecoderService : Service() {
             var transferred: ParcelFileDescriptor? = null
             try {
                 descriptor.use { input ->
+                    val started = SystemClock.elapsedRealtimeNanos()
                     send(destination, Message.obtain(null, DecoderProtocol.PROGRESS).apply {
                         this.data = DecoderProtocol.envelope(requestId).apply {
                             putInt(DecoderProtocol.STAGE_KEY, 0)
@@ -105,6 +107,8 @@ internal class DecoderService : Service() {
                     val result = NativeDecoder.decode(input.fd,
                         (memory.availMem - memory.threshold).coerceAtLeast(1),
                         cacheDir.absolutePath, observer)
+                    if (Log.isLoggable("Native3DGSPerf", Log.DEBUG))
+                        Log.d("Native3DGSPerf", "decode ms=${(SystemClock.elapsedRealtimeNanos() - started) / 1_000_000} error=${result.error} stage=${result.stage}")
                     if (result.fd >= 0) transferred = ParcelFileDescriptor.adoptFd(result.fd)
                     val completion = DecoderProtocol.envelope(requestId).apply {
                         putInt(DecoderProtocol.ERROR_KEY, if (cancellation.get()) DecoderError.CANCELLED else result.error)

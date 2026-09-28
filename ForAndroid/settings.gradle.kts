@@ -7,3 +7,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Native3DGSAndroid"
 include(":sdk")
+include(":GUI")

@@ -2,6 +2,8 @@
 
 #include <android/native_window_jni.h>
 #include <jni.h>
+#include <array>
+#include <vector>
 
 namespace
 {
@@ -88,6 +90,16 @@ Java_org_native3dgs_sdk_EngineBridge_camera(JNIEnv *, jobject, jlong handle, jin
                              x, y, z, seconds);
 }
 
+extern "C" JNIEXPORT jint JNICALL
+Java_org_native3dgs_sdk_EngineBridge_setQuality(JNIEnv *, jobject, jlong handle, jint mode,
+    jint requested_scale_milli, jint display_width, jint display_height)
+{
+    return gs_android_set_quality(engine(handle), static_cast<gs_android_quality_mode_t>(mode),
+                                  static_cast<uint32_t>(requested_scale_milli),
+                                  static_cast<uint32_t>(display_width),
+                                  static_cast<uint32_t>(display_height));
+}
+
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_org_native3dgs_sdk_EngineBridge_snapshot(JNIEnv *env, jobject, jlong handle)
 {
@@ -98,8 +110,43 @@ Java_org_native3dgs_sdk_EngineBridge_snapshot(JNIEnv *env, jobject, jlong handle
         static_cast<jlong>(snapshot.active_request_id), static_cast<jlong>(snapshot.upload_ticket),
         static_cast<jlong>(snapshot.surface_generation), static_cast<jlong>(snapshot.scene_count),
         snapshot.error, static_cast<jlong>(snapshot.frames_presented),
-        static_cast<jlong>(snapshot.last_frame_us)};
-    auto result = env->NewLongArray(9);
-    if (result) env->SetLongArrayRegion(result, 0, 9, values);
+        static_cast<jlong>(snapshot.last_frame_us), snapshot.quality_mode,
+        snapshot.requested_scale_milli, snapshot.actual_scale_milli,
+        static_cast<jlong>(snapshot.active_splats),
+        static_cast<jlong>(snapshot.last_gpu_frame_id),
+        static_cast<jlong>(snapshot.last_gpu_project_us),
+        static_cast<jlong>(snapshot.last_gpu_sort_us),
+        static_cast<jlong>(snapshot.last_gpu_draw_us),
+        static_cast<jlong>(snapshot.dropped_frame_samples)};
+    auto result = env->NewLongArray(18);
+    if (result) env->SetLongArrayRegion(result, 0, 18, values);
+    return result;
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_org_native3dgs_sdk_EngineBridge_drainFrameSamples(JNIEnv *env, jobject, jlong handle)
+{
+    std::array<gs_android_frame_sample_v2_t, 256> samples{};
+    uint32_t count = 0;
+    if (gs_android_drain_frame_samples_v2(engine(handle), samples.data(), sizeof(samples[0]),
+                                          samples.size(), &count) != GS_ANDROID_OK) return nullptr;
+    std::vector<jlong> values;
+    values.reserve(count * 15);
+    for (uint32_t i = 0; i < count; ++i)
+    {
+        const auto &s = samples[i];
+        const auto &frame = s.frame;
+        values.insert(values.end(), {static_cast<jlong>(frame.frame_id),
+            static_cast<jlong>(frame.present_call_ns), static_cast<jlong>(frame.cpu_frame_us),
+            static_cast<jlong>(frame.gpu_frame_id), static_cast<jlong>(frame.gpu_project_us),
+            static_cast<jlong>(frame.gpu_sort_us), static_cast<jlong>(frame.gpu_draw_us),
+            static_cast<jlong>(frame.submitted_splats), frame.width, frame.height,
+            s.quality_mode, static_cast<jlong>(s.source_splats),
+            static_cast<jlong>(s.active_splats), s.requested_scale_milli,
+            s.actual_scale_milli});
+    }
+    auto result = env->NewLongArray(values.size());
+    if (result && !values.empty())
+        env->SetLongArrayRegion(result, 0, values.size(), values.data());
     return result;
 }

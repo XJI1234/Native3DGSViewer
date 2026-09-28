@@ -1,4 +1,4 @@
-param([string]$Version = '0.2.0')
+param([string]$Version = '0.2.1')
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $android = Join-Path $repo 'ForAndroid'
