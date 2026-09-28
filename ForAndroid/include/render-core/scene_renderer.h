@@ -19,6 +19,15 @@ struct FrameResult
     int32_t platform_result = 0;
     std::string diagnostic;
     uint64_t cpu_frame_us = 0;
+    uint64_t frame_id = 0;
+    uint64_t present_call_ns = 0;
+    uint64_t gpu_frame_id = 0;
+    uint64_t gpu_project_us = 0;
+    uint64_t gpu_sort_us = 0;
+    uint64_t gpu_draw_us = 0;
+    uint32_t width = 0;
+    uint32_t height = 0;
+    uint32_t submitted_splats = 0;
 };
 
 // All methods, including destruction, must run on the owning render thread.

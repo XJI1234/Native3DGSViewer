@@ -237,7 +237,9 @@ void Transactions::shutdown()
 Snapshot Transactions::snapshot() const
 {
     std::lock_guard lock(mutex_);
-    return state_;
+    auto result = state_;
+    result.camera_revision = camera_revision_;
+    return result;
 }
 
 SceneHandle Transactions::active_scene() const

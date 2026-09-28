@@ -65,8 +65,17 @@ class EngineIntegrationTest {
             assertEquals(1L, engine.state.value.sceneCount)
             assertTrue(engine.state.value.framesPresented > 0)
             assertTrue(engine.state.value.lastFrameMicros > 0)
+            Thread.sleep(300)
+            val idleFrames = engine.state.value.framesPresented
+            Thread.sleep(300)
+            assertEquals("Stationary scene must not redraw", idleFrames,
+                engine.state.value.framesPresented)
             engine.orbit(-50.0, 0.0)
             engine.flipAxes(false, true, false)
+            awaitFrame(engine, idleFrames)
+            val movedFrames = engine.state.value.framesPresented
+            engine.fit()
+            awaitFrame(engine, movedFrames)
             val copied = CountDownLatch(1)
             val bitmap = Bitmap.createBitmap(activity.viewport.width, activity.viewport.height,
                 Bitmap.Config.ARGB_8888)
@@ -92,5 +101,13 @@ class EngineIntegrationTest {
             instrumentation.runOnMainSync { activity.finish() }
             file.delete()
         }
+    }
+
+    private fun awaitFrame(engine: Native3dgsEngine, previous: Long) {
+        val deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5)
+        while (engine.state.value.framesPresented <= previous && System.nanoTime() < deadline)
+            Thread.sleep(25)
+        assertTrue("Camera command must wake an idle renderer",
+            engine.state.value.framesPresented > previous)
     }
 }

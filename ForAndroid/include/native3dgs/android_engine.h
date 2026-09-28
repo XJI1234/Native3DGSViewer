@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-#define GS_ANDROID_API_VERSION 1u
+#define GS_ANDROID_API_VERSION 2u
 
 typedef struct gs_android_engine gs_android_engine_t;
 
@@ -44,6 +44,11 @@ typedef enum gs_android_camera_action {
     GS_ANDROID_FLIP_AXES = 9
 } gs_android_camera_action_t;
 
+typedef enum gs_android_quality_mode {
+    GS_ANDROID_QUALITY_FULL = 0,
+    GS_ANDROID_QUALITY_MOBILE = 1
+} gs_android_quality_mode_t;
+
 typedef struct gs_android_config {
     uint32_t struct_size;
     uint32_t api_version;
@@ -64,7 +69,41 @@ typedef struct gs_android_snapshot {
     uint32_t reserved;
     uint64_t frames_presented;
     uint64_t last_frame_us;
+    uint32_t quality_mode;
+    uint32_t requested_scale_milli;
+    uint32_t actual_scale_milli;
+    uint32_t quality_reserved;
+    uint64_t active_splats;
+    uint64_t last_gpu_frame_id;
+    uint64_t last_gpu_project_us;
+    uint64_t last_gpu_sort_us;
+    uint64_t last_gpu_draw_us;
+    uint64_t dropped_frame_samples;
 } gs_android_snapshot_t;
+
+/* GPU timings describe gpu_frame_id, which may lag frame_id by one frame. */
+typedef struct gs_android_frame_sample {
+    uint64_t frame_id;
+    uint64_t present_call_ns;
+    uint64_t cpu_frame_us;
+    uint64_t gpu_frame_id;
+    uint64_t gpu_project_us;
+    uint64_t gpu_sort_us;
+    uint64_t gpu_draw_us;
+    uint64_t submitted_splats;
+    uint32_t width;
+    uint32_t height;
+} gs_android_frame_sample_t;
+
+typedef struct gs_android_frame_sample_v2 {
+    uint32_t struct_size;
+    uint32_t quality_mode;
+    gs_android_frame_sample_t frame;
+    uint64_t source_splats;
+    uint64_t active_splats;
+    uint32_t requested_scale_milli;
+    uint32_t actual_scale_milli;
+} gs_android_frame_sample_v2_t;
 
 uint32_t gs_android_api_version(void);
 gs_android_result_t gs_android_create(const gs_android_config_t *config,
@@ -92,8 +131,18 @@ gs_android_result_t gs_android_resize(gs_android_engine_t *engine, uint64_t gene
 gs_android_result_t gs_android_camera(gs_android_engine_t *engine,
                                       gs_android_camera_action_t action,
                                       double x, double y, double z, double seconds);
+/* display_width/height are the final SurfaceView size in physical pixels. */
+gs_android_result_t gs_android_set_quality(gs_android_engine_t *engine,
+    gs_android_quality_mode_t mode, uint32_t requested_scale_milli,
+    uint32_t display_width, uint32_t display_height);
 gs_android_result_t gs_android_get_snapshot(gs_android_engine_t *engine,
                                             gs_android_snapshot_t *snapshot);
+/* Drains up to capacity samples without waiting for GPU work. */
+gs_android_result_t gs_android_drain_frame_samples(gs_android_engine_t *engine,
+    gs_android_frame_sample_t *samples, uint32_t capacity, uint32_t *count);
+/* Writes at most sample_stride bytes per element; preserves the v1 drain ABI. */
+gs_android_result_t gs_android_drain_frame_samples_v2(gs_android_engine_t *engine,
+    void *samples, uint32_t sample_stride, uint32_t capacity, uint32_t *count);
 
 #ifdef __cplusplus
 }

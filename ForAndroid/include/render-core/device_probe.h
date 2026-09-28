@@ -39,5 +39,8 @@ SceneAdmission assess_scene(const gs::SceneHandle &scene, const DeviceCapabiliti
 std::string sort_self_test(const std::string &shader_directory);
 std::string sort_scene_self_test(const gs::SceneHandle &scene,
                                   const std::string &shader_directory);
+std::string sort_subgroup_self_test(const std::string &shader_directory);
+std::string sort_scene_subgroup_self_test(const gs::SceneHandle &scene,
+                                           const std::string &shader_directory);
 
 } // namespace gs::android::render

@@ -1,0 +1,33 @@
+#version 450
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_ballot : require
+layout(local_size_x = 128) in;
+struct KeyValue { uint key; uint value; };
+layout(set = 0, binding = 0, std430) readonly buffer KeysIn { KeyValue keys_in[]; };
+layout(set = 0, binding = 1, std430) readonly buffer Prefix { uint prefix[]; };
+layout(set = 0, binding = 2, std430) writeonly buffer KeysOut { KeyValue keys_out[]; };
+layout(push_constant) uniform Params { uint count; uint groups; uint shift; } p;
+shared uint subgroup_counts[16 * 128];
+void main()
+{
+    uint group = gl_WorkGroupID.x;
+    uint index = gl_GlobalInvocationID.x;
+    bool valid = index < p.count;
+    uint key = valid ? keys_in[index].key : 0u;
+    uint digit = (key >> p.shift) & 15u;
+    uint rank = 0u;
+    for (uint bin = 0u; bin < 16u; ++bin)
+    {
+        uvec4 mask = subgroupBallot(valid && digit == bin);
+        if (subgroupElect())
+            subgroup_counts[gl_SubgroupID * 16u + bin] = subgroupBallotBitCount(mask);
+        if (digit == bin)
+            rank = subgroupBallotExclusiveBitCount(mask);
+    }
+    barrier();
+    if (!valid) return;
+    for (uint earlier = 0u; earlier < gl_SubgroupID; ++earlier)
+        rank += subgroup_counts[earlier * 16u + digit];
+    uint target = prefix[digit * p.groups + group] + rank;
+    keys_out[target] = keys_in[index];
+}

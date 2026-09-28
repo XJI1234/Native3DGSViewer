@@ -1,7 +1,7 @@
 #version 450
 layout(local_size_x = 128) in;
 layout(set = 0, binding = 0, std430) readonly buffer Scene { float data[]; } scene;
-layout(set = 0, binding = 1, std430) readonly buffer Sh { float data[]; } sh;
+layout(set = 0, binding = 1, std430) readonly buffer Sh { float data[]; } sh[6];
 struct Ellipse { vec2 center; vec2 axis0; vec2 axis1; vec2 pad; vec4 color; };
 layout(set = 0, binding = 2, std430) writeonly buffer Projected { Ellipse items[]; } projected;
 struct KeyValue { uint key; uint value; };
@@ -22,6 +22,15 @@ vec3 load3(uint offset, uint i) { return vec3(scene.data[offset + i * 3],
 vec3 to_view(vec3 p) { return vec3(dot(frame.row[0].xyz, p),
     dot(frame.row[1].xyz, p), dot(frame.row[2].xyz, p)); }
 vec3 rotate(vec4 q, vec3 p) { return p + 2.0 * cross(q.xyz, cross(q.xyz, p) + q.w * p); }
+vec3 sh_coeff(uint segment, uint offset)
+{
+    if (segment == 0u) return vec3(sh[0].data[offset], sh[0].data[offset + 1u], sh[0].data[offset + 2u]);
+    if (segment == 1u) return vec3(sh[1].data[offset], sh[1].data[offset + 1u], sh[1].data[offset + 2u]);
+    if (segment == 2u) return vec3(sh[2].data[offset], sh[2].data[offset + 1u], sh[2].data[offset + 2u]);
+    if (segment == 3u) return vec3(sh[3].data[offset], sh[3].data[offset + 1u], sh[3].data[offset + 2u]);
+    if (segment == 4u) return vec3(sh[4].data[offset], sh[4].data[offset + 1u], sh[4].data[offset + 2u]);
+    return vec3(sh[5].data[offset], sh[5].data[offset + 1u], sh[5].data[offset + 2u]);
+}
 vec3 sh_color(vec3 rgb, vec3 dir, uint index)
 {
     float x = dir.x, y = dir.y, z = dir.z;
@@ -42,8 +51,9 @@ vec3 sh_color(vec3 rgb, vec3 dir, uint index)
     uint terms = (frame.meta.y + 1u) * (frame.meta.y + 1u) - 1u;
     for (uint j = 0; j < terms; ++j)
     {
-        uint offset = index * frame.meta.z + j * 3u;
-        rgb += vec3(sh.data[offset], sh.data[offset + 1u], sh.data[offset + 2u]) * b[j];
+        uint segment = index / frame.offsets1.z;
+        uint offset = (index % frame.offsets1.z) * frame.meta.z + j * 3u;
+        rgb += sh_coeff(segment, offset) * b[j];
     }
     return clamp(rgb, 0.0, 1.0);
 }

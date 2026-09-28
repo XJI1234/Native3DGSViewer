@@ -21,6 +21,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 enum class EnginePhase { Empty, Loading, Uploading, Ready, Recovering, Failed, Stopping, Stopped }
+enum class QualityMode { Full, Mobile }
 
 data class EngineState(
     val phase: EnginePhase = EnginePhase.Empty,
@@ -32,6 +33,33 @@ data class EngineState(
     val error: Int = 0,
     val framesPresented: Long = 0,
     val lastFrameMicros: Long = 0,
+    val qualityMode: QualityMode = QualityMode.Full,
+    val requestedScalePermille: Int = 1000,
+    val actualScalePermille: Int = 1000,
+    val activeSplats: Long = 0,
+    val lastGpuFrameId: Long = 0,
+    val lastGpuProjectMicros: Long = 0,
+    val lastGpuSortMicros: Long = 0,
+    val lastGpuDrawMicros: Long = 0,
+    val droppedFrameSamples: Long = 0,
+)
+
+data class FrameSample(
+    val frameId: Long,
+    val presentCallNanos: Long,
+    val cpuFrameMicros: Long,
+    val gpuFrameId: Long,
+    val gpuProjectMicros: Long,
+    val gpuSortMicros: Long,
+    val gpuDrawMicros: Long,
+    val submittedSplats: Long,
+    val width: Int,
+    val height: Int,
+    val qualityMode: QualityMode,
+    val sourceSplats: Long,
+    val activeSplats: Long,
+    val requestedScalePermille: Int,
+    val actualScalePermille: Int,
 )
 
 class EngineException(val code: Int, message: String) : Exception(message)
@@ -89,6 +117,7 @@ class Native3dgsEngine(context: Context) : Closeable {
     /** Opens a document selected through ACTION_OPEN_DOCUMENT. Returns the native request ID. */
     suspend fun open(uri: Uri): Long {
         val operation = decodeGeneration.incrementAndGet()
+        val submittedRequest = AtomicLong()
         try {
             return withContext(Dispatchers.IO) {
                 val input = appContext.contentResolver.openFileDescriptor(uri, "r")
@@ -124,18 +153,24 @@ class Native3dgsEngine(context: Context) : Closeable {
                         }
                     }
                     shared.use { descriptor ->
-                        synchronized(lock) {
+                        val request = synchronized(lock) {
                             if (decodeGeneration.get() != operation)
                                 throw kotlinx.coroutines.CancellationException("Superseded model open")
                             val request = EngineBridge.openFd(currentHandle(), descriptor.fd, true)
                             if (request <= 0)
                                 throw EngineException((-request).toInt(), "Scene transfer failed")
+                            submittedRequest.set(request)
                             request
                         }
+                        request
                     }
                 }
             }
         } catch (error: Exception) {
+            if (error is kotlinx.coroutines.CancellationException) {
+                val request = submittedRequest.get()
+                if (request != 0L) try { cancel(request) } catch (_: EngineException) { }
+            }
             synchronized(lock) {
                 if (handle != 0L && decodeGeneration.get() == operation &&
                     error !is kotlinx.coroutines.CancellationException &&
@@ -180,6 +215,22 @@ class Native3dgsEngine(context: Context) : Closeable {
     fun flipAxes(x: Boolean, y: Boolean, z: Boolean) =
         camera(9, ((if (x) 1 else 0) or (if (y) 2 else 0) or (if (z) 4 else 0)).toDouble())
 
+    fun setQuality(mode: QualityMode, scalePermille: Int, displayWidth: Int, displayHeight: Int) =
+        synchronized(lock) {
+            check(EngineBridge.setQuality(currentHandle(), mode.ordinal, scalePermille,
+                displayWidth, displayHeight))
+        }
+
+    fun drainFrameSamples(): List<FrameSample> = synchronized(lock) {
+        val raw = EngineBridge.drainFrameSamples(currentHandle()) ?: return@synchronized emptyList()
+        raw.toList().chunked(15).filter { it.size == 15 }.map { value ->
+            FrameSample(value[0], value[1], value[2], value[3], value[4], value[5],
+                value[6], value[7], value[8].toInt(), value[9].toInt(),
+                QualityMode.entries.getOrElse(value[10].toInt()) { QualityMode.Full },
+                value[11], value[12], value[13].toInt(), value[14].toInt())
+        }
+    }
+
     private fun camera(action: Int, x: Double = 0.0, y: Double = 0.0, z: Double = 0.0,
                        seconds: Double = 0.0) = synchronized(lock) {
         check(EngineBridge.camera(currentHandle(), action, x, y, z, seconds))
@@ -191,13 +242,20 @@ class Native3dgsEngine(context: Context) : Closeable {
         val phase = EnginePhase.entries.getOrElse(values[0].toInt()) { EnginePhase.Failed }
         val localError = decodeError
         mutableState.value = EngineState(
-            if (decoding && phase != EnginePhase.Stopping && phase != EnginePhase.Stopped &&
+            phase = if (decoding && phase != EnginePhase.Stopping && phase != EnginePhase.Stopped &&
                 phase != EnginePhase.Uploading) EnginePhase.Loading
             else if (localError != null && phase == EnginePhase.Empty) EnginePhase.Failed
             else phase,
-            values[1], values[2], values[3], values[4], values[5],
-            localError ?: values[6].toInt(),
-            values[7], values[8])
+            requestId = values[1], activeRequestId = values[2], uploadTicket = values[3],
+            surfaceGeneration = values[4], sceneCount = values[5],
+            error = localError ?: values[6].toInt(),
+            framesPresented = values[7], lastFrameMicros = values[8],
+            qualityMode = QualityMode.entries.getOrElse(values[9].toInt()) { QualityMode.Full },
+            requestedScalePermille = values[10].toInt(),
+            actualScalePermille = values[11].toInt(), activeSplats = values[12],
+            lastGpuFrameId = values[13], lastGpuProjectMicros = values[14],
+            lastGpuSortMicros = values[15], lastGpuDrawMicros = values[16],
+            droppedFrameSamples = values[17])
     }
 
     override fun close() {
@@ -231,5 +289,8 @@ internal object EngineBridge {
     external fun resize(handle: Long, generation: Long, revision: Long, width: Int, height: Int): Int
     external fun camera(handle: Long, action: Int, x: Double, y: Double, z: Double,
                         seconds: Double): Int
+    external fun setQuality(handle: Long, mode: Int, scalePermille: Int,
+                            displayWidth: Int, displayHeight: Int): Int
     external fun snapshot(handle: Long): LongArray?
+    external fun drainFrameSamples(handle: Long): LongArray?
 }

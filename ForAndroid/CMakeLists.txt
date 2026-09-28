@@ -44,7 +44,7 @@ else()
     set(GLSLC_HOST_DIR linux-x86_64)
 endif()
 find_program(GLSLC glslc HINTS "${ANDROID_NDK}/shader-tools/${GLSLC_HOST_DIR}" REQUIRED)
-set(ANDROID_SHADERS histogram scan add_prefix scatter project)
+set(ANDROID_SHADERS histogram scan add_prefix scatter scatter_subgroup project)
 foreach(SHADER IN LISTS ANDROID_SHADERS)
     set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/shaders/${SHADER}.spv")
     add_custom_command(OUTPUT "${OUTPUT}"
@@ -79,7 +79,7 @@ add_library(gs_android_render_core STATIC src/render-core/device_probe.cpp
 add_dependencies(gs_android_render_core gs_android_shaders)
 target_include_directories(gs_android_render_core PUBLIC include "${ROOT}/include")
 target_include_directories(gs_android_render_core PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
-target_link_libraries(gs_android_render_core PUBLIC vulkan android)
+target_link_libraries(gs_android_render_core PUBLIC vulkan android log)
 target_link_libraries(gs_android_decoder PRIVATE gs_android_render_core)
 
 add_library(gs_android_engine STATIC src/engine/camera.cpp src/engine/transactions.cpp)

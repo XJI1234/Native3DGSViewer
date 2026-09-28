@@ -236,6 +236,13 @@ SceneAdmission assess_scene(const gs::SceneHandle &scene, const DeviceCapabiliti
         return result;
     }
     uint64_t level = 16 * (n / 128 + (n % 128 != 0));
+    uint64_t histogram_bytes = 0;
+    if (!checked_mul(level, sizeof(uint32_t), histogram_bytes) ||
+        !checked_add(total, histogram_bytes, total))
+    {
+        result.diagnostic = "Histogram byte overflow";
+        return result;
+    }
     for (;;)
     {
         const uint64_t blocks = level / 128 + (level % 128 != 0);
@@ -256,7 +263,14 @@ SceneAdmission assess_scene(const gs::SceneHandle &scene, const DeviceCapabiliti
         return result;
     }
     result.required_bytes = total;
-    if (base > device.max_storage_buffer_range || sh > device.max_storage_buffer_range)
+    const uint64_t sh_stride = sh_width * sizeof(float);
+    const uint64_t sh_chunk_points = sh_stride
+        ? device.max_storage_buffer_range / sh_stride : n;
+    if (base > device.max_storage_buffer_range ||
+        n > device.max_storage_buffer_range / 48 ||
+        n > device.max_storage_buffer_range / 8 ||
+        histogram_bytes > device.max_storage_buffer_range || !sh_chunk_points ||
+        (n + sh_chunk_points - 1) / sh_chunk_points > 6)
     {
         result.diagnostic = "Storage buffer range";
         return result;

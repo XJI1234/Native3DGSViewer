@@ -8,6 +8,8 @@
 
 核心命令为 `open(fd, source_options)`、`cancel(request_id)`、`close_scene()`、`camera_command`、`attach_surface(generation,window)`、`detach_surface`、`resize`、`request_shutdown`。`open` 返回递增 RequestId 或同步参数错误；渲染器上传返回 UploadTicket。只读快照包含 Empty/Loading/Uploading/Ready/Recovering/Failed/Stopping/Stopped 等阶段、当前/活动请求、活动 ticket、SurfaceGeneration、进度、相机、场景摘要、渲染统计和最近结构化错误；事件队列只传必须可靠消费的场景/Surface/设备状态，队列有界并公开丢弃计数。事件和快照不持有 JNI `jobject`。
 
+画质档与请求比例是线程安全的独立命令，切换后唤醒静止画面；Surface 缓冲尺寸变化仍由宿主的 resize/generation 驱动。快照中的实际比例以已呈现帧和宿主声明的最终显示尺寸计算，Surface 尚未更新时保留上一实际值。切换档位不取消解码、上传或活动场景，未验证 LoD 时活动点数始终等于原始点数。
+
 新打开请求取消旧待命解码或上传，旧活动模型继续可见；仅在新场景首次成功呈现后同时提交场景、相机与 reset 基线。旧请求的 Binder 回复、解码进度、upload fence 或 Surface 回调按 ID/代际丢弃。失败、取消或 CPU/GPU 预算不足不卸载旧活动模型；用户显式关闭时等待 SceneCleared，释放后可以重试大模型。活动 CPU 场景保留到设备恢复重传完成或用户关闭，必须计入内存预算。
 
 相机控制器复用平台无关的 double 数学。固定模式围绕模型中心 orbit，单指向左拖动屏幕上的模型就向左旋转；自由模式按相机 local right/up/forward 移动，移动速度由 `dt` 限幅。fit/reset、屏幕方向变化及 X/Y/Z 显示镜像的输入语义由相机契约测试锁定。模式切换不改变当前姿态，旋转屏幕不自动重置视角。

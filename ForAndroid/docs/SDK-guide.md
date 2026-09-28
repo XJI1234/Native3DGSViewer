@@ -1,7 +1,7 @@
 # Android SDK 接入指南
 
-当前版本 `0.2.0` 技术预览，最低 Android 10/API 29，发布 ABI 为 `arm64-v8a`，GPU 需支持 Vulkan 1.1。
-模拟器图像与集成测试已通过；真实 arm64 GPU 的画质、性能、低内存和热稳定性仍待验收。
+当前版本 `0.2.1` 技术预览，最低 Android 10/API 29，发布 ABI 为 `arm64-v8a`，GPU 需支持 Vulkan 1.1。
+Adreno 735 已完成 GPU 稳定排序自检与分阶段性能采样；画质 SSIM、低内存、跨驱动和热态性能仍待验收。
 
 ## Kotlin 接入
 
@@ -63,9 +63,11 @@ API 版本为 1。`gs_android_open_fd` 接收 PLY/SPZ 文件描述符，函数�
 没有 Surface 时可以解码，但渲染与 Ready 等待新的 Surface。模型 URI 与逐点数据
 不会写入日志。首期只支持单模型、PLY/SPZ、SH 0–3；不编辑、不导出。
 
-当前仍需真实 arm64 设备验证 Vulkan 画质、设备丢失、内存压力、30 FPS 与长时间运行。
-大于单个 `maxStorageBufferRange` 的场景尚未分段上传，会返回资源失败。当前帧提交
-使用单帧 fence 同步，尚未建立多帧流水和 GPU 时间戳统计；这些是性能验收前的门槛。
+当前仍需真机验证固定相机画质、设备丢失、内存压力、30 FPS 与长时间运行。
+SH 数据已按设备 `maxStorageBufferRange` 分段。帧资源按 fence 复用，已完成帧的
+GPU 投影、排序和绘制计时可用于诊断；这些计时不等于实际显示帧间隔。
+Adreno 735 可在能力探测和 GPU 稳定排序自检通过后使用 subgroup 排序，失败时
+回退原始稳定排序；其他 GPU 使用原始路径。
 
 ## Kotlin 公开接口逐项说明
 

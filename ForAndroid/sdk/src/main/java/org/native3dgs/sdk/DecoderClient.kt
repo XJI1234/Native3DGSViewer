@@ -10,16 +10,13 @@ import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import android.os.ParcelFileDescriptor
-import android.app.ActivityManager
 import java.io.Closeable
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicLong
 
-/** A single pending decode transaction. Completion transfers descriptor ownership to the receiver. */
+/** Completion transfers an untrusted descriptor; the native engine validates before publication. */
 internal class DecoderClient(context: Context, private val timeoutMillis: Long = 300_000) : Closeable {
     private val context = context.applicationContext
     private val main = Handler(Looper.getMainLooper())
-    private val validation = Executors.newSingleThreadExecutor()
     private var service: Messenger? = null
     private var bound = false
     private var closed = false
@@ -35,7 +32,6 @@ internal class DecoderClient(context: Context, private val timeoutMillis: Long =
                           val progress: (DecodeProgress) -> Unit,
                           val completion: (Long, ParcelFileDescriptor?, Int) -> Unit) {
         var sent = false
-        var validating = false
     }
 
     private val receiver = Messenger(Handler(Looper.getMainLooper()) { message ->
@@ -67,22 +63,7 @@ internal class DecoderClient(context: Context, private val timeoutMillis: Long =
                 descriptor?.close()
                 complete(current, null, if (error in 0..16) error else DecoderError.DECODER_FAILURE)
             } else {
-                current.validating = true
-                validation.execute {
-                    val valid = try {
-                        val memory = ActivityManager.MemoryInfo()
-                        (context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-                            .getMemoryInfo(memory)
-                        val reserve = 64L shl 20
-                        val limit = (memory.availMem - reserve).coerceAtLeast(0) / 2
-                        NativeDecoder.validateScene(descriptor.fd, limit) > 0
-                    } catch (_: Exception) { false }
-                    main.post {
-                        if (pending !== current || closed) descriptor.close()
-                        else if (valid) complete(current, descriptor, -1)
-                        else { descriptor.close(); complete(current, null, DecoderError.INVALID_ATTRIBUTE) }
-                    }
-                }
+                complete(current, descriptor, -1)
             }
         } else descriptor?.close()
         true
@@ -196,7 +177,7 @@ internal class DecoderClient(context: Context, private val timeoutMillis: Long =
     }
 
     private fun disconnected() {
-        pending?.let { if (!it.validating) complete(it, null, DecoderError.DECODER_CRASHED) }
+        pending?.let { complete(it, null, DecoderError.DECODER_CRASHED) }
         disconnectBinding()
     }
 
@@ -223,7 +204,6 @@ internal class DecoderClient(context: Context, private val timeoutMillis: Long =
             closed = true
             cancelPending()
             disconnectBinding()
-            validation.shutdown()
         }
     }
 
