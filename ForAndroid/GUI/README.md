@@ -15,7 +15,8 @@
 ```
 
 Debug APK 在 `ForAndroid/GUI/build/outputs/apk/debug/`，支持调试用
-`x86_64` 和目标 `arm64-v8a`；Release 仅含 `arm64-v8a`。设备需 Android 10+
+`x86_64` 和目标 `arm64-v8a`；Release 仅含 `arm64-v8a`，默认输出未签名 APK，
+须由发布方使用自己的正式证书签名后才能安装。设备需 Android 10+
 和符合引擎要求的 Vulkan 1.1 GPU。安装后通过系统文档选择器打开 PLY/SPZ，
 无需广域文件权限。要运行设备测试，使用 `:GUI:connectedDebugAndroidTest`。
 
