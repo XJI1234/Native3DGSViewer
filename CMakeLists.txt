@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(Native3DGSViewer VERSION 0.2.0 LANGUAGES C CXX)
+project(Native3DGSViewer VERSION 0.2.1 LANGUAGES C CXX)
 
 if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
   message(FATAL_ERROR "Native3DGSViewer requires Windows x64")
