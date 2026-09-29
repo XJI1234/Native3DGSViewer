@@ -56,6 +56,18 @@ bool same_camera(const CameraState &a, const CameraState &b)
            a.vertical_fov_radians == b.vertical_fov_radians && a.near_plane == b.near_plane &&
            a.far_plane == b.far_plane;
 }
+void clear_frame_stats(RenderStats &stats)
+{
+    stats.presented_frame_id = 0;
+    stats.cpu_frame_ms.reset();
+    stats.gpu_frame_ms.reset();
+    stats.gpu_sort_ms.reset();
+    stats.gpu_draw_ms.reset();
+    stats.present_call_ms.reset();
+    stats.candidate_splats = 0;
+    stats.drawn_splats = 0;
+    stats.rejected_projection_splats = 0;
+}
 struct Command
 {
     enum class Kind
@@ -566,10 +578,14 @@ class Renderer final : public IRenderer
                     std::lock_guard lock(mutex_);
                     active_ticket_ = 0;
                     active_cpu_.reset();
+                    stats_.active_ticket = 0;
+                    stats_.active_source_splats = 0;
+                    stats_.active_source_sh_degree = 0;
                     stats_.active_sh_degree = 0;
                     stats_.active_splats = 0;
                     stats_.active_point_stride = 1;
                     stats_.memory_mitigation = false;
+                    clear_frame_stats(stats_);
                 }
                 emit(RendererEvent::Kind::SceneCleared, ticket);
                 break;
@@ -762,7 +778,8 @@ class Renderer final : public IRenderer
                 D3D12_RANGE empty{};
                 slot.readback->Unmap(0, &empty);
                 std::lock_guard lock(mutex_);
-                if (slot.frame >= stats_.presented_frame_id)
+                if (slot.scene && slot.scene->ticket == stats_.active_ticket &&
+                    slot.frame >= stats_.presented_frame_id)
                 {
                     stats_.presented_frame_id = slot.frame;
                     stats_.cpu_frame_ms = slot.cpu_ms;
@@ -892,10 +909,14 @@ class Renderer final : public IRenderer
             pending_.reset();
             {
                 std::lock_guard lock(mutex_);
+                stats_.active_ticket = active_->ticket;
+                stats_.active_source_splats = active_->cpu->count;
+                stats_.active_source_sh_degree = active_->cpu->shDegree;
                 stats_.active_sh_degree = active_->sh_degree;
                 stats_.active_splats = active_->count;
                 stats_.active_point_stride = active_->point_stride;
                 stats_.memory_mitigation = active_->memory_mitigation;
+                clear_frame_stats(stats_);
             }
             emit(RendererEvent::Kind::SceneReady, active_->ticket);
             if (recovering_)
@@ -946,6 +967,14 @@ class Renderer final : public IRenderer
         {
             std::lock_guard lock(mutex_);
             recovering_ = true;
+            stats_.active_ticket = 0;
+            stats_.active_source_splats = 0;
+            stats_.active_source_sh_degree = 0;
+            stats_.active_sh_degree = 0;
+            stats_.active_splats = 0;
+            stats_.active_point_stride = 1;
+            stats_.memory_mitigation = false;
+            clear_frame_stats(stats_);
             surface_queue_.Reset();
             surface_device_.Reset();
             surface_adapter_.Reset();

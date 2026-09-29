@@ -100,6 +100,13 @@ enum class SortShaderMode : uint8_t
 };
 struct RenderStats
 {
+    UploadTicket active_ticket = 0;
+    uint64_t active_source_splats = 0;
+    uint8_t active_source_sh_degree = 0;
+    uint8_t active_sh_degree = 0;
+    uint32_t active_splats = 0;
+    uint32_t active_point_stride = 1;
+    bool memory_mitigation = false;
     SortShaderMode sort_shader_mode = SortShaderMode::Standard;
     bool sort_self_test_passed = false;
     HRESULT wave32_fallback_hr = S_OK;
@@ -113,10 +120,6 @@ struct RenderStats
     uint64_t local_budget_bytes = 0, local_usage_bytes = 0;
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
     uint32_t device_recovery_count = 0;
-    uint8_t active_sh_degree = 0;
-    uint32_t active_splats = 0;
-    uint32_t active_point_stride = 1;
-    bool memory_mitigation = false;
 };
 class IRenderer
 {

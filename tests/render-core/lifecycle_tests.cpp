@@ -21,6 +21,39 @@ TEST(RenderLifecycle, PresentsOnlyCompletedUploadsAndKeepsOldSceneOnCancellation
     ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().gpu_frame_ms.has_value(); }));
     EXPECT_GT(s.renderer->get_stats().completed_upload_bytes, 0u);
 }
+TEST(RenderLifecycle, FrameStatsWaitForActiveScenesCompletedFrame)
+{
+    Session s;
+    const auto first = s.upload(make_scene(1));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(first); }));
+    ASSERT_TRUE(s.pump_until([&] {
+        const auto stats = s.renderer->get_stats();
+        return stats.gpu_frame_ms.has_value() && stats.drawn_splats == 1;
+    }));
+    const auto second = s.upload(make_scene(2));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(second); }));
+    const auto activated = s.renderer->get_stats();
+    EXPECT_EQ(activated.active_ticket, second);
+    EXPECT_EQ(activated.active_source_splats, 2u);
+    EXPECT_EQ(activated.active_source_sh_degree, 0u);
+    EXPECT_EQ(activated.active_splats, 2u);
+    EXPECT_EQ(activated.presented_frame_id, 0u);
+    EXPECT_FALSE(activated.gpu_frame_ms.has_value());
+    EXPECT_EQ(activated.drawn_splats, 0u);
+    ASSERT_TRUE(s.pump_until([&] {
+        const auto stats = s.renderer->get_stats();
+        return stats.gpu_frame_ms.has_value() && stats.drawn_splats == 2;
+    }));
+    s.renderer->clear_scene();
+    ASSERT_TRUE(s.pump_until([&] {
+        return s.renderer->get_stats().active_ticket == 0;
+    }));
+    const auto cleared = s.renderer->get_stats();
+    EXPECT_EQ(cleared.active_source_splats, 0u);
+    EXPECT_EQ(cleared.active_splats, 0u);
+    EXPECT_EQ(cleared.presented_frame_id, 0u);
+    EXPECT_FALSE(cleared.gpu_frame_ms.has_value());
+}
 TEST(RenderLifecycle, BudgetMitigationSelectsShZeroAndStrictModeRejects)
 {
     auto scene = make_scene(1000, 3);
