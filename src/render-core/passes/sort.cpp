@@ -165,7 +165,9 @@ void SortPass::record(ID3D12GraphicsCommandList *list, SortBuffers &b)
         return;
     FFX_ParallelSortCB cb{};
     uint32_t groups = 0, reducedGroups = 0;
-    FFX_ParallelSort_SetConstantAndDispatchData(b.count, 800, cb, groups, reducedGroups);
+    // 16 bins * ceil(16000 / 512) = 512, the single-group reduced scan limit.
+    constexpr uint32_t max_sort_groups = 16'000;
+    FFX_ParallelSort_SetConstantAndDispatchData(b.count, max_sort_groups, cb, groups, reducedGroups);
     list->SetComputeRootSignature(root_.Get());
     list->SetComputeRoot32BitConstants(0, 6, &cb, 0);
     auto bind = [&](UINT slot, ID3D12Resource *r) {
