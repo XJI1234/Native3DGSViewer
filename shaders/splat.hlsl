@@ -41,7 +41,7 @@ float3 sh_color(float3 rgb,float3 dir,uint i)
 }
 [numthreads(1,1,1)]
 void reset_args(uint i:SV_DispatchThreadID)
-{ arguments[0]=6; arguments[1]=0; arguments[2]=0; arguments[3]=0; arguments[4]=0; }
+{ arguments[0]=4; arguments[1]=0; arguments[2]=0; arguments[3]=0; arguments[4]=0; }
 void reject_projection(uint i)
 {
     ellipses[i]=(Ellipse)0;
@@ -114,7 +114,7 @@ StructuredBuffer<uint> sorted : register(t2);
 struct Vertex { float4 position:SV_Position; float2 gaussian:TEXCOORD0; float4 color:COLOR0; };
 Vertex vertex(uint v:SV_VertexID,uint instance:SV_InstanceID)
 {
-    const float2 corners[6]={float2(-1,-1),float2(1,-1),float2(-1,1),float2(-1,1),float2(1,-1),float2(1,1)};
+    const float2 corners[4]={float2(-1,-1),float2(1,-1),float2(-1,1),float2(1,1)};
     Ellipse e=projected[sorted[instance]];
     float2 uv=corners[v]; float2 pixel=e.center+uv.x*e.axis0+uv.y*e.axis1;
     Vertex result; result.position=float4(pixel.x*2/viewport.z-1,1-pixel.y*2/viewport.w,0,1);

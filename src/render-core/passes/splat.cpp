@@ -179,7 +179,7 @@ void SplatPass::draw(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport view
     D3D12_RECT rect{0, 0, LONG(viewport.physical_width), LONG(viewport.physical_height)};
     list->RSSetViewports(1, &vp);
     list->RSSetScissorRects(1, &rect);
-    list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
     list->ExecuteIndirect(indirect_.Get(), 1, s.arguments.Get(), 0, nullptr, 0);
     transition(list, s.projected.Get(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
                D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
