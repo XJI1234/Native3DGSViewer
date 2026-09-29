@@ -34,7 +34,9 @@ float3 sh_color(float3 rgb,float3 dir,uint i)
     b[12]=-0.4570457994644658*x*(4*z*z-x*x-y*y);
     b[13]=1.445305721320277*z*(x*x-y*y); b[14]=-0.5900435899266435*x*(x*x-3*y*y);
     uint n=(meta.y+1)*(meta.y+1)-1;
-    for(uint j=0;j<n;++j) rgb+=asfloat(sh_scene.Load3((i*meta.z+j*3)*4))*b[j];
+    [unroll]
+    for(uint j=0;j<15;++j)
+        if(j<n) rgb+=asfloat(sh_scene.Load3((i*meta.z+j*3)*4))*b[j];
     return saturate(rgb);
 }
 [numthreads(1,1,1)]
