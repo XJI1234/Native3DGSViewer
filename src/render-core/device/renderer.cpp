@@ -28,7 +28,8 @@ RenderError failure(RenderErrorCode code, HRESULT hr = S_OK, const char *text = 
 {
     return {code, hr, std::string(text).substr(0, 512)};
 }
-std::string budget_diagnostic(const char *stage, uint64_t required,
+std::string budget_diagnostic(const char *stage, uint64_t scene_required,
+                              uint64_t upload_required,
                               const DXGI_QUERY_VIDEO_MEMORY_INFO &local,
                               const DXGI_QUERY_VIDEO_MEMORY_INFO &nonlocal, bool uma,
                               HRESULT nonlocal_hr)
@@ -36,15 +37,53 @@ std::string budget_diagnostic(const char *stage, uint64_t required,
     char query_hr[11]{};
     snprintf(query_hr, sizeof(query_hr), "0x%08X", static_cast<uint32_t>(nonlocal_hr));
     return std::string(stage) + " UMA=" + (uma ? "1" : "0") +
-           " required_local=" + std::to_string(required) +
+           " required_local=" + std::to_string(scene_required + (uma ? upload_required : 0)) +
            " local_budget=" + std::to_string(local.Budget) +
            " local_usage=" + std::to_string(local.CurrentUsage) +
-           " required_nonlocal=" + std::to_string(uma ? 0 : upload_reserve_bytes) +
+           " required_nonlocal=" + std::to_string(uma ? 0 : upload_required) +
            " nonlocal_query_hr=" + query_hr +
            " nonlocal_budget=" + (SUCCEEDED(nonlocal_hr) ?
                std::to_string(nonlocal.Budget) : "unavailable") +
            " nonlocal_usage=" + (SUCCEEDED(nonlocal_hr) ?
                std::to_string(nonlocal.CurrentUsage) : "unavailable");
+}
+struct UploadSelection
+{
+    uint8_t degree;
+    uint32_t stride;
+    bool mitigated;
+    uint64_t scene_required = 0;
+    uint64_t upload_required = 0;
+    bool fits = false;
+};
+UploadSelection select_upload(const SplatScene &scene, const QualityConfig &quality,
+                              uint8_t degree, uint32_t stride, bool mitigated,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &local,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &nonlocal, bool uma)
+{
+    UploadSelection selection{degree, stride, mitigated};
+    const auto measure = [&] {
+        selection.scene_required = incremental_bytes(scene, selection.degree, selection.stride);
+        selection.upload_required = upload_reserve_bytes(scene, selection.degree, selection.stride);
+        selection.fits = fits_scene_budgets(selection.scene_required, selection.upload_required,
+                                            local.Budget, local.CurrentUsage, nonlocal.Budget,
+                                            nonlocal.CurrentUsage, uma);
+    };
+    measure();
+    while (quality.allow_memory_mitigation && !selection.fits && selection.degree > 0)
+    {
+        --selection.degree;
+        selection.mitigated = true;
+        measure();
+    }
+    while (quality.allow_memory_mitigation && !selection.fits &&
+           selection.stride < quality.max_point_stride)
+    {
+        selection.stride *= 2;
+        selection.mitigated = true;
+        measure();
+    }
+    return selection;
 }
 bool same_camera(const CameraState &a, const CameraState &b)
 {
@@ -220,33 +259,24 @@ class Renderer final : public IRenderer
         if (!surface_uma_ && FAILED(nonlocal_hr))
             return failure(RenderErrorCode::InternalFailure, nonlocal_hr, "Nonlocal budget");
         const auto requested_degree = (std::min)(scene->shDegree, quality_.sh_degree_cap);
-        auto selected_degree = requested_degree;
-        uint32_t point_stride = 1;
-        auto required = incremental_bytes(*scene, selected_degree, point_stride);
-        while (quality_.allow_memory_mitigation && selected_degree > 0 &&
-               !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
-                                   local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
-                                   surface_uma_))
-            required = incremental_bytes(*scene, --selected_degree, point_stride);
-        while (quality_.allow_memory_mitigation && point_stride < 16 &&
-               !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
-                                   local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
-                                   surface_uma_))
-            required = incremental_bytes(*scene, selected_degree, point_stride *= 2);
-        if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
-                                nonlocal.Budget, nonlocal.CurrentUsage, surface_uma_))
+        const auto selection = select_upload(*scene, quality_, requested_degree,
+                                             quality_.point_stride, false, local, nonlocal,
+                                             surface_uma_);
+        if (!selection.fits)
         {
-            const auto diagnostic = budget_diagnostic("upload_admission", required, local,
-                                                       nonlocal, surface_uma_, nonlocal_hr);
+            const auto diagnostic = budget_diagnostic("upload_admission",
+                                                       selection.scene_required,
+                                                       selection.upload_required, local, nonlocal,
+                                                       surface_uma_, nonlocal_hr);
             return failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str());
         }
         Command c{Command::Kind::Upload};
         c.ticket = ++next_ticket_;
         c.scene = std::move(scene);
         c.camera = camera;
-        c.sh_degree = selected_degree;
-        c.point_stride = point_stride;
-        c.memory_mitigation = selected_degree < requested_degree || point_stride > 1;
+        c.sh_degree = selection.degree;
+        c.point_stride = selection.stride;
+        c.memory_mitigation = selection.mitigated;
         auto ticket = c.ticket;
         commands_.push_back(std::move(c));
         return ticket;
@@ -679,35 +709,21 @@ class Renderer final : public IRenderer
                 0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
             if (!gpu_->uma)
                 check(nonlocal_hr, "Nonlocal budget");
-            auto required = incremental_bytes(*scene, selected_degree, point_stride);
-            while (quality_.allow_memory_mitigation && selected_degree > 0 &&
-                   !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
-                                       local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
-                                       gpu_->uma))
+            const auto selection = select_upload(*scene, quality_, selected_degree, point_stride,
+                                                 memory_mitigation, local, nonlocal, gpu_->uma);
+            if (!selection.fits)
             {
-                required = incremental_bytes(*scene, --selected_degree, point_stride);
-                memory_mitigation = true;
-            }
-            while (quality_.allow_memory_mitigation && point_stride < 16 &&
-                   !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
-                                       local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
-                                       gpu_->uma))
-            {
-                required = incremental_bytes(*scene, selected_degree, point_stride *= 2);
-                memory_mitigation = true;
-            }
-            if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
-                                    nonlocal.Budget, nonlocal.CurrentUsage, gpu_->uma))
-            {
-                const auto diagnostic = budget_diagnostic("upload_begin", required, local,
+                const auto diagnostic = budget_diagnostic("upload_begin",
+                                                           selection.scene_required,
+                                                           selection.upload_required, local,
                                                            nonlocal, gpu_->uma, nonlocal_hr);
                 emit(RendererEvent::Kind::SceneFailed, ticket,
                      failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str()));
                 return;
             }
             pending_ = std::make_unique<UploadTransaction>(*gpu_, *pass_, std::move(scene), ticket,
-                                                           camera, selected_degree, memory_mitigation,
-                                                           point_stride);
+                                                           camera, selection.degree,
+                                                           selection.mitigated, selection.stride);
         }
         catch (const GpuFailure &e)
         {

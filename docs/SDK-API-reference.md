@@ -142,7 +142,7 @@ ID3D12CommandQueue *queue = engine->addref_surface_queue(generation);
 `sh_degree_cap` 限制最高 SH 度数，`max_stddev` 控制高斯范围，
 `min_alpha` 控制透明度门限，`covariance_blur_px2` 为像素协方差模糊，
 `max_pixel_radius_px` 限制投影半径，`premultiplied_alpha` 对应合成方式。
-`allow_memory_mitigation` 默认为 true；显存预算不足时自动逐级降低 GPU 中的 SH 阶数，最低到 0 阶，仍不足时按 2、4、8、16 倍间隔抽样点。可设为 false 保持严格质量；`sh_degree_cap` 是手动 SH 上限。调用方应在 `RenderStats::memory_mitigation` 为 true 时向用户提示，并用 `active_sh_degree`、`active_splats` 和 `active_point_stride` 显示实际质量。`CameraState` 含 RUB 位置、
+`allow_memory_mitigation` 默认为 true；显存预算不足时自动逐级降低 GPU 中的 SH 阶数，最低到 0 阶，仍不足时把点间隔逐级加倍。`sh_degree_cap` 是手动 SH 上限，`point_stride` 是手动抽样间隔（默认 1），`max_point_stride` 是自动抽样上限（默认 16）；两个间隔都只能为 1、2、4、8、16，且 `point_stride <= max_point_stride`。`max_point_stride=1` 只允许自动降 SH；`allow_memory_mitigation=false` 禁止自动缓解，但保留手动设置。调用方应在 `RenderStats::memory_mitigation` 为 true 时向用户提示，并用源/实际阶数、点数和 `active_point_stride` 显示实际质量。`CameraState` 含 RUB 位置、
 XY ZW 四元数、垂直 FOV、近远裁剪面；`Viewport` 单位为物理像素。
 
 | 调用语法 | 作用与注意事项 |
@@ -174,4 +174,4 @@ XY ZW 四元数、垂直 FOV、近远裁剪面；`Viewport` 单位为物理像�
 `wrong_thread_frame_calls` 为跨线程误调用计数；
 `local_budget_bytes/local_usage_bytes` 与
 `nonlocal_budget_bytes/nonlocal_usage_bytes` 为 GPU 预算与使用量；
-`device_recovery_count` 为设备恢复次数。`active_sh_degree`、`active_splats` 和 `active_point_stride` 为当前 GPU 实际阶数、点数与源点抽样间隔；`memory_mitigation` 表示由预算触发的自动缓解。这些值不改变 `SplatScene` 中的源数据。
+`device_recovery_count` 为设备恢复次数。`active_ticket` 为当前 GPU 场景票据，0 表示无活动场景；`active_source_sh_degree`/`active_source_splats` 与 `active_sh_degree`/`active_splats` 分别为源质量与实际 GPU 质量，`active_point_stride` 为源点抽样间隔。`memory_mitigation` 仅表示由预算触发的自动降低，手动上限或抽样可使实际质量下降而不置位。场景替换时可选帧时间和 `presented_frame_id` 清空，直到新活动场景的帧完成；旧场景的在途帧不会覆盖新统计。这些值不改变 `SplatScene` 中的源数据。

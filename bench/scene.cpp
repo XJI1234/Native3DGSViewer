@@ -67,6 +67,7 @@ int wmain(int argc, wchar_t **argv)
         QualityConfig quality{};
         if (argc >= 5)
             quality.sh_degree_cap = uint8_t(argv[4][0] - L'0');
+        quality.point_stride = point_stride;
         gs::engine::CameraController camera;
         if (auto e = camera.fit_scene(*scene, quality, viewport))
             throw std::runtime_error(e->diagnostic);
@@ -80,9 +81,13 @@ int wmain(int argc, wchar_t **argv)
         if (!gpu.uma)
             check(nonlocal_hr, "Scene benchmark nonlocal budget");
         const auto required = incremental_bytes(*scene, quality.sh_degree_cap, point_stride);
-        std::cout << "gpu_required_bytes=" << required << " local_budget_bytes=" << local.Budget
+        const auto upload_required = upload_reserve_bytes(*scene, quality.sh_degree_cap,
+                                                           point_stride);
+        std::cout << "gpu_required_bytes=" << required
+                  << " upload_reserve_bytes=" << upload_required
+                  << " local_budget_bytes=" << local.Budget
                   << " local_usage_bytes=" << local.CurrentUsage << " admission="
-                  << fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                  << fits_scene_budgets(required, upload_required, local.Budget,
                                         local.CurrentUsage, nonlocal.Budget,
                                         nonlocal.CurrentUsage, gpu.uma)
                   << '\n';

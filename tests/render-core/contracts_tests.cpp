@@ -21,6 +21,18 @@ TEST(RenderContracts, QualityRejectsNonFiniteAndUnsupportedValues)
     q = {};
     q.premultiplied_alpha = false;
     EXPECT_TRUE(validate_quality(q));
+    q = {};
+    q.point_stride = 3;
+    EXPECT_TRUE(validate_quality(q));
+    q = {};
+    q.max_point_stride = 32;
+    EXPECT_TRUE(validate_quality(q));
+    q = {};
+    q.point_stride = 4;
+    q.max_point_stride = 2;
+    EXPECT_TRUE(validate_quality(q));
+    q.max_point_stride = 8;
+    EXPECT_FALSE(validate_quality(q));
 }
 TEST(RenderContracts, CameraRejectsInvalidProjectionAndQuaternion)
 {
@@ -44,10 +56,21 @@ TEST(RenderContracts, BudgetUsesIncrementalHeadroomWithoutCountingOldSceneTwice)
 }
 TEST(RenderContracts, UmaUploadDoesNotRequireNonlocalSegment)
 {
-    EXPECT_TRUE(fits_scene_budgets(800, 8, 1100, 100, 0, 0, true));
-    EXPECT_FALSE(fits_scene_budgets(801, 8, 1100, 100, 0, 0, true));
+    EXPECT_TRUE(fits_scene_budgets(792, 8, 1100, 100, 0, 0, true));
+    EXPECT_FALSE(fits_scene_budgets(793, 8, 1100, 100, 0, 0, true));
     EXPECT_FALSE(fits_scene_budgets(800, 8, 1100, 100, 0, 0, false));
     EXPECT_TRUE(fits_scene_budgets(800, 8, 1100, 100, 110, 100, false));
+}
+TEST(RenderContracts, SmallUploadReserveUsesPackedSceneSize)
+{
+    auto scene = render_test::make_scene(1000, 3);
+    const auto packed = 1000ull * (56 + 180);
+    EXPECT_EQ(upload_reserve_bytes(*scene, 3, 1), packed + (4ull << 20));
+    EXPECT_EQ(upload_reserve_bytes(*scene, 0, 4), 250ull * 56 + (4ull << 20));
+    EXPECT_EQ(upload_reserve_bytes(*scene, 3, 1'000), UINT64_MAX);
+    gs::SplatScene large;
+    large.count = 2'000'000;
+    EXPECT_EQ(upload_reserve_bytes(large, 0, 1), (64ull << 20) + (4ull << 20));
 }
 TEST(RenderContracts, RelativeCameraSubtractsDoubleOriginBeforeFloatConversion)
 {
@@ -83,7 +106,7 @@ TEST(RenderContracts, LargeSceneUsesMeasuredResourceSize)
     EXPECT_LT(incremental_bytes(scene, 0), incremental_bytes(scene, 1));
     EXPECT_LT(incremental_bytes(scene, 1), incremental_bytes(scene, 2));
     EXPECT_LT(incremental_bytes(scene, 2), incremental_bytes(scene, 3));
-    EXPECT_EQ(incremental_bytes(scene, 0), 2'591'913'648ull);
+    EXPECT_EQ(incremental_bytes(scene, 0), 2'520'610'480ull);
     scene.count = UINT32_MAX / 180 + 1;
     EXPECT_EQ(scene_bytes(scene), UINT64_MAX);
 }

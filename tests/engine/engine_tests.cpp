@@ -57,9 +57,9 @@ struct Session
 {
     std::unique_ptr<IEngine> engine;
     ComPtr<IDXGISwapChain3> surface;
-    explicit Session(uint32_t capacity = 128)
+    explicit Session(uint32_t capacity = 128, gs::render::QualityConfig quality = {})
     {
-        auto result = create_engine({{}, {128, 128}, capacity});
+        auto result = create_engine({quality, {128, 128}, capacity});
         if (auto e = std::get_if<gs::render::RenderError>(&result))
             throw std::runtime_error(e->diagnostic);
         engine = std::move(std::get<std::unique_ptr<IEngine>>(result));
@@ -110,7 +110,11 @@ TEST(EngineRuntime, OpensControlsPreservesOldSceneOnFailureAndCloses)
     Fixture file;
     Session s;
     auto id = s.open(file.path);
-    ASSERT_TRUE(until([&] { return s.engine->snapshot().active_request == id; }));
+    ASSERT_TRUE(until([&] {
+        const auto state = s.engine->snapshot();
+        return state.active_request == id && state.stats.active_ticket == state.active_ticket &&
+               state.stats.presented_frame_id > 0;
+    }));
     auto before = s.engine->snapshot();
     ASSERT_TRUE(before.active_scene);
     EXPECT_EQ(before.active_scene->count, 2u);
@@ -140,6 +144,8 @@ TEST(EngineRuntime, OpensControlsPreservesOldSceneOnFailureAndCloses)
     s.engine->close();
     ASSERT_TRUE(until([&] { return s.engine->snapshot().phase == Phase::Empty; }));
     EXPECT_EQ(s.engine->snapshot().active_ticket, 0u);
+    EXPECT_EQ(s.engine->snapshot().stats.active_ticket, 0u);
+    EXPECT_EQ(s.engine->snapshot().stats.presented_frame_id, 0u);
 }
 TEST(EngineRuntime, LatestRequestWinsAndCancelPreservesActiveScene)
 {
@@ -235,6 +241,8 @@ TEST(EngineRuntime, DeviceRecoveryWaitsForHostReleaseAndRebinds)
     ASSERT_TRUE(SUCCEEDED(queue->GetDevice(IID_PPV_ARGS(&device))));
     device->RemoveDevice();
     ASSERT_TRUE(until([&] { return s.engine->snapshot().phase == Phase::Recovering; }));
+    EXPECT_EQ(s.engine->snapshot().stats.active_ticket, 0u);
+    EXPECT_FALSE(s.engine->snapshot().stats.gpu_frame_ms.has_value());
     EXPECT_EQ(s.engine->snapshot().surface_generation, generation);
     EXPECT_FALSE(s.engine->acknowledge_device_release(generation + 1));
     EXPECT_EQ(s.engine->snapshot().surface_generation, generation);
@@ -320,5 +328,28 @@ TEST(EngineRuntime, RejectsInvalidConfiguration)
     EXPECT_TRUE(std::holds_alternative<gs::render::RenderError>(create_engine({{}, {0, 128}, 1})));
     EXPECT_TRUE(
         std::holds_alternative<gs::render::RenderError>(create_engine({{}, {128, 128}, 0})));
+    gs::render::QualityConfig quality;
+    quality.point_stride = 8;
+    quality.max_point_stride = 4;
+    auto rejected = create_engine({quality, {128, 128}, 128});
+    ASSERT_TRUE(std::holds_alternative<gs::render::RenderError>(rejected));
+    EXPECT_EQ(std::get<gs::render::RenderError>(rejected).code,
+              gs::render::RenderErrorCode::InvalidQualityConfig);
+}
+TEST(EngineRuntime, ManualPointStrideIsReportedInSnapshot)
+{
+    Fixture file;
+    gs::render::QualityConfig quality;
+    quality.point_stride = quality.max_point_stride = 2;
+    quality.allow_memory_mitigation = false;
+    Session s(128, quality);
+    const auto id = s.open(file.path);
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().active_request == id; }));
+    const auto state = s.engine->snapshot();
+    EXPECT_EQ(state.stats.active_ticket, state.active_ticket);
+    EXPECT_EQ(state.stats.active_source_splats, 2u);
+    EXPECT_EQ(state.stats.active_splats, 1u);
+    EXPECT_EQ(state.stats.active_point_stride, 2u);
+    EXPECT_FALSE(state.stats.memory_mitigation);
 }
 } // namespace

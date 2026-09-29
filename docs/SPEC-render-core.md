@@ -36,11 +36,14 @@ enum class SortMode : uint8_t { Radial, ViewDepth };
 struct QualityConfig {
     SortMode sort_mode = SortMode::Radial;
     uint8_t sh_degree_cap = 3;
+    uint32_t point_stride = 1;
+    uint32_t max_point_stride = 16;
     float max_stddev = 3.0f;
     float min_alpha = 0.0f;
     float covariance_blur_px2 = 0.0f;
     float max_pixel_radius_px = 1024.0f;
     bool premultiplied_alpha = true;
+    bool allow_memory_mitigation = true;
 };
 enum class RenderErrorCode : uint8_t {
     UnsupportedDevice, InvalidSurface, InvalidCamera, InvalidScene,
@@ -64,6 +67,13 @@ struct RendererEvent {
     std::optional<RenderError> error;
 };
 struct RenderStats {
+    UploadTicket active_ticket = 0;
+    uint64_t active_source_splats = 0;
+    uint8_t active_source_sh_degree = 0;
+    uint8_t active_sh_degree = 0;
+    uint32_t active_splats = 0;
+    uint32_t active_point_stride = 1;
+    bool memory_mitigation = false;
     uint64_t presented_frame_id = 0;
     std::optional<double> cpu_frame_ms, gpu_frame_ms;
     std::optional<double> gpu_sort_ms, gpu_draw_ms, present_call_ms;
@@ -101,9 +111,9 @@ create_renderer(QualityConfig, EventSink);
 }
 ```
 
-`QualityConfig` 在 `create_renderer` 时校验并冻结，运行期只读；上述默认值是原型初值，M0 对齐 Viewer 后锁定基准配置。`sh_degree_cap` 必须为 0-3，`max_stddev`/`max_pixel_radius_px` 必须有限且大于零，`min_alpha` 在 [0,1)，`covariance_blur_px2` 有限且非负；超出经设备资源预算核定的上界返回 `InvalidQualityConfig`。输入错误由 `create_renderer`、`upload_scene`、`attach_swapchain`、`set_camera` 或 `resize` 同步返回，不入队；异步 GPU/交换链错误通过事件返回。事件回调在渲染线程执行，不持有内部锁，异常在边界捕获并记录；UI 必须转发到 dispatcher。
+`QualityConfig` 在 `create_renderer` 时校验并冻结，运行期只读；上述默认值是原型初值，M0 对齐 Viewer 后锁定基准配置。`sh_degree_cap` 必须为 0-3；`point_stride` 和 `max_point_stride` 必须为 1、2、4、8 或 16，且前者不大于后者。`max_stddev`/`max_pixel_radius_px` 必须有限且大于零，`min_alpha` 在 [0,1)，`covariance_blur_px2` 有限且非负；超出经设备资源预算核定的上界返回 `InvalidQualityConfig`。输入错误由 `create_renderer`、`upload_scene`、`attach_swapchain`、`set_camera` 或 `resize` 同步返回，不入队；异步 GPU/交换链错误通过事件返回。事件回调在渲染线程执行，不持有内部锁，异常在边界捕获并记录；UI 必须转发到 dispatcher。
 
-`upload_scene` 的初始相机由桌面层按包围盒计算，随模型一起待命和激活；`upload_scene`、`set_camera`、`resize` 为线程安全命令入口，验证后只入队且不等待 GPU。`render_frame` 只由渲染线程调用。初始 surface generation 为 1，设备重建时递增；`addref_surface_queue(generation)` 仅在参数匹配且设备就绪时返回已增加引用计数的 direct queue，宿主用完释放该引用。`attach_swapchain` 和 `detach_swapchain` 只处理指定 generation；同一 generation 内 `resize` 还按递增 `ViewportRevision` 只应用最新尺寸。`set_camera` 只作用于对应活动场景 ticket；没有活动场景时不调用它。交换链由 renderer 按 COM 引用计数保留；正常关闭时 `SurfaceDetached(generation)` 确认相关 fence 安全后 UI 才解绑并释放自己的交换链引用。设备移除路径不等待旧 generation 的 `SurfaceDetached`。WinUI 的 `ISwapChainPanelNative::SetSwapChain` 在桌面层执行。`get_stats` 返回最近完成的不可变快照，可能落后一至数帧，不触发 GPU 等待；未完成的时间值为空，不填零冒充实测。
+`upload_scene` 的初始相机由桌面层按包围盒计算，随模型一起待命和激活；`upload_scene`、`set_camera`、`resize` 为线程安全命令入口，验证后只入队且不等待 GPU。`render_frame` 只由渲染线程调用。初始 surface generation 为 1，设备重建时递增；`addref_surface_queue(generation)` 仅在参数匹配且设备就绪时返回已增加引用计数的 direct queue，宿主用完释放该引用。`attach_swapchain` 和 `detach_swapchain` 只处理指定 generation；同一 generation 内 `resize` 还按递增 `ViewportRevision` 只应用最新尺寸。`set_camera` 只作用于对应活动场景 ticket；没有活动场景时不调用它。交换链由 renderer 按 COM 引用计数保留；正常关闭时 `SurfaceDetached(generation)` 确认相关 fence 安全后 UI 才解绑并释放自己的交换链引用。设备移除路径不等待旧 generation 的 `SurfaceDetached`。WinUI 的 `ISwapChainPanelNative::SetSwapChain` 在桌面层执行。`get_stats` 返回受锁保护的快照，不触发 GPU 等待；活动场景身份和质量在激活时更新，逐帧时间只取该场景最近完成的 GPU 帧，可能落后一至数帧。未完成的时间值为空，不填零冒充实测。
 
 ## 3. 设备、线程与 GPU 资源
 
@@ -113,13 +123,13 @@ create_renderer(QualityConfig, EventSink);
 
 `SceneHandle` 从 `upload_scene` 入队起一直保留到最后一块 copy fence 完成。首期对当前活动场景继续保留 CPU 句柄，以便设备恢复时重新上传同一快照；取消的待命场景在 copy fence 安全点释放。此选择提高 RAM 常驻量，需计入预算并在 M3 实测。异步上传对 UI 显示阶段/真实已完成 copy fence 的字节进度，不在 UI 线程拷贝整场景。`SceneCleared` 事件的 `ticket` 必须是实际被清除的活动场景 ticket；若清除时无活动场景则为 0，桌面层据此过滤过期完成事件。
 
-`QueryVideoMemoryInfo` 的 local/non-local 预算和当前进程用量仅作动态预检，实际创建资源及 residency 仍可能失败。以 `Budget - CurrentUsage` 求当前增量余量；旧场景与已有 back buffer 已在 `CurrentUsage` 中，不能再次从余量扣除。启动上传前受检估算新场景属性/SH 缓冲、索引与 radix 临时缓冲、额外帧资源、可能同时存在的新旧尺寸 back buffer 及上传页的增量峰值；按所属内存段分别比较，默认最多使用可用余量的 80%。预算不足返回 `OutOfVideoMemory` 并保留旧场景，不靠截断点数或 SH 降级。创建失败时清理待命资源、采集新预算并报告增量需求/可用容量；绝不通过无限重试造成卡死。D3D12MA 可在 M0 许可/版本核对后用于堆分配，但不得改变 fence 所有权与预算语义；无此依赖时先用 D3D12 committed resource 实现正确性原型。
+`QueryVideoMemoryInfo` 的 local/non-local 预算和当前进程用量仅作动态预检，实际创建资源及 residency 仍可能失败。以 `Budget - CurrentUsage` 求当前增量余量；旧场景与已有 back buffer 已在 `CurrentUsage` 中，不能再次从余量扣除。启动上传前受检估算新场景属性/SH 缓冲、索引与 radix 临时缓冲、额外帧资源、可能同时存在的新旧尺寸 back buffer 及上传页的增量峰值；按所属内存段分别比较，默认最多使用可用余量的 80%。上传页实际分配大小为打包场景字节数与 64 MiB 的较小者，预算预留在该大小上加 4 MiB；小场景不按满 64 MiB 页计费。预算不足返回 `OutOfVideoMemory` 并保留旧场景。创建失败时清理待命资源、采集新预算并报告增量需求/可用容量；绝不通过无限重试造成卡死。D3D12MA 可在 M0 许可/版本核对后用于堆分配，但不得改变 fence 所有权与预算语义；无此依赖时先用 D3D12 committed resource 实现正确性原型。
 
 集成显卡是否采用统一内存由 `D3D12_FEATURE_ARCHITECTURE1.UMA` 判定；不支持该查询时回退到 `D3D12_FEATURE_ARCHITECTURE.UMA`，不由 `DedicatedVideoMemory` 数值猜测。UMA 设备的上传页已经包含在 local 增量估算中，不再额外要求 non-local 预算或其查询成功；非 UMA 设备仍分别检查 local 场景资源和 non-local 上传页。任何预检拒绝都须返回阶段、UMA 标记、local/non-local 预算与用量、估算需求，供宿主日志区分预算压力与实际 D3D12 分配失败。物理内存总量不替代 DXGI 动态预算，也不保证任意规模的模型都能加载。
 
 ### 2026-09-30 显存缓解扩展
 
-`QualityConfig::allow_memory_mitigation` 默认为 true。先按 `min(scene.shDegree, sh_degree_cap)` 保持完整质量预算；若 DXGI 当前增量预算不够，依次尝试更低的 SH 阶数，直到 0 阶。0 阶仍不足时才按源点索引的固定间隔 2、4、8、16 抽样，仅上传所选点；每次加载和恢复得到同样的选择，不逐帧改变点集。CPU 解码结果始终完整，原始文件不改写。仍保留 80% 动态预算规则，间隔 16 仍不足时照常拒绝并保留旧场景。`sh_degree_cap` 是宿主可设置的手动上限；`allow_memory_mitigation=false` 可禁止自动缓解。每次上传在准入和实际分配前重新核对预算；设备恢复沿用该场景已选阶数和抽样间隔。`RenderStats::active_sh_degree`、`active_splats`、`active_point_stride` 与 `memory_mitigation` 暴露实际结果，桌面查看器须提示画质或点数变化。此段替代上文“预算不足时不靠 SH 降级”的首期限制，不允许无提示的静默降级。抽样模式不可用于等画质性能验收。
+`QualityConfig::allow_memory_mitigation` 默认为 true。先按 `min(scene.shDegree, sh_degree_cap)` 和手动 `point_stride` 估算预算；若 DXGI 当前增量预算不够，依次尝试更低的 SH 阶数，直到 0 阶。0 阶仍不足时才把源点索引间隔逐级加倍，最高到 `max_point_stride`，仅上传所选点；一次激活期间固定点集，不逐帧改变。CPU 解码结果始终完整，原始文件不改写。仍保留 80% 动态预算规则，达到上限仍不足时照常拒绝并保留旧场景。`sh_degree_cap` 和 `point_stride` 是宿主可设置的手动质量上限/抽样间隔；`max_point_stride=1` 可只允许自动降 SH，`allow_memory_mitigation=false` 可禁止全部自动缓解，但不覆盖手动设置。每次上传在准入和实际分配前重新核对预算；设备恢复不提高该场景已选质量，预算变紧时可继续降低并更新统计。`RenderStats::active_ticket`、源点数/SH 阶数、实际点数/SH 阶数/间隔反映活动场景；`memory_mitigation` 仅表示预算触发的自动降低。场景替换时帧耗时、绘制点数和 `presented_frame_id` 清空，直到新活动场景首个 GPU 帧完成，且旧场景的在途帧不得覆盖新统计。设备移除到恢复 `SceneReady` 期间，`active_ticket=0` 且逐帧统计为空。桌面查看器须提示自动画质或点数变化。此段替代上文“预算不足时不靠 SH 降级”的首期限制，不允许无提示的静默降级。抽样模式不可用于等画质性能验收。
 
 ## 4. 场景上传与原子激活
 

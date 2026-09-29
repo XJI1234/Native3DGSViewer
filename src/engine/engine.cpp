@@ -376,6 +376,7 @@ class Engine final : public IEngine
             if (e.ticket == state_.active_ticket ||
                 (e.ticket == 0 && state_.phase == Phase::Closing))
             {
+                state_.stats = renderer_->get_stats();
                 active_scene_.reset();
                 camera_ = {};
                 state_.active_request = 0;
@@ -388,6 +389,7 @@ class Engine final : public IEngine
             }
             break;
         case RendererEvent::Kind::DeviceLost:
+            state_.stats = renderer_->get_stats();
             supersede();
             state_.current_request = 0;
             state_.phase = Phase::Recovering;

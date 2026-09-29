@@ -37,6 +37,8 @@ struct QualityConfig
 {
     SortMode sort_mode = SortMode::Radial;
     uint8_t sh_degree_cap = 3;
+    uint32_t point_stride = 1;
+    uint32_t max_point_stride = 16;
     float max_stddev = 3;
     float min_alpha = 0;
     float covariance_blur_px2 = 0;

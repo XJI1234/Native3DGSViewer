@@ -3,10 +3,6 @@
 
 namespace gs::render::detail
 {
-namespace
-{
-constexpr uint64_t page_capacity = 64ull << 20;
-}
 UploadTransaction::UploadTransaction(GpuDevice &gpu, SplatPass &pass, SceneHandle cpu,
                                      UploadTicket ticket, CameraState camera, uint8_t sh_degree,
                                      bool memory_mitigation, uint32_t point_stride)
@@ -15,7 +11,8 @@ UploadTransaction::UploadTransaction(GpuDevice &gpu, SplatPass &pass, SceneHandl
                           memory_mitigation, point_stride);
     total_bytes_ = scene->count * 56ull +
                    scene->count * uint64_t(scene->sh_floats_per_splat) * sizeof(float);
-    page_ = gpu.buffer(page_capacity, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    page_ = gpu.buffer((std::min)(total_bytes_, upload_page_capacity), D3D12_HEAP_TYPE_UPLOAD,
+                       D3D12_RESOURCE_STATE_GENERIC_READ);
     page_->SetName(L"Copy upload page");
     check(
         gpu.device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COPY, IID_PPV_ARGS(&allocator_)),
@@ -55,7 +52,7 @@ std::optional<UploadProgress> UploadTransaction::advance(GpuDevice &gpu)
         page_.Reset();
         return progress;
     }
-    page_bytes_ = (std::min)(page_capacity, total - submitted_);
+    page_bytes_ = (std::min)(upload_page_capacity, total - submitted_);
     void *mapped = nullptr;
     D3D12_RANGE empty{};
     check(page_->Map(0, &empty, &mapped), "Upload map");
