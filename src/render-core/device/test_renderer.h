@@ -10,6 +10,7 @@ struct RendererTestControl
     std::atomic<bool> reject_budget{false};
     std::atomic<bool> fence_timeout{false};
     std::atomic<bool> copy_fence_timeout{false};
+    std::atomic<uint64_t> local_headroom_override{0};
 };
 std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer_for_testing(
     QualityConfig, EventSink, std::shared_ptr<RendererTestControl>);

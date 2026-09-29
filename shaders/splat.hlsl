@@ -9,7 +9,7 @@ cbuffer Frame : register(b0)
     uint4 offsets0; // centers, scales, rotations, opacity
     uint4 offsets1; // RGB, SH, reserved
 };
-struct Ellipse { float2 center; float2 axis0; float2 axis1; float4 color; float2 reserved; };
+struct Ellipse { float2 center; float2 axis0; float2 axis1; float4 color; };
 ByteAddressBuffer scene : register(t0);
 ByteAddressBuffer sh_scene : register(t3);
 RWStructuredBuffer<Ellipse> ellipses : register(u0);

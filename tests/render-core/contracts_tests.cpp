@@ -80,6 +80,10 @@ TEST(RenderContracts, LargeSceneUsesMeasuredResourceSize)
     scene.shDegree = 3;
     EXPECT_EQ(scene_bytes(scene), 5'305'365'196ull);
     EXPECT_NE(incremental_bytes(scene), UINT64_MAX);
+    EXPECT_LT(incremental_bytes(scene, 0), incremental_bytes(scene, 1));
+    EXPECT_LT(incremental_bytes(scene, 1), incremental_bytes(scene, 2));
+    EXPECT_LT(incremental_bytes(scene, 2), incremental_bytes(scene, 3));
+    EXPECT_EQ(incremental_bytes(scene, 0), 2'591'913'648ull);
     scene.count = UINT32_MAX / 180 + 1;
     EXPECT_EQ(scene_bytes(scene), UINT64_MAX);
 }

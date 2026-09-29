@@ -42,6 +42,9 @@ struct QualityConfig
     float covariance_blur_px2 = 0;
     float max_pixel_radius_px = 1024;
     bool premultiplied_alpha = true;
+    // Permit SH reduction, then point sampling, when the video-memory budget
+    // cannot admit full quality. The effective result is exposed in stats.
+    bool allow_memory_mitigation = true;
 };
 enum class RenderErrorCode : uint8_t
 {
@@ -110,6 +113,10 @@ struct RenderStats
     uint64_t local_budget_bytes = 0, local_usage_bytes = 0;
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
     uint32_t device_recovery_count = 0;
+    uint8_t active_sh_degree = 0;
+    uint32_t active_splats = 0;
+    uint32_t active_point_stride = 1;
+    bool memory_mitigation = false;
 };
 class IRenderer
 {

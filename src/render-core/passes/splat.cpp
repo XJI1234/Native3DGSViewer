@@ -67,16 +67,22 @@ SplatPass::SplatPass(GpuDevice &gpu, QualityConfig quality)
           "Draw signature");
 }
 std::shared_ptr<SceneGpu> SplatPass::allocate(SceneHandle scene, UploadTicket ticket,
-                                              CameraState camera)
+                                              CameraState camera, uint8_t sh_degree,
+                                              bool memory_mitigation, uint32_t point_stride)
 {
     auto s = std::make_shared<SceneGpu>();
     s->cpu = std::move(scene);
     s->ticket = ticket;
     s->camera = camera;
-    const uint64_t n = s->cpu->count;
+    s->sh_degree = (std::min)(s->cpu->shDegree, sh_degree);
+    s->point_stride = point_stride;
+    s->count = uint32_t((s->cpu->count + point_stride - 1) / point_stride);
+    s->sh_floats_per_splat = 3 * ((s->sh_degree + 1) * (s->sh_degree + 1) - 1);
+    s->memory_mitigation = memory_mitigation;
+    const uint64_t n = s->count;
     s->attributes = gpu_.buffer(n * 56, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_COMMON);
     s->attributes->SetName(L"Scene attributes");
-    const uint64_t sh_bytes = scene_bytes(*s->cpu) - n * 56;
+    const uint64_t sh_bytes = n * uint64_t(s->sh_floats_per_splat) * sizeof(float);
     if (sh_bytes)
     {
         s->sh_attributes = gpu_.buffer(sh_bytes, D3D12_HEAP_TYPE_DEFAULT,
@@ -118,14 +124,15 @@ FrameConstants SplatPass::constants(const SceneGpu &s, Viewport viewport) const
     c.quality[3] = quality_.max_pixel_radius_px;
     c.clip[0] = float(s.camera.near_plane);
     c.clip[1] = float(s.camera.far_plane);
-    c.meta[0] = uint32_t(s.cpu->count);
-    c.meta[1] = (std::min)(s.cpu->shDegree, quality_.sh_degree_cap);
-    c.meta[2] = 3 * ((s.cpu->shDegree + 1) * (s.cpu->shDegree + 1) - 1);
+    c.meta[0] = s.count;
+    c.meta[1] = s.sh_degree;
+    c.meta[2] = s.sh_floats_per_splat;
     c.meta[3] = uint32_t(quality_.sort_mode);
     std::copy(s.offsets.begin(), s.offsets.end(), c.offsets);
     return c;
 }
-void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport viewport)
+void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport viewport,
+                             ID3D12QueryHeap *stage_queries)
 {
     auto c = constants(s, viewport);
     list->SetComputeRootSignature(root_.Get());
@@ -144,6 +151,8 @@ void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewp
     const uint32_t groups = (c.meta[0] + 255) / 256;
     list->Dispatch((std::min)(groups, 65535u), (groups + 65534) / 65535, 1);
     uav_barrier(list);
+    if (stage_queries)
+        list->EndQuery(stage_queries, D3D12_QUERY_TYPE_TIMESTAMP, 1);
     sort_.record(list, s.sorting);
     s.sorted = true;
 }

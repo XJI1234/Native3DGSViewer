@@ -558,7 +558,8 @@ void MainWindow::update_engine()
                                                               *snapshot.load_progress->totalBytes)
                                                         : "unknown"},
                                     {"open_elapsed_ms", std::to_string(elapsed_ms)}});
-                model_text_.Text(hstring{pending_path_.filename().wstring()});
+                active_model_name_ = pending_path_.filename().wstring();
+                model_text_.Text(hstring{active_model_name_});
                 empty_text_.Visibility(Visibility::Collapsed);
                 close_button_.IsEnabled(true); fit_button_.IsEnabled(true);
                 reset_button_.IsEnabled(true); flip_y_button_.IsEnabled(true);
@@ -598,6 +599,7 @@ void MainWindow::update_engine()
             break;
         case Kind::SceneCleared:
             viewer::log::write("info", "scene_cleared");
+            active_model_name_.clear();
             model_text_.Text(L""); empty_text_.Visibility(Visibility::Visible);
             close_button_.IsEnabled(false); fit_button_.IsEnabled(false);
             reset_button_.IsEnabled(false); flip_y_button_.IsEnabled(false);
@@ -606,6 +608,7 @@ void MainWindow::update_engine()
         case Kind::DeviceRestored:
             viewer::log::write("info", "device_restored",
                                {{"generation", std::to_string(event.generation)}});
+            mitigation_notice_request_ = 0;
             flip_y_button_.IsEnabled(engine_->snapshot().active_scene.has_value());
             finish_busy(); set_status(L"就绪"); break;
         case Kind::Fault:
@@ -617,6 +620,24 @@ void MainWindow::update_engine()
     }
     const auto state = engine_->snapshot();
     const auto now = std::chrono::steady_clock::now();
+    if (state.active_scene && state.stats.memory_mitigation &&
+        state.active_request != mitigation_notice_request_)
+    {
+        mitigation_notice_request_ = state.active_request;
+        const auto degree = std::to_wstring(state.stats.active_sh_degree);
+        const auto stride = state.stats.active_point_stride;
+        const std::wstring suffix = stride > 1 ? L", 1/" + std::to_wstring(stride) +
+                                                  L" 点" : L"";
+        model_text_.Text(hstring{active_model_name_ + L" (SH" + degree + suffix + L")"});
+        set_status(stride > 1 ? L"显存紧张，已抽样显示模型；原始文件未修改" :
+                                L"显存紧张，已自动降低球谐阶数；模型可继续浏览");
+        viewer::log::write("warn", "memory_mitigation",
+                           {{"request", std::to_string(state.active_request)},
+                            {"source_sh_degree", std::to_string(state.active_scene->sh_degree)},
+                            {"render_sh_degree", std::to_string(state.stats.active_sh_degree)},
+                            {"rendered_splats", std::to_string(state.stats.active_splats)},
+                            {"point_stride", std::to_string(stride)}});
+    }
     if (state.active_scene && state.stats.presented_frame_id != 0 &&
         state.stats.presented_frame_id != last_logged_frame_ &&
         now - last_metrics_ >= std::chrono::seconds(5))
@@ -628,6 +649,8 @@ void MainWindow::update_engine()
                             {"cpu_frame_ms", std::to_string(stats.cpu_frame_ms.value_or(-1))},
                             {"gpu_frame_ms", std::to_string(stats.gpu_frame_ms.value_or(-1))},
                             {"gpu_sort_ms", std::to_string(stats.gpu_sort_ms.value_or(-1))},
+                            {"render_sh_degree", std::to_string(stats.active_sh_degree)},
+                            {"rendered_splats", std::to_string(stats.active_splats)},
                             {"drawn_splats", std::to_string(stats.drawn_splats)},
                             {"local_budget_bytes", std::to_string(stats.local_budget_bytes)},
                             {"local_usage_bytes", std::to_string(stats.local_usage_bytes)}});

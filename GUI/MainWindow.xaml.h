@@ -52,6 +52,7 @@ struct MainWindow : MainWindowT<MainWindow>
     std::unique_ptr<gs::engine::IEngine> engine_;
     std::filesystem::path initial_path_;
     std::filesystem::path pending_path_;
+    std::wstring active_model_name_;
     winrt::com_ptr<IDXGISwapChain3> swapchain_;
     gs::render::SurfaceGeneration generation_ = 0;
     gs::engine::RequestId request_id_ = 0;
@@ -72,6 +73,7 @@ struct MainWindow : MainWindowT<MainWindow>
     std::chrono::steady_clock::time_point request_started_{};
     std::chrono::steady_clock::time_point last_metrics_{};
     uint64_t last_logged_frame_ = 0;
+    gs::engine::RequestId mitigation_notice_request_ = 0;
     std::chrono::steady_clock::time_point detach_started_{};
 };
 void wait_for_viewer_shutdown();

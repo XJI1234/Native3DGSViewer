@@ -74,6 +74,9 @@ struct Command
     SceneHandle scene;
     CameraState camera;
     Viewport viewport;
+    uint8_t sh_degree = 0;
+    uint32_t point_stride = 1;
+    bool memory_mitigation = false;
     ComPtr<IDXGISwapChain3> swapchain;
 };
 struct FrameSlot
@@ -196,11 +199,28 @@ class Renderer final : public IRenderer
             0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local);
         if (FAILED(local_hr))
             return failure(RenderErrorCode::InternalFailure, local_hr, "Local budget");
+#ifdef GS_RENDER_TEST_HOOKS
+        if (control_ && control_->local_headroom_override)
+            local.Budget = local.CurrentUsage + control_->local_headroom_override.load();
+#endif
         const auto nonlocal_hr = surface_adapter_->QueryVideoMemoryInfo(
             0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
         if (!surface_uma_ && FAILED(nonlocal_hr))
             return failure(RenderErrorCode::InternalFailure, nonlocal_hr, "Nonlocal budget");
-        const auto required = incremental_bytes(*scene);
+        const auto requested_degree = (std::min)(scene->shDegree, quality_.sh_degree_cap);
+        auto selected_degree = requested_degree;
+        uint32_t point_stride = 1;
+        auto required = incremental_bytes(*scene, selected_degree, point_stride);
+        while (quality_.allow_memory_mitigation && selected_degree > 0 &&
+               !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                                   local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
+                                   surface_uma_))
+            required = incremental_bytes(*scene, --selected_degree, point_stride);
+        while (quality_.allow_memory_mitigation && point_stride < 16 &&
+               !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                                   local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
+                                   surface_uma_))
+            required = incremental_bytes(*scene, selected_degree, point_stride *= 2);
         if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
                                 nonlocal.Budget, nonlocal.CurrentUsage, surface_uma_))
         {
@@ -212,6 +232,9 @@ class Renderer final : public IRenderer
         c.ticket = ++next_ticket_;
         c.scene = std::move(scene);
         c.camera = camera;
+        c.sh_degree = selected_degree;
+        c.point_stride = point_stride;
+        c.memory_mitigation = selected_degree < requested_degree || point_stride > 1;
         auto ticket = c.ticket;
         commands_.push_back(std::move(c));
         return ticket;
@@ -518,7 +541,8 @@ class Renderer final : public IRenderer
                          failure(RenderErrorCode::Cancelled));
                     abandon_pending();
                 }
-                begin_upload(c.scene, c.ticket, c.camera);
+                begin_upload(c.scene, c.ticket, c.camera, c.sh_degree,
+                             c.memory_mitigation, c.point_stride);
                 break;
             case Command::Kind::Cancel:
                 if (pending_ && pending_->scene->ticket == c.ticket)
@@ -542,6 +566,10 @@ class Renderer final : public IRenderer
                     std::lock_guard lock(mutex_);
                     active_ticket_ = 0;
                     active_cpu_.reset();
+                    stats_.active_sh_degree = 0;
+                    stats_.active_splats = 0;
+                    stats_.active_point_stride = 1;
+                    stats_.memory_mitigation = false;
                 }
                 emit(RendererEvent::Kind::SceneCleared, ticket);
                 break;
@@ -614,7 +642,9 @@ class Renderer final : public IRenderer
             }
         }
     }
-    void begin_upload(SceneHandle scene, UploadTicket ticket, CameraState camera)
+    void begin_upload(SceneHandle scene, UploadTicket ticket, CameraState camera,
+                      uint8_t selected_degree, bool memory_mitigation,
+                      uint32_t point_stride)
     {
         try
         {
@@ -625,11 +655,31 @@ class Renderer final : public IRenderer
             DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
             check(gpu_->adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local),
                   "Local budget");
+#ifdef GS_RENDER_TEST_HOOKS
+            if (control_ && control_->local_headroom_override)
+                local.Budget = local.CurrentUsage + control_->local_headroom_override.load();
+#endif
             const auto nonlocal_hr = gpu_->adapter->QueryVideoMemoryInfo(
                 0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
             if (!gpu_->uma)
                 check(nonlocal_hr, "Nonlocal budget");
-            const auto required = incremental_bytes(*scene);
+            auto required = incremental_bytes(*scene, selected_degree, point_stride);
+            while (quality_.allow_memory_mitigation && selected_degree > 0 &&
+                   !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                                       local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
+                                       gpu_->uma))
+            {
+                required = incremental_bytes(*scene, --selected_degree, point_stride);
+                memory_mitigation = true;
+            }
+            while (quality_.allow_memory_mitigation && point_stride < 16 &&
+                   !fits_scene_budgets(required, upload_reserve_bytes, local.Budget,
+                                       local.CurrentUsage, nonlocal.Budget, nonlocal.CurrentUsage,
+                                       gpu_->uma))
+            {
+                required = incremental_bytes(*scene, selected_degree, point_stride *= 2);
+                memory_mitigation = true;
+            }
             if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
                                     nonlocal.Budget, nonlocal.CurrentUsage, gpu_->uma))
             {
@@ -640,7 +690,8 @@ class Renderer final : public IRenderer
                 return;
             }
             pending_ = std::make_unique<UploadTransaction>(*gpu_, *pass_, std::move(scene), ticket,
-                                                           camera);
+                                                           camera, selected_degree, memory_mitigation,
+                                                           point_stride);
         }
         catch (const GpuFailure &e)
         {
@@ -839,6 +890,13 @@ class Renderer final : public IRenderer
             }
             active_ = pending_->scene;
             pending_.reset();
+            {
+                std::lock_guard lock(mutex_);
+                stats_.active_sh_degree = active_->sh_degree;
+                stats_.active_splats = active_->count;
+                stats_.active_point_stride = active_->point_stride;
+                stats_.memory_mitigation = active_->memory_mitigation;
+            }
             emit(RendererEvent::Kind::SceneReady, active_->ticket);
             if (recovering_)
             {
@@ -861,6 +919,9 @@ class Renderer final : public IRenderer
         recovery_scene_ = active_ ? active_->cpu : SceneHandle{};
         recovery_ticket_ = active_ ? active_->ticket : 0;
         recovery_camera_ = active_ ? active_->camera : CameraState{};
+        recovery_sh_degree_ = active_ ? active_->sh_degree : 0;
+        recovery_point_stride_ = active_ ? active_->point_stride : 1;
+        recovery_memory_mitigation_ = active_ ? active_->memory_mitigation : false;
         if (gpu_)
         {
             ComPtr<ID3D12DeviceRemovedExtendedData> dred;
@@ -971,7 +1032,9 @@ class Renderer final : public IRenderer
         emit(RendererEvent::Kind::SurfaceRebindRequired);
         if (recovery_scene_)
         {
-            begin_upload(recovery_scene_, recovery_ticket_, recovery_camera_);
+            begin_upload(recovery_scene_, recovery_ticket_, recovery_camera_,
+                         recovery_sh_degree_, recovery_memory_mitigation_,
+                         recovery_point_stride_);
             recovery_scene_.reset();
             if (!pending_)
             {
@@ -1005,6 +1068,9 @@ class Renderer final : public IRenderer
     SceneHandle recovery_scene_;
     UploadTicket recovery_ticket_ = 0;
     CameraState recovery_camera_;
+    uint8_t recovery_sh_degree_ = 0;
+    uint32_t recovery_point_stride_ = 1;
+    bool recovery_memory_mitigation_ = false;
     UploadTicket next_ticket_ = 0, active_ticket_ = 0;
     UploadTicket last_camera_ticket_ = 0;
     CameraState last_camera_;

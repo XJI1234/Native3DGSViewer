@@ -30,7 +30,7 @@
         </Grid>
         <Grid Grid.Row="2" Background="White" Padding="20,0" ColumnDefinitions="*,Auto">
             <TextBlock x:Name="StatusText" Text="就绪" VerticalAlignment="Center" Foreground="#FF66717D" FontSize="12" />
-            <TextBlock x:Name="ModelText" Grid.Column="1" VerticalAlignment="Center" Foreground="#FF66717D" FontSize="12" />
+            <TextBlock x:Name="ModelText" Grid.Column="1" VerticalAlignment="Center" Foreground="#FF66717D" FontSize="12" MaxWidth="440" TextTrimming="CharacterEllipsis" />
         </Grid>
     </Grid>
 </Window>

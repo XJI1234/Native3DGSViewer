@@ -117,11 +117,15 @@ create_renderer(QualityConfig, EventSink);
 
 集成显卡是否采用统一内存由 `D3D12_FEATURE_ARCHITECTURE1.UMA` 判定；不支持该查询时回退到 `D3D12_FEATURE_ARCHITECTURE.UMA`，不由 `DedicatedVideoMemory` 数值猜测。UMA 设备的上传页已经包含在 local 增量估算中，不再额外要求 non-local 预算或其查询成功；非 UMA 设备仍分别检查 local 场景资源和 non-local 上传页。任何预检拒绝都须返回阶段、UMA 标记、local/non-local 预算与用量、估算需求，供宿主日志区分预算压力与实际 D3D12 分配失败。物理内存总量不替代 DXGI 动态预算，也不保证任意规模的模型都能加载。
 
+### 2026-09-30 显存缓解扩展
+
+`QualityConfig::allow_memory_mitigation` 默认为 true。先按 `min(scene.shDegree, sh_degree_cap)` 保持完整质量预算；若 DXGI 当前增量预算不够，依次尝试更低的 SH 阶数，直到 0 阶。0 阶仍不足时才按源点索引的固定间隔 2、4、8、16 抽样，仅上传所选点；每次加载和恢复得到同样的选择，不逐帧改变点集。CPU 解码结果始终完整，原始文件不改写。仍保留 80% 动态预算规则，间隔 16 仍不足时照常拒绝并保留旧场景。`sh_degree_cap` 是宿主可设置的手动上限；`allow_memory_mitigation=false` 可禁止自动缓解。每次上传在准入和实际分配前重新核对预算；设备恢复沿用该场景已选阶数和抽样间隔。`RenderStats::active_sh_degree`、`active_splats`、`active_point_stride` 与 `memory_mitigation` 暴露实际结果，桌面查看器须提示画质或点数变化。此段替代上文“预算不足时不靠 SH 降级”的首期限制，不允许无提示的静默降级。抽样模式不可用于等画质性能验收。
+
 ## 4. 场景上传与原子激活
 
 场景状态为 `Queued -> Budgeted -> Uploading -> GpuReady -> FirstFrameReady -> Active`，终态另有 `Failed/Cancelled`。旧 `Active` 在新场景完成首次排序与一次成功 Present 之前持续保留。上传前再次校验 `count`、每数组长度、SH 阶数及受检内存计算；GPU 布局版本由 renderer 内部定义并由 shader 编译常量验证，不暴露给 `model-io`。
 
-GPU 使用两个只读字节缓冲：基础属性为每点 56 字节，仅存在的 SH 系数单独存放。每个缓冲的字节数必须在 32 位 shader 地址范围内；场景总字节数可超过 4 GiB。保留源全精度 float32 作为正确性基线；后续量化属于单独画质评审。按 4 MiB 页拷贝到 upload heap，copy queue 上传到 default heap；进度表示完成 copy fence 的字节，不把 CPU memcpy 当作已上传。每页和总量都用 64 位受检计算。切换时生成新场景自己的索引/排序缓冲，不复用旧场景尚在飞行的缓冲。投影使用二维线程组网格处理超过 65,535 组的场景。
+GPU 使用两个只读字节缓冲：基础属性为每点 56 字节，仅实际渲染阶数所需的 SH 系数单独存放。每个缓冲的字节数必须在 32 位 shader 地址范围内；场景总字节数可超过 4 GiB。保留源全精度 float32 作为正确性基线；后续量化属于单独画质评审。按 64 MiB 页拷贝到 upload heap，copy queue 上传到 default heap；进度表示完成 copy fence 的字节，不把 CPU memcpy 当作已上传。每页和总量都用 64 位受检计算。切换时生成新场景自己的索引/排序缓冲，不复用旧场景尚在飞行的缓冲。投影使用二维线程组网格处理超过 65,535 组的场景。
 
 取消 ticket 只撤销未提交工作；已提交的 GPU 命令无法强制取消，标为 abandoned 并在 fence 后回收。过期 ticket 的完成事件不得激活模型。激活在渲染线程帧边界一次性替换 `SceneGpuHandle` 和初始相机快照，首次 Present 成功后才发出 `SceneReady`；若 Present 失败则恢复旧活动快照或转入设备恢复。旧 GPU 场景延迟到最后引用它的 direct fence 完成再释放。失败、取消、OOM 时保持旧场景和相机。`clear_scene()` 先取消待命 ticket，在帧边界卸载活动 GPU/CPU 场景，相关 fence 安全后发 `SceneCleared`；这是显存紧张时明确的用户操作，不与失败回退混用。设备移除是例外：旧 GPU 资源也失效，但保留 CPU 快照、显示恢复状态并尝试重建。
 

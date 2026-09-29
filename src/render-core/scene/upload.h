@@ -11,7 +11,9 @@ struct UploadProgress
 class UploadTransaction
 {
   public:
-    UploadTransaction(GpuDevice &, SplatPass &, SceneHandle, UploadTicket, CameraState);
+    UploadTransaction(GpuDevice &, SplatPass &, SceneHandle, UploadTicket, CameraState,
+                      uint8_t sh_degree, bool memory_mitigation,
+                      uint32_t point_stride = 1);
     bool copy_complete(uint64_t completed_value) const;
     std::optional<UploadProgress> advance(GpuDevice &);
     std::shared_ptr<SceneGpu> scene;
@@ -23,6 +25,6 @@ class UploadTransaction
     ComPtr<ID3D12Resource> page_;
     ComPtr<ID3D12CommandAllocator> allocator_;
     ComPtr<ID3D12GraphicsCommandList> list_;
-    uint64_t submitted_ = 0, completed_ = 0, page_bytes_ = 0;
+    uint64_t submitted_ = 0, completed_ = 0, page_bytes_ = 0, total_bytes_ = 0;
 };
 } // namespace gs::render::detail

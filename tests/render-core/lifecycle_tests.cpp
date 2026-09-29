@@ -21,6 +21,42 @@ TEST(RenderLifecycle, PresentsOnlyCompletedUploadsAndKeepsOldSceneOnCancellation
     ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().gpu_frame_ms.has_value(); }));
     EXPECT_GT(s.renderer->get_stats().completed_upload_bytes, 0u);
 }
+TEST(RenderLifecycle, BudgetMitigationSelectsShZeroAndStrictModeRejects)
+{
+    auto scene = make_scene(1000, 3);
+    auto control = std::make_shared<RendererTestControl>();
+    control->local_headroom_override = incremental_bytes(*scene, 0) * 5 / 4 + 1024;
+    {
+        Session s(control);
+        auto ticket = s.upload(scene);
+        ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+        const auto stats = s.renderer->get_stats();
+        EXPECT_TRUE(stats.memory_mitigation);
+        EXPECT_EQ(stats.active_sh_degree, 0);
+        EXPECT_EQ(scene->shDegree, 3);
+    }
+    QualityConfig quality;
+    quality.allow_memory_mitigation = false;
+    Session strict(control, quality);
+    auto rejected = strict.renderer->upload_scene(scene, {});
+    ASSERT_TRUE(std::holds_alternative<RenderError>(rejected));
+    EXPECT_EQ(std::get<RenderError>(rejected).code, RenderErrorCode::OutOfVideoMemory);
+}
+TEST(RenderLifecycle, BudgetMitigationSamplesPointsOnlyAfterShZero)
+{
+    auto scene = make_scene(1000, 3);
+    auto control = std::make_shared<RendererTestControl>();
+    control->local_headroom_override = incremental_bytes(*scene, 0, 2) * 5 / 4 + 1024;
+    Session s(control);
+    const auto ticket = s.upload(scene);
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+    const auto stats = s.renderer->get_stats();
+    EXPECT_TRUE(stats.memory_mitigation);
+    EXPECT_EQ(stats.active_sh_degree, 0);
+    EXPECT_EQ(stats.active_point_stride, 2u);
+    EXPECT_EQ(stats.active_splats, 500u);
+    EXPECT_EQ(scene->count, 1000u);
+}
 TEST(RenderLifecycle, ZeroViewportWaitsForFirstPresentAndStaleRevisionCannotOverrideResize)
 {
     Session s;

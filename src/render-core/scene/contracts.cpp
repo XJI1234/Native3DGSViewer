@@ -45,13 +45,24 @@ uint64_t scene_bytes(const SplatScene &s)
         return UINT64_MAX;
     return s.count * (14ull + 3ull * ((s.shDegree + 1) * (s.shDegree + 1) - 1)) * sizeof(float);
 }
-uint64_t incremental_bytes(const SplatScene &s)
+uint64_t incremental_bytes(const SplatScene &s, uint8_t sh_degree_cap,
+                           uint32_t point_stride)
 {
-    const auto attributes = scene_bytes(s);
-    if (attributes == UINT64_MAX)
+    if (s.count > UINT32_MAX || s.shDegree > max_sh_degree || sh_degree_cap > max_sh_degree ||
+        point_stride == 0 || point_stride > 16 || (point_stride & (point_stride - 1)))
+        return UINT64_MAX;
+    const auto n = (s.count + point_stride - 1) / point_stride;
+    const auto base_bytes = n * 56ull;
+    const auto degree = (std::min)(s.shDegree, sh_degree_cap);
+    const auto sh_floats = 3ull * ((degree + 1) * (degree + 1) - 1);
+    const auto sh_bytes = n * sh_floats * sizeof(float);
+    if (base_bytes > UINT32_MAX || sh_bytes > UINT32_MAX)
+        return UINT64_MAX;
+    const auto attributes = base_bytes + sh_bytes;
+    if (attributes < base_bytes)
         return UINT64_MAX;
     // Attributes, projected ellipses, two key/value pairs, sort scratch and copy pages.
-    return attributes + s.count * (48ull + 16ull) + 16ull * ((s.count + 511) / 512) * 4 +
+    return attributes + n * (40ull + 16ull) + 16ull * ((n + 511) / 512) * 4 +
            upload_reserve_bytes;
 }
 bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage)

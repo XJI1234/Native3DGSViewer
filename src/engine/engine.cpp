@@ -341,6 +341,7 @@ class Engine final : public IEngine
         case RendererEvent::Kind::SceneReady:
             if (pending_ && pending_->ticket == e.ticket)
             {
+                state_.stats = renderer_->get_stats();
                 // Cancellation after core activation is ordered after that successful commit.
                 active_scene_ = pending_->scene;
                 camera_ = pending_->camera;
