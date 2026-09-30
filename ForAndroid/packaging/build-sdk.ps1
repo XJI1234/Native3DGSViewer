@@ -1,9 +1,9 @@
-param([string]$Version = '0.2.1')
+param([string]$Version = '0.2.2')
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $android = Join-Path $repo 'ForAndroid'
 $outRoot = [IO.Path]::GetFullPath((Join-Path $repo 'out/android-sdk'))
-$package = [IO.Path]::GetFullPath((Join-Path $outRoot "native3dgs-android-$Version"))
+$package = [IO.Path]::GetFullPath((Join-Path $outRoot "Native3DGS-SDK-$Version-Android-arm64-v8a"))
 if (-not $package.StartsWith($outRoot + [IO.Path]::DirectorySeparatorChar,
         [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Package output escapes out/android-sdk'
@@ -71,7 +71,7 @@ $entries = Get-ChildItem -LiteralPath $package -File -Recurse | ForEach-Object {
     @{ path = $_.FullName.Substring($package.Length).TrimStart('\','/').Replace('\','/');
        sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant() }
 }
-@{ version = $Version; api = 1; abi = @('arm64-v8a'); min_sdk = 29;
+@{ version = $Version; api = 2; abi = @('arm64-v8a'); min_sdk = 29;
    ndk = '27.2.12479018'; files = @($entries) } |
     ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $package 'manifest.json') -Encoding utf8
 $zip = "$package.zip"

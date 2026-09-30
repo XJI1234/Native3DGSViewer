@@ -1,6 +1,6 @@
 # Native3DGS for Android
 
-状态：Android 引擎、SDK 和查看器 App 为技术预览。已实现 PLY/SPZ 隔离解码、Vulkan Gaussian/SH 绘制、稳定 GPU 排序、固定/自由相机、请求事务、C ABI 和 Kotlin AAR；查看器构建与操作见 [GUI 说明](GUI/README.md)。模拟器证据见[核心验证记录](docs/verification/core-2026-09-27.md)及[引擎验证记录](docs/verification/engine-2026-09-27.md)。真实 arm64 GPU 验收仍未完成。
+状态：Android 引擎、SDK 和查看器 App 为技术预览。已实现 PLY/SPZ 隔离解码、Vulkan Gaussian/SH 绘制、稳定 GPU 排序、固定/自由相机、请求事务、C ABI 和 Kotlin AAR；查看器构建与操作见 [GUI 说明](GUI/README.md)。模拟器证据见[核心验证记录](docs/verification/core-2026-09-27.md)及[引擎验证记录](docs/verification/engine-2026-09-27.md)。Adreno 750 真机性能及大模型记录见[设备验证](docs/verification/device-performance-2026-09-30-adreno750.md)；30 FPS、画质与热态验收仍未完成。
 
 首期目标是 Android 10+、`arm64-v8a`、Vulkan 1.1 的离线单模型查看器和可供其他应用使用的 SDK。Kotlin 原生应用负责文件选择、触控和界面；C++20 引擎负责解码协调、相机和 GPU 渲染。不使用 WebView 作为渲染后端。模型编辑、导出、多模型、LoD 和远程加载不属于首期。
 

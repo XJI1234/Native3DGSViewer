@@ -110,7 +110,8 @@ TEST(AndroidRenderCore, GpuStableRadixMillionKeys)
     const char *directory = std::getenv("GS_SHADER_DIRECTORY");
     EXPECT_TRUE(gs::android::render::sort_scene_self_test(
         scene, directory ? directory : "/data/local/tmp/shaders").empty());
-    if (device.device_name.find("735") != std::string::npos)
+    if (device.device_name.find("735") != std::string::npos ||
+        device.device_name.find("750") != std::string::npos)
         EXPECT_TRUE(gs::android::render::sort_scene_subgroup_self_test(
             scene, directory ? directory : "/data/local/tmp/shaders").empty());
 }
