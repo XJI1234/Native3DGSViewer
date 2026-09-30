@@ -32,12 +32,6 @@ android {
     kotlinOptions { jvmTarget = "21" }
 }
 
-androidComponents {
-    onVariants(selector().withBuildType("benchmark")) { variant ->
-        variant.outputs.forEach { it.versionCode.set(5) }
-    }
-}
-
 dependencies {
     implementation(project(":sdk"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
