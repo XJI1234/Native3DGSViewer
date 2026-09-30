@@ -18,9 +18,9 @@ Android 宿主可用 `SurfaceHolder.setFixedSize` 将 Vulkan Surface 缓冲设�
 
 GPU 排序从不依赖固定 subgroup 宽度的稳定 radix 路径开始；启动时对 0/1、同键、组边界和随机键值做 GPU 读回自检，与 CPU 稳定排序逐项对照。自检失败不进入 Ready。厂商特化仅在同样自检与跨驱动测试通过后增加，不把 Windows HLSL wave32 假设直接移植。生产帧排序和绘制不逐帧读回 CPU。投影/协方差、SH 0-3、深度键、远到近透明合成、颜色 clamp 和 Gaussian 截断与 Windows 等画质夹具对照；Vulkan Y 方向和目标色彩空间以固定色条及相机截图验证，不能凭默认坐标猜测。
 
-正式构建在已验证的 Adreno 735 上可选择 subgroup ballot 稳定 scatter：先探测 compute 阶段的 basic/ballot 能力及 subgroup 宽度，再对候选 shader 做 GPU/CPU 逐项自检；任一条件不满足或管线创建失败即使用原始稳定 scatter，并记录最终路径。其他 GPU 保持原路径，待各自驱动上的正确性和整帧收益验证后再扩展。移动档降质与排序路径独立；排序路径不得改变全质量档输出。
+正式构建在已验证的 Adreno 735 和 Adreno 750 上可选择 subgroup ballot 稳定 scatter：先探测 compute 阶段的 basic/ballot 能力及 subgroup 宽度，再对候选 shader 做 GPU/CPU 逐项自检；任一条件不满足或管线创建失败即使用原始稳定 scatter，并记录最终路径。其他 GPU 保持原路径，待各自驱动上的正确性和整帧收益验证后再扩展。移动档降质与排序路径独立；排序路径不得改变全质量档输出。
 
-每个缓冲按 `maxStorageBufferRange` 和 descriptor 能力分段；SH 系数按完整点的系数步长切段，投影 shader 由点索引选择段并读取完整 SH 0–3，未使用的描述符绑定有效哑缓冲。分段数量超过设备每阶段 storage descriptor 限额时明确拒绝，不能截断 SH。64 位受检布局含基础属性、SH、索引、键、radix scratch、上传页、帧目标和重建峰值。动态 GPU 预算优先取 `VK_EXT_memory_budget`；缺失时使用 heap 容量、已有分配跟踪和保守余量，任何准入均非分配成功保证。预算不足或实际分配失败时回收待命资源并保留旧场景；不能静默截断点数、降 SH 或分辨率。
+每个缓冲按 `maxStorageBufferRange` 和 descriptor 能力分段；基础属性缓冲最多使用两个连续 float 地址段，只有超出单段范围时选择分段投影管线，要求额外的 storage descriptor。SH 系数按完整点的系数步长切段，投影 shader 由点索引选择段并读取完整 SH 0–3，未使用的描述符绑定有效哑缓冲。投影结果、排序键值和 scratch 仍须各自符合设备上限；分段或描述符不足时明确拒绝，不能截断点数或 SH。64 位受检布局含基础属性、SH、索引、键、radix scratch、上传页、帧目标和重建峰值。动态 GPU 预算优先取 `VK_EXT_memory_budget`；缺失时使用 heap 容量、已有分配跟踪和保守余量，任何准入均非分配成功保证。预算不足或实际分配失败时回收待命资源并保留旧场景；不能静默截断点数、降 SH 或分辨率。
 
 ## 统计、测试与退出条件
 
