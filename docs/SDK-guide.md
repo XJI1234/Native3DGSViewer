@@ -1,4 +1,4 @@
-# Native3DGS SDK 0.2.1
+# Native3DGS SDK 0.2.2
 
 逐项接口、调用语法、返回值和线程/所有权约束见
 [Windows SDK 接口手册](SDK-API-reference.md)。
@@ -31,4 +31,4 @@ The console validation host ends its process with exit code 2 if shutdown exceed
 
 See `SPEC-engine-sdk.md`, `GUI/README.md` and verification records for scope and evidence. Spark SSIM, PresentMon and AMD/Intel gates remain external acceptance work.
 
-The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.1-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.
+The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.2-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.
