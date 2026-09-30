@@ -60,7 +60,9 @@
 
 安装 PIX 2603.25 后，在同一台 RTX 3080 上用 `pixtool attach ... take-new-timing-capture` 对运行中的 Release `SceneBench` 采集了中等与大模型 Timing Capture。原始文件分别为 `out/pix-medium.wpix`（43,864,064 B，SHA-256 `566023EC8E3FAA4C5CE81813003731742D705512315FB5BCB2AB6A43F0A7372D`）和 `out/pix-large.wpix`（51,572,736 B，SHA-256 `4539B8A97873745FDB95A6492F31989AE3DAC0923000B2623CC3F85ED3426734`）。它们是本机诊断产物，不随 SDK 发布。同期运行的 `SceneBench` 输出了 400 帧 D3D12 timestamp，其中位数为投影 10.62 ms、排序 8.03 ms、绘制 16.94 ms、合计 35.54 ms；捕获开销和显卡频率波动使这些数值不能与非捕获基准直接比较。同一模型另一次未捕获的 20 帧总时间为 34.45-37.39 ms，其中多数排序帧为 7.74-8.02 ms。收益方向与先前记录一致，但整帧的单轮区间比先前的 33.4-33.8 ms 略慢，不能把这部分波动解释成新算法收益或回退。
 
-`SceneBench` 没有 Present，故采用 Timing Capture；桌面程序的启动期单帧 GPU Capture 只得到空白帧。尝试导出 GPU 事件列表与计数器时，PIX 返回 `E_PIX_FEATURE_REQUIRES_DEVELOPER_MODE`。因此本次确认了捕获可生成、长时间渲染中的阶段耗时可读，但没有获得 PIX 事件级占用率或 shader 热点，不能据此宣称找到了新的瓶颈算法。此前三项已保留的优化仍通过引擎时间戳与图像/排序测试支持；本次未新增未经量化的优化。
+`SceneBench` 没有 Present，故采用 Timing Capture；桌面程序的启动期单帧 GPU Capture 只得到空白帧。开发者模式开启前，PIX 拒绝导出 GPU 事件列表与计数器，返回 `E_PIX_FEATURE_REQUIRES_DEVELOPER_MODE`。此前三项已保留的优化仍通过引擎时间戳与图像/排序测试支持；本次未新增未经量化的优化。
+
+开发者模式开启后，先导出启动空帧的基础事件列表，确认它只有清屏与 Present。随后在 `pixtool` 同一命令中先对桌面程序做 5 秒 Timing Capture，再抓取 `zhihuizhimen.ply` 的 GPU 帧，得到 `out/pix-viewer-medium-loaded.wpix`（718,380,319 B，SHA-256 `85C6536A6444F01507A70E5584FF276EAD3F1B131CC1EA4BA1CAA6501F950DE3`）。导出的 [基础事件列表](evidence/windows/pix-viewer-medium-loaded.csv) 共 39 个事件，包含 `ExecuteIndirect`/`DrawInstanced` 和 Present；`out/pix-viewer-medium-loaded.png` 的渲染截图非空。此帧相机静止，排序复用，因此没有投影或 radix dispatch。带计数器的 `save-event-list` 在该有效帧上返回 PIX 内部错误 `0x8000ffff`，`collect-occupancy` 返回 `E_PIX_GPU_PLUGIN_INITIALIZATION_FAILED`。这限制了事件级耗时与占用率分析，不能从此帧推断动态相机的投影/排序热点。
 
 16,000 是 FidelityFX 排序每次 radix pass 的工作组上限，不是显卡执行单元数量要求；Arc 核显理论上可分批执行这些工作组。D3D12 `Dispatch` 的 X 维上限为 65,535，本实现的 16,000 也满足归约扫描的 512 项约束。实际最优工作组数与显卡的并行度、带宽和驱动有关；Arc 系列尚未实测，不能把 RTX 3080 的速度结论外推给 Arc。设备启动时的 GPU 稳定排序自检验证结果正确性，但不测该设备的最佳调度参数。
 

@@ -1,0 +1,40 @@
+﻿Queue ID, Parent, Name, Global ID
+0, -1, Signal, 1
+1, -1, Wait, 2
+2, -1, Reset, 
+3, -1, EndQuery, 
+4, -1, EndQuery, 
+5, -1, ResourceBarrier, 3
+6, -1, ClearRenderTargetView, 4
+7, -1, ResourceBarrier, 5
+8, -1, ResourceBarrier, 6
+9, -1, ResourceBarrier, 7
+10, -1, SetGraphicsRootSignature, 
+11, -1, SetGraphicsRoot32BitConstants, 
+12, -1, SetGraphicsRootShaderResourceView, 
+13, -1, SetGraphicsRootShaderResourceView, 
+14, -1, SetGraphicsRootShaderResourceView, 
+15, -1, SetGraphicsRootShaderResourceView, 
+16, -1, SetPipelineState, 
+17, -1, OMSetRenderTargets, 
+18, -1, RSSetViewports, 
+19, -1, RSSetScissorRects, 
+20, -1, IASetPrimitiveTopology, 
+21, -1, ExecuteIndirect, 8
+22, 21, DrawInstanced, 9
+23, -1, ResourceBarrier, 10
+24, -1, ResourceBarrier, 11
+25, -1, ResourceBarrier, 12
+26, -1, EndQuery, 
+27, -1, ResolveQueryData, 13
+28, -1, ResourceBarrier, 14
+29, -1, CopyBufferRegion, 15
+30, -1, ResourceBarrier, 16
+31, -1, ResourceBarrier, 17
+32, -1, Close, 
+33, -1, Signal, 18
+34, -1, Reset, 
+35, -1, PrepareForPresent, 
+36, -1, Close, 
+37, -1, Signal, 19
+38, -1, Present, 20
