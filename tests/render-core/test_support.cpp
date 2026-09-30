@@ -10,19 +10,32 @@ Image render_image(gs::SceneHandle scene, CameraState camera, QualityConfig qual
 {
     GpuDevice gpu(true);
     SplatPass pass(gpu, quality);
-    auto model = pass.allocate(scene, 1, camera);
-    auto upload =
-        gpu.buffer(scene_bytes(*scene), D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    auto model = pass.allocate(scene, 1, camera,
+                               (std::min)(scene->shDegree, quality.sh_degree_cap));
+    const uint64_t base_bytes = scene->count * 56;
+    const uint64_t sh_bytes = scene->count * uint64_t(model->sh_floats_per_splat) * 4;
+    auto upload = gpu.buffer(base_bytes + sh_bytes, D3D12_HEAP_TYPE_UPLOAD,
+                             D3D12_RESOURCE_STATE_GENERIC_READ);
     void *mapped = nullptr;
     D3D12_RANGE empty{};
     check(upload->Map(0, &empty, &mapped), "Image upload");
     uint64_t offset = 0;
     for (auto span : {scene->centerLocal, scene->scale, scene->rotation, scene->opacity,
-                      scene->rgb0, scene->shRest})
+                      scene->rgb0})
     {
         if (!span.empty())
             memcpy(static_cast<uint8_t *>(mapped) + offset, span.data(), span.size_bytes());
         offset += span.size_bytes();
+    }
+    if (sh_bytes)
+    {
+        const uint64_t source_stride = 3ull * ((scene->shDegree + 1) *
+                                                (scene->shDegree + 1) - 1);
+        for (uint64_t i = 0; i < scene->count; ++i)
+            memcpy(static_cast<uint8_t *>(mapped) + base_bytes +
+                       i * model->sh_floats_per_splat * 4,
+                   scene->shRest.data() + i * source_stride,
+                   model->sh_floats_per_splat * 4);
     }
     upload->Unmap(0, nullptr);
     D3D12_RESOURCE_DESC td{};
@@ -58,14 +71,13 @@ Image render_image(gs::SceneHandle scene, CameraState camera, QualityConfig qual
           "Image list");
     transition(list.Get(), model->attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                D3D12_RESOURCE_STATE_COPY_DEST);
-    const uint64_t base_bytes = scene->count * 56;
     list->CopyBufferRegion(model->attributes.Get(), 0, upload.Get(), 0, base_bytes);
     if (model->sh_attributes)
     {
         transition(list.Get(), model->sh_attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                    D3D12_RESOURCE_STATE_COPY_DEST);
         list->CopyBufferRegion(model->sh_attributes.Get(), 0, upload.Get(), base_bytes,
-                               scene_bytes(*scene) - base_bytes);
+                               sh_bytes);
         transition(list.Get(), model->sh_attributes.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
                    D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
     }
@@ -138,10 +150,10 @@ void save_bmp(const Image &image, const std::filesystem::path &path)
     out.write(reinterpret_cast<const char *>(&info), sizeof(info));
     out.write(reinterpret_cast<const char *>(image.bgra.data()), image.bgra.size());
 }
-Session::Session(std::shared_ptr<RendererTestControl> control)
+Session::Session(std::shared_ptr<RendererTestControl> control, QualityConfig quality)
 {
     auto result = create_renderer_for_testing(
-        {}, [this](const RendererEvent &e) { events.push_back(e); }, std::move(control));
+        quality, [this](const RendererEvent &e) { events.push_back(e); }, std::move(control));
     if (auto e = std::get_if<RenderError>(&result))
         throw GpuFailure{e->hresult, "Renderer creation"};
     renderer = std::move(std::get<std::unique_ptr<IRenderer>>(result));

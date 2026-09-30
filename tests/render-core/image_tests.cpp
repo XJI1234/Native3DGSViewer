@@ -1,6 +1,42 @@
 #include "test_support.h"
+#include "upload.h"
 #include <cmath>
+#include <thread>
 using namespace render_test;
+TEST(RenderImage, SampledUploadPacksSelectedSplatsAndSh)
+{
+    auto scene = make_scene(4, 3, [](SceneData &s) {
+        for (int i = 0; i < 4; ++i)
+            s.centers[i * 3] = float(i);
+        s.sh[3] = 0.2f;
+        s.sh[2 * 45 + 3] = 0.7f;
+    });
+    GpuDevice gpu(true);
+    SplatPass pass(gpu, {});
+    UploadTransaction upload(gpu, pass, scene, 1, {}, 1, true, 2);
+    while (!upload.ready)
+    {
+        upload.advance(gpu);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    ASSERT_EQ(upload.scene->count, 2u);
+    auto attributes = gpu.readback(upload.scene->attributes.Get(), 2 * 56,
+                                   D3D12_RESOURCE_STATE_COMMON);
+    auto sh = gpu.readback(upload.scene->sh_attributes.Get(), 2 * 9 * 4,
+                           D3D12_RESOURCE_STATE_COMMON);
+    auto value_at = [](const std::vector<uint8_t> &bytes, size_t float_index) {
+        float value;
+        memcpy(&value, bytes.data() + float_index * 4, sizeof(value));
+        return value;
+    };
+    EXPECT_FLOAT_EQ(value_at(attributes, 0), 0);
+    EXPECT_FLOAT_EQ(value_at(attributes, 3), 2);
+    EXPECT_FLOAT_EQ(value_at(sh, 3), 0.2f);
+    EXPECT_FLOAT_EQ(value_at(sh, 12), 0.7f);
+    EXPECT_EQ(scene->count, 4u);
+    for (const auto &error : gpu.debug_errors())
+        ADD_FAILURE() << error;
+}
 TEST(RenderImage, GaussianPixelsMatchAnalyticReference)
 {
     auto image = render_image(make_scene());
@@ -124,6 +160,25 @@ TEST(RenderImage, ColorClampAndShCapAreAppliedAfterEvaluation)
     EXPECT_FLOAT_EQ(image.projected[6], 1);
     EXPECT_FLOAT_EQ(image.projected[7], 0);
     EXPECT_FLOAT_EQ(image.projected[8], 0.4f);
+}
+
+TEST(RenderImage, ShCapUsesEachSplatsOwnCoefficients)
+{
+    auto scene = make_scene(2, 3, [](SceneData &s) {
+        s.centers[3] = 0.8f;
+        s.rgb.assign(6, 0.3f);
+        s.sh[3] = 0.2f;
+        s.sh[45 + 3] = 0.6f;
+        s.sh[45 + 15] = 1.0f;
+    });
+    QualityConfig quality;
+    quality.sh_degree_cap = 1;
+    const auto image = render_image(scene, {}, quality);
+    ASSERT_EQ(image.candidates, 2u);
+    EXPECT_NEAR(image.projected[6], 0.3 - 0.2 * 0.4886025119029199, 1e-5);
+    EXPECT_NEAR(image.projected[16],
+                0.3 - 0.6 * 0.4886025119029199 * 2 / std::sqrt(4.0 + 0.8 * 0.8),
+                1e-5);
 }
 
 TEST(RenderImage, ThinAnisotropicSplatRetainsPositiveMinorAxis)

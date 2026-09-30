@@ -62,7 +62,7 @@ class Session
     std::unique_ptr<IRenderer> renderer;
     ComPtr<IDXGISwapChain3> surface;
     std::vector<RendererEvent> events;
-    Session(std::shared_ptr<RendererTestControl> = {});
+    Session(std::shared_ptr<RendererTestControl> = {}, QualityConfig = {});
     ~Session();
     void bind(Viewport = {128, 128});
     bool pump_until(std::function<bool()>, int timeout_ms = 10000);

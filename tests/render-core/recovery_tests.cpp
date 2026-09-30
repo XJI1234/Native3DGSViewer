@@ -41,6 +41,8 @@ TEST(RenderRecovery, ActualDeviceRemovalRebindsAndRestoresRetainedScene)
     queue.Reset();
     s.surface.Reset();
     ASSERT_TRUE(s.pump_until([&] { return s.renderer->surface_generation() != old; }));
+    EXPECT_EQ(s.renderer->get_stats().active_ticket, 0u);
+    EXPECT_FALSE(s.renderer->get_stats().gpu_frame_ms.has_value());
     ComPtr<ID3D12CommandQueue> obsolete_queue;
     obsolete_queue.Attach(s.renderer->addref_surface_queue(old));
     EXPECT_FALSE(obsolete_queue);
@@ -58,6 +60,7 @@ TEST(RenderRecovery, ActualDeviceRemovalRebindsAndRestoresRetainedScene)
         });
     }));
     EXPECT_EQ(s.renderer->get_stats().device_recovery_count, 1u);
+    EXPECT_EQ(s.renderer->get_stats().active_ticket, ticket);
     EXPECT_FALSE(s.renderer->set_camera(ticket, {}));
 }
 TEST(RenderRecovery, AllocationAndBudgetFailurePreserveOldScene)

@@ -1,4 +1,4 @@
-# Native3DGS SDK 0.2.1
+# Native3DGS SDK 0.2.2
 
 逐项接口、调用语法、返回值和线程/所有权约束见
 [Windows SDK 接口手册](SDK-API-reference.md)。
@@ -22,6 +22,8 @@ Create an engine, obtain its snapshot's surface generation, then call `addref_su
 
 Renderer creation runs a bounded GPU radix-sort readback test before the engine becomes ready. `snapshot().stats.sort_shader_mode` reports `Standard`, `FixedWave32` or `WaveAgnostic`; `sort_self_test_passed` confirms the selected variant. `wave32_fallback_hr` is nonzero if fixed wave32 pipeline setup or validation failed and the wave-agnostic variant passed. A failed final self-test returns `ShaderFailure` from `create_engine` and no surface queue is exposed.
 
+Set `EngineConfig::quality.point_stride` to 1, 2, 4, 8 or 16 for a fixed source-point interval. `max_point_stride` bounds automatic sampling (default 16); `allow_memory_mitigation=false` disables automatic SH reduction and sampling while retaining manual limits. These values are validated when the engine is created and cannot change on a running engine. After `SceneReady`, compare `snapshot().stats.active_source_splats` and `active_source_sh_degree` with `active_splats`, `active_sh_degree` and `active_point_stride`. `memory_mitigation` means the budget forced an additional quality reduction. The frame counters are empty until a completed frame belongs to `active_ticket`.
+
 Poll `poll_events` regularly. The bounded queue reports dropped events in the snapshot; snapshots remain authoritative. On `DeviceLost`, unbind the old UI surface and release every old swapchain/queue/device reference, then acknowledge the reported generation. Recovery pauses for at most ten seconds. Wait for `SurfaceRebindRequired`, acquire the new generation's queue, create and attach a fresh surface. Ready resumes after Present. A timeout is a persistent failure; shut down and create a new engine after resolving the cause.
 
 For an intentional surface detach, wait for `SurfaceDetached` before releasing host references or recreating buffers. `request_shutdown` returns immediately; poll Stopped or call `wait_until_stopped` from a background thread. Destroy after Stopped. Destruction joins workers and can block if invoked early. Do not issue commands concurrently with object destruction.
@@ -29,4 +31,4 @@ The console validation host ends its process with exit code 2 if shutdown exceed
 
 See `SPEC-engine-sdk.md`, `GUI/README.md` and verification records for scope and evidence. Spark SSIM, PresentMon and AMD/Intel gates remain external acceptance work.
 
-The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.1-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.
+The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.2-windows-x64-SDK.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.

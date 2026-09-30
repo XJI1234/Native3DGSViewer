@@ -24,6 +24,11 @@ struct SceneGpu
     ComPtr<ID3D12Resource> attributes, sh_attributes, projected, arguments;
     SortBuffers sorting;
     std::array<uint32_t, 6> offsets{};
+    uint8_t sh_degree = 0;
+    uint32_t count = 0;
+    uint32_t point_stride = 1;
+    uint32_t sh_floats_per_splat = 0;
+    bool memory_mitigation = false;
     bool sorted = false;
 };
 class SplatPass
@@ -31,9 +36,12 @@ class SplatPass
   public:
     SplatPass(GpuDevice &, QualityConfig);
     SortPass &sort() { return sort_; }
-    std::shared_ptr<SceneGpu> allocate(SceneHandle, UploadTicket, CameraState);
+    std::shared_ptr<SceneGpu> allocate(SceneHandle, UploadTicket, CameraState, uint8_t sh_degree,
+                                       bool memory_mitigation = false,
+                                       uint32_t point_stride = 1);
     FrameConstants constants(const SceneGpu &, Viewport) const;
-    void project_sort(ID3D12GraphicsCommandList *, SceneGpu &, Viewport);
+    void project_sort(ID3D12GraphicsCommandList *, SceneGpu &, Viewport,
+                      ID3D12QueryHeap *stage_queries = nullptr);
     void draw(ID3D12GraphicsCommandList *, SceneGpu &, Viewport, D3D12_CPU_DESCRIPTOR_HANDLE);
 
   private:

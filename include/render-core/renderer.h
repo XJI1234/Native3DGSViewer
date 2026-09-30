@@ -37,11 +37,16 @@ struct QualityConfig
 {
     SortMode sort_mode = SortMode::Radial;
     uint8_t sh_degree_cap = 3;
+    uint32_t point_stride = 1;
+    uint32_t max_point_stride = 16;
     float max_stddev = 3;
     float min_alpha = 0;
     float covariance_blur_px2 = 0;
     float max_pixel_radius_px = 1024;
     bool premultiplied_alpha = true;
+    // Permit SH reduction, then point sampling, when the video-memory budget
+    // cannot admit full quality. The effective result is exposed in stats.
+    bool allow_memory_mitigation = true;
 };
 enum class RenderErrorCode : uint8_t
 {
@@ -97,6 +102,13 @@ enum class SortShaderMode : uint8_t
 };
 struct RenderStats
 {
+    UploadTicket active_ticket = 0;
+    uint64_t active_source_splats = 0;
+    uint8_t active_source_sh_degree = 0;
+    uint8_t active_sh_degree = 0;
+    uint32_t active_splats = 0;
+    uint32_t active_point_stride = 1;
+    bool memory_mitigation = false;
     SortShaderMode sort_shader_mode = SortShaderMode::Standard;
     bool sort_self_test_passed = false;
     HRESULT wave32_fallback_hr = S_OK;

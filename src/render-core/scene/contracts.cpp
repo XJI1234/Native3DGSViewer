@@ -6,6 +6,25 @@ namespace gs::render::detail
 namespace
 {
 constexpr uint8_t max_sh_degree = 3;
+bool valid_stride(uint32_t stride)
+{
+    return stride && stride <= 16 && !(stride & (stride - 1));
+}
+uint64_t packed_attribute_bytes(const SplatScene &s, uint8_t degree_cap,
+                                uint32_t point_stride)
+{
+    if (s.count > UINT32_MAX || s.shDegree > max_sh_degree ||
+        degree_cap > max_sh_degree || !valid_stride(point_stride))
+        return UINT64_MAX;
+    const auto n = (s.count + point_stride - 1) / point_stride;
+    const auto degree = (std::min)(s.shDegree, degree_cap);
+    const auto sh_floats = 3ull * ((degree + 1) * (degree + 1) - 1);
+    const auto base_bytes = n * 56ull;
+    const auto sh_bytes = n * sh_floats * sizeof(float);
+    if (base_bytes > UINT32_MAX || sh_bytes > UINT32_MAX)
+        return UINT64_MAX;
+    return base_bytes + sh_bytes;
+}
 bool finite3(Double3 v)
 {
     return std::isfinite(v.x) && std::isfinite(v.y) && std::isfinite(v.z);
@@ -21,7 +40,9 @@ std::optional<RenderError> validate_quality(const QualityConfig &q)
         q.max_stddev <= 0 || q.max_stddev > 8 || !std::isfinite(q.min_alpha) || q.min_alpha < 0 ||
         q.min_alpha >= 1 || !std::isfinite(q.covariance_blur_px2) || q.covariance_blur_px2 < 0 ||
         q.covariance_blur_px2 > 64 || !std::isfinite(q.max_pixel_radius_px) ||
-        q.max_pixel_radius_px <= 0 || q.max_pixel_radius_px > 16384 || !q.premultiplied_alpha)
+        q.max_pixel_radius_px <= 0 || q.max_pixel_radius_px > 16384 || !q.premultiplied_alpha ||
+        !valid_stride(q.point_stride) || !valid_stride(q.max_point_stride) ||
+        q.point_stride > q.max_point_stride)
         return invalid(RenderErrorCode::InvalidQualityConfig);
     return {};
 }
@@ -45,14 +66,23 @@ uint64_t scene_bytes(const SplatScene &s)
         return UINT64_MAX;
     return s.count * (14ull + 3ull * ((s.shDegree + 1) * (s.shDegree + 1) - 1)) * sizeof(float);
 }
-uint64_t incremental_bytes(const SplatScene &s)
+uint64_t incremental_bytes(const SplatScene &s, uint8_t sh_degree_cap,
+                           uint32_t point_stride)
 {
-    const auto attributes = scene_bytes(s);
+    const auto attributes = packed_attribute_bytes(s, sh_degree_cap, point_stride);
     if (attributes == UINT64_MAX)
         return UINT64_MAX;
-    // Attributes, projected ellipses, two key/value pairs, sort scratch and copy pages.
-    return attributes + s.count * (48ull + 16ull) + 16ull * ((s.count + 511) / 512) * 4 +
-           upload_reserve_bytes;
+    const auto n = (s.count + point_stride - 1) / point_stride;
+    // Default-heap scene buffers only; the upload page is charged to its actual segment.
+    return attributes + n * (40ull + 16ull) + 16ull * ((n + 511) / 512) * 4;
+}
+uint64_t upload_reserve_bytes(const SplatScene &s, uint8_t sh_degree_cap,
+                              uint32_t point_stride)
+{
+    const auto attributes = packed_attribute_bytes(s, sh_degree_cap, point_stride);
+    if (attributes == UINT64_MAX)
+        return UINT64_MAX;
+    return (std::min)(attributes, upload_page_capacity) + upload_page_overhead;
 }
 bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage)
 {
@@ -65,7 +95,10 @@ bool fits_scene_budgets(uint64_t scene_required, uint64_t upload_required,
                         uint64_t local_budget, uint64_t local_usage,
                         uint64_t nonlocal_budget, uint64_t nonlocal_usage, bool uma)
 {
-    return fits_budget(scene_required, local_budget, local_usage) &&
+    if (scene_required == UINT64_MAX || upload_required == UINT64_MAX ||
+        (uma && scene_required > UINT64_MAX - upload_required))
+        return false;
+    return fits_budget(scene_required + (uma ? upload_required : 0), local_budget, local_usage) &&
            (uma || fits_budget(upload_required, nonlocal_budget, nonlocal_usage));
 }
 std::optional<RenderError> validate_scene(const SceneHandle &s)

@@ -4,12 +4,16 @@
 
 namespace gs::render::detail
 {
-inline constexpr uint64_t upload_reserve_bytes = 8ull << 20;
+inline constexpr uint64_t upload_page_capacity = 64ull << 20;
+inline constexpr uint64_t upload_page_overhead = 4ull << 20;
 std::optional<RenderError> validate_quality(const QualityConfig &);
 std::optional<RenderError> validate_camera(const CameraState &);
 std::optional<RenderError> validate_scene(const SceneHandle &);
 uint64_t scene_bytes(const SplatScene &);
-uint64_t incremental_bytes(const SplatScene &);
+uint64_t incremental_bytes(const SplatScene &, uint8_t sh_degree_cap = 3,
+                           uint32_t point_stride = 1);
+uint64_t upload_reserve_bytes(const SplatScene &, uint8_t sh_degree_cap,
+                              uint32_t point_stride);
 bool fits_budget(uint64_t required, uint64_t budget, uint64_t usage);
 bool fits_scene_budgets(uint64_t scene_required, uint64_t upload_required,
                         uint64_t local_budget, uint64_t local_usage,

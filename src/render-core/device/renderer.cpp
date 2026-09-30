@@ -28,7 +28,8 @@ RenderError failure(RenderErrorCode code, HRESULT hr = S_OK, const char *text = 
 {
     return {code, hr, std::string(text).substr(0, 512)};
 }
-std::string budget_diagnostic(const char *stage, uint64_t required,
+std::string budget_diagnostic(const char *stage, uint64_t scene_required,
+                              uint64_t upload_required,
                               const DXGI_QUERY_VIDEO_MEMORY_INFO &local,
                               const DXGI_QUERY_VIDEO_MEMORY_INFO &nonlocal, bool uma,
                               HRESULT nonlocal_hr)
@@ -36,15 +37,53 @@ std::string budget_diagnostic(const char *stage, uint64_t required,
     char query_hr[11]{};
     snprintf(query_hr, sizeof(query_hr), "0x%08X", static_cast<uint32_t>(nonlocal_hr));
     return std::string(stage) + " UMA=" + (uma ? "1" : "0") +
-           " required_local=" + std::to_string(required) +
+           " required_local=" + std::to_string(scene_required + (uma ? upload_required : 0)) +
            " local_budget=" + std::to_string(local.Budget) +
            " local_usage=" + std::to_string(local.CurrentUsage) +
-           " required_nonlocal=" + std::to_string(uma ? 0 : upload_reserve_bytes) +
+           " required_nonlocal=" + std::to_string(uma ? 0 : upload_required) +
            " nonlocal_query_hr=" + query_hr +
            " nonlocal_budget=" + (SUCCEEDED(nonlocal_hr) ?
                std::to_string(nonlocal.Budget) : "unavailable") +
            " nonlocal_usage=" + (SUCCEEDED(nonlocal_hr) ?
                std::to_string(nonlocal.CurrentUsage) : "unavailable");
+}
+struct UploadSelection
+{
+    uint8_t degree;
+    uint32_t stride;
+    bool mitigated;
+    uint64_t scene_required = 0;
+    uint64_t upload_required = 0;
+    bool fits = false;
+};
+UploadSelection select_upload(const SplatScene &scene, const QualityConfig &quality,
+                              uint8_t degree, uint32_t stride, bool mitigated,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &local,
+                              const DXGI_QUERY_VIDEO_MEMORY_INFO &nonlocal, bool uma)
+{
+    UploadSelection selection{degree, stride, mitigated};
+    const auto measure = [&] {
+        selection.scene_required = incremental_bytes(scene, selection.degree, selection.stride);
+        selection.upload_required = upload_reserve_bytes(scene, selection.degree, selection.stride);
+        selection.fits = fits_scene_budgets(selection.scene_required, selection.upload_required,
+                                            local.Budget, local.CurrentUsage, nonlocal.Budget,
+                                            nonlocal.CurrentUsage, uma);
+    };
+    measure();
+    while (quality.allow_memory_mitigation && !selection.fits && selection.degree > 0)
+    {
+        --selection.degree;
+        selection.mitigated = true;
+        measure();
+    }
+    while (quality.allow_memory_mitigation && !selection.fits &&
+           selection.stride < quality.max_point_stride)
+    {
+        selection.stride *= 2;
+        selection.mitigated = true;
+        measure();
+    }
+    return selection;
 }
 bool same_camera(const CameraState &a, const CameraState &b)
 {
@@ -55,6 +94,18 @@ bool same_camera(const CameraState &a, const CameraState &b)
            a.orientation_xyzw.w == b.orientation_xyzw.w &&
            a.vertical_fov_radians == b.vertical_fov_radians && a.near_plane == b.near_plane &&
            a.far_plane == b.far_plane;
+}
+void clear_frame_stats(RenderStats &stats)
+{
+    stats.presented_frame_id = 0;
+    stats.cpu_frame_ms.reset();
+    stats.gpu_frame_ms.reset();
+    stats.gpu_sort_ms.reset();
+    stats.gpu_draw_ms.reset();
+    stats.present_call_ms.reset();
+    stats.candidate_splats = 0;
+    stats.drawn_splats = 0;
+    stats.rejected_projection_splats = 0;
 }
 struct Command
 {
@@ -74,6 +125,9 @@ struct Command
     SceneHandle scene;
     CameraState camera;
     Viewport viewport;
+    uint8_t sh_degree = 0;
+    uint32_t point_stride = 1;
+    bool memory_mitigation = false;
     ComPtr<IDXGISwapChain3> swapchain;
 };
 struct FrameSlot
@@ -196,22 +250,33 @@ class Renderer final : public IRenderer
             0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local);
         if (FAILED(local_hr))
             return failure(RenderErrorCode::InternalFailure, local_hr, "Local budget");
+#ifdef GS_RENDER_TEST_HOOKS
+        if (control_ && control_->local_headroom_override)
+            local.Budget = local.CurrentUsage + control_->local_headroom_override.load();
+#endif
         const auto nonlocal_hr = surface_adapter_->QueryVideoMemoryInfo(
             0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
         if (!surface_uma_ && FAILED(nonlocal_hr))
             return failure(RenderErrorCode::InternalFailure, nonlocal_hr, "Nonlocal budget");
-        const auto required = incremental_bytes(*scene);
-        if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
-                                nonlocal.Budget, nonlocal.CurrentUsage, surface_uma_))
+        const auto requested_degree = (std::min)(scene->shDegree, quality_.sh_degree_cap);
+        const auto selection = select_upload(*scene, quality_, requested_degree,
+                                             quality_.point_stride, false, local, nonlocal,
+                                             surface_uma_);
+        if (!selection.fits)
         {
-            const auto diagnostic = budget_diagnostic("upload_admission", required, local,
-                                                       nonlocal, surface_uma_, nonlocal_hr);
+            const auto diagnostic = budget_diagnostic("upload_admission",
+                                                       selection.scene_required,
+                                                       selection.upload_required, local, nonlocal,
+                                                       surface_uma_, nonlocal_hr);
             return failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str());
         }
         Command c{Command::Kind::Upload};
         c.ticket = ++next_ticket_;
         c.scene = std::move(scene);
         c.camera = camera;
+        c.sh_degree = selection.degree;
+        c.point_stride = selection.stride;
+        c.memory_mitigation = selection.mitigated;
         auto ticket = c.ticket;
         commands_.push_back(std::move(c));
         return ticket;
@@ -518,7 +583,8 @@ class Renderer final : public IRenderer
                          failure(RenderErrorCode::Cancelled));
                     abandon_pending();
                 }
-                begin_upload(c.scene, c.ticket, c.camera);
+                begin_upload(c.scene, c.ticket, c.camera, c.sh_degree,
+                             c.memory_mitigation, c.point_stride);
                 break;
             case Command::Kind::Cancel:
                 if (pending_ && pending_->scene->ticket == c.ticket)
@@ -542,6 +608,14 @@ class Renderer final : public IRenderer
                     std::lock_guard lock(mutex_);
                     active_ticket_ = 0;
                     active_cpu_.reset();
+                    stats_.active_ticket = 0;
+                    stats_.active_source_splats = 0;
+                    stats_.active_source_sh_degree = 0;
+                    stats_.active_sh_degree = 0;
+                    stats_.active_splats = 0;
+                    stats_.active_point_stride = 1;
+                    stats_.memory_mitigation = false;
+                    clear_frame_stats(stats_);
                 }
                 emit(RendererEvent::Kind::SceneCleared, ticket);
                 break;
@@ -614,7 +688,9 @@ class Renderer final : public IRenderer
             }
         }
     }
-    void begin_upload(SceneHandle scene, UploadTicket ticket, CameraState camera)
+    void begin_upload(SceneHandle scene, UploadTicket ticket, CameraState camera,
+                      uint8_t selected_degree, bool memory_mitigation,
+                      uint32_t point_stride)
     {
         try
         {
@@ -625,22 +701,29 @@ class Renderer final : public IRenderer
             DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
             check(gpu_->adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local),
                   "Local budget");
+#ifdef GS_RENDER_TEST_HOOKS
+            if (control_ && control_->local_headroom_override)
+                local.Budget = local.CurrentUsage + control_->local_headroom_override.load();
+#endif
             const auto nonlocal_hr = gpu_->adapter->QueryVideoMemoryInfo(
                 0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal);
             if (!gpu_->uma)
                 check(nonlocal_hr, "Nonlocal budget");
-            const auto required = incremental_bytes(*scene);
-            if (!fits_scene_budgets(required, upload_reserve_bytes, local.Budget, local.CurrentUsage,
-                                    nonlocal.Budget, nonlocal.CurrentUsage, gpu_->uma))
+            const auto selection = select_upload(*scene, quality_, selected_degree, point_stride,
+                                                 memory_mitigation, local, nonlocal, gpu_->uma);
+            if (!selection.fits)
             {
-                const auto diagnostic = budget_diagnostic("upload_begin", required, local,
+                const auto diagnostic = budget_diagnostic("upload_begin",
+                                                           selection.scene_required,
+                                                           selection.upload_required, local,
                                                            nonlocal, gpu_->uma, nonlocal_hr);
                 emit(RendererEvent::Kind::SceneFailed, ticket,
                      failure(RenderErrorCode::OutOfVideoMemory, S_OK, diagnostic.c_str()));
                 return;
             }
             pending_ = std::make_unique<UploadTransaction>(*gpu_, *pass_, std::move(scene), ticket,
-                                                           camera);
+                                                           camera, selection.degree,
+                                                           selection.mitigated, selection.stride);
         }
         catch (const GpuFailure &e)
         {
@@ -711,7 +794,8 @@ class Renderer final : public IRenderer
                 D3D12_RANGE empty{};
                 slot.readback->Unmap(0, &empty);
                 std::lock_guard lock(mutex_);
-                if (slot.frame >= stats_.presented_frame_id)
+                if (slot.scene && slot.scene->ticket == stats_.active_ticket &&
+                    slot.frame >= stats_.presented_frame_id)
                 {
                     stats_.presented_frame_id = slot.frame;
                     stats_.cpu_frame_ms = slot.cpu_ms;
@@ -839,6 +923,17 @@ class Renderer final : public IRenderer
             }
             active_ = pending_->scene;
             pending_.reset();
+            {
+                std::lock_guard lock(mutex_);
+                stats_.active_ticket = active_->ticket;
+                stats_.active_source_splats = active_->cpu->count;
+                stats_.active_source_sh_degree = active_->cpu->shDegree;
+                stats_.active_sh_degree = active_->sh_degree;
+                stats_.active_splats = active_->count;
+                stats_.active_point_stride = active_->point_stride;
+                stats_.memory_mitigation = active_->memory_mitigation;
+                clear_frame_stats(stats_);
+            }
             emit(RendererEvent::Kind::SceneReady, active_->ticket);
             if (recovering_)
             {
@@ -861,6 +956,9 @@ class Renderer final : public IRenderer
         recovery_scene_ = active_ ? active_->cpu : SceneHandle{};
         recovery_ticket_ = active_ ? active_->ticket : 0;
         recovery_camera_ = active_ ? active_->camera : CameraState{};
+        recovery_sh_degree_ = active_ ? active_->sh_degree : 0;
+        recovery_point_stride_ = active_ ? active_->point_stride : 1;
+        recovery_memory_mitigation_ = active_ ? active_->memory_mitigation : false;
         if (gpu_)
         {
             ComPtr<ID3D12DeviceRemovedExtendedData> dred;
@@ -885,6 +983,14 @@ class Renderer final : public IRenderer
         {
             std::lock_guard lock(mutex_);
             recovering_ = true;
+            stats_.active_ticket = 0;
+            stats_.active_source_splats = 0;
+            stats_.active_source_sh_degree = 0;
+            stats_.active_sh_degree = 0;
+            stats_.active_splats = 0;
+            stats_.active_point_stride = 1;
+            stats_.memory_mitigation = false;
+            clear_frame_stats(stats_);
             surface_queue_.Reset();
             surface_device_.Reset();
             surface_adapter_.Reset();
@@ -971,7 +1077,9 @@ class Renderer final : public IRenderer
         emit(RendererEvent::Kind::SurfaceRebindRequired);
         if (recovery_scene_)
         {
-            begin_upload(recovery_scene_, recovery_ticket_, recovery_camera_);
+            begin_upload(recovery_scene_, recovery_ticket_, recovery_camera_,
+                         recovery_sh_degree_, recovery_memory_mitigation_,
+                         recovery_point_stride_);
             recovery_scene_.reset();
             if (!pending_)
             {
@@ -1005,6 +1113,9 @@ class Renderer final : public IRenderer
     SceneHandle recovery_scene_;
     UploadTicket recovery_ticket_ = 0;
     CameraState recovery_camera_;
+    uint8_t recovery_sh_degree_ = 0;
+    uint32_t recovery_point_stride_ = 1;
+    bool recovery_memory_mitigation_ = false;
     UploadTicket next_ticket_ = 0, active_ticket_ = 0;
     UploadTicket last_camera_ticket_ = 0;
     CameraState last_camera_;

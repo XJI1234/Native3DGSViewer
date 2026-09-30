@@ -31,6 +31,10 @@ Y 镜像由相机视图与 `SwapChainPanel` 的水平显示镜像共同完成；
 
 集成显卡通过 D3D12 的 UMA 能力判断共享内存，不要求独立的 non-local 上传预算。模型仍须符合 DXGI 当前 local 预算的 80% 增量余量限制。若加载失败，`scene_failed` 的 `diagnostic` 会记录 `upload_admission` 或 `upload_begin`、`UMA`、local/non-local 预算与当前用量、查询结果及估算需求；请连同该次完整日志提供，以确认是预检拒绝还是实际资源分配失败。物理内存容量本身不保证任意模型都能加载。
 
+当完整 SH 阶数超出显存预算时，查看器会先自动只上传可容纳的低阶 SH；0 阶仍不足时才按 2、4、8、16 倍间隔抽样显示。状态栏提示画质变化，模型名后显示实际 SH 和抽样比例；`memory_mitigation` 日志记录源阶数、实际阶数及点数。CPU 解码结果和模型文件不变；间隔 16 仍超出预算时保持原有拒绝和旧模型回退行为。抽样画面不属于完整质量基准。
+
+SDK 宿主可在创建引擎前通过 `EngineConfig::quality.point_stride` 手动指定 1/2/4/8/16 倍点间隔，通过 `max_point_stride` 限制自动抽样上限，并用 `allow_memory_mitigation=false` 禁止自动降低质量；模板桌面程序目前使用默认自动策略。`RenderStats` 的源/实际点数、SH 阶数和 `active_ticket` 让宿主区分手动设置、预算缓解和场景切换。小场景上传页按实际数据大小分配，显存预算预检不再为每个模型固定预留 64 MiB 页。
+
 从仓库根目录运行 `./packaging/build-installer.ps1` 生成 `out/installer/Native3DGSViewer-Setup-x64.exe`。安装包不携带构建机上的日志。
 
 大场景按实际 CPU 可用内存、提交余量及 DXGI 当前显存预算准入。SH 3 阶属性拆分为基础缓冲和 SH 缓冲，单缓冲地址仍受 32 位字节偏移约束；达到该技术边界会返回不支持的场景错误。22,480,361 点 SH3 的 PLY 已在 RTX 3080 上完成加载和 GPU 单帧烟雾测试；首次排序开销较高，具体交互性能以 `render_sample` 和同机基准为准。
