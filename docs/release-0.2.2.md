@@ -23,10 +23,12 @@ SDK remain the 0.2.1 builds from the previous release:
   non-captured GPU stage benchmark improved from about 41.7 to 33.5 ms;
   a later 20-frame rerun ranged from 34.45 to 37.39 ms. This is a GPU
   diagnostic, not a measured end-to-end or cross-device frame-rate guarantee.
-- PIX Timing Captures were collected for medium and large scenes. PIX event
-  export required Windows Developer Mode, which was unavailable during this
-  review. The equal-quality Web Viewer comparison, Intel/AMD and low-memory
-  device validation, and clean-machine installer validation remain open.
+- PIX Timing Captures were collected for medium and large scenes. After Windows
+  Developer Mode was enabled, a cached-draw GPU frame and its basic event list
+  were exported. Counter export failed inside PIX and GPU occupancy collection
+  reported a failed NVIDIA plugin initialization. The equal-quality Web Viewer
+  comparison, Intel/AMD and low-memory device validation, and clean-machine
+  installer validation remain open.
 - The Android files linked above are unchanged 0.2.1 preview binaries. The APK
   uses a development signing key and is not a production-signed distribution.
 
