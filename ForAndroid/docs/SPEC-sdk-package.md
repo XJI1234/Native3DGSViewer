@@ -6,6 +6,8 @@
 
 AAR 包含 Kotlin API、JNI `.so`、非导出的解码 Service Manifest 声明、必要 consumer rules 和许可说明；原生包暴露版本化 C ABI 而非 C++ STL ABI。应用同时引入 AAR 和原生包时必须共用同版本 `.so`，不能加载两个状态不同的引擎实例。模块发布记录构建工具、shader/SPIR-V 哈希和所有第三方源码版本；没有模型样本或用户日志进入 SDK 包。
 
+`0.2.2` 发布包命名为 `Native3DGS-SDK-0.2.2-Android-arm64-v8a.zip`，与查看器的 `Native3DGSViewer-0.2.2-Android-arm64-v8a-preview.apk` 对齐。清单中的产品版本为 `0.2.2`，C ABI `api` 字段对应头文件 `GS_ANDROID_API_VERSION`，当前为 2。APK 的内部 `versionCode` 必须高于已发布的 `0.2.1`；预览 APK 使用开发签名，发布说明须明确标注。
+
 ## 构建与兼容
 
 固定初始工具链见[总体计划](technical-development-plan.md)。Gradle wrapper 管理 AGP/Kotlin 构建，CMake + NDK 构建原生库，`glslc` 预编译 shader；Debug 可启用 Vulkan validation、ASan/HWASan 支持时的专项测试，Release 关闭高开销验证。所有包从干净目录生成，不读取开发机的绝对路径；CMake package/Prefab 消费声明须能定位头、库和运行时资源。版本号同时进入 Kotlin、C ABI 和包名，ABI 不兼容变更提升主版本并提供迁移说明。

@@ -266,7 +266,7 @@ SceneAdmission assess_scene(const gs::SceneHandle &scene, const DeviceCapabiliti
     const uint64_t sh_stride = sh_width * sizeof(float);
     const uint64_t sh_chunk_points = sh_stride
         ? device.max_storage_buffer_range / sh_stride : n;
-    if (base > device.max_storage_buffer_range ||
+    if (base > 2ull * device.max_storage_buffer_range ||
         n > device.max_storage_buffer_range / 48 ||
         n > device.max_storage_buffer_range / 8 ||
         histogram_bytes > device.max_storage_buffer_range || !sh_chunk_points ||

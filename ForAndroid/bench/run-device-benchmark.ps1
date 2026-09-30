@@ -82,9 +82,11 @@ try {
         if (-not $surfaceLayer) {
             $layers = & adb -s $Serial shell dumpsys SurfaceFlinger --list 2>$null
             if ($LASTEXITCODE -eq 0) {
-                $surfaceLayer = @($layers | Where-Object {
-                    $_ -match '^SurfaceView\[org\.native3dgs\.viewer/org\.native3dgs\.viewer\.BenchmarkActivity\]\(BLAST\)#\d+$'
-                } | Select-Object -First 1)[0]
+                $surfaceLayer = @($layers | ForEach-Object {
+                    if ($_ -match '(SurfaceView\[org\.native3dgs\.viewer/org\.native3dgs\.viewer\.BenchmarkActivity\]\(BLAST\)#\d+)') {
+                        $Matches[1]
+                    }
+                } | Select-Object -Last 1)[0]
             }
         }
         if ($surfaceLayer) {

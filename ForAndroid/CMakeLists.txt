@@ -54,6 +54,13 @@ foreach(SHADER IN LISTS ANDROID_SHADERS)
         DEPENDS "shaders/${SHADER}.comp" VERBATIM)
     list(APPEND SHADER_OUTPUTS "${OUTPUT}")
 endforeach()
+set(SEGMENTED_PROJECT "${CMAKE_CURRENT_BINARY_DIR}/shaders/project_segmented.spv")
+add_custom_command(OUTPUT "${SEGMENTED_PROJECT}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/shaders"
+    COMMAND "${GLSLC}" --target-env=vulkan1.1 -O -DGS_SEGMENTED_SCENE=1
+            -o "${SEGMENTED_PROJECT}" "${CMAKE_CURRENT_SOURCE_DIR}/shaders/project.comp"
+    DEPENDS shaders/project.comp VERBATIM)
+list(APPEND SHADER_OUTPUTS "${SEGMENTED_PROJECT}")
 foreach(SHADER triangle splat)
     foreach(STAGE vert frag)
         set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/shaders/${SHADER}_${STAGE}.spv")

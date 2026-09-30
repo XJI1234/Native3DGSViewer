@@ -1,10 +1,15 @@
-# Native3DGS 0.2.2 Windows preview
+# Native3DGS 0.2.2 preview
 
-This release updates the Windows 11 x64 viewer and SDK. The Android viewer and
-SDK remain the 0.2.1 builds from the previous release:
+This release provides viewer and SDK packages for Windows x64 and Android
+arm64-v8a. The Android APK uses a development signing key and is a preview,
+not a production-signed distribution.
 
-- [Android SDK 0.2.1](https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.1/native3dgs-android-0.2.1.zip)
-- [Android viewer APK 0.2.1](https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.1/Native3DGSViewer-0.2.1-arm64-v8a-preview.apk)
+| Product | Platform / ABI | Release file |
+| --- | --- | --- |
+| Viewer | Windows x64 | `Native3DGSViewer-0.2.2-Windows-x64-Setup.exe` |
+| SDK | Windows x64 | `Native3DGS-SDK-0.2.2-Windows-x64.zip` |
+| Viewer | Android arm64-v8a | `Native3DGSViewer-0.2.2-Android-arm64-v8a-preview.apk` |
+| SDK | Android arm64-v8a | `Native3DGS-SDK-0.2.2-Android-arm64-v8a.zip` |
 
 ## Windows changes
 
@@ -16,6 +21,16 @@ SDK remain the 0.2.1 builds from the previous release:
   points at 1/2, 1/4, 1/8 or 1/16 when the current DXGI budget requires it.
   The desktop viewer reports automatic quality changes. SDK hosts can control
   the policy with `QualityConfig` and inspect actual quality in `RenderStats`.
+
+## Android changes
+
+- Enabled capability-checked, self-tested subgroup stable sorting on Adreno
+  750, with the original stable path retained as fallback.
+- Split SH3 scene attributes into two storage-buffer segments when they exceed
+  a device's single-descriptor range. The 2,670,017-point Juyuan PLY and SPZ
+  scenes loaded and presented at full point count on the tested tablet.
+- Updated the viewer and SDK product version to 0.2.2. The C API remains
+  version 2; SDK consumers can inspect it with `gs_android_api_version`.
 
 ## Verification and limits
 
@@ -29,8 +44,13 @@ SDK remain the 0.2.1 builds from the previous release:
   reported a failed NVIDIA plugin initialization. The equal-quality Web Viewer
   comparison, Intel/AMD and low-memory device validation, and clean-machine
   installer validation remain open.
-- The Android files linked above are unchanged 0.2.1 preview binaries. The APK
-  uses a development signing key and is not a production-signed distribution.
+- On Lenovo TB710FU / Adreno 750, the 1,888,950-point SPZ test reduced the
+  three-run median GPU sort mean from 34.98 to 17.84 ms and the Present-call
+  median from 78.12 to 56.55 ms. Later runs reached thermal status 3. The
+  measured display interval of 50 ms and 1% low of 13-15 FPS still miss the
+  Mobile target; equal-quality SSIM and 30-minute thermal validation remain
+  open. This is a technical preview, not a 30 FPS claim.
 
-See `docs/windows-performance-verification.md` for samples, timing methods,
-rollback experiments and capture hashes.
+See `docs/windows-performance-verification.md` and
+`ForAndroid/docs/verification/device-performance-2026-09-30-adreno750.md`
+for samples, timing methods and open gates.

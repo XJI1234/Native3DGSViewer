@@ -1,6 +1,9 @@
 #version 450
 layout(local_size_x = 128) in;
 layout(set = 0, binding = 0, std430) readonly buffer Scene { float data[]; } scene;
+#ifdef GS_SEGMENTED_SCENE
+layout(set = 0, binding = 5, std430) readonly buffer SceneExtra { float data[]; } scene_extra;
+#endif
 layout(set = 0, binding = 1, std430) readonly buffer Sh { float data[]; } sh[6];
 struct Ellipse { vec2 center; vec2 axis0; vec2 axis1; vec2 pad; vec4 color; };
 layout(set = 0, binding = 2, std430) writeonly buffer Projected { Ellipse items[]; } projected;
@@ -17,8 +20,15 @@ layout(set = 0, binding = 4, std140) uniform Frame {
     uvec4 offsets1;
 } frame;
 
-vec3 load3(uint offset, uint i) { return vec3(scene.data[offset + i * 3],
-    scene.data[offset + i * 3 + 1], scene.data[offset + i * 3 + 2]); }
+float scene_float(uint index)
+{
+#ifdef GS_SEGMENTED_SCENE
+    if (index >= frame.offsets1.w) return scene_extra.data[index - frame.offsets1.w];
+#endif
+    return scene.data[index];
+}
+vec3 load3(uint offset, uint i) { return vec3(scene_float(offset + i * 3),
+    scene_float(offset + i * 3 + 1), scene_float(offset + i * 3 + 2)); }
 vec3 to_view(vec3 p) { return vec3(dot(frame.row[0].xyz, p),
     dot(frame.row[1].xyz, p), dot(frame.row[2].xyz, p)); }
 vec3 rotate(vec4 q, vec3 p) { return p + 2.0 * cross(q.xyz, cross(q.xyz, p) + q.w * p); }
@@ -68,9 +78,9 @@ void main()
     vec3 p = to_view(delta);
     vec3 s = load3(frame.offsets0.y, i);
     uint qoffset = frame.offsets0.z + i * 4u;
-    vec4 q = vec4(scene.data[qoffset], scene.data[qoffset + 1u],
-                  scene.data[qoffset + 2u], scene.data[qoffset + 3u]);
-    float alpha = scene.data[frame.offsets0.w + i];
+    vec4 q = vec4(scene_float(qoffset), scene_float(qoffset + 1u),
+                  scene_float(qoffset + 2u), scene_float(qoffset + 3u));
+    float alpha = scene_float(frame.offsets0.w + i);
     float support = max(s.x, max(s.y, s.z)) * frame.quality.x;
     float depth = -p.z;
     if (any(isnan(p)) || any(isinf(p)) || any(isnan(s)) || any(isinf(s)) ||

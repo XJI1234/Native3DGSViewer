@@ -55,7 +55,7 @@ struct ScanLevel
 struct SceneBuffers
 {
     SceneHandle cpu;
-    Buffer attributes;
+    std::array<Buffer, 2> attributes;
     std::array<Buffer, 6> sh;
     Buffer projected;
     std::array<Buffer, 2> pairs;
@@ -66,6 +66,7 @@ struct SceneBuffers
     uint32_t group_count = 0;
     uint32_t sh_width = 0;
     uint32_t sh_chunk_points = 0;
+    uint32_t attribute_chunk_floats = 0;
 };
 
 struct alignas(16) FrameConstants
@@ -169,7 +170,8 @@ struct SceneRenderer::Impl
         vkGetPhysicalDeviceProperties2(physical, &extended);
         const auto required = VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
         if (properties.vendorID == 0x5143 &&
-            std::strstr(properties.deviceName, "Adreno (TM) 735") != nullptr &&
+            (std::strstr(properties.deviceName, "Adreno (TM) 735") != nullptr ||
+             std::strstr(properties.deviceName, "Adreno (TM) 750") != nullptr) &&
             (subgroup.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) &&
             (subgroup.supportedOperations & required) == required &&
             subgroup.subgroupSize && subgroup.subgroupSize <= 128 &&
@@ -423,7 +425,7 @@ struct SceneRenderer::Impl
 
     void release_scene(SceneBuffers &scene) noexcept
     {
-        release(scene.attributes);
+        for (auto &part : scene.attributes) release(part);
         for (auto &chunk : scene.sh) release(chunk);
         release(scene.projected);
         for (auto &pair : scene.pairs) release(pair);
@@ -475,7 +477,15 @@ struct SceneRenderer::Impl
         device_info.heap_usage_bytes = memory_budget_enabled ? budget.heapUsage[heap_index] : 0;
         const auto admission = assess_scene(cpu, device_info);
         if (!admission.accepted)
+        {
+            __android_log_print(ANDROID_LOG_WARN, "Native3DGS",
+                "Scene admission rejected: %s required=%llu available=%llu range=%u",
+                admission.diagnostic.c_str(),
+                static_cast<unsigned long long>(admission.required_bytes),
+                static_cast<unsigned long long>(admission.available_bytes),
+                device_info.max_storage_buffer_range);
             throw VulkanFailure(VK_ERROR_OUT_OF_DEVICE_MEMORY, "Scene admission");
+        }
         if (cpu->count > UINT32_MAX || groups_for(static_cast<uint32_t>(cpu->count)) >
             properties.limits.maxComputeWorkGroupCount[0])
             throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Scene dispatch range");
@@ -485,6 +495,15 @@ struct SceneRenderer::Impl
         candidate.count = static_cast<uint32_t>(cpu->count);
         candidate.group_count = groups_for(candidate.count);
         candidate.sh_width = 3u * ((cpu->shDegree + 1u) * (cpu->shDegree + 1u) - 1u);
+        candidate.attribute_chunk_floats = std::min<uint64_t>(
+            uint64_t(candidate.count) * 14, properties.limits.maxStorageBufferRange / sizeof(float));
+        const bool segmented = uint64_t(candidate.count) * 56 >
+            properties.limits.maxStorageBufferRange;
+        if (segmented && !segmented_project_pipeline)
+            throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Scene attribute descriptors");
+        __android_log_print(ANDROID_LOG_INFO, "Native3DGS",
+                            "Scene upload: splats=%u attribute_segments=%u sh_degree=%u",
+                            candidate.count, segmented ? 2u : 1u, cpu->shDegree);
         const uint64_t sh_stride = uint64_t(candidate.sh_width) * sizeof(float);
         candidate.sh_chunk_points = candidate.sh_width
             ? static_cast<uint32_t>(std::min<uint64_t>(candidate.count,
@@ -503,7 +522,9 @@ struct SceneRenderer::Impl
             const uint64_t histogram_count = 16ull * candidate.group_count;
             if (histogram_count > UINT32_MAX)
                 throw VulkanFailure(VK_ERROR_FEATURE_NOT_PRESENT, "Histogram index range");
-            candidate.attributes = allocate(n * 56);
+            const uint64_t first_bytes = uint64_t(candidate.attribute_chunk_floats) * sizeof(float);
+            candidate.attributes[0] = allocate(first_bytes);
+            if (segmented) candidate.attributes[1] = allocate(n * 56 - first_bytes);
             for (size_t chunk = 0; chunk < candidate.sh.size(); ++chunk)
             {
                 const uint64_t first = uint64_t(chunk) * candidate.sh_chunk_points;
@@ -530,15 +551,31 @@ struct SceneRenderer::Impl
             } while (length > 1);
             candidate.constants = allocate(sizeof(FrameConstants));
             void *mapped = nullptr;
-            check(vkMapMemory(device, candidate.attributes.memory, 0,
-                              candidate.attributes.bytes, 0, &mapped), "Scene map");
-            auto *bytes = static_cast<uint8_t *>(mapped);
-            std::memcpy(bytes, cpu->centerLocal.data(), cpu->centerLocal.size_bytes());
-            std::memcpy(bytes + n * 12, cpu->scale.data(), cpu->scale.size_bytes());
-            std::memcpy(bytes + n * 24, cpu->rotation.data(), cpu->rotation.size_bytes());
-            std::memcpy(bytes + n * 40, cpu->opacity.data(), cpu->opacity.size_bytes());
-            std::memcpy(bytes + n * 44, cpu->rgb0.data(), cpu->rgb0.size_bytes());
-            vkUnmapMemory(device, candidate.attributes.memory);
+            uint64_t offset = 0;
+            const auto append = [&](const void *source, uint64_t size) {
+                const auto *input = static_cast<const uint8_t *>(source);
+                while (size)
+                {
+                    const size_t part = offset >= first_bytes ? 1 : 0;
+                    const uint64_t local = part ? offset - first_bytes : offset;
+                    const uint64_t available = candidate.attributes[part].bytes - local;
+                    const uint64_t bytes = std::min(size, available);
+                    void *mapped = nullptr;
+                    check(vkMapMemory(device, candidate.attributes[part].memory, 0,
+                                      candidate.attributes[part].bytes, 0, &mapped), "Scene map");
+                    std::memcpy(static_cast<uint8_t *>(mapped) + local, input,
+                                static_cast<size_t>(bytes));
+                    vkUnmapMemory(device, candidate.attributes[part].memory);
+                    input += bytes;
+                    offset += bytes;
+                    size -= bytes;
+                }
+            };
+            append(cpu->centerLocal.data(), cpu->centerLocal.size_bytes());
+            append(cpu->scale.data(), cpu->scale.size_bytes());
+            append(cpu->rotation.data(), cpu->rotation.size_bytes());
+            append(cpu->opacity.data(), cpu->opacity.size_bytes());
+            append(cpu->rgb0.data(), cpu->rgb0.size_bytes());
         }
         catch (...)
         {
@@ -615,12 +652,15 @@ struct SceneRenderer::Impl
             for (auto pipeline : sort_pipelines)
                 if (pipeline) vkDestroyPipeline(device, pipeline, nullptr);
             if (project_pipeline) vkDestroyPipeline(device, project_pipeline, nullptr);
+            if (segmented_project_pipeline) vkDestroyPipeline(device, segmented_project_pipeline, nullptr);
             if (draw_pipeline) vkDestroyPipeline(device, draw_pipeline, nullptr);
             if (sort_layout) vkDestroyPipelineLayout(device, sort_layout, nullptr);
             if (project_layout) vkDestroyPipelineLayout(device, project_layout, nullptr);
+            if (segmented_project_layout) vkDestroyPipelineLayout(device, segmented_project_layout, nullptr);
             if (draw_layout) vkDestroyPipelineLayout(device, draw_layout, nullptr);
             if (sort_set_layout) vkDestroyDescriptorSetLayout(device, sort_set_layout, nullptr);
             if (project_set_layout) vkDestroyDescriptorSetLayout(device, project_set_layout, nullptr);
+            if (segmented_project_set_layout) vkDestroyDescriptorSetLayout(device, segmented_project_set_layout, nullptr);
             if (draw_set_layout) vkDestroyDescriptorSetLayout(device, draw_set_layout, nullptr);
             for (auto framebuffer : framebuffers)
                 if (framebuffer) vkDestroyFramebuffer(device, framebuffer, nullptr);
@@ -663,12 +703,15 @@ struct SceneRenderer::Impl
     std::vector<VkFramebuffer> framebuffers;
     VkDescriptorSetLayout sort_set_layout = VK_NULL_HANDLE;
     VkDescriptorSetLayout project_set_layout = VK_NULL_HANDLE;
+    VkDescriptorSetLayout segmented_project_set_layout = VK_NULL_HANDLE;
     VkDescriptorSetLayout draw_set_layout = VK_NULL_HANDLE;
     VkPipelineLayout sort_layout = VK_NULL_HANDLE;
     VkPipelineLayout project_layout = VK_NULL_HANDLE;
+    VkPipelineLayout segmented_project_layout = VK_NULL_HANDLE;
     VkPipelineLayout draw_layout = VK_NULL_HANDLE;
     std::array<VkPipeline, 4> sort_pipelines{};
     VkPipeline project_pipeline = VK_NULL_HANDLE;
+    VkPipeline segmented_project_pipeline = VK_NULL_HANDLE;
     VkPipeline draw_pipeline = VK_NULL_HANDLE;
     VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
     VkCommandPool command_pool = VK_NULL_HANDLE;
@@ -723,6 +766,19 @@ void SceneRenderer::Impl::create_descriptors()
     project_info.pBindings = project_bindings.data();
     check(vkCreateDescriptorSetLayout(device, &project_info, nullptr, &project_set_layout),
           "vkCreateDescriptorSetLayout project");
+    if (properties.limits.maxPerStageDescriptorStorageBuffers >= 10 &&
+        properties.limits.maxDescriptorSetStorageBuffers >= 10)
+    {
+        std::array<VkDescriptorSetLayoutBinding, 6> segmented_bindings{};
+        std::copy(project_bindings.begin(), project_bindings.end(), segmented_bindings.begin());
+        segmented_bindings[5] = {5, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1,
+                                 VK_SHADER_STAGE_COMPUTE_BIT, nullptr};
+        project_info.bindingCount = segmented_bindings.size();
+        project_info.pBindings = segmented_bindings.data();
+        check(vkCreateDescriptorSetLayout(device, &project_info, nullptr,
+                                          &segmented_project_set_layout),
+              "vkCreateDescriptorSetLayout segmented project");
+    }
     make_layout({VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                  VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER}, VK_SHADER_STAGE_VERTEX_BIT,
                 draw_set_layout);
@@ -741,6 +797,8 @@ void SceneRenderer::Impl::create_descriptors()
     };
     make_pipeline_layout(sort_set_layout, true, sort_layout);
     make_pipeline_layout(project_set_layout, false, project_layout);
+    if (segmented_project_set_layout)
+        make_pipeline_layout(segmented_project_set_layout, false, segmented_project_layout);
     make_pipeline_layout(draw_set_layout, false, draw_layout);
     std::array<VkDescriptorPoolSize, 2> sizes{{
         {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2048},
@@ -805,6 +863,23 @@ void SceneRenderer::Impl::create_pipelines()
                                                      nullptr, &project_pipeline);
         vkDestroyShaderModule(device, module, nullptr);
         check(status, "Projection pipeline");
+    }
+    if (segmented_project_layout)
+    {
+        VkShaderModule module = shader_module(device, embedded::project_segmented,
+                                               sizeof(embedded::project_segmented));
+        VkComputePipelineCreateInfo info{VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
+        info.stage = {VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
+        info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+        info.stage.module = module;
+        info.stage.pName = "main";
+        info.layout = segmented_project_layout;
+        const auto status = vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &info,
+                                                     nullptr, &segmented_project_pipeline);
+        vkDestroyShaderModule(device, module, nullptr);
+        if (status != VK_SUCCESS)
+            __android_log_print(ANDROID_LOG_WARN, "Native3DGS",
+                                "Segmented project pipeline unavailable (%d)", status);
     }
     std::array<VkShaderModule, 2> modules{};
     try
@@ -907,11 +982,12 @@ VkDescriptorSet SceneRenderer::Impl::project_descriptor()
     VkDescriptorSetAllocateInfo allocation{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO};
     allocation.descriptorPool = descriptor_pool;
     allocation.descriptorSetCount = 1;
-    allocation.pSetLayouts = &project_set_layout;
+    const bool segmented = scene.attributes[1].handle != VK_NULL_HANDLE;
+    allocation.pSetLayouts = segmented ? &segmented_project_set_layout : &project_set_layout;
     VkDescriptorSet set = VK_NULL_HANDLE;
     check(vkAllocateDescriptorSets(device, &allocation, &set), "vkAllocateDescriptorSets project");
-    std::array<VkDescriptorBufferInfo, 10> infos{};
-    infos[0] = {scene.attributes.handle, 0, scene.attributes.bytes};
+    std::array<VkDescriptorBufferInfo, 11> infos{};
+    infos[0] = {scene.attributes[0].handle, 0, scene.attributes[0].bytes};
     for (size_t i = 0; i < scene.sh.size(); ++i)
     {
         const auto &buffer = scene.sh[i].handle ? scene.sh[i] : scene.sh[0];
@@ -920,9 +996,12 @@ VkDescriptorSet SceneRenderer::Impl::project_descriptor()
     infos[7] = {scene.projected.handle, 0, scene.projected.bytes};
     infos[8] = {scene.pairs[0].handle, 0, scene.pairs[0].bytes};
     infos[9] = {scene.constants.handle, 0, scene.constants.bytes};
-    std::array<VkWriteDescriptorSet, 5> writes{};
-    const uint32_t first[] = {0, 1, 7, 8, 9};
-    for (uint32_t i = 0; i < writes.size(); ++i)
+    if (segmented)
+        infos[10] = {scene.attributes[1].handle, 0, scene.attributes[1].bytes};
+    std::array<VkWriteDescriptorSet, 6> writes{};
+    const uint32_t first[] = {0, 1, 7, 8, 9, 10};
+    const uint32_t write_count = segmented ? 6 : 5;
+    for (uint32_t i = 0; i < write_count; ++i)
     {
         writes[i] = {VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET};
         writes[i].dstSet = set;
@@ -932,7 +1011,7 @@ VkDescriptorSet SceneRenderer::Impl::project_descriptor()
                                                : VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
         writes[i].pBufferInfo = &infos[first[i]];
     }
-    vkUpdateDescriptorSets(device, writes.size(), writes.data(), 0, nullptr);
+    vkUpdateDescriptorSets(device, write_count, writes.data(), 0, nullptr);
     return set;
 }
 
@@ -997,7 +1076,7 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
         constants.meta = {scene.count, scene.cpu->shDegree, scene.sh_width, 1};
         constants.offsets0 = {0, scene.count * 3u, scene.count * 6u, scene.count * 10u};
         constants.offsets1 = {scene.count * 11u, camera.horizontal_mirror ? 1u : 0u,
-                              scene.sh_chunk_points, 0};
+                              scene.sh_chunk_points, scene.attribute_chunk_floats};
         write(scene.constants, &constants, sizeof(constants));
 
         VkCommandBufferBeginInfo begin{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
@@ -1015,8 +1094,11 @@ FrameResult SceneRenderer::Impl::render(const engine::CameraPose &camera)
                              VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &host,
                              0, nullptr, 0, nullptr);
         auto project_set = project_descriptor();
-        vkCmdBindPipeline(command, VK_PIPELINE_BIND_POINT_COMPUTE, project_pipeline);
-        vkCmdBindDescriptorSets(command, VK_PIPELINE_BIND_POINT_COMPUTE, project_layout,
+        const bool segmented = scene.attributes[1].handle != VK_NULL_HANDLE;
+        vkCmdBindPipeline(command, VK_PIPELINE_BIND_POINT_COMPUTE,
+                          segmented ? segmented_project_pipeline : project_pipeline);
+        vkCmdBindDescriptorSets(command, VK_PIPELINE_BIND_POINT_COMPUTE,
+                                segmented ? segmented_project_layout : project_layout,
                                 0, 1, &project_set, 0, nullptr);
         vkCmdDispatch(command, scene.group_count, 1, 1);
         barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,

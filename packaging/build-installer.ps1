@@ -97,4 +97,4 @@ if (-not (Test-Path -LiteralPath $IsccPath)) { throw "Inno Setup compiler not fo
 $defines = @("/DStageDir=$resolvedStage", "/DOutputDir=$installer")
 & $IsccPath @defines (Join-Path $PSScriptRoot 'viewer.iss')
 if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed.' }
-Get-Item -LiteralPath (Join-Path $installer 'Native3DGSViewer-Setup-x64.exe')
+Get-Item -LiteralPath (Join-Path $installer 'Native3DGSViewer-0.2.2-Windows-x64-Setup.exe')

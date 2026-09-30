@@ -56,6 +56,23 @@ int run_render_cases()
     constrained.heap_budget_bytes = 4096;
     expect(!gs::android::render::assess_scene(scene, constrained).accepted,
            "device budget rejects full scene");
+    std::array<float, 6> centers{0, 0, 0, 1, 0, 0};
+    std::array<float, 6> scales{1, 1, 1, 1, 1, 1};
+    std::array<float, 8> rotations{0, 0, 0, 1, 0, 0, 0, 1};
+    std::array<float, 2> opacities{1, 1};
+    std::array<float, 6> colors{1, 1, 1, 1, 1, 1};
+    scene->count = 2;
+    scene->centerLocal = centers;
+    scene->scale = scales;
+    scene->rotation = rotations;
+    scene->opacity = opacities;
+    scene->rgb0 = colors;
+    ample.max_storage_buffer_range = 96;
+    expect(gs::android::render::assess_scene(scene, ample).accepted,
+           "two attribute segments admit scene at projected buffer limit");
+    ample.max_storage_buffer_range = 95;
+    expect(!gs::android::render::assess_scene(scene, ample).accepted,
+           "projected buffer still enforces device limit");
     std::printf("render-core independent: %d failure(s)\n", failures);
     return failures ? 1 : 0;
 }
@@ -93,7 +110,8 @@ TEST(AndroidRenderCore, GpuStableRadixMillionKeys)
     const char *directory = std::getenv("GS_SHADER_DIRECTORY");
     EXPECT_TRUE(gs::android::render::sort_scene_self_test(
         scene, directory ? directory : "/data/local/tmp/shaders").empty());
-    if (device.device_name.find("735") != std::string::npos)
+    if (device.device_name.find("735") != std::string::npos ||
+        device.device_name.find("750") != std::string::npos)
         EXPECT_TRUE(gs::android::render::sort_scene_subgroup_self_test(
             scene, directory ? directory : "/data/local/tmp/shaders").empty());
 }
@@ -101,8 +119,9 @@ TEST(AndroidRenderCore, GpuStableRadixMillionKeys)
 TEST(AndroidRenderCore, GpuSubgroupStableRadixSelfTest)
 {
     const auto device = gs::android::render::probe_device();
-    if (device.device_name.find("735") == std::string::npos)
-        GTEST_SKIP() << "Subgroup candidate is measured on Adreno 735";
+    if (device.device_name.find("735") == std::string::npos &&
+        device.device_name.find("750") == std::string::npos)
+        GTEST_SKIP() << "Subgroup candidate is measured on Adreno 735/750";
     const char *directory = std::getenv("GS_SHADER_DIRECTORY");
     EXPECT_TRUE(gs::android::render::sort_subgroup_self_test(
         directory ? directory : "/data/local/tmp/shaders").empty());

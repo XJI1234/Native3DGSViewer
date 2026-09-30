@@ -1,7 +1,7 @@
 # Android SDK 接入指南
 
-当前版本 `0.2.1` 技术预览，最低 Android 10/API 29，发布 ABI 为 `arm64-v8a`，GPU 需支持 Vulkan 1.1。
-Adreno 735 已完成 GPU 稳定排序自检与分阶段性能采样；画质 SSIM、低内存、跨驱动和热态性能仍待验收。
+当前版本 `0.2.2` 技术预览，最低 Android 10/API 29，发布 ABI 为 `arm64-v8a`，GPU 需支持 Vulkan 1.1。
+Adreno 735/750 已完成 GPU 稳定排序自检与分阶段性能采样；画质 SSIM、低内存、跨驱动和热态性能仍待验收。
 
 ## Kotlin 接入
 
@@ -46,7 +46,7 @@ Service 阶段。`closeScene` 清空活动模型。应用应在可见时绑定 S
 `find_package(Native3DGSAndroid CONFIG REQUIRED)` 并链接
 `Native3DGSAndroid::Engine`。公共 ABI 在 `include/native3dgs/android_engine.h`。
 `gs_android_create` 的配置与 `gs_android_get_snapshot` 的输出都使用 `struct_size`；
-API 版本为 1。`gs_android_open_fd` 接收 PLY/SPZ 文件描述符，函数返回前复制 FD，
+API 版本为 2。`gs_android_open_fd` 接收 PLY/SPZ 文件描述符，函数返回前复制 FD，
 解码在引擎后台线程执行；非 seek provider 需要配置应用私有 `temporary_directory`。
 `gs_android_open_shared_fd` 接收隔离解码 Service 输出的版本化共享场景 FD。
 调用者仍拥有原始 FD，原生引擎在 `gs_android_destroy` 时结束工作。
@@ -66,7 +66,7 @@ API 版本为 1。`gs_android_open_fd` 接收 PLY/SPZ 文件描述符，函数�
 当前仍需真机验证固定相机画质、设备丢失、内存压力、30 FPS 与长时间运行。
 SH 数据已按设备 `maxStorageBufferRange` 分段。帧资源按 fence 复用，已完成帧的
 GPU 投影、排序和绘制计时可用于诊断；这些计时不等于实际显示帧间隔。
-Adreno 735 可在能力探测和 GPU 稳定排序自检通过后使用 subgroup 排序，失败时
+Adreno 735/750 可在能力探测和 GPU 稳定排序自检通过后使用 subgroup 排序，失败时
 回退原始稳定排序；其他 GPU 使用原始路径。
 
 ## Kotlin 公开接口逐项说明
@@ -123,7 +123,7 @@ engine.state.collect { state ->
 
 ## 原生 C ABI 逐项说明
 
-包含 `<native3dgs/android_engine.h>`；API 版本为 1，最低 API 29。
+包含 `<native3dgs/android_engine.h>`；API 版本为 2，最低 API 29。
 所有配置/快照结构先零初始化，再设置 `struct_size = sizeof(struct)`。
 `gs_android_result_t` 的 `OK` 为 0；`INVALID_ARGUMENT` 表示参数或代际
 不合法，`CLOSED` 表示已停止，`IO_ERROR` 表示 FD 访问失败，
