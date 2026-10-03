@@ -1,0 +1,45 @@
+=== RUN   TestSpatialContract
+--- PASS: TestSpatialContract (0.00s)
+=== RUN   TestCachePersistenceCorruptionExpiryAndBudget
+--- PASS: TestCachePersistenceCorruptionExpiryAndBudget (0.51s)
+=== RUN   TestWorkerHelper
+--- PASS: TestWorkerHelper (0.00s)
+=== RUN   TestSameModelConcurrentUsersShareOneRenderAndCache
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=113.109
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=108.090
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=111.474
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=107.410
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=111.362
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=107.554
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=miss bytes=320 ms=122.521
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=107.979
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=109.777
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=115.064
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=113.559
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=108.104
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=108.432
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=108.191
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=108.619
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=112.024
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=110.621
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=107.188
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=112.264
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=shared bytes=320 ms=117.267
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=hit bytes=320 ms=0.455
+2026/10/03 14:29:12 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=hit bytes=320 ms=0.407
+2026/10/03 14:29:13 frame model=m-test view=a001-t45-d40-f0-8x8-rgba cache=miss bytes=320 ms=108.257
+--- PASS: TestSameModelConcurrentUsersShareOneRenderAndCache (0.76s)
+=== RUN   TestLeasePinsIdleModelAndPredictionDoesNotRenew
+2026/10/03 14:29:13 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=miss bytes=320 ms=130.208
+--- PASS: TestLeasePinsIdleModelAndPredictionDoesNotRenew (0.83s)
+=== RUN   TestAuthenticationAndPredictionRequiresLiveLease
+--- PASS: TestAuthenticationAndPredictionRequiresLiveLease (0.63s)
+=== RUN   TestInstanceCapacityPriorityAndCanceledWaitRelease
+2026/10/03 14:29:15 frame model=m-test view=a000-t45-d40-f0-8x8-rgba cache=miss bytes=320 ms=131.154
+--- PASS: TestInstanceCapacityPriorityAndCanceledWaitRelease (0.58s)
+=== RUN   TestShutdownRejectsNewCacheMissProducers
+--- PASS: TestShutdownRejectsNewCacheMissProducers (0.62s)
+=== RUN   TestDatabaseRejectsUnknownSchema
+--- PASS: TestDatabaseRejectsUnknownSchema (0.52s)
+PASS
+ok  	native3dgs/gateway	5.496s

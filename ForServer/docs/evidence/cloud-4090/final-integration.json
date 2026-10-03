@@ -1,0 +1,90 @@
+[
+  {
+    "path": "/health",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "/models",
+    "expected": 401,
+    "passed": true
+  },
+  {
+    "path": "/models",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "/unknown",
+    "expected": 404,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 400,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "/frame",
+    "expected": 200,
+    "passed": true
+  },
+  {
+    "path": "duplicate-header",
+    "passed": true
+  },
+  {
+    "path": "partial-header-total-deadline",
+    "passed": true
+  },
+  {
+    "path": "/health",
+    "expected": 200,
+    "passed": true
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "ForServer/CMakeLists.txt": "6bddafc3058914746c576823b0e28b730994cedcd2388ac3cd615c3625648557",
+  "ForServer/src/cuda_renderer.cu": "74de05f88101dc80caf76b3791dffcdcef93a663bf9dfefead71fb66217dcc30",
+  "ForServer/src/windows_renderer.cpp": "8984c9e65e48e7745bf45dd3794d06272dc62c1187591fe3cfaf7cc0e2981e7b",
+  "ForServer/src/frame.cpp": "6059e92e2abeece4a0857cd870b3540f1cb9c85787efcbbf0de7bec27cbcb987",
+  "embedded_thin_hlsl": "f8843f376320e51090456e887c42cbf60b8744149df6274365aba1f21836f409"
+}

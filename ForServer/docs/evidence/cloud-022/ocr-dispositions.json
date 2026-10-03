@@ -1,0 +1,434 @@
+[
+  {
+    "review": "full",
+    "id": 1,
+    "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+    "severity": "medium",
+    "finding": "Installer discovery requires only MSBuild, whereas build.ps1 selects an installation with VC tools. With multiple Visual Studio installations, a newer MSBuild-only installation can be selected here after a successful client build using an older installation; accessing its VC\\Redist\\MSVC directory then aborts packaging. Reuse the build's Visual Studio selection (including the VC-tools requirement), or explicitly discover an installation containing the required x64 CRT.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 2,
+    "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+    "severity": "medium",
+    "finding": "This bypasses NuGet's resolved package location. If NUGET_PACKAGES or a globalPackagesFolder setting redirects restore, the client builds successfully but these mandatory Copy-Item calls fail because the SDK is not under USERPROFILE\\.nuget\\packages. Resolve the package directory from restore/MSBuild metadata (ideally also its version) rather than assuming the default cache.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 3,
+    "path": "ForServer/deploy/service.py",
+    "severity": "high",
+    "finding": "Health probes ignore the configured bind address. For example, `--bind 10.0.0.5 --private-http` is accepted, but the Go gateway listens only on that interface and exposes no separate loopback listener. Every startup probe therefore fails and start stops an otherwise healthy gateway after 60 seconds. Probe a reachable configured address (using loopback only for wildcard binds), or explicitly reject unsupported bind configurations.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 4,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "high",
+    "finding": "A failed status command does not establish that the supervisor is stopped: service.py also exits unsuccessfully when a live supervisor's health request fails. In that case installation proceeds and switches `current` beneath the running gateway. Its worker executable path still points through `current`, so later instances can launch new binaries while the gateway retains the old renderer digest/cache identity. Check supervisor ownership/liveness independently of HTTP health and refuse installation whenever it is alive.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 5,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "high",
+    "finding": "Rollback restores only the binaries' symlink. The installation has already overwritten `$prefix/service.py` and, with `--reconfigure`, config.json. A failed upgrade caused by an invalid new configuration leaves the previous release using that same invalid configuration, so starting the restored release fails too. Preserve and restore the previous configuration and supervisor alongside `current`, or make the supervisor release-specific and activate the configuration transactionally.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 6,
+    "path": "ForServer/deploy/install-cuda13.sh",
+    "severity": "medium",
+    "finding": "This extracts every archive in downloads, although the preceding loop verifies only the selected candidate archives. Reusing the directory after a package-version change can extract both old and new versions, with glob order determining which files survive; unrelated preloaded archives are extracted without verification as well. Record the exact verified filenames and extract only that list (and generate downloads.sha256 from the same list).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 7,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "medium",
+    "finding": "The dependency bootstrap omits CMake, but both doctor and install invoke it unconditionally. On a clean host, `--install-deps` installs the listed dependencies and then still fails at `command -v cmake`. Include CMake in the bootstrap and ensure it meets the project's minimum version of 3.22.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 8,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "medium",
+    "finding": "The root-directory guard runs before normalization, so an argument such as `--prefix /opt/..` passes validation and becomes `/` here. Installation then creates /releases, /state, /logs and /install.lock before service.py rejects it. The same pre-normalization guard in install-go.sh and install-cuda13.sh allows their downloads/extraction to operate at the filesystem root. Normalize each destination first and reject `/` afterward, before any filesystem writes.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 9,
+    "path": "ForServer/gateway/instances.go",
+    "severity": "medium",
+    "finding": "GPU placement depends on the total instance count, not occupancy per device. With devices [0,1], load A on GPU 0 and B on GPU 1, then unload A: the next instance is assigned to GPU 1 again, leaving GPU 0 unused. Repeated churn can crowd one GPU, serialize its renders and increase memory pressure despite spare capacity elsewhere. Choose the least-occupied configured device while holding the manager mutex.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 10,
+    "path": "ForServer/gateway/service.go",
+    "severity": "medium",
+    "finding": "A foreground request can join a flight created by prefetch, but the producer retains the first caller's speculative policy. If that producer encounters a busy GPU or waiting foreground work, render immediately fails and all joined foreground callers receive 503 instead of waiting for the GPU. Promote a flight when a foreground waiter joins, or retry a skipped speculative flight using foreground scheduling before rejecting foreground waiters.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 11,
+    "path": "ForServer/gateway/main.go",
+    "severity": "medium",
+    "finding": "The accepted --bind ::1 configuration produces the address \"::1:8888\", which net/http cannot listen on because IPv6 literals require brackets. Build the address with net.JoinHostPort so the explicitly supported IPv6 loopback bind starts successfully.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 12,
+    "path": "ForServer/tools/gateway.py",
+    "severity": "medium",
+    "finding": "The parser accepts leading-zero request IDs but returns their original spelling. The native worker parses the ID as uint64 and emits std::to_string(parsed.request_id), so a valid ID such as \"0001\" returns \"1\" and fails handle's string identity comparison, causing a 502 after successful rendering. Return the canonical decimal ID (or compare validated numeric IDs).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 13,
+    "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+    "severity": "medium",
+    "finding": "Foreground work cannot be superseded while request_frame is blocked. The transport permits a 180-second receive timeout and a 200-second total deadline, and queue_render only replaces pending_ while rendering_ remains true. Consequently, navigating, switching models, or disconnecting and reconnecting during a stalled frame leaves the latest view waiting for the obsolete request, even when it is already cached. Add cancellation of the active transport request when its generation/session is superseded (while retaining stale-result checks).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 14,
+    "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+    "severity": "medium",
+    "finding": "A decode failure on a locally cached packet leaves the unusable packet in packet_cache_. Prefetch uses request_frame, which validates the envelope/CRC but does not decode JPEG or Zstd; a checksum-valid but undecodable payload can therefore enter the cache. Every retry of that view then retrieves the same packet and fails without contacting the server. Evict the cache entry when decoding fails, or fully validate prefetched payloads before insertion.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 15,
+    "path": "ForServer/WindowsClient/main.cpp",
+    "severity": "medium",
+    "finding": "Smoke-test failures still produce a successful process exit: finish_smoke(false, ...) closes the application and execution reaches this unconditional return. Reporting/screenshot errors are also swallowed by finish_smoke, so a run can exit successfully without fresh evidence. Propagate the smoke result (including artifact-write failures) to wWinMain and return a nonzero exit code on failure, rather than requiring every caller to infer failure from JSON or missing files.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 16,
+    "path": "ForServer/WindowsClient/build.ps1",
+    "severity": "medium",
+    "finding": "Pin the CMake generator and x64 architecture to match the client build. This invocation honors CMAKE_GENERATOR (and any existing build-directory cache), so an environment configured for Ninja can successfully build the transport libraries directly under server-windows rather than server-windows\\Release or \\Debug. Native3DGSCloud.vcxproj hard-codes the latter paths, causing the subsequent MSBuild link to fail; a Win32 generator similarly produces incompatible libraries for /p:Platform=x64. Select a compatible Visual Studio x64 generator explicitly, or pass the actual CMake artifact paths to the client project and reject incompatible cached configurations.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 17,
+    "path": "ForServer/deploy/install-go.sh",
+    "severity": "high",
+    "finding": "Go 1.27.1 has not been released as of October 2026 (the current release series is 1.27's predecessor, 1.26). This URL therefore cannot bootstrap a clean installation, and deploy.sh --install-deps fails whenever no Go executable is already available. Pin an actually released Go version satisfying >=1.23 and its official archive checksum.",
+    "disposition": "false-positive-verified",
+    "note": "Official metadata/archive SHA and installed go version confirm Go1.27.1"
+  },
+  {
+    "review": "full",
+    "id": 18,
+    "path": "ForServer/deploy/service.py",
+    "severity": "medium",
+    "finding": "The saved worker-port range does not match the Go gateway's contract: gateway/main.go rejects worker_port < 1024 or worker_port + max_instances > 65535. For example, configure accepts --worker-port 65535, saves it, and every subsequent startup exhausts its restart budget. Validate the same lower bound and full instance-port range here before replacing config.json.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 19,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "medium",
+    "finding": "This builds for every GPU on the host rather than the GPUs selected by --devices. On a mixed host with a supported selected GPU and an unselected Pascal/Volta GPU, CUDA 13 rejects the generated targets below compute capability 7.5 and the deployment fails despite the selected GPU being supported. Query only the selected device IDs when deriving architectures, and explicitly reject unsupported selected architectures.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 20,
+    "path": "ForServer/gateway/service.go",
+    "severity": "high",
+    "finding": "The 64 handler slots do not bound these producers: when a client disconnects, frame returns and releases its slot, but the flight keeps running under service.context for up to 180 seconds. Repeated requests for distinct uncached views followed by disconnects can therefore accumulate arbitrarily many flights/goroutines waiting on device.gate, keeping instances active and exhausting resources despite the connection limits. Add a separate bounded producer/queue budget held until the flight finishes, rejecting new misses when full (while still allowing callers to join existing flights).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 21,
+    "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+    "severity": "medium",
+    "finding": "Closing the last window schedules session release on a background thread but does not wait for it. Application::Start then returns and wWinMain exits, so the process can terminate before /sessions/close is sent or completed. The lease (and GPU instance) can therefore remain active until lease expiry instead of being released on exit. Coordinate shutdown with the close request, using its bounded control deadline, before allowing the application to exit.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 22,
+    "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+    "severity": "medium",
+    "finding": "IPv6 endpoints cannot be entered through this validation/construction path: an unbracketed literal such as ::1 produces http://::1:8046, while the valid bracketed form [::1] is rejected by the character whitelist. The transport explicitly supports IPv6 loopback, but the UI makes it unreachable. Validate the host separately and bracket IPv6 literals when constructing the endpoint URL (including the smoke-config path).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 23,
+    "path": "ForServer/src/jpeg_windows.cpp",
+    "severity": "medium",
+    "finding": "WIC automatically selects a decoder for any supported container here. Consequently, a PNG (or another supported image) with matching dimensions is accepted as a JPEG frame on Windows, while the Linux libjpeg implementation rejects it. Check decoder->GetContainerFormat() against GUID_ContainerFormatJpeg before decoding, and add a non-JPEG payload rejection test.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 24,
+    "path": "ForServer/src/frame.cpp",
+    "severity": "medium",
+    "finding": "Inspection accepts checksum-valid uncompressed RGBA packets even when payload_bytes differs from width * height * 4. This lets gs-frame inspect report success and request_frame accept an unusable response; only a later decode detects it. For Profile::Rgba with compressed == false, require payload_bytes == unpacked_bytes during inspection.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 25,
+    "path": "ForServer/src/frame.cpp",
+    "severity": "medium",
+    "finding": "The stream may still contain buffered output when its status is checked. If the final flush/close fails (for example, a small PPM written to /dev/full), the destructor discards that failure and the CLI returns success. Explicitly close the stream and check its status afterward. Apply the same final-write check to write_bytes.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 26,
+    "path": "ForServer/tests/frame_tests.cpp",
+    "severity": "low",
+    "finding": "These mutations leave the header checksum stale, so they mostly test checksum rejection rather than the semantic validation branches. Add cases that recompute checksums after introducing invalid dimensions, flags, raw lengths, and malformed/concatenated Zstd payloads. The current transport and image-v2 tests do not cover those checksum-valid malformed packets.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 27,
+    "path": "ForServer/tests/cuda_tests.cpp",
+    "severity": "medium",
+    "finding": "Assert that `first.debug_projection` and `further.debug_projection` each contain exactly one ellipse before indexing them. A projection/culling regression can make either vector empty, so these unchecked accesses introduce undefined behavior and may crash the test process instead of reporting an assertion failure. Add `ASSERT_EQ(...size(), 1u)` immediately after each render.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 28,
+    "path": "ForServer/include/gs_server/packet_cache.h",
+    "severity": "medium",
+    "finding": "Every successful lookup deep-copies Download::packet, including lookups used only to test presence. MainWindow::prefetch_loop calls get(key) for each of up to 60 neighbors on the UI thread and immediately discards the result, so revisiting cached neighborhoods unnecessarily allocates and copies potentially tens of megabytes and can stall interaction. Add a non-copying presence/touch operation for these checks (and reserve get() for callers that need an owned download).",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 29,
+    "path": "ForServer/src/windows_renderer.cpp",
+    "severity": "high",
+    "finding": "These failure paths run after ExecuteCommandLists, when the GPU may still reference the submitted resources. Throwing unwinds render(), releasing its upload, output, readback and query resources before completion; if the caller retries, render() also resets the still-in-use allocator. Retain the submitted resources and allocator until fence completion (or confirmed device removal), and prevent reuse while completion is unknown. Add a submission-failure/timeout test; the invalid-layout test throws before any GPU work is queued.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 30,
+    "path": "ForServer/src/windows_renderer.cpp",
+    "severity": "medium",
+    "finding": "The HWND has no exception-safe owner. If swapchain creation, command submission or Present throws, show() exits without DestroyWindow, leaving a live window after its graphics objects are released. Wrap the HWND in a scoped owner immediately after creation so all exceptional exits destroy it, and account for normal user-driven destruction to avoid destroying the handle twice.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 31,
+    "path": "ForServer/tools/cloud_benchmark.py",
+    "severity": "high",
+    "finding": "This benchmark cannot complete against the new Go gateway: cache hits return X-GS-Stats as {}, and every request here uses the same camera/cache key. After warm-up, measured samples therefore lack worker_device, server_ms, queue_ms, and the other required native statistics, causing KeyError during summary generation. Handle cache-hit/shared responses explicitly and distinguish cache throughput from native rendering measurements rather than assuming every response contains worker statistics.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 32,
+    "path": "ForServer/tools/cloud_benchmark.py",
+    "severity": "medium",
+    "finding": "Both measured and warm retain every complete frame packet even though only the first measured packet is written. Memory usage grows with frame count instead of concurrency; uncompressed 1080p RGBA packets are about 8.3 MB each (Zstd can reduce this), so 120 frames can retain nearly 1 GB plus warm-up packets. Consume results incrementally, retain only statistics, and save just the first measured payload to avoid memory pressure distorting the benchmark.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 33,
+    "path": "ForServer/tools/cloud_v3_latency.py",
+    "severity": "medium",
+    "finding": "These labels assume cache states rather than checking them. With the default invocation, existing cached views can make the first request a hit; eviction or another in-flight request can also change the expected state. The gateway explicitly reports hit/miss/shared in X-GS-Cache. Validate the expected state and fail or retry the experiment, or group samples by the reported state, so the miss/hit latency summaries do not silently measure the wrong population.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 34,
+    "path": "ForServer/tools/cloud_quality.py",
+    "severity": "medium",
+    "finding": "The capture CLI permits --repeat 1 (also its default) and emits one JSON record per repeat. Such a valid capture becomes empty after this unconditional warm-up removal, and samples[0] then raises IndexError. Validate that at least two records exist before dropping warm-up, with a clear instruction to increase --repeat, or provide an explicit warm-up policy that supports single-record captures.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 35,
+    "path": "ForServer/src/windows_renderer.cpp",
+    "severity": "medium",
+    "finding": "A pre-submission exception leaves the command list recording. For example, texture()/buffer() can throw \"Client GPU ResourceLimit\" after this Reset; on the next render(), the allocator cannot be reset while its command list is recording, and command-list Reset also requires a closed list. Thus a transient allocation failure permanently prevents reuse of this renderer, unlike the invalid-layout failure covered by the test. Allocate resources before opening the list, or add exception-safe cleanup that closes/discards the unsubmitted recording and restores a reusable allocator/list; add a recovery test for a failure after command-list Reset.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 36,
+    "path": "ForServer/tools/legacy/benchmark.py",
+    "severity": "medium",
+    "finding": "Two models with the same filename in different directories share this output directory. The second run overwrites sample.json, worker logs, captures, and packets while summaries for both models remain, so subsequent quality reanalysis can use the wrong model's artifacts. Reject duplicate output names or use a unique model identifier in the directory name, and apply the same mapping in reanalyze.py and report.py.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 37,
+    "path": "ForServer/tools/legacy/worker_pool.py",
+    "severity": "medium",
+    "finding": "SIGINT/SIGTERM during readiness sets stopping and exits the readiness loop, but this outer loop still launches all remaining devices before cleanup. These processes can perform GPU initialization even after shutdown was requested. Check stopping before each launch and break out of the device loop when readiness is cancelled.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 38,
+    "path": "ForServer/tools/legacy/report.py",
+    "severity": "medium",
+    "finding": "quality() returns None for foreground_psnr_db when foreground error is zero. A valid lossless capture therefore raises TypeError at the numeric format specifier and aborts reporting before the remaining outputs are generated. Handle None explicitly, for example by displaying 'lossless' instead of formatting it as a float.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 39,
+    "path": "ForServer/tools/legacy/report.py",
+    "severity": "medium",
+    "finding": "These packet paths ignore both the supplied --directories and the current row's model. Batches stored outside out fail with FileNotFoundError; multi-model batches can silently compare changjin_v1 packets for unrelated models. Retain each batch's supplied directory and derive the model subdirectory from row['model'] when locating packets.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 40,
+    "path": "ForServer/tools/legacy/reanalyze.py",
+    "severity": "medium",
+    "finding": "A benchmark with no successful profiles can write `summary.json` as `[]` (the benchmark persists summaries even after a profile failure). Reanalyzing that valid failure-only run reaches `summaries[0]` and raises `IndexError`. Handle an empty summary before constructing the CSV writer, e.g. return with an explicit no-results message.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 41,
+    "path": "ForServer/tools/legacy/report.py",
+    "severity": "medium",
+    "finding": "The benchmark records per-profile failures and continues, so the optimized batch can legitimately contain a successful row whose baseline capture failed. In that case this unguarded `next()` raises `StopIteration`, aborting the report instead of reporting the missing comparison. Look up the baseline with a default and skip or explicitly record unmatched rows.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "full",
+    "id": 42,
+    "path": "ForServer/tools/paced_link.py",
+    "severity": "high",
+    "finding": "Forward X-GS-View-Code as well. The current Windows capture client calls request_frame(), which unconditionally compares this response header with view_code(request). Because the proxy drops it, every otherwise valid paced capture fails with \"Response spherical position mismatch\" after downloading the frame. Also preserve X-GS-Cache so cache state remains observable through the proxy.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "followup",
+    "id": 1,
+    "path": "ForServer/tests/transport_tests.cpp",
+    "severity": "medium",
+    "finding": "This test also passes if cancellation is completely ignored: with no listener on 127.0.0.1:1, the connection failure satisfies EXPECT_THROW(std::exception). It therefore does not establish that a canceled download never sends a request. Use a controlled local listener/mock and assert that no request is received, or assert a cancellation-specific error distinct from connection failures.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "followup",
+    "id": 2,
+    "path": "ForServer/tools/cloud_benchmark.py",
+    "severity": "medium",
+    "finding": "Writing the captured packet now occurs inside the measured interval, so `elapsed_seconds` and `frames_per_second` include local disk I/O rather than just HTTP throughput. This can materially skew short runs (including the supported `--frames 1`) or runs on slow storage. Retain the first payload while collecting samples, stop the timer, and then write `frame.ngsf`, as the previous timing boundary did.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "followup",
+    "id": 3,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "high",
+    "finding": "Select architectures from the effective configuration when preserving an existing installation. `configure` leaves config.json unchanged unless `--reconfigure` is supplied, but this query uses the command-line devices (default `0`). For example, an installation configured for an SM75 GPU at index 1 upgraded without `--devices` on a machine with an SM89 GPU at index 0 now builds only SM89 code/PTX, which cannot execute on the configured SM75 GPU. Previously querying all GPUs covered that case. Read the preserved configuration's devices before querying, or continue compiling for all installed GPUs.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "followup",
+    "id": 4,
+    "path": "ForServer/src/windows_http.cpp",
+    "severity": "high",
+    "finding": "This closes an active synchronous WinHTTP handle from another thread. request_http opens its session with flags=0 and performs synchronous SendRequest/ReceiveResponse/ReadData calls, while the UI calls cancel() during navigation or shutdown. WinHTTP does not support closing a handle while a synchronous call on it is in progress; the mutex only serializes attach/release and does not protect those calls. Internet also retains the closed handle for subsequent operations. Use an asynchronous WinHTTP request with cancellation-safe completion/lifetime handling, or defer closure until the synchronous worker has finished (with bounded waits and cancellation checks). Add a regression test that cancels while a server stalls response headers or body; the existing pre-canceled test does not exercise this race.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "followup",
+    "id": 5,
+    "path": "ForServer/deploy/deploy.sh",
+    "severity": "high",
+    "finding": "Stop any supervisor started by this upgrade before restoring the files and symlinks. If startup is interrupted (e.g. Ctrl-C while `service.py start` is polling health), its detached `run` process survives: `start` only calls `stop_service` on its normal timeout path. This EXIT handler then restores the old configuration/current release while the new gateway remains running, leaving a mixed installation and preventing a clean retry. Track whether this transaction attempted startup and shut down its owned supervisor using the new configuration/supervisor before rollback.",
+    "disposition": "fixed-and-validated",
+    "note": "Implemented corrections; platform tests and installer E2E passed"
+  },
+  {
+    "review": "final",
+    "id": 1,
+    "path": "ForServer/tests/transport_tests.cpp",
+    "severity": "medium",
+    "finding": "The three-second check does not bound this test: EXPECT_EQ continues on timeout, and download.get() then waits indefinitely if the worker is stuck waiting for HANDLE_CLOSING. Early assertion exits also wait in the std::async future destructor, before SocketOwner closes the stalled connection. No CTest timeout is configured for this target. Add a process-level watchdog/CTest timeout and arrange failure cleanup to cancel and close the server sockets before joining; replacing EXPECT_EQ with ASSERT_EQ alone will not avoid the future-destructor wait.",
+    "disposition": "fixed-and-validated",
+    "note": "Failure cleanup plus CTest30s process watchdog; Windows CTest rerun passed"
+  }
+]

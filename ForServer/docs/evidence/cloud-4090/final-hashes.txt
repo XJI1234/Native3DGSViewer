@@ -1,0 +1,3 @@
+278cd227c87dfddaead742647042aec9c3402bb7029f8acc3504236b90fed8b0  /opt/native3dgs/current/bin/gs-server
+7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83  /opt/native3dgs/models/changjin_v1.ply
+24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c  /opt/native3dgs/models/spz/juyuan_v2.spz

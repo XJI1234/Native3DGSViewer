@@ -1,0 +1,523 @@
+{
+  "status": "complete",
+  "llm": {
+    "provider": "xjiapi",
+    "model": "gpt-6.1-sol"
+  },
+  "message": "Review complete: 5 finding(s) across 33 selected item(s).",
+  "summary": {
+    "files_reviewed": 33,
+    "comments": 5,
+    "total_tokens": 554228,
+    "input_tokens": 547333,
+    "output_tokens": 6895,
+    "cache_read_tokens": 318848,
+    "elapsed": "2m3s"
+  },
+  "tool_calls": {
+    "total": 88,
+    "by_tool": {
+      "code_comment": 5,
+      "code_search": 12,
+      "file_find": 3,
+      "file_read": 67,
+      "file_read_diff": 1
+    },
+    "failure": 0,
+    "failure_by_tool": {},
+    "failure_details": []
+  },
+  "comments": [
+    {
+      "path": "ForServer/tests/transport_tests.cpp",
+      "content": "This test also passes if cancellation is completely ignored: with no listener on 127.0.0.1:1, the connection failure satisfies EXPECT_THROW(std::exception). It therefore does not establish that a canceled download never sends a request. Use a controlled local listener/mock and assert that no request is received, or assert a cancellation-specific error distinct from connection failures.",
+      "existing_code": "    EXPECT_THROW(request_http(endpoint, \"/frame\", \"NGSREQ3 1 m-test 8 8 0 0 1 rgba 0\"),\n                 std::exception);",
+      "start_line": 59,
+      "end_line": 60,
+      "category": "test",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/cloud_benchmark.py",
+      "content": "Writing the captured packet now occurs inside the measured interval, so `elapsed_seconds` and `frames_per_second` include local disk I/O rather than just HTTP throughput. This can materially skew short runs (including the supported `--frames 1`) or runs on slow storage. Retain the first payload while collecting samples, stop the timer, and then write `frame.ngsf`, as the previous timing boundary did.",
+      "existing_code": "            if payload is not None:\n                (output / \"frame.ngsf\").write_bytes(payload)",
+      "start_line": 59,
+      "end_line": 60,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "Select architectures from the effective configuration when preserving an existing installation. `configure` leaves config.json unchanged unless `--reconfigure` is supplied, but this query uses the command-line devices (default `0`). For example, an installation configured for an SM75 GPU at index 1 upgraded without `--devices` on a machine with an SM89 GPU at index 0 now builds only SM89 code/PTX, which cannot execute on the configured SM75 GPU. Previously querying all GPUs covered that case. Read the preserved configuration's devices before querying, or continue compiling for all installed GPUs.",
+      "existing_code": "capabilities=$(nvidia-smi -i \"$devices\" --query-gpu=compute_cap --format=csv,noheader | tr -d '.' | sort -u)",
+      "start_line": 107,
+      "end_line": 107,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/src/windows_http.cpp",
+      "content": "This closes an active synchronous WinHTTP handle from another thread. request_http opens its session with flags=0 and performs synchronous SendRequest/ReceiveResponse/ReadData calls, while the UI calls cancel() during navigation or shutdown. WinHTTP does not support closing a handle while a synchronous call on it is in progress; the mutex only serializes attach/release and does not protect those calls. Internet also retains the closed handle for subsequent operations. Use an asynchronous WinHTTP request with cancellation-safe completion/lifetime handling, or defer closure until the synchronous worker has finished (with bounded waits and cancellation checks). Add a regression test that cancels while a server stalls response headers or body; the existing pre-canceled test does not exercise this race.",
+      "existing_code": "    if (impl_-\u003ehandle)\n        WinHttpCloseHandle(std::exchange(impl_-\u003ehandle, nullptr));",
+      "start_line": 32,
+      "end_line": 33,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "Stop any supervisor started by this upgrade before restoring the files and symlinks. If startup is interrupted (e.g. Ctrl-C while `service.py start` is polling health), its detached `run` process survives: `start` only calls `stop_service` on its normal timeout path. This EXIT handler then restores the old configuration/current release while the new gateway remains running, leaving a mixed installation and preventing a clean retry. Track whether this transaction attempted startup and shut down its owned supervisor using the new configuration/supervisor before rollback.",
+      "existing_code": "    if [[ \"$result\" != 0 ]]; then\n        for name in config.json service.py; do",
+      "start_line": 134,
+      "end_line": 135,
+      "category": "bug",
+      "severity": "high"
+    }
+  ],
+  "groups": [
+    {
+      "label": "Repository file handling configuration",
+      "files": [
+        "ForServer/.gitignore",
+        "ForServer/.gitattributes"
+      ]
+    },
+    {
+      "label": "Windows client application lifecycle and UI",
+      "files": [
+        "ForServer/WindowsClient/MainWindow.xaml.cpp",
+        "ForServer/WindowsClient/MainWindow.xaml.h",
+        "ForServer/WindowsClient/main.cpp"
+      ]
+    },
+    {
+      "label": "Windows client build and installer packaging",
+      "files": [
+        "ForServer/WindowsClient/build.ps1",
+        "ForServer/WindowsClient/packaging/build-installer.ps1"
+      ]
+    },
+    {
+      "label": "Server deployment and runtime provisioning",
+      "files": [
+        "ForServer/deploy/deploy.sh",
+        "ForServer/deploy/install-cuda13.sh",
+        "ForServer/deploy/install-go.sh",
+        "ForServer/deploy/service.py"
+      ]
+    },
+    {
+      "label": "Gateway instance and service management",
+      "files": [
+        "ForServer/gateway/instances.go",
+        "ForServer/gateway/main.go",
+        "ForServer/gateway/service.go",
+        "ForServer/tools/gateway.py"
+      ]
+    },
+    {
+      "label": "Packet caching and transport tests",
+      "files": [
+        "ForServer/include/gs_server/packet_cache.h",
+        "ForServer/tests/transport_tests.cpp"
+      ]
+    },
+    {
+      "label": "Windows client rendering and HTTP implementation",
+      "files": [
+        "ForServer/include/gs_server/windows_client.h",
+        "ForServer/src/jpeg_windows.cpp",
+        "ForServer/src/windows_http.cpp",
+        "ForServer/src/windows_renderer.cpp",
+        "ForServer/tests/windows_tests.cpp"
+      ]
+    },
+    {
+      "label": "Frame processing and CUDA tests",
+      "files": [
+        "ForServer/src/frame.cpp",
+        "ForServer/tests/cuda_tests.cpp",
+        "ForServer/tests/frame_tests.cpp"
+      ]
+    },
+    {
+      "label": "Cloud benchmarking, quality, and latency tools",
+      "files": [
+        "ForServer/tools/cloud_benchmark.py",
+        "ForServer/tools/cloud_quality.py",
+        "ForServer/tools/cloud_v3_latency.py",
+        "ForServer/tools/paced_link.py"
+      ]
+    },
+    {
+      "label": "Legacy benchmark execution and reporting",
+      "files": [
+        "ForServer/tools/legacy/benchmark.py",
+        "ForServer/tools/legacy/reanalyze.py",
+        "ForServer/tools/legacy/report.py",
+        "ForServer/tools/legacy/worker_pool.py"
+      ]
+    }
+  ],
+  "session_id": "ad8e71d9-46a2-41ec-b49b-7d22e060cc58",
+  "manifest": {
+    "schema_version": "ocr.run-manifest/v1",
+    "run_id": "ad8e71d9-46a2-41ec-b49b-7d22e060cc58",
+    "operation": "review",
+    "terminal_state": "complete",
+    "repository": {},
+    "input": {
+      "mode": "workspace",
+      "resolved_base": "16f3a1d724767005bb905899551f91089fc996a7",
+      "source_artifact_sha256": "5207c3955d110a99b6d221569e5653ecc264b6dc18af142d68ecb316bdb9f82b"
+    },
+    "execution": {
+      "ocr_version": "v1.12.11",
+      "provider": "xjiapi",
+      "model": "gpt-6.1-sol",
+      "configured_concurrency": 8,
+      "rule_config_sha256": "d5e28d02ed5cdf85b533907db24b47f1be02847db764a4ded208dbaf54380ae1",
+      "runtime_config_sha256": "0cb08c26752b59b635672284e7c2609cf63fd18754d4757817a9dc89cc8f85e5"
+    },
+    "coverage": {
+      "selected": [
+        {
+          "item_id": "00af1f79a85f65df1ef257f15d5bc41092840619eaa0c87972d97aa3b6eed460",
+          "path": "ForServer/tools/legacy/reanalyze.py",
+          "fingerprint": "3328d2e7fd3d21e65891c2bada76375154d30903e8f6e1b8cfa99a2629c6be6e"
+        },
+        {
+          "item_id": "0253d4f898c44e982299cbb9860c6842010e0cebff86a15d23eefbc611f377bb",
+          "path": "ForServer/gateway/instances.go",
+          "fingerprint": "1348e3dec21e8bce197a836aa22d412790f96f095923225d131c7233abbe527e"
+        },
+        {
+          "item_id": "0d3ca9033a6b96db5389f6802602a8e0b7c7ce38717cc0336171a9d6ad59941f",
+          "path": "ForServer/deploy/deploy.sh",
+          "fingerprint": "67a4686be357dc1ebcbaaa1583c7f6d9b126c3438d570ebdb211115be49a6b3b"
+        },
+        {
+          "item_id": "146fb9549c818720838122ff6b07a93deab00b76bfc6010e0082687db657daf1",
+          "path": "ForServer/tools/cloud_v3_latency.py",
+          "fingerprint": "25bd4abe6db182271aec9312da263e8e6e31ea94bf310b17b8f84d14189361cf"
+        },
+        {
+          "item_id": "1739dc735d24d6e60fd1d9c13b73fa66bc8d07326ff45a5715779ae84d96702a",
+          "path": "ForServer/tools/legacy/benchmark.py",
+          "fingerprint": "0997c7c514be4043b28cad03fda1f1d235315d6f7aaa2a53d83faca32bd079db"
+        },
+        {
+          "item_id": "2566e1b07f8d13b363b7445c8cd29e5f7259f43fd4b38c08e1df5fc334d5b1e0",
+          "path": "ForServer/deploy/install-cuda13.sh",
+          "fingerprint": "2b6df687d952cb44270f7df984feb2ff9ebf41b1ff76fcab1c10217b9b83fe94"
+        },
+        {
+          "item_id": "2b7294b65d38aad4e5ab6d9e614e2dc7407ef4c54caadbd82c1f6f6f23f2c13d",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+          "fingerprint": "9fc88004a47a0af0b32c68c91e1ea03149167f28abc6bc0d50b686c1f97fdf48"
+        },
+        {
+          "item_id": "411856837f9d7309110889b83c28e5f175ba450a96ec7cbe58dd12652529c991",
+          "path": "ForServer/tests/cuda_tests.cpp",
+          "fingerprint": "55d21a2cdd45b6b1a149b1d6e44f5f602a995d24542dea87cad376bbc606d5d8"
+        },
+        {
+          "item_id": "4513a14702850210673101bdc13ada420fffbac045036af585a20efdb1cf40c0",
+          "path": "ForServer/gateway/service.go",
+          "fingerprint": "721e33168ea0b5e0284d0e6a087edf2a2a4fffb988752e0b9b978a9518560aab"
+        },
+        {
+          "item_id": "46fb6da7497a10533a5050a3fec4183df29463c9e077966f23eb4bca6b4623d9",
+          "path": "ForServer/include/gs_server/windows_client.h",
+          "fingerprint": "1fb7edbae52bef9eb70c83d5169ee326b86fe027ccbae529e5f20d453fcbd09a"
+        },
+        {
+          "item_id": "4c03b37af8dfffe974bd0b4eba544c54fa209f60600db9d7179f59ae96f7435d",
+          "path": "ForServer/tools/legacy/report.py",
+          "fingerprint": "6eaa650c0627fb7c95afb1f8e337fe8504f58919833ee56248f5d6f7f7c720fc"
+        },
+        {
+          "item_id": "51bc0fc4c5a7392f4e4a9ebabde661e11afaf61202c8d384a8b80bdb9046b7cf",
+          "path": "ForServer/include/gs_server/packet_cache.h",
+          "fingerprint": "b135b1200e85847554f9f89fb3044838900ed593109ca518318a2b9c6f83cdf0"
+        },
+        {
+          "item_id": "520336500cab2769d3819a36702cadb75d7eb004f92425f48a2bb562cea8977b",
+          "path": "ForServer/src/jpeg_windows.cpp",
+          "fingerprint": "038f1066bfbc71cc75f9577bd3d52848b9fefb14f0d68a84f60df9d5f9e69fdc"
+        },
+        {
+          "item_id": "52ca3014f35f67a40b202bc3b7ebdde01a5848fcf0bdcd0cd7d89094cbbce240",
+          "path": "ForServer/tests/transport_tests.cpp",
+          "fingerprint": "6411d82788781366edb561fdd58fc276e5d2c7e546b53ec0cda5544a8f374dbd"
+        },
+        {
+          "item_id": "59f791922df260c826f95fbc312df353ab78638225d43a307f75af80f1213823",
+          "path": "ForServer/tools/cloud_benchmark.py",
+          "fingerprint": "cebba7c8b5f18ecaade0c06464a86b1a6d3b427892bfa99d184a6a1b06bad0bd"
+        },
+        {
+          "item_id": "622e66815540e42fc4d49e8f16034e28831c9f39c6d0f176ece1200e701c544c",
+          "path": "ForServer/tools/paced_link.py",
+          "fingerprint": "13b67acda296e61c78b2a069a3318ab04b74f00d248e1c3bcd4c7383b91a8f70"
+        },
+        {
+          "item_id": "6a1f9854f4e91431109dff87118c70d0acc1f6a7d38c017f656cfe05301df887",
+          "path": "ForServer/WindowsClient/build.ps1",
+          "fingerprint": "db303ace0123025737bff2301c9c92879e083c6398514546d7adb9f1291e650e"
+        },
+        {
+          "item_id": "6c9052dba11b1f4befb177d14f880d89326c0aa62f672965e3d547fdffcef77e",
+          "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+          "fingerprint": "2efbe931bcbd71de3c418edc393829e480fccbf476c80a830999d99cde260a58"
+        },
+        {
+          "item_id": "7acf44b87e1263a3cbb1cb08e395cd46953483e93a79d91b4693105f7b1272d4",
+          "path": "ForServer/deploy/service.py",
+          "fingerprint": "cc1c15a4580202402108fc28629300b57e02e913b80e85548ab66fb66f6fa24f"
+        },
+        {
+          "item_id": "80412fa3cde62a8f68fa49ea3e7c90d9ed29696761294ff3ffebef68e44d9f2d",
+          "path": "ForServer/src/windows_http.cpp",
+          "fingerprint": "0aa0dd578f8b61983922751e2b7642bb88a13a6817712581287864132c5d748f"
+        },
+        {
+          "item_id": "95067fdb99479030b1f7e072975f666366238cb4173b8d82b955c3df7e8cf901",
+          "path": "ForServer/.gitattributes",
+          "fingerprint": "b18e88b0205b09f9eeca8169e3b6f0c6ef0ea5f07f19fbb8dbfac0f29da08939"
+        },
+        {
+          "item_id": "99b1d29063c28bffa83a957052df17b1bddb8ba90ad6c752b464becaab61d556",
+          "path": "ForServer/tools/legacy/worker_pool.py",
+          "fingerprint": "1c0a4f10771e0309c031211248d366b9c31a774ee82ca628507d1f413bc93251"
+        },
+        {
+          "item_id": "9e44d554c67c279472b3c70e2157b7061fb671928dd9179ad9a01b4baa3fd88d",
+          "path": "ForServer/gateway/main.go",
+          "fingerprint": "1bb90e9034874fa495f643ac44c39394f37208780db965dabef60a37a60e48c4"
+        },
+        {
+          "item_id": "ac7300fd805ccd3916518e460957b08036cb87848d52f26c33d2deb2b9354f39",
+          "path": "ForServer/tools/cloud_quality.py",
+          "fingerprint": "34e3c284a22be492f1137b4c20122d90e5a662cabb3dfe4fe74dca124f971eaa"
+        },
+        {
+          "item_id": "add70438623f3d957cf20728aaafd05b7d0679e4864a69d282ecd063bcbe562e",
+          "path": "ForServer/.gitignore",
+          "fingerprint": "96329ab380e9d27eabe2e4043642613b9f5cd06311cf7f6fd44defcaa52f1cfa"
+        },
+        {
+          "item_id": "bdacbf4af3ad7df8723a9f6b36280f8424d07ee204d044078ca9fd6cfc268e75",
+          "path": "ForServer/tests/windows_tests.cpp",
+          "fingerprint": "03423bb8a1dfaf324d4442dba8d07cbfce295df225d75399b1b9240bfb4d80aa"
+        },
+        {
+          "item_id": "c0a504bf7be183d027ec6eaafd5a6922d5daf05d5977558693cb2b32616e5921",
+          "path": "ForServer/deploy/install-go.sh",
+          "fingerprint": "3329c0513beaf1ca65922a6cda79860a62aee3168866c0bf043a5a3b77bc5185"
+        },
+        {
+          "item_id": "c8a5f6b9b937e4881d8cbd8e1fa88791b0158b5f50980fb8d23f4a46706eb8ec",
+          "path": "ForServer/WindowsClient/main.cpp",
+          "fingerprint": "034b1ba66f99929b06b3416d30b41a1e5b29b7c582fb1571b195eca451bb73a6"
+        },
+        {
+          "item_id": "ccc83b3757dedf8583993641ab6139972b4e51fef24f569927e7788feda15b4b",
+          "path": "ForServer/tools/gateway.py",
+          "fingerprint": "e895528fc2075975fbfe1e054b8a569f8c5e9aa25f3ebbf4df3d24ca882706f7"
+        },
+        {
+          "item_id": "d713d8576a34004ea78dfbb14a8c81bcfcc6c1765cbc8683874ac97b117473d5",
+          "path": "ForServer/src/frame.cpp",
+          "fingerprint": "1dd3c6b3508164ede35eee4928ed9f7b8bce0aac5df375e41b834a89609811b3"
+        },
+        {
+          "item_id": "d9f895a4da150791e21728385bc19643cabb292068c2991a9ed27fd8159eb873",
+          "path": "ForServer/tests/frame_tests.cpp",
+          "fingerprint": "515a5ee2cea6a6d966c4276d963f49ff8dc11b208083f15bfb7d0b53b9b79c08"
+        },
+        {
+          "item_id": "f43543153effeda5b9c029d54390048bbc97c06b898b38a6606b3faf8d25ae3b",
+          "path": "ForServer/src/windows_renderer.cpp",
+          "fingerprint": "e836b7d9b5e3e8d1ec8d47cd1e46c94b85d80ba24bdde1356ff9db8e0ab5a3e6"
+        },
+        {
+          "item_id": "f63989acd8ef10ab4400f4eb7c2c2998dad2e4cbf64edbde1dfc662d33279258",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.h",
+          "fingerprint": "f000926ca36e269c2aef98f437f429f542b414fe299f4b42458ba4fcdb737dcc"
+        }
+      ],
+      "completed": [
+        {
+          "item_id": "00af1f79a85f65df1ef257f15d5bc41092840619eaa0c87972d97aa3b6eed460",
+          "path": "ForServer/tools/legacy/reanalyze.py",
+          "fingerprint": "3328d2e7fd3d21e65891c2bada76375154d30903e8f6e1b8cfa99a2629c6be6e"
+        },
+        {
+          "item_id": "0253d4f898c44e982299cbb9860c6842010e0cebff86a15d23eefbc611f377bb",
+          "path": "ForServer/gateway/instances.go",
+          "fingerprint": "1348e3dec21e8bce197a836aa22d412790f96f095923225d131c7233abbe527e"
+        },
+        {
+          "item_id": "0d3ca9033a6b96db5389f6802602a8e0b7c7ce38717cc0336171a9d6ad59941f",
+          "path": "ForServer/deploy/deploy.sh",
+          "fingerprint": "67a4686be357dc1ebcbaaa1583c7f6d9b126c3438d570ebdb211115be49a6b3b"
+        },
+        {
+          "item_id": "146fb9549c818720838122ff6b07a93deab00b76bfc6010e0082687db657daf1",
+          "path": "ForServer/tools/cloud_v3_latency.py",
+          "fingerprint": "25bd4abe6db182271aec9312da263e8e6e31ea94bf310b17b8f84d14189361cf"
+        },
+        {
+          "item_id": "1739dc735d24d6e60fd1d9c13b73fa66bc8d07326ff45a5715779ae84d96702a",
+          "path": "ForServer/tools/legacy/benchmark.py",
+          "fingerprint": "0997c7c514be4043b28cad03fda1f1d235315d6f7aaa2a53d83faca32bd079db"
+        },
+        {
+          "item_id": "2566e1b07f8d13b363b7445c8cd29e5f7259f43fd4b38c08e1df5fc334d5b1e0",
+          "path": "ForServer/deploy/install-cuda13.sh",
+          "fingerprint": "2b6df687d952cb44270f7df984feb2ff9ebf41b1ff76fcab1c10217b9b83fe94"
+        },
+        {
+          "item_id": "2b7294b65d38aad4e5ab6d9e614e2dc7407ef4c54caadbd82c1f6f6f23f2c13d",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+          "fingerprint": "9fc88004a47a0af0b32c68c91e1ea03149167f28abc6bc0d50b686c1f97fdf48"
+        },
+        {
+          "item_id": "411856837f9d7309110889b83c28e5f175ba450a96ec7cbe58dd12652529c991",
+          "path": "ForServer/tests/cuda_tests.cpp",
+          "fingerprint": "55d21a2cdd45b6b1a149b1d6e44f5f602a995d24542dea87cad376bbc606d5d8"
+        },
+        {
+          "item_id": "4513a14702850210673101bdc13ada420fffbac045036af585a20efdb1cf40c0",
+          "path": "ForServer/gateway/service.go",
+          "fingerprint": "721e33168ea0b5e0284d0e6a087edf2a2a4fffb988752e0b9b978a9518560aab"
+        },
+        {
+          "item_id": "46fb6da7497a10533a5050a3fec4183df29463c9e077966f23eb4bca6b4623d9",
+          "path": "ForServer/include/gs_server/windows_client.h",
+          "fingerprint": "1fb7edbae52bef9eb70c83d5169ee326b86fe027ccbae529e5f20d453fcbd09a"
+        },
+        {
+          "item_id": "4c03b37af8dfffe974bd0b4eba544c54fa209f60600db9d7179f59ae96f7435d",
+          "path": "ForServer/tools/legacy/report.py",
+          "fingerprint": "6eaa650c0627fb7c95afb1f8e337fe8504f58919833ee56248f5d6f7f7c720fc"
+        },
+        {
+          "item_id": "51bc0fc4c5a7392f4e4a9ebabde661e11afaf61202c8d384a8b80bdb9046b7cf",
+          "path": "ForServer/include/gs_server/packet_cache.h",
+          "fingerprint": "b135b1200e85847554f9f89fb3044838900ed593109ca518318a2b9c6f83cdf0"
+        },
+        {
+          "item_id": "520336500cab2769d3819a36702cadb75d7eb004f92425f48a2bb562cea8977b",
+          "path": "ForServer/src/jpeg_windows.cpp",
+          "fingerprint": "038f1066bfbc71cc75f9577bd3d52848b9fefb14f0d68a84f60df9d5f9e69fdc"
+        },
+        {
+          "item_id": "52ca3014f35f67a40b202bc3b7ebdde01a5848fcf0bdcd0cd7d89094cbbce240",
+          "path": "ForServer/tests/transport_tests.cpp",
+          "fingerprint": "6411d82788781366edb561fdd58fc276e5d2c7e546b53ec0cda5544a8f374dbd"
+        },
+        {
+          "item_id": "59f791922df260c826f95fbc312df353ab78638225d43a307f75af80f1213823",
+          "path": "ForServer/tools/cloud_benchmark.py",
+          "fingerprint": "cebba7c8b5f18ecaade0c06464a86b1a6d3b427892bfa99d184a6a1b06bad0bd"
+        },
+        {
+          "item_id": "622e66815540e42fc4d49e8f16034e28831c9f39c6d0f176ece1200e701c544c",
+          "path": "ForServer/tools/paced_link.py",
+          "fingerprint": "13b67acda296e61c78b2a069a3318ab04b74f00d248e1c3bcd4c7383b91a8f70"
+        },
+        {
+          "item_id": "6a1f9854f4e91431109dff87118c70d0acc1f6a7d38c017f656cfe05301df887",
+          "path": "ForServer/WindowsClient/build.ps1",
+          "fingerprint": "db303ace0123025737bff2301c9c92879e083c6398514546d7adb9f1291e650e"
+        },
+        {
+          "item_id": "6c9052dba11b1f4befb177d14f880d89326c0aa62f672965e3d547fdffcef77e",
+          "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+          "fingerprint": "2efbe931bcbd71de3c418edc393829e480fccbf476c80a830999d99cde260a58"
+        },
+        {
+          "item_id": "7acf44b87e1263a3cbb1cb08e395cd46953483e93a79d91b4693105f7b1272d4",
+          "path": "ForServer/deploy/service.py",
+          "fingerprint": "cc1c15a4580202402108fc28629300b57e02e913b80e85548ab66fb66f6fa24f"
+        },
+        {
+          "item_id": "80412fa3cde62a8f68fa49ea3e7c90d9ed29696761294ff3ffebef68e44d9f2d",
+          "path": "ForServer/src/windows_http.cpp",
+          "fingerprint": "0aa0dd578f8b61983922751e2b7642bb88a13a6817712581287864132c5d748f"
+        },
+        {
+          "item_id": "95067fdb99479030b1f7e072975f666366238cb4173b8d82b955c3df7e8cf901",
+          "path": "ForServer/.gitattributes",
+          "fingerprint": "b18e88b0205b09f9eeca8169e3b6f0c6ef0ea5f07f19fbb8dbfac0f29da08939"
+        },
+        {
+          "item_id": "99b1d29063c28bffa83a957052df17b1bddb8ba90ad6c752b464becaab61d556",
+          "path": "ForServer/tools/legacy/worker_pool.py",
+          "fingerprint": "1c0a4f10771e0309c031211248d366b9c31a774ee82ca628507d1f413bc93251"
+        },
+        {
+          "item_id": "9e44d554c67c279472b3c70e2157b7061fb671928dd9179ad9a01b4baa3fd88d",
+          "path": "ForServer/gateway/main.go",
+          "fingerprint": "1bb90e9034874fa495f643ac44c39394f37208780db965dabef60a37a60e48c4"
+        },
+        {
+          "item_id": "ac7300fd805ccd3916518e460957b08036cb87848d52f26c33d2deb2b9354f39",
+          "path": "ForServer/tools/cloud_quality.py",
+          "fingerprint": "34e3c284a22be492f1137b4c20122d90e5a662cabb3dfe4fe74dca124f971eaa"
+        },
+        {
+          "item_id": "add70438623f3d957cf20728aaafd05b7d0679e4864a69d282ecd063bcbe562e",
+          "path": "ForServer/.gitignore",
+          "fingerprint": "96329ab380e9d27eabe2e4043642613b9f5cd06311cf7f6fd44defcaa52f1cfa"
+        },
+        {
+          "item_id": "bdacbf4af3ad7df8723a9f6b36280f8424d07ee204d044078ca9fd6cfc268e75",
+          "path": "ForServer/tests/windows_tests.cpp",
+          "fingerprint": "03423bb8a1dfaf324d4442dba8d07cbfce295df225d75399b1b9240bfb4d80aa"
+        },
+        {
+          "item_id": "c0a504bf7be183d027ec6eaafd5a6922d5daf05d5977558693cb2b32616e5921",
+          "path": "ForServer/deploy/install-go.sh",
+          "fingerprint": "3329c0513beaf1ca65922a6cda79860a62aee3168866c0bf043a5a3b77bc5185"
+        },
+        {
+          "item_id": "c8a5f6b9b937e4881d8cbd8e1fa88791b0158b5f50980fb8d23f4a46706eb8ec",
+          "path": "ForServer/WindowsClient/main.cpp",
+          "fingerprint": "034b1ba66f99929b06b3416d30b41a1e5b29b7c582fb1571b195eca451bb73a6"
+        },
+        {
+          "item_id": "ccc83b3757dedf8583993641ab6139972b4e51fef24f569927e7788feda15b4b",
+          "path": "ForServer/tools/gateway.py",
+          "fingerprint": "e895528fc2075975fbfe1e054b8a569f8c5e9aa25f3ebbf4df3d24ca882706f7"
+        },
+        {
+          "item_id": "d713d8576a34004ea78dfbb14a8c81bcfcc6c1765cbc8683874ac97b117473d5",
+          "path": "ForServer/src/frame.cpp",
+          "fingerprint": "1dd3c6b3508164ede35eee4928ed9f7b8bce0aac5df375e41b834a89609811b3"
+        },
+        {
+          "item_id": "d9f895a4da150791e21728385bc19643cabb292068c2991a9ed27fd8159eb873",
+          "path": "ForServer/tests/frame_tests.cpp",
+          "fingerprint": "515a5ee2cea6a6d966c4276d963f49ff8dc11b208083f15bfb7d0b53b9b79c08"
+        },
+        {
+          "item_id": "f43543153effeda5b9c029d54390048bbc97c06b898b38a6606b3faf8d25ae3b",
+          "path": "ForServer/src/windows_renderer.cpp",
+          "fingerprint": "e836b7d9b5e3e8d1ec8d47cd1e46c94b85d80ba24bdde1356ff9db8e0ab5a3e6"
+        },
+        {
+          "item_id": "f63989acd8ef10ab4400f4eb7c2c2998dad2e4cbf64edbde1dfc662d33279258",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.h",
+          "fingerprint": "f000926ca36e269c2aef98f437f429f542b414fe299f4b42458ba4fcdb737dcc"
+        }
+      ],
+      "reused": [],
+      "failed": [],
+      "waived": []
+    },
+    "elapsed_ms": 122730
+  }
+}

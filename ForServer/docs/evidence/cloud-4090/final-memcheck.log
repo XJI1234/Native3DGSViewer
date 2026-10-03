@@ -1,0 +1,21 @@
+========= COMPUTE-SANITIZER
+Running main() from /opt/native3dgs/source-image-v2/third_party/googletest/googletest/src/gtest_main.cc
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from CudaRenderer
+[ RUN      ] CudaRenderer.StableGpuSorting
+[       OK ] CudaRenderer.StableGpuSorting (619 ms)
+[ RUN      ] CudaRenderer.ProjectionAndTileRasterMatchCpu
+[       OK ] CudaRenderer.ProjectionAndTileRasterMatchCpu (15 ms)
+[ RUN      ] CudaRenderer.IsotropicProjectionAndShBandsAnalytic
+[       OK ] CudaRenderer.IsotropicProjectionAndShBandsAnalytic (14 ms)
+[ RUN      ] CudaRenderer.FullyCulledSceneProducesBlackAndRecovers
+[       OK ] CudaRenderer.FullyCulledSceneProducesBlackAndRecovers (5 ms)
+[ RUN      ] CudaRenderer.OrbitZoomIdentityAndInvalidParameters
+[       OK ] CudaRenderer.OrbitZoomIdentityAndInvalidParameters (12 ms)
+[----------] 5 tests from CudaRenderer (667 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (667 ms total)
+[  PASSED  ] 5 tests.
+========= ERROR SUMMARY: 0 errors

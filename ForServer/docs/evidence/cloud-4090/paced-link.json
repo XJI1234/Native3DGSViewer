@@ -1,0 +1,38 @@
+[
+  {
+    "profile": "rgba",
+    "samples": 10,
+    "mbps": 5,
+    "extra_delay_ms": 40,
+    "ready_p50_ms": 354.9066,
+    "ready_p95_ms": 370.2036,
+    "packet_bytes": 143978
+  },
+  {
+    "profile": "jpeg95",
+    "samples": 10,
+    "mbps": 5,
+    "extra_delay_ms": 40,
+    "ready_p50_ms": 270.4497,
+    "ready_p95_ms": 293.7643,
+    "packet_bytes": 93058
+  },
+  {
+    "profile": "jpeg90",
+    "samples": 10,
+    "mbps": 5,
+    "extra_delay_ms": 40,
+    "ready_p50_ms": 256.90995,
+    "ready_p95_ms": 281.6788,
+    "packet_bytes": 81845
+  },
+  {
+    "profile": "jpeg85",
+    "samples": 10,
+    "mbps": 5,
+    "extra_delay_ms": 40,
+    "ready_p50_ms": 248.4469,
+    "ready_p95_ms": 275.9641,
+    "packet_bytes": 76750
+  }
+]

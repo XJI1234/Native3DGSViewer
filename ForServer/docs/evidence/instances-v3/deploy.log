@@ -1,0 +1,252 @@
+ok  	native3dgs/gateway	4.760s
+{"checks": [{"case": "8-users-one-instance-one-render", "passed": true, "elapsed_ms": 476.87291726469994, "cache_states": ["shared", "shared", "miss", "shared", "shared", "shared", "shared", "shared"], "pid": 729691}, {"case": "lease-pins-and-y-flip-keeps-world-code", "passed": true, "view_code": "a011-t38-d24"}, {"case": "predicted-packet-transferred-and-next-move-hit", "passed": true, "packet_bytes": 312605}, {"case": "idle-unloads-and-disk-hit-needs-no-GPU-instance", "passed": true}, {"case": "live-cached-view-starts-missing-neighbor-instance", "passed": true}, {"case": "cache-no-hit-TTL-deletion-and-instance-reload", "passed": true}], "status": {"api_version": 3, "cache_bytes": "319433", "cache_entries": "1", "cache_hits": 3, "cache_misses": 37, "devices": [0], "instances": [{"active": 0, "closing": false, "gpu": 0, "last_user": "2026-10-03T06:19:54.797026536Z", "model": "m-a82b7b6b2403cade", "pid": 729790}], "loads": 3, "multi_gpu": false, "renders": 15, "unloads": 2}}
+Stopped
+go version go1.27.1 linux/amd64
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+index, name, driver_version, memory.total [MiB], compute_cap
+0, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+1, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+2, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+3, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Wed_Aug_20_01:58:59_PM_PDT_2025
+Cuda compilation tools, release 13.0, V13.0.88
+Build cuda_13.0.r13.0/compiler.36424714_0
+/opt/conda/bin/cmake
+cmake version 3.30.5
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+/usr/bin/g++-12
+g++-12 (Ubuntu 12.3.0-1ubuntu1~22.04.3) 12.3.0
+Python 3.10.12
+PID1: run.sh
+Public port: 8888; prefix: /opt/native3dgs
+-- The C compiler identification is GNU 12.3.0
+-- The CXX compiler identification is GNU 12.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/gcc-12 - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++-12 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/gcc-12
+-- ZSTD VERSION: 1.5.6
+-- Performing Test C_FLAG_WALL
+-- Performing Test C_FLAG_WALL - Success
+-- Performing Test CXX_FLAG_WALL
+-- Performing Test CXX_FLAG_WALL - Success
+-- Performing Test C_FLAG_WEXTRA
+-- Performing Test C_FLAG_WEXTRA - Success
+-- Performing Test CXX_FLAG_WEXTRA
+-- Performing Test CXX_FLAG_WEXTRA - Success
+-- Performing Test C_FLAG_WUNDEF
+-- Performing Test C_FLAG_WUNDEF - Success
+-- Performing Test CXX_FLAG_WUNDEF
+-- Performing Test CXX_FLAG_WUNDEF - Success
+-- Performing Test C_FLAG_WSHADOW
+-- Performing Test C_FLAG_WSHADOW - Success
+-- Performing Test CXX_FLAG_WSHADOW
+-- Performing Test CXX_FLAG_WSHADOW - Success
+-- Performing Test C_FLAG_WCAST_ALIGN
+-- Performing Test C_FLAG_WCAST_ALIGN - Success
+-- Performing Test CXX_FLAG_WCAST_ALIGN
+-- Performing Test CXX_FLAG_WCAST_ALIGN - Success
+-- Performing Test C_FLAG_WCAST_QUAL
+-- Performing Test C_FLAG_WCAST_QUAL - Success
+-- Performing Test CXX_FLAG_WCAST_QUAL
+-- Performing Test CXX_FLAG_WCAST_QUAL - Success
+-- Performing Test C_FLAG_WSTRICT_PROTOTYPES
+-- Performing Test C_FLAG_WSTRICT_PROTOTYPES - Success
+-- Performing Test LD_FLAG_Z_NOEXECSTACK
+-- Performing Test LD_FLAG_Z_NOEXECSTACK - Success
+-- Performing Test C_FLAG_QUNUSED_ARGUMENTS
+-- Performing Test C_FLAG_QUNUSED_ARGUMENTS - Failed
+-- Performing Test CXX_FLAG_QUNUSED_ARGUMENTS
+-- Performing Test CXX_FLAG_QUNUSED_ARGUMENTS - Failed
+-- Performing Test C_FLAG_WA_NOEXECSTACK
+-- Performing Test C_FLAG_WA_NOEXECSTACK - Success
+-- Performing Test CXX_FLAG_WA_NOEXECSTACK
+-- Performing Test CXX_FLAG_WA_NOEXECSTACK - Success
+-- CMAKE_INSTALL_PREFIX: /usr/local
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80")
+-- The CUDA compiler identification is NVIDIA 13.0.88
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /opt/native3dgs/toolchains/usr/local/cuda-13.0/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /opt/native3dgs/toolchains/usr/local/cuda-13.0/targets/x86_64-linux/include (found suitable version "13.0.88", minimum required is "12.6")
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
+CMake Warning (dev) at CMakeLists.txt:58 (find_package):
+  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+  --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.74") found components: system
+-- Configuring done (6.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /opt/native3dgs/releases/528cd9f342d7f117/build
+[1/67] Building CXX object CMakeFiles/gs-frame.dir/src/frame_tool.cpp.o
+[2/67] Building CXX object CMakeFiles/gs_frame.dir/src/reference.cpp.o
+[3/67] Building CXX object CMakeFiles/gs_frame.dir/src/jpeg_linux.cpp.o
+[4/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/third_party/spz/src/cc/splat-c-types.cc.o
+[5/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/third_party/spz/src/cc/splat-types.cc.o
+[6/67] Building CXX object CMakeFiles/gs_frame.dir/src/frame.cpp.o
+[7/67] Building CXX object CMakeFiles/gs_frame.dir/src/request.cpp.o
+[8/67] Building CXX object CMakeFiles/frame_tests.dir/tests/image_v2_tests.cpp.o
+[9/67] Building CXX object CMakeFiles/frame_tests.dir/tests/request_tests.cpp.o
+[10/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/src/model-io/normalize/normalize.cpp.o
+[11/67] Building CXX object CMakeFiles/frame_tests.dir/tests/frame_tests.cpp.o
+[12/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/debug.c.o
+[13/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/entropy_common.c.o
+[14/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/error_private.c.o
+[15/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/src/model-io/common/probe.cpp.o
+[16/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/pool.c.o
+[17/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/threading.c.o
+[18/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/fse_decompress.c.o
+[19/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/zstd_common.c.o
+[20/67] Building CXX object CMakeFiles/gs_server_model.dir/src/model.cpp.o
+[21/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/src/model-io/codecs/decode.cpp.o
+[22/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/common/xxhash.c.o
+[23/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/hist.c.o
+[24/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_compress_literals.c.o
+[25/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/fse_compress.c.o
+[26/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_compress_sequences.c.o
+[27/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_compress_superblock.c.o
+[28/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/huf_compress.c.o
+[29/67] Building CXX object CMakeFiles/gs_server_model.dir/opt/native3dgs/source-image-v3/third_party/spz/src/cc/load-spz.cc.o
+[30/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_ldm.c.o
+[31/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_compress.c.o
+[32/67] Building CXX object CMakeFiles/cuda_tests.dir/tests/cuda_tests.cpp.o
+[33/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_fast.c.o
+[34/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/decompress/zstd_ddict.c.o
+[35/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstdmt_compress.c.o
+[36/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_double_fast.c.o
+[37/67] Building ASM object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/decompress/huf_decompress_amd64.S.o
+[38/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/decompress/zstd_decompress.c.o
+[39/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/dictBuilder/cover.c.o
+[40/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_opt.c.o
+[41/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/dictBuilder/fastcover.c.o
+[42/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/dictBuilder/zdict.c.o
+[43/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/decompress/zstd_decompress_block.c.o
+[44/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c.o
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c: In function 'ZSTD_decompressSequences':
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1850:35: warning: 'dumps' may be used uninitialized [-Wmaybe-uninitialized]
+ 1850 |         seqState.dumpsEnd = dumps + dumpsLength;
+      |                             ~~~~~~^~~~~~~~~~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1830:17: note: 'dumps' was declared here
+ 1830 |     const BYTE* dumps;
+      |                 ^~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1861:18: warning: 'nbSeq' may be used uninitialized [-Wmaybe-uninitialized]
+ 1861 |             nbSeq--;
+      |             ~~~~~^~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1829:9: note: 'nbSeq' was declared here
+ 1829 |     int nbSeq;
+      |         ^~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1850:35: warning: 'dumpsLength' may be used uninitialized [-Wmaybe-uninitialized]
+ 1850 |         seqState.dumpsEnd = dumps + dumpsLength;
+      |                             ~~~~~~^~~~~~~~~~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1826:23: note: 'dumpsLength' was declared here
+ 1826 |     size_t errorCode, dumpsLength;
+      |                       ^~~~~~~~~~~
+In function 'ZSTDv01_decodeLiteralsBlock',
+    inlined from 'ZSTD_decompressBlock' at /opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1899:17:
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1508:16: warning: 'litbp.origSize' may be used uninitialized [-Wmaybe-uninitialized]
+ 1508 |             if (rleSize > 0) {
+      |                ^
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c: In function 'ZSTD_decompressBlock':
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1489:23: note: 'litbp.origSize' was declared here
+ 1489 |     blockProperties_t litbp;
+      |                       ^~~~~
+In function 'ZSTDv01_decodeLiteralsBlock',
+    inlined from 'ZSTD_decompressBlock' at /opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1899:17:
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1496:5: warning: '*(unsigned int *)((char *)&litbp + offsetof(blockProperties_t, blockType))' may be used uninitialized [-Wmaybe-uninitialized]
+ 1496 |     switch(litbp.blockType)
+      |     ^~~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c: In function 'ZSTD_decompressBlock':
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1489:23: note: '*(unsigned int *)((char *)&litbp + offsetof(blockProperties_t, blockType))' was declared here
+ 1489 |     blockProperties_t litbp;
+      |                       ^~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c: In function 'ZSTDv01_decompressDCtx':
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1936:9: warning: '*(unsigned int *)((char *)&blockProperties + offsetof(blockProperties_t, blockType))' may be used uninitialized [-Wmaybe-uninitialized]
+ 1936 |         switch(blockProperties.blockType)
+      |         ^~~~~~
+/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v01.c:1918:23: note: '*(unsigned int *)((char *)&blockProperties + offsetof(blockProperties_t, blockType))' was declared here
+ 1918 |     blockProperties_t blockProperties;
+      |                       ^~~~~~~~~~~~~~~
+[45/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/decompress/huf_decompress.c.o
+[46/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/dictBuilder/divsufsort.c.o
+[47/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v03.c.o
+[48/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v04.c.o
+[49/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v02.c.o
+[50/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v05.c.o
+[51/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v06.c.o
+[52/67] Building CXX object googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[53/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/legacy/zstd_v07.c.o
+[54/67] Building C object zstd/lib/CMakeFiles/libzstd_static.dir/opt/native3dgs/source-image-v3/third_party/zstd/lib/compress/zstd_lazy.c.o
+[55/67] Linking C static library zstd/lib/libzstd.a
+[56/67] Linking CXX static library libgs_server_model.a
+[57/67] Linking CXX static library libgs_frame.a
+[58/67] Linking CXX executable gs-frame
+[59/67] Building CXX object CMakeFiles/gs-server.dir/src/server_main.cpp.o
+[60/67] Building CUDA object CMakeFiles/gs_cuda.dir/src/cuda_renderer.cu.o
+[61/67] Linking CXX static library libgs_cuda.a
+[62/67] Linking CXX executable gs-server
+[63/67] Building CXX object googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[64/67] Linking CXX static library lib/libgtest.a
+[65/67] Linking CXX static library lib/libgtest_main.a
+[66/67] Linking CXX executable frame_tests
+[67/67] Linking CXX executable cuda_tests
+Internal ctest changing into directory: /opt/native3dgs/releases/528cd9f342d7f117/build
+Test project /opt/native3dgs/releases/528cd9f342d7f117/build
+    Start 1: FrameContracts
+1/2 Test #1: FrameContracts ...................   Passed    0.01 sec
+    Start 2: CudaCorrectness
+2/2 Test #2: CudaCorrectness ..................   Passed    0.31 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.33 sec
+ok  	native3dgs/gateway	3.775s
+test_affinity_concurrency_and_failed_worker (gateway_test.AsyncContracts) ... ok
+test_queue_limit_and_cancel_cleanup (gateway_test.AsyncContracts) ... ok
+test_real_socket_health_auth_catalog_frame_and_identity (gateway_test.AsyncContracts) ... {"request_id": "42", "model_id": "m-1", "queue_ms": 0.026035122573375702, "worker_device": 0, "gateway_ms": 1.8821600824594498}
+ok
+test_wire_rejects_duplicate_and_oversized_body (gateway_test.AsyncContracts) ... ok
+test_catalog_stable_and_escape_rejected (gateway_test.Contracts) ... ok
+test_empty_catalog_and_token (gateway_test.Contracts) ... ok
+test_request_validation (gateway_test.Contracts) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.122s
+
+OK
+Configuration saved; access token will be generated at first startup
+{"api_version": 3, "available": 1, "protocol": 2, "status": "ready", "workers": 0}
+Installed: /opt/native3dgs/releases/528cd9f342d7f117
+Token file: /opt/native3dgs/token (keep secret)

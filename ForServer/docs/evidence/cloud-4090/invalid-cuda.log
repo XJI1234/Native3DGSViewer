@@ -1,0 +1,18 @@
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+index, name, driver_version, memory.total [MiB], compute_cap
+0, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+1, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+2, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+3, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB, 8.9
+CUDA toolkit missing: /does-not-exist. Use deploy/install-cuda13.sh for isolated CUDA13 (supports pre-downloaded .deb files).

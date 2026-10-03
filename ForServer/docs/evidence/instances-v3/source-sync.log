@@ -1,0 +1,4 @@
+Local/remote source and documentation SHA256 match: 87 files
+Rejected devices=0,1: multiple GPUs are disabled
+Rejected devices=99: unavailable
+All Go source formatted; installed binary unchanged by documentation/test-only updates

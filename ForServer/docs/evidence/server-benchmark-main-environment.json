@@ -1,0 +1,40 @@
+{
+  "created_local": "2026-10-02T16:55:05+0800",
+  "arguments": {
+    "models": [
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\juyuan_v2.spz",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply"
+    ],
+    "server": "/home/qbm/.cache/native3dgs/server/gs-server",
+    "client": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\server-windows\\Release\\gs-client.exe",
+    "distro": "Ubuntu",
+    "port": 8080,
+    "url": null,
+    "resolutions": [
+      "1280x720",
+      "1920x1080"
+    ],
+    "views": [
+      "2"
+    ],
+    "profiles": [
+      "f32",
+      "f16",
+      "q20",
+      "q16",
+      "rgba",
+      "jpeg95",
+      "jpeg85",
+      "jpeg70",
+      "jpeg50"
+    ],
+    "repeat": 30,
+    "warmup": 3,
+    "include_raw": false,
+    "out": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\server-benchmark-main"
+  },
+  "transport": "WinHTTP new session/connection every request; resident warm model; no response cache",
+  "timing": "offscreen readiness including GPU screenshot; not physical display latency",
+  "same_gpu": "WSL CUDA server and Windows D3D12 client share RTX 3080; not a low-end client",
+  "gpu": "Fri Oct  2 16:55:05 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 615.71.08              KMD Version: 616.92        CUDA UMD Version: 13.4     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3080        On  |   00000000:01:00.0  On |                  N/A |\n| 53%   45C    P8             32W /  374W |    1863MiB /  10240MiB |      5%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A              25      G   /Xwayland                             N/A      |\n+-----------------------------------------------------------------------------------------+\n"
+}

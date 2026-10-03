@@ -1,0 +1,5 @@
+{"model": {"id": "m-a82b7b6b2403cade", "name": "changjin_v1.ply", "bytes": 40310041, "revision": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83"}, "profile": "jpeg85", "width": 640, "height": 360, "frames": 4, "concurrency": 2, "elapsed_seconds": 0.0038372771814465523, "frames_per_second": 1042.4058025675658, "latency_p50_ms": 1.599783543497324, "latency_p95_ms": 1.8430007621645927, "packet_bytes": 11047, "devices": [], "identical_fixed_camera_packets": true, "cache_states": {"hit": 4}, "measurement": "fixed-view HTTP throughput including cache; not native render FPS", "server_ms_samples": 0, "server_ms_median": null, "queue_ms_samples": 0, "queue_ms_median": null, "resident_bytes_samples": 0, "resident_bytes_median": null, "peak_gpu_bytes_samples": 0, "peak_gpu_bytes_median": null, "warm_load_ms": [0.0, 0.0]}
+{"api_version": 3, "available": 1, "protocol": 2, "status": "ready", "workers": 2}
+/opt/native3dgs/releases/65d8967d34dd0235
+655fa3953bf6f86844b6a89f96df9091475a935840a4c2d9e499a1d304a8c73b  /opt/native3dgs/current/bin/gs-gateway
+adac11f9336e4799cf7f48087d6bdff21f958824426e44bf782fa907b20dbfa2  /opt/native3dgs/current/bin/gs-server

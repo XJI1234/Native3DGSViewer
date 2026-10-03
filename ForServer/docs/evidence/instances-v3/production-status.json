@@ -1,0 +1,38 @@
+{
+  "health": {
+    "api_version": 3,
+    "available": 1,
+    "protocol": 2,
+    "status": "ready",
+    "workers": 0
+  },
+  "status": {
+    "api_version": 3,
+    "cache_bytes": "10152392",
+    "cache_entries": "88",
+    "cache_hits": 20,
+    "cache_misses": 120,
+    "devices": [
+      0
+    ],
+    "instances": [],
+    "loads": 2,
+    "multi_gpu": false,
+    "renders": 56,
+    "unloads": 2
+  },
+  "models": [
+    {
+      "id": "m-a82b7b6b2403cade",
+      "name": "changjin_v1.ply",
+      "bytes": 40310041,
+      "revision": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83"
+    },
+    {
+      "id": "m-49fe972e55f40fb0",
+      "name": "spz/juyuan_v2.spz",
+      "bytes": 52605719,
+      "revision": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c"
+    }
+  ]
+}

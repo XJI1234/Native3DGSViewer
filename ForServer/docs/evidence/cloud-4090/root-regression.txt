@@ -1,0 +1,15 @@
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+    Start 1: ModelIo
+1/5 Test #1: ModelIo ..........................   Passed    8.03 sec
+    Start 2: RenderCore
+2/5 Test #2: RenderCore .......................   Passed   37.15 sec
+    Start 3: ModelRenderIntegration
+3/5 Test #3: ModelRenderIntegration ...........   Passed    6.30 sec
+    Start 4: Engine
+4/5 Test #4: Engine ...........................   Passed   14.76 sec
+    Start 5: InstalledSDK
+5/5 Test #5: InstalledSDK .....................   Passed   16.72 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =  82.97 sec

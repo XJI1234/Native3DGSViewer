@@ -1,0 +1,153 @@
+{
+  "load_ms": 1362.1280999977898,
+  "checks": [
+    {
+      "name": "malformed_request_and_health_recovery",
+      "passed": true,
+      "detail": "bad"
+    },
+    {
+      "name": "malformed_request_and_health_recovery",
+      "passed": true,
+      "detail": "NGSREQ1 0 100 0 rgba"
+    },
+    {
+      "name": "malformed_request_and_health_recovery",
+      "passed": true,
+      "detail": "NGSREQ1 640 360 6 rgba"
+    },
+    {
+      "name": "malformed_request_and_health_recovery",
+      "passed": true,
+      "detail": "NGSREQ1 640 360 0 invalid"
+    },
+    {
+      "name": "malformed_request_and_health_recovery",
+      "passed": true,
+      "detail": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    {
+      "name": "partial_header_deadline",
+      "passed": true,
+      "detail": 10.019815399999061
+    },
+    {
+      "name": "health_after_timeout",
+      "passed": true,
+      "detail": "resident model survives read timeout"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "f32"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "f16"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "q20"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "q16"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "rgba"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "jpeg95"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "jpeg85"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "jpeg70"
+    },
+    {
+      "name": "windows_http_profile",
+      "passed": true,
+      "detail": "jpeg50"
+    },
+    {
+      "name": "client_rejects_invalid_arguments_or_cleartext_remote",
+      "passed": true,
+      "detail": [
+        "--repeat",
+        "0"
+      ]
+    },
+    {
+      "name": "client_rejects_invalid_arguments_or_cleartext_remote",
+      "passed": true,
+      "detail": [
+        "--unknown",
+        "1"
+      ]
+    },
+    {
+      "name": "client_rejects_invalid_arguments_or_cleartext_remote",
+      "passed": true,
+      "detail": [
+        "--url",
+        "http://example.com"
+      ]
+    },
+    {
+      "name": "server_validates_cli_before_model_upload",
+      "passed": true,
+      "detail": {
+        "arguments": [
+          "--width",
+          "0"
+        ],
+        "elapsed_ms": 89.57830000144895
+      }
+    },
+    {
+      "name": "server_validates_cli_before_model_upload",
+      "passed": true,
+      "detail": {
+        "arguments": [
+          "--profile",
+          "invalid"
+        ],
+        "elapsed_ms": 76.83710000128485
+      }
+    },
+    {
+      "name": "server_validates_cli_before_model_upload",
+      "passed": true,
+      "detail": {
+        "arguments": [
+          "--repeat",
+          "0"
+        ],
+        "elapsed_ms": 75.15609999973094
+      }
+    },
+    {
+      "name": "server_validates_cli_before_model_upload",
+      "passed": true,
+      "detail": {
+        "arguments": [
+          "--port",
+          "1234"
+        ],
+        "elapsed_ms": 79.00019999942742
+      }
+    }
+  ]
+}

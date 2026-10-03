@@ -1,0 +1,10 @@
+[
+  {
+    "case": "invalid-device-startup-cleans-earlier-worker",
+    "passed": true
+  },
+  {
+    "case": "port-owner-mismatch-cleanup-without-stopping-owner",
+    "passed": true
+  }
+]
