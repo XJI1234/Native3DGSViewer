@@ -1,0 +1,320 @@
+{
+  "duration": 1800000,
+  "cycles": 100,
+  "cycleResult": {
+    "replacements": 34,
+    "cancelled": 33,
+    "mounts": 33,
+    "counts": [
+      {
+        "cycle": 9,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134030797
+        }
+      },
+      {
+        "cycle": 19,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 89981215
+        }
+      },
+      {
+        "cycle": 29,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134101301
+        }
+      },
+      {
+        "cycle": 39,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134064945
+        }
+      },
+      {
+        "cycle": 49,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 90023035
+        }
+      },
+      {
+        "cycle": 59,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134101117
+        }
+      },
+      {
+        "cycle": 69,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134087693
+        }
+      },
+      {
+        "cycle": 79,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 90024527
+        }
+      },
+      {
+        "cycle": 89,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134141417
+        }
+      },
+      {
+        "cycle": 99,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 416,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 134096769
+        }
+      }
+    ]
+  },
+  "samples": [
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46293406
+      },
+      "phase": "Ready",
+      "frames": 3602,
+      "elapsedMs": 30013
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46293610
+      },
+      "phase": "Ready",
+      "frames": 7203,
+      "elapsedMs": 60022
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46294866
+      },
+      "phase": "Ready",
+      "frames": 10804,
+      "elapsedMs": 90032
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46296346
+      },
+      "phase": "Ready",
+      "frames": 14405,
+      "elapsedMs": 120042
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46325250
+      },
+      "phase": "Ready",
+      "frames": 18007,
+      "elapsedMs": 150054
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46324706
+      },
+      "phase": "Ready",
+      "frames": 21609,
+      "elapsedMs": 180073
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46301127
+      },
+      "phase": "Ready",
+      "frames": 25210,
+      "elapsedMs": 210088
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46307239
+      },
+      "phase": "Ready",
+      "frames": 28813,
+      "elapsedMs": 240107
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46312351
+      },
+      "phase": "Ready",
+      "frames": 32415,
+      "elapsedMs": 270132
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46308587
+      },
+      "phase": "Ready",
+      "frames": 36016,
+      "elapsedMs": 300143
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46308891
+      },
+      "phase": "Ready",
+      "frames": 39619,
+      "elapsedMs": 330169
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46303979
+      },
+      "phase": "Ready",
+      "frames": 43220,
+      "elapsedMs": 360181
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46303631
+      },
+      "phase": "Ready",
+      "frames": 46822,
+      "elapsedMs": 390198
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46303979
+      },
+      "phase": "Ready",
+      "frames": 50424,
+      "elapsedMs": 420215
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 20,
+        "bufferBytes": 54742000,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 46303979
+      },
+      "phase": "Ready",
+      "frames": 54026,
+      "elapsedMs": 450231
+    }
+  ],
+  "errors": [],
+  "complete": false
+}

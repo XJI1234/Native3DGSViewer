@@ -1,0 +1,211 @@
+{
+  "recordedAt": "2026-10-03T21:06:18.268Z",
+  "node": "24.14.1",
+  "package": {
+    "name": "@native3dgs/web",
+    "version": "0.1.0",
+    "type": "module",
+    "packageManager": "pnpm@11.4.0",
+    "engines": {
+      "node": ">=24.14.0"
+    },
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./react": {
+        "types": "./dist/react.d.ts",
+        "import": "./dist/react.js"
+      },
+      "./vue": {
+        "types": "./dist/vue.d.ts",
+        "import": "./dist/vue.js"
+      },
+      "./assets/*": "./dist/assets/*"
+    },
+    "files": [
+      "dist",
+      "docs/*.md",
+      "docs/decisions/*.md",
+      "docs/verification/*.md",
+      "CAPABILITY-MAP.md",
+      "CHANGELOG.md",
+      "README.md",
+      "THIRD-PARTY-NOTICES.md"
+    ],
+    "sideEffects": false,
+    "peerDependencies": {
+      "react": ">=19 <20",
+      "vue": ">=3.5 <4"
+    },
+    "peerDependenciesMeta": {
+      "react": {
+        "optional": true
+      },
+      "vue": {
+        "optional": true
+      }
+    },
+    "scripts": {
+      "build:wasm": "node tools/build-wasm.mjs",
+      "build": "vite build && tsc --emitDeclarationOnly && node tools/package-notices.mjs",
+      "typecheck": "tsc --noEmit",
+      "test:unit": "vitest run tests/unit",
+      "test:contracts": "node --test tests/contracts/*.test.mjs",
+      "test:gpu": "node tools/browser-tests.mjs",
+      "test:sdk": "node tools/sdk-consumer.mjs",
+      "bench": "node tools/benchmark.mjs",
+      "models:manifest": "python tools/model-manifest.py",
+      "dev": "vite --host 127.0.0.1",
+      "lint": "biome check src tests/unit",
+      "check:boundaries": "node tools/check-boundaries.mjs",
+      "test:integration": "node tools/integration-tests.mjs",
+      "test:models": "node tools/model-tests.mjs",
+      "test:images": "node tools/image-tests.mjs",
+      "test:stability": "node tools/stability-tests.mjs"
+    },
+    "devDependencies": {
+      "@biomejs/biome": "2.5.15",
+      "@playwright/test": "1.63.0",
+      "@sparkjsdev/spark": "2.3.1",
+      "@types/node": "24.12.2",
+      "@types/react": "19.2.14",
+      "@types/three": "0.180.0",
+      "@webgpu/types": "0.1.74",
+      "react": "19.3.0",
+      "react-dom": "19.3.0",
+      "three": "0.180.0",
+      "typescript": "7.0.2",
+      "vite": "8.3.2",
+      "vitest": "5.0.3",
+      "vue": "3.5.43"
+    }
+  },
+  "assets": {
+    "emscripten": "6.0.11",
+    "memoryMaxBytes": 1073741824,
+    "threads": 1,
+    "simd": false,
+    "files": [
+      {
+        "name": "decoder.wasm",
+        "sha256": "75d48b89463e94ee720c8c7c52af5cc63209c5a6f9c6c08adbc5f78fa503b270"
+      },
+      {
+        "name": "decoder.mjs",
+        "sha256": "5d6caaec763582ca6dfa2f661e7aeba3001ae4fa7e09d7a3e6464a54b907e947"
+      },
+      {
+        "name": "decoder.worker.js",
+        "sha256": "b4fed81188d6124f492a6ad57f13701fcb81927442574d93b543e7958851c687"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "src/engine/camera.ts",
+      "sha256": "319a6dc8d898f476685bff07526ebaf088c5dd8e4c8a3068646c10be65ec91b9"
+    },
+    {
+      "path": "src/engine/engine.ts",
+      "sha256": "78c979665f8ad412fc191365d3987996b9cf24d9462b24c3030f5f92faad3d18"
+    },
+    {
+      "path": "src/index.ts",
+      "sha256": "881f69ff9e0ee78148f8551a495a5cffcfc80130b031fecd3b3c7c8783c5f64f"
+    },
+    {
+      "path": "src/model-io/decoder.worker.ts",
+      "sha256": "b4ef3af4b15a3f7f0d9c9fee7f56c2afc99a3e506d3868e52493dc79c4e012bb"
+    },
+    {
+      "path": "src/model-io/loader.ts",
+      "sha256": "ea5e6dce7c24a3f8d1b72963c3805fbf3096248cddea04ee929e8e62c982482f"
+    },
+    {
+      "path": "src/model-io/wasm.ts",
+      "sha256": "a19ebbf15fc06059e595fa99c6100a0ba533736b6131ca4fc09d592a04ebed43"
+    },
+    {
+      "path": "src/react.ts",
+      "sha256": "26529be32e3f2912c32340a80f3b1bb414e7540d6bd0c35db32c3b218fea0e5a"
+    },
+    {
+      "path": "src/render-core/renderer.ts",
+      "sha256": "96bb944467cb902443235abb601f47b787791f973e7c0389d90ed85f942c9de1"
+    },
+    {
+      "path": "src/render-core/shaders.ts",
+      "sha256": "b8d60f6cfd727acdfb56cb06537da881d26d5257fe24cba51c5eca91922981ee"
+    },
+    {
+      "path": "src/render-core/sort.ts",
+      "sha256": "1c7c12bcd28587f9b5fa37a24799685deb41c4de37ffdeb404285255f81ee346"
+    },
+    {
+      "path": "src/splat-types/index.ts",
+      "sha256": "33c878026ba5acb957497ff580f3cf2a606f027fb094c26c4d4c4dea5b0b545d"
+    },
+    {
+      "path": "src/vue.ts",
+      "sha256": "d2cf449b0391245464d4908d0942b24df9c1e611c69406944e4aa66be312954c"
+    },
+    {
+      "path": "src/web-adapters/dom.ts",
+      "sha256": "7ad60e026c73e514356be45d9f5e36aa693cbecb405dfa101d307381449dbc1d"
+    },
+    {
+      "path": "native/.clang-format",
+      "sha256": "653f78108fbc0e001eff5528d3a29a6433f129c8dbbab6be36fa76c8ea227407"
+    },
+    {
+      "path": "native/CMakeLists.txt",
+      "sha256": "86487e8ba20bfe0325545314f77e8d00a4d595685c188afd32c88ee098b261c9"
+    },
+    {
+      "path": "native/decoder.cpp",
+      "sha256": "28c22fb83e44f8c1d009ad69f9023bce86fb2328aaf704516d7e5c3e1b929a19"
+    },
+    {
+      "path": "native/decoder.h",
+      "sha256": "f25a8212dc926290b17e068f0dcc76e5e030efccc2d3ad2fb232d9a9c4e8a98d"
+    },
+    {
+      "path": "native/pack.cpp",
+      "sha256": "977610e3564b5513440b4f50e239161f2981619bdd4fb2987911fdba02979039"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "f42ade717cb1baaf2f9170ac22c217c812354a5edf6f1646e4ccf1463cf7a612"
+    },
+    {
+      "path": "package.json",
+      "sha256": "562bd6ba2bab755006a363fb4dcbc28d69b14b92da7f06973bd4f99b75558adf"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "2d2627ea6b68e2538643f9b8ee84e113d5f8fac0ec715360202bb12136ea15b1"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "f179ad911895b93d993430e57c379b9dce1adf693ec4bd60d7c1d0f98581cac4"
+    },
+    {
+      "path": "../src/model-io/common/probe.cpp",
+      "sha256": "c5ef165fe63ca3006f160095c786b0fd6afb42804c8354979c9288f47270717a"
+    },
+    {
+      "path": "../src/model-io/common/probe.h",
+      "sha256": "2c28732eb90d133ec230d6064a14d69e044b3e4650f3198333e2d46722f83070"
+    },
+    {
+      "path": "../src/model-io/normalize/normalize.cpp",
+      "sha256": "e626e1c5f46c09d970ecce08631b0dd43f4a6e6f52770bef9b926836751ea15e"
+    },
+    {
+      "path": "../src/model-io/normalize/normalize.h",
+      "sha256": "b2b35760f2ebb3d7645ede2340cfe30bcb229f232f424a438086006b2ba5d994"
+    }
+  ]
+}

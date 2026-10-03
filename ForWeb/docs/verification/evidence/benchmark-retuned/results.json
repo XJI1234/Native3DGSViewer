@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-03T19:22:30.818Z",
+  "warmup": 30000,
+  "duration": 60000,
+  "runs": 3,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "spark": "2.3.1",
+  "three": "0.180.0",
+  "browser": "154.0.4258.53",
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "mode": "native",
+      "loaded": {
+        "ms": 390.10000002384186,
+        "firstFrameMs": 381.10000002384186,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 7199,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000008731,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 2.162688,
+          "gpuP95": 2.818048
+        },
+        {
+          "run": 1,
+          "frames": 7199,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000023283,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 2.097152,
+          "gpuP95": 2.686976
+        },
+        {
+          "run": 2,
+          "frames": 7199,
+          "intervalP50": 8.300000000017462,
+          "intervalP95": 8.400000000023283,
+          "cpuP50": 0.09999999403953552,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 2.228224,
+          "gpuP95": 2.752512
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "mode": "native",
+      "loaded": {
+        "ms": 1093.4000000059605,
+        "firstFrameMs": 1084,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 7199,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000008731,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 0.29999998211860657,
+          "gpuP50": 3.211264,
+          "gpuP95": 3.473408
+        },
+        {
+          "run": 1,
+          "frames": 7199,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000008731,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 3.342336,
+          "gpuP95": 3.538944
+        },
+        {
+          "run": 2,
+          "frames": 7199,
+          "intervalP50": 8.300000000017462,
+          "intervalP95": 8.400000000023283,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 3.342336,
+          "gpuP95": 3.60448
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "mode": "native",
+      "loaded": {
+        "ms": 1495.699999988079,
+        "firstFrameMs": 1487,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 7199,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000008731,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 0.29999998211860657,
+          "gpuP50": 4.9152,
+          "gpuP95": 5.177344
+        },
+        {
+          "run": 1,
+          "frames": 7198,
+          "intervalP50": 8.30000000000291,
+          "intervalP95": 8.400000000023283,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 4.849664,
+          "gpuP95": 5.177344
+        },
+        {
+          "run": 2,
+          "frames": 7199,
+          "intervalP50": 8.300000000017462,
+          "intervalP95": 8.400000000023283,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.20000001788139343,
+          "gpuP50": 4.849664,
+          "gpuP95": 5.111808
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    }
+  ]
+}

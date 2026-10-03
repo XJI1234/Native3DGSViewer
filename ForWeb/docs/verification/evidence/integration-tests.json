@@ -1,0 +1,129 @@
+{
+  "results": [
+    {
+      "model": "changjin_v1.ply",
+      "result": {
+        "ok": true
+      },
+      "ms": 413,
+      "snapshot": {
+        "phase": "Ready",
+        "requestId": 1,
+        "sceneCount": 170799,
+        "degree": 3,
+        "source": "URL",
+        "progress": null,
+        "error": null,
+        "stats": null,
+        "deviceGeneration": 1,
+        "viewportRevision": 2
+      }
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "result": {
+        "ok": true
+      },
+      "ms": 1095.1000000238419,
+      "snapshot": {
+        "phase": "Ready",
+        "requestId": 4,
+        "sceneCount": 804758,
+        "degree": 3,
+        "source": "URL",
+        "progress": null,
+        "error": null,
+        "stats": null,
+        "deviceGeneration": 1,
+        "viewportRevision": 3
+      }
+    },
+    {
+      "recovery": true,
+      "result": {
+        "ok": true
+      },
+      "generation": 2
+    },
+    {
+      "browserBoundaryFixtures": {
+        "invalidUrl": {
+          "ok": false,
+          "error": {
+            "code": "InvalidInput",
+            "stage": "Load",
+            "diagnostic": "InvalidInput: URL protocol"
+          }
+        },
+        "zeroViewport": {
+          "ok": true
+        },
+        "timeout": {
+          "ok": false,
+          "error": {
+            "code": "Timeout",
+            "stage": "Load",
+            "diagnostic": "Timeout: zero viewport"
+          }
+        },
+        "injectedFault": {
+          "ok": false,
+          "error": {
+            "code": "DeviceLost",
+            "stage": "Load",
+            "diagnostic": "DeviceLost: recovery in progress"
+          }
+        },
+        "recovery": {
+          "ok": true
+        },
+        "generation": 2
+      },
+      "hardwareLossInjected": false
+    },
+    {
+      "detachedGpuBudget": {
+        "beforeRelease": {
+          "ok": false,
+          "error": {
+            "code": "ResourceLimit",
+            "stage": "Load",
+            "diagnostic": "ResourceLimit: GPU scene/transaction budget"
+          }
+        },
+        "afterRelease": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "detachedCpuBudget": {
+        "budget": 83886080,
+        "beforeRelease": {
+          "ok": false,
+          "error": {
+            "code": "ResourceLimit",
+            "stage": "Load",
+            "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+          }
+        },
+        "afterRelease": {
+          "ok": true
+        }
+      }
+    }
+  ],
+  "shutdown": {
+    "phase": "Stopped",
+    "requestId": 8,
+    "sceneCount": 0,
+    "degree": 0,
+    "source": null,
+    "progress": null,
+    "error": null,
+    "stats": null,
+    "deviceGeneration": 2,
+    "viewportRevision": 4
+  },
+  "errors": []
+}

@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "mode": "preview",
+      "result": {
+        "results": [
+          {
+            "ok": true
+          },
+          {
+            "ok": true
+          }
+        ],
+        "canvasCount": 2,
+        "remainingCanvases": 0,
+        "react": "Stopped",
+        "vue": "Stopped",
+        "devices": {
+          "created": 2,
+          "active": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "mode": "development",
+      "result": {
+        "results": [
+          {
+            "ok": true
+          },
+          {
+            "ok": true
+          }
+        ],
+        "canvasCount": 2,
+        "remainingCanvases": 0,
+        "react": "Stopped",
+        "vue": "Stopped",
+        "devices": {
+          "created": 3,
+          "active": 0
+        }
+      },
+      "errors": []
+    }
+  ],
+  "browser": "154.0.4258.53",
+  "ssr": true,
+  "installedTarball": true,
+  "productionBundle": true,
+  "developmentStrictMode": true,
+  "documentedTsxAndSfcCompiled": true
+}

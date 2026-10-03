@@ -1,0 +1,254 @@
+{
+  "result": {
+    "sh": [
+      {
+        "degree": 0,
+        "coefficient": -1,
+        "expected": [
+          63,
+          51,
+          38
+        ],
+        "actual": [
+          63,
+          51,
+          38,
+          255
+        ]
+      },
+      {
+        "degree": 1,
+        "coefficient": 0,
+        "expected": [
+          58,
+          47,
+          42
+        ],
+        "actual": [
+          58,
+          47,
+          42,
+          255
+        ]
+      },
+      {
+        "degree": 1,
+        "coefficient": 1,
+        "expected": [
+          70,
+          55,
+          33
+        ],
+        "actual": [
+          70,
+          55,
+          33,
+          255
+        ]
+      },
+      {
+        "degree": 1,
+        "coefficient": 2,
+        "expected": [
+          59,
+          48,
+          41
+        ],
+        "actual": [
+          59,
+          48,
+          41,
+          255
+        ]
+      },
+      {
+        "degree": 2,
+        "coefficient": 3,
+        "expected": [
+          68,
+          54,
+          34
+        ],
+        "actual": [
+          68,
+          54,
+          34,
+          255
+        ]
+      },
+      {
+        "degree": 2,
+        "coefficient": 4,
+        "expected": [
+          55,
+          45,
+          45
+        ],
+        "actual": [
+          55,
+          45,
+          45,
+          255
+        ]
+      },
+      {
+        "degree": 2,
+        "coefficient": 5,
+        "expected": [
+          66,
+          53,
+          36
+        ],
+        "actual": [
+          66,
+          53,
+          36,
+          255
+        ]
+      },
+      {
+        "degree": 2,
+        "coefficient": 6,
+        "expected": [
+          57,
+          47,
+          43
+        ],
+        "actual": [
+          57,
+          47,
+          43,
+          255
+        ]
+      },
+      {
+        "degree": 2,
+        "coefficient": 7,
+        "expected": [
+          62,
+          50,
+          39
+        ],
+        "actual": [
+          62,
+          50,
+          39,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 8,
+        "expected": [
+          62,
+          50,
+          39
+        ],
+        "actual": [
+          62,
+          50,
+          39,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 9,
+        "expected": [
+          73,
+          57,
+          31
+        ],
+        "actual": [
+          73,
+          57,
+          31,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 10,
+        "expected": [
+          56,
+          46,
+          44
+        ],
+        "actual": [
+          56,
+          46,
+          44,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 11,
+        "expected": [
+          61,
+          49,
+          40
+        ],
+        "actual": [
+          61,
+          49,
+          40,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 12,
+        "expected": [
+          58,
+          47,
+          42
+        ],
+        "actual": [
+          58,
+          47,
+          42,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 13,
+        "expected": [
+          61,
+          49,
+          40
+        ],
+        "actual": [
+          61,
+          49,
+          40,
+          255
+        ]
+      },
+      {
+        "degree": 3,
+        "coefficient": 14,
+        "expected": [
+          67,
+          53,
+          35
+        ],
+        "actual": [
+          67,
+          53,
+          35,
+          255
+        ]
+      }
+    ],
+    "anisotropy": {
+      "xx": 15.366347569955817,
+      "yy": 15.366347569955817,
+      "xy": -13.899484536082474
+    },
+    "behindCamera": true,
+    "subpixelPreblur": true
+  },
+  "errors": []
+}

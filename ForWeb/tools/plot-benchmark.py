@@ -48,6 +48,9 @@ fig.suptitle("1920 × 1080 · full SH3 · 30 s warmup + 3 × 60 s\n"
              "Median and range across repetitions; physical presentation unverified",
              fontsize=11)
 for extension in ["png", "svg"]:
-    fig.savefig(root / f"rendering-loop-comparison.{extension}", dpi=180)
+    output = root / f"rendering-loop-comparison.{extension}"
+    fig.savefig(output, dpi=180)
+    if extension == "svg":
+        output.write_text("\n".join(line.rstrip() for line in output.read_text().splitlines()) + "\n")
 plt.close(fig)
 print(f"Saved rendering-loop comparison to {root}")

@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-03T20:08:19.949Z",
+  "warmup": 500,
+  "duration": 1000,
+  "runs": 1,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "spark": "2.3.1",
+  "three": "0.180.0",
+  "browser": "154.0.4258.53",
+  "browserArgs": [
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-frame-rate-limit",
+    "--disable-gpu-vsync"
+  ],
+  "uncappedRequested": true,
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "mode": "native",
+      "loaded": {
+        "ms": 431.19999998807907,
+        "firstFrameMs": 426.19999998807907,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 756,
+          "intervalP50": 1.099999999999909,
+          "intervalP95": 2.300000000000182,
+          "cpuP50": 0.09999999403953552,
+          "cpuP95": 0.7000000178813934,
+          "gpuP50": 0.98304,
+          "gpuP95": 0.98304
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.45513866231647,
+        "meanFps": 119.9981331030827
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.47430249632724,
+        "meanFps": 119.99793308185826
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.43598107976307,
+        "meanFps": 119.99793308185826
+      }
+    ],
+    "medianP95": 8.400000000023283,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.45513866231647,
+    "gpuP50": 2.031616,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "changjin_v1.ply",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.22565939433464,
+        "meanFps": 119.99813310308272
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.13030746706042,
+        "meanFps": 119.9981331030827
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.18750000001776,
+        "meanFps": 119.99833312497395
+      }
+    ],
+    "medianP95": 8.400000000023283,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.18750000001776,
+    "gpuP50": 1.6384,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.39768465677705,
+        "meanFps": 119.99793308185829
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.43598107974913,
+        "meanFps": 119.99793308185829
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.51264893095907,
+        "meanFps": 119.99773306130072
+      }
+    ],
+    "medianP95": 8.400000000023283,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.43598107974913,
+    "gpuP50": 3.211264,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.2256593943388,
+        "meanFps": 119.99773306130069
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.09221011546427,
+        "meanFps": 119.9981331030827
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 116.99707507311874,
+        "meanFps": 119.9981331030827
+      }
+    ],
+    "medianP95": 8.400000000023283,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.09221011546427,
+    "gpuP50": 2.494464,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 115.94202898550861,
+        "meanFps": 119.981064394394
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.49347258485862,
+        "meanFps": 119.99773306130066
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.47430249633004,
+        "meanFps": 119.9981331030827
+      }
+    ],
+    "medianP95": 8.400000000008731,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.47430249633004,
+    "gpuP50": 4.849664,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000008731,
+        "p99": 8.5,
+        "onePercentLowFps": 117.14936544094024,
+        "meanFps": 119.9981331030827
+      },
+      {
+        "run": 1,
+        "p50": 8.30000000000291,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.43598107975748,
+        "meanFps": 119.99813310308272
+      },
+      {
+        "run": 2,
+        "p50": 8.300000000017462,
+        "p95": 8.400000000023283,
+        "p99": 8.5,
+        "onePercentLowFps": 117.11125569290493,
+        "meanFps": 119.9981331030827
+      }
+    ],
+    "medianP95": 8.400000000023283,
+    "medianP99": 8.5,
+    "medianOnePercentLowFps": 117.14936544094024,
+    "gpuP50": 2.599936,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  }
+]
