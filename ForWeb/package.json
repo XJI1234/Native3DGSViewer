@@ -1,0 +1,81 @@
+{
+  "name": "@native3dgs/web",
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.4.0",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "import": "./dist/vue.js"
+    },
+    "./assets/*": "./dist/assets/*"
+  },
+  "files": [
+    "dist",
+    "docs/*.md",
+    "docs/decisions/*.md",
+    "docs/verification/*.md",
+    "CAPABILITY-MAP.md",
+    "CHANGELOG.md",
+    "README.md",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": ">=19 <20",
+    "vue": ">=3.5 <4"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build:wasm": "node tools/build-wasm.mjs",
+    "build": "vite build && tsc --emitDeclarationOnly && node tools/package-notices.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run tests/unit",
+    "test:contracts": "node --test tests/contracts/*.test.mjs",
+    "test:gpu": "node tools/browser-tests.mjs",
+    "test:sdk": "node tools/sdk-consumer.mjs",
+    "bench": "node tools/benchmark.mjs",
+    "models:manifest": "python tools/model-manifest.py",
+    "dev": "vite --host 127.0.0.1",
+    "lint": "biome check src tests/unit",
+    "check:boundaries": "node tools/check-boundaries.mjs",
+    "test:integration": "node tools/integration-tests.mjs",
+    "test:models": "node tools/model-tests.mjs",
+    "test:images": "node tools/image-tests.mjs",
+    "test:stability": "node tools/stability-tests.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.63.0",
+    "@sparkjsdev/spark": "2.3.1",
+    "@types/node": "24.12.2",
+    "@types/react": "19.2.14",
+    "@types/three": "0.180.0",
+    "@webgpu/types": "0.1.74",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.180.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.2",
+    "vitest": "5.0.3",
+    "vue": "3.5.43"
+  }
+}
