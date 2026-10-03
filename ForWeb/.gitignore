@@ -8,3 +8,4 @@ playwright-report/
 /public/assets/
 *.rgba
 *.log
+__pycache__/
