@@ -1,0 +1,42 @@
+[1/16] Building CXX object CMakeFiles/gs-frame.dir/src/frame_tool.cpp.o
+[2/16] Building CXX object CMakeFiles/gs_frame.dir/src/reference.cpp.o
+[3/16] Building CXX object CMakeFiles/gs_frame.dir/src/jpeg_linux.cpp.o
+[4/16] Building CXX object CMakeFiles/gs_frame.dir/src/frame.cpp.o
+[5/16] Linking CXX static library libgs_frame.a
+[6/16] Linking CXX executable gs-frame
+[7/16] Building CXX object CMakeFiles/gs_server_model.dir/src/model.cpp.o
+[8/16] Linking CXX static library libgs_server_model.a
+[9/16] Building CXX object CMakeFiles/frame_tests.dir/tests/frame_tests.cpp.o
+[10/16] Linking CXX executable frame_tests
+[11/16] Building CXX object CMakeFiles/cuda_tests.dir/tests/cuda_tests.cpp.o
+[12/16] Building CXX object CMakeFiles/gs-server.dir/src/server_main.cpp.o
+[13/16] Building CUDA object CMakeFiles/gs_cuda.dir/src/cuda_renderer.cu.o
+[14/16] Linking CXX static library libgs_cuda.a
+[15/16] Linking CXX executable cuda_tests
+[16/16] Linking CXX executable gs-server
+Internal ctest changing into directory: /home/qbm/.cache/native3dgs/server
+Test project /home/qbm/.cache/native3dgs/server
+    Start 1: FrameContracts
+1/2 Test #1: FrameContracts ...................   Passed    0.00 sec
+    Start 2: CudaCorrectness
+2/2 Test #2: CudaCorrectness ..................   Passed    0.30 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.31 sec
+[1/8] Building CXX object CMakeFiles/gs-frame.dir/src/frame_tool.cpp.o
+[2/8] Building CXX object CMakeFiles/gs_frame.dir/src/reference.cpp.o
+[3/8] Building CXX object CMakeFiles/gs_frame.dir/src/jpeg_linux.cpp.o
+[4/8] Building CXX object CMakeFiles/gs_frame.dir/src/frame.cpp.o
+[5/8] Linking CXX static library libgs_frame.a
+[6/8] Linking CXX executable gs-frame
+[7/8] Building CXX object CMakeFiles/frame_tests.dir/tests/frame_tests.cpp.o
+[8/8] Linking CXX executable frame_tests
+Internal ctest changing into directory: /home/qbm/.cache/native3dgs/server-asan
+Test project /home/qbm/.cache/native3dgs/server-asan
+    Start 1: FrameContracts
+1/1 Test #1: FrameContracts ...................   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.04 sec

@@ -1,0 +1,9 @@
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/server-windows
+    Start 1: FrameContracts
+1/2 Test #1: FrameContracts ...................   Passed    0.03 sec
+    Start 2: WindowsThinRenderer
+2/2 Test #2: WindowsThinRenderer ..............   Passed    0.61 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.65 sec

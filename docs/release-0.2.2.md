@@ -7,6 +7,7 @@ not a production-signed distribution.
 | Product | Platform / ABI | Release file |
 | --- | --- | --- |
 | Viewer | Windows x64 | `Native3DGSViewer-0.2.2-Windows-x64-Setup.exe` |
+| Cloud Viewer (supplement) | Windows 11 x64 | `Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe` |
 | SDK | Windows x64 | `Native3DGS-SDK-0.2.2-Windows-x64.zip` |
 | Viewer | Android arm64-v8a | `Native3DGSViewer-0.2.2-Android-arm64-v8a-preview.apk` |
 | SDK | Android arm64-v8a | `Native3DGS-SDK-0.2.2-Android-arm64-v8a.zip` |
@@ -31,6 +32,16 @@ not a production-signed distribution.
   scenes loaded and presented at full point count on the tested tablet.
 - Updated the viewer and SDK product version to 0.2.2. The C API remains
   version 2; SDK consumers can inspect it with `gs_android_api_version`.
+
+## Cloud Viewer supplement
+
+- Added a headless C++/CUDA renderer with Go concurrency/session management and SQLite-indexed disk frames. Each model revision shares one GPU instance; only GPU0 is enabled by default.
+- Windows WinUI 3 receives compressed images, defaults to JPEG85, and offers JPEG90/95 or lossless RGBA. Full spherical 2-degree navigation preserves screen drag direction when the view is inverted.
+- Pre-render Low/Medium/High downloads five/ten/fifteen neighboring positions per cardinal direction. The bounded in-memory cache is cleared on application exit.
+- Short control-request timeouts, bounded retries and automatic lease recovery keep idle sessions alive. The session grace is 120 seconds with ten-second heartbeats.
+- The separate per-user installer includes WinUI/VC runtime files and does not replace the local Windows viewer. It is unsigned. This is a trusted-network single-node preview; public TLS/RBAC and long-running load validation remain separate gates.
+
+The original v0.2.2 tag remains unchanged. The cloud supplement is built from a later merged source revision identified in the GitHub Release notes. Build/deploy instructions and validation are in `ForServer/README.md` and `ForServer/docs/verification-cloud-022.md` at that revision.
 
 ## Verification and limits
 

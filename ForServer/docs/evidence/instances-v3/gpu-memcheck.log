@@ -1,0 +1,24 @@
+{"miss": {"samples": 20, "wall_p50_ms": 39.59327796474099, "wall_p95_ms": 42.718430049717426, "states": ["miss"]}, "hit": {"samples": 20, "wall_p50_ms": 3.2601216807961464, "wall_p95_ms": 3.6943331360816956, "states": ["hit"]}}
+========= COMPUTE-SANITIZER
+Running main() from /opt/native3dgs/source-image-v3/third_party/googletest/googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from CudaRenderer
+[ RUN      ] CudaRenderer.StableGpuSorting
+[       OK ] CudaRenderer.StableGpuSorting (551 ms)
+[ RUN      ] CudaRenderer.ProjectionAndTileRasterMatchCpu
+[       OK ] CudaRenderer.ProjectionAndTileRasterMatchCpu (15 ms)
+[ RUN      ] CudaRenderer.IsotropicProjectionAndShBandsAnalytic
+[       OK ] CudaRenderer.IsotropicProjectionAndShBandsAnalytic (12 ms)
+[ RUN      ] CudaRenderer.FullyCulledSceneProducesBlackAndRecovers
+[       OK ] CudaRenderer.FullyCulledSceneProducesBlackAndRecovers (6 ms)
+[ RUN      ] CudaRenderer.OrbitZoomIdentityAndInvalidParameters
+[       OK ] CudaRenderer.OrbitZoomIdentityAndInvalidParameters (11 ms)
+[ RUN      ] CudaRenderer.PoleAndFlipUseStableWorldBasis
+[       OK ] CudaRenderer.PoleAndFlipUseStableWorldBasis (22 ms)
+[----------] 6 tests from CudaRenderer (620 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (620 ms total)
+[  PASSED  ] 6 tests.
+========= ERROR SUMMARY: 0 errors

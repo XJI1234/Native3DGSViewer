@@ -1,0 +1,10 @@
+Internal ctest changing into directory: /opt/native3dgs/current/build
+Test project /opt/native3dgs/releases/c29f2e75c38de658/build
+    Start 1: FrameContracts
+1/2 Test #1: FrameContracts ...................   Passed    0.01 sec
+    Start 2: CudaCorrectness
+2/2 Test #2: CudaCorrectness ..................   Passed    0.34 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.35 sec

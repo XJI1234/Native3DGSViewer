@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "case": "8-users-one-instance-one-render",
+      "passed": true,
+      "elapsed_ms": 467.9401954635978,
+      "cache_states": [
+        "miss",
+        "shared",
+        "shared",
+        "shared",
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "pid": 752217
+    },
+    {
+      "case": "lease-pins-and-y-flip-keeps-world-code",
+      "passed": true,
+      "view_code": "a011-t38-d24"
+    },
+    {
+      "case": "predicted-packet-transferred-and-next-move-hit",
+      "passed": true,
+      "packet_bytes": 312605
+    },
+    {
+      "case": "idle-unloads-and-disk-hit-needs-no-GPU-instance",
+      "passed": true
+    },
+    {
+      "case": "live-cached-view-starts-missing-neighbor-instance",
+      "passed": true
+    },
+    {
+      "case": "cache-no-hit-TTL-deletion-and-instance-reload",
+      "passed": true
+    }
+  ],
+  "status": {
+    "api_version": 3,
+    "cache_bytes": "319433",
+    "cache_entries": "1",
+    "cache_hits": 3,
+    "cache_misses": 37,
+    "devices": [
+      0
+    ],
+    "instances": [
+      {
+        "active": 0,
+        "closing": false,
+        "gpu": 0,
+        "last_user": "2026-10-03T07:58:33.378612471Z",
+        "model": "m-a82b7b6b2403cade",
+        "pid": 752255
+      }
+    ],
+    "loads": 3,
+    "multi_gpu": false,
+    "renders": 15,
+    "unloads": 2
+  }
+}

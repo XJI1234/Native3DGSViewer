@@ -1,0 +1,9 @@
+{"api_version": 3, "available": 1, "protocol": 2, "status": "ready", "workers": 0}
+{"api_version": 3, "available": 1, "protocol": 2, "status": "ready", "workers": 0}
+ddb631be355a0fb0fb4272b74ce01b68240d7d132f1494e89a0ac5d2d5cb2714  /opt/native3dgs/current/bin/gs-server
+69b677e729410f92d0e225709683710389e016b43fdbb670673c17667b3277f3  /opt/native3dgs/current/bin/gs-gateway
+go version go1.27.1 linux/amd64
+0, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB
+1, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB
+2, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB
+3, NVIDIA GeForce RTX 4090, 580.82.09, 49140 MiB

@@ -1,0 +1,1101 @@
+{
+  "status": "complete",
+  "llm": {
+    "provider": "xjiapi",
+    "model": "gpt-6.1-sol"
+  },
+  "message": "Review complete: 42 finding(s) across 55 selected item(s).",
+  "summary": {
+    "files_reviewed": 55,
+    "comments": 42,
+    "total_tokens": 1721172,
+    "input_tokens": 1693433,
+    "output_tokens": 27739,
+    "cache_read_tokens": 1001216,
+    "elapsed": "6m52s"
+  },
+  "tool_calls": {
+    "total": 155,
+    "by_tool": {
+      "code_comment": 17,
+      "code_search": 43,
+      "file_find": 10,
+      "file_read": 84,
+      "file_read_diff": 1
+    },
+    "failure": 0,
+    "failure_by_tool": {},
+    "failure_details": []
+  },
+  "comments": [
+    {
+      "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+      "content": "Installer discovery requires only MSBuild, whereas build.ps1 selects an installation with VC tools. With multiple Visual Studio installations, a newer MSBuild-only installation can be selected here after a successful client build using an older installation; accessing its VC\\Redist\\MSVC directory then aborts packaging. Reuse the build's Visual Studio selection (including the VC-tools requirement), or explicitly discover an installation containing the required x64 CRT.",
+      "existing_code": "$vsRoot = (\u0026 $vswhere -latest -products * -requires Microsoft.Component.MSBuild -property installationPath | Select-Object -First 1)",
+      "start_line": 35,
+      "end_line": 35,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+      "content": "This bypasses NuGet's resolved package location. If NUGET_PACKAGES or a globalPackagesFolder setting redirects restore, the client builds successfully but these mandatory Copy-Item calls fail because the SDK is not under USERPROFILE\\.nuget\\packages. Resolve the package directory from restore/MSBuild metadata (ideally also its version) rather than assuming the default cache.",
+      "existing_code": "$windowsAppSdk = Join-Path $env:USERPROFILE '.nuget\\packages\\microsoft.windowsappsdk\\1.8.260921001'",
+      "start_line": 47,
+      "end_line": 47,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/service.py",
+      "content": "Health probes ignore the configured bind address. For example, `--bind 10.0.0.5 --private-http` is accepted, but the Go gateway listens only on that interface and exposes no separate loopback listener. Every startup probe therefore fails and start stops an otherwise healthy gateway after 60 seconds. Probe a reachable configured address (using loopback only for wildcard binds), or explicitly reject unsupported bind configurations.",
+      "existing_code": "    with urllib.request.urlopen(scheme + \"://127.0.0.1:\" + str(config[\"port\"]) + \"/health\", timeout=2, context=context) as response:",
+      "start_line": 35,
+      "end_line": 35,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "A failed status command does not establish that the supervisor is stopped: service.py also exits unsuccessfully when a live supervisor's health request fails. In that case installation proceeds and switches `current` beneath the running gateway. Its worker executable path still points through `current`, so later instances can launch new binaries while the gateway retains the old renderer digest/cache identity. Check supervisor ownership/liveness independently of HTTP health and refuse installation whenever it is alive.",
+      "existing_code": "if \"${control[@]}\" status --prefix \"$prefix\" \u003e/dev/null 2\u003e\u00261; then",
+      "start_line": 101,
+      "end_line": 101,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "Rollback restores only the binaries' symlink. The installation has already overwritten `$prefix/service.py` and, with `--reconfigure`, config.json. A failed upgrade caused by an invalid new configuration leaves the previous release using that same invalid configuration, so starting the restored release fails too. Preserve and restore the previous configuration and supervisor alongside `current`, or make the supervisor release-specific and activate the configuration transactionally.",
+      "existing_code": "            ln -sfn \"$(readlink \"$prefix/previous\")\" \"$prefix/current\"\n            echo \"Startup failed; previous release restored (not automatically restarted)\" \u003e\u00262",
+      "start_line": 141,
+      "end_line": 142,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/deploy/install-cuda13.sh",
+      "content": "This extracts every archive in downloads, although the preceding loop verifies only the selected candidate archives. Reusing the directory after a package-version change can extract both old and new versions, with glob order determining which files survive; unrelated preloaded archives are extracted without verification as well. Record the exact verified filenames and extract only that list (and generate downloads.sha256 from the same list).",
+      "existing_code": "for package in ./*.deb; do\n    dpkg-deb --extract \"$package\" \"$prefix\"",
+      "start_line": 23,
+      "end_line": 24,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "The dependency bootstrap omits CMake, but both doctor and install invoke it unconditionally. On a clean host, `--install-deps` installs the listed dependencies and then still fails at `command -v cmake`. Include CMake in the bootstrap and ensure it meets the project's minimum version of 3.22.",
+      "existing_code": "    for package in build-essential g++-12 ninja-build libboost-system-dev libjpeg-dev zlib1g-dev libsqlite3-dev python3 curl; do",
+      "start_line": 61,
+      "end_line": 61,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "The root-directory guard runs before normalization, so an argument such as `--prefix /opt/..` passes validation and becomes `/` here. Installation then creates /releases, /state, /logs and /install.lock before service.py rejects it. The same pre-normalization guard in install-go.sh and install-cuda13.sh allows their downloads/extraction to operate at the filesystem root. Normalize each destination first and reject `/` afterward, before any filesystem writes.",
+      "existing_code": "prefix=$(realpath -m \"$prefix\")",
+      "start_line": 47,
+      "end_line": 47,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/gateway/instances.go",
+      "content": "GPU placement depends on the total instance count, not occupancy per device. With devices [0,1], load A on GPU 0 and B on GPU 1, then unload A: the next instance is assigned to GPU 1 again, leaving GPU 0 unused. Repeated churn can crowd one GPU, serialize its renders and increase memory pressure despite spare capacity elsewhere. Choose the least-occupied configured device while holding the manager mutex.",
+      "existing_code": "\t\tdevice := manager.deviceIDs[len(manager.loaded)%len(manager.deviceIDs)]",
+      "start_line": 159,
+      "end_line": 159,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/gateway/service.go",
+      "content": "A foreground request can join a flight created by prefetch, but the producer retains the first caller's speculative policy. If that producer encounters a busy GPU or waiting foreground work, render immediately fails and all joined foreground callers receive 503 instead of waiting for the GPU. Promote a flight when a foreground waiter joins, or retry a skipped speculative flight using foreground scheduling before rejecting foreground waiters.",
+      "existing_code": "\t\t} else {\n\t\t\tstate = \"shared\"\n\t\t}",
+      "start_line": 265,
+      "end_line": 267,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/gateway/main.go",
+      "content": "The accepted --bind ::1 configuration produces the address \"::1:8888\", which net/http cannot listen on because IPv6 literals require brackets. Build the address with net.JoinHostPort so the explicitly supported IPv6 loopback bind starts successfully.",
+      "existing_code": "\thttpServer := \u0026http.Server{Addr: fmt.Sprintf(\"%s:%d\", *bind, *port), Handler: service, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 200 * time.Second, IdleTimeout: 10 * time.Second, MaxHeaderBytes: 8192}",
+      "start_line": 140,
+      "end_line": 140,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/gateway.py",
+      "content": "The parser accepts leading-zero request IDs but returns their original spelling. The native worker parses the ID as uint64 and emits std::to_string(parsed.request_id), so a valid ID such as \"0001\" returns \"1\" and fails handle's string identity comparison, causing a 502 after successful rendering. Return the canonical decimal ID (or compare validated numeric IDs).",
+      "suggestion_code": "    return str(int(identity)), model",
+      "existing_code": "    return identity, model",
+      "start_line": 57,
+      "end_line": 57,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+      "content": "Foreground work cannot be superseded while request_frame is blocked. The transport permits a 180-second receive timeout and a 200-second total deadline, and queue_render only replaces pending_ while rendering_ remains true. Consequently, navigating, switching models, or disconnecting and reconnecting during a stalled frame leaves the latest view waiting for the obsolete request, even when it is already cached. Add cancellation of the active transport request when its generation/session is superseded (while retaining stale-result checks).",
+      "existing_code": "            download = local ? *local : gs::server::request_frame(endpoint, request);",
+      "start_line": 498,
+      "end_line": 498,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+      "content": "A decode failure on a locally cached packet leaves the unusable packet in packet_cache_. Prefetch uses request_frame, which validates the envelope/CRC but does not decode JPEG or Zstd; a checksum-valid but undecodable payload can therefore enter the cache. Every retry of that view then retrieves the same packet and fails without contacting the server. Evict the cache entry when decoding fails, or fully validate prefetched payloads before insertion.",
+      "existing_code": "            last_requested_key_.clear();\n            status_.Text(L\"渲染失败：\" + to_hstring(error));",
+      "start_line": 541,
+      "end_line": 542,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/main.cpp",
+      "content": "Smoke-test failures still produce a successful process exit: finish_smoke(false, ...) closes the application and execution reaches this unconditional return. Reporting/screenshot errors are also swallowed by finish_smoke, so a run can exit successfully without fresh evidence. Propagate the smoke result (including artifact-write failures) to wWinMain and return a nonzero exit code on failure, rather than requiring every caller to infer failure from JSON or missing files.",
+      "existing_code": "        return 0;",
+      "start_line": 27,
+      "end_line": 27,
+      "category": "test",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/build.ps1",
+      "content": "Pin the CMake generator and x64 architecture to match the client build. This invocation honors CMAKE_GENERATOR (and any existing build-directory cache), so an environment configured for Ninja can successfully build the transport libraries directly under server-windows rather than server-windows\\Release or \\Debug. Native3DGSCloud.vcxproj hard-codes the latter paths, causing the subsequent MSBuild link to fail; a Win32 generator similarly produces incompatible libraries for /p:Platform=x64. Select a compatible Visual Studio x64 generator explicitly, or pass the actual CMake artifact paths to the client project and reject incompatible cached configurations.",
+      "existing_code": "\u0026 $cmake -S (Join-Path $root 'ForServer') -B (Join-Path $root 'out\\server-windows') -DGS_SERVER_CUDA=OFF",
+      "start_line": 9,
+      "end_line": 9,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/install-go.sh",
+      "content": "Go 1.27.1 has not been released as of October 2026 (the current release series is 1.27's predecessor, 1.26). This URL therefore cannot bootstrap a clean installation, and deploy.sh --install-deps fails whenever no Go executable is already available. Pin an actually released Go version satisfying \u003e=1.23 and its official archive checksum.",
+      "existing_code": "archive=go1.27.1.linux-amd64.tar.gz\nchecksum=63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445",
+      "start_line": 5,
+      "end_line": 6,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/deploy/service.py",
+      "content": "The saved worker-port range does not match the Go gateway's contract: gateway/main.go rejects worker_port \u003c 1024 or worker_port + max_instances \u003e 65535. For example, configure accepts --worker-port 65535, saves it, and every subsequent startup exhausts its restart budget. Validate the same lower bound and full instance-port range here before replacing config.json.",
+      "existing_code": "        if not models.is_dir() or not 1 \u003c= args.port \u003c= 65535 or not 1 \u003c= args.worker_port \u003c= 65535:\n            raise ValueError(\"Invalid model directory/ports\")",
+      "start_line": 146,
+      "end_line": 147,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/deploy/deploy.sh",
+      "content": "This builds for every GPU on the host rather than the GPUs selected by --devices. On a mixed host with a supported selected GPU and an unselected Pascal/Volta GPU, CUDA 13 rejects the generated targets below compute capability 7.5 and the deployment fails despite the selected GPU being supported. Query only the selected device IDs when deriving architectures, and explicitly reject unsupported selected architectures.",
+      "existing_code": "architectures=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d '.' | sort -u | awk '{printf \"%s-real;%s-virtual;\", $1, $1}' | sed 's/;$//')",
+      "start_line": 106,
+      "end_line": 106,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/gateway/service.go",
+      "content": "The 64 handler slots do not bound these producers: when a client disconnects, frame returns and releases its slot, but the flight keeps running under service.context for up to 180 seconds. Repeated requests for distinct uncached views followed by disconnects can therefore accumulate arbitrarily many flights/goroutines waiting on device.gate, keeping instances active and exhausting resources despite the connection limits. Add a separate bounded producer/queue budget held until the flight finishes, rejecting new misses when full (while still allowing callers to join existing flights).",
+      "existing_code": "\t\t\t\tservice.producer.Add(1)\n\t\t\t\tgo func() {",
+      "start_line": 250,
+      "end_line": 251,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+      "content": "Closing the last window schedules session release on a background thread but does not wait for it. Application::Start then returns and wWinMain exits, so the process can terminate before /sessions/close is sent or completed. The lease (and GPU instance) can therefore remain active until lease expiry instead of being released on exit. Coordinate shutdown with the close request, using its bounded control deadline, before allowing the application to exit.",
+      "existing_code": "        release_session(endpoint_);\n        if (resize_timer_)",
+      "start_line": 67,
+      "end_line": 68,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+      "content": "IPv6 endpoints cannot be entered through this validation/construction path: an unbracketed literal such as ::1 produces http://::1:8046, while the valid bracketed form [::1] is rejected by the character whitelist. The transport explicitly supports IPv6 loopback, but the UI makes it unreachable. Validate the host separately and bracket IPv6 literals when constructing the endpoint URL (including the smoke-config path).",
+      "existing_code": "        endpoint = {(https_.IsChecked().GetBoolean() ? \"https://\" : \"http://\") + host + \":\" + port,\n                    to_string(token_.Password()), private_http_.IsChecked().GetBoolean()};",
+      "start_line": 361,
+      "end_line": 362,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/src/jpeg_windows.cpp",
+      "content": "WIC automatically selects a decoder for any supported container here. Consequently, a PNG (or another supported image) with matching dimensions is accepted as a JPEG frame on Windows, while the Linux libjpeg implementation rejects it. Check decoder-\u003eGetContainerFormat() against GUID_ContainerFormatJpeg before decoding, and add a non-JPEG payload rejection test.",
+      "existing_code": "    checked(imaging-\u003eCreateDecoderFromStream(stream.Get(), nullptr, WICDecodeMetadataCacheOnDemand,\n                                             \u0026decoder));",
+      "start_line": 55,
+      "end_line": 56,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/src/frame.cpp",
+      "content": "Inspection accepts checksum-valid uncompressed RGBA packets even when payload_bytes differs from width * height * 4. This lets gs-frame inspect report success and request_frame accept an unusable response; only a later decode detects it. For Profile::Rgba with compressed == false, require payload_bytes == unpacked_bytes during inspection.",
+      "existing_code": "    require(info.payload_bytes \u0026\u0026 info.payload_bytes \u003c= max_bytes \u0026\u0026\n                packet.size() == header_size + info.payload_bytes,\n            \"Invalid payload length\");",
+      "start_line": 151,
+      "end_line": 153,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/src/frame.cpp",
+      "content": "The stream may still contain buffered output when its status is checked. If the final flush/close fails (for example, a small PPM written to /dev/full), the destructor discards that failure and the CLI returns success. Explicitly close the stream and check its status afterward. Apply the same final-write check to write_bytes.",
+      "existing_code": "    require(bool(output), \"PPM write failed\");",
+      "start_line": 209,
+      "end_line": 209,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tests/frame_tests.cpp",
+      "content": "These mutations leave the header checksum stale, so they mostly test checksum rejection rather than the semantic validation branches. Add cases that recompute checksums after introducing invalid dimensions, flags, raw lengths, and malformed/concatenated Zstd payloads. The current transport and image-v2 tests do not cover those checksum-valid malformed packets.",
+      "existing_code": "            corrupt[offset] ^= uint8_t(1 \u003c\u003c bit);\n            EXPECT_THROW(decode_frame(corrupt), std::exception);",
+      "start_line": 35,
+      "end_line": 36,
+      "category": "test",
+      "severity": "low"
+    },
+    {
+      "path": "ForServer/tests/cuda_tests.cpp",
+      "content": "Assert that `first.debug_projection` and `further.debug_projection` each contain exactly one ellipse before indexing them. A projection/culling regression can make either vector empty, so these unchecked accesses introduce undefined behavior and may crash the test process instead of reporting an assertion failure. Add `ASSERT_EQ(...size(), 1u)` immediately after each render.",
+      "existing_code": "    auto first = renderer.render(request);\n    EXPECT_NEAR(first.debug_projection[0].center_x, 33.5, 0.0001);",
+      "start_line": 115,
+      "end_line": 116,
+      "category": "test",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/include/gs_server/packet_cache.h",
+      "content": "Every successful lookup deep-copies Download::packet, including lookups used only to test presence. MainWindow::prefetch_loop calls get(key) for each of up to 60 neighbors on the UI thread and immediately discards the result, so revisiting cached neighborhoods unnecessarily allocates and copies potentially tens of megabytes and can stall interaction. Add a non-copying presence/touch operation for these checks (and reserve get() for callers that need an owned download).",
+      "existing_code": "                return entries_.front().second;",
+      "start_line": 22,
+      "end_line": 22,
+      "category": "performance",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/src/windows_renderer.cpp",
+      "content": "These failure paths run after ExecuteCommandLists, when the GPU may still reference the submitted resources. Throwing unwinds render(), releasing its upload, output, readback and query resources before completion; if the caller retries, render() also resets the still-in-use allocator. Retain the submitted resources and allocator until fence completion (or confirmed device removal), and prevent reuse while completion is unknown. Add a submission-failure/timeout test; the invalid-layout test throws before any GPU work is queued.",
+      "existing_code": "        checked(queue-\u003eSignal(fence.Get(), ++fence_value), \"Client signal\");\n        checked(fence-\u003eSetEventOnCompletion(fence_value, event), \"Client fence event\");\n        if (WaitForSingleObject(event, 5000) != WAIT_OBJECT_0)\n            throw std::runtime_error(\"Client GPU timeout\");",
+      "start_line": 174,
+      "end_line": 177,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/src/windows_renderer.cpp",
+      "content": "The HWND has no exception-safe owner. If swapchain creation, command submission or Present throws, show() exits without DestroyWindow, leaving a live window after its graphics objects are released. Wrap the HWND in a scoped owner immediately after creation so all exceptional exits destroy it, and account for normal user-driven destruction to avoid destroying the handle twice.",
+      "existing_code": "    HWND window =\n        CreateWindowW(type.lpszClassName, L\"Native3DGS remote single frame\", WS_OVERLAPPEDWINDOW,\n                      CW_USEDEFAULT, CW_USEDEFAULT, rectangle.right - rectangle.left,\n                      rectangle.bottom - rectangle.top, nullptr, nullptr, type.hInstance, nullptr);",
+      "start_line": 309,
+      "end_line": 312,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/cloud_benchmark.py",
+      "content": "This benchmark cannot complete against the new Go gateway: cache hits return X-GS-Stats as {}, and every request here uses the same camera/cache key. After warm-up, measured samples therefore lack worker_device, server_ms, queue_ms, and the other required native statistics, causing KeyError during summary generation. Handle cache-hit/shared responses explicitly and distinguish cache throughput from native rendering measurements rather than assuming every response contains worker statistics.",
+      "existing_code": "               \"devices\": sorted({entry[\"worker_device\"] for entry in samples}), \"identical_fixed_camera_packets\": len({entry[\"packet_sha256\"] for entry in samples}) == 1,",
+      "start_line": 60,
+      "end_line": 60,
+      "category": "bug",
+      "severity": "high"
+    },
+    {
+      "path": "ForServer/tools/cloud_benchmark.py",
+      "content": "Both measured and warm retain every complete frame packet even though only the first measured packet is written. Memory usage grows with frame count instead of concurrency; uncompressed 1080p RGBA packets are about 8.3 MB each (Zstd can reduce this), so 120 frames can retain nearly 1 GB plus warm-up packets. Consume results incrementally, retain only statistics, and save just the first measured payload to avoid memory pressure distorting the benchmark.",
+      "existing_code": "        measured = list(executor.map(render, range(1001, 1001 + args.frames)))",
+      "start_line": 53,
+      "end_line": 53,
+      "category": "performance",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/cloud_v3_latency.py",
+      "content": "These labels assume cache states rather than checking them. With the default invocation, existing cached views can make the first request a hit; eviction or another in-flight request can also change the expected state. The gateway explicitly reports hit/miss/shared in X-GS-Cache. Validate the expected state and fail or retry the experiment, or group samples by the reported state, so the miss/hit latency summaries do not silently measure the wrong population.",
+      "existing_code": "        samples[\"miss\"].append(result)\n        samples[\"hit\"].append(render(index + 101, yaw))",
+      "start_line": 36,
+      "end_line": 37,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/cloud_quality.py",
+      "content": "The capture CLI permits --repeat 1 (also its default) and emits one JSON record per repeat. Such a valid capture becomes empty after this unconditional warm-up removal, and samples[0] then raises IndexError. Validate that at least two records exist before dropping warm-up, with a clear instruction to increase --repeat, or provide an explicit warm-up policy that supports single-record captures.",
+      "existing_code": "        samples = [json.loads(line) for line in (folder / (profile + \".jsonl\")).read_text(encoding=\"utf-8-sig\").splitlines()][1:]",
+      "start_line": 27,
+      "end_line": 27,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/src/windows_renderer.cpp",
+      "content": "A pre-submission exception leaves the command list recording. For example, texture()/buffer() can throw \"Client GPU ResourceLimit\" after this Reset; on the next render(), the allocator cannot be reset while its command list is recording, and command-list Reset also requires a closed list. Thus a transient allocation failure permanently prevents reuse of this renderer, unlike the invalid-layout failure covered by the test. Allocate resources before opening the list, or add exception-safe cleanup that closes/discards the unsubmitted recording and restores a reusable allocator/list; add a recovery test for a failure after command-list Reset.",
+      "existing_code": "    checked(context.commands-\u003eReset(context.allocator.Get(), nullptr), \"Reset client commands\");\n    auto output = context.texture(frame.width, frame.height, DXGI_FORMAT_R8G8B8A8_UNORM,\n                                  D3D12_RESOURCE_STATE_COPY_DEST, true);",
+      "start_line": 214,
+      "end_line": 216,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/benchmark.py",
+      "content": "Two models with the same filename in different directories share this output directory. The second run overwrites sample.json, worker logs, captures, and packets while summaries for both models remain, so subsequent quality reanalysis can use the wrong model's artifacts. Reject duplicate output names or use a unique model identifier in the directory name, and apply the same mapping in reanalyze.py and report.py.",
+      "existing_code": "        directory = args.out / (model.stem + \"-\" + model.suffix[1:])",
+      "start_line": 135,
+      "end_line": 135,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/worker_pool.py",
+      "content": "SIGINT/SIGTERM during readiness sets stopping and exits the readiness loop, but this outer loop still launches all remaining devices before cleanup. These processes can perform GPU initialization even after shutdown was requested. Check stopping before each launch and break out of the device loop when readiness is cancelled.",
+      "existing_code": "        for index, device in enumerate(devices):\n            port = args.base_port + index",
+      "start_line": 36,
+      "end_line": 37,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/report.py",
+      "content": "quality() returns None for foreground_psnr_db when foreground error is zero. A valid lossless capture therefore raises TypeError at the numeric format specifier and aborts reporting before the remaining outputs are generated. Handle None explicitly, for example by displaying 'lossless' instead of formatting it as a float.",
+      "existing_code": "                psnr = row[\"foreground_psnr_db\"]\n                label = f\"{row['packet_bytes'] / 1048576:.3f} MiB / FG {psnr:.2f} dB / crop {row['crop_ssim']:.4f}\"",
+      "start_line": 51,
+      "end_line": 52,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/report.py",
+      "content": "These packet paths ignore both the supplied --directories and the current row's model. Batches stored outside out fail with FileNotFoundError; multi-model batches can silently compare changjin_v1 packets for unrelated models. Retain each batch's supplied directory and derive the model subdirectory from row['model'] when locating packets.",
+      "existing_code": "            baseline_path = Path(\"out/server-benchmark-small/changjin_v1-ply\") / filename\n            optimized_path = Path(\"out/server-benchmark-optimized/changjin_v1-ply\") / filename",
+      "start_line": 75,
+      "end_line": 76,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/reanalyze.py",
+      "content": "A benchmark with no successful profiles can write `summary.json` as `[]` (the benchmark persists summaries even after a profile failure). Reanalyzing that valid failure-only run reaches `summaries[0]` and raises `IndexError`. Handle an empty summary before constructing the CSV writer, e.g. return with an explicit no-results message.",
+      "existing_code": "        writer = csv.DictWriter(target, fieldnames=list(summaries[0]))",
+      "start_line": 34,
+      "end_line": 34,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/legacy/report.py",
+      "content": "The benchmark records per-profile failures and continues, so the optimized batch can legitimately contain a successful row whose baseline capture failed. In that case this unguarded `next()` raises `StopIteration`, aborting the report instead of reporting the missing comparison. Look up the baseline with a default and skip or explicitly record unmatched rows.",
+      "existing_code": "            before = next(item for item in batches[\"server-benchmark-small\"] if all(item[key] == row[key] for key in [\"model\", \"resolution\", \"view\", \"raw\", \"profile\"]))",
+      "start_line": 73,
+      "end_line": 73,
+      "category": "bug",
+      "severity": "medium"
+    },
+    {
+      "path": "ForServer/tools/paced_link.py",
+      "content": "Forward X-GS-View-Code as well. The current Windows capture client calls request_frame(), which unconditionally compares this response header with view_code(request). Because the proxy drops it, every otherwise valid paced capture fails with \"Response spherical position mismatch\" after downloading the frame. Also preserve X-GS-Cache so cache state remains observable through the proxy.",
+      "existing_code": "                    headers = {name: response.headers[name] for name in (\"X-GS-Stats\", \"X-GS-Request-Id\", \"X-GS-Model-Id\")}",
+      "start_line": 30,
+      "end_line": 30,
+      "category": "bug",
+      "severity": "high"
+    }
+  ],
+  "groups": [
+    {
+      "label": "Windows client application and UI",
+      "files": [
+        "ForServer/WindowsClient/App.xaml.cpp",
+        "ForServer/WindowsClient/App.xaml.h",
+        "ForServer/WindowsClient/MainWindow.xaml.bootstrap.h",
+        "ForServer/WindowsClient/MainWindow.xaml.cpp",
+        "ForServer/WindowsClient/MainWindow.xaml.h",
+        "ForServer/WindowsClient/main.cpp",
+        "ForServer/WindowsClient/pch.cpp",
+        "ForServer/WindowsClient/pch.h"
+      ]
+    },
+    {
+      "label": "Build, packaging, and ignored artifacts",
+      "files": [
+        "ForServer/.gitignore",
+        "ForServer/WindowsClient/.gitignore",
+        "ForServer/WindowsClient/build.ps1",
+        "ForServer/WindowsClient/packaging/build-installer.ps1"
+      ]
+    },
+    {
+      "label": "Server deployment and service management",
+      "files": [
+        "ForServer/deploy/deploy.sh",
+        "ForServer/deploy/install-cuda13.sh",
+        "ForServer/deploy/install-go.sh",
+        "ForServer/deploy/service.py"
+      ]
+    },
+    {
+      "label": "Gateway routing, instances, and storage",
+      "files": [
+        "ForServer/gateway/cache.go",
+        "ForServer/gateway/instances.go",
+        "ForServer/gateway/main.go",
+        "ForServer/gateway/service.go",
+        "ForServer/gateway/spatial.go",
+        "ForServer/gateway/sqlite.go",
+        "ForServer/tools/gateway.py"
+      ]
+    },
+    {
+      "label": "Frame processing and cross-platform image encoding",
+      "files": [
+        "ForServer/include/gs_server/frame.h",
+        "ForServer/src/frame.cpp",
+        "ForServer/src/frame_tool.cpp",
+        "ForServer/src/jpeg_linux.cpp",
+        "ForServer/src/jpeg_windows.cpp",
+        "ForServer/tests/frame_tests.cpp",
+        "ForServer/tests/image_v2_tests.cpp"
+      ]
+    },
+    {
+      "label": "Rendering primitives, models, and CUDA validation",
+      "files": [
+        "ForServer/include/gs_server/primitives.h",
+        "ForServer/include/gs_server/renderer.h",
+        "ForServer/src/model.cpp",
+        "ForServer/src/reference.cpp",
+        "ForServer/tests/cuda_tests.cpp"
+      ]
+    },
+    {
+      "label": "Server requests, packet caching, and transport",
+      "files": [
+        "ForServer/include/gs_server/packet_cache.h",
+        "ForServer/include/gs_server/request.h",
+        "ForServer/src/request.cpp",
+        "ForServer/src/server_main.cpp",
+        "ForServer/tests/request_tests.cpp",
+        "ForServer/tests/transport_tests.cpp"
+      ]
+    },
+    {
+      "label": "Native Windows viewer, HTTP client, and rendering",
+      "files": [
+        "ForServer/include/gs_server/viewer_controls.h",
+        "ForServer/include/gs_server/windows_client.h",
+        "ForServer/src/windows_http.cpp",
+        "ForServer/src/windows_main.cpp",
+        "ForServer/src/windows_renderer.cpp",
+        "ForServer/tests/windows_tests.cpp"
+      ]
+    },
+    {
+      "label": "Cloud performance, quality, and link testing",
+      "files": [
+        "ForServer/tools/cloud_benchmark.py",
+        "ForServer/tools/cloud_quality.py",
+        "ForServer/tools/cloud_v3_latency.py",
+        "ForServer/tools/paced_link.py"
+      ]
+    },
+    {
+      "label": "Legacy benchmarking and report tooling",
+      "files": [
+        "ForServer/tools/legacy/benchmark.py",
+        "ForServer/tools/legacy/reanalyze.py",
+        "ForServer/tools/legacy/report.py",
+        "ForServer/tools/legacy/worker_pool.py"
+      ]
+    }
+  ],
+  "session_id": "b709979d-9366-47bf-8af6-5e4ea7735547",
+  "manifest": {
+    "schema_version": "ocr.run-manifest/v1",
+    "run_id": "b709979d-9366-47bf-8af6-5e4ea7735547",
+    "operation": "review",
+    "terminal_state": "complete",
+    "repository": {
+      "identity_sha256": "35859a5a0785100bad9c3e21f4b31ee39d6e6c1ce3751cb7ca3cdaa8cfb3471c"
+    },
+    "input": {
+      "mode": "workspace",
+      "resolved_base": "b7fdaa0d03cc301f168a25c236b9cec7d27948dd",
+      "source_artifact_sha256": "f09b678ea0da3c795432f0ac0616f7ad44cf92cf7463d65caa8ea78f0980486a"
+    },
+    "execution": {
+      "ocr_version": "v1.12.11",
+      "provider": "xjiapi",
+      "model": "gpt-6.1-sol",
+      "configured_concurrency": 4,
+      "rule_config_sha256": "735b57d76a722df648f29fe10ef34308464aaf889ccf8e58bd1cdc2279d7e632",
+      "runtime_config_sha256": "cfaf9dc60ade75b3423c9c50d256bc3db250bc0562a30fa90570a89d1f815221"
+    },
+    "coverage": {
+      "selected": [
+        {
+          "item_id": "00af1f79a85f65df1ef257f15d5bc41092840619eaa0c87972d97aa3b6eed460",
+          "path": "ForServer/tools/legacy/reanalyze.py",
+          "fingerprint": "3762dcd23dfb180859233e90f91f81dabf8a7c238342bb6bddb6c8e9c57ecdf8"
+        },
+        {
+          "item_id": "0253d4f898c44e982299cbb9860c6842010e0cebff86a15d23eefbc611f377bb",
+          "path": "ForServer/gateway/instances.go",
+          "fingerprint": "da1027f45ca0db1675e7013d8ae9ac5d6e7022de1dd589ac6204de9ebcc36558"
+        },
+        {
+          "item_id": "0d3ca9033a6b96db5389f6802602a8e0b7c7ce38717cc0336171a9d6ad59941f",
+          "path": "ForServer/deploy/deploy.sh",
+          "fingerprint": "4039fe7b3a75c6337c0bd31b12b74554e9c4f4e8dc1b6ec74f67cf7240764233"
+        },
+        {
+          "item_id": "12ced0310354aedcc7fe8812cd63beb40eca6f0ee098ba8e9e04b41e4d22e1c5",
+          "path": "ForServer/src/model.cpp",
+          "fingerprint": "fcde514dc9d8e7527329b4de97a7f519a2912ab1c1cd3886358b2103c4cec200"
+        },
+        {
+          "item_id": "146fb9549c818720838122ff6b07a93deab00b76bfc6010e0082687db657daf1",
+          "path": "ForServer/tools/cloud_v3_latency.py",
+          "fingerprint": "d037d4809ee6bbd65115d7a9143ff6b55ac5672414026f4af4a0131f3ff95ee7"
+        },
+        {
+          "item_id": "1739dc735d24d6e60fd1d9c13b73fa66bc8d07326ff45a5715779ae84d96702a",
+          "path": "ForServer/tools/legacy/benchmark.py",
+          "fingerprint": "842ba56c83d53692f9fa907c7b32235afccc345f2458133ad1201c02b18939b8"
+        },
+        {
+          "item_id": "17d7fd08935ab34ec9f29b1c2d3163004fcc4cfea88ee59bfa1f860c34287a34",
+          "path": "ForServer/tests/image_v2_tests.cpp",
+          "fingerprint": "1810e8c2d8dfed0a4582904aeb0a0c5247246ea8f4fcbe93dcebd784b58cad1e"
+        },
+        {
+          "item_id": "1a9ae76de5de77c0fbeb948341a597c4033e83d9821f0e804c7c5b05db6d25aa",
+          "path": "ForServer/WindowsClient/App.xaml.cpp",
+          "fingerprint": "890408b199381e6462905943054d9bd81e8befd1ef5ee3335384c645cbb55402"
+        },
+        {
+          "item_id": "1d0775445620a0e096d30b42cad6375dadb8bea78a6dc20f1f4ecbd304fb4857",
+          "path": "ForServer/gateway/cache.go",
+          "fingerprint": "ebea0273133f28cedd5bbaea41abc28e2cc6b32c51eaa0b769f40f4be13efed5"
+        },
+        {
+          "item_id": "2566e1b07f8d13b363b7445c8cd29e5f7259f43fd4b38c08e1df5fc334d5b1e0",
+          "path": "ForServer/deploy/install-cuda13.sh",
+          "fingerprint": "97feb7bcd45321f08043ac0e4977bc08e0235bd27e08e98e43e139133b3c5fde"
+        },
+        {
+          "item_id": "2b7294b65d38aad4e5ab6d9e614e2dc7407ef4c54caadbd82c1f6f6f23f2c13d",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+          "fingerprint": "c95c511c86ee3453f3453b23281b7f2b1bc3a5deecc60db667981960df90aad5"
+        },
+        {
+          "item_id": "34fd29bbfc8ecf95459a3f35e1953f1795cf682787b5fe0a3f4f5d5824cc7d40",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.bootstrap.h",
+          "fingerprint": "020f6b0f4370fb79ecae902740a21770d1f854ef8873ac765b425ed3dc9bfbf2"
+        },
+        {
+          "item_id": "411856837f9d7309110889b83c28e5f175ba450a96ec7cbe58dd12652529c991",
+          "path": "ForServer/tests/cuda_tests.cpp",
+          "fingerprint": "cd4af412b7669f6b910d158ebf1e6174f526050d99c709852967e905c1891aa8"
+        },
+        {
+          "item_id": "42e394255b44cc54a7e794403b2425aeb5a3d433c412e844838af1250b0a93ea",
+          "path": "ForServer/include/gs_server/request.h",
+          "fingerprint": "96f147350461f21de5464c75ae12ba3f257a50b81a7b86b9826821270c25a922"
+        },
+        {
+          "item_id": "440f2b03d11511851b3a4620711a63bcda4949efd3dab88f69b506e57a289aa4",
+          "path": "ForServer/src/request.cpp",
+          "fingerprint": "12e4358031ec64d642ec70289a293ed2863cf1fee7e224b000b1e3bb3e9f3fa3"
+        },
+        {
+          "item_id": "4513a14702850210673101bdc13ada420fffbac045036af585a20efdb1cf40c0",
+          "path": "ForServer/gateway/service.go",
+          "fingerprint": "57a046b298138845958491ba0efeca62cba8fdf95136f74695de5db85dbc6d7c"
+        },
+        {
+          "item_id": "46fb6da7497a10533a5050a3fec4183df29463c9e077966f23eb4bca6b4623d9",
+          "path": "ForServer/include/gs_server/windows_client.h",
+          "fingerprint": "b32a95906f3b6b11930b690489ef8be441c948c015c90bc06124ef9a161194e1"
+        },
+        {
+          "item_id": "4b6e95091d0005c4a17bad86cf55283e033442b02f69012814db300fc01e0cfb",
+          "path": "ForServer/include/gs_server/viewer_controls.h",
+          "fingerprint": "da69d7aa45d06d44580032efb629cf36e3fb3f66e2e4b1441acc286ee4f4359b"
+        },
+        {
+          "item_id": "4c03b37af8dfffe974bd0b4eba544c54fa209f60600db9d7179f59ae96f7435d",
+          "path": "ForServer/tools/legacy/report.py",
+          "fingerprint": "cbde18bf7f500dc98b0e59cd5ab1417c7b33db0c771f0f96ef3c6cf3420d538c"
+        },
+        {
+          "item_id": "51bc0fc4c5a7392f4e4a9ebabde661e11afaf61202c8d384a8b80bdb9046b7cf",
+          "path": "ForServer/include/gs_server/packet_cache.h",
+          "fingerprint": "89e63530900f7ed0c86f9af8165939d8e9bf882cad4fee3b55dc21fa43fc47b6"
+        },
+        {
+          "item_id": "520336500cab2769d3819a36702cadb75d7eb004f92425f48a2bb562cea8977b",
+          "path": "ForServer/src/jpeg_windows.cpp",
+          "fingerprint": "abea8c748136113577cea6056b3b503c22fd6971a26fdb20eaab97b1c3da928e"
+        },
+        {
+          "item_id": "52ca3014f35f67a40b202bc3b7ebdde01a5848fcf0bdcd0cd7d89094cbbce240",
+          "path": "ForServer/tests/transport_tests.cpp",
+          "fingerprint": "0394fd2d38a209216a13e35e4c7679ef90637f10e0f02083351537413ec98e5c"
+        },
+        {
+          "item_id": "582d8cc435ce16feef64a86ff512037a63140f0b90fa8f43ee885deb3c3026a9",
+          "path": "ForServer/gateway/sqlite.go",
+          "fingerprint": "fe2d86382a8c3da1c38fe99de7f70f1edb5d54fb96f41e1d0e0585614e261184"
+        },
+        {
+          "item_id": "59f791922df260c826f95fbc312df353ab78638225d43a307f75af80f1213823",
+          "path": "ForServer/tools/cloud_benchmark.py",
+          "fingerprint": "531b4d96145a5f4e6b7569e96b0776de07f0f4a78483254d82e1dca6d0355745"
+        },
+        {
+          "item_id": "622e66815540e42fc4d49e8f16034e28831c9f39c6d0f176ece1200e701c544c",
+          "path": "ForServer/tools/paced_link.py",
+          "fingerprint": "38620289a75913c278d98e73fc1ab32e933d71dd3a063c736eb75f3db412ae24"
+        },
+        {
+          "item_id": "6a1f9854f4e91431109dff87118c70d0acc1f6a7d38c017f656cfe05301df887",
+          "path": "ForServer/WindowsClient/build.ps1",
+          "fingerprint": "a12c987663cc4e7898a0da4156809788c7b252c190f0c27d7d96d6065b80afed"
+        },
+        {
+          "item_id": "6c9052dba11b1f4befb177d14f880d89326c0aa62f672965e3d547fdffcef77e",
+          "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+          "fingerprint": "8599f9050e7c9f87e426bfa7b20dd54d6547abcb6159e407086fa0d9af666bf2"
+        },
+        {
+          "item_id": "7acf44b87e1263a3cbb1cb08e395cd46953483e93a79d91b4693105f7b1272d4",
+          "path": "ForServer/deploy/service.py",
+          "fingerprint": "6fff5b28c11b76728927164e812ea69b5036e100c5ec169e341879fd3fb35a7e"
+        },
+        {
+          "item_id": "80412fa3cde62a8f68fa49ea3e7c90d9ed29696761294ff3ffebef68e44d9f2d",
+          "path": "ForServer/src/windows_http.cpp",
+          "fingerprint": "9b9fd1d69c1c198571ea48503853ded6de50caf1925ebf623a1eb4c8a8b7635c"
+        },
+        {
+          "item_id": "823d3a7c8bb1cde3bc2cdf7ac50be20b2bb20ee5c1f94320808697d5d12d5cc1",
+          "path": "ForServer/include/gs_server/primitives.h",
+          "fingerprint": "57261649ed1133c2484fce3d584e2502df346c5461dad5368e2e2ae69ff5151e"
+        },
+        {
+          "item_id": "8827d83c926fe6203bef0575ae5595c8fcf13603319b158722365bd3147c91c3",
+          "path": "ForServer/WindowsClient/.gitignore",
+          "fingerprint": "7591e872b194ea01c0c6c77130eaf1a3f233f7989d70ddaee47c13c55c60ee85"
+        },
+        {
+          "item_id": "8faa9929ca2b07dc9788ab149a9ef7a84a667811f634935371f660c33bca2e30",
+          "path": "ForServer/src/windows_main.cpp",
+          "fingerprint": "9e27f8badff94f94133f1f9d66c9dc45477425e6d07a174397c74ece250f0f66"
+        },
+        {
+          "item_id": "96b9db674207bda03105822f6d89d99d848ebfedb414bc5af788daa964d3813c",
+          "path": "ForServer/src/server_main.cpp",
+          "fingerprint": "84e219e0280cabb9e51c19ccaefd85094e6f80d3f20425a402888fd4cddd693c"
+        },
+        {
+          "item_id": "99b1d29063c28bffa83a957052df17b1bddb8ba90ad6c752b464becaab61d556",
+          "path": "ForServer/tools/legacy/worker_pool.py",
+          "fingerprint": "e9debc4043873b777263b72eabb6db71d634d334ed34dcb64a823d808e2efa4c"
+        },
+        {
+          "item_id": "9dcd43c0322350d027f72794682c950282ccc96891c2b8f5e13f9ca06f35825e",
+          "path": "ForServer/include/gs_server/frame.h",
+          "fingerprint": "0da1ab0fc9fb8287659e173bab27bb20a00f81e2dedfefebe7d897a2f694b7ac"
+        },
+        {
+          "item_id": "9e44d554c67c279472b3c70e2157b7061fb671928dd9179ad9a01b4baa3fd88d",
+          "path": "ForServer/gateway/main.go",
+          "fingerprint": "46b7508a13290fd6b3125a5f0e508bc1009e26c93406e60c65704322ac88c5d1"
+        },
+        {
+          "item_id": "9f86114a3817a6c748143f11fa6f35cca6152a825eb1078a6dbf7897cf4bba25",
+          "path": "ForServer/WindowsClient/App.xaml.h",
+          "fingerprint": "7c18eaaecaf76a44d2de16bc4e47872fa6b8aad8d290e49418f0d613bfb2980d"
+        },
+        {
+          "item_id": "9fa29ce5cd4ddaefa5404aa3bb9468895140749776394507cc959bcc8e0f5ccc",
+          "path": "ForServer/src/reference.cpp",
+          "fingerprint": "5e3ff22aaff392fb3e79462892ccc87cab542c7a75ee8cb5825808b2e3afc6bd"
+        },
+        {
+          "item_id": "ab87989a6feb70fea5d3aeda5169ba959c0ef8bce7d09440090d24b7be070a9c",
+          "path": "ForServer/tests/request_tests.cpp",
+          "fingerprint": "fb6bbd5c8c3d0198de6cc7c2554d03fa12ecaafeb1487499c49bcc9c5c9c8670"
+        },
+        {
+          "item_id": "ac7300fd805ccd3916518e460957b08036cb87848d52f26c33d2deb2b9354f39",
+          "path": "ForServer/tools/cloud_quality.py",
+          "fingerprint": "4c9c49c8575f3f3d6d55c6a9f36dc5410ce899c69f58c080fe406e7e2af1c5ab"
+        },
+        {
+          "item_id": "add70438623f3d957cf20728aaafd05b7d0679e4864a69d282ecd063bcbe562e",
+          "path": "ForServer/.gitignore",
+          "fingerprint": "7fe72fa0fde50682b810d392971274fb895cb96b968d251ea67a2ad38ba4b402"
+        },
+        {
+          "item_id": "afd7a4bcd0e052e00b8d9898a35495fb0c9b64154ee69d0ea3f3f2c668bed24d",
+          "path": "ForServer/src/frame_tool.cpp",
+          "fingerprint": "28b9752c1e64c26b18153befff3adf4c68d0a3e341c3caddac0e843b2d326b71"
+        },
+        {
+          "item_id": "bac274ba2f60b911a6b31a0a3460493d34644e577a9d807c4daeae88bfaeff8e",
+          "path": "ForServer/include/gs_server/renderer.h",
+          "fingerprint": "d150eef5e29f605ca12b47e40528befcc74f624a8575e2e5e10e6370068a220b"
+        },
+        {
+          "item_id": "bdacbf4af3ad7df8723a9f6b36280f8424d07ee204d044078ca9fd6cfc268e75",
+          "path": "ForServer/tests/windows_tests.cpp",
+          "fingerprint": "53c744c9fe85f4fd548ca368ade5caa5518c71505e40a6034695db8a80d4aad4"
+        },
+        {
+          "item_id": "c0a504bf7be183d027ec6eaafd5a6922d5daf05d5977558693cb2b32616e5921",
+          "path": "ForServer/deploy/install-go.sh",
+          "fingerprint": "4ef5f18bdfaa7de0adcaf0fdcc5fb0734355fedfc958fe58389a20214a92fb6d"
+        },
+        {
+          "item_id": "c8a5f6b9b937e4881d8cbd8e1fa88791b0158b5f50980fb8d23f4a46706eb8ec",
+          "path": "ForServer/WindowsClient/main.cpp",
+          "fingerprint": "1c49fc588527395df8395fbd5809332532d83ee4da8ae61daf747f1bb38e540c"
+        },
+        {
+          "item_id": "ccc83b3757dedf8583993641ab6139972b4e51fef24f569927e7788feda15b4b",
+          "path": "ForServer/tools/gateway.py",
+          "fingerprint": "f0f3016ef35e8b87d6340bf99a506899ff137e6f876cee735f39ca0e292b07dd"
+        },
+        {
+          "item_id": "ce0d9334ab602094bbcae4695bd8f360d390b92c770f9b211f9fe5cb90b341be",
+          "path": "ForServer/WindowsClient/pch.h",
+          "fingerprint": "5796a725d21922bbefde6c1c5cb08964232def231fd4847bc72a6869b25935b2"
+        },
+        {
+          "item_id": "d713d8576a34004ea78dfbb14a8c81bcfcc6c1765cbc8683874ac97b117473d5",
+          "path": "ForServer/src/frame.cpp",
+          "fingerprint": "3f8f526fd107102d4d58acff803aaa0196e3473cc454061e3678c8ed940373a4"
+        },
+        {
+          "item_id": "d9f895a4da150791e21728385bc19643cabb292068c2991a9ed27fd8159eb873",
+          "path": "ForServer/tests/frame_tests.cpp",
+          "fingerprint": "e3fa212b5ad4c275404960081f8feda7634c15e2528b6acd35704fd507a26891"
+        },
+        {
+          "item_id": "e22a758ef66a211e3310807b013ad669c6291a5806cc58743c01981ea6164a13",
+          "path": "ForServer/gateway/spatial.go",
+          "fingerprint": "b9f7ed00bef2a213a8e1881bc6502510c9f50551c94c965ec3427f887dcaf50a"
+        },
+        {
+          "item_id": "f43543153effeda5b9c029d54390048bbc97c06b898b38a6606b3faf8d25ae3b",
+          "path": "ForServer/src/windows_renderer.cpp",
+          "fingerprint": "8999d1988601cad7dcd2fce627a9c8f56d2846a975d8199b4d48b16f25e13a35"
+        },
+        {
+          "item_id": "f63989acd8ef10ab4400f4eb7c2c2998dad2e4cbf64edbde1dfc662d33279258",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.h",
+          "fingerprint": "5239ba7ba0d706da2b2c5c1dc39bf0d0e017a92e86be37c4243f3963ec5b7c8b"
+        },
+        {
+          "item_id": "f6ca47c3084e12400f0ddffcf02818ed0b9c8d3fa72050bea1e9b59f89ccbe6e",
+          "path": "ForServer/WindowsClient/pch.cpp",
+          "fingerprint": "8b127eea34c5e358fec85950d6e88372cdeb1d5591382a4e7007a73401e4a1d7"
+        },
+        {
+          "item_id": "ffa1a8e7f34f4f0c51b16fb16ab40f3e9524e7e2cec8f32eadf74ba86072f86a",
+          "path": "ForServer/src/jpeg_linux.cpp",
+          "fingerprint": "8ec93362d53efd24eac53a7b5b05d56df85d12ef01fe071a83d3069c35f0db2a"
+        }
+      ],
+      "completed": [
+        {
+          "item_id": "00af1f79a85f65df1ef257f15d5bc41092840619eaa0c87972d97aa3b6eed460",
+          "path": "ForServer/tools/legacy/reanalyze.py",
+          "fingerprint": "3762dcd23dfb180859233e90f91f81dabf8a7c238342bb6bddb6c8e9c57ecdf8"
+        },
+        {
+          "item_id": "0253d4f898c44e982299cbb9860c6842010e0cebff86a15d23eefbc611f377bb",
+          "path": "ForServer/gateway/instances.go",
+          "fingerprint": "da1027f45ca0db1675e7013d8ae9ac5d6e7022de1dd589ac6204de9ebcc36558"
+        },
+        {
+          "item_id": "0d3ca9033a6b96db5389f6802602a8e0b7c7ce38717cc0336171a9d6ad59941f",
+          "path": "ForServer/deploy/deploy.sh",
+          "fingerprint": "4039fe7b3a75c6337c0bd31b12b74554e9c4f4e8dc1b6ec74f67cf7240764233"
+        },
+        {
+          "item_id": "12ced0310354aedcc7fe8812cd63beb40eca6f0ee098ba8e9e04b41e4d22e1c5",
+          "path": "ForServer/src/model.cpp",
+          "fingerprint": "fcde514dc9d8e7527329b4de97a7f519a2912ab1c1cd3886358b2103c4cec200"
+        },
+        {
+          "item_id": "146fb9549c818720838122ff6b07a93deab00b76bfc6010e0082687db657daf1",
+          "path": "ForServer/tools/cloud_v3_latency.py",
+          "fingerprint": "d037d4809ee6bbd65115d7a9143ff6b55ac5672414026f4af4a0131f3ff95ee7"
+        },
+        {
+          "item_id": "1739dc735d24d6e60fd1d9c13b73fa66bc8d07326ff45a5715779ae84d96702a",
+          "path": "ForServer/tools/legacy/benchmark.py",
+          "fingerprint": "842ba56c83d53692f9fa907c7b32235afccc345f2458133ad1201c02b18939b8"
+        },
+        {
+          "item_id": "17d7fd08935ab34ec9f29b1c2d3163004fcc4cfea88ee59bfa1f860c34287a34",
+          "path": "ForServer/tests/image_v2_tests.cpp",
+          "fingerprint": "1810e8c2d8dfed0a4582904aeb0a0c5247246ea8f4fcbe93dcebd784b58cad1e"
+        },
+        {
+          "item_id": "1a9ae76de5de77c0fbeb948341a597c4033e83d9821f0e804c7c5b05db6d25aa",
+          "path": "ForServer/WindowsClient/App.xaml.cpp",
+          "fingerprint": "890408b199381e6462905943054d9bd81e8befd1ef5ee3335384c645cbb55402"
+        },
+        {
+          "item_id": "1d0775445620a0e096d30b42cad6375dadb8bea78a6dc20f1f4ecbd304fb4857",
+          "path": "ForServer/gateway/cache.go",
+          "fingerprint": "ebea0273133f28cedd5bbaea41abc28e2cc6b32c51eaa0b769f40f4be13efed5"
+        },
+        {
+          "item_id": "2566e1b07f8d13b363b7445c8cd29e5f7259f43fd4b38c08e1df5fc334d5b1e0",
+          "path": "ForServer/deploy/install-cuda13.sh",
+          "fingerprint": "97feb7bcd45321f08043ac0e4977bc08e0235bd27e08e98e43e139133b3c5fde"
+        },
+        {
+          "item_id": "2b7294b65d38aad4e5ab6d9e614e2dc7407ef4c54caadbd82c1f6f6f23f2c13d",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.cpp",
+          "fingerprint": "c95c511c86ee3453f3453b23281b7f2b1bc3a5deecc60db667981960df90aad5"
+        },
+        {
+          "item_id": "34fd29bbfc8ecf95459a3f35e1953f1795cf682787b5fe0a3f4f5d5824cc7d40",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.bootstrap.h",
+          "fingerprint": "020f6b0f4370fb79ecae902740a21770d1f854ef8873ac765b425ed3dc9bfbf2"
+        },
+        {
+          "item_id": "411856837f9d7309110889b83c28e5f175ba450a96ec7cbe58dd12652529c991",
+          "path": "ForServer/tests/cuda_tests.cpp",
+          "fingerprint": "cd4af412b7669f6b910d158ebf1e6174f526050d99c709852967e905c1891aa8"
+        },
+        {
+          "item_id": "42e394255b44cc54a7e794403b2425aeb5a3d433c412e844838af1250b0a93ea",
+          "path": "ForServer/include/gs_server/request.h",
+          "fingerprint": "96f147350461f21de5464c75ae12ba3f257a50b81a7b86b9826821270c25a922"
+        },
+        {
+          "item_id": "440f2b03d11511851b3a4620711a63bcda4949efd3dab88f69b506e57a289aa4",
+          "path": "ForServer/src/request.cpp",
+          "fingerprint": "12e4358031ec64d642ec70289a293ed2863cf1fee7e224b000b1e3bb3e9f3fa3"
+        },
+        {
+          "item_id": "4513a14702850210673101bdc13ada420fffbac045036af585a20efdb1cf40c0",
+          "path": "ForServer/gateway/service.go",
+          "fingerprint": "57a046b298138845958491ba0efeca62cba8fdf95136f74695de5db85dbc6d7c"
+        },
+        {
+          "item_id": "46fb6da7497a10533a5050a3fec4183df29463c9e077966f23eb4bca6b4623d9",
+          "path": "ForServer/include/gs_server/windows_client.h",
+          "fingerprint": "b32a95906f3b6b11930b690489ef8be441c948c015c90bc06124ef9a161194e1"
+        },
+        {
+          "item_id": "4b6e95091d0005c4a17bad86cf55283e033442b02f69012814db300fc01e0cfb",
+          "path": "ForServer/include/gs_server/viewer_controls.h",
+          "fingerprint": "da69d7aa45d06d44580032efb629cf36e3fb3f66e2e4b1441acc286ee4f4359b"
+        },
+        {
+          "item_id": "4c03b37af8dfffe974bd0b4eba544c54fa209f60600db9d7179f59ae96f7435d",
+          "path": "ForServer/tools/legacy/report.py",
+          "fingerprint": "cbde18bf7f500dc98b0e59cd5ab1417c7b33db0c771f0f96ef3c6cf3420d538c"
+        },
+        {
+          "item_id": "51bc0fc4c5a7392f4e4a9ebabde661e11afaf61202c8d384a8b80bdb9046b7cf",
+          "path": "ForServer/include/gs_server/packet_cache.h",
+          "fingerprint": "89e63530900f7ed0c86f9af8165939d8e9bf882cad4fee3b55dc21fa43fc47b6"
+        },
+        {
+          "item_id": "520336500cab2769d3819a36702cadb75d7eb004f92425f48a2bb562cea8977b",
+          "path": "ForServer/src/jpeg_windows.cpp",
+          "fingerprint": "abea8c748136113577cea6056b3b503c22fd6971a26fdb20eaab97b1c3da928e"
+        },
+        {
+          "item_id": "52ca3014f35f67a40b202bc3b7ebdde01a5848fcf0bdcd0cd7d89094cbbce240",
+          "path": "ForServer/tests/transport_tests.cpp",
+          "fingerprint": "0394fd2d38a209216a13e35e4c7679ef90637f10e0f02083351537413ec98e5c"
+        },
+        {
+          "item_id": "582d8cc435ce16feef64a86ff512037a63140f0b90fa8f43ee885deb3c3026a9",
+          "path": "ForServer/gateway/sqlite.go",
+          "fingerprint": "fe2d86382a8c3da1c38fe99de7f70f1edb5d54fb96f41e1d0e0585614e261184"
+        },
+        {
+          "item_id": "59f791922df260c826f95fbc312df353ab78638225d43a307f75af80f1213823",
+          "path": "ForServer/tools/cloud_benchmark.py",
+          "fingerprint": "531b4d96145a5f4e6b7569e96b0776de07f0f4a78483254d82e1dca6d0355745"
+        },
+        {
+          "item_id": "622e66815540e42fc4d49e8f16034e28831c9f39c6d0f176ece1200e701c544c",
+          "path": "ForServer/tools/paced_link.py",
+          "fingerprint": "38620289a75913c278d98e73fc1ab32e933d71dd3a063c736eb75f3db412ae24"
+        },
+        {
+          "item_id": "6a1f9854f4e91431109dff87118c70d0acc1f6a7d38c017f656cfe05301df887",
+          "path": "ForServer/WindowsClient/build.ps1",
+          "fingerprint": "a12c987663cc4e7898a0da4156809788c7b252c190f0c27d7d96d6065b80afed"
+        },
+        {
+          "item_id": "6c9052dba11b1f4befb177d14f880d89326c0aa62f672965e3d547fdffcef77e",
+          "path": "ForServer/WindowsClient/packaging/build-installer.ps1",
+          "fingerprint": "8599f9050e7c9f87e426bfa7b20dd54d6547abcb6159e407086fa0d9af666bf2"
+        },
+        {
+          "item_id": "7acf44b87e1263a3cbb1cb08e395cd46953483e93a79d91b4693105f7b1272d4",
+          "path": "ForServer/deploy/service.py",
+          "fingerprint": "6fff5b28c11b76728927164e812ea69b5036e100c5ec169e341879fd3fb35a7e"
+        },
+        {
+          "item_id": "80412fa3cde62a8f68fa49ea3e7c90d9ed29696761294ff3ffebef68e44d9f2d",
+          "path": "ForServer/src/windows_http.cpp",
+          "fingerprint": "9b9fd1d69c1c198571ea48503853ded6de50caf1925ebf623a1eb4c8a8b7635c"
+        },
+        {
+          "item_id": "823d3a7c8bb1cde3bc2cdf7ac50be20b2bb20ee5c1f94320808697d5d12d5cc1",
+          "path": "ForServer/include/gs_server/primitives.h",
+          "fingerprint": "57261649ed1133c2484fce3d584e2502df346c5461dad5368e2e2ae69ff5151e"
+        },
+        {
+          "item_id": "8827d83c926fe6203bef0575ae5595c8fcf13603319b158722365bd3147c91c3",
+          "path": "ForServer/WindowsClient/.gitignore",
+          "fingerprint": "7591e872b194ea01c0c6c77130eaf1a3f233f7989d70ddaee47c13c55c60ee85"
+        },
+        {
+          "item_id": "8faa9929ca2b07dc9788ab149a9ef7a84a667811f634935371f660c33bca2e30",
+          "path": "ForServer/src/windows_main.cpp",
+          "fingerprint": "9e27f8badff94f94133f1f9d66c9dc45477425e6d07a174397c74ece250f0f66"
+        },
+        {
+          "item_id": "96b9db674207bda03105822f6d89d99d848ebfedb414bc5af788daa964d3813c",
+          "path": "ForServer/src/server_main.cpp",
+          "fingerprint": "84e219e0280cabb9e51c19ccaefd85094e6f80d3f20425a402888fd4cddd693c"
+        },
+        {
+          "item_id": "99b1d29063c28bffa83a957052df17b1bddb8ba90ad6c752b464becaab61d556",
+          "path": "ForServer/tools/legacy/worker_pool.py",
+          "fingerprint": "e9debc4043873b777263b72eabb6db71d634d334ed34dcb64a823d808e2efa4c"
+        },
+        {
+          "item_id": "9dcd43c0322350d027f72794682c950282ccc96891c2b8f5e13f9ca06f35825e",
+          "path": "ForServer/include/gs_server/frame.h",
+          "fingerprint": "0da1ab0fc9fb8287659e173bab27bb20a00f81e2dedfefebe7d897a2f694b7ac"
+        },
+        {
+          "item_id": "9e44d554c67c279472b3c70e2157b7061fb671928dd9179ad9a01b4baa3fd88d",
+          "path": "ForServer/gateway/main.go",
+          "fingerprint": "46b7508a13290fd6b3125a5f0e508bc1009e26c93406e60c65704322ac88c5d1"
+        },
+        {
+          "item_id": "9f86114a3817a6c748143f11fa6f35cca6152a825eb1078a6dbf7897cf4bba25",
+          "path": "ForServer/WindowsClient/App.xaml.h",
+          "fingerprint": "7c18eaaecaf76a44d2de16bc4e47872fa6b8aad8d290e49418f0d613bfb2980d"
+        },
+        {
+          "item_id": "9fa29ce5cd4ddaefa5404aa3bb9468895140749776394507cc959bcc8e0f5ccc",
+          "path": "ForServer/src/reference.cpp",
+          "fingerprint": "5e3ff22aaff392fb3e79462892ccc87cab542c7a75ee8cb5825808b2e3afc6bd"
+        },
+        {
+          "item_id": "ab87989a6feb70fea5d3aeda5169ba959c0ef8bce7d09440090d24b7be070a9c",
+          "path": "ForServer/tests/request_tests.cpp",
+          "fingerprint": "fb6bbd5c8c3d0198de6cc7c2554d03fa12ecaafeb1487499c49bcc9c5c9c8670"
+        },
+        {
+          "item_id": "ac7300fd805ccd3916518e460957b08036cb87848d52f26c33d2deb2b9354f39",
+          "path": "ForServer/tools/cloud_quality.py",
+          "fingerprint": "4c9c49c8575f3f3d6d55c6a9f36dc5410ce899c69f58c080fe406e7e2af1c5ab"
+        },
+        {
+          "item_id": "add70438623f3d957cf20728aaafd05b7d0679e4864a69d282ecd063bcbe562e",
+          "path": "ForServer/.gitignore",
+          "fingerprint": "7fe72fa0fde50682b810d392971274fb895cb96b968d251ea67a2ad38ba4b402"
+        },
+        {
+          "item_id": "afd7a4bcd0e052e00b8d9898a35495fb0c9b64154ee69d0ea3f3f2c668bed24d",
+          "path": "ForServer/src/frame_tool.cpp",
+          "fingerprint": "28b9752c1e64c26b18153befff3adf4c68d0a3e341c3caddac0e843b2d326b71"
+        },
+        {
+          "item_id": "bac274ba2f60b911a6b31a0a3460493d34644e577a9d807c4daeae88bfaeff8e",
+          "path": "ForServer/include/gs_server/renderer.h",
+          "fingerprint": "d150eef5e29f605ca12b47e40528befcc74f624a8575e2e5e10e6370068a220b"
+        },
+        {
+          "item_id": "bdacbf4af3ad7df8723a9f6b36280f8424d07ee204d044078ca9fd6cfc268e75",
+          "path": "ForServer/tests/windows_tests.cpp",
+          "fingerprint": "53c744c9fe85f4fd548ca368ade5caa5518c71505e40a6034695db8a80d4aad4"
+        },
+        {
+          "item_id": "c0a504bf7be183d027ec6eaafd5a6922d5daf05d5977558693cb2b32616e5921",
+          "path": "ForServer/deploy/install-go.sh",
+          "fingerprint": "4ef5f18bdfaa7de0adcaf0fdcc5fb0734355fedfc958fe58389a20214a92fb6d"
+        },
+        {
+          "item_id": "c8a5f6b9b937e4881d8cbd8e1fa88791b0158b5f50980fb8d23f4a46706eb8ec",
+          "path": "ForServer/WindowsClient/main.cpp",
+          "fingerprint": "1c49fc588527395df8395fbd5809332532d83ee4da8ae61daf747f1bb38e540c"
+        },
+        {
+          "item_id": "ccc83b3757dedf8583993641ab6139972b4e51fef24f569927e7788feda15b4b",
+          "path": "ForServer/tools/gateway.py",
+          "fingerprint": "f0f3016ef35e8b87d6340bf99a506899ff137e6f876cee735f39ca0e292b07dd"
+        },
+        {
+          "item_id": "ce0d9334ab602094bbcae4695bd8f360d390b92c770f9b211f9fe5cb90b341be",
+          "path": "ForServer/WindowsClient/pch.h",
+          "fingerprint": "5796a725d21922bbefde6c1c5cb08964232def231fd4847bc72a6869b25935b2"
+        },
+        {
+          "item_id": "d713d8576a34004ea78dfbb14a8c81bcfcc6c1765cbc8683874ac97b117473d5",
+          "path": "ForServer/src/frame.cpp",
+          "fingerprint": "3f8f526fd107102d4d58acff803aaa0196e3473cc454061e3678c8ed940373a4"
+        },
+        {
+          "item_id": "d9f895a4da150791e21728385bc19643cabb292068c2991a9ed27fd8159eb873",
+          "path": "ForServer/tests/frame_tests.cpp",
+          "fingerprint": "e3fa212b5ad4c275404960081f8feda7634c15e2528b6acd35704fd507a26891"
+        },
+        {
+          "item_id": "e22a758ef66a211e3310807b013ad669c6291a5806cc58743c01981ea6164a13",
+          "path": "ForServer/gateway/spatial.go",
+          "fingerprint": "b9f7ed00bef2a213a8e1881bc6502510c9f50551c94c965ec3427f887dcaf50a"
+        },
+        {
+          "item_id": "f43543153effeda5b9c029d54390048bbc97c06b898b38a6606b3faf8d25ae3b",
+          "path": "ForServer/src/windows_renderer.cpp",
+          "fingerprint": "8999d1988601cad7dcd2fce627a9c8f56d2846a975d8199b4d48b16f25e13a35"
+        },
+        {
+          "item_id": "f63989acd8ef10ab4400f4eb7c2c2998dad2e4cbf64edbde1dfc662d33279258",
+          "path": "ForServer/WindowsClient/MainWindow.xaml.h",
+          "fingerprint": "5239ba7ba0d706da2b2c5c1dc39bf0d0e017a92e86be37c4243f3963ec5b7c8b"
+        },
+        {
+          "item_id": "f6ca47c3084e12400f0ddffcf02818ed0b9c8d3fa72050bea1e9b59f89ccbe6e",
+          "path": "ForServer/WindowsClient/pch.cpp",
+          "fingerprint": "8b127eea34c5e358fec85950d6e88372cdeb1d5591382a4e7007a73401e4a1d7"
+        },
+        {
+          "item_id": "ffa1a8e7f34f4f0c51b16fb16ab40f3e9524e7e2cec8f32eadf74ba86072f86a",
+          "path": "ForServer/src/jpeg_linux.cpp",
+          "fingerprint": "8ec93362d53efd24eac53a7b5b05d56df85d12ef01fe071a83d3069c35f0db2a"
+        }
+      ],
+      "reused": [],
+      "failed": [],
+      "waived": []
+    },
+    "elapsed_ms": 411959
+  }
+}

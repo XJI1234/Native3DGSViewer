@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+/build/
+/worker-logs/
+/pool-test/
+!/docs/evidence/cloud-4090/*.log
+!/docs/evidence/instances-v3/*.log
+!/docs/evidence/cloud-022/*.log
+/gateway/gs-gateway

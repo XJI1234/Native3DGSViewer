@@ -1,0 +1,34 @@
+[
+  {
+    "scenario": "idle",
+    "close_cache": 0,
+    "frames": 11,
+    "heartbeats": 7,
+    "exit_code": 0,
+    "recoveries": 0
+  },
+  {
+    "scenario": "recovery",
+    "close_cache": 0,
+    "frames": 12,
+    "heartbeats": 4,
+    "exit_code": 0,
+    "recoveries": 1
+  },
+  {
+    "scenario": "startup",
+    "close_cache": 0,
+    "frames": 11,
+    "heartbeats": 0,
+    "exit_code": 0,
+    "recoveries": 0
+  },
+  {
+    "scenario": "unreachable",
+    "close_cache": 0,
+    "frames": 0,
+    "heartbeats": 0,
+    "exit_code": 1,
+    "recoveries": 0
+  }
+]

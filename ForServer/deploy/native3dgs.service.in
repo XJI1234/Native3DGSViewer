@@ -1,0 +1,22 @@
+[Unit]
+Description=Native3DGS bounded image gateway supervisor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=native3dgs
+Group=native3dgs
+ExecStart=/usr/bin/python3 @PREFIX@/service.py run --prefix @PREFIX@
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillMode=control-group
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=@PREFIX@/state @PREFIX@/logs @PREFIX@/token
+
+[Install]
+WantedBy=multi-user.target

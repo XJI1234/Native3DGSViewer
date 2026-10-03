@@ -1,0 +1,267 @@
+{
+  "model": "m-49fe972e55f40fb0",
+  "summary": {
+    "miss": {
+      "samples": 20,
+      "wall_p50_ms": 220.65560000191908,
+      "wall_p95_ms": 304.9291000061203,
+      "states": [
+        "miss"
+      ]
+    },
+    "hit": {
+      "samples": 20,
+      "wall_p50_ms": 106.26115000195568,
+      "wall_p95_ms": 135.139000005438,
+      "states": [
+        "hit"
+      ]
+    }
+  },
+  "samples": {
+    "miss": [
+      {
+        "wall_ms": 230.80420000769664,
+        "cache": "miss",
+        "native_ms": 35.180849,
+        "packet_bytes": 120636
+      },
+      {
+        "wall_ms": 221.77009998995345,
+        "cache": "miss",
+        "native_ms": 40.64325,
+        "packet_bytes": 120482
+      },
+      {
+        "wall_ms": 304.9291000061203,
+        "cache": "miss",
+        "native_ms": 32.957787,
+        "packet_bytes": 120293
+      },
+      {
+        "wall_ms": 220.08980000100564,
+        "cache": "miss",
+        "native_ms": 35.200352,
+        "packet_bytes": 120435
+      },
+      {
+        "wall_ms": 204.8311999969883,
+        "cache": "miss",
+        "native_ms": 32.346538,
+        "packet_bytes": 120513
+      },
+      {
+        "wall_ms": 230.53339999751188,
+        "cache": "miss",
+        "native_ms": 31.95495,
+        "packet_bytes": 120503
+      },
+      {
+        "wall_ms": 212.9378999961773,
+        "cache": "miss",
+        "native_ms": 34.044486,
+        "packet_bytes": 120262
+      },
+      {
+        "wall_ms": 225.9141999966232,
+        "cache": "miss",
+        "native_ms": 33.693091,
+        "packet_bytes": 120250
+      },
+      {
+        "wall_ms": 197.90130000910722,
+        "cache": "miss",
+        "native_ms": 34.930275,
+        "packet_bytes": 120376
+      },
+      {
+        "wall_ms": 223.76670000085142,
+        "cache": "miss",
+        "native_ms": 32.860381,
+        "packet_bytes": 120088
+      },
+      {
+        "wall_ms": 215.19240000634454,
+        "cache": "miss",
+        "native_ms": 34.314182,
+        "packet_bytes": 120246
+      },
+      {
+        "wall_ms": 237.4848000035854,
+        "cache": "miss",
+        "native_ms": 37.841694,
+        "packet_bytes": 120261
+      },
+      {
+        "wall_ms": 227.2302000055788,
+        "cache": "miss",
+        "native_ms": 36.200703,
+        "packet_bytes": 120506
+      },
+      {
+        "wall_ms": 206.01819999865256,
+        "cache": "miss",
+        "native_ms": 36.165793,
+        "packet_bytes": 120552
+      },
+      {
+        "wall_ms": 204.74289999401662,
+        "cache": "miss",
+        "native_ms": 36.665902,
+        "packet_bytes": 120524
+      },
+      {
+        "wall_ms": 207.00100000249222,
+        "cache": "miss",
+        "native_ms": 41.117342,
+        "packet_bytes": 120547
+      },
+      {
+        "wall_ms": 221.22140000283252,
+        "cache": "miss",
+        "native_ms": 35.500389,
+        "packet_bytes": 120505
+      },
+      {
+        "wall_ms": 653.2775000086986,
+        "cache": "miss",
+        "native_ms": 36.567726,
+        "packet_bytes": 120222
+      },
+      {
+        "wall_ms": 216.07690000382718,
+        "cache": "miss",
+        "native_ms": 35.110459,
+        "packet_bytes": 119922
+      },
+      {
+        "wall_ms": 206.11749999807216,
+        "cache": "miss",
+        "native_ms": 34.600317,
+        "packet_bytes": 119606
+      }
+    ],
+    "hit": [
+      {
+        "wall_ms": 137.86000000254717,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120636
+      },
+      {
+        "wall_ms": 106.25080000318121,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120482
+      },
+      {
+        "wall_ms": 103.19449999951757,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120293
+      },
+      {
+        "wall_ms": 135.139000005438,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120435
+      },
+      {
+        "wall_ms": 113.1601000088267,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120513
+      },
+      {
+        "wall_ms": 104.60850001254585,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120503
+      },
+      {
+        "wall_ms": 93.15970000170637,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120262
+      },
+      {
+        "wall_ms": 127.23159999586642,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120250
+      },
+      {
+        "wall_ms": 119.5953999995254,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120376
+      },
+      {
+        "wall_ms": 106.27150000073016,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120088
+      },
+      {
+        "wall_ms": 80.9603999950923,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120246
+      },
+      {
+        "wall_ms": 93.64819999609608,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120261
+      },
+      {
+        "wall_ms": 108.69379999348894,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120506
+      },
+      {
+        "wall_ms": 111.70300000230782,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120552
+      },
+      {
+        "wall_ms": 94.16249999776483,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120524
+      },
+      {
+        "wall_ms": 97.63720000046305,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120547
+      },
+      {
+        "wall_ms": 98.57049999118317,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120505
+      },
+      {
+        "wall_ms": 99.44120000000112,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 120222
+      },
+      {
+        "wall_ms": 115.9680999990087,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 119922
+      },
+      {
+        "wall_ms": 115.94370000238996,
+        "cache": "hit",
+        "native_ms": null,
+        "packet_bytes": 119606
+      }
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 # Native3DGS
 
-Native3DGS 是原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染工程。Windows 版提供 Direct3D 12 引擎、C++ SDK 和 WinUI 3 查看器；`ForAndroid/` 提供 Vulkan 1.1 引擎、原生 C SDK 与 Kotlin AAR 技术预览。两平台读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序。
+Native3DGS 是原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染工程。Windows 版提供 Direct3D 12 引擎、C++ SDK 和 WinUI 3 查看器；`ForAndroid/` 提供 Vulkan 1.1 引擎、原生 C SDK 与 Kotlin AAR 技术预览；`ForServer/` 提供 Linux CUDA 云渲染服务与独立 Windows Cloud 查看器。两平台本地引擎和云端服务读取标准二进制 3DGS PLY 与 SPZ 场景，在 GPU 上完成投影和排序。
 
 **项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。RTX 3080 已完成主要本机验证；Windows 11 23H2 的 Intel Arc 核显已实机打开 SPZ/PLY 并正常浏览。与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
 
-当前发行说明见 [0.2.0](docs/release-0.2.0.md)；本轮资源与 Android 集成经验见[开发记忆](docs/development-memory.md)。
+当前发行说明见 [0.2.2](docs/release-0.2.2.md)；资源与 Android 集成经验见[开发记忆](docs/development-memory.md)。
 
 ## 功能
 
@@ -15,7 +15,7 @@ Native3DGS 是原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染工�
 - 支持异步加载与上传、成功后替换场景、有界事件队列、渲染统计及由宿主协同完成的设备丢失恢复。
 - 提供可重定位的 CMake SDK 包，包含静态库、公共头文件、预编译着色器、解码辅助程序、示例宿主和第三方许可声明。
 
-当前 SDK 和查看器一次显示一个本地场景。压缩 PLY 变体、SPLAT/KSPLAT/SOG、LoD、多模型、编辑、动画及远程加载属于后续工作，见[技术开发计划](docs/technical-development-plan.md)。
+当前本地 SDK 和查看器一次显示一个本地场景；云端查看器通过图像帧查看服务器模型。压缩 PLY 变体、SPLAT/KSPLAT/SOG、LoD、多模型编辑和动画属于后续工作，见[技术开发计划](docs/technical-development-plan.md)。
 
 ## 架构与技术栈
 
@@ -52,6 +52,23 @@ Windows 工程面向 x64；Android SDK 面向 Android 10+ `arm64-v8a`。Windows 
 ## Android 引擎与 SDK
 
 Android 实现、七模块规格、任务清单和构建命令见 [ForAndroid/README.md](ForAndroid/README.md)。[Android SDK 接入指南](ForAndroid/docs/SDK-guide.md)说明系统文档选择器、隔离解码 Service、`SurfaceView` 生命周期、Kotlin 状态流和原生 C ABI。当前发行包为 `native3dgs-android-0.2.0.zip`，包含 AAR、`arm64-v8a` 原生库、公共头、SPIR-V、示例、文档、许可证和哈希清单；实际查看器 App 尚未实现。验证与限制见[Android 引擎记录](ForAndroid/docs/verification/engine-2026-09-27.md)。
+
+## 云端渲染与 Windows Cloud 查看器
+
+`ForServer/` 使用 C++20/CUDA/CUB 在无图形界面的 NVIDIA Linux 服务器上完成完整 SH、投影、排序和图像合成，Go 网关管理并发、模型实例和会话，SQLite 管理图片缓存索引。一个模型版本一个固定单卡实例，多用户共享；默认仅启用 GPU0，多卡扩展保留但关闭。客户端只接收图片，不下载三维模型。
+
+Windows 11 x64 安装包：[Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe](https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe)。它与本地 D3D12 查看器分别安装，携带 WinUI 与 VC 运行库，当前未签名。安装后输入服务器地址、应用端口和访问令牌，健康及认证检查通过后选择服务器上的模型。公网使用 HTTPS；可信私网 HTTP 需明确确认。
+
+- 默认 JPEG85，可切换 JPEG90/95 或 RGBA + Zstd。模型固定居中，拖动/方向键以2°网格旋转，滚轮按81个距离档缩放；倒置观察保持屏幕拖动方向一致。
+- “预渲染”低/中/高分别为四方向各5/10/15档，默认低；移动时复用预测图片，压缩缓存上限64MiB，完全关闭清空，不持久下载图片。
+- 服务端图片按完整球坐标、朝向、分辨率、画质与模型/渲染器版本命名；24小时无前台服务端命中清理，图片默认10GiB预算。闲置实例保留5分钟；会话120秒、每10秒续租，短超时/有限重试和租约自动恢复。
+
+~~~powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ForServer/WindowsClient/build.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ForServer/WindowsClient/packaging/build-installer.ps1 -SkipBuild
+~~~
+
+Linux 一键部署、CUDA/Go/SQLite依赖、命令行生命周期和端口配置见[云端 README](ForServer/README.md)，架构见[设计文档](ForServer/docs/architecture.md)，测试与限制见[实例缓存验收](ForServer/docs/verification-instances-v3.md)和[Cloud 0.2.2 修订验收](ForServer/docs/verification-cloud-022.md)。已有0.2.2 tag保留原Windows/Android源码，补充云端安装包的源码提交链接记录在Release说明中。
 
 ## 从源码构建
 

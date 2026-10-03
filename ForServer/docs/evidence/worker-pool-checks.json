@@ -1,0 +1,14 @@
+[
+  {
+    "name": "port_collision_does_not_claim_or_kill_existing_worker",
+    "passed": true
+  },
+  {
+    "name": "single_gpu_sigterm_cleans_child",
+    "passed": true
+  },
+  {
+    "name": "invalid_second_device_cleans_first_worker",
+    "passed": true
+  }
+]

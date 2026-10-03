@@ -1,0 +1,318 @@
+Inno Setup 6 Command-Line Compiler
+Copyright (C) 1997-2026 Jordan Russell. All rights reserved.
+Portions Copyright (C) 2000-2026 Martijn Laan. All rights reserved.
+Portions Copyright (C) 2001-2004 Alex Yackimoff. All rights reserved.
+https://www.innosetup.com
+
+Compiler engine version: Inno Setup 6.7.1
+Non-commercial use only
+
+Preprocessing
+   Reading file: C:\Users\21544\AppData\Local\Programs\Inno Setup 6\ISPPBuiltins.iss
+Parsing [Setup] section, line 9
+Parsing [Setup] section, line 10
+Parsing [Setup] section, line 11
+Parsing [Setup] section, line 12
+Parsing [Setup] section, line 13
+Parsing [Setup] section, line 14
+Parsing [Setup] section, line 15
+Parsing [Setup] section, line 16
+Parsing [Setup] section, line 17
+Parsing [Setup] section, line 18
+Parsing [Setup] section, line 19
+Parsing [Setup] section, line 20
+Parsing [Setup] section, line 21
+Parsing [Setup] section, line 22
+Parsing [Setup] section, line 23
+Parsing [Setup] section, line 24
+Parsing [Setup] section, line 25
+Reading file (WizardImageFile)
+Reading file (WizardSmallImageFile)
+Preparing Setup program executable
+   Verification successful
+   Updating icons (Setup.e32)
+   Updating version info (Setup.e32)
+Determining language code pages
+   Reading file: C:\Users\21544\AppData\Local\Programs\Inno Setup 6\Default.isl
+   Messages in script file
+Reading default messages from Default.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   Reading file: C:\Users\21544\AppData\Local\Programs\Inno Setup 6\Default.isl
+   Messages in script file
+Reading [Code] section
+Parsing [Tasks] section, line 35
+Parsing [Icons] section, line 31
+Parsing [Icons] section, line 32
+Parsing [Run] section, line 38
+Parsing [Files] section, line 28
+Deleting Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe from output directory
+Creating setup files
+   Verification successful
+   Updating icons (Setup.exe)
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\App.xbf
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\concrt140.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\CoreMessagingXP.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\dcompi.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\DirectML.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\dwmcorei.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\DwmSceneI.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\DWriteCore.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\MainWindow.xbf
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\marshal.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.DirectManipulation.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Graphics.Display.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Graphics.Imaging.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.InputStateManager.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Internal.FrameworkUdk.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Composition.OSSupport.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Designer.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Input.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.pri
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Windowing.Core.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Windowing.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml.Controls.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml.Controls.pri
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.ui.xaml.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml.Internal.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml.Phone.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.ui.xaml.resources.19h1.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.ui.xaml.resources.common.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Web.WebView2.Core.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.AI.AICapabilities.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.AI.ContentSafety.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.AI.Imaging.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.AI.MachineLearning.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.AI.Text.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.ApplicationModel.Resources.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.Widgets.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.Workloads.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.Workloads.Resources.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.Windows.Workloads.Resources_ec.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.WindowsAppRuntime.Bootstrap.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.WindowsAppRuntime.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.WindowsAppRuntime.Insights.Resource.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.WindowsAppRuntime.pri
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\MRM.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\msvcp140.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\msvcp140_1.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\msvcp140_2.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\msvcp140_atomic_wait.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\msvcp140_codecvt_ids.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Native3DGSCloud.exe
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Native3DGSCloud.pri
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\onnxruntime.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\onnxruntime_providers_shared.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\PushNotificationsLongRunningTask.ProxyStub.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\RestartAgent.exe
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\SessionHandleIPCProxyStub.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vccorlib140.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vcruntime140.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vcruntime140_1.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vcruntime140_threads.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\WindowsAppRuntime.DeploymentExtensions.OneCore.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\WinUIEdit.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.365.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.j32.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.lnl.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.qnn.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\workloads.stx.json
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\wuceffectsi.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\af-ZA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\af-ZA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\am-ET\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\am-ET\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ar-SA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ar-SA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\as-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\as-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\az-Latn-AZ\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\az-Latn-AZ\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bg-BG\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bg-BG\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bn-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bn-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bs-Latn-BA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\bs-Latn-BA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ca-ES\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ca-ES\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ca-Es-VALENCIA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ca-Es-VALENCIA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\cs-CZ\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\cs-CZ\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\cy-GB\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\cy-GB\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\da-DK\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\da-DK\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\de-DE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\de-DE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\el-GR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\el-GR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\en-GB\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\en-GB\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\en-us\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\en-us\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\es-ES\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\es-ES\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\es-MX\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\es-MX\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\et-EE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\et-EE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\eu-ES\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\eu-ES\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fa-IR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fa-IR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fi-FI\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fi-FI\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fil-PH\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fil-PH\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fr-CA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fr-CA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fr-FR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\fr-FR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ga-IE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ga-IE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gd-gb\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gd-gb\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gl-ES\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gl-ES\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gu-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\gu-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\he-IL\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\he-IL\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hi-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hi-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hr-HR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hr-HR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hu-HU\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hu-HU\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hy-AM\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\hy-AM\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\id-ID\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\id-ID\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\is-IS\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\is-IS\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\it-IT\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\it-IT\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ja-JP\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ja-JP\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ka-GE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ka-GE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kk-KZ\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kk-KZ\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\km-KH\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\km-KH\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kn-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kn-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ko-KR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ko-KR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kok-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\kok-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lb-LU\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lb-LU\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\licenses\WindowsAppSDK-license.txt
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\licenses\WindowsAppSDK-NOTICE.txt
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\licenses\zstd-LICENSE
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lo-LA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lo-LA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lt-LT\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lt-LT\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lv-LV\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\lv-LV\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mi-NZ\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mi-NZ\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml\Assets\map.html
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\Microsoft.UI.Xaml\Assets\NoiseAsset_256X256_PNG.png
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mk-MK\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mk-MK\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ml-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ml-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mr-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mr-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ms-MY\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ms-MY\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mt-MT\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\mt-MT\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nb-NO\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nb-NO\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ne-NP\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ne-NP\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nl-NL\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nl-NL\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nn-NO\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\nn-NO\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\NpuDetect\NPUDetect.dll
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\or-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\or-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pa-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pa-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pl-PL\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pl-PL\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pt-BR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pt-BR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pt-PT\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\pt-PT\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\quz-PE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\quz-PE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ro-RO\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ro-RO\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ru-RU\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ru-RU\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sk-SK\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sk-SK\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sl-SI\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sl-SI\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sq-AL\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sq-AL\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Cyrl-BA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Cyrl-BA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Cyrl-RS\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Cyrl-RS\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Latn-RS\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sr-Latn-RS\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sv-SE\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\sv-SE\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ta-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ta-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\te-IN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\te-IN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\th-TH\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\th-TH\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\tr-TR\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\tr-TR\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\tt-RU\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\tt-RU\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ug-CN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ug-CN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\uk-UA\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\uk-UA\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ur-PK\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\ur-PK\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\uz-Latn-UZ\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\uz-Latn-UZ\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vi-VN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\vi-VN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\zh-CN\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\zh-CN\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\zh-TW\Microsoft.ui.xaml.dll.mui
+   Compressing: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer-stage\zh-TW\Microsoft.UI.Xaml.Phone.dll.mui
+   Compressing Setup program executable
+   Updating version info (Setup.exe)
+   Updating manifest (Setup.exe)
+
+
+Successful compile (16.360 sec). Resulting Setup program filename is:
+C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer\Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe
+
+    Directory: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2026/10/3    15:50       30495354 Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe
+
+Algorithm : SHA256
+Hash      : B61D686D776317BD88B0528F9051EEAB6F7C995E61A24A20DDD5C3ADDBF93AB2
+Path      : C:\Users\21544\workspace\Native3DGSViewer\out\cloud-installer\Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe

@@ -1,0 +1,60 @@
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+CMake Deprecation Warning at C:/Users/21544/workspace/Native3DGSViewer/third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files/Native3DGSServer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (0.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/server-windows
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+  gtest.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\lib\Release\gtest.lib
+  gtest_main.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\lib\Release\gtest_main.lib
+  libzstd_static.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\zstd\lib\Release\zstd_static.lib
+  gs_frame.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\gs_frame.lib
+  frame_tests.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\frame_tests.exe
+  gs_thin.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\gs_thin.lib
+  gs-frame.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\gs-frame.exe
+  gs-client.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\gs-client.exe
+  transport_tests.cpp
+  windows_tests.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\server-windows\Release\windows_tests.exe
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  pch.cpp
+  App.xaml.cpp
+  XamlTypeInfo.Impl.g.cpp
+  module.g.cpp
+  MainWindow.xaml.cpp
+  main.cpp
+  正在生成代码
+  已完成代码的生成
+  XamlMetaDataProvider.cpp
+  XamlTypeInfo.g.cpp
+  正在生成代码
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 4851 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  Native3DGSCloud.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cloud-client\Release\Native3DGSCloud.exe
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+  MainWindow.xaml.cpp
+  正在生成代码
+  已完成代码的生成
+  正在生成代码
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 4851 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  Native3DGSCloud.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cloud-client\Release\Native3DGSCloud.exe
+Client: C:\Users\21544\workspace\Native3DGSViewer\out\cloud-client\Release\Native3DGSCloud.exe

@@ -1,0 +1,31 @@
+{
+  "model": {
+    "id": "m-49fe972e55f40fb0",
+    "name": "spz/juyuan_v2.spz",
+    "bytes": 52605719
+  },
+  "profile": "rgba",
+  "width": 1920,
+  "height": 1080,
+  "frames": 120,
+  "concurrency": 1,
+  "elapsed_seconds": 4.249585696496069,
+  "frames_per_second": 28.23804685217765,
+  "latency_p50_ms": 35.12669587507844,
+  "latency_p95_ms": 38.304902613162994,
+  "packet_bytes": 143978,
+  "devices": [
+    0
+  ],
+  "identical_fixed_camera_packets": true,
+  "server_p50_ms": 30.204242999999998,
+  "queue_p50_ms": 0.061489641666412354,
+  "warm_load_ms": [
+    2887.259906,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "resident_bytes": 630124012,
+  "peak_gpu_bytes": 908150783
+}
