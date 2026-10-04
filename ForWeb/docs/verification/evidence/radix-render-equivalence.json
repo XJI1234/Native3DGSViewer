@@ -1,0 +1,65 @@
+[
+  {
+    "view": "changjin_v1_ply-left-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "6e1eae148992db26918abb53e487542a5b7ae8ae0d845adfd08487097f1b7e6d",
+    "eightBitSha256": "6e1eae148992db26918abb53e487542a5b7ae8ae0d845adfd08487097f1b7e6d"
+  },
+  {
+    "view": "changjin_v1_ply-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "30ceafb71e4f573e96b2fa0810becbbeabb165c7932a9d66f0da2264fb29c3ed",
+    "eightBitSha256": "30ceafb71e4f573e96b2fa0810becbbeabb165c7932a9d66f0da2264fb29c3ed"
+  },
+  {
+    "view": "changjin_v1_ply-right-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "b6f6f6506024dac601b219664f0bbbe01782d214de745f2f3ac63589b66b2d2b",
+    "eightBitSha256": "b6f6f6506024dac601b219664f0bbbe01782d214de745f2f3ac63589b66b2d2b"
+  },
+  {
+    "view": "spz_shengyi_v1_spz-left-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "2604787546aade7e5f3eafe44150523996d3d3209b29acedfe36e1b8b856a21d",
+    "eightBitSha256": "2604787546aade7e5f3eafe44150523996d3d3209b29acedfe36e1b8b856a21d"
+  },
+  {
+    "view": "spz_shengyi_v1_spz-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "45f9f545ca2b33071cce00f3fcb5ec82a07991f3bd954cb0d991482f753cc9ca",
+    "eightBitSha256": "45f9f545ca2b33071cce00f3fcb5ec82a07991f3bd954cb0d991482f753cc9ca"
+  },
+  {
+    "view": "spz_shengyi_v1_spz-right-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "35c8c5c7dc8ee8be6f6299fdf064e9d6b2d44d1a1cd4e4fc17fda9500b3abf27",
+    "eightBitSha256": "35c8c5c7dc8ee8be6f6299fdf064e9d6b2d44d1a1cd4e4fc17fda9500b3abf27"
+  },
+  {
+    "view": "spz_tumu_v1_spz-left-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "78db2129fe66cfcee346aebf4511d98fa814e914a809275acb22c6264ed059f7",
+    "eightBitSha256": "78db2129fe66cfcee346aebf4511d98fa814e914a809275acb22c6264ed059f7"
+  },
+  {
+    "view": "spz_tumu_v1_spz-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "f08dfa68ce085d59b74c26f3fdf0b53f9922bcc619c885c2f54cf82b4661f37d",
+    "eightBitSha256": "f08dfa68ce085d59b74c26f3fdf0b53f9922bcc619c885c2f54cf82b4661f37d"
+  },
+  {
+    "view": "spz_tumu_v1_spz-right-native",
+    "maxAbsError": 0,
+    "changedBytes": 0,
+    "baselineSha256": "db8f382c1f4b25629a8050a587fd0bd2b312b402ca5a88f75781f33e2c45b249",
+    "eightBitSha256": "db8f382c1f4b25629a8050a587fd0bd2b312b402ca5a88f75781f33e2c45b249"
+  }
+]

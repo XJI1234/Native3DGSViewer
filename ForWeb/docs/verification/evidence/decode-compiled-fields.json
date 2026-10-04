@@ -1,0 +1,13 @@
+{
+  "label": "compiled-fields",
+  "source": "changjin_v1.ply",
+  "times": [
+    34.8634,
+    34.124999999999986,
+    32.869,
+    32.8006,
+    33.6207
+  ],
+  "median": 33.6207,
+  "scope": "WASM probe + normalize, input preloaded, no packing/network/GPU"
+}

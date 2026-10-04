@@ -1,0 +1,4 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:,"><title>Native3DGS Web</title>
+<style>body{margin:0;background:#191b1d;color:#eee;font:14px system-ui}header{display:flex;gap:14px;align-items:center;padding:12px 18px}button,input{font:inherit}canvas{display:block;width:100%;height:calc(100vh - 105px);touch-action:none}#status{padding:8px 18px;white-space:pre-wrap;font:12px monospace}</style>
+<header><strong>Native3DGS Web</strong><input id="file" aria-label="模型文件" type="file" accept=".ply,.spz"><button id="cancel">取消加载</button><button id="reset">重置视角</button><button id="close">关闭模型</button></header>
+<div id="viewport"><canvas id="canvas" aria-label="3DGS 视口"></canvas></div><div id="status">初始化 WebGPU…</div><script type="module" src="/apps/viewer.ts"></script></html>

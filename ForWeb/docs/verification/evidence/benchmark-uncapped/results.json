@@ -1,0 +1,421 @@
+{
+  "date": "2026-10-03T20:54:26.482Z",
+  "warmup": 30000,
+  "duration": 60000,
+  "runs": 3,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "spark": "2.3.1",
+  "three": "0.180.0",
+  "browser": "154.0.4258.53",
+  "browserArgs": [
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-frame-rate-limit",
+    "--disable-gpu-vsync"
+  ],
+  "uncappedRequested": true,
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "mode": "native",
+      "loaded": {
+        "ms": 454.60000002384186,
+        "firstFrameMs": 446.90000000596046,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 61153,
+          "intervalP50": 1,
+          "intervalP95": 1.5999999999985448,
+          "cpuP50": 0.4000000059604645,
+          "cpuP95": 0.800000011920929,
+          "gpuP50": 0.98304,
+          "gpuP95": 0.98304
+        },
+        {
+          "run": 1,
+          "frames": 61025,
+          "intervalP50": 1,
+          "intervalP95": 1.6000000000058208,
+          "cpuP50": 0.20000001788139343,
+          "cpuP95": 0.800000011920929,
+          "gpuP50": 0.98304,
+          "gpuP95": 0.98304
+        },
+        {
+          "run": 2,
+          "frames": 60854,
+          "intervalP50": 1,
+          "intervalP95": 1.6000000000058208,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 0.800000011920929,
+          "gpuP50": 0.98304,
+          "gpuP95": 0.98304
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "mode": "spark",
+      "loaded": {
+        "ms": 654.3000000119209,
+        "firstFrameMs": 636.5,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 169401,
+          "intervalP50": 0.10000000000582077,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.321536,
+          "gpuP95": 0.340992
+        },
+        {
+          "run": 1,
+          "frames": 168408,
+          "intervalP50": 0.1999999999825377,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.319488,
+          "gpuP95": 0.336896
+        },
+        {
+          "run": 2,
+          "frames": 168606,
+          "intervalP50": 0.1999999999825377,
+          "intervalP95": 0.3000000000174623,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.321536,
+          "gpuP95": 0.338944
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "mode": "native",
+      "loaded": {
+        "ms": 1303.0999999940395,
+        "firstFrameMs": 1295.3999999761581,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 18237,
+          "intervalP50": 3.2999999999956344,
+          "intervalP95": 6.30000000000291,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 3.100000023841858,
+          "gpuP50": 3.2768,
+          "gpuP95": 3.538944
+        },
+        {
+          "run": 1,
+          "frames": 18229,
+          "intervalP50": 3.2999999999883585,
+          "intervalP95": 6.30000000000291,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 3.0999999940395355,
+          "gpuP50": 3.2768,
+          "gpuP95": 3.342336
+        },
+        {
+          "run": 2,
+          "frames": 18214,
+          "intervalP50": 3.2999999999883585,
+          "intervalP95": 6.2999999999883585,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 3.0999999940395355,
+          "gpuP50": 3.2768,
+          "gpuP95": 3.538944
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "mode": "spark",
+      "loaded": {
+        "ms": 979.3999999761581,
+        "firstFrameMs": 955.7999999821186,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 59434,
+          "intervalP50": 0.10000000000582077,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.958464,
+          "gpuP95": 0.982016
+        },
+        {
+          "run": 1,
+          "frames": 62121,
+          "intervalP50": 0.1999999999825377,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.953344,
+          "gpuP95": 0.982016
+        },
+        {
+          "run": 2,
+          "frames": 61194,
+          "intervalP50": 0.1999999999825377,
+          "intervalP95": 0.3000000000174623,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 0.951296,
+          "gpuP95": 0.982016
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "mode": "native",
+      "loaded": {
+        "ms": 1806.4000000059605,
+        "firstFrameMs": 1797.7000000178814,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 12151,
+          "intervalP50": 4.900000000001455,
+          "intervalP95": 9.599999999998545,
+          "cpuP50": 0.10000002384185791,
+          "cpuP95": 4.799999982118607,
+          "gpuP50": 4.849664,
+          "gpuP95": 5.177344
+        },
+        {
+          "run": 1,
+          "frames": 12131,
+          "intervalP50": 4.899999999994179,
+          "intervalP95": 9.60000000000582,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 4.800000011920929,
+          "gpuP50": 4.9152,
+          "gpuP95": 5.24288
+        },
+        {
+          "run": 2,
+          "frames": 12161,
+          "intervalP50": 4.899999999994179,
+          "intervalP95": 9.599999999976717,
+          "cpuP50": 0.19999998807907104,
+          "cpuP95": 4.799999982118607,
+          "gpuP50": 4.849664,
+          "gpuP95": 5.24288
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "projection + GPU radix + draw"
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "mode": "spark",
+      "loaded": {
+        "ms": 1401.4000000059605,
+        "firstFrameMs": 1378.7999999821186,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "frames": 38805,
+          "intervalP50": 0.19999999999708962,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 1.51552,
+          "gpuP95": 1.598464
+        },
+        {
+          "run": 1,
+          "frames": 37985,
+          "intervalP50": 0.10000000000582077,
+          "intervalP95": 0.3000000000029104,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 1.537792,
+          "gpuP95": 1.586176
+        },
+        {
+          "run": 2,
+          "frames": 40460,
+          "intervalP50": 0.1999999999825377,
+          "intervalP95": 0.3000000000174623,
+          "cpuP50": 0,
+          "cpuP95": 0.10000002384185791,
+          "gpuP50": 1.494016,
+          "gpuP95": 1.593344
+        }
+      ],
+      "errors": [],
+      "disposalErrors": [],
+      "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+    }
+  ]
+}

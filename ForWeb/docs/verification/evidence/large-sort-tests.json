@@ -1,0 +1,20 @@
+{
+  "rows": [
+    {
+      "n": 16777217,
+      "checked": 16777217,
+      "stable": true,
+      "ms": 378.30000001192093
+    },
+    {
+      "n": 22480361,
+      "checked": 22480361,
+      "stable": true,
+      "ms": 440.59999999403954
+    }
+  ],
+  "adapter": {
+    "vendor": "nvidia",
+    "architecture": "ampere"
+  }
+}

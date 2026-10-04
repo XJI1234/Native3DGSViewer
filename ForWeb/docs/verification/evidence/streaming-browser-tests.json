@@ -1,0 +1,89 @@
+{
+  "result": {
+    "httpContentEncoding": true,
+    "legacy": [
+      {
+        "version": 1,
+        "degree": 0,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 1,
+        "degree": 1,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 1,
+        "degree": 2,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 1,
+        "degree": 3,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 2,
+        "degree": 0,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 2,
+        "degree": 1,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 2,
+        "degree": 2,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 2,
+        "degree": 3,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 3,
+        "degree": 0,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 3,
+        "degree": 1,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 3,
+        "degree": 2,
+        "fractionalBits": 30,
+        "ok": true
+      },
+      {
+        "version": 3,
+        "degree": 3,
+        "fractionalBits": 30,
+        "ok": true
+      }
+    ],
+    "corruptGzipCases": 4,
+    "widePly": {
+      "count": 150000,
+      "stride": 1236,
+      "sourceBytes": 185407617,
+      "cpuBudget": 67108864,
+      "complete": true
+    },
+    "remainingJobs": []
+  },
+  "errors": []
+}

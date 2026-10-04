@@ -1,0 +1,28 @@
+[
+  {
+    "model": "changjin_v1_ply",
+    "ssim": 0.9992635228935565,
+    "foregroundSsim": 0.993562916783942,
+    "foregroundMae": 1.0189322428108964,
+    "roi": [
+      614,
+      369,
+      1286,
+      728
+    ],
+    "foregroundPixels": 168971
+  },
+  {
+    "model": "spz_shengyi_v1_spz",
+    "ssim": 0.9999286825663312,
+    "foregroundSsim": 0.9990409997107331,
+    "foregroundMae": 0.7031536764829688,
+    "roi": [
+      699,
+      378,
+      1244,
+      666
+    ],
+    "foregroundPixels": 59391
+  }
+]

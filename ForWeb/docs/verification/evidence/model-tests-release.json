@@ -1,0 +1,912 @@
+{
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "result": {
+        "ok": true
+      },
+      "count": 170799,
+      "degree": 3,
+      "ms": 449.69999998807907,
+      "cleanupMs": 6.9000000059604645,
+      "stages": {
+        "Inspecting": 30.899999976158142,
+        "Downloading": 205,
+        "Decoding": 92.30000001192093,
+        "Rebasing": 45.400000005960464,
+        "Uploading": 76.09999999403954,
+        "Ready": 0
+      },
+      "gpuBytes": 49963240,
+      "packing": "tiled",
+      "backingBytes": 40312576,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "citang_v1.ply",
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "result": {
+        "ok": true
+      },
+      "count": 2116317,
+      "degree": 3,
+      "ms": 3933.199999988079,
+      "cleanupMs": 48.80000001192093,
+      "stages": {
+        "Inspecting": 28.099999994039536,
+        "Downloading": 1177.9000000059605,
+        "Decoding": 1373.699999988079,
+        "Rebasing": 499.90000000596046,
+        "Uploading": 853.5,
+        "Ready": 0
+      },
+      "gpuBytes": 619033384,
+      "packing": "tiled",
+      "backingBytes": 499459072,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "result": {
+        "ok": true
+      },
+      "count": 1888950,
+      "degree": 3,
+      "ms": 3547.699999988079,
+      "cleanupMs": 45.10000002384186,
+      "stages": {
+        "Inspecting": 37.19999998807907,
+        "Downloading": 1153,
+        "Decoding": 1087.1000000238419,
+        "Rebasing": 381.69999998807907,
+        "Uploading": 888.5999999940395,
+        "Ready": 0
+      },
+      "gpuBytes": 552522400,
+      "packing": "tiled",
+      "backingBytes": 445794560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "result": {
+        "ok": true
+      },
+      "count": 1838109,
+      "degree": 3,
+      "ms": 3658.899999976158,
+      "cleanupMs": 49.69999998807907,
+      "stages": {
+        "Inspecting": 33.599999994039536,
+        "Downloading": 1180.699999988079,
+        "Decoding": 1194,
+        "Rebasing": 383.59999999403954,
+        "Uploading": 867,
+        "Ready": 0
+      },
+      "gpuBytes": 537657384,
+      "packing": "tiled",
+      "backingBytes": 433801984,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "he_v1.ply",
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "result": {
+        "ok": true
+      },
+      "count": 2973002,
+      "degree": 3,
+      "ms": 5599.699999988079,
+      "cleanupMs": 72.80000001192093,
+      "stages": {
+        "Inspecting": 31.69999998807907,
+        "Downloading": 1676.800000011921,
+        "Decoding": 1936.3999999761581,
+        "Rebasing": 600.6999999880791,
+        "Uploading": 1354,
+        "Ready": 0
+      },
+      "gpuBytes": 869619168,
+      "packing": "tiled",
+      "backingBytes": 701641216,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "J1_v3.ply",
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "result": {
+        "ok": true
+      },
+      "count": 2625008,
+      "degree": 3,
+      "ms": 5070.700000017881,
+      "cleanupMs": 66.19999998807907,
+      "stages": {
+        "Inspecting": 34.30000001192093,
+        "Downloading": 1531.5,
+        "Decoding": 1646.5999999940395,
+        "Rebasing": 542.1999999880791,
+        "Uploading": 1316,
+        "Ready": 0
+      },
+      "gpuBytes": 767821536,
+      "packing": "tiled",
+      "backingBytes": 619505664,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "result": {
+        "ok": true
+      },
+      "count": 2233426,
+      "degree": 3,
+      "ms": 4349.800000011921,
+      "cleanupMs": 57,
+      "stages": {
+        "Inspecting": 37.20000001788139,
+        "Downloading": 1377.699999988079,
+        "Decoding": 1447.9000000059605,
+        "Rebasing": 458.40000000596046,
+        "Uploading": 1028.5,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 653290560,
+      "packing": "tiled",
+      "backingBytes": 527099392,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 39381.40000000596,
+      "cleanupMs": 513.8999999761581,
+      "stages": {
+        "Inspecting": 34,
+        "Downloading": 11262.299999982119,
+        "Decoding": 14877.200000017881,
+        "Rebasing": 3609.5,
+        "Uploading": 9598.300000011921,
+        "Ready": 0
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "result": {
+        "ok": true
+      },
+      "count": 1576115,
+      "degree": 3,
+      "ms": 3207.5999999940395,
+      "cleanupMs": 42,
+      "stages": {
+        "Inspecting": 49,
+        "Downloading": 1050.0999999940395,
+        "Decoding": 1040.2999999821186,
+        "Rebasing": 344.2000000178814,
+        "Uploading": 723.6999999880791,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 461018600,
+      "packing": "tiled",
+      "backingBytes": 371966208,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "result": {
+        "ok": true
+      },
+      "count": 2670017,
+      "degree": 3,
+      "ms": 5343.5,
+      "cleanupMs": 65.69999998807907,
+      "stages": {
+        "Inspecting": 36.69999998807907,
+        "Downloading": 1592.0999999940395,
+        "Decoding": 1832.300000011921,
+        "Rebasing": 606.0999999940395,
+        "Uploading": 1276.2000000178814,
+        "Ready": 0
+      },
+      "gpuBytes": 780997784,
+      "packing": "tiled",
+      "backingBytes": 630138880,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "result": {
+        "ok": true
+      },
+      "count": 1312897,
+      "degree": 3,
+      "ms": 2605.4000000059605,
+      "cleanupMs": 38.79999998211861,
+      "stages": {
+        "Inspecting": 35.599999994039536,
+        "Downloading": 810.2000000178814,
+        "Decoding": 853.7999999821186,
+        "Rebasing": 275.80000001192093,
+        "Uploading": 630,
+        "Ready": 0
+      },
+      "gpuBytes": 384038904,
+      "packing": "tiled",
+      "backingBytes": 309858560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "PML_v1.ply",
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "result": {
+        "ok": true
+      },
+      "count": 851828,
+      "degree": 3,
+      "ms": 1729.9000000059605,
+      "cleanupMs": 23.19999998807907,
+      "stages": {
+        "Inspecting": 33,
+        "Downloading": 567.6999999880791,
+        "Decoding": 556.7000000178814,
+        "Rebasing": 177.5,
+        "Uploading": 395,
+        "Ready": 0
+      },
+      "gpuBytes": 249163664,
+      "packing": "tiled",
+      "backingBytes": 201034240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 1747.5999999940395,
+      "cleanupMs": 25,
+      "stages": {
+        "Inspecting": 32.900000005960464,
+        "Downloading": 525.8999999761581,
+        "Decoding": 601.2000000178814,
+        "Rebasing": 198.5,
+        "Uploading": 389,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 235402752,
+      "packing": "tiled",
+      "backingBytes": 189932800,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "result": {
+        "ok": true
+      },
+      "count": 2116317,
+      "degree": 3,
+      "ms": 3468.800000011921,
+      "cleanupMs": 39,
+      "stages": {
+        "Inspecting": 38,
+        "Downloading": 286.40000000596046,
+        "Inflating": 596.0999999940395,
+        "Decoding": 1140.5,
+        "Rebasing": 409.59999999403954,
+        "Uploading": 998.0999999940395,
+        "Ready": 0
+      },
+      "gpuBytes": 619033384,
+      "packing": "tiled",
+      "backingBytes": 499459072,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "result": {
+        "ok": true
+      },
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2818.2000000178814,
+      "cleanupMs": 47.599999994039536,
+      "stages": {
+        "Inspecting": 34.80000001192093,
+        "Downloading": 204.80000001192093,
+        "Inflating": 442.39999997615814,
+        "Decoding": 911.2000000178814,
+        "Rebasing": 364.59999999403954,
+        "Uploading": 860.4000000059605,
+        "Ready": 0
+      },
+      "gpuBytes": 552522400,
+      "packing": "tiled",
+      "backingBytes": 445794560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "result": {
+        "ok": true
+      },
+      "count": 1838109,
+      "degree": 3,
+      "ms": 2776,
+      "cleanupMs": 44.89999997615814,
+      "stages": {
+        "Inspecting": 33.099999994039536,
+        "Downloading": 230.90000000596046,
+        "Inflating": 435.09999999403954,
+        "Decoding": 872.6999999880791,
+        "Rebasing": 365.90000000596046,
+        "Uploading": 838.3000000119209,
+        "Ready": 0
+      },
+      "gpuBytes": 537657384,
+      "packing": "tiled",
+      "backingBytes": 433801984,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "result": {
+        "ok": true
+      },
+      "count": 2973002,
+      "degree": 3,
+      "ms": 4240.9000000059605,
+      "cleanupMs": 59.599999994039536,
+      "stages": {
+        "Inspecting": 33.099999994039536,
+        "Downloading": 230.2999999821186,
+        "Inflating": 612.0999999940395,
+        "Decoding": 1430,
+        "Rebasing": 558.9000000059605,
+        "Uploading": 1376.4000000059605,
+        "Ready": 0
+      },
+      "gpuBytes": 869619168,
+      "packing": "tiled",
+      "backingBytes": 701641216,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "result": {
+        "ok": true
+      },
+      "count": 2625008,
+      "degree": 3,
+      "ms": 3896,
+      "cleanupMs": 54.69999998807907,
+      "stages": {
+        "Inspecting": 33.29999998211861,
+        "Downloading": 301.30000001192093,
+        "Inflating": 603.4000000059605,
+        "Decoding": 1250.7999999821186,
+        "Rebasing": 509,
+        "Uploading": 1198.2000000178814,
+        "Ready": 0
+      },
+      "gpuBytes": 767821536,
+      "packing": "tiled",
+      "backingBytes": 619505664,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "result": {
+        "ok": true
+      },
+      "count": 2233426,
+      "degree": 3,
+      "ms": 3326.7000000178814,
+      "cleanupMs": 51.69999998807907,
+      "stages": {
+        "Inspecting": 33.900000005960464,
+        "Downloading": 229.30000001192093,
+        "Inflating": 527,
+        "Decoding": 1090.4000000059605,
+        "Rebasing": 431.7999999821186,
+        "Uploading": 1014.3000000119209,
+        "Ready": 0
+      },
+      "gpuBytes": 653290560,
+      "packing": "tiled",
+      "backingBytes": 527099392,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 30382.40000000596,
+      "cleanupMs": 504.09999999403954,
+      "stages": {
+        "Inspecting": 35.599999994039536,
+        "Downloading": 1329.5,
+        "Inflating": 4928.100000023842,
+        "Decoding": 11479.5,
+        "Rebasing": 3471.7999999821186,
+        "Uploading": 9137.800000011921,
+        "Ready": 0
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "result": {
+        "ok": true
+      },
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2411.5999999940395,
+      "cleanupMs": 38.400000005960464,
+      "stages": {
+        "Inspecting": 44.30000001192093,
+        "Downloading": 275.09999999403954,
+        "Inflating": 408.2999999821186,
+        "Decoding": 744.7000000178814,
+        "Rebasing": 316.59999999403954,
+        "Uploading": 622.5999999940395,
+        "Ready": 0
+      },
+      "gpuBytes": 461018600,
+      "packing": "tiled",
+      "backingBytes": 371966208,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "result": {
+        "ok": true
+      },
+      "count": 2670017,
+      "degree": 3,
+      "ms": 4014.7000000178814,
+      "cleanupMs": 58.5,
+      "stages": {
+        "Inspecting": 33.900000005960464,
+        "Downloading": 263.09999999403954,
+        "Inflating": 630.5,
+        "Decoding": 1297,
+        "Rebasing": 540,
+        "Uploading": 1250.2000000178814,
+        "Ready": 0
+      },
+      "gpuBytes": 780997784,
+      "packing": "tiled",
+      "backingBytes": 630138880,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "result": {
+        "ok": true
+      },
+      "count": 1312897,
+      "degree": 3,
+      "ms": 2036.300000011921,
+      "cleanupMs": 36.30000001192093,
+      "stages": {
+        "Inspecting": 32.80000001192093,
+        "Downloading": 190.80000001192093,
+        "Inflating": 331.69999998807907,
+        "Decoding": 617.9000000059605,
+        "Rebasing": 263.69999998807907,
+        "Uploading": 599.4000000059605,
+        "Ready": 0
+      },
+      "gpuBytes": 384038904,
+      "packing": "tiled",
+      "backingBytes": 309858560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 1376.199999988079,
+      "cleanupMs": 24,
+      "stages": {
+        "Inspecting": 38.89999997615814,
+        "Downloading": 180.60000002384186,
+        "Inflating": 236.39999997615814,
+        "Decoding": 379.7000000178814,
+        "Rebasing": 172.09999999403954,
+        "Uploading": 368.5,
+        "Ready": 0
+      },
+      "gpuBytes": 235402752,
+      "packing": "tiled",
+      "backingBytes": 189932800,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "result": {
+        "ok": true
+      },
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2245.800000011921,
+      "cleanupMs": 33.69999998807907,
+      "stages": {
+        "Inspecting": 33.19999998807907,
+        "Downloading": 196.10000002384186,
+        "Inflating": 361,
+        "Decoding": 697.6999999880791,
+        "Rebasing": 291.30000001192093,
+        "Uploading": 666.3999999761581,
+        "Ready": 0.10000002384185791
+      },
+      "gpuBytes": 415061448,
+      "packing": "tiled",
+      "backingBytes": 334885888,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "result": {
+        "ok": true
+      },
+      "count": 1248730,
+      "degree": 3,
+      "ms": 1963.2999999821186,
+      "cleanupMs": 34,
+      "stages": {
+        "Inspecting": 30.299999982118607,
+        "Downloading": 206.2000000178814,
+        "Inflating": 310.09999999403954,
+        "Decoding": 587.8000000119209,
+        "Rebasing": 259.69999998807907,
+        "Uploading": 569.0999999940395,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 365264048,
+      "packing": "tiled",
+      "backingBytes": 294709248,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "result": {
+        "ok": true
+      },
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2185,
+      "cleanupMs": 31.900000005960464,
+      "stages": {
+        "Inspecting": 32.400000005960464,
+        "Downloading": 175.40000000596046,
+        "Inflating": 354.19999998807907,
+        "Decoding": 683.8000000119209,
+        "Rebasing": 281.69999998807907,
+        "Uploading": 657.5,
+        "Ready": 0
+      },
+      "gpuBytes": 420845968,
+      "packing": "tiled",
+      "backingBytes": 339553024,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "result": {
+        "ok": true
+      },
+      "count": 1757157,
+      "degree": 3,
+      "ms": 2834.5999999940395,
+      "cleanupMs": 41.5,
+      "stages": {
+        "Inspecting": 33,
+        "Downloading": 197.19999998807907,
+        "Inflating": 465,
+        "Decoding": 912.4000000059605,
+        "Rebasing": 341.90000000596046,
+        "Uploading": 885.0999999940395,
+        "Ready": 0
+      },
+      "gpuBytes": 513976808,
+      "packing": "tiled",
+      "backingBytes": 414695424,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "result": {
+        "ok": true
+      },
+      "count": 1307854,
+      "degree": 3,
+      "ms": 1864.800000011921,
+      "cleanupMs": 29.599999994039536,
+      "stages": {
+        "Inspecting": 32.400000005960464,
+        "Downloading": 163.5,
+        "Inflating": 318.09999999403954,
+        "Decoding": 591.8000000119209,
+        "Rebasing": 253.19999998807907,
+        "Uploading": 505.69999998807907,
+        "Ready": 0
+      },
+      "gpuBytes": 382560656,
+      "packing": "tiled",
+      "backingBytes": 308665344,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1523.5999999940395,
+      "cleanupMs": 25.30000001192093,
+      "stages": {
+        "Inspecting": 32.5,
+        "Downloading": 144.90000000596046,
+        "Inflating": 252.40000000596046,
+        "Decoding": 454.2999999821186,
+        "Rebasing": 197.5,
+        "Uploading": 441.90000000596046,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 300644072,
+      "packing": "tiled",
+      "backingBytes": 242570240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "result": {
+        "ok": true
+      },
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2772.5999999940395,
+      "cleanupMs": 37.30000001192093,
+      "stages": {
+        "Inspecting": 29.900000005960464,
+        "Downloading": 845.4000000059605,
+        "Decoding": 917,
+        "Rebasing": 309.59999999403954,
+        "Uploading": 670.5,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 415061448,
+      "packing": "tiled",
+      "backingBytes": 334885888,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "result": {
+        "ok": true
+      },
+      "count": 1248730,
+      "degree": 3,
+      "ms": 2475.600000023842,
+      "cleanupMs": 30.69999998807907,
+      "stages": {
+        "Inspecting": 35.5,
+        "Downloading": 806.5,
+        "Decoding": 790.1000000238419,
+        "Rebasing": 267.7999999821186,
+        "Uploading": 575.5999999940395,
+        "Ready": 0.10000002384185791
+      },
+      "gpuBytes": 365264048,
+      "packing": "tiled",
+      "backingBytes": 294709248,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "result": {
+        "ok": true
+      },
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2802.0999999940395,
+      "cleanupMs": 40.400000005960464,
+      "stages": {
+        "Inspecting": 37.70000001788139,
+        "Downloading": 840.8999999761581,
+        "Decoding": 921,
+        "Rebasing": 294.2000000178814,
+        "Uploading": 708.2999999821186,
+        "Ready": 0
+      },
+      "gpuBytes": 420845968,
+      "packing": "tiled",
+      "backingBytes": 339553024,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "wenke_v2.ply",
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "result": {
+        "ok": true
+      },
+      "count": 1757157,
+      "degree": 3,
+      "ms": 3579,
+      "cleanupMs": 42.70000001788139,
+      "stages": {
+        "Inspecting": 35,
+        "Downloading": 1130.4000000059605,
+        "Decoding": 1162.800000011921,
+        "Rebasing": 401.5,
+        "Uploading": 849.2999999821186,
+        "Ready": 0
+      },
+      "gpuBytes": 513976808,
+      "packing": "tiled",
+      "backingBytes": 414695424,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "result": {
+        "ok": true
+      },
+      "count": 1307854,
+      "degree": 3,
+      "ms": 2551.0999999940395,
+      "cleanupMs": 39.60000002384186,
+      "stages": {
+        "Inspecting": 36.80000001192093,
+        "Downloading": 809.6999999880791,
+        "Decoding": 833.2000000178814,
+        "Rebasing": 271.59999999403954,
+        "Uploading": 599.7999999821186,
+        "Ready": 0
+      },
+      "gpuBytes": 382560656,
+      "packing": "tiled",
+      "backingBytes": 308665344,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "yulin_v1.ply",
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 2000.9000000059605,
+      "cleanupMs": 27.69999998807907,
+      "stages": {
+        "Inspecting": 34.099999994039536,
+        "Downloading": 648.5,
+        "Decoding": 638.2000000178814,
+        "Rebasing": 218.2999999821186,
+        "Uploading": 461.7000000178814,
+        "Ready": 0
+      },
+      "gpuBytes": 300644072,
+      "packing": "tiled",
+      "backingBytes": 242570240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "result": {
+        "ok": true
+      },
+      "count": 3914609,
+      "degree": 3,
+      "ms": 7534.5,
+      "cleanupMs": 93.09999999403954,
+      "stages": {
+        "Inspecting": 33.19999998807907,
+        "Downloading": 2275.9000000059605,
+        "Decoding": 2669.300000011921,
+        "Rebasing": 815.2999999821186,
+        "Uploading": 1740.800000011921,
+        "Ready": 0
+      },
+      "gpuBytes": 1145030904,
+      "packing": "tiled",
+      "backingBytes": 923851264,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "result": {
+        "ok": true
+      },
+      "count": 649520,
+      "degree": 3,
+      "ms": 1275.800000011921,
+      "cleanupMs": 18.69999998807907,
+      "stages": {
+        "Inspecting": 36.20000001788139,
+        "Downloading": 448.09999999403954,
+        "Decoding": 401.5,
+        "Rebasing": 137.40000000596046,
+        "Uploading": 252.59999999403954,
+        "Ready": 0
+      },
+      "gpuBytes": 189989360,
+      "packing": "tiled",
+      "backingBytes": 153290496,
+      "cpuResidentBytes": 0
+    }
+  ],
+  "stress": {
+    "accepted": 6,
+    "cancelled": 6,
+    "shutdown": {
+      "phase": "Stopped",
+      "requestId": 147,
+      "sceneCount": 0,
+      "degree": 0,
+      "source": null,
+      "progress": null,
+      "error": null,
+      "stats": null,
+      "deviceGeneration": 5,
+      "viewportRevision": 2
+    }
+  },
+  "errors": []
+}

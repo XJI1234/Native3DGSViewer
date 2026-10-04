@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+.local/
+test-results/
+playwright-report/
+*.tgz
+/public/assets/
+*.rgba
+*.log
+__pycache__/

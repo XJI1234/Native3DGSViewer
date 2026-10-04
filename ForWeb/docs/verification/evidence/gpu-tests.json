@@ -1,0 +1,81 @@
+{
+  "info": {
+    "vendor": "nvidia",
+    "architecture": "ampere",
+    "device": "",
+    "description": ""
+  },
+  "sort": [
+    {
+      "n": 0,
+      "pass": true
+    },
+    {
+      "n": 1,
+      "pass": true
+    },
+    {
+      "n": 255,
+      "pass": true
+    },
+    {
+      "n": 256,
+      "pass": true
+    },
+    {
+      "n": 257,
+      "pass": true
+    },
+    {
+      "n": 1025,
+      "pass": true
+    },
+    {
+      "n": 65537,
+      "pass": true
+    },
+    {
+      "n": 1048576,
+      "pass": true
+    }
+  ],
+  "image": {
+    "twoPageTransparency": [
+      63,
+      0,
+      127,
+      255
+    ],
+    "tiledImages": [
+      {
+        "count": 129,
+        "degree": 0,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 1,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 2,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 3,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      }
+    ]
+  },
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0"
+}

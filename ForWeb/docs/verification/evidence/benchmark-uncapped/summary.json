@@ -1,0 +1,356 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 1.0,
+        "p95": 1.5999999999985448,
+        "p99": 2.0,
+        "onePercentLowFps": 211.6402116402225,
+        "meanFps": 1019.2098719341872,
+        "maxIntervalMs": 17.799999999999272,
+        "slowestOnePercentTimeFraction": 0.04819467870213952,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 1,
+        "p50": 1.0,
+        "p95": 1.6000000000058208,
+        "p99": 2.0,
+        "onePercentLowFps": 204.86169321037696,
+        "meanFps": 1017.0985898121804,
+        "maxIntervalMs": 17.69999999999709,
+        "slowestOnePercentTimeFraction": 0.049709078969521994,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 2,
+        "p50": 1.0,
+        "p95": 1.6000000000058208,
+        "p99": 2.0,
+        "onePercentLowFps": 204.3967108575005,
+        "meanFps": 1014.2417853482112,
+        "maxIntervalMs": 17.60000000000582,
+        "slowestOnePercentTimeFraction": 0.049658747156232606,
+        "longIntervalCounts": {
+          "16.7": 2,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      }
+    ],
+    "medianP95": 1.6000000000058208,
+    "medianP99": 2.0,
+    "medianOnePercentLowFps": 204.86169321037696,
+    "gpuP50": 0.98304,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "changjin_v1.ply",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 0.10000000000582077,
+        "p95": 0.3000000000029104,
+        "p99": 0.4000000000014552,
+        "onePercentLowFps": 48.94698997669175,
+        "meanFps": 2824.399735234929,
+        "maxIntervalMs": 544.0,
+        "slowestOnePercentTimeFraction": 0.5773695890306402,
+        "longIntervalCounts": {
+          "16.7": 211,
+          "50": 114,
+          "100": 101,
+          "1000": 0
+        }
+      },
+      {
+        "run": 1,
+        "p50": 0.1999999999825377,
+        "p95": 0.3000000000029104,
+        "p99": 0.40000000000873115,
+        "onePercentLowFps": 48.62157124141495,
+        "meanFps": 2806.6269246729794,
+        "maxIntervalMs": 712.0999999999767,
+        "slowestOnePercentTimeFraction": 0.5775543841464033,
+        "longIntervalCounts": {
+          "16.7": 210,
+          "50": 114,
+          "100": 96,
+          "1000": 0
+        }
+      },
+      {
+        "run": 2,
+        "p50": 0.1999999999825377,
+        "p95": 0.3000000000174623,
+        "p99": 0.39999999999417923,
+        "onePercentLowFps": 49.21208160978019,
+        "meanFps": 2820.3000853085327,
+        "maxIntervalMs": 497.69999999998254,
+        "slowestOnePercentTimeFraction": 0.5734105013132227,
+        "longIntervalCounts": {
+          "16.7": 207,
+          "50": 110,
+          "100": 100,
+          "1000": 0
+        }
+      }
+    ],
+    "medianP95": 0.3000000000029104,
+    "medianP99": 0.4000000000014552,
+    "medianOnePercentLowFps": 48.94698997669175,
+    "gpuP50": 0.321536,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 3.2999999999956344,
+        "p95": 6.30000000000291,
+        "p99": 6.69999999999709,
+        "onePercentLowFps": 133.65468886940562,
+        "meanFps": 303.9606386223518,
+        "maxIntervalMs": 17.299999999999272,
+        "slowestOnePercentTimeFraction": 0.0228207987279567,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 1,
+        "p50": 3.2999999999883585,
+        "p95": 6.30000000000291,
+        "p99": 6.699999999982538,
+        "onePercentLowFps": 139.52424519670103,
+        "meanFps": 303.81869212461413,
+        "maxIntervalMs": 17.30000000000291,
+        "slowestOnePercentTimeFraction": 0.021860145734305718,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 2,
+        "p50": 3.2999999999883585,
+        "p95": 6.2999999999883585,
+        "p99": 6.600000000005821,
+        "onePercentLowFps": 134.36123348016474,
+        "meanFps": 303.59652032449856,
+        "maxIntervalMs": 17.300000000017462,
+        "slowestOnePercentTimeFraction": 0.02270223238618658,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      }
+    ],
+    "medianP95": 6.30000000000291,
+    "medianP99": 6.699999999982538,
+    "medianOnePercentLowFps": 134.36123348016474,
+    "gpuP50": 3.2768,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 0.10000000000582077,
+        "p95": 0.3000000000029104,
+        "p99": 0.4000000000014552,
+        "onePercentLowFps": 11.815378260895256,
+        "meanFps": 1004.1969668297694,
+        "maxIntervalMs": 3798.5,
+        "slowestOnePercentTimeFraction": 0.8508505447271109,
+        "longIntervalCounts": {
+          "16.7": 90,
+          "50": 49,
+          "100": 46,
+          "1000": 30
+        }
+      },
+      {
+        "run": 1,
+        "p50": 0.1999999999825377,
+        "p95": 0.3000000000029104,
+        "p99": 0.39999999999417923,
+        "onePercentLowFps": 12.375572768168334,
+        "meanFps": 1041.6292885612095,
+        "maxIntervalMs": 3140.600000000006,
+        "slowestOnePercentTimeFraction": 0.8427520569835547,
+        "longIntervalCounts": {
+          "16.7": 90,
+          "50": 52,
+          "100": 49,
+          "1000": 29
+        }
+      },
+      {
+        "run": 2,
+        "p50": 0.1999999999825377,
+        "p95": 0.3000000000174623,
+        "p99": 0.39999999999417923,
+        "onePercentLowFps": 12.16312902456406,
+        "meanFps": 1027.5328565695509,
+        "maxIntervalMs": 3478.7000000000116,
+        "slowestOnePercentTimeFraction": 0.844876020707201,
+        "longIntervalCounts": {
+          "16.7": 80,
+          "50": 43,
+          "100": 42,
+          "1000": 28
+        }
+      }
+    ],
+    "medianP95": 0.3000000000029104,
+    "medianP99": 0.39999999999417923,
+    "medianOnePercentLowFps": 12.16312902456406,
+    "gpuP50": 0.953344,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "engine": "native",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 4.900000000001455,
+        "p95": 9.599999999998545,
+        "p99": 10.0,
+        "onePercentLowFps": 98.18123289875732,
+        "meanFps": 202.51666666666668,
+        "maxIntervalMs": 17.599999999998545,
+        "slowestOnePercentTimeFraction": 0.020710000000000707,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 1,
+        "p50": 4.899999999994179,
+        "p95": 9.60000000000582,
+        "p99": 10.0,
+        "onePercentLowFps": 98.18913480884967,
+        "meanFps": 202.21063176862205,
+        "maxIntervalMs": 17.0,
+        "slowestOnePercentTimeFraction": 0.02071112933579439,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      },
+      {
+        "run": 2,
+        "p50": 4.899999999994179,
+        "p95": 9.599999999976717,
+        "p99": 9.900000000023283,
+        "onePercentLowFps": 98.07862368355795,
+        "meanFps": 202.67590188359765,
+        "maxIntervalMs": 18.0,
+        "slowestOnePercentTimeFraction": 0.020730906533430897,
+        "longIntervalCounts": {
+          "16.7": 1,
+          "50": 0,
+          "100": 0,
+          "1000": 0
+        }
+      }
+    ],
+    "medianP95": 9.599999999998545,
+    "medianP99": 10.0,
+    "medianOnePercentLowFps": 98.18123289875732,
+    "gpuP50": 4.849664,
+    "gpuScope": "projection + GPU radix + draw"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "engine": "spark",
+    "runs": [
+      {
+        "run": 0,
+        "p50": 0.19999999999708962,
+        "p95": 0.3000000000029104,
+        "p99": 0.4000000000014552,
+        "onePercentLowFps": 7.278960063021875,
+        "meanFps": 653.9775417994537,
+        "maxIntervalMs": 4312.100000000006,
+        "slowestOnePercentTimeFraction": 0.9006486688721611,
+        "longIntervalCounts": {
+          "16.7": 55,
+          "50": 38,
+          "100": 37,
+          "1000": 23
+        }
+      },
+      {
+        "run": 1,
+        "p50": 0.10000000000582077,
+        "p95": 0.3000000000029104,
+        "p99": 0.40000000000873115,
+        "onePercentLowFps": 6.853465689386403,
+        "meanFps": 621.9809729658922,
+        "maxIntervalMs": 4800.099999999991,
+        "slowestOnePercentTimeFraction": 0.9079006402384248,
+        "longIntervalCounts": {
+          "16.7": 62,
+          "50": 40,
+          "100": 36,
+          "1000": 23
+        }
+      },
+      {
+        "run": 2,
+        "p50": 0.1999999999825377,
+        "p95": 0.3000000000174623,
+        "p99": 0.39999999999417923,
+        "onePercentLowFps": 7.542657920907948,
+        "meanFps": 676.7832888389304,
+        "maxIntervalMs": 5815.5,
+        "slowestOnePercentTimeFraction": 0.898161344065553,
+        "longIntervalCounts": {
+          "16.7": 62,
+          "50": 40,
+          "100": 37,
+          "1000": 22
+        }
+      }
+    ],
+    "medianP95": 0.3000000000029104,
+    "medianP99": 0.4000000000014552,
+    "medianOnePercentLowFps": 7.278960063021875,
+    "gpuP50": 1.51552,
+    "gpuScope": "synchronous WebGL render, excludes asynchronous worker sort and later GPU submissions"
+  }
+]

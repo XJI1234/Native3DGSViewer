@@ -1,0 +1,551 @@
+{
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "result": {
+        "ok": true
+      },
+      "count": 170799,
+      "degree": 3,
+      "ms": 409.59999999403954
+    },
+    {
+      "model": "citang_v1.ply",
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 18.400000005960464
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 137.59999999403954
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.099999994039536
+    },
+    {
+      "model": "he_v1.ply",
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.700000017881393
+    },
+    {
+      "model": "J1_v3.ply",
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 18.5
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.30000001192093
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.700000017881393
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.19999998807907
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 20
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 20
+    },
+    {
+      "model": "PML_v1.ply",
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "result": {
+        "ok": true
+      },
+      "count": 851828,
+      "degree": 3,
+      "ms": 1332.5999999940395
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 1383.4000000059605
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 153.59999999403954
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 139.39999997615814
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 107.90000000596046
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 145.09999999403954
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 157.90000000596046
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 147.30000001192093
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 20
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 132.90000000596046
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 174.2000000178814
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 92.90000000596046
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 1107.4000000059605
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 94.2000000178814
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "result": {
+        "ok": true
+      },
+      "count": 1248730,
+      "degree": 3,
+      "ms": 1662.9000000059605
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 123.30000001192093
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 142.09999999403954
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: estimated CPU/WASM/GPU peak"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 110.80000001192093
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1401.2000000178814
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 18.200000017881393
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.69999998807907
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.69999998807907
+    },
+    {
+      "model": "wenke_v2.ply",
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 20.5
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 19.900000005960464
+    },
+    {
+      "model": "yulin_v1.ply",
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1697.199999988079
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "ResourceLimit",
+          "stage": "Load",
+          "diagnostic": "ResourceLimit: input bytes"
+        }
+      },
+      "count": 0,
+      "degree": 0,
+      "ms": 20.599999994039536
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "result": {
+        "ok": true
+      },
+      "count": 649520,
+      "degree": 3,
+      "ms": 1041.5999999940395
+    }
+  ],
+  "stress": {
+    "accepted": 6,
+    "cancelled": 6,
+    "shutdown": {
+      "phase": "Stopped",
+      "requestId": 109,
+      "sceneCount": 0,
+      "degree": 0,
+      "source": null,
+      "progress": null,
+      "error": null,
+      "stats": null,
+      "deviceGeneration": 5,
+      "viewportRevision": 2
+    }
+  },
+  "errors": []
+}
