@@ -1,6 +1,6 @@
 # Web SDK API、部署与运行契约
 
-适用 `@native3dgs/web@0.1.0`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。
+适用 `@native3dgs/web@0.2.2-preview.1`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。
 
 ## 1. 生成、安装和部署资产
 
@@ -9,9 +9,9 @@
 pnpm install --frozen-lockfile
 pnpm run build:wasm
 pnpm run build
-pnpm pack --out ./native3dgs-web-0.1.0.tgz
+pnpm pack --out ./native3dgs-web-0.2.2-preview.1.tgz
 # 消费项目
-pnpm add C:/path/to/native3dgs-web-0.1.0.tgz
+pnpm add C:/path/to/native3dgs-web-0.2.2-preview.1.tgz
 ```
 
 复制包内 `dist/assets/` 到宿主 `public/gs-assets/`，包含 Worker、mjs、wasm、manifest和licenses。可以增加 `scripts/copy-gs-assets.mjs`：
@@ -74,10 +74,11 @@ EngineOptions为`{canvas,assets?,limits?}`，limits可部分覆盖。createEngin
 | dispose() | Promise<void>；等待在途上传/GPU/恢复清理，最后Stopped；幂等 |
 | camera | Camera实例，见第5节 |
 | capabilities | adapter信息、pageBytes、execution:'main'；不是剩余显存查询 |
+| maxViewportDimension | 当前设备允许的视口维度上限；适配器按比例限制物理像素尺寸 |
 
 Snapshot字段：phase、requestId、sceneCount、degree、source、progress、error、stats、deviceGeneration、viewportRevision。phase为Idle/Loading/Uploading/Ready/Suspended/Recovering/Faulted/Stopping/Stopped。Loading/Uploading时可以仍显示旧模型；Ready表示首帧GPU完成并交给Canvas，不证明物理显示器已扫描。替换失败/取消保留旧模型及相机。恢复期间open返回DeviceLost。closeScene与恢复并发时设备可能继续重建，但关闭的模型不会复活。
 
-progress包含stage/done/total，total可null。Downloading/Uploading单位字节，Decoding/Packing单位点；不同阶段不能直接相加。加载总deadline也包括等待非零视口和上传。capture仅用于稳定场景，不在加载/恢复中截取，GPU读回受预算限制。
+progress包含stage/done/total，total可null。Downloading/Inflating/Rebasing/Uploading单位字节，Decoding/Packing单位点；不同阶段不能直接相加。加载总deadline也包括等待非零视口和上传。候选场景先离屏验证，再验证实际Canvas呈现；成功后才替换活动场景和相机，失败或取消恢复旧画面，包括暂停状态。capture仅用于稳定场景，不在加载/恢复中截取，GPU读回受预算及maxBufferSize限制。
 
 stats最多约4Hz发布。cpuMs是提交CPU时间；gpuMs是可选异步timestamp结果；gpuFrameId指出该结果所属的旧帧。不能将gpuMs称为当前帧耗时或直接换算用户FPS。更换场景不复用旧场景计时。
 
@@ -92,7 +93,7 @@ const result = await remote.result;
 
 支持Graphdeco binary_little_endian PLY、基础SPZ1–4、完整SH0–3。PLY默认源RDF，规范化为RUB；已经RUB的PLY用plyCoordinates:'rub'。SPZ按规范转RUB，此选项不改变SPZ。ASCII/压缩PLY、SH4、SPZ antialiased/未知扩展不支持，不静默降低质量。部分模型源朝向与默认相机不一致，可设置正确相机，不能重复翻转已经规范化的数据。
 
-URL必须绝对HTTP(S)，浏览器执行CORS。当前无自定义credentials/requestHeader、HTTP Range或边下载边显示。下载既检查Content-Length也检查实际字节数。Blob分块处理不等于半模型可见。cancel终止独立解码Worker，下载随Worker终止。cancel不是throw，操作result返回Cancelled；超时返回Timeout。
+URL必须绝对HTTP(S)，浏览器执行CORS。当前无自定义credentials/requestHeader、HTTP Range或边下载边显示。实际接收字节始终受inputBytes限制。只有可确认identity编码或可信同源未编码响应才比较Content-Length；HTTP压缩及跨源隐藏Content-Encoding时，编码长度不能作为浏览器解码后的长度。Blob分块处理不等于半模型可见。cancel终止独立解码Worker，下载随Worker终止。cancel不是throw，操作result返回Cancelled；超时返回Timeout。加载及恢复均有总deadline；GPU等待和backing读取会响应取消，底层已提交GPU或存储工作可能随后完成，但迟到结果不能替换新场景。
 
 ## 5. 相机与控制
 
@@ -119,13 +120,21 @@ Camera类声明还包含引擎低层使用的fit(bounds,width,height)、resize(w
 
 | Limits | 默认 | 说明 |
 | --- | --- | --- |
-| inputBytes | 256MiB | 最大允许768MiB；URL/Blob输入 |
-| sceneBytes | 768MiB | 规范化场景；最大允许768MiB |
-| cpuBytes | 1536MiB | 输入/解压/规范化/pack/旧场景的保守估算，不是测量RSS |
-| gpuBytes | 512MiB | 新旧模型/排序/投影/截屏预算，不是显卡剩余VRAM |
-| timeoutMs | 120000 | 完整加载期限 |
+| inputBytes | 8GiB | URL/Blob/File输入的字节上限 |
+| sceneBytes | 8GiB | 规范化/packed场景字节预算；大场景不要求整份驻留WASM |
+| cpuBytes | 512MiB | 引擎输入/解压/批次/pack/旧内存场景的保守估算，不是测量RSS |
+| gpuBytes | 8GiB | 新旧模型/排序/投影/截屏预算，不是显卡剩余VRAM |
+| timeoutMs | 600000 | 完整加载期限；毫秒 |
 
-所有limit都是正safe整数。四个输入页，每页最多128MiB；投影数组另受单buffer binding limit限制。WASM最大1GiB，使用960MiB保守峰值准入。提高limits不能突破WASM上限。SH3每点GPU256字节，排序/投影额外约64字节/点。替换时新旧同时驻留，因此单模型可打开不等于它可以与另一个大模型并存。显式closeScene可以降低峰值，但舍弃失败回退体验，由宿主决定。
+所有limit都是正safe整数，timeoutMs还必须≤2147483647，避免浏览器计时器溢出。大PLY和legacy gzip SPZ采用分块WASM及OPFS backing，输入页每页最多128MiB、页数不限；单页投影结果进入同一个全局稳定排序。紧凑SH3每点236字节；流式布局按64点属性分块，末尾补齐到64点但逻辑点数不变。投影40字节，排序双缓冲16字节，再加radix scratch。单投影buffer仍受设备binding上限约束，真实GPU分配可能因其他程序占用或驱动限制失败。默认8GiB是策略预算，不代表显卡可用空间。小PLY和SPZ v4保持有界内存路径，v4超过其WASM估计峰值时显式ResourceLimit。替换时新旧同时驻留，宿主可先await closeScene()以降低峰值，但会放弃保留旧模型的失败回退。
+
+OPFS需要安全来源（HTTPS或localhost）、浏览器存储权限与足够配额。解码临时存储峰值约为输入文件＋解压SPZ属性＋packed backing；成功后只保留backing，closeScene/dispose等待取消与清理。浏览器私密模式可能限制大文件快照，写入长度与File快照长度会核验。配额/快照截断返回ResourceLimit；没有OPFS返回UnsupportedCapability。浏览器异常退出可能留下临时目录；正常API关闭会释放。生产宿主应避免在多标签页活跃时盲目删除其他实例目录。
+
+cpuBytes限制引擎分配的保守估计；磁盘File backing的residentBytes为0，表示没有由引擎保留的整份ArrayBuffer。浏览器/操作系统页缓存、宿主自行创建的Blob内存不在该计数内，不能据此推断RSS为零。提高预算不能突破物理内存、GPU buffer上限或存储配额，不能保证资源不足的任意电脑完整渲染。
+
+OPFS删除等待最多5秒；超时或删除失败不阻止GPU释放和进入Stopped，底层存储可能继续回收。宿主应在closeScene/dispose后检查getSnapshot().error：stage为StorageCleanup标记清理故障，不能因为Promise<void>完成就推断磁盘删除成功。错误使用现有ErrorCode，不新增名为StorageCleanup的公共枚举。异常退出残留及清理重试需由宿主管理。
+
+Snapshot.stats的projectionMs、sortMs、drawMs是gpuFrameId对应已完成采样帧的GPU阶段时间；gpuMs包含阶段间开销。正在提交的frameId与gpuFrameId可能不同。没有timestamp-query时GPU项为null；未变更视角的采样帧投影/排序为0。自动渲染最多保持一个在途GPU帧，在完成时合并最新camera变化。
 
 ErrorCode为UnsupportedCapability/InvalidInput/UnsupportedFormat/ResourceLimit/OutOfMemory/DecoderFailure/Cancelled/Timeout/NetworkFailure/DeviceLost/Stopped。ResourceLimit提示选择小模型或明确调整预算；OOM不无限重试。设备丢失有界恢复；Faulted后可以显式recover。主动dispose/destroy不触发自动恢复。uncapturederror进入Faulted。不要把桌面单卡结论推广到手机/Safari。
 

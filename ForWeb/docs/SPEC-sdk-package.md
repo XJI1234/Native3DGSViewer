@@ -21,3 +21,7 @@ Required cases: tarball without source links, SSR import, asset subpath, license
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+
+## Release artifact provenance
+The Web preview attached to native v0.2.2 is named Native3DGS-SDK-0.2.2-Web-WebGPU-preview.zip. Its package version is 0.2.2-preview.1 and its internal tarball is native3dgs-web-0.2.2-preview.1.tgz. Packaging requires committed ForWeb source; MANIFEST.json identifies the actual Web commit/tree, pinned dependencies, toolchain and per-file SHA-256. The native release tag is not moved and existing platform assets are not replaced. The archive includes SDK tarball, self-hosted assets/licenses and guides; models and Spark reference dependencies are excluded. Publication does not merge the PR or publish to npm.

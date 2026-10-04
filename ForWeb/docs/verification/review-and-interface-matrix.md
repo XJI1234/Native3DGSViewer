@@ -33,7 +33,7 @@
 | 旧gzip恶意膨胀/尾部 | 64KiB scratch、精确inflated长度、CRC、无trailing成员 | 一点声明+8MiB压缩尾部、截断/拼接成员 |
 | unsupported PLY/SH/flags | UnsupportedFormat，不降质 | shared probe及contracts |
 | URL/下载 | HTTP(S)协议校验；HTTP/reader错误NetworkFailure | 真实file URL拒绝；CORS由浏览器执行 |
-| input/CPU/WASM/GPU限制 | 下载检查、峰值准入、新旧总量、capture reservation | 38模型30个ResourceLimit；估算不是RSS |
+| input/CPU/WASM/GPU限制 | 下载检查、峰值准入、新旧总量、capture reservation | 最终38/38完整加载；明确超限夹具仍拒绝；估算不是RSS |
 | cancel/timeout | 单结算、terminate、上传信号、含零surface deadline | latest-wins、真实stress和超时 |
 | validation/OOM/lost | uncaptured进入Faulted，lost有界recover，主动destroy不恢复 | 注入validation/显式重建；真实OOM/reset未制造 |
 | close/recover/dispose重叠 | sceneEpoch、barrier、coalesced promise、active metadata | deferred upload、subscriber reentry、立即close/recover |
@@ -65,8 +65,16 @@ ErrorCode：UnsupportedCapability、InvalidInput、UnsupportedFormat、ResourceL
 
 独立初审六项与复审缓存遗漏全部关闭。全模型测试发现的快照问题也有失败再通过的回归。未删除失败测试、抽点、降SH或放宽上限换通过。
 
+## 大型模型复审补充
+
+独立只读复审覆盖64点分块、末尾padding、SH、OPFS引用、并发清理与CPU scratch。必改项已关闭：宽PLY同时限制源字节；fractionalBits25–30与原数学一致；加载完成promise在发布Loading前注册；close/dispose等待包括存储删除在内的操作收尾；清理异常结构化并不妨碍GPU销毁；timestamp等待纳入原2秒超时。回归覆盖subscriber重入与deferred操作。
+
+最终最大PLY发现批次局部原点float32舍入误拒绝，流式finish保留world中心与原始bounds再用零origin执行完整共享validator。没有放宽native容差。12bytes/point快照计入现有native scratch余量。复审未发现未处理必改问题。65/127/129点全属性契约、129点三页/SH0–3和真实模型布局图像等价均通过；最终38/38及SDK证据见[大型报告](large-model-optimization-report.md)。
+
 ## 4. 维护与交付
 
 新增源码/规格/证据限ForWeb，third_party未修改。C++固定formatter，TS严格模式/Biome，check:boundaries约束provider方向；集中verify，性能单独运行。WASM/Worker SHA及完整licenses随包部署。
 
-模型原文件、RGBA、构建产物、依赖和临时项目被ignore；PNG/CSV/JSON保留。SDK含小规格/报告/指南，不含大evidence或私有模型。owned资源计数不是RSS/VRAM；跨平台和真实硬件fault仍待验收。当前没有发布、部署或推送。
+模型原文件、RGBA、构建产物、依赖和临时项目被ignore；PNG/CSV/JSON保留。SDK含小规格/报告/指南，不含大evidence或私有模型。owned资源计数不是RSS/VRAM；跨平台和真实硬件fault仍待验收。交付版本为0.2.2-preview.1，Web PR和原生v0.2.2上的附加资产记录实际Web commit，不改变原生tag，也不发布npm。
+
+六轮OCR审查、所有观察项的处置及最终回归见[OCR闭环报告](ocr-review-report.md)。最终源码新增可移除device-loss订阅、挂起等待取消、实际Canvas呈现验证与回滚、条件React/Vue容器重绑定、OPFS清理deadline和构建输出inventory验证；GPU、联合、真实安装包及38模型验收见[发布结果](large-model-optimization-report.md)。
