@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "inputState": "working tree hashes; packaging requires matching clean committed inputs",
+  "baseCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+  "node": "24.14.1",
+  "records": [
+    {
+      "framework": "react",
+      "root": "apps/react-viewer",
+      "inputs": [
+        {
+          "path": "index.html",
+          "sha256": "801c3f8cab0cd1320a6c70b78847b31fa6554fcf5e96b3f4e2006d54c4c16f5e"
+        },
+        {
+          "path": "package.json",
+          "sha256": "4094112648dcb86421eeb63fa6c9822efe508583e9e0240b4f6772e30fcc85c2"
+        },
+        {
+          "path": "pnpm-lock.yaml",
+          "sha256": "73beb525da1d039a02100ae78b069353da197aa860857d02a9c3c2054fa775f6"
+        },
+        {
+          "path": "scripts/copy-sdk-assets.mjs",
+          "sha256": "bdfcb1e0124daeacbab9f64013f7f591f8422249cbba077d6c097fedbc622131"
+        },
+        {
+          "path": "src/App.tsx",
+          "sha256": "e69de73ab54ebbe8026577c8309b042a3466628560ec9f4dec5da93b992e8d9c"
+        },
+        {
+          "path": "src/main.tsx",
+          "sha256": "7218005437d22ba40cb7ae1e50e0e3850ceba9be5a50a4e4f5a3a830eb62c956"
+        },
+        {
+          "path": "src/style.css",
+          "sha256": "4979de29e0b689bf976098d3ae0b1c69267d4de3d69221b853b00c270810975d"
+        },
+        {
+          "path": "src/viewer.test.ts",
+          "sha256": "5693dbde967b0c97ed476fe17b15cb0c94e62f71d816f8ccb30924d4a3cb2bb1"
+        },
+        {
+          "path": "src/viewer.ts",
+          "sha256": "02ddf6daaff3d1a787b1438cc3b269980789346089ebee532e50581b0ff6ef21"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "58830e1f7be62b3aefb0508cc1ade39aaf8acca769d3a4b93e6a7989b307965e"
+        },
+        {
+          "path": "vendor/native3dgs-web-0.2.2-preview.2.tgz",
+          "sha256": "4a978996d31a6bce0f632c7c4b4fde1d138b039135ca7c6a547341f190c0c088"
+        },
+        {
+          "path": "vite.config.ts",
+          "sha256": "550ccb4d463faa46fd26c9963f47f8039f40eed4ffe14107f0d837c60c04038f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "assets/index-DCOr6cN6.js",
+          "sha256": "fb948617a83021cd0f962e4f5e1461a60cadac5875ff3a04d5b252a551f5841a"
+        },
+        {
+          "path": "assets/index-KOkQuLsw.css",
+          "sha256": "25cb059e689e7c3609eb9c62edd902d970ff8ac8a1ae4abec551869b14fd6f2c"
+        },
+        {
+          "path": "gs-assets/decoder.mjs",
+          "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+        },
+        {
+          "path": "gs-assets/decoder.wasm",
+          "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+        },
+        {
+          "path": "gs-assets/decoder.worker.js",
+          "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+        },
+        {
+          "path": "gs-assets/licenses/spz.txt",
+          "sha256": "8b1234cafec672d87a126d13bf3740858ae1a2761383342c2d0225154bb523ca"
+        },
+        {
+          "path": "gs-assets/licenses/THIRD-PARTY-NOTICES.md",
+          "sha256": "48bb0ae3f3895b5ccd3c2ec72c16c8ba36962c9a45efa4a033616c3fba1c8c23"
+        },
+        {
+          "path": "gs-assets/licenses/zlib.txt",
+          "sha256": "18dbd37f0ab175c37877e9053ff870a7de2809a3e9b9673b2696aa5009264638"
+        },
+        {
+          "path": "gs-assets/licenses/zstd.txt",
+          "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+        },
+        {
+          "path": "gs-assets/manifest.json",
+          "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
+        },
+        {
+          "path": "index.html",
+          "sha256": "4887878e10385af2037ca43dc182a79de74312b27ca497aa9b3510783cdabdf0"
+        }
+      ]
+    },
+    {
+      "framework": "vue",
+      "root": "apps/vue-viewer",
+      "inputs": [
+        {
+          "path": "index.html",
+          "sha256": "7799d63c40cf89fdbfeb4140f0457c002bd53285b2d6fdac80b9608cbd9e0b84"
+        },
+        {
+          "path": "package.json",
+          "sha256": "6d2be28bc12b773f5783cf09aef34acb5a17a5be6bc9cda9e2d3c24b59c9561f"
+        },
+        {
+          "path": "pnpm-lock.yaml",
+          "sha256": "05513c0ec35c7dfac9542b40f2974ac793e3535c52ac62f74a6daecdb60510e7"
+        },
+        {
+          "path": "scripts/copy-sdk-assets.mjs",
+          "sha256": "bdfcb1e0124daeacbab9f64013f7f591f8422249cbba077d6c097fedbc622131"
+        },
+        {
+          "path": "src/App.vue",
+          "sha256": "a245a4f21a67299efc04bcd37185d0b553a30d54dd0543859e78b1ab05ea5a4c"
+        },
+        {
+          "path": "src/main.ts",
+          "sha256": "ab39b876f3d318b3caf6104de46c63ab5444b6fcd3570b00bec2981eba49b6e2"
+        },
+        {
+          "path": "src/style.css",
+          "sha256": "4979de29e0b689bf976098d3ae0b1c69267d4de3d69221b853b00c270810975d"
+        },
+        {
+          "path": "src/viewer.test.ts",
+          "sha256": "5693dbde967b0c97ed476fe17b15cb0c94e62f71d816f8ccb30924d4a3cb2bb1"
+        },
+        {
+          "path": "src/viewer.ts",
+          "sha256": "02ddf6daaff3d1a787b1438cc3b269980789346089ebee532e50581b0ff6ef21"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "58830e1f7be62b3aefb0508cc1ade39aaf8acca769d3a4b93e6a7989b307965e"
+        },
+        {
+          "path": "vendor/native3dgs-web-0.2.2-preview.2.tgz",
+          "sha256": "4a978996d31a6bce0f632c7c4b4fde1d138b039135ca7c6a547341f190c0c088"
+        },
+        {
+          "path": "vite.config.ts",
+          "sha256": "260a7489b42dba3c25d87b7f4772b78a6c73ad084814d90c0107eafee3f176df"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "assets/index-CXodfNlI.js",
+          "sha256": "d6f58722e6834c5830dadfa0303e153c41dd66d81b358df82c9c52eb0842ebbd"
+        },
+        {
+          "path": "assets/index-KOkQuLsw.css",
+          "sha256": "25cb059e689e7c3609eb9c62edd902d970ff8ac8a1ae4abec551869b14fd6f2c"
+        },
+        {
+          "path": "gs-assets/decoder.mjs",
+          "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+        },
+        {
+          "path": "gs-assets/decoder.wasm",
+          "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+        },
+        {
+          "path": "gs-assets/decoder.worker.js",
+          "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+        },
+        {
+          "path": "gs-assets/licenses/spz.txt",
+          "sha256": "8b1234cafec672d87a126d13bf3740858ae1a2761383342c2d0225154bb523ca"
+        },
+        {
+          "path": "gs-assets/licenses/THIRD-PARTY-NOTICES.md",
+          "sha256": "48bb0ae3f3895b5ccd3c2ec72c16c8ba36962c9a45efa4a033616c3fba1c8c23"
+        },
+        {
+          "path": "gs-assets/licenses/zlib.txt",
+          "sha256": "18dbd37f0ab175c37877e9053ff870a7de2809a3e9b9673b2696aa5009264638"
+        },
+        {
+          "path": "gs-assets/licenses/zstd.txt",
+          "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+        },
+        {
+          "path": "gs-assets/manifest.json",
+          "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
+        },
+        {
+          "path": "index.html",
+          "sha256": "604ea7b62d5424180bd95c87ea7a69929a6647811c14fb92201ee8af4c0e47d8"
+        }
+      ]
+    }
+  ]
+}

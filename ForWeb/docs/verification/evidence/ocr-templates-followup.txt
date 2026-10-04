@@ -1,0 +1,43 @@
+Review complete: 5 finding(s) across 12 selected item(s).
+
+─── ForWeb/apps/react-viewer/src/App.tsx:59-61 ───
+[maintainability · low] The diagnostic selection uses nested ternaries, contrary to the supplied
+no-nested-ternary rule. The status display below does this as well. Extract these selections into
+helpers or explicit if/else branches, preserving the priority of initialization failures and Faulted
+diagnostics over host messages.
+
+
+
+─── ForWeb/tools/template-tests.mjs:99-99 ───
+[test · medium] The cancel button becoming enabled does not guarantee that the `slow.ply` route
+handler has started. If cancellation aborts the request before interception, `slowComplete()` is
+never called and this unbounded `await slowDone` hangs the entire suite (Playwright's default
+timeout does not apply to this promise). Wait for a bounded route-start signal before clicking
+cancel, and bound the completion wait as well.
+
+
+
+─── ForWeb/tools/template-tests.mjs:32-33 ───
+[bug · medium] Vite has already been spawned, but context/page creation is outside the per-server
+`try/finally`. If either operation rejects, for example after a browser crash, only the outer
+browser cleanup runs and the Vite child remains alive on the fixed port. Enter the server cleanup
+scope immediately after spawning it, and close the context conditionally if creation succeeded.
+
+
+
+─── ForWeb/tools/template-tests.mjs:7-7 ───
+[test · medium] This preserves screenshots from previous runs, while the Python verifier later globs
+every matching PNG in the directory. Leftover artifacts from a prior version or extra case can
+therefore cause unrelated failures or be included in the current `reflectionPixels` evidence. Clean
+the directory before the run, use a fresh run-specific directory, or pass an explicit list of
+current screenshots to the verifier.
+
+
+
+─── ForWeb/tools/template-tests.mjs:8-8 ───
+[test · medium] The default model directory belongs to one developer's machine, and the production
+cases unconditionally load files from it. On another checkout, the suite fails at setInputFiles
+after running the preceding GPU checks unless GS_MODEL_ROOT happens to be configured. Require
+GS_MODEL_ROOT explicitly and validate both required files before launching the browser, or provide
+portable fixtures (with an explicitly gated external-model test if these models cannot be
+distributed).

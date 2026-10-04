@@ -1,0 +1,37 @@
+Review complete: 4 finding(s) across 3 selected item(s).
+
+─── ForWeb/tools/package-templates.mjs:7-7 ───
+[maintainability · low] Release identifiers are repeated independently in the SDK archive path,
+tarball validation, allowlist, output filename, and attachedRelease metadata. A preview/version
+update must change all of these in lockstep; missing an output-name or tag update can produce
+misleading release artifacts even when validation passes. Define the release and preview versions
+once and derive the related paths and metadata from them.
+
+
+
+─── ForWeb/tools/package-templates.mjs:44-44 ───
+[bug · medium] Opening the final archive with 'w' immediately truncates any previously generated
+release artifact, before the per-file hash assertions and ZIP validation succeed. If a source
+changes during packaging or writing fails, the command leaves a partial replacement alongside the
+previous .sha256 file. Write and validate a temporary archive and generate its checksum first, then
+publish the completed outputs; clean up temporary files on failure.
+
+
+
+─── ForWeb/tools/template-tests.mjs:149-149 ───
+[test · medium] These fingerprints are taken only after the browser run, so they do not establish
+which files were actually tested. A source/dist edit during the run can be recorded as verified, and
+production preview can test a stale dist while recording newer source hashes. The build recorder's
+before/after check covers building, not this browser run. Snapshot inputs/outputs before starting
+the server, validate production snapshots against the build manifest, and reject changes at the end
+before writing successful evidence.
+
+
+
+─── ForWeb/tools/template-tests.mjs:176-176 ───
+[test · medium] The preservation check compares only the red feature's centroid. Losing the
+green/blue splats, changing their positions, or changing the red splat's size symmetrically still
+passes, even though the evidence reports scene preservation/recovery. The count assertion does not
+verify that all splats are rendered. Compare the full images with a suitable tolerance, or at least
+verify each fixture color's centroid and pixel area; apply the same stronger check to screenshot
+capture.
