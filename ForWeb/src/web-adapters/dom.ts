@@ -7,12 +7,22 @@ export function bindCanvas(
 ): () => void {
     if (!Number.isFinite(pixelRatio) || pixelRatio <= 0) throw Error('Invalid pixelRatio');
     const resize = () => {
+        if (['Stopping', 'Stopped'].includes(engine.getSnapshot().phase)) return;
         const rect = host.getBoundingClientRect();
-        engine.resize(Math.round(rect.width * pixelRatio), Math.round(rect.height * pixelRatio));
+        const logical = Math.max(rect.width, rect.height);
+        if (!Number.isFinite(logical) || logical < 0) return;
+        // Divide before multiplying to avoid overflow for a finite but very large ratio.
+        const ratio = Math.min(pixelRatio, engine.maxViewportDimension / Math.max(1, logical));
+        engine.resize(Math.round(rect.width * ratio), Math.round(rect.height * ratio));
     };
     const observer = new ResizeObserver(resize);
-    observer.observe(host);
-    resize();
+    try {
+        resize();
+        observer.observe(host);
+    } catch (reason) {
+        observer.disconnect();
+        throw reason;
+    }
     let pointer: number | null = null;
     let button = 0;
     let x = 0;
@@ -40,6 +50,9 @@ export function bindCanvas(
         if (pointer !== null && canvas.hasPointerCapture(pointer)) canvas.releasePointerCapture(pointer);
         pointer = null;
     };
+    const pointerUp = (event: PointerEvent) => {
+        if (event.pointerId === pointer) up();
+    };
     const wheel = (event: WheelEvent) => {
         event.preventDefault();
         engine.camera.dolly(Math.sign(event.deltaY));
@@ -56,9 +69,9 @@ export function bindCanvas(
     canvas.tabIndex = 0;
     canvas.addEventListener('pointerdown', down);
     canvas.addEventListener('pointermove', move);
-    canvas.addEventListener('pointerup', up);
-    canvas.addEventListener('pointercancel', up);
-    canvas.addEventListener('lostpointercapture', up);
+    canvas.addEventListener('pointerup', pointerUp);
+    canvas.addEventListener('pointercancel', pointerUp);
+    canvas.addEventListener('lostpointercapture', pointerUp);
     canvas.addEventListener('wheel', wheel, { passive: false });
     canvas.addEventListener('contextmenu', context);
     window.addEventListener('blur', up);
@@ -68,9 +81,9 @@ export function bindCanvas(
         observer.disconnect();
         canvas.removeEventListener('pointerdown', down);
         canvas.removeEventListener('pointermove', move);
-        canvas.removeEventListener('pointerup', up);
-        canvas.removeEventListener('pointercancel', up);
-        canvas.removeEventListener('lostpointercapture', up);
+        canvas.removeEventListener('pointerup', pointerUp);
+        canvas.removeEventListener('pointercancel', pointerUp);
+        canvas.removeEventListener('lostpointercapture', pointerUp);
         canvas.removeEventListener('wheel', wheel);
         canvas.removeEventListener('contextmenu', context);
         window.removeEventListener('blur', up);

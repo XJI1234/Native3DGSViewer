@@ -20,12 +20,16 @@ const emptySnapshot: Snapshot = Object.freeze({
     viewportRevision: 0,
 });
 const noSubscribe = () => () => {};
-export function useNative3DGS(host: RefObject<HTMLElement | null>, options: AdapterOptions = {}) {
+export function useNative3DGS(
+    host: RefObject<HTMLElement | null> | HTMLElement | null,
+    options: AdapterOptions = {},
+) {
     const initial = useRef(options);
     const [engine, setEngine] = useState<WebEngine | null>(null);
     const [initializationError, setError] = useState<EngineError | null>(null);
     useEffect(() => {
-        const parent = host.current;
+        const parent = host && 'current' in host ? host.current : host;
+        setError(null);
         if (!parent) return;
         let alive = true;
         let instance: WebEngine | undefined;

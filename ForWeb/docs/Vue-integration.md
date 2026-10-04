@@ -1,12 +1,12 @@
 # Vue 3.5 接入指南
 
-适用Vue3.5、TypeScript及`@native3dgs/web@0.1.0`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
+适用Vue3.5、TypeScript及`@native3dgs/web@0.2.2-preview.1`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
 
 ## 1. 模块与生命周期
 
-引擎类型从`@native3dgs/web`导入，composable从`@native3dgs/web/vue`导入。`useNative3DGS(hostRef,options)`必须在setup中调用，内部onMounted创建Canvas/引擎，onBeforeUnmount清理事件、订阅、Canvas并异步dispose。
+引擎类型从`@native3dgs/web`导入，composable从`@native3dgs/web/vue`导入。`useNative3DGS(hostRef,options)`必须在setup中调用，内部onMounted安装post-flush host watcher；容器出现、替换或v-if移除时重新绑定/清理，onBeforeUnmount清理事件、订阅、Canvas并异步dispose。
 
-返回readonly的shallowRef：engine、snapshot、initializationError。初始化前engine和snapshot为null；错误显示initializationError。实例用markRaw，不把GPU对象纳入Vue深响应式代理。不要再把engine放进reactive/Pinia持久化、不要JSON.stringify引擎；仅持久化自己的模型URL/相机Pose等普通数据。
+返回shallowReadonly的shallowRef：engine、snapshot、initializationError。初始化前engine和snapshot为null；错误显示initializationError。实例用markRaw，不把GPU对象纳入Vue深响应式代理。不要再把engine放进reactive/Pinia持久化、不要JSON.stringify引擎；仅持久化自己的模型URL/相机Pose等普通数据。
 
 ## 2. 可直接使用的单文件组件
 
@@ -29,6 +29,7 @@ const base = new URL(`${import.meta.env.BASE_URL}gs-assets/`, location.origin);
 const { engine, snapshot, initializationError } = useNative3DGS(host, {
   assets: { baseUrl: base, workerUrl: new URL('decoder.worker.js', base) },
   pixelRatio: Math.min(window.devicePixelRatio, 2),
+  // 小模型嵌入示例主动限制预算；完整38模型验收使用默认预算。
   limits: { inputBytes: 256 * 2 ** 20, gpuBytes: 512 * 2 ** 20 },
 });
 const source = computed<Source | null>(() => {
@@ -102,7 +103,7 @@ options在mount时确定；props中动态改变assets/limits/pixelRatio不重建
 
 不要用watchEffect每次读取snapshot后open模型，这会造成持续加载循环。不要手工给engine.value赋值，composable返回readonly ref。snapshot为冻结快照，订阅时整体替换，deep watch没有价值。错误diagnostic不参与控制逻辑，使用error.code。
 
-多个视口独占device/Worker/显存，需宿主总预算。默认GPU512MiB，input256MiB，WASM最大1GiB。DPR提高会增加填充和截屏读回开销；宿主选择DPR上限时应记录画质策略。
+多个视口独占device/Worker/显存，需宿主总预算。默认GPU/input/scene预算各8GiB、引擎CPU预算512MiB；预算不等于实际可用资源。大PLY/legacy SPZ使用OPFS backing和有界WASM批次，需要HTTPS/localhost及存储配额；SPZ v4保留有界内存解码。异步dispose会等待取消与磁盘清理。DPR提高会增加填充和截屏读回开销，详见SDK-guide资源预算章节。
 
 ## 4. 截图、恢复与自定义控制
 
@@ -150,3 +151,8 @@ capture仅稳定非零视口可用；加载中、恢复中或超读回预算返�
 | 偶发过期UI更新 | alive/token和onCleanup是否同步注册 |
 
 独立tgz消费测试已验证Vue与React共存、真实WASM加载、卸载、Stopped和Canvas数量；仍应在宿主测试真实CSP、路由快速切换、零尺寸/恢复、失败/取消和浏览器硬件矩阵。详见[验收报告](verification/implementation-report.md)。
+
+
+## 引擎类型与条件容器
+
+engine.value 保持 WebEngine 类型，可传入接收 WebEngine 的公共工具函数。只读限制作用于 ref.value 的替换，实例方法仍然可调用。host 为 null 时不创建 GPU 实例；watcher 在 DOM 更新后处理新元素，每个绑定独立清理订阅、事件、Canvas 和迟到创建。options 为初始配置，运行期更改配置应重新挂载组件。

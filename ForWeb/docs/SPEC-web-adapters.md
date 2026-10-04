@@ -20,3 +20,7 @@ Required cases: StrictMode, mount/unmount, source watches, two instances, no glo
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+### Host binding
+
+Vue watches the host ref after DOM updates and releases each old binding, including late initialization. React accepts HTMLElement|null for reactive callback-ref hosts; the existing RefObject form is reserved for a fixed host mounted with the hook. Returned Vue engine refs are shallow readonly so WebEngine retains its public nominal type. Resize clamps physical dimensions uniformly to adapter limits; pointer completion only releases the tracked pointer.

@@ -1,6 +1,6 @@
 # React 19 接入指南
 
-适用React19、TypeScript严格模式、`@native3dgs/web@0.1.0`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
+适用React19、TypeScript严格模式、`@native3dgs/web@0.2.2-preview.1`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
 
 ## 1. 依赖与文件布局
 
@@ -27,7 +27,7 @@ import { useNative3DGS } from '@native3dgs/web/react';
 
 type Props = { modelUrl?: string; height?: number };
 export function Native3DGSViewer({ modelUrl, height = 600 }: Props) {
-  const host = useRef<HTMLDivElement>(null);
+  const [host, setHost] = useState<HTMLDivElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [loadError, setLoadError] = useState<EngineError | null>(null);
   const cancel = useRef<(() => void) | null>(null);
@@ -36,6 +36,7 @@ export function Native3DGSViewer({ modelUrl, height = 600 }: Props) {
     return {
       assets: { baseUrl: base, workerUrl: new URL('decoder.worker.js', base) },
       pixelRatio: Math.min(window.devicePixelRatio, 2),
+      // 小模型嵌入示例主动限制预算；完整38模型验收使用默认预算。
       limits: { inputBytes: 256 * 2 ** 20, gpuBytes: 512 * 2 ** 20 },
     };
   }, []);
@@ -80,7 +81,7 @@ export function Native3DGSViewer({ modelUrl, height = 600 }: Props) {
         cancel.current?.(); void engine?.closeScene();
       }}>关闭场景</button>
     </div>
-    <div ref={host} style={{ height, width: '100%', minHeight: 1 }} />
+    <div ref={setHost} style={{ height, width: '100%', minHeight: 1 }} />
     <p role="status" aria-live="polite">
       {snapshot.phase} · {snapshot.sceneCount.toLocaleString()}点 · SH{snapshot.degree}
       {snapshot.progress && ` · ${snapshot.progress.stage}: ${snapshot.progress.done}`}
@@ -138,7 +139,7 @@ if (!captured.ok) {
 
 加载effect清理必须cancel，不只是设置alive；alive防止过期UI更新，cancel释放Worker/上传事务。hook卸载负责引擎dispose，宿主不要复用已经Stopped的engine。closeScene与当前open并发会使其返回Cancelled；恢复中的open返回DeviceLost，应等recover完成。
 
-React多个查看器各自占用device/显存。默认每实例GPU512MiB、input256MiB；更高DPR会增加像素填充和截图成本。选择pixelRatio上限属于显式宿主画质策略，基准对照必须记录物理分辨率。大模型ResourceLimit不是网络故障；默认WASM1GiB限制不能仅靠增大gpuBytes解除。
+React多个查看器各自占用device/显存。默认GPU/input/scene预算各8GiB、引擎CPU预算512MiB；预算不等于实际可用资源。更高DPR会增加像素填充和截图成本。大PLY/legacy SPZ使用OPFS backing及有界WASM批次，需要HTTPS/localhost、存储配额；SPZ v4保留有界内存解码。ResourceLimit可能来自GPU预算、binding上限、真实分配或存储。异步dispose会等待取消和磁盘清理。详见SDK-guide资源预算章节。
 
 ## 6. 上线前核验与排障
 
@@ -154,3 +155,8 @@ React多个查看器各自占用device/显存。默认每实例GPU512MiB、input
 | 黑屏Faulted | snapshot.error、deviceGeneration和recover结果；不要吞GPU错误 |
 
 宿主应测试SPA重复进出、StrictMode、模型快速切换、取消、零尺寸/恢复、模型错误、真实生产URL和实际CSP。已实测tgz/Vite的结果不能替代宿主自己的部署验证。证据见[实现验收](verification/implementation-report.md)。
+
+
+## 条件容器与重新绑定
+
+推荐使用上例的 callback ref（setHost）及 HTMLElement|null 参数。容器在条件渲染后出现、消失或被替换时，hook 会取消旧绑定、移除旧 Canvas，并处理迟到的初始化。保留的 RefObject 参数仅适用于随 hook 一起挂载且不被替换的固定容器；修改 ref.current 本身不会触发 React effect。options 是初次调用的配置快照，更换配置应重新挂载宿主组件。
