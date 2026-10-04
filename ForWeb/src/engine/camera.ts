@@ -14,7 +14,7 @@ const cross = (a: Vec3, b: Vec3): Vec3 => [
 ];
 const normalize = (a: Vec3): Vec3 => {
     const n = Math.hypot(...a);
-    if (n < 1e-20) throw Error('Degenerate camera basis');
+    if (!Number.isFinite(n) || n < 1e-20) throw Error('Degenerate camera basis');
     return [a[0] / n, a[1] / n, a[2] / n];
 };
 export class Camera {
@@ -33,13 +33,17 @@ export class Camera {
     setPose(pose: Pose): void {
         finite(...pose.position, ...pose.target, ...pose.up);
         const delta = pose.position.map((v, i) => v - pose.target[i]!) as unknown as Vec3;
+        finite(...delta);
+        const distance = Math.hypot(...delta);
+        finite(distance);
         const back = normalize(delta);
-        normalize(cross(pose.up, back));
+        const up = normalize(pose.up);
+        normalize(cross(up, back));
         this.target = [...pose.target];
-        this.distance = Math.hypot(...delta);
+        this.distance = distance;
         this.yaw = Math.atan2(back[0], back[2]);
         this.pitch = Math.asin(Math.max(-1, Math.min(1, back[1])));
-        this.upHint = normalize(pose.up);
+        this.upHint = up;
         this.currentRevision++;
     }
     resize(width: number, height: number): void {

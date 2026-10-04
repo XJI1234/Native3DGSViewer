@@ -1,6 +1,22 @@
 import type { SceneBacking } from '../splat-types/index';
 
 export async function removeJob(job: string): Promise<void> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+        await Promise.race([
+            removeJobInternal(job),
+            new Promise<never>((_resolve, reject) => {
+                timer = setTimeout(
+                    () => reject(Error('StorageCleanup: timeout removing model backing')),
+                    5000,
+                );
+            }),
+        ]);
+    } finally {
+        clearTimeout(timer);
+    }
+}
+async function removeJobInternal(job: string): Promise<void> {
     if (!/^gs-[a-f0-9-]+$/.test(job)) throw Error('InvalidInput: storage job');
     const root = await navigator.storage.getDirectory();
     for (let attempt = 0; ; attempt++) {

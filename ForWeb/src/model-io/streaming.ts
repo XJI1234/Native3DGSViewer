@@ -10,6 +10,8 @@ interface SyncFile {
 }
 async function openFile(directory: FileSystemDirectoryHandle, name: string) {
     const file = await directory.getFileHandle(name, { create: true });
+    if (!('createSyncAccessHandle' in file))
+        throw Error('UnsupportedCapability: synchronous OPFS worker access');
     const access = await (
         file as unknown as { createSyncAccessHandle(): Promise<SyncFile> }
     ).createSyncAccessHandle();
@@ -48,7 +50,12 @@ export async function download(
         throw Error(`NetworkFailure: ${e}`);
     });
     if (!response.ok || !response.body) throw Error(`NetworkFailure: HTTP ${response.status}`);
-    const declared = Number(response.headers.get('Content-Length'));
+    // Fetch exposes decoded bytes; Content-Length describes the encoded HTTP body.
+    const encoded = response.headers.get('Content-Encoding');
+    const declared =
+        response.type === 'cors' || (encoded && encoded !== 'identity')
+            ? 0
+            : Number(response.headers.get('Content-Length'));
     if (declared > limits.inputBytes) {
         await response.body.cancel();
         throw Error('ResourceLimit: input bytes');
@@ -105,6 +112,7 @@ async function inflate(
                     produced = 0;
                 do {
                     const status = wasm._gs_inflate_step(p + used, bytes.length - used, out, chunkBytes);
+                    if (status === 3) break;
                     used += wasm._gs_inflate_consumed();
                     produced = wasm._gs_inflate_produced();
                     if (!status || total + produced > expectedMax)
@@ -148,16 +156,35 @@ export async function decodeStream(
     const count = wasm._gs_count(),
         degree = wasm._gs_degree(),
         stride = 56 + 12 * ((degree + 1) ** 2 - 1);
-    const totalBytes = count * stride;
-    if (
-        !count ||
-        degree > 3 ||
-        totalBytes > limits.sceneBytes ||
-        retainedBytes + 96 * 2 ** 20 > limits.cpuBytes
-    )
+    const storageCount = Math.ceil(count / 64) * 64;
+    const totalBytes = storageCount * stride;
+    if (!count || degree > 3 || totalBytes > limits.sceneBytes)
         throw Error('ResourceLimit: streaming batch budget');
     const prefix = new Uint8Array(await blob.slice(0, 16).arrayBuffer());
     const ply = prefix[0] === 112;
+    // Byte bound prevents wide PLY rows from bypassing CPU admission.
+    check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, 1));
+    const sourceStride = ply ? wasm._gs_meta(11) : 20 + 3 * ((degree + 1) ** 2 - 1);
+    const capacity = Math.min(65536, Math.floor(chunkBytes / sourceStride));
+    const batch = capacity >= 64 ? Math.floor(capacity / 64) * 64 : capacity;
+    if (!batch || (batch < 64 && count > batch))
+        throw Error('ResourceLimit: source record exceeds batch capacity');
+    wasm._gs_release();
+    const actualBatch = Math.min(count, batch);
+    const packedBatch = Math.ceil(actualBatch / 64) * 64;
+    const normalizedBatch = actualBatch * (stride + 8) + 256;
+    const inputBatch = actualBatch * sourceStride;
+    // Include allocator growth/headroom, JS attribute slices, packing/rebase and gzip scratch.
+    const nativeScratch = ply ? 2 * normalizedBatch + inputBatch : 3 * normalizedBatch + 2 * inputBatch;
+    const cpuPeak =
+        retainedBytes +
+        32 * 2 ** 20 +
+        Math.max(16 * 2 ** 20, Math.ceil(nativeScratch * 1.5)) +
+        2 * inputBatch +
+        packedBatch * stride +
+        chunkBytes +
+        2 ** 20;
+    if (cpuPeak > limits.cpuBytes) throw Error('ResourceLimit: streaming CPU peak');
     let raw: Blob = blob,
         version = 0,
         fractional = 0,
@@ -194,12 +221,6 @@ export async function decodeStream(
     let maxScale = 0;
     try {
         packed.access.truncate(totalBytes);
-        // Bound bytes as well as points: unknown scalar PLY columns may make rows wide.
-        check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, 1));
-        const sourceStride = ply ? wasm._gs_meta(11) : 0;
-        const batch = ply ? Math.min(16384, Math.floor(chunkBytes / sourceStride)) : 16384;
-        if (!batch) throw Error('ResourceLimit: PLY record exceeds batch capacity');
-        wasm._gs_release();
         for (let start = 0; start < count; start += batch) {
             const n = Math.min(batch, count - start);
             check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, n));
@@ -213,13 +234,16 @@ export async function decodeStream(
             } else {
                 const bytes = new Uint8Array(n * widths.reduce((sum, width) => sum + width, 0));
                 let cursor = 0;
-                for (let field = 0; field < widths.length; field++) {
-                    const width = widths[field]!;
-                    const part = new Uint8Array(
-                        await raw
+                const parts = await Promise.all(
+                    widths.map((width, field) =>
+                        raw
                             .slice(offsets[field]! + start * width, offsets[field]! + (start + n) * width)
                             .arrayBuffer(),
-                    );
+                    ),
+                );
+                for (let field = 0; field < widths.length; field++) {
+                    const width = widths[field]!;
+                    const part = new Uint8Array(parts[field]!);
                     if (part.length !== n * width) throw Error('DecoderFailure: truncated SPZ attributes');
                     bytes.set(part, cursor);
                     cursor += part.length;
@@ -229,14 +253,18 @@ export async function decodeStream(
                 );
             }
             // Pack world centers BEFORE finish rebases the disposable batch.
-            const p = wasm._gs_pack_compact(0, n);
+            const p = wasm._gs_pack_tiled(0, n);
             if (!p) throw Error('OutOfMemory: pack batch');
             try {
-                write(packed.access, wasm.HEAPU8.subarray(p, p + n * stride), start * stride);
+                write(
+                    packed.access,
+                    wasm.HEAPU8.subarray(p, p + Math.ceil(n / 64) * 64 * stride),
+                    start * stride,
+                );
             } finally {
                 wasm._free(p);
             }
-            check(wasm, wasm._gs_finish(0));
+            check(wasm, wasm._gs_finish_batch());
             for (let k = 0; k < 3; k++) {
                 min[k] = Math.min(min[k]!, wasm._gs_meta(3 + k));
                 max[k] = Math.max(max[k]!, wasm._gs_meta(6 + k));
@@ -246,7 +274,7 @@ export async function decodeStream(
             report('Decoding', start + n, count);
         }
         const origin = min.map((v, k) => v + (max[k]! - v) / 2) as unknown as Vec3;
-        const batchBytes = batch * stride;
+        const batchBytes = Math.floor(chunkBytes / (64 * stride)) * 64 * stride;
         const p = wasm._malloc(batchBytes);
         if (!p) throw Error('OutOfMemory: rebase batch');
         try {
@@ -260,7 +288,7 @@ export async function decodeStream(
                     if (!n) throw Error('DecoderFailure: backing read stalled');
                     read += n;
                 }
-                if (!wasm._gs_rebase(p, length / stride, stride, ...origin))
+                if (!wasm._gs_rebase_tiled(p, length / stride, stride, ...origin))
                     throw Error('DecoderFailure: rebase');
                 write(packed.access, wasm.HEAPU8.subarray(p, p + length), offset);
                 report('Rebasing', offset + length, totalBytes);
@@ -284,8 +312,8 @@ export async function decodeStream(
                 count,
                 degree,
                 stride,
-                packing: 'compact',
-                pageCapacity: Math.floor(pageBytes / stride),
+                packing: 'tiled',
+                pageCapacity: Math.floor(pageBytes / (64 * stride)) * 64,
                 pages: [],
                 origin,
                 min: min as unknown as Vec3,

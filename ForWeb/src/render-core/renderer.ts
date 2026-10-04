@@ -1,3 +1,4 @@
+import { abortable } from '../splat-types/async';
 import type { Scene } from '../splat-types/index';
 import { drawing, projection } from './shaders';
 import { GpuSort, testSort } from './sort';
@@ -19,6 +20,7 @@ export interface GpuScene {
     b: GPUBuffer;
     args: GPUBuffer;
     sort: GpuSort;
+    projectPipeline: GPUComputePipeline;
     projectGroups: { group: GPUBindGroup; count: number }[];
     batches: GPUBuffer[];
     drawGroup: GPUBindGroup;
@@ -26,14 +28,19 @@ export interface GpuScene {
     revision: number;
 }
 export class Renderer {
+    private lossObservers = new Set<(info: GPUDeviceLostInfo) => void>();
+    private deviceLoss: GPUDeviceLostInfo | undefined;
+    private static surfaceOwners = new WeakMap<GPUCanvasContext, Renderer>();
     readonly pageBytes: number;
     readonly info: GPUAdapterInfo;
     private frame: GPUBuffer;
     private project: GPUComputePipeline;
+    private projectCompact: GPUComputePipeline;
+    private projectTiled: GPUComputePipeline;
     private draw: GPURenderPipeline;
     private context: GPUCanvasContext;
     private configured = false;
-    private format: GPUTextureFormat;
+    readonly format: GPUTextureFormat;
     private dummy: GPUBuffer;
     private frameId = 0;
     private stopped = false;
@@ -41,6 +48,7 @@ export class Renderer {
     private queryResolve: GPUBuffer | undefined;
     private queryRead: GPUBuffer | undefined;
     private queryBusy = false;
+    private timingReady: Promise<void> = Promise.resolve();
     private lastGpu: number | null = null;
     private lastGpuFrame: number | null = null;
     private lastProjection: number | null = null;
@@ -61,21 +69,35 @@ export class Renderer {
         readonly canvas: HTMLCanvasElement,
         private budget: number,
     ) {
+        void device.lost.then((info) => {
+            this.deviceLoss = info;
+            for (const observer of this.lossObservers) observer(info);
+            this.lossObservers.clear();
+        });
         this.info = adapter.info;
         this.pageBytes = Math.min(device.limits.maxStorageBufferBindingSize, 128 * 2 ** 20);
         this.context = canvas.getContext('webgpu')!;
         if (!this.context) throw Error('UnsupportedCapability: Canvas context');
         this.format = navigator.gpu.getPreferredCanvasFormat();
-        if (canvas.width && canvas.height) this.configureSurface();
         this.frame = device.createBuffer({
             size: 128,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
         this.dummy = device.createBuffer({ size: 256, usage: GPUBufferUsage.STORAGE });
-        this.project = device.createComputePipeline({
-            layout: 'auto',
-            compute: { module: device.createShaderModule({ code: projection }), entryPoint: 'project' },
-        });
+        const makeProjection = (code: string) =>
+            device.createComputePipeline({
+                layout: 'auto',
+                compute: { module: device.createShaderModule({ code }), entryPoint: 'project' },
+            });
+        this.project = makeProjection(projection.replaceAll('batch.compact!=0u', 'false'));
+        const compact = projection.replaceAll('batch.compact!=0u', 'true');
+        this.projectCompact = makeProjection(compact);
+        this.projectTiled = makeProjection(
+            compact.replace(
+                '(i-batch.base)*frame.config.z+offset',
+                '((i-batch.base)/64u)*64u*frame.config.z+offset*64u+(i-batch.base)%64u',
+            ),
+        );
         const module = device.createShaderModule({ code: drawing });
         this.draw = device.createRenderPipeline({
             layout: 'auto',
@@ -117,6 +139,7 @@ export class Renderer {
             colorSpace: 'srgb',
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
         });
+        Renderer.surfaceOwners.set(this.context, this);
         this.configured = true;
     }
     static async create(canvas: HTMLCanvasElement, budget: number): Promise<Renderer> {
@@ -141,7 +164,6 @@ export class Renderer {
                 throw Error(`GPU stable sort self-test failed: ${Array.from(sorted)}`);
             return renderer;
         } catch (reason) {
-            canvas.getContext('webgpu')?.unconfigure();
             device.destroy();
             throw reason;
         }
@@ -193,7 +215,10 @@ export class Renderer {
                 const page = scene.pages[index];
                 const size =
                     page?.byteLength ??
-                    Math.min(scene.pageCapacity, n - index * scene.pageCapacity) * scene.stride;
+                    Math.min(
+                        scene.pageCapacity * scene.stride,
+                        total - index * scene.pageCapacity * scene.stride,
+                    );
                 const b = make(size, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST);
                 pages.push(b);
                 for (let offset = 0; offset < size; offset += 4 * 2 ** 20) {
@@ -201,10 +226,11 @@ export class Renderer {
                     const length = Math.min(4 * 2 ** 20, size - offset);
                     if (page) this.device.queue.writeBuffer(b, offset, page, offset, length);
                     else {
-                        const data = await scene.backing!.read(
-                            index * scene.pageCapacity * scene.stride + offset,
-                            length,
+                        const data = await abortable(
+                            scene.backing!.read(index * scene.pageCapacity * scene.stride + offset, length),
+                            signal,
                         );
+                        if (signal.aborted) throw Error('Cancelled');
                         if (data.byteLength !== length)
                             throw Error('DecoderFailure: truncated scene backing');
                         this.device.queue.writeBuffer(b, offset, data);
@@ -213,7 +239,7 @@ export class Renderer {
                     staged += length;
                     onProgress(done, total);
                     if (staged >= 32 * 2 ** 20) {
-                        await this.device.queue.onSubmittedWorkDone();
+                        await abortable(this.device.queue.onSubmittedWorkDone(), signal);
                         staged = 0;
                         await new Promise<void>((resolve) => setTimeout(resolve, 0));
                     }
@@ -224,9 +250,12 @@ export class Renderer {
                 b = make(n * 8, GPUBufferUsage.STORAGE),
                 args = make(16, GPUBufferUsage.STORAGE | GPUBufferUsage.INDIRECT | GPUBufferUsage.COPY_DST);
             sort = new GpuSort(this.device, n);
+            let projectPipeline = this.project;
+            if (scene.packing === 'tiled') projectPipeline = this.projectTiled;
+            else if (scene.packing === 'compact') projectPipeline = this.projectCompact;
             const batches: GPUBuffer[] = [];
             const projectGroups = pages.map((page, index) => {
-                const count = page.size / scene.stride;
+                const count = Math.min(page.size / scene.stride, n - index * scene.pageCapacity);
                 const batch = make(16, GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST);
                 batches.push(batch);
                 this.device.queue.writeBuffer(
@@ -240,7 +269,7 @@ export class Renderer {
                     ]),
                 );
                 const group = this.device.createBindGroup({
-                    layout: this.project.getBindGroupLayout(0),
+                    layout: projectPipeline.getBindGroupLayout(0),
                     entries: [page, ellipse, a, args, this.frame, batch].map((buffer, binding) => ({
                         binding,
                         resource: { buffer },
@@ -255,12 +284,12 @@ export class Renderer {
                     resource: { buffer },
                 })),
             });
-            await this.device.queue.onSubmittedWorkDone();
+            await abortable(this.device.queue.onSubmittedWorkDone(), signal);
             scopesOpen = false;
-            const [validation, oom] = await Promise.all([
-                this.device.popErrorScope(),
-                this.device.popErrorScope(),
-            ]);
+            const [validation, oom] = await abortable(
+                Promise.all([this.device.popErrorScope(), this.device.popErrorScope()]),
+                signal,
+            );
             if (oom) throw Error(`OutOfMemory: ${oom.message}`);
             if (validation) throw Error(`DeviceLost: GPU validation: ${validation.message}`);
             const uploaded = {
@@ -271,6 +300,7 @@ export class Renderer {
                 b,
                 args,
                 sort,
+                projectPipeline,
                 projectGroups,
                 batches,
                 drawGroup,
@@ -281,7 +311,10 @@ export class Renderer {
             return uploaded;
         } catch (reason) {
             if (scopesOpen) {
-                await Promise.all([this.device.popErrorScope(), this.device.popErrorScope()]).catch(() => {});
+                await abortable(
+                    Promise.all([this.device.popErrorScope(), this.device.popErrorScope()]),
+                    signal,
+                ).catch(() => {});
             }
             for (const b of resources) b.destroy();
             sort?.dispose();
@@ -295,10 +328,16 @@ export class Renderer {
             throw reason;
         }
     }
-    render(scene: GpuScene, frame: ArrayBuffer, revision: number, capture?: GPUBuffer): FrameStats {
+    render(
+        scene: GpuScene,
+        frame: ArrayBuffer,
+        revision: number,
+        capture?: GPUBuffer,
+        target?: GPUTexture,
+    ): FrameStats {
         if (this.stopped) throw Error('Stopped');
         if (!this.canvas.width || !this.canvas.height) throw Error('InvalidInput: zero viewport');
-        this.configureSurface();
+        if (!target) this.configureSurface();
         const start = performance.now();
         const frameId = ++this.frameId;
         if (this.timedScene !== scene) {
@@ -324,7 +363,7 @@ export class Renderer {
                       }
                     : {},
             );
-            pass.setPipeline(this.project);
+            pass.setPipeline(scene.projectPipeline);
             for (const { group, count } of scene.projectGroups) {
                 pass.setBindGroup(0, group);
                 const groups = Math.ceil(count / 256);
@@ -334,7 +373,7 @@ export class Renderer {
             scene.sort.encode(encoder, scene.a, scene.b, timed ? this.query : undefined, 2, 3);
             scene.revision = revision;
         }
-        const texture = this.context.getCurrentTexture();
+        const texture = target ?? this.context.getCurrentTexture();
         const pass = encoder.beginRenderPass({
             colorAttachments: [
                 {
@@ -371,7 +410,7 @@ export class Renderer {
         }
         this.device.queue.submit([encoder.finish()]);
         if (timed) {
-            void this.queryRead!.mapAsync(GPUMapMode.READ)
+            this.timingReady = this.queryRead!.mapAsync(GPUMapMode.READ)
                 .then(() => {
                     const t = new BigUint64Array(this.queryRead!.getMappedRange());
                     if (this.timedScene === scene) {
@@ -385,6 +424,10 @@ export class Renderer {
                 })
                 .catch(() => {
                     this.lastGpu = null;
+                    this.lastGpuFrame = null;
+                    this.lastProjection = null;
+                    this.lastSort = null;
+                    this.lastDraw = null;
                 })
                 .finally(() => {
                     this.queryBusy = false;
@@ -417,6 +460,45 @@ export class Renderer {
         scene.sort.dispose();
         await scene.scene.backing?.release();
     }
+    async waitForWork(signal: AbortSignal): Promise<void> {
+        let onLoss!: (info: GPUDeviceLostInfo) => void;
+        const loss = new Promise<never>((_resolve, reject) => {
+            onLoss = (info) => reject(Error(`DeviceLost: ${info.message}`));
+            if (this.deviceLoss) onLoss(this.deviceLoss);
+            else this.lossObservers.add(onLoss);
+        });
+        try {
+            await abortable(Promise.race([this.device.queue.onSubmittedWorkDone(), loss]), signal);
+        } finally {
+            this.lossObservers.delete(onLoss);
+        }
+    }
+    validationTarget(width: number, height: number): { texture: GPUTexture; release(): void } {
+        const bytes = width * height * 4;
+        if (bytes + this.residentBytes + this.captureBytes + this.baseBytes > this.budget)
+            throw Error('ResourceLimit: candidate validation texture');
+        this.captureBytes += bytes;
+        try {
+            const texture = this.device.createTexture({
+                size: [width, height],
+                format: this.format,
+                usage: GPUTextureUsage.RENDER_ATTACHMENT,
+            });
+            let released = false;
+            return {
+                texture,
+                release: () => {
+                    if (released) return;
+                    released = true;
+                    texture.destroy();
+                    this.captureBytes -= bytes;
+                },
+            };
+        } catch (reason) {
+            this.captureBytes -= bytes;
+            throw reason;
+        }
+    }
     async capture(scene: GpuScene, frame: ArrayBuffer, revision: number): Promise<Uint8Array> {
         const width = this.canvas.width,
             height = this.canvas.height,
@@ -425,6 +507,7 @@ export class Renderer {
         if (
             !width ||
             !height ||
+            bytes > this.device.limits.maxBufferSize ||
             bytes + Math.max(scene.bytes, this.residentBytes) + this.captureBytes + this.baseBytes >
                 this.budget
         )
@@ -478,10 +561,13 @@ export class Renderer {
         this.stopped = true;
         this.timedScene = undefined;
         await Promise.race([
-            this.device.queue.onSubmittedWorkDone().catch(() => {}),
+            Promise.all([this.timingReady, this.device.queue.onSubmittedWorkDone().catch(() => {})]),
             new Promise<void>((resolve) => setTimeout(resolve, 2000)),
         ]);
-        this.context.unconfigure();
+        if (Renderer.surfaceOwners.get(this.context) === this) {
+            this.context.unconfigure();
+            Renderer.surfaceOwners.delete(this.context);
+        }
         const cleanup = await Promise.allSettled([...this.ownedScenes].map((scene) => this.release(scene)));
         this.query?.destroy();
         this.queryRead?.destroy();

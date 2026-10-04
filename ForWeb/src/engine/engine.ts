@@ -1,6 +1,7 @@
 import { decode } from '../model-io/loader';
 import type { FrameStats, GpuScene } from '../render-core/renderer';
 import { Renderer } from '../render-core/renderer';
+import { abortable } from '../splat-types/async';
 import type { EngineError, ErrorCode, Limits, Progress, Result, Scene, Source } from '../splat-types/index';
 import { defaultLimits, error, validateLimits } from '../splat-types/index';
 import { Camera } from './camera';
@@ -76,6 +77,7 @@ export class WebEngine {
     private framePending = false;
     private uploadBarrier: Promise<void> = Promise.resolve();
     private recovery: Promise<Result<void>> | undefined;
+    private recoveryController: AbortController | undefined;
     private retainedScene: Scene | undefined;
     private sceneEpoch = 0;
     private readonly limits: Limits;
@@ -116,6 +118,9 @@ export class WebEngine {
     }
     get capabilities(): { adapter: GPUAdapterInfo; pageBytes: number; execution: 'main' } {
         return { adapter: this.renderer.info, pageBytes: this.renderer.pageBytes, execution: 'main' };
+    }
+    get maxViewportDimension(): number {
+        return this.renderer.device.limits.maxTextureDimension2D;
     }
     getSnapshot = (): Snapshot => this.snapshot;
     subscribe = (observer: () => void): (() => void) => {
@@ -169,6 +174,7 @@ export class WebEngine {
             !document.hidden &&
             !this.framePending &&
             this.snapshot.phase !== 'Recovering' &&
+            this.snapshot.phase !== 'Uploading' &&
             this.snapshot.phase !== 'Faulted'
         ) {
             if (this.dirty || this.active.revision !== this.camera.revision + this.revision) {
@@ -337,6 +343,8 @@ export class WebEngine {
                 releaseBarrier = resolve;
             });
             await previous;
+            let presented = false,
+                committed = false;
             try {
                 if (controller.signal.aborted || id !== this.requestId || this.stopped)
                     throw Error('Cancelled');
@@ -352,6 +360,7 @@ export class WebEngine {
                 );
                 if (controller.signal.aborted || id !== this.requestId || this.stopped)
                     throw Error('Cancelled');
+                let stats: FrameStats | undefined;
                 // A replacement must have a validated frame for the current nonzero surface.
                 for (let attempt = 0; ; attempt++) {
                     await waitViewport();
@@ -369,23 +378,39 @@ export class WebEngine {
                         scene.stride,
                         scene.pageCapacity,
                     );
-                    this.renderer.device.pushErrorScope('validation');
-                    let validation: GPUError | null = null;
-                    try {
-                        this.renderer.render(uploaded, firstFrame, -2 - attempt);
-                        await this.renderer.device.queue.onSubmittedWorkDone();
-                    } finally {
-                        validation = await this.renderer.device.popErrorScope();
-                    }
-                    if (validation) throw Error(validation.message);
+                    await this.validateFrame(
+                        this.renderer,
+                        uploaded,
+                        firstFrame,
+                        -2 - attempt,
+                        width,
+                        height,
+                        controller.signal,
+                    );
                     if (controller.signal.aborted || id !== this.requestId || this.stopped)
                         throw Error('Cancelled');
                     if (
                         revision === this.revision &&
                         width === this.options.canvas.width &&
                         height === this.options.canvas.height
-                    )
-                        break;
+                    ) {
+                        presented = true;
+                        stats = await this.presentFrame(
+                            owner,
+                            uploaded,
+                            firstFrame,
+                            -1000000 - attempt,
+                            controller.signal,
+                        );
+                        if (controller.signal.aborted || id !== this.requestId || this.stopped)
+                            throw Error('Cancelled');
+                        if (
+                            revision === this.revision &&
+                            width === this.options.canvas.width &&
+                            height === this.options.canvas.height
+                        )
+                            break;
+                    }
                 }
                 const old = this.active;
                 this.sceneEpoch++;
@@ -397,6 +422,7 @@ export class WebEngine {
                     Math.max(1, this.options.canvas.width),
                     Math.max(1, this.options.canvas.height),
                 );
+                committed = true;
                 this.dirty = true;
                 this.publish({
                     phase: this.restingPhase(),
@@ -405,11 +431,19 @@ export class WebEngine {
                     source: scene.source,
                     progress: null,
                     error: null,
-                    stats: null,
+                    stats,
                 });
                 if (old) await owner.release(old);
                 return { ok: true, value: undefined };
             } finally {
+                if (presented && !committed) {
+                    try {
+                        if (this.active) this.draw(this.active);
+                        else owner.clear();
+                    } catch {
+                        /* A lost device will be handled by recovery; preserve the original failure. */
+                    }
+                }
                 releaseBarrier();
             }
         } catch (reason) {
@@ -493,10 +527,10 @@ export class WebEngine {
         this.publish(closed);
         const cleanup = await Promise.allSettled([
             active
-                ? owner.device.queue
-                      .onSubmittedWorkDone()
-                      .catch(() => {})
-                      .then(() => owner.release(active))
+                ? Promise.race([
+                      owner.device.queue.onSubmittedWorkDone().catch(() => {}),
+                      new Promise<void>((resolve) => setTimeout(resolve, 2000)),
+                  ]).then(() => owner.release(active))
                 : undefined,
             retained?.backing?.release(),
             ...loads,
@@ -506,6 +540,59 @@ export class WebEngine {
     }
     requestFrame(): void {
         this.dirty = true;
+    }
+    private async validateFrame(
+        renderer: Renderer,
+        scene: GpuScene,
+        frame: ArrayBuffer,
+        revision: number,
+        width: number,
+        height: number,
+        signal: AbortSignal,
+    ): Promise<void> {
+        renderer.device.pushErrorScope('out-of-memory');
+        renderer.device.pushErrorScope('validation');
+        let target: ReturnType<Renderer['validationTarget']> | undefined;
+        let failure: unknown;
+        try {
+            target = renderer.validationTarget(width, height);
+            renderer.render(scene, frame, revision, undefined, target.texture);
+            await abortable(renderer.device.queue.onSubmittedWorkDone(), signal);
+        } catch (reason) {
+            failure = reason;
+        }
+        const scopes = Promise.all([renderer.device.popErrorScope(), renderer.device.popErrorScope()]);
+        try {
+            const [validation, oom] = await abortable(scopes, signal);
+            if (failure) throw failure;
+            if (oom) throw Error(`OutOfMemory: ${oom.message}`);
+            if (validation) throw Error(`DeviceLost: ${validation.message}`);
+        } finally {
+            target?.release();
+        }
+    }
+    private async presentFrame(
+        renderer: Renderer,
+        scene: GpuScene,
+        frame: ArrayBuffer,
+        revision: number,
+        signal: AbortSignal,
+    ): Promise<FrameStats> {
+        renderer.device.pushErrorScope('out-of-memory');
+        renderer.device.pushErrorScope('validation');
+        let stats: FrameStats | undefined, failure: unknown;
+        try {
+            stats = renderer.render(scene, frame, revision);
+            await renderer.waitForWork(signal);
+        } catch (reason) {
+            failure = reason;
+        }
+        const scopes = Promise.all([renderer.device.popErrorScope(), renderer.device.popErrorScope()]);
+        const [validation, oom] = await abortable(scopes, signal);
+        if (failure) throw failure;
+        if (oom) throw Error(`OutOfMemory: ${oom.message}`);
+        if (validation) throw Error(`DeviceLost: ${validation.message}`);
+        return stats!;
     }
     private watchDevice(): void {
         const renderer = this.renderer;
@@ -532,20 +619,41 @@ export class WebEngine {
             complete = resolve;
         });
         this.recovery = result;
-        void this.recoverInternal().then(complete, (reason) =>
+        const controller = new AbortController();
+        this.recoveryController = controller;
+        void this.recoverInternal(controller).then(complete, (reason) =>
             complete({ ok: false, error: error('DeviceLost', 'Recovery', reason) }),
         );
         void result.finally(() => {
-            if (this.recovery === result) this.recovery = undefined;
+            if (this.recovery === result) {
+                this.recovery = undefined;
+                this.recoveryController = undefined;
+            }
         });
         return result;
     }
-    private async recoverInternal(): Promise<Result<void>> {
+    private async recoverInternal(controller: AbortController): Promise<Result<void>> {
+        const timeout = setTimeout(() => controller.abort('Timeout'), this.limits.timeoutMs);
+        try {
+            return await abortable(this.recoverTransaction(controller), controller.signal);
+        } catch (reason) {
+            const failure = error(
+                this.stopped ? 'Stopped' : controller.signal.reason === 'Timeout' ? 'Timeout' : 'DeviceLost',
+                'Recovery',
+                reason,
+            );
+            if (!this.stopped) this.publish({ phase: 'Faulted', error: failure, ...this.sceneMetadata() });
+            return { ok: false, error: failure };
+        } finally {
+            clearTimeout(timeout);
+        }
+    }
+    private async recoverTransaction(controller: AbortController): Promise<Result<void>> {
         if (this.stopped) return { ok: false, error: error('Stopped', 'Recovery', 'Stopped') };
         this.pending?.abort();
         ++this.requestId;
         this.publish({ phase: 'Recovering', requestId: this.requestId, progress: null, stats: null });
-        await this.uploadBarrier;
+        await abortable(this.uploadBarrier, controller.signal);
         if (this.stopped) return { ok: false, error: error('Stopped', 'Recovery', 'Stopped') };
         const oldRenderer = this.renderer;
         const scene = this.active?.scene ?? this.retainedScene;
@@ -562,30 +670,87 @@ export class WebEngine {
                 let replacement: Renderer | undefined;
                 try {
                     await oldRenderer.dispose();
-                    replacement = await Renderer.create(this.options.canvas, this.limits.gpuBytes);
+                    if (controller.signal.aborted) throw Error('Cancelled');
+                    const creating = Renderer.create(this.options.canvas, this.limits.gpuBytes);
+                    void creating
+                        .then(async (renderer) => {
+                            if (controller.signal.aborted) await renderer.dispose();
+                        })
+                        .catch(() => {});
+                    replacement = await abortable(creating, controller.signal);
                     if (this.stopped) {
                         await replacement.dispose();
                         throw Error('Stopped');
                     }
                     const active = scene
-                        ? await replacement.upload(scene, 0, new AbortController().signal, () => {})
+                        ? await replacement.upload(scene, 0, controller.signal, () => {})
                         : undefined;
                     if (this.stopped) throw Error('Stopped');
                     if (epoch !== this.sceneEpoch && active) await replacement.release(active);
+                    if (
+                        active &&
+                        epoch === this.sceneEpoch &&
+                        this.options.canvas.width &&
+                        this.options.canvas.height
+                    ) {
+                        await this.validateFrame(
+                            replacement,
+                            active,
+                            this.camera.frame(
+                                scene!,
+                                this.options.canvas.width,
+                                this.options.canvas.height,
+                                scene!.count,
+                                scene!.degree,
+                                scene!.stride,
+                                scene!.pageCapacity,
+                            ),
+                            this.camera.revision + this.revision,
+                            this.options.canvas.width,
+                            this.options.canvas.height,
+                            controller.signal,
+                        );
+                    }
+                    if (
+                        active &&
+                        epoch === this.sceneEpoch &&
+                        this.options.canvas.width &&
+                        this.options.canvas.height
+                    ) {
+                        await this.presentFrame(
+                            replacement,
+                            active,
+                            this.camera.frame(
+                                scene!,
+                                this.options.canvas.width,
+                                this.options.canvas.height,
+                                scene!.count,
+                                scene!.degree,
+                                scene!.stride,
+                                scene!.pageCapacity,
+                            ),
+                            this.camera.revision + this.revision,
+                            controller.signal,
+                        );
+                    }
+                    if (controller.signal.aborted || this.stopped) throw Error('Cancelled');
+                    if (epoch !== this.sceneEpoch && active) {
+                        await replacement.release(active);
+                        replacement.clear();
+                    }
                     this.renderer = replacement;
                     this.active = epoch === this.sceneEpoch ? active : undefined;
                     this.generation++;
                     this.dirty = true;
                     this.watchDevice();
-                    if (this.active && this.options.canvas.width && this.options.canvas.height) {
-                        this.draw(this.active);
-                        await replacement.device.queue.onSubmittedWorkDone();
-                    }
                     if (this.stopped) throw Error('Stopped');
+                    if (this.snapshot.phase === 'Faulted')
+                        throw Error('DeviceLost: uncaptured recovery error');
                     if (this.retainedScene === scene) {
                         this.retainedScene = undefined;
                         await scene?.backing?.release();
                     }
+                    if (controller.signal.aborted || this.stopped) throw Error('Cancelled');
                     this.publish({
                         phase: this.restingPhase(),
                         deviceGeneration: this.generation,
@@ -596,9 +761,17 @@ export class WebEngine {
                 } catch (reason) {
                     await replacement?.dispose();
                     if (this.renderer === replacement) this.active = undefined;
-                    if (attempt === 1 || this.stopped) {
-                        const failure = error('DeviceLost', 'Recovery', reason);
-                        if (!this.stopped)
+                    if (attempt === 1 || this.stopped || controller.signal.aborted) {
+                        const failure = error(
+                            controller.signal.reason === 'Timeout'
+                                ? 'Timeout'
+                                : this.stopped
+                                  ? 'Stopped'
+                                  : 'DeviceLost',
+                            'Recovery',
+                            reason,
+                        );
+                        if (!this.stopped && this.recoveryController === controller)
                             this.publish({ phase: 'Faulted', error: failure, ...this.sceneMetadata() });
                         return { ok: false, error: failure };
                     }
@@ -615,6 +788,7 @@ export class WebEngine {
         ++this.sceneEpoch;
         ++this.requestId;
         this.pending?.abort();
+        this.recoveryController?.abort();
         const retained = this.retainedScene;
         this.retainedScene = undefined;
         const loads = [...this.loads];

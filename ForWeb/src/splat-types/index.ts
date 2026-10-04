@@ -11,7 +11,7 @@ export interface Scene extends Bounds {
     readonly stride: number;
     readonly pageCapacity: number;
     readonly pages: readonly ArrayBuffer[];
-    readonly packing?: 'compact';
+    readonly packing?: 'compact' | 'tiled';
     readonly backing?: SceneBacking;
     readonly source: string;
     readonly decodeMs: number;
@@ -74,6 +74,7 @@ export const defaultLimits: Limits = Object.freeze({
 });
 
 export function validateLimits(value: Limits): void {
+    if (value.timeoutMs > 2147483647) throw Error('Timeout exceeds browser timer range');
     for (const field of Object.values(value))
         if (!Number.isSafeInteger(field) || field <= 0) throw Error('Limits must be positive safe integers');
 }

@@ -1,5 +1,5 @@
 #include "decoder.h"
-#include "../../../src/model-io/normalize/normalize.h"
+#include "../../src/model-io/normalize/normalize.h"
 #include "load-spz.h"
 #include "zlib.h"
 #include <array>
@@ -8,6 +8,7 @@
 #include <cstring>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace spz
 {
@@ -102,6 +103,11 @@ extern "C"
                     break;
                 }
                 return reject(code + ": " + inspected.failure.diagnostic);
+            }
+            if (inspected.probe.count > 0xffffff00ull)
+            {
+                inspected.ok = false;
+                return reject("ResourceLimit: uint32 GPU point indexing");
             }
             if (!make_layout(inspected.probe, limits.maxSceneBytes))
             {
@@ -305,6 +311,32 @@ extern "C"
         if (!validate_scene(*gs_output, gs_output->totalBytes))
             return reject("Invalid scene");
         return 1;
+    }
+    int gs_finish_batch()
+    {
+        try
+        {
+            if (!gs_output || !writer || written != gs_output->count)
+                return reject("TruncatedData");
+            auto *centers = reinterpret_cast<float *>(reinterpret_cast<uint8_t *>(gs_output) +
+                                                      gs_output->offsets[Center]);
+            // Streaming packs world centers and performs ONE global rebase later. Validate in
+            // world space: a disposable local-origin float32 round trip can move near-zero bounds
+            // beyond the native absolute tolerance despite valid source attributes.
+            const std::vector<float> world(centers, centers + gs_output->count * 3);
+            if (!writer->finish())
+                return reject("Invalid bounds");
+            std::memcpy(centers, world.data(), world.size() * sizeof(float));
+            for (auto &origin : gs_output->origin)
+                origin = 0;
+            if (!validate_scene(*gs_output, gs_output->totalBytes))
+                return reject("Invalid scene");
+            return 1;
+        }
+        catch (const std::exception &e)
+        {
+            return reject(e.what());
+        }
     }
     double gs_meta(uint32_t field)
     {

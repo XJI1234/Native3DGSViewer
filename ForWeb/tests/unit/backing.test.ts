@@ -39,3 +39,32 @@ test('GPU disposal destroys remaining resources even when a scene backing cleanu
     expect(release).toHaveBeenCalledTimes(2);
     expect(destroy).toHaveBeenCalledTimes(6);
 });
+
+test('GPU disposal remains bounded when timestamp mapping never completes', async () => {
+    vi.useFakeTimers();
+    try {
+        const destroy = vi.fn();
+        const renderer = Object.assign(Object.create(Renderer.prototype) as Renderer, {
+            stopped: false,
+            ownedScenes: new Set(),
+            timingReady: new Promise<void>(() => {}),
+            device: { queue: { onSubmittedWorkDone: async () => {} }, destroy },
+            context: { unconfigure: vi.fn() },
+            queryRead: { destroy },
+            frame: { destroy },
+            dummy: { destroy },
+        });
+        let finished = false;
+        const disposal = renderer.dispose().then(() => {
+            finished = true;
+        });
+        await vi.advanceTimersByTimeAsync(1999);
+        expect(finished).toBe(false);
+        await vi.advanceTimersByTimeAsync(1);
+        await disposal;
+        expect(finished).toBe(true);
+        expect(destroy).toHaveBeenCalledTimes(4);
+    } finally {
+        vi.useRealTimers();
+    }
+});

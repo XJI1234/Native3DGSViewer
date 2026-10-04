@@ -28,5 +28,5 @@ target_compile_options(decoder PRIVATE -O3 -fexceptions)
 target_link_options(decoder PRIVATE -O3 -fexceptions --no-entry
   "-sMODULARIZE=1" "-sEXPORT_ES6=1" "-sENVIRONMENT=web,worker,node" "-sALLOW_MEMORY_GROWTH=1"
   "-sMAXIMUM_MEMORY=1073741824" "-sINITIAL_MEMORY=16777216" "-sFILESYSTEM=0"
-  "-sEXPORTED_FUNCTIONS=['_malloc','_free','_gs_probe','_gs_begin','_gs_begin_batch','_gs_raw_spz','_gs_chunk','_gs_spz','_gs_finish','_gs_count','_gs_degree','_gs_meta','_gs_stride','_gs_pack','_gs_pack_compact','_gs_rebase','_gs_inflate_begin','_gs_inflate_step','_gs_inflate_consumed','_gs_inflate_produced','_gs_inflate_end','_gs_error','_gs_release']"
+  "-sEXPORTED_FUNCTIONS=['_malloc','_free','_gs_probe','_gs_begin','_gs_begin_batch','_gs_raw_spz','_gs_chunk','_gs_spz','_gs_finish','_gs_finish_batch','_gs_count','_gs_degree','_gs_meta','_gs_stride','_gs_pack','_gs_pack_compact','_gs_pack_tiled','_gs_rebase_tiled','_gs_rebase','_gs_inflate_begin','_gs_inflate_step','_gs_inflate_consumed','_gs_inflate_produced','_gs_inflate_end','_gs_error','_gs_release']"
   "-sEXPORTED_RUNTIME_METHODS=['HEAPU8','HEAPF32','UTF8ToString']")

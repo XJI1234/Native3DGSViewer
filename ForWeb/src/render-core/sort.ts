@@ -108,7 +108,7 @@ export class GpuSort {
         }
     }
     static byteSize(count: number, bits = 4): number {
-        if ((bits !== 4 && bits !== 8) || !Number.isSafeInteger(count) || count < 0 || count > 0xffffffff)
+        if ((bits !== 4 && bits !== 8) || !Number.isSafeInteger(count) || count < 0 || count > 0xffffff00)
             throw Error('ResourceLimit: radix count/profile');
         const groups = Math.ceil(count / 256),
             bins = 1 << bits;

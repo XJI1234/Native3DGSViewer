@@ -32,3 +32,9 @@ Required cases: old scene retained, stale messages, zero viewport, loss, disposa
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+### Transaction deadline and presentation
+
+Load and recovery share their configured deadline across GPU fences, backing reads and validation. Disposal aborts recovery. An aborted upload cannot perform a late write. Candidate first frames are validated on a temporary offscreen texture; only a still-current request can present to the host canvas. Recovery validates GPU error scopes before publishing success and preserves the host camera.
+
+Presentation uses validation/OOM scopes and abort-aware GPU completion. Active ownership and the host camera remain unchanged until presentation succeeds. Failure/cancellation restores the previous visible scene (also when paused), or clears a closed scene. Recovery publishes a terminal error at the deadline; late device/cleanup work cannot publish success. OPFS deletion has a 5-second cleanup bound and failures remain observable as StorageCleanup.

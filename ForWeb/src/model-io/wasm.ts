@@ -7,6 +7,8 @@ export interface Decoder {
     _gs_begin_batch(rdf: number, count: number): number;
     _gs_raw_spz(ptr: number, bytes: number, version: number, fractionalBits: number): number;
     _gs_pack_compact(start: number, count: number): number;
+    _gs_pack_tiled(start: number, count: number): number;
+    _gs_rebase_tiled(ptr: number, count: number, stride: number, x: number, y: number, z: number): number;
     _gs_rebase(ptr: number, count: number, stride: number, x: number, y: number, z: number): number;
     _gs_inflate_begin(): number;
     _gs_inflate_step(input: number, length: number, output: number, capacity: number): number;
@@ -16,6 +18,7 @@ export interface Decoder {
     _gs_chunk(ptr: number, size: number): number;
     _gs_spz(ptr: number, size: number): number;
     _gs_finish(spz: number): number;
+    _gs_finish_batch(): number;
     _gs_count(): number;
     _gs_degree(): number;
     _gs_meta(index: number): number;

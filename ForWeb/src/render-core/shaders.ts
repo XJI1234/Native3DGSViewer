@@ -25,7 +25,7 @@ fn sh(rgb:vec3f,dir:vec3f,i:u32)->vec3f {
   for(var j=0u;j<n;j++){color+=v3(i,select(16u,14u,batch.compact!=0u)+3u*j)*basis[j];}return clamp(color,vec3f(0),vec3f(1));
 }
 @compute @workgroup_size(256) fn project(@builtin(global_invocation_id) id:vec3u){
-  let local=id.x+id.y*batch.width*256u;if(local>=batch.count){return;}let i=batch.base+local;
+  let local=id.x+id.y*batch.width*256u;if(local>=batch.count){return;}let i=batch.base+local;if(i>=frame.config.x){return;}
   pairs[i]=Pair(0xffffffffu,i);ellipses[i]=Ellipse(vec2f(0),vec2f(0),vec2f(0),vec2f(0),vec2f(0));
   let delta=v3(i,0)-frame.camera.xyz;let p=view(delta);let compact=batch.compact!=0u;let s=v3(i,select(4u,3u,compact));let q=vec4f(v3(i,select(8u,6u,compact)),value(i,select(11u,9u,compact)));let alpha=value(i,select(15u,13u,compact));
   let support=max(s.x,max(s.y,s.z))*frame.quality.x;let depth=-p.z;

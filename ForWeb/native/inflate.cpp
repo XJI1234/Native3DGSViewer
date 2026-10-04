@@ -34,6 +34,8 @@ extern "C"
         produced = capacity - stream.avail_out;
         if (status == Z_STREAM_END)
             return 2;
+        if (status == Z_BUF_ERROR && !length && !consumed && !produced)
+            return 3; // Need more input after draining an exactly full output buffer.
         return (status == Z_OK || status == Z_BUF_ERROR) && (consumed || produced) ? 1 : 0;
     }
     uint32_t gs_inflate_consumed()

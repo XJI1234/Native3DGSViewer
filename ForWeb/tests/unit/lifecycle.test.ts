@@ -1,5 +1,6 @@
 import { beforeEach, expect, test, vi } from 'vitest';
 import { WebEngine } from '../../src/engine/engine';
+import { abortable } from '../../src/splat-types/async';
 
 const fake = vi.hoisted(() => ({ create: vi.fn(), decode: vi.fn() }));
 vi.mock('../../src/render-core/renderer', () => ({ Renderer: { create: fake.create } }));
@@ -28,23 +29,30 @@ function renderer() {
     return {
         pageBytes: 128 * 2 ** 20,
         retainedBytes: 0,
+        format: 'rgba8unorm',
         device: {
             limits: { maxTextureDimension2D: 8192 },
             lost: new Promise(() => {}),
             addEventListener: vi.fn(),
             pushErrorScope: vi.fn(),
+            createTexture: vi.fn(() => ({ destroy: vi.fn() })),
             popErrorScope: async () => null,
             queue: { onSubmittedWorkDone: async () => {} },
         },
         upload: vi.fn(async () => ({ scene, bytes: 100, revision: -1 })),
         render: vi.fn(),
         clear: vi.fn(),
+        waitForWork(signal: AbortSignal) {
+            return abortable(this.device.queue.onSubmittedWorkDone(), signal);
+        },
+        validationTarget: vi.fn(() => ({ texture: {}, release: vi.fn() })),
         release: vi.fn(),
         dispose: vi.fn(async () => {}),
     };
 }
 beforeEach(() => {
     vi.resetAllMocks();
+    vi.stubGlobal('GPUTextureUsage', { RENDER_ATTACHMENT: 1 });
     vi.stubGlobal('location', { href: 'http://localhost/' });
     vi.stubGlobal('document', { hidden: false });
     vi.stubGlobal('requestAnimationFrame', () => 1);
@@ -366,7 +374,7 @@ test('first-frame completion after resize must validate a new frame before activ
     expect(engine.getSnapshot().sceneCount).toBe(0);
     engine.resize(800, 600);
     expect((await operation.result).ok).toBe(true);
-    expect(allocated.render).toHaveBeenCalledTimes(2);
+    expect(allocated.render).toHaveBeenCalledTimes(3);
     expect(allocated.render.mock.calls[0]?.[2]).not.toBe(allocated.render.mock.calls[1]?.[2]);
     await engine.dispose();
 });
@@ -382,5 +390,134 @@ test('published nested progress is immutable and detached from provider values',
     pending.resolve(scene);
     await operation.result;
     expect(snapshot.progress?.done).toBe(0);
+    await engine.dispose();
+});
+
+test('cancel during stalled candidate validation never presents the candidate and closes promptly', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    engine.pause();
+    const before = allocated.render.mock.calls.length;
+    allocated.device.queue.onSubmittedWorkDone = () => new Promise(() => {});
+    const operation = engine.open({ kind: 'blob', blob: new Blob() });
+    await vi.waitFor(() => expect(allocated.render.mock.calls.length).toBe(before + 1));
+    operation.cancel();
+    const result = await operation.result;
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe('Cancelled');
+    expect(allocated.render.mock.calls.at(-1)?.[4]).toBeDefined();
+    expect(engine.getSnapshot().sceneCount).toBe(1);
+    await engine.dispose();
+});
+
+test('dispose aborts stalled recovery creation and disposes a late renderer', async () => {
+    const engine = await create();
+    const creating = deferred<ReturnType<typeof renderer>>();
+    fake.create.mockImplementationOnce(() => creating.promise);
+    const recovery = engine.recover();
+    await vi.waitFor(() => expect(fake.create).toHaveBeenCalledTimes(2));
+    await engine.dispose();
+    expect((await recovery).ok).toBe(false);
+    const late = renderer();
+    creating.resolve(late);
+    await vi.waitFor(() => expect(late.dispose).toHaveBeenCalledOnce());
+    expect(engine.getSnapshot().phase).toBe('Stopped');
+});
+
+test('captured recovery validation errors cannot publish Ready', async () => {
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    fake.create.mockImplementation(async () => {
+        const next = renderer();
+        next.device.popErrorScope = async () => ({ message: 'injected GPU validation' }) as never;
+        return next;
+    });
+    const result = await engine.recover();
+    expect(result.ok).toBe(false);
+    expect(engine.getSnapshot().phase).toBe('Faulted');
+    await engine.dispose();
+});
+
+test('canvas presentation failure preserves the old scene and releases only the candidate', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    engine.pause();
+    const before = engine.camera.getPose();
+    allocated.render
+        .mockImplementationOnce(() => undefined)
+        .mockImplementationOnce(() => {
+            throw Error('canvas acquisition failed');
+        });
+    const result = await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    expect(result.ok).toBe(false);
+    expect(engine.getSnapshot().sceneCount).toBe(1);
+    expect(engine.camera.getPose()).toEqual(before);
+    expect(allocated.release).toHaveBeenCalledOnce();
+    await engine.dispose();
+});
+
+test('recovery returns Timeout even while old renderer cleanup remains pending', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const created = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        limits: { timeoutMs: 20 },
+    });
+    if (!created.ok) throw Error('create');
+    const engine = created.value,
+        cleanup = deferred<void>();
+    allocated.dispose.mockImplementationOnce(() => cleanup.promise);
+    const result = await engine.recover();
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe('Timeout');
+    expect(engine.getSnapshot().phase).toBe('Faulted');
+    cleanup.resolve();
+    await engine.dispose();
+    expect(engine.getSnapshot().phase).toBe('Stopped');
+});
+
+test('dirty RAF cannot overwrite candidate presentation during completion', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    const wait = deferred<void>();
+    allocated.device.queue.onSubmittedWorkDone = vi
+        .fn()
+        .mockResolvedValueOnce(undefined)
+        .mockImplementationOnce(() => wait.promise);
+    const before = allocated.render.mock.calls.length,
+        operation = engine.open({ kind: 'blob', blob: new Blob() });
+    await vi.waitFor(() => expect(allocated.render.mock.calls.length).toBe(before + 2));
+    engine.camera.orbit(15, 5);
+    engine.requestFrame();
+    (engine as unknown as { tick(): void }).tick();
+    expect(allocated.render.mock.calls.length).toBe(before + 2);
+    wait.resolve();
+    expect((await operation.result).ok).toBe(true);
+    await engine.dispose();
+});
+
+test('old recovery cleanup cannot overwrite a later successful recovery', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const created = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        limits: { timeoutMs: 20 },
+    });
+    if (!created.ok) throw Error('create');
+    const engine = created.value,
+        cleanup = deferred<void>();
+    allocated.dispose.mockImplementationOnce(() => cleanup.promise);
+    expect((await engine.recover()).ok).toBe(false);
+    expect((await engine.recover()).ok).toBe(true);
+    expect(engine.getSnapshot().phase).toBe('Idle');
+    cleanup.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(engine.getSnapshot().phase).toBe('Idle');
     await engine.dispose();
 });

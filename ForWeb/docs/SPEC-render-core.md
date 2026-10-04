@@ -28,4 +28,11 @@ Always: validate inputs and resource arithmetic, preserve ownership/identity, te
 
 ## Large-model extension (ADR-002)
 FrameStats exposes completed GPU projection/sort/draw timings and their gpuFrameId. Timings refer to a completed measured frame, not the current submission; unchanged-camera frames report zero projection and sort. Automatic rendering submits at most one GPU frame at a time, coalescing camera changes until its completion while explicit capture retains its fence.
+Projection layouts are specialized at pipeline creation. A tiled input address is `(localIndex/64)*64*strideWords + attribute*64 + localIndex%64`; it improves adjacent invocation memory access without reducing precision. Last-page dispatch uses the logical count, never its padded storage count. Packing and global rebase must match compact AoS float values exactly. GPU timings await the existing timestamp promise directly, without timer polling.
 Projection binds one page per dispatch and uses an integer base/count uniform. Global pairs and ellipses preserve order across pages. Compact scalar scene packing and 40-byte ellipses remove padding without quantization. Request adapter buffer/storage limits explicitly. Radix local ranks use bitmaps/popcount; 2D dispatch and segmented block-prefix support counts above 16m. Upload reads disk in bounded chunks and fences staging writes. Backing ownership is retained until actual scene release.
+
+### Interruptible upload and candidate frame
+
+Backing reads, upload queue fences and error-scope results are abort-aware. Scopes are popped before upload ownership is released. Candidate validation uses a temporary render target without presenting to the canvas; the texture is destroyed on every outcome. Capture readback is admitted against maxBufferSize as well as aggregate GPU budget.
+
+Canvas configuration is lazy and belongs to the presenting renderer. Device creation and offscreen validation do not configure the live context; stale/disposed renderers may unconfigure only a context they still own. Validation targets reserve width*height*4 transient bytes in the same aggregate GPU admission as captures and release exactly once on every outcome.
