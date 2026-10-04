@@ -1,6 +1,6 @@
 # Web SDK API、部署与运行契约
 
-适用 `@native3dgs/web@0.2.2-preview.1`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。
+适用 `@native3dgs/web@0.2.2-preview.2`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。
 
 ## 1. 生成、安装和部署资产
 
@@ -9,9 +9,9 @@
 pnpm install --frozen-lockfile
 pnpm run build:wasm
 pnpm run build
-pnpm pack --out ./native3dgs-web-0.2.2-preview.1.tgz
+pnpm pack --out ./native3dgs-web-0.2.2-preview.2.tgz
 # 消费项目
-pnpm add C:/path/to/native3dgs-web-0.2.2-preview.1.tgz
+pnpm add C:/path/to/native3dgs-web-0.2.2-preview.2.tgz
 ```
 
 复制包内 `dist/assets/` 到宿主 `public/gs-assets/`，包含 Worker、mjs、wasm、manifest和licenses。可以增加 `scripts/copy-gs-assets.mjs`：
@@ -55,7 +55,9 @@ if (!created.ok) {
 
 Canvas的WebGPU context由单一引擎拥有，不能与WebGL/Three.js或另一个实例共享。创建请求adapter/device并执行排序自检。navigator.gpu存在不足以证明支持。没有能力返回UnsupportedCapability，由宿主决定替代界面。Stopped实例不能复用，应创建新Canvas/引擎。
 
-EngineOptions为`{canvas,assets?,limits?}`，limits可部分覆盖。createEngine/WebEngine.create返回Promise<Result<WebEngine>>。每个Result必须处理ok:false；错误diagnostic用于诊断，不作为程序分支条件。
+EngineOptions为`{canvas,assets?,limits?,maxFramesInFlight?}`，limits可部分覆盖。createEngine/WebEngine.create返回Promise<Result<WebEngine>>。每个Result必须处理ok:false；错误diagnostic用于诊断，不作为程序分支条件。
+
+`maxFramesInFlight`为初始化选项，只接受1、2、3；本版默认2。它限制自动绘制等待GPU完成的提交数量，允许CPU准备与GPU执行重叠；不是GPU并行队列，也不保证对应物理显示帧数。队列满时仅保留最新相机状态；不会积压每个鼠标事件。需要原单帧门控时设为1；本机3没有优于2的稳定收益。此值在创建时验证并固定，修改调用方options对象不会动态调整引擎。捕获、首帧验证和释放仍等待相关GPU工作完成。React/Vue的AdapterOptions继承此字段，在hook/composable初始化时传入；运行中切换应销毁并重新创建实例，不能当作响应式渲染参数。
 
 ## 3. 完整公共方法
 
@@ -147,3 +149,14 @@ ErrorCode为UnsupportedCapability/InvalidInput/UnsupportedFormat/ResourceLimit/O
 ## 8. 验证和故障定位
 
 test:sdk独立安装tgz、文档TSX/SFC严格类型检查、NodeSSR导入、生产bundle、React开发StrictMode真实effect重放及Vue同页创建、真实WASM加载、卸载后0device/0Canvas/Stopped验证。GPU/真实模型/基准分别运行并保留证据。部署故障首先检查Network中Worker是否实际JS、WASM MIME、CSP/CORS、版本一致性、容器非零尺寸和error.code；不要通过宽松任意源CSP掩盖路径错误。
+
+
+## 查看器导航与 Y 轴翻转（preview.2）
+
+```ts
+engine.camera.setFlipY(true); // 显示模型Y镜像，canonical pose不变
+engine.camera.setMode('fly'); // 默认是orbit，框架适配器自动切换输入
+engine.requestFrame();
+```
+
+SDK直接构造反射投影视图，不要再给Canvas添加CSS scaleX/scaleY。翻转状态跨fit/reset/open/recover保留，鼠标增量来自未变换client坐标。固定模式左拖旋转、右拖平移、滚轮缩放；自由模式点击视口进入Pointer Lock，鼠标转向、WASD/QE移动、Shift加速，Escape/失焦退出；拒绝Pointer Lock时支持左拖转向。方向键与加减键可在聚焦Canvas时操作。`getPose()`/`setPose()`始终使用未反射的canonical坐标。模板仅使用公开SDK、hook/composable、snapshot与Result，不读取renderer或active字段。

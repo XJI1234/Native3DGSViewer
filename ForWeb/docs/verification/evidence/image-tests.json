@@ -248,7 +248,11 @@
       "xy": -13.899484536082474
     },
     "behindCamera": true,
-    "subpixelPreblur": true
+    "subpixelPreblur": true,
+    "yReflection": {
+      "maxMirrorDifference": 0,
+      "canonicalPosePreserved": true
+    }
   },
   "errors": []
 }

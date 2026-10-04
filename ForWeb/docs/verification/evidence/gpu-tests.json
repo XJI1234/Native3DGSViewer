@@ -8,34 +8,82 @@
   "sort": [
     {
       "n": 0,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 0,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 1,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 1,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 255,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 255,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 256,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 256,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 257,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 257,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 1025,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 1025,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 65537,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 65537,
+      "bits": 8,
       "pass": true
     },
     {
       "n": 1048576,
+      "bits": 4,
+      "pass": true
+    },
+    {
+      "n": 1048576,
+      "bits": 8,
       "pass": true
     }
   ],

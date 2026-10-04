@@ -19,3 +19,8 @@ Required cases: actual File/URL open, progress, cancel, pointer/keyboard, screen
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+
+## Standalone template acceptance (preview.2)
+
+`apps/react-viewer` and `apps/vue-viewer` are independent Vite/TypeScript projects consuming the exact installed SDK tarball, with pinned framework versions and lockfiles. Archives include local SDK and assets copy script; installation does not depend on repository source or a public npm package. Match Windows open/drop/replace/cancel/close, orbit/fly, fit/reset, persistent Y flip, progress/stats, device recovery and clear error states. Include URL input and PNG capture. The browser host cannot claim WinUI swapchain access, OS CLI paths, native installer logging or automatic native memory mitigation not present in Web SDK. Do not silently reduce quality; explicit resource errors preserve the previous scene. Inputs remain canonical after reflection. Verify actual rendered reflection and post-flip pan/orbit/fly, cleanup, production/development and responsive layouts. Package source excludes model files, node_modules, dist and credentials; manifests identify Web source commit and hashes even when attached to the older native tag v0.2.2.

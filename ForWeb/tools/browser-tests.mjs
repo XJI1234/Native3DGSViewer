@@ -14,8 +14,10 @@ try {
             const keys=Uint32Array.from({length:n},(_,i)=>(Math.imul(i,1664525)+1013904223)>>>0);
             for(let i=0;i<n;i+=5)keys[i]=7;
             const expected=Array.from({length:n},(_,i)=>i).sort((a,b)=>keys[a]-keys[b]);
-            const pairs=await testSort(device,keys);if(expected.some((index,i)=>pairs[2*i]!==keys[index]||pairs[2*i+1]!==index))throw Error(`Stable sort failed at ${n}`);
-            results.push({n,pass:true});
+            for(const bits of [4,8]){
+                const pairs=await testSort(device,keys,bits);if(expected.some((index,i)=>pairs[2*i]!==keys[index]||pairs[2*i+1]!==index))throw Error(`Stable sort failed at ${n}, radix ${bits}`);
+                results.push({n,bits,pass:true});
+            }
         }
         const canvas=document.createElement('canvas');canvas.width=64;canvas.height=64;document.body.append(canvas);
         const renderer=await window.gs.Renderer.create(canvas,32*2**20);
@@ -60,6 +62,13 @@ try {
             await renderer.release(actual);if(references!==0)throw Error('Backing ownership leak');
             tiledImages.push({count,degree,pages:3,lastLogicalCount:1,maxError});
         }
+        // Reuse a previously visible ellipse buffer after every point is culled.
+        const reused=await renderer.upload(scene,0,new AbortController().signal,()=>{});
+        await renderer.capture(reused,camera.frame(scene,64,64,2,0,64,1),camera.revision);
+        camera.setPose({position:[0,0,-5],target:[0,0,-10],up:[0,1,0]});
+        const culled=await renderer.capture(reused,camera.frame(scene,64,64,2,0,64,1),camera.revision);
+        if(culled.some((value,index)=>index%4!==3&&value!==0))throw Error('Culled frame reused stale ellipses');
+        await renderer.release(reused);
         await renderer.dispose();canvas.remove();
         const info={vendor:adapter.info.vendor,architecture:adapter.info.architecture,device:adapter.info.device,description:adapter.info.description};
         if(!/nvidia/i.test(info.vendor))throw Error(`Expected hardware NVIDIA adapter, got ${JSON.stringify(info)}`);

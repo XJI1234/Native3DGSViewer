@@ -9,3 +9,10 @@ playwright-report/
 *.rgba
 *.log
 __pycache__/
+# Raw browser traces, screenshots and per-frame samples are archived separately.
+/docs/verification/evidence/interactive-2026-10-04/
+/docs/verification/evidence/interactive-pilot-2026-10-04/
+/docs/verification/evidence/interactive-retry-2026-10-04/
+/docs/verification/evidence/interactive-trace-2026-10-04/
+/docs/verification/evidence/interactive-trace-retry-2026-10-04/
+/docs/verification/evidence/parallel-2026-10-05/

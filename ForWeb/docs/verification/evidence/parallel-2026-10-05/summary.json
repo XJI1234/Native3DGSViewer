@@ -1,0 +1,492 @@
+{
+  "schema": 1,
+  "protocol": {
+    "date": "2026-10-04T17:22:29.079Z",
+    "browser": "154.0.4258.53",
+    "headless": false,
+    "persistent": true,
+    "frameDepth": 2,
+    "warmupMs": 10000,
+    "sampleMs": 20000,
+    "runs": 3,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "requested": {
+      "models": [
+        "changjin_v1.ply",
+        "shengyi_v1.ply",
+        "spz/shengyi_v1.spz",
+        "tumu_v1.ply",
+        "spz/tumu_v1.spz",
+        "zhihuizhimen.ply"
+      ],
+      "modes": [
+        "native",
+        "spark"
+      ]
+    },
+    "provenance": {
+      "commit": "d088902bcc464ef7bea1fca857f2b7cd3f10836c",
+      "files": [
+        {
+          "path": "apps/benchmark.ts",
+          "sha256": "d890f15a59ad697a7ef779d195c6901035467021d42b19ddac89db4c0b2b4a68"
+        },
+        {
+          "path": "tools/interactive-benchmark.mjs",
+          "sha256": "67e95e58ddea8832b1bde46b97eeb78f690d62738d33dca701aad250476d15d2"
+        },
+        {
+          "path": "src/engine/engine.ts",
+          "sha256": "d6e4574685d48c037fc876f3a6ff7cfd244306d2bf6a9d28025195567125dfbb"
+        },
+        {
+          "path": "src/render-core/renderer.ts",
+          "sha256": "7af2e5dbf8e0299e9892faa7c03037adfdd11bda332b3cca4e47da6dbca74d4d"
+        },
+        {
+          "path": "src/render-core/shaders.ts",
+          "sha256": "6bbfcfb4a7c5ece1693206b1afcaef7276a22f53ee1d778df4734bf66b576c16"
+        },
+        {
+          "path": "src/render-core/sort.ts",
+          "sha256": "967c17f64f38e09c2b241f9b69e6ff2ea56e9b2481560eff6c01f00675915b6f"
+        },
+        {
+          "path": "node_modules/@sparkjsdev/spark/dist/spark.module.js",
+          "sha256": "2de375d5e489692f976abe3199c8435ecc00f97fabaf35e489eb7d368e1f6f60"
+        }
+      ]
+    },
+    "complete": true
+  },
+  "metricLimitations": "Pre-OCR paired data retain FPS/intervals only; historical age and sort completion labels are excluded.",
+  "scheduling": [
+    {
+      "name": "latency-final-depth1",
+      "depth": 1,
+      "model": "zhihuizhimen.ply",
+      "fps": 79.21672897392538,
+      "cameraP50": 16.599999994039536,
+      "cameraP95": 17.899999976158142,
+      "persistent": true
+    },
+    {
+      "name": "latency-final-depth2",
+      "depth": 2,
+      "model": "zhihuizhimen.ply",
+      "fps": 119.84940075303196,
+      "cameraP50": 16.69999998807907,
+      "cameraP95": 17,
+      "persistent": true
+    }
+  ],
+  "stages": [
+    {
+      "experiment": "stages-before-persistent",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.900544,
+        "sortMs": 1.507328,
+        "drawMs": 2.818048,
+        "gpuMs": 6.422528
+      },
+      "rounds": [
+        6.815744,
+        6.422528,
+        6.422528
+      ]
+    },
+    {
+      "experiment": "stages-before-persistent-large",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 11.075584,
+        "sortMs": 8.781824,
+        "drawMs": 16.187392,
+        "gpuMs": 35.979264
+      },
+      "rounds": [
+        35.979264,
+        35.979264,
+        36.175872
+      ]
+    },
+    {
+      "experiment": "stages-after-fusion",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.835008,
+        "sortMs": 1.507328,
+        "drawMs": 3.080192,
+        "gpuMs": 6.488064
+      },
+      "rounds": [
+        6.422528,
+        6.488064,
+        6.5536
+      ]
+    },
+    {
+      "experiment": "stages-after-fusion",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 11.075584,
+        "sortMs": 8.585216,
+        "drawMs": 16.05632,
+        "gpuMs": 35.848192
+      },
+      "rounds": [
+        35.71712,
+        35.848192,
+        35.913728
+      ]
+    },
+    {
+      "experiment": "stages-no-clear",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.6384,
+        "sortMs": 1.507328,
+        "drawMs": 3.014656,
+        "gpuMs": 6.291456
+      },
+      "rounds": [
+        6.160384,
+        6.356992,
+        6.291456
+      ]
+    },
+    {
+      "experiment": "stages-no-clear",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 9.764864,
+        "sortMs": 8.781824,
+        "drawMs": 16.121856,
+        "gpuMs": 34.603008
+      },
+      "rounds": [
+        34.603008,
+        34.603008,
+        34.668544
+      ]
+    },
+    {
+      "experiment": "stages-group-count",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.6384,
+        "sortMs": 1.507328,
+        "drawMs": 2.94912,
+        "gpuMs": 6.22592
+      },
+      "rounds": [
+        6.22592,
+        6.291456,
+        6.160384
+      ]
+    },
+    {
+      "experiment": "stages-group-count",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 9.8304,
+        "sortMs": 8.585216,
+        "drawMs": 15.990784,
+        "gpuMs": 34.471936
+      },
+      "rounds": [
+        34.471936,
+        34.471936,
+        34.537472
+      ]
+    },
+    {
+      "experiment": "stages-alpha-bounds",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.6384,
+        "sortMs": 1.507328,
+        "drawMs": 2.883584,
+        "gpuMs": 6.291456
+      },
+      "rounds": [
+        6.094848,
+        6.291456,
+        6.291456
+      ]
+    },
+    {
+      "experiment": "stages-alpha-bounds",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 9.8304,
+        "sortMs": 8.912896,
+        "drawMs": 16.121856,
+        "gpuMs": 34.996224
+      },
+      "rounds": [
+        34.930688,
+        34.996224,
+        35.192832
+      ]
+    },
+    {
+      "experiment": "stages-radix6",
+      "model": "zhihuizhimen.ply",
+      "count": 3914609,
+      "metrics": {
+        "projectionMs": 1.6384,
+        "sortMs": 1.572864,
+        "drawMs": 3.014656,
+        "gpuMs": 6.422528
+      },
+      "rounds": [
+        6.422528,
+        6.488064,
+        6.291456
+      ]
+    },
+    {
+      "experiment": "stages-radix6",
+      "model": "spz/jiulonghu_v1.spz",
+      "count": 22480361,
+      "metrics": {
+        "projectionMs": 9.633792,
+        "sortMs": 12.45184,
+        "drawMs": 16.252928,
+        "gpuMs": 38.33856
+      },
+      "rounds": [
+        38.076416,
+        38.33856,
+        38.33856
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "model": "changjin_v1.ply",
+      "engine": "native",
+      "count": 170799,
+      "bytes": 40310041,
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "fps": 119.99820002692807,
+      "p95": 8.400000005960464,
+      "onePercentLow": 116.67476908794785,
+      "rounds": [
+        119.94880051188764,
+        119.99820002692807,
+        119.9988000120714
+      ]
+    },
+    {
+      "model": "changjin_v1.ply",
+      "engine": "spark",
+      "count": 170799,
+      "bytes": 40310041,
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "fps": 119.99760004796327,
+      "p95": 8.5,
+      "onePercentLow": 103.00429184549355,
+      "rounds": [
+        120,
+        119.99760004796327,
+        119.9838021867763
+      ]
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "engine": "spark",
+      "count": 804758,
+      "bytes": 189924365,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "fps": 119.99760004796327,
+      "p95": 9.5,
+      "onePercentLow": 92.87925696380184,
+      "rounds": [
+        119.99760004796327,
+        119.99820002692807,
+        119.9892009720198
+      ]
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "engine": "native",
+      "count": 804758,
+      "bytes": 189924365,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "fps": 119.94880051188764,
+      "p95": 8.5,
+      "onePercentLow": 109.09090907613108,
+      "rounds": [
+        119.94880051206637,
+        119.94880051188764,
+        119.89880101206134
+      ]
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "engine": "native",
+      "count": 804758,
+      "bytes": 17927619,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "fps": 119.89940050303322,
+      "p95": 8.5,
+      "onePercentLow": 106.99955417705439,
+      "rounds": [
+        119.8982015270843,
+        119.89940050303322,
+        119.94820077691685
+      ]
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "engine": "spark",
+      "count": 804758,
+      "bytes": 17927619,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "fps": 119.99760004814209,
+      "p95": 9.199999988079071,
+      "onePercentLow": 97.40259737667934,
+      "rounds": [
+        119.99940000285693,
+        119.99760004814209,
+        119.99760004814209
+      ]
+    },
+    {
+      "model": "tumu_v1.ply",
+      "engine": "spark",
+      "count": 1248730,
+      "bytes": 294701758,
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "fps": 119.99640010803252,
+      "p95": 9.800000011920929,
+      "onePercentLow": 90.56603772566386,
+      "rounds": [
+        119.99760004796327,
+        119.99640010803252,
+        119.98760644479175
+      ]
+    },
+    {
+      "model": "tumu_v1.ply",
+      "engine": "native",
+      "count": 1248730,
+      "bytes": 294701758,
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "fps": 119.98440202777215,
+      "p95": 8.5,
+      "onePercentLow": 114.99760419030422,
+      "rounds": [
+        119.98440202777215,
+        119.86224339325967,
+        119.99760004814209
+      ]
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "engine": "native",
+      "count": 1248730,
+      "bytes": 24412867,
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "fps": 119.8982015270843,
+      "p95": 8.5,
+      "onePercentLow": 106.24169990644312,
+      "rounds": [
+        119.8982015270843,
+        119.89820152690564,
+        119.9988000118926
+      ]
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "engine": "spark",
+      "count": 1248730,
+      "bytes": 24412867,
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "fps": 119.99820002692807,
+      "p95": 9.199999988079071,
+      "onePercentLow": 90.02250560829263,
+      "rounds": [
+        119.99940000303575,
+        119.99820002692807,
+        119.99820002692807
+      ]
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "engine": "spark",
+      "count": 3914609,
+      "bytes": 923849202,
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "fps": 118.14881851170925,
+      "p95": 18.600000023841858,
+      "onePercentLow": 47.723205408064324,
+      "rounds": [
+        117.91285745000867,
+        118.14881851170925,
+        118.6
+      ]
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "engine": "native",
+      "count": 3914609,
+      "bytes": 923849202,
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "fps": 119.84760304790332,
+      "p95": 8.5,
+      "onePercentLow": 101.05263156626694,
+      "rounds": [
+        119.84760304790332,
+        119.84760304790332,
+        119.79880201205128
+      ]
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "engine": "native",
+      "count": 22480361,
+      "bytes": 500754282,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "fps": 28.649570256429076,
+      "p95": 41.70000001788139,
+      "onePercentLow": 23.80007933416049,
+      "rounds": [
+        28.749568756451517,
+        28.649570256429076,
+        28.54957175644918
+      ]
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "engine": "spark",
+      "count": 22480361,
+      "bytes": 500754282,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "fps": 37.584026788614835,
+      "p95": 94.80000001192093,
+      "onePercentLow": 9.652509652717907,
+      "rounds": [
+        37.584026788614835,
+        37.584214629900245,
+        37.28359521808182
+      ]
+    }
+  ]
+}

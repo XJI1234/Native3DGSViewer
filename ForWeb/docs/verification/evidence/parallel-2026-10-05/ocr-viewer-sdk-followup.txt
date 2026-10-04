@@ -1,0 +1,16 @@
+Review complete: 1 finding(s) across 1 selected item(s).
+
+─── ForWeb/src/web-adapters/dom.ts:53-56 ───
+[bug · medium] While pointer lock is held with no keys pressed, this branch keeps scheduling ticks
+without updating `lastFlight`. Pressing W after an idle interval then uses the entire idle duration
+(capped at 100 ms) for its first movement frame, rather than the actual frame interval. `Camera.fly`
+scales movement by this duration, so Shift+W can jump by 40% of the camera distance on that first
+frame. Update the timestamp on idle ticks (or reset it when movement resumes), and add a regression
+test that releases all movement keys, idles under pointer lock, then resumes movement without losing
+the lock.
+
+          if (!keys.size) {
++             lastFlight = time;
+              if (document.pointerLockElement === canvas) flight = requestAnimationFrame(flyTick);
+              return;
+          }
