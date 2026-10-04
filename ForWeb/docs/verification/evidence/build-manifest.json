@@ -1,11 +1,11 @@
 {
   "git": {
     "dependencySourcesClean": true,
-    "commit": "f5bae76e0352b5945fc0df685e13376a82d25f5c",
-    "status": " M ForWeb/CHANGELOG.md\n M ForWeb/README.md\n M ForWeb/apps/benchmark.ts\n M ForWeb/docs/React-integration.md\n M ForWeb/docs/SDK-guide.md\nM  ForWeb/docs/SPEC-engine.md\nM  ForWeb/docs/SPEC-model-io.md\nM  ForWeb/docs/SPEC-render-core.md\n M ForWeb/docs/SPEC-sdk-package.md\nM  ForWeb/docs/SPEC-splat-types.md\n M ForWeb/docs/SPEC-web-adapters.md\n M ForWeb/docs/Vue-integration.md\n M ForWeb/docs/verification/evidence/build-manifest.json\n M ForWeb/docs/verification/evidence/gpu-tests.json\n M ForWeb/docs/verification/evidence/integration-tests.json\n M ForWeb/docs/verification/evidence/large-sort-tests.json\n M ForWeb/docs/verification/evidence/sdk-consumer.json\n M ForWeb/docs/verification/implementation-report.md\n M ForWeb/docs/verification/performance-report.md\n M ForWeb/docs/verification/review-and-interface-matrix.md\nM  ForWeb/native/CMakeLists.txt\nM  ForWeb/native/decoder.cpp\nM  ForWeb/native/decoder.h\nM  ForWeb/native/inflate.cpp\nM  ForWeb/native/pack.cpp\n M ForWeb/package.json\nM  ForWeb/src/engine/camera.ts\nMM ForWeb/src/engine/engine.ts\nM  ForWeb/src/model-io/backing.ts\nM  ForWeb/src/model-io/streaming.ts\nM  ForWeb/src/model-io/wasm.ts\n M ForWeb/src/react.ts\nMM ForWeb/src/render-core/renderer.ts\nM  ForWeb/src/render-core/shaders.ts\nM  ForWeb/src/render-core/sort.ts\nA  ForWeb/src/splat-types/async.ts\nM  ForWeb/src/splat-types/index.ts\n M ForWeb/src/vue.ts\n M ForWeb/src/web-adapters/dom.ts\n M ForWeb/tasks/todo.md\nM  ForWeb/tests/contracts/streaming.test.mjs\nM  ForWeb/tests/unit/backing.test.ts\nAM ForWeb/tests/unit/cancellation.test.ts\nM  ForWeb/tests/unit/capture.test.ts\nMM ForWeb/tests/unit/lifecycle.test.ts\n M ForWeb/tools/benchmark-comparison.py\n M ForWeb/tools/benchmark.mjs\n M ForWeb/tools/browser-tests.mjs\n M ForWeb/tools/decode-benchmark.mjs\n M ForWeb/tools/image-tests.mjs\n M ForWeb/tools/integration-tests.mjs\n M ForWeb/tools/model-manifest.py\n M ForWeb/tools/model-tests.mjs\n M ForWeb/tools/performance-summary.py\n M ForWeb/tools/plot-benchmark.py\n M ForWeb/tools/record-build.mjs\n M ForWeb/tools/sdk-consumer.mjs\n M ForWeb/tools/stability-tests.mjs\n M ForWeb/tools/verify.ps1\n M ForWeb/vite.config.ts\n?? ForWeb/docs/verification/evidence/benchmark-completed/\n?? ForWeb/docs/verification/evidence/benchmark-final/\n?? ForWeb/docs/verification/evidence/benchmark-release/\n?? ForWeb/docs/verification/evidence/benchmark-tiled/\n?? ForWeb/docs/verification/evidence/layout-ablation.json\n?? ForWeb/docs/verification/evidence/maximum-completed-frame.json\n?? ForWeb/docs/verification/evidence/maximum-final-repeat.json\n?? ForWeb/docs/verification/evidence/maximum-model-tests.json\n?? ForWeb/docs/verification/evidence/maximum-spz-batch-tuned.json\n?? ForWeb/docs/verification/evidence/maximum-spz-tests.json\n?? ForWeb/docs/verification/evidence/model-tests-final.json\n?? ForWeb/docs/verification/evidence/model-tests-large.json\n?? ForWeb/docs/verification/evidence/model-tests-release.json\n?? ForWeb/docs/verification/evidence/model-tests-reviewed.json\n?? ForWeb/docs/verification/evidence/model-tests-streaming-baseline.json\n?? ForWeb/docs/verification/evidence/model-tests-tiled-bound-failure.json\n?? ForWeb/docs/verification/evidence/stability-final.json\n?? ForWeb/docs/verification/evidence/stability-release.json\n?? ForWeb/docs/verification/evidence/streaming-browser-tests.json\n?? ForWeb/docs/verification/large-model-optimization-report.md\n?? ForWeb/docs/verification/spark-decoder-source-study.md\n?? ForWeb/tests/contracts/benchmark-guards.test.mjs\n?? ForWeb/tools/browser-benchmark-guards.mjs\n?? ForWeb/tools/completed-benchmark.mjs\n?? ForWeb/tools/layout-benchmark.mjs\n?? ForWeb/tools/maximum-frame-benchmark.mjs\n?? ForWeb/tools/package-release.mjs\n?? ForWeb/tools/plot-completed-benchmark.py\n?? ForWeb/tools/streaming-browser-tests.mjs\n",
+    "commit": "fd18caee701eda8f69110e6ce207191dc7ec9321",
+    "status": "",
     "dependencies": " 52eb8108c5bdec04579160ae17225d66034bd723 ../third_party/googletest (v1.17.0)\n 1a235c70390fadf789695c9ccbf285ae712416b3 ../third_party/miniply (heads/master)\n 0c539948c8d196ae338d91efbc8ca495f1ea0d1d ../third_party/parallel-sort (v1.1.1)\n-d22060043138b38e3aa01f766227ee0bd4e4f83e ../third_party/parallel-sort/sample/libs/cauldron\n 5bf2945de1a003cee07133b1e495fe9c6ffdc7e7 ../third_party/spz (v3.0.0)\n 51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf ../third_party/zlib (v1.3.1)\n 794ea1b0afca0f020f4e57b6732332231fb23c70 ../third_party/zstd (v1.5.6)\n"
   },
-  "recordedAt": "2026-10-04T06:22:34.887Z",
+  "recordedAt": "2026-10-04T06:41:15.538Z",
   "outputs": [
     {
       "path": "dist/assets/decoder.mjs",
@@ -25,7 +25,7 @@
     },
     {
       "path": "dist/assets/licenses/THIRD-PARTY-NOTICES.md",
-      "sha256": "46ac09d86b62bbff674ed26619cf797e0729c1db65940f0ddcc3db20cf8f44b0"
+      "sha256": "48bb0ae3f3895b5ccd3c2ec72c16c8ba36962c9a45efa4a033616c3fba1c8c23"
     },
     {
       "path": "dist/assets/licenses/zlib.txt",
@@ -229,71 +229,71 @@
   "files": [
     {
       "path": "src/engine/camera.ts",
-      "sha256": "d4f7485bebed0abc3a4b8599f0e062e02509bc74d90f27c284a90fe149d4618c"
+      "sha256": "c8f7615dcfebbbf3acffb8f25a553cc7d3c3a7638263a9ceaf1f5f2697c5084c"
     },
     {
       "path": "src/engine/engine.ts",
-      "sha256": "33f4a81ce043891d68e9ab8f6eea9b3e7ab37936d969627a7d44066173ccc25d"
+      "sha256": "b71cf31465c48447ec8ac0c2d02810d1cb7b9c4fc30f8982930ce5e4b403fbad"
     },
     {
       "path": "src/index.ts",
-      "sha256": "881f69ff9e0ee78148f8551a495a5cffcfc80130b031fecd3b3c7c8783c5f64f"
+      "sha256": "62d63911de9da62c0c9c82cf2ba1aaf68971994c7a2ffb63397abbf7a9ff11b2"
     },
     {
       "path": "src/model-io/backing.ts",
-      "sha256": "964ef7e6203314fa57b6b34b3c35314f6b0149dbeaeb05e8b71781f47949e33f"
+      "sha256": "de81ea72367fdad13bb24d06f2ebc329c89a00a3ff04fba9298ad2af26cbd518"
     },
     {
       "path": "src/model-io/decoder.worker.ts",
-      "sha256": "61a14fd5cef2cc012f89e47a7904ccfda22bd9759a7f054e813bdf9008f90308"
+      "sha256": "d2140114bb8b3d39b432d5bc2258dccd8b0fad7e5dafb14914a7631079767846"
     },
     {
       "path": "src/model-io/loader.ts",
-      "sha256": "342f528d5e09f046bd06af1a9ba2c50d7b3d92dd5f22deddaf720957e4a12ed5"
+      "sha256": "181ab76a334fd4b6166e4ffd8777afdb2089b61da4762581435397bd5b637344"
     },
     {
       "path": "src/model-io/streaming.ts",
-      "sha256": "59cf52c07585f7977a1412ed3f37ce6e31a7401aabcc33b14d68909237fab81e"
+      "sha256": "98cf64a7c34bcc561d284d776bc48b62306c14f5edb976b034cdd9d73afaf514"
     },
     {
       "path": "src/model-io/wasm.ts",
-      "sha256": "dbd775f8f1c8aa8d41a340c3bdee9a0561d5a0d57373ac7b5cfc11a5d8e52c91"
+      "sha256": "e99d9ca96cbd64adfd487953e9a230e60fbb29fe0c352db85c87da6e19b3c971"
     },
     {
       "path": "src/react.ts",
-      "sha256": "d5ce7a3dda7dfd18d07b7f75ca7963c86402553cac80630c938497463042bf14"
+      "sha256": "433c59e1220a1fccf2b2c99ca86ae9d3c8e56358a042994c89505556ddd68b69"
     },
     {
       "path": "src/render-core/renderer.ts",
-      "sha256": "c6e3a9d25df9af8d13f8d4f796d70d43c2199d079bd100ac52c25a91b716fede"
+      "sha256": "7af2e5dbf8e0299e9892faa7c03037adfdd11bda332b3cca4e47da6dbca74d4d"
     },
     {
       "path": "src/render-core/shaders.ts",
-      "sha256": "1ca83ac0037139d8f1be1c2aed6a48a4d6efccabc86a0e99f3f66fb0a838d3d5"
+      "sha256": "49db7cbe4173bd361a93677254d262ebc1d060c2e0767d754d6fed3bc7f250fd"
     },
     {
       "path": "src/render-core/sort.ts",
-      "sha256": "967c17f64f38e09c2b241f9b69e6ff2ea56e9b2481560eff6c01f00675915b6f"
+      "sha256": "090d449787a30be0eb5b772956f8dbd9d728d421d4e03741fcf7d5cb0f52f177"
     },
     {
       "path": "src/splat-types/async.ts",
-      "sha256": "00c50caf93a1a190b29de33e73749acc45d680152f825376afded00dfeeb49de"
+      "sha256": "d92da6fcc5af26b03d9ebba171da1c268d803603b5d7762d7c5047a4ccbc911f"
     },
     {
       "path": "src/splat-types/index.ts",
-      "sha256": "e6aa41e7e649c34c43cbd5f24e33ecea45f8dbdab0d4b56c074c24af684f26a4"
+      "sha256": "42c6539b75909fee50744714d0ed84d2e8c63b6332b538a3bd0348c4500d00ec"
     },
     {
       "path": "src/vue.ts",
-      "sha256": "6230ce0cb0bf7a66660b3844a03c3a912223dda8b87a557c5293971afe3143b9"
+      "sha256": "3427aee55ebbf9530074bf3646279c3a57fbfae55965bce5d13dbf60c80e88be"
     },
     {
       "path": "src/web-adapters/dom.ts",
-      "sha256": "e84d43e82b3e9e7f41876d7b8641bb8b4cccd74b28a95280eed033715cb3c004"
+      "sha256": "c847b9bc3c8a34fb3f7462d1a8ef9f513a3c45edcb6fa71ec9eeeaa967c5818a"
     },
     {
       "path": "native/.clang-format",
-      "sha256": "653f78108fbc0e001eff5528d3a29a6433f129c8dbbab6be36fa76c8ea227407"
+      "sha256": "85e0805ad1da36787ed597e58069c89f7c1546cf7022d934c0fe155bf4c3f7c6"
     },
     {
       "path": "native/CMakeLists.txt",
@@ -313,7 +313,7 @@
     },
     {
       "path": "native/pack.cpp",
-      "sha256": "46aa0baa2b309476af851b330220826849df4c5f3eb977e579d5ca29fe2bf2c4"
+      "sha256": "657c80c9aefe05110d73ef8b0beef0a8c6d590411d4657af71a01a37a86c28a4"
     },
     {
       "path": "../include/splat-types/scene.h",
@@ -329,15 +329,15 @@
     },
     {
       "path": "tools/build-wasm.mjs",
-      "sha256": "4703cd03b748373572da8ad6a0734a7414738231ec30fcb47c3e96af56d72364"
+      "sha256": "c1ceb3ae1817b06b24c89086508750df037baec7e2ad6eb4400f86315ec3f997"
     },
     {
       "path": "tools/package-notices.mjs",
-      "sha256": "fe99db3b945910407be92993f2b7c08f967be668a68d2ed1dc077190d7e5cf08"
+      "sha256": "a8336f2d6b6a058b462005e538c4a9256295977ae5ed995c1b56f591e8ad9102"
     },
     {
       "path": "pnpm-lock.yaml",
-      "sha256": "f42ade717cb1baaf2f9170ac22c217c812354a5edf6f1646e4ccf1463cf7a612"
+      "sha256": "a2c08b2458e1c71b41d63129e812e20e50ff907a66243f81fc93e74bae7f1147"
     },
     {
       "path": "package.json",
@@ -349,7 +349,7 @@
     },
     {
       "path": "tsconfig.json",
-      "sha256": "f179ad911895b93d993430e57c379b9dce1adf693ec4bd60d7c1d0f98581cac4"
+      "sha256": "42d868ec13080a8482550b8e7555637c9f5335f8a3016120c0f0010f20609411"
     },
     {
       "path": "../src/model-io/common/probe.cpp",
