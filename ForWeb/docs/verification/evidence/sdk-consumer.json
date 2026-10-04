@@ -16,9 +16,10 @@
         "react": "Stopped",
         "vue": "Stopped",
         "devices": {
-          "created": 2,
+          "created": 3,
           "active": 0
-        }
+        },
+        "conditionalHosts": true
       },
       "errors": []
     },
@@ -38,9 +39,10 @@
         "react": "Stopped",
         "vue": "Stopped",
         "devices": {
-          "created": 3,
+          "created": 4,
           "active": 0
-        }
+        },
+        "conditionalHosts": true
       },
       "errors": []
     }

@@ -1,0 +1,3208 @@
+{
+  "runs": [
+    {
+      "run": "ocr-workspace",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 17,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "79ed5f46dae5dfbd5293b0ca5e59e064335c8076a7459c2ae1486134f43a4ceb"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "d9f70abb857c275238611fdfce352d3e85a30ba7a39b5a5a800b2599ac841226"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "782117ee999e2f911d44b8e543bd8109645b646772068e2989f270cd05d1d896"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "c3b0ff3daa3b07650ce751a8ae3414c8937516982ab3797a156c2e05c9bdd615"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "34884a1d8386933314c8afdacdee2bc7e779b375879cebb47adcbc866c27dd96"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "be9449494d98df61ebeed46e7f94e8eeef28f358c3d621f10c342acb028f576d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "27f17a6affb447949286507930eed90025a326578d0a2e92f25e6a11fcb61d7e"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "dc16e26c3b8219901e4feb5e644e381c3250ae8b70e184ba4f8e20478e63790d"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "f06793ae824d798bf091326f495a6f0479d8ffa3a836541f7883e1cb77635189"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "213af56142233285568579996ccb65b8bc66a4f3be20c1b1fee922413e75ec73"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "b7bfb6baefdd211c6ac8af5268ee64b37b0a3b070d1fbf144637c48ff1c5b177"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "6aaa03a04a322048beef8db1676be31d005632641ce6a0b6471541a1af724108"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c8da0a3dfa19521cacff5b9cfe668b6ea081a800ae3e4c605054bfc2e70897ca"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "79ed5f46dae5dfbd5293b0ca5e59e064335c8076a7459c2ae1486134f43a4ceb"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "d9f70abb857c275238611fdfce352d3e85a30ba7a39b5a5a800b2599ac841226"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "782117ee999e2f911d44b8e543bd8109645b646772068e2989f270cd05d1d896"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "c3b0ff3daa3b07650ce751a8ae3414c8937516982ab3797a156c2e05c9bdd615"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "34884a1d8386933314c8afdacdee2bc7e779b375879cebb47adcbc866c27dd96"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "be9449494d98df61ebeed46e7f94e8eeef28f358c3d621f10c342acb028f576d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "27f17a6affb447949286507930eed90025a326578d0a2e92f25e6a11fcb61d7e"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "dc16e26c3b8219901e4feb5e644e381c3250ae8b70e184ba4f8e20478e63790d"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "f06793ae824d798bf091326f495a6f0479d8ffa3a836541f7883e1cb77635189"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "213af56142233285568579996ccb65b8bc66a4f3be20c1b1fee922413e75ec73"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "b7bfb6baefdd211c6ac8af5268ee64b37b0a3b070d1fbf144637c48ff1c5b177"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "6aaa03a04a322048beef8db1676be31d005632641ce6a0b6471541a1af724108"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c8da0a3dfa19521cacff5b9cfe668b6ea081a800ae3e4c605054bfc2e70897ca"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [],
+      "findings": [
+        {
+          "path": "ForWeb/src/render-core/renderer.ts",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 244,
+          "end_line": 249,
+          "content": "This pipeline selection introduces a nested ternary, which the review checklist explicitly prohibits. Use a switch or separate conditionals so the three packing modes remain straightforward to extend and inspect.",
+          "disposition": "Replaced nested pipeline selection with explicit conditions."
+        },
+        {
+          "path": "ForWeb/apps/benchmark.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 86,
+          "end_line": 87,
+          "content": "draw() polls the previous timer query before submitting this frame, so stats.gpuMs/gpuFrameId describe an earlier render. gl.finish() does not update that returned object. The completed benchmark then aggregates these delayed values as current samples (and never observes the final query). After completion, await availability and read the query for this submission, and return/validate its frame ID; alternatively keep delayed observations separate from completed-frame samples.",
+          "disposition": "Spark waits for and reads the current query; frame IDs verified."
+        },
+        {
+          "path": "ForWeb/apps/benchmark.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 39,
+          "end_line": 39,
+          "content": "Awaiting timingReady does not guarantee these shared fields belong to stats.frameId. Renderer skips timestamp collection while queryBusy, and its map failure handler clears only lastGpu, leaving the previous projection/sort/draw timings and frame ID. Validate lastGpuFrame === stats.frameId and successful readback before exporting stage timings; otherwise mark all timings unavailable or fail the measurement rather than silently reusing old data.",
+          "disposition": "Native samples drain prior timing and require the exact submitted frame; all fields clear on readback failure."
+        },
+        {
+          "path": "ForWeb/tools/completed-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 17,
+          "end_line": 17,
+          "content": "This evaluation has no deadline, and Playwright's default action timeout does not bound page.evaluate(). completedFrame contains unbounded Spark sorting polls and GPU/readback waits, so a stuck worker or GPU can hang the benchmark forever without reaching the page/browser finally blocks or writing failure evidence. Add a host-side watchdog that closes the page and records the timeout. Apply the same bound to the layout and maximum-frame evaluations.",
+          "disposition": "Host watchdog closes hung test page, records failure and bounds cleanup."
+        },
+        {
+          "path": "ForWeb/tools/layout-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 24,
+          "end_line": 25,
+          "content": "The extra backing reference is released only after all uploads/captures/measurements succeed. An exception in any of them skips release, and the outer finally only closes the browser; diskBacking deletes its OPFS job only when its reference count reaches zero. Wrap the retained reference in try/finally and dispose the engine on failure as well, so failed ablations do not leave persistent model backing behind.",
+          "disposition": "Retained layout backing is released in finally, including engine cleanup."
+        },
+        {
+          "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 10,
+          "end_line": 10,
+          "content": "Timestamp support is optional in Renderer, so stage/GPU values can be null, and failed readbacks can also leave unavailable values. Sorting those values numerically produces null percentiles (or mixes nulls with real timings), yet this script writes successful benchmark evidence. Require finite, correctly attributed timing samples and the expected sample count, or explicitly report timing unavailability instead of percentiles. The layout-ablation summary has the same issue.",
+          "disposition": "Finite metrics, exact sample counts and strict frame attribution are required."
+        },
+        {
+          "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 16,
+          "end_line": 16,
+          "content": "Dispose the engine in this finally block before closing the context, not only on the success path. If measurement or aggregation throws after loading, context.close() does not release the scene backing or delete its OPFS job. Since this runner uses a persistent profile, the large packed model remains on disk across subsequent runs and can eventually exhaust the storage quota. Use a nested try/finally so context closure still occurs if engine cleanup fails.",
+          "disposition": "Persistent maximum runner disposes in nested finally and writes failure evidence."
+        }
+      ]
+    },
+    {
+      "run": "ocr-branch",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 54,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "00646a5636c4b0e2ae9fcf7dbb85415181e7c09c131cd805d7fc17b13a1bf338",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "84a7bf14ccb235accc5a97feb83739bc770dc99ac6c357e3a2a65d2020e6a998"
+          },
+          {
+            "item_id": "03701f68188df9d6fff40a8eb4afe4d03eef0545f8714270629162c9842c25fd",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "059437a7c3f28044a49ca170834ff0f4248384aecdbc8d4c7fe4cf03839384b2"
+          },
+          {
+            "item_id": "046f4ac1275e8c45b179121c275a63b3cbf3c9876347a2ffa4ebe35e0fd07941",
+            "path": "ForWeb/tools/image-metrics.py",
+            "fingerprint": "a78a1ae7dcaa72048b870ba60b9fbce4fabc282aa0c6357637bb72cf738f6eff"
+          },
+          {
+            "item_id": "05183d972f85f5d0b21e3b74fd8a1c5cc63296272b5342567f2ba5dfa2283a58",
+            "path": "ForWeb/src/index.ts",
+            "fingerprint": "47eee4f771aebd576bc410045cd7b19cec62da28ce7ed58ba8a6d2707dbee1dd"
+          },
+          {
+            "item_id": "0b884c24a958a0123c6fe7ae450103b31e666962c19aa638e76d001713bcdc96",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "44076fe91eba0e53e79a6e1717595d7ee8a7b09a1603c760327236a86eb60c58"
+          },
+          {
+            "item_id": "0c5b424d25095adbccc5bce6ab19d7a21eced3743601769a3cdd8c4b15498262",
+            "path": "ForWeb/.gitignore",
+            "fingerprint": "008020f8d5de715e43852d55a68430a0cd6da73a00d720c76e67aa08180765d2"
+          },
+          {
+            "item_id": "0d85edbb689588691cefbd93ef9e26fc4d62989f4b1b4d785100c2dcda538946",
+            "path": "ForWeb/tools/radix-experiment.mjs",
+            "fingerprint": "1aa03ce843a6d3eb35237ca229312df83eff2bc397bb087da289d17ccabac2f7"
+          },
+          {
+            "item_id": "1684281cac1c358780b324f58f4f40311b04d4e90e2ce6a298add8f2550aead7",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "b62711c4854495809a030a5ed55edda5fb925d6c70bf7cff4d69c5f0c0c14a23"
+          },
+          {
+            "item_id": "23b6acab5b6e1419949b49c9e84a7c61b3d23dc6afb5ae12b13d40576e9b1f5c",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "e4da45750fc1d055647e7c4b6a1bcd4ef5f4a64107d47debd9176b65361f4cbe"
+          },
+          {
+            "item_id": "25404ab39fcde36996336f7d2251d3afc85fb2ecb2b2a9eb7d78dbf119e4cc26",
+            "path": "ForWeb/native/.clang-format",
+            "fingerprint": "423ff7cde11ff06aa77a699012825208d0a0750ac867c410225185cc61367c19"
+          },
+          {
+            "item_id": "27d8d289f884591ceda9306ea0f883a0db0555ebad52079589394562b24845f8",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "15195234667a50c345c1f3cf8d4087c8c968f66b7c97674f64e4adf90aa92c86"
+          },
+          {
+            "item_id": "2d69619ab6c1b6ce240a8dfe1d127c2d8b3632ff0d0b9b9b50859f6e6c694b9d",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "45f3ffd1c44594bec1fa3ede226f389298cee386216da9e9008118adfe574f6e"
+          },
+          {
+            "item_id": "322586c3263b2362de1f99f386021c73f42734367b67bbcf7936dc9ee4d96424",
+            "path": "ForWeb/tools/large-sort-tests.mjs",
+            "fingerprint": "ed5ec1368632189c6b563cc141a1b7e8b57da50f292102023969117dfb395293"
+          },
+          {
+            "item_id": "362c087ec547157b57f7c229975d2161de7ec2ece09956ff176d7860514a0eea",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "797066317915b78359a3c72ebcb01915d0f6657f7b23c8ea1570b098120b3d90"
+          },
+          {
+            "item_id": "3a3272f19aa2aadff9880d355bfe370a64f9a6b0008641c811de76d1bb91c737",
+            "path": "ForWeb/apps/viewer.ts",
+            "fingerprint": "1e407020947509b9727e454483c80b12d48de1982c74606f4ed2ba07eb96ef49"
+          },
+          {
+            "item_id": "406cebc9b78cca8597206ae4b8f3fbe3be14d230cf124c301cd64e52980bedfd",
+            "path": "ForWeb/src/model-io/loader.ts",
+            "fingerprint": "11a397c31f4e36b4bbaacff562042a96947bbbafb755aa041c2beb9a4540d5a9"
+          },
+          {
+            "item_id": "41d4dd803c7fa00563bf5e48e31b858e1428d79d0bbf9bdd3ffe3c3930f02225",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "1b691929a4b96591e1a4eba82bdff1e30c6fbefdc4b1453f40a638432cb2ed3e"
+          },
+          {
+            "item_id": "42f3e2aaec2a781ea246239026dbc74f6cac3a80638d6a276e5600c23e1e34fd",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "58a9b12d62e76b502b45060d0075260e6d0c63eaba546b7a9d3e34ecb2ecad4b"
+          },
+          {
+            "item_id": "50c4a0d12e044dc89503b4af862b80530b91dfe6e87447af2433a387e59adb8d",
+            "path": "ForWeb/tsconfig.json",
+            "fingerprint": "c6b782acbf6a030ef8dc7ca349ddfccc8e51197dff19d467c90fbce33bcf214a"
+          },
+          {
+            "item_id": "58a2aa9082ee008af3bd37b21fd318b866a2022ccafead3b7ea4ab33df7e3a8b",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "5e8c9ed94c909f344aa6e50dae7a0de338f54ab89209d86213be1dc9e4a9295f"
+          },
+          {
+            "item_id": "5a43058272050397aaa3da69df3ee203b10e1327aa3e341e0d73d8c0ce3ac73f",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "cbdc1933e1d39be50690a0ea63427a22bd2bee0a7b2ccbd89084aa832afd9d5e"
+          },
+          {
+            "item_id": "5a747192f17f3eb7dddbfa6fe833cf039568f38b9b3c9bb25b367097545d5137",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "ca91b3a7e4c68627876efd1d61018cbad61be4ab7f9560cbf8fdb2af751f8240"
+          },
+          {
+            "item_id": "5eba6ff2c8b19130b3e2a4910df408045db4324542501f5d2581564219003318",
+            "path": "ForWeb/tests/contracts/decoder.test.mjs",
+            "fingerprint": "c2fdc8faf5580c7e4b48ce2c52d79555c208a9df9b1683c15e39e59ebfd25b5d"
+          },
+          {
+            "item_id": "5f43e4f156df6f577932416ae579431e5ee736e0a5388c5ef38078f5c3809203",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "9b29d5226147575d05250ad18c5cf6a79b542c74c25c06fdd63ef917da01936b"
+          },
+          {
+            "item_id": "621e865f9443f5285d4a43fe3f6a8cbf2d1e84f07622e792382dfd9c1d7ec77d",
+            "path": "ForWeb/benchmark.html",
+            "fingerprint": "b2833a3e5e021b2e5fd460466642ceaaf67393b6a87887091929486be17180c0"
+          },
+          {
+            "item_id": "67d0bc91c7225c7e5fbf2cbb8257a86b8ea4fa99d50f01c909ddccfbe2fc4988",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "5683a37810e36016d7fdc732b7f9ef99859c71646c19e7c1ec44c38632e83c9c"
+          },
+          {
+            "item_id": "76e626f3724148833d49d51b790314373954c7bcce77933ad1da4f6d6284c776",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "693e6655c87ef433d9d9436e478ef6b09907d01dd5bea625566b1aee233f4244"
+          },
+          {
+            "item_id": "7c15c7b799de336725a2707725806b4f90d5ff8df3af4d2856afcbd9cc759ee0",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "1cb912f88f6aabc492d9aacbf9451ce74ea66e36862ee1fc653bced3aeec827d"
+          },
+          {
+            "item_id": "7d41a4167e860c19382252161dd0c300556da1e3e2f6f2df3e1d09623693eddc",
+            "path": "ForWeb/biome.json",
+            "fingerprint": "53d28f1ecc9bebbc95d5939f3ad5a22c07ce572a30e9b3b5f5277ef4aaaa33bf"
+          },
+          {
+            "item_id": "8e87f4ba589449042199bc4572e6182763a1d5f681008ae4680c1791ea3b805a",
+            "path": "ForWeb/index.html",
+            "fingerprint": "8e319e29511ff2135ac715cc9285803423d36362ed2a46069665675fc723c13c"
+          },
+          {
+            "item_id": "9d738d6631beaa0feb27f467945f0e0509466cf27e588557dc51f384857aeb2c",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "5d7416909cdc4921da3463e6ef4ba300282a1b131790f6695179eff4f8e14ca8"
+          },
+          {
+            "item_id": "a14833e2c8b08ec74b001db286a37c2691e7be1dcc84f7cc4f0719dab66139e5",
+            "path": "ForWeb/tools/package-notices.mjs",
+            "fingerprint": "b5bad2b084bfd9c3065a69d90055d0e8bdaab8c48e0b3a164f1f351933e67a55"
+          },
+          {
+            "item_id": "a9e361994b832ebf966ae18843445a1d6bc4d2606a140ecb581b818740b11eb3",
+            "path": "ForWeb/package.json",
+            "fingerprint": "ecc1ff76fd38c6b567a5660fbece2a839ba3c9d2942055261ec7b2c798cab650"
+          },
+          {
+            "item_id": "aaa387f43cdcd3032a1c3105b26be7301e32324168c50036d8af79f98f1064ba",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "1d8c497e491287ff5e1db4949304b998a76d01b995072c9e6a2aeaa4b768058b"
+          },
+          {
+            "item_id": "b2c1d3701e125d6bcff975212bd8f96abdf7bc99ea79a078ca6739b4a74ec73a",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "5c079d14ffca81a375cec067c3b749a8e177326fdc699888a2976520fabc0d6b"
+          },
+          {
+            "item_id": "b41db06501f4dd02c02765f4f77497bf94d06e8d3d62ddeb9f20e6222b833998",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "0ba3387ba0f8f0c528970296640ef093076fd78ff1724370ce30bb33fc9b741c"
+          },
+          {
+            "item_id": "b4614cbf7dfe8fa59d917bb9ce53261b87f91d9d27d8fa219f47f03952acb850",
+            "path": "ForWeb/tools/build-wasm.mjs",
+            "fingerprint": "e31bfd5e06964791ce75d7ad894341908a019c55678458e1499a87b9620d744e"
+          },
+          {
+            "item_id": "b53edac89fa963da8e61a4d22377bb38af91dfa175265649be81e7865d42aacd",
+            "path": "ForWeb/.node-version",
+            "fingerprint": "a7efebb24d49fb7e9a2b641de69b8c59dd737524829ca2eacfee1325a4debcd3"
+          },
+          {
+            "item_id": "b99db0535b0ca4fc646610903f7ce7bee0151fb44fe03e1e7f0d4b903346f406",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "9d70eff78ff43296258ea5eb0dc99d0b6f8fd6c6587ec94fab9fa109e82de44f"
+          },
+          {
+            "item_id": "c81303aa7b3cd1743024b9810005b41b58ad9cf96e11192a7684d27a9515d105",
+            "path": "ForWeb/tools/check-boundaries.mjs",
+            "fingerprint": "9d3c5442e3d6117656a0ef754eaf814c015c3ac3a5bcd1c6ec1eb09334590007"
+          },
+          {
+            "item_id": "c948040e4dd66f559c1e7c1f1b8de463ed6a4717a0fe0e29c2a7ffd2b6bf1136",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "29de6a2989803751a6fc303f13eda0d6b829310b99a1e1386f0baad17a420b41"
+          },
+          {
+            "item_id": "c95de8a21722602dbc4ca1069b78f2f9fe60c24fa895dad6f56b07fd0cc75288",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "521729f0871ef7beca5df95ea7e1909ae2669ac520715664bfd08a3767fc1e2d"
+          },
+          {
+            "item_id": "d601561c64c5a660523043d817c18d28d530b1ad84dc682be6c651ee009d1197",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "6f2de64e302d8ebb1ccfbe1a405bb7d507438b56b4c13eec77ca03005d019881"
+          },
+          {
+            "item_id": "dc4502038284cb7efb6d39dc421e0464174882003b04219dfdacfabe8b9b718b",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "49819cc533a26d7de5caac8f405110ae21fca1dbe9c202197bdb751e37757925"
+          },
+          {
+            "item_id": "ded9913672c68bf158e81184844bc412eb2fe44b17786339c663d2c2ea9044a7",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "b50d4fb7d5dce6996d6501cd7316bbf8decaaea773e487dba2805b466af56d8e"
+          },
+          {
+            "item_id": "df1d76e048893b305b02c3207e7db922841a4d95b8790c53805adee8de549d47",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "0af975a3a3ffb889ebd6b579f67d33236bb8176ba770c1ca0ccb33beac23edeb"
+          },
+          {
+            "item_id": "e3b32784cda9722d45ee77912c52cb9a2c5210f5affead2d72624c2e46915a0a",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "ac6a69446fba4698264c738e1f405235c220bcbe05de50660c6cfc3a3c569f5d"
+          },
+          {
+            "item_id": "ec135320f7c6aa92089ed9188b25318d19296b416e4416340328f103e85485d9",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "789b73a3b8eb0986a0819cc436da035833220850372e5fa5f2b84f049366856a"
+          },
+          {
+            "item_id": "ec5ddbad84470f8de69a9d4789b4662da3b60b8e78583924ba605d2b92d6f125",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "6ebdd1ca1791a096969584873721cbc89d84c4539e98dec303d91671b3d4081c"
+          },
+          {
+            "item_id": "f1af0420ee7bf9126a2cc6cb0b0da13fa4d8b2bf6325c89a13d58d23e8155388",
+            "path": "ForWeb/tools/sort-benchmark.mjs",
+            "fingerprint": "e070bc24ffd9fe4f0b8fd366001395f7324b0cbeadde32ec1f42721a3c66b03e"
+          },
+          {
+            "item_id": "f304c0eaeceeef0cbffae326658dcec722deab28aaf800f138c159b62f9f89eb",
+            "path": "ForWeb/src/model-io/decoder.worker.ts",
+            "fingerprint": "4437de48208edfbc86bf69f505927f6a637b001e4c9217bface92d390e61977f"
+          },
+          {
+            "item_id": "f49c679e86cc27a8ec456475ad297657d008ae0b96d65ba444e8f6976c97774b",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "7269364a932f8938971eb0b5bd64267e1a0aef67637372aaf08d398869406071"
+          },
+          {
+            "item_id": "f68e81b98852c9aa4cb364ba37830c678036c6230d65d326c5e2a499e172dd54",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ddc4de8e00215ca8aa169c45af3cbb523d3fc298d4f8718784b87119b87d4650"
+          },
+          {
+            "item_id": "fa54692a9f50c672053a5f92cdcb3829fad270b43d18500c6a77de355ba35504",
+            "path": "ForWeb/tools/spark-freshness.mjs",
+            "fingerprint": "981968e25b3cbda6fbdb963ab4945810fd2ca3b6622b37c1101574437f5c7632"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "00646a5636c4b0e2ae9fcf7dbb85415181e7c09c131cd805d7fc17b13a1bf338",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "84a7bf14ccb235accc5a97feb83739bc770dc99ac6c357e3a2a65d2020e6a998"
+          },
+          {
+            "item_id": "03701f68188df9d6fff40a8eb4afe4d03eef0545f8714270629162c9842c25fd",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "059437a7c3f28044a49ca170834ff0f4248384aecdbc8d4c7fe4cf03839384b2"
+          },
+          {
+            "item_id": "046f4ac1275e8c45b179121c275a63b3cbf3c9876347a2ffa4ebe35e0fd07941",
+            "path": "ForWeb/tools/image-metrics.py",
+            "fingerprint": "a78a1ae7dcaa72048b870ba60b9fbce4fabc282aa0c6357637bb72cf738f6eff"
+          },
+          {
+            "item_id": "05183d972f85f5d0b21e3b74fd8a1c5cc63296272b5342567f2ba5dfa2283a58",
+            "path": "ForWeb/src/index.ts",
+            "fingerprint": "47eee4f771aebd576bc410045cd7b19cec62da28ce7ed58ba8a6d2707dbee1dd"
+          },
+          {
+            "item_id": "0b884c24a958a0123c6fe7ae450103b31e666962c19aa638e76d001713bcdc96",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "44076fe91eba0e53e79a6e1717595d7ee8a7b09a1603c760327236a86eb60c58"
+          },
+          {
+            "item_id": "0c5b424d25095adbccc5bce6ab19d7a21eced3743601769a3cdd8c4b15498262",
+            "path": "ForWeb/.gitignore",
+            "fingerprint": "008020f8d5de715e43852d55a68430a0cd6da73a00d720c76e67aa08180765d2"
+          },
+          {
+            "item_id": "0d85edbb689588691cefbd93ef9e26fc4d62989f4b1b4d785100c2dcda538946",
+            "path": "ForWeb/tools/radix-experiment.mjs",
+            "fingerprint": "1aa03ce843a6d3eb35237ca229312df83eff2bc397bb087da289d17ccabac2f7"
+          },
+          {
+            "item_id": "1684281cac1c358780b324f58f4f40311b04d4e90e2ce6a298add8f2550aead7",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "b62711c4854495809a030a5ed55edda5fb925d6c70bf7cff4d69c5f0c0c14a23"
+          },
+          {
+            "item_id": "23b6acab5b6e1419949b49c9e84a7c61b3d23dc6afb5ae12b13d40576e9b1f5c",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "e4da45750fc1d055647e7c4b6a1bcd4ef5f4a64107d47debd9176b65361f4cbe"
+          },
+          {
+            "item_id": "25404ab39fcde36996336f7d2251d3afc85fb2ecb2b2a9eb7d78dbf119e4cc26",
+            "path": "ForWeb/native/.clang-format",
+            "fingerprint": "423ff7cde11ff06aa77a699012825208d0a0750ac867c410225185cc61367c19"
+          },
+          {
+            "item_id": "27d8d289f884591ceda9306ea0f883a0db0555ebad52079589394562b24845f8",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "15195234667a50c345c1f3cf8d4087c8c968f66b7c97674f64e4adf90aa92c86"
+          },
+          {
+            "item_id": "2d69619ab6c1b6ce240a8dfe1d127c2d8b3632ff0d0b9b9b50859f6e6c694b9d",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "45f3ffd1c44594bec1fa3ede226f389298cee386216da9e9008118adfe574f6e"
+          },
+          {
+            "item_id": "322586c3263b2362de1f99f386021c73f42734367b67bbcf7936dc9ee4d96424",
+            "path": "ForWeb/tools/large-sort-tests.mjs",
+            "fingerprint": "ed5ec1368632189c6b563cc141a1b7e8b57da50f292102023969117dfb395293"
+          },
+          {
+            "item_id": "362c087ec547157b57f7c229975d2161de7ec2ece09956ff176d7860514a0eea",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "797066317915b78359a3c72ebcb01915d0f6657f7b23c8ea1570b098120b3d90"
+          },
+          {
+            "item_id": "3a3272f19aa2aadff9880d355bfe370a64f9a6b0008641c811de76d1bb91c737",
+            "path": "ForWeb/apps/viewer.ts",
+            "fingerprint": "1e407020947509b9727e454483c80b12d48de1982c74606f4ed2ba07eb96ef49"
+          },
+          {
+            "item_id": "406cebc9b78cca8597206ae4b8f3fbe3be14d230cf124c301cd64e52980bedfd",
+            "path": "ForWeb/src/model-io/loader.ts",
+            "fingerprint": "11a397c31f4e36b4bbaacff562042a96947bbbafb755aa041c2beb9a4540d5a9"
+          },
+          {
+            "item_id": "41d4dd803c7fa00563bf5e48e31b858e1428d79d0bbf9bdd3ffe3c3930f02225",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "1b691929a4b96591e1a4eba82bdff1e30c6fbefdc4b1453f40a638432cb2ed3e"
+          },
+          {
+            "item_id": "42f3e2aaec2a781ea246239026dbc74f6cac3a80638d6a276e5600c23e1e34fd",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "58a9b12d62e76b502b45060d0075260e6d0c63eaba546b7a9d3e34ecb2ecad4b"
+          },
+          {
+            "item_id": "50c4a0d12e044dc89503b4af862b80530b91dfe6e87447af2433a387e59adb8d",
+            "path": "ForWeb/tsconfig.json",
+            "fingerprint": "c6b782acbf6a030ef8dc7ca349ddfccc8e51197dff19d467c90fbce33bcf214a"
+          },
+          {
+            "item_id": "58a2aa9082ee008af3bd37b21fd318b866a2022ccafead3b7ea4ab33df7e3a8b",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "5e8c9ed94c909f344aa6e50dae7a0de338f54ab89209d86213be1dc9e4a9295f"
+          },
+          {
+            "item_id": "5a43058272050397aaa3da69df3ee203b10e1327aa3e341e0d73d8c0ce3ac73f",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "cbdc1933e1d39be50690a0ea63427a22bd2bee0a7b2ccbd89084aa832afd9d5e"
+          },
+          {
+            "item_id": "5a747192f17f3eb7dddbfa6fe833cf039568f38b9b3c9bb25b367097545d5137",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "ca91b3a7e4c68627876efd1d61018cbad61be4ab7f9560cbf8fdb2af751f8240"
+          },
+          {
+            "item_id": "5eba6ff2c8b19130b3e2a4910df408045db4324542501f5d2581564219003318",
+            "path": "ForWeb/tests/contracts/decoder.test.mjs",
+            "fingerprint": "c2fdc8faf5580c7e4b48ce2c52d79555c208a9df9b1683c15e39e59ebfd25b5d"
+          },
+          {
+            "item_id": "5f43e4f156df6f577932416ae579431e5ee736e0a5388c5ef38078f5c3809203",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "9b29d5226147575d05250ad18c5cf6a79b542c74c25c06fdd63ef917da01936b"
+          },
+          {
+            "item_id": "621e865f9443f5285d4a43fe3f6a8cbf2d1e84f07622e792382dfd9c1d7ec77d",
+            "path": "ForWeb/benchmark.html",
+            "fingerprint": "b2833a3e5e021b2e5fd460466642ceaaf67393b6a87887091929486be17180c0"
+          },
+          {
+            "item_id": "67d0bc91c7225c7e5fbf2cbb8257a86b8ea4fa99d50f01c909ddccfbe2fc4988",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "5683a37810e36016d7fdc732b7f9ef99859c71646c19e7c1ec44c38632e83c9c"
+          },
+          {
+            "item_id": "76e626f3724148833d49d51b790314373954c7bcce77933ad1da4f6d6284c776",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "693e6655c87ef433d9d9436e478ef6b09907d01dd5bea625566b1aee233f4244"
+          },
+          {
+            "item_id": "7c15c7b799de336725a2707725806b4f90d5ff8df3af4d2856afcbd9cc759ee0",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "1cb912f88f6aabc492d9aacbf9451ce74ea66e36862ee1fc653bced3aeec827d"
+          },
+          {
+            "item_id": "7d41a4167e860c19382252161dd0c300556da1e3e2f6f2df3e1d09623693eddc",
+            "path": "ForWeb/biome.json",
+            "fingerprint": "53d28f1ecc9bebbc95d5939f3ad5a22c07ce572a30e9b3b5f5277ef4aaaa33bf"
+          },
+          {
+            "item_id": "8e87f4ba589449042199bc4572e6182763a1d5f681008ae4680c1791ea3b805a",
+            "path": "ForWeb/index.html",
+            "fingerprint": "8e319e29511ff2135ac715cc9285803423d36362ed2a46069665675fc723c13c"
+          },
+          {
+            "item_id": "9d738d6631beaa0feb27f467945f0e0509466cf27e588557dc51f384857aeb2c",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "5d7416909cdc4921da3463e6ef4ba300282a1b131790f6695179eff4f8e14ca8"
+          },
+          {
+            "item_id": "a14833e2c8b08ec74b001db286a37c2691e7be1dcc84f7cc4f0719dab66139e5",
+            "path": "ForWeb/tools/package-notices.mjs",
+            "fingerprint": "b5bad2b084bfd9c3065a69d90055d0e8bdaab8c48e0b3a164f1f351933e67a55"
+          },
+          {
+            "item_id": "a9e361994b832ebf966ae18843445a1d6bc4d2606a140ecb581b818740b11eb3",
+            "path": "ForWeb/package.json",
+            "fingerprint": "ecc1ff76fd38c6b567a5660fbece2a839ba3c9d2942055261ec7b2c798cab650"
+          },
+          {
+            "item_id": "aaa387f43cdcd3032a1c3105b26be7301e32324168c50036d8af79f98f1064ba",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "1d8c497e491287ff5e1db4949304b998a76d01b995072c9e6a2aeaa4b768058b"
+          },
+          {
+            "item_id": "b2c1d3701e125d6bcff975212bd8f96abdf7bc99ea79a078ca6739b4a74ec73a",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "5c079d14ffca81a375cec067c3b749a8e177326fdc699888a2976520fabc0d6b"
+          },
+          {
+            "item_id": "b41db06501f4dd02c02765f4f77497bf94d06e8d3d62ddeb9f20e6222b833998",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "0ba3387ba0f8f0c528970296640ef093076fd78ff1724370ce30bb33fc9b741c"
+          },
+          {
+            "item_id": "b4614cbf7dfe8fa59d917bb9ce53261b87f91d9d27d8fa219f47f03952acb850",
+            "path": "ForWeb/tools/build-wasm.mjs",
+            "fingerprint": "e31bfd5e06964791ce75d7ad894341908a019c55678458e1499a87b9620d744e"
+          },
+          {
+            "item_id": "b53edac89fa963da8e61a4d22377bb38af91dfa175265649be81e7865d42aacd",
+            "path": "ForWeb/.node-version",
+            "fingerprint": "a7efebb24d49fb7e9a2b641de69b8c59dd737524829ca2eacfee1325a4debcd3"
+          },
+          {
+            "item_id": "b99db0535b0ca4fc646610903f7ce7bee0151fb44fe03e1e7f0d4b903346f406",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "9d70eff78ff43296258ea5eb0dc99d0b6f8fd6c6587ec94fab9fa109e82de44f"
+          },
+          {
+            "item_id": "c81303aa7b3cd1743024b9810005b41b58ad9cf96e11192a7684d27a9515d105",
+            "path": "ForWeb/tools/check-boundaries.mjs",
+            "fingerprint": "9d3c5442e3d6117656a0ef754eaf814c015c3ac3a5bcd1c6ec1eb09334590007"
+          },
+          {
+            "item_id": "c948040e4dd66f559c1e7c1f1b8de463ed6a4717a0fe0e29c2a7ffd2b6bf1136",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "29de6a2989803751a6fc303f13eda0d6b829310b99a1e1386f0baad17a420b41"
+          },
+          {
+            "item_id": "c95de8a21722602dbc4ca1069b78f2f9fe60c24fa895dad6f56b07fd0cc75288",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "521729f0871ef7beca5df95ea7e1909ae2669ac520715664bfd08a3767fc1e2d"
+          },
+          {
+            "item_id": "d601561c64c5a660523043d817c18d28d530b1ad84dc682be6c651ee009d1197",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "6f2de64e302d8ebb1ccfbe1a405bb7d507438b56b4c13eec77ca03005d019881"
+          },
+          {
+            "item_id": "dc4502038284cb7efb6d39dc421e0464174882003b04219dfdacfabe8b9b718b",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "49819cc533a26d7de5caac8f405110ae21fca1dbe9c202197bdb751e37757925"
+          },
+          {
+            "item_id": "ded9913672c68bf158e81184844bc412eb2fe44b17786339c663d2c2ea9044a7",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "b50d4fb7d5dce6996d6501cd7316bbf8decaaea773e487dba2805b466af56d8e"
+          },
+          {
+            "item_id": "df1d76e048893b305b02c3207e7db922841a4d95b8790c53805adee8de549d47",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "0af975a3a3ffb889ebd6b579f67d33236bb8176ba770c1ca0ccb33beac23edeb"
+          },
+          {
+            "item_id": "e3b32784cda9722d45ee77912c52cb9a2c5210f5affead2d72624c2e46915a0a",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "ac6a69446fba4698264c738e1f405235c220bcbe05de50660c6cfc3a3c569f5d"
+          },
+          {
+            "item_id": "ec135320f7c6aa92089ed9188b25318d19296b416e4416340328f103e85485d9",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "789b73a3b8eb0986a0819cc436da035833220850372e5fa5f2b84f049366856a"
+          },
+          {
+            "item_id": "ec5ddbad84470f8de69a9d4789b4662da3b60b8e78583924ba605d2b92d6f125",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "6ebdd1ca1791a096969584873721cbc89d84c4539e98dec303d91671b3d4081c"
+          },
+          {
+            "item_id": "f1af0420ee7bf9126a2cc6cb0b0da13fa4d8b2bf6325c89a13d58d23e8155388",
+            "path": "ForWeb/tools/sort-benchmark.mjs",
+            "fingerprint": "e070bc24ffd9fe4f0b8fd366001395f7324b0cbeadde32ec1f42721a3c66b03e"
+          },
+          {
+            "item_id": "f304c0eaeceeef0cbffae326658dcec722deab28aaf800f138c159b62f9f89eb",
+            "path": "ForWeb/src/model-io/decoder.worker.ts",
+            "fingerprint": "4437de48208edfbc86bf69f505927f6a637b001e4c9217bface92d390e61977f"
+          },
+          {
+            "item_id": "f49c679e86cc27a8ec456475ad297657d008ae0b96d65ba444e8f6976c97774b",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "7269364a932f8938971eb0b5bd64267e1a0aef67637372aaf08d398869406071"
+          },
+          {
+            "item_id": "f68e81b98852c9aa4cb364ba37830c678036c6230d65d326c5e2a499e172dd54",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ddc4de8e00215ca8aa169c45af3cbb523d3fc298d4f8718784b87119b87d4650"
+          },
+          {
+            "item_id": "fa54692a9f50c672053a5f92cdcb3829fad270b43d18500c6a77de355ba35504",
+            "path": "ForWeb/tools/spark-freshness.mjs",
+            "fingerprint": "981968e25b3cbda6fbdb963ab4945810fd2ca3b6622b37c1101574437f5c7632"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [
+        {
+          "tool_call_number": 68,
+          "tool_name": "file_read",
+          "file_path": "ForWeb/native/.clang-format,ForWeb/native/decoder.cpp,ForWeb/native/decoder.h,ForWeb/native/inflate.cpp,ForWeb/native/pack.cpp,ForWeb/tests/contracts/decoder.test.mjs,ForWeb/tools/build-wasm.mjs,ForWeb/tools/decode-benchmark.mjs",
+          "arguments": "{\"file_path\":\"third_party/spz/src/cc/load-spz.cc\",\"start_line\":1,\"end_line\":30}",
+          "error": "file \"third_party/spz/src/cc/load-spz.cc\" not found: git show HEAD:third_party/spz/src/cc/load-spz.cc: exit status 128: fatal: path 'third_party/spz/src/cc/load-spz.cc' exists on disk, but not in 'HEAD'\n"
+        }
+      ],
+      "findings": [
+        {
+          "path": "ForWeb/tools/browser-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 8,
+          "end_line": 8,
+          "content": "These scripts run directly with Node, not the Playwright test runner, so this long-running page.evaluate has no test timeout. A stalled GPU completion or SDK cleanup promise can keep verification running indefinitely; the SDK's abort timer does not interrupt onSubmittedWorkDone waits, and verify.ps1 supplies no external deadline. Add a Node-side watchdog that rejects and closes the browser within a generous overall deadline, in both browser-tests.mjs and integration-tests.mjs.",
+          "disposition": "Host watchdog applied to browser/integration evaluations."
+        },
+        {
+          "path": "ForWeb/tools/integration-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 31,
+          "end_line": 32,
+          "content": "The fixed 300 ms delay assumes decoding reaches Uploading within that time. Worker/WASM initialization or scheduling on a slower machine can leave the engine legitimately in Loading, causing a false failure unrelated to zero-viewport activation. Wait for the observable Uploading phase with a bounded deadline (and fail early if the operation settles), then assert that sceneCount remains zero before resizing.",
+          "disposition": "Bounded observable Uploading wait replaces fixed sleep."
+        },
+        {
+          "path": "ForWeb/tools/verify.ps1",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 5,
+          "end_line": 5,
+          "content": "The verification gates execute the WASM contract tests without rebuilding their native dependency. Those tests import public/assets/decoder.mjs directly, so a clean checkout fails and, more importantly, a checkout with previously generated assets can pass verification against an old decoder after native source changes. Run build:wasm before test:contracts (and before the packaging build), or explicitly validate that the generated assets match the current native inputs.",
+          "disposition": "verify builds WASM before contracts/package."
+        },
+        {
+          "path": "ForWeb/vite.config.ts",
+          "severity": "medium",
+          "category": "security",
+          "start_line": 23,
+          "end_line": 23,
+          "content": "This containment check only validates the lexical path. statSync/createReadStream follow symlinks (and Windows junctions), so a .ply/.spz link under GS_MODEL_ROOT can serve a file outside that root. Resolve both the root and requested file to canonical paths and check containment before opening the file; keep the extension allowlist as a separate check.",
+          "disposition": "Canonical realpaths and relative containment enforce root."
+        },
+        {
+          "path": "ForWeb/tools/record-build.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 4,
+          "end_line": 4,
+          "content": "The recorded input hashes omit native dependencies actually compiled by CMake: third_party/spz, zlib, zstd, and the build-wasm script that selects the toolchain and copies outputs. Changing any of these can change the decoder while leaving the recorded source/config hashes unchanged, so this manifest is insufficient to identify or reproduce the native build. Include the relevant dependency files (or pinned revisions plus dirty-state hashes) and build scripts in the input inventory.",
+          "disposition": "Source/build scripts/shared headers, output inventory hashes, dependency pins and clean dependency evidence recorded."
+        },
+        {
+          "path": "ForWeb/tools/performance-summary.py",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 14,
+          "end_line": 14,
+          "content": "GPU timing is optional: the native renderer returns null without timestamp-query support, and Spark does likewise without its timer extension. In either case all per-run gpuP50 values can be null, so statistics.median receives an empty sequence and raises StatisticsError despite complete frame-interval samples. Emit null for the aggregate GPU metric when no measurements are available so summary, comparison, and plotting still work.",
+          "disposition": "Unavailable aggregate GPU timing emits null."
+        },
+        {
+          "path": "ForWeb/tools/benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 34,
+          "end_line": 34,
+          "content": "If dispose() rejects, page.evaluate rejects in the Node process; this does not necessarily emit a pageerror or console error. The row has already been appended, and finally writes results.json with an empty disposalErrors array. benchmark-comparison.py can therefore accept this failed cleanup as a successful run. Catch disposal rejection, append its message to disposalErrors, and rethrow after preserving the failure in the recorded evidence.",
+          "disposition": "Disposal rejection and cleanup error channels invalidate evidence and exit status."
+        },
+        {
+          "path": "ForWeb/tools/plot-benchmark.py",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 47,
+          "end_line": 49,
+          "content": "This title mislabels valid custom benchmarks: benchmark.mjs allows changing models, warmup, sample duration, and repetitions, and records the actual protocol and loaded degrees in results.json. A short run or SH0 model is still labeled full SH3 / 30 s + 3 × 60 s. Derive the title from results.json (including loaded degrees), or omit claims not established by the plotted input.",
+          "disposition": "Title derives dimensions, degree and durations from evidence."
+        },
+        {
+          "path": "ForWeb/src/react.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 28,
+          "end_line": 29,
+          "content": "The effect tracks the ref object's identity, not the element it points to. If the host is initially conditionally absent, this returns once and never initializes when that element appears; replacing the element while keeping the same useRef also leaves the canvas and bindings on the old host. Support element attachment/detachment via a callback ref or an explicit reactive host element, with cleanup and reinitialization on element changes.",
+          "disposition": "React supports reactive HTMLElement|null; fixed-ref contract documented and dynamic lifecycle tested."
+        },
+        {
+          "path": "ForWeb/src/vue.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 20,
+          "end_line": 21,
+          "content": "The host is read only in onMounted. A template host controlled by v-if that is initially absent will never initialize when it becomes available, and replacing that host later leaves the engine bound to the detached element until the whole component unmounts. Watch host.value (after DOM updates) and manage initialization/cleanup for each element, including invalidating pending asynchronous initialization when the host changes.",
+          "disposition": "Vue post-flush host watcher owns each binding and late initialization."
+        },
+        {
+          "path": "ForWeb/native/decoder.h",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 2,
+          "end_line": 2,
+          "content": "This relative path climbs one directory beyond the repository: from ForWeb/native, the shared sources are under ../../src, not ../../../src. The normalize.h include in decoder.cpp has the same extra parent component. Neither path resolves with the include directories configured by native/CMakeLists.txt, so the WASM target cannot compile. Correct both includes.",
+          "disposition": "Corrected relative includes. Original claim of unavoidable compile failure was overstated: include search previously masked path error."
+        },
+        {
+          "path": "ForWeb/tools/decode-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 8,
+          "end_line": 8,
+          "content": "The allocated prefix can be shorter than 65536 bytes, but gs_probe is always told that it contains 65536 bytes. For a small PLY (especially an incomplete header), probe_ply searches a 64 KiB string_view beyond the allocated buffer, reading unrelated WASM heap data or trapping. Store the prefix and pass prefix.length instead.",
+          "disposition": "Probe uses actual allocated prefix length and validates count."
+        },
+        {
+          "path": "ForWeb/tests/contracts/decoder.test.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 30,
+          "end_line": 30,
+          "content": "These SPZ fixtures contain only zero-valued positions, rotations and SH coefficients, and the assertions check decode success/metadata rather than independently expected attributes. The streaming contracts compare against the same vendor decoder with zero positions/rotation, while image tests bypass decoding. Consequently, incorrect position scaling, quaternion decoding or SH transforms can pass the advertised version/SH parity coverage. Add nontrivial encoded positions, rotations and SH coefficients for each encoding, and assert packed values against independent expected results (including RDF-to-RUB PLY transforms).",
+          "disposition": "SPZ nonzero signed coordinates, quaternion and SH checked against independent expectations and split batches."
+        },
+        {
+          "path": "ForWeb/vite.config.ts",
+          "severity": "medium",
+          "category": "security",
+          "start_line": 23,
+          "end_line": 23,
+          "content": "On POSIX, backslash is a filename character, not a path separator. Accepting `root + '\\\\'` therefore allows lexical traversal to a sibling outside the model root: with `GS_MODEL_ROOT=/data/models`, a decoded name of `../models\\secret.ply` resolves to `/data/models\\secret.ply` and passes this check. Use a platform-aware `relative(root, path)` containment check (reject absolute results and `..` path components), rather than accepting both separator spellings. This is independent of the symlink escape.",
+          "disposition": "Canonical platform-aware containment rejects backslashes and escapes."
+        },
+        {
+          "path": "ForWeb/src/model-io/streaming.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 71,
+          "end_line": 71,
+          "content": "Fetch transparently decodes HTTP Content-Encoding, but Content-Length describes the encoded response. A valid gzip/Brotli-served PLY therefore has a different downloaded byte count and is rejected here as truncated. Only compare the declared length (and use it for early admission/progress) when it describes the delivered representation; continue enforcing inputBytes against actual streamed bytes. Add a URL-loading test with Content-Encoding: gzip and the compressed Content-Length.",
+          "disposition": "Content-Encoding and opaque CORS length are not compared to decoded bytes; actual input budget remains enforced; encoded HTTP browser fixture passes."
+        },
+        {
+          "path": "ForWeb/src/model-io/streaming.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 120,
+          "end_line": 120,
+          "content": "When inflate consumes the entire input chunk and exactly fills the output buffer without reaching the gzip trailer, this condition calls it again with zero input. If there is no buffered output left, zlib returns Z_BUF_ERROR with no progress; _gs_inflate_step maps that to 0 and this code rejects a valid stream before reading the next compressed chunk. Stop draining when input is exhausted, or distinguish 'needs more input' from a decoding error. Test a stream whose output-buffer boundary coincides with an input-chunk boundary; the native test currently uses a different loop condition and does not exercise this case.",
+          "disposition": "Inflater needs-input status handles empty drains; exact-output/trailer boundary regression passes."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 570,
+          "end_line": 572,
+          "content": "Recovery has no deadline or usable cancellation: this controller is discarded, and dispose() waits for this.recovery before disposing the replacement. Renderer.upload() awaits backing.read() and queue.onSubmittedWorkDone() without independent timeouts, so a stalled read or GPU submission can leave recovery and teardown pending indefinitely. Keep a recovery controller that dispose() aborts, bound the awaited operations with a recovery deadline, and ensure the replacement and retained backing references are cleaned up on interruption. Add a test where recovery upload never completes rather than resolving it after disposal starts.",
+          "disposition": "Recovery controller, bounded deadline, abort-aware GPU/backing waits and guarded late cleanup with ownership regression."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 581,
+          "end_line": 582,
+          "content": "Unlike the load transaction's first frame, the recovered first frame is not validated with an error scope. Renderer.render() does not capture validation errors, and onSubmittedWorkDone() does not establish that submitted commands were valid. An uncapturederror can publish Faulted while this await is pending, only for the subsequent success publication to clear the error and report Ready. Validate the recovered frame with an error scope and reject/retry recovery on validation failure before clearing the diagnostic. Cover an injected first-frame validation failure during recovery.",
+          "disposition": "Offscreen and real presentation validated in scopes before recovery success."
+        },
+        {
+          "path": "ForWeb/src/engine/camera.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 35,
+          "end_line": 36,
+          "content": "Finite components do not guarantee finite derived values. For example, position [Number.MAX_VALUE, 0, 0] and target [-Number.MAX_VALUE, 0, 0] overflow delta to Infinity; normalize() then produces NaN and its degeneracy check does not reject it. setPose() commits a corrupted camera, and the next frame faults rendering. Validate the derived delta, distance, and normalized basis before assigning camera state, and test that overflow rejection preserves the previous pose.",
+          "disposition": "Derived delta/distance/basis validated before commit; old pose preserved."
+        },
+        {
+          "path": "ForWeb/src/web-adapters/dom.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 11,
+          "end_line": 11,
+          "content": "The resize Result is discarded. When host size × pixelRatio exceeds maxTextureDimension2D (for example on a large high-DPI display), engine.resize() leaves the old drawing-buffer dimensions intact, but the adapter reports no error and continues displaying a stretched/stale-sized surface. Both framework adapters use this binding without another size policy. Clamp the drawing-buffer size to supported dimensions while preserving aspect ratio, or expose resize failure to the host instead of silently ignoring it.",
+          "disposition": "Resize ratios computed before multiplication and uniformly clamped; stopped callback is harmless; setup observer rolls back."
+        },
+        {
+          "path": "ForWeb/tools/stability-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 42,
+          "end_line": 42,
+          "content": "The sustained soak does not check the buffer count/bytes it records or actual renderer progress. soakFrames counts the independent animation callback, so it keeps increasing even if engine rendering is stuck behind framePending; a Ready engine with growing GPU buffers also passes this assertion. Compare buffer counts and bytes against the post-load baseline and verify renderer frameId advances across samples (and GPU completion when observable). This would make the soak detect allocation growth and stalled rendering rather than only lifecycle state changes.",
+          "disposition": "Soak compares live buffer count/bytes and frame progress; GPU progress assertion depends on timestamp capability."
+        },
+        {
+          "path": "ForWeb/src/render-core/renderer.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 428,
+          "end_line": 429,
+          "content": "Capture admission does not check device.limits.maxBufferSize. A viewport can be valid under maxTextureDimension2D while its padded readback exceeds the buffer limit (for example, 10000×10000 requires 400 MB on a device limited to 256 MB). With the default 8 GiB budget this reaches createBuffer and generates an uncaptured validation error; WebEngine's handler then faults an otherwise healthy renderer. Reject bytes > maxBufferSize as ResourceLimit before reserving/allocating the readback, and add a test where the viewport fits the texture limit but not the buffer limit.",
+          "disposition": "Readback checks maxBufferSize before reservation/allocation; regression verifies no allocation."
+        },
+        {
+          "path": "ForWeb/src/vue.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 59,
+          "end_line": 59,
+          "content": "`readonly()` deeply transforms the inferred value type, so consumers receive `DeepReadonly<WebEngine>` rather than `WebEngine`. This mapped type loses the class's private members and is not assignable to the exported `WebEngine` type: passing `engine.value` to a shared helper accepting `WebEngine` fails strict TypeScript checking, even though `markRaw` preserves the real instance at runtime. Use `shallowReadonly(engine)` to prevent replacement of the ref value without transforming the engine's public type, and add a consumer typecheck that passes the initialized value to a `WebEngine`-typed helper.",
+          "disposition": "Vue shallowReadonly preserves WebEngine nominal type; installed consumer passes a WebEngine helper."
+        },
+        {
+          "path": "ForWeb/tools/image-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 32,
+          "end_line": 33,
+          "content": "A blank anisotropic capture passes this assertion: when every red-channel weight is zero, `sum` is zero and all covariance entries become `NaN`; both comparisons against `NaN` are false. Thus a regression that culls the rotated fixture entirely is reported as a successful covariance test. Assert `sum > 0` before division and require every covariance component to be finite before checking its shape.",
+          "disposition": "Nonzero red-channel sum and finite covariance required."
+        },
+        {
+          "path": "ForWeb/native/inflate.cpp",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 37,
+          "end_line": 37,
+          "content": "This maps a legitimate need-more-input condition to a decoder failure. In streaming.ts, the caller drains again whenever the previous call filled the output buffer, even if it consumed the entire compressed chunk. If that drain has no pending output, inflate returns Z_BUF_ERROR with zero progress because it needs the next input chunk; this returns 0 and the caller rejects a valid gzip as a checksum/length error. Distinguish 'needs input' from corrupt data and have the drain loop advance to the next compressed chunk for that result. Add a boundary test where both the input chunk is exhausted and the output buffer is filled before the gzip stream ends.",
+          "disposition": "Same inflater boundary issue as branch finding 15."
+        },
+        {
+          "path": "ForWeb/tools/integration-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 19,
+          "end_line": 19,
+          "content": "The camera-preservation assertion only checks the freshly fitted default pose. The preceding orbit is applied before opening shengyi_v1.spz, and a successful open calls camera.fit(), discarding that orbit. A recovery regression that refits the camera would therefore still pass. Orbit/pan/dolly after this successful open, then capture the pose and recover to verify preservation of a user-modified view.",
+          "disposition": "Orbit/pan/dolly applied after successful open before recovery."
+        },
+        {
+          "path": "ForWeb/tools/benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 35,
+          "end_line": 35,
+          "content": "A failure before rows.push() leaves no record of the attempted model/engine. For example, if loading the last model's native scene fails after earlier dual-engine pairs succeed, this finally block writes only the earlier pairs. benchmark-comparison.py derives its expected models and views from those surviving rows, so it can accept the aborted benchmark as a completed run. Persist the requested models/engines plus an explicit completion/failure status (or append a failed attempt row), and require the comparison tool to validate the full requested matrix before producing comparisons.",
+          "disposition": "Requested model/engine matrix, failures and completeness persisted and validated."
+        },
+        {
+          "path": "ForWeb/tests/contracts/streaming.test.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 66,
+          "end_line": 66,
+          "content": "The parity fixture uses zero position/rotation bytes and uniform SH bytes (128, which decode to zero SH coefficients). Consequently, the fractionalBits 12/25/30 cases cannot detect incorrect position scaling or sign extension, and the SH0–3 cases cannot detect coefficient/channel permutations or coordinate-sign errors. Use distinct nonzero positive/negative encoded positions, a non-identity rotation, and varying SH values across coefficients/channels; also decode these fixtures in separate batches so the comparison exercises actual batch boundaries.",
+          "disposition": "Same nontrivial split-batch SPZ contract as branch finding 12."
+        },
+        {
+          "path": "ForWeb/tools/model-manifest.py",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 18,
+          "end_line": 18,
+          "content": "The SDK's PLY probe accepts both `float` and `float32` properties (src/model-io/common/probe.cpp), but this count only recognizes `float`. A supported SH1–3 fixture using `property float32 f_rest_*` is therefore recorded as degree 0, and model-tests.mjs subsequently fails with 'Model count/SH mismatch' despite correct decoding. Parse vertex properties using the same accepted type aliases as the decoder when computing the SH degree.",
+          "disposition": "Manifest accepts float/float32 vertex SH properties."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 375,
+          "end_line": 376,
+          "content": "The validation frame is rendered to the live canvas before the transaction commits. If this operation is cancelled or superseded while awaiting GPU completion, the new scene has already replaced the displayed image even though active still refers to the old scene and the operation returns failure. When paused, tick will not redraw the old scene, so the cancelled scene remains visible indefinitely. Validate the candidate using an offscreen render target and present it only after the cancellation/latest-request checks and commit.",
+          "disposition": "Candidate validated offscreen; real presentation commits only on success, cancellation/failure redraws old visible scene even paused."
+        },
+        {
+          "path": "ForWeb/src/web-adapters/dom.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 39,
+          "end_line": 42,
+          "content": "The pointerup/pointercancel handler does not check which pointer ended. With two fingers on the canvas, down ignores the second pointer, but lifting that second finger releases capture for the first and clears its drag state. Filter pointer events by event.pointerId === pointer, while keeping a separate unconditional cleanup path for blur, visibility changes, and unbinding.",
+          "disposition": "Pointer completion filters tracked pointer ID; unconditional cleanup kept separate."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 299,
+          "end_line": 299,
+          "content": "The load deadline only aborts a signal; it does not bound the awaited upload or first-frame queue completion. Renderer.upload awaits backing.read() and onSubmittedWorkDone() without racing the signal, and the first-frame validation also awaits onSubmittedWorkDone() directly. If either stalls, open().result remains pending past timeoutMs and the held uploadBarrier blocks subsequent loads, closeScene(), and dispose(). Add deadline/abort-aware waits throughout the load transaction, with safe cleanup for outstanding GPU/I/O work.",
+          "disposition": "Abort-aware read/fences/scopes release upload barrier; cancellation regressions pass."
+        },
+        {
+          "path": "ForWeb/tools/model-tests.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 10,
+          "end_line": 10,
+          "content": "Encode each path segment of `model.name` before constructing the URL (preserving directory separators). The manifest records literal filesystem names, so a valid fixture such as `scene#1.ply` or `scene?.spz` becomes a fragment or query here; the server receives a truncated filename and the test fails instead of loading the fixture. For example, use `model.name.split('/').map(encodeURIComponent).join('/')`.",
+          "disposition": "URL-encode each filename segment preserving directory separators."
+        },
+        {
+          "path": "ForWeb/src/splat-types/index.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 77,
+          "end_line": 78,
+          "content": "The validation accepts timeoutMs values above 2,147,483,647, but both loadTransaction and decode pass this value directly to setTimeout. Browser timers cannot represent those delays; they overflow and can fire immediately, so an otherwise valid long timeout causes loads to fail at once. Reject timeoutMs above the timer limit, or implement long deadlines with bounded timer intervals.",
+          "disposition": "Reject timeout above browser timer range."
+        }
+      ]
+    },
+    {
+      "run": "ocr-final-workspace",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 38,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "16d4a94d1dca682e20764288a31cc946b0275905eedb34219fd28914a1ba814b"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "b65eac7945ad8622abe51bef54623b01c0089b51da27bed7d9970d6a7af19bb0"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "151d91704cdca5560e238dae16cbab05b4d52c71c8786863ae2f7d3da98cb8b7"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "4d01fc58214db4595d3f9980f1fbc402aec84321612b33fc3fa49cf407922b8a"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "a6d16cf97edf643cc1930c6474305b6b2b9bac115d6e95fa1d8153f517f4cbe9"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "db53c4a4f7ff81cfd5af1cb12dada4244a21818d74aac6590141d7a23f8c64c6"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "517a744fbddee80059361a7538aeb082f6ec227e0709caa02decf2fc73d02d6b"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "615a7360b930727e6a18fccde97f0c912d3f461cf999cd86dabc56e157309aa4"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "eeab2996b282f0b7e14bbfe25b073083ba2176141b2a7e5dd27242859a171010"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "b5d89cee68cf398d3faa205697fca530e5aa6eed2b3ab6709bf62a7d4948c022"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "760cfd6e13c9c3e763e7b09c9f238a89a729a9987b18918d78bc71164f966783"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "fa0539202c7d7aac2476edc69ae321367bf7d42d264708a05edeb84461295a4a"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "0231c39d813189409aa07a837e6487ccbff6f54d3098174df78a732097437fbf"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "d18b9120ef12df4c9f9fa66d8ced4dadc7bec5d459c4f7ee43192acab23f126c"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "d01c59ba38f67e6306f85aeb0faa9d6aa09fa62252c492ca817f7658c295f2d8"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "57e1c82e6cea11ee1e0654787dc6ff8e2878d9a1483f5611c0ca2aef169c22fe"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "16d4a94d1dca682e20764288a31cc946b0275905eedb34219fd28914a1ba814b"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "b65eac7945ad8622abe51bef54623b01c0089b51da27bed7d9970d6a7af19bb0"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "151d91704cdca5560e238dae16cbab05b4d52c71c8786863ae2f7d3da98cb8b7"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "4d01fc58214db4595d3f9980f1fbc402aec84321612b33fc3fa49cf407922b8a"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "a6d16cf97edf643cc1930c6474305b6b2b9bac115d6e95fa1d8153f517f4cbe9"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "db53c4a4f7ff81cfd5af1cb12dada4244a21818d74aac6590141d7a23f8c64c6"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "517a744fbddee80059361a7538aeb082f6ec227e0709caa02decf2fc73d02d6b"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "615a7360b930727e6a18fccde97f0c912d3f461cf999cd86dabc56e157309aa4"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "eeab2996b282f0b7e14bbfe25b073083ba2176141b2a7e5dd27242859a171010"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "b5d89cee68cf398d3faa205697fca530e5aa6eed2b3ab6709bf62a7d4948c022"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "760cfd6e13c9c3e763e7b09c9f238a89a729a9987b18918d78bc71164f966783"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "fa0539202c7d7aac2476edc69ae321367bf7d42d264708a05edeb84461295a4a"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "0231c39d813189409aa07a837e6487ccbff6f54d3098174df78a732097437fbf"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "d18b9120ef12df4c9f9fa66d8ced4dadc7bec5d459c4f7ee43192acab23f126c"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "d01c59ba38f67e6306f85aeb0faa9d6aa09fa62252c492ca817f7658c295f2d8"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "57e1c82e6cea11ee1e0654787dc6ff8e2878d9a1483f5611c0ca2aef169c22fe"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [],
+      "findings": [
+        {
+          "path": "ForWeb/tools/plot-benchmark.py",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 14,
+          "end_line": 14,
+          "content": "`protocol` is never used. This adds a mandatory `results.json` dependency (and possible file/JSON errors) without validating the benchmark or changing the plot. Either use the protocol to validate the inputs and derive the benchmark labels, or remove this unused read so plotting from `summary.json` continues to work.",
+          "disposition": "Protocol now used in generated title; ASCII labels avoid encoding issues."
+        },
+        {
+          "path": "ForWeb/tools/stability-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 44,
+          "end_line": 44,
+          "content": "This treats missing timestamp-query support as a stalled GPU. Renderer.create() requests timestamp-query only when supported, and lastGpuFrame stays null otherwise, so a valid adapter can render continuously while this check always fails with 0 <= 0 on the first sample. Check timestamp-query availability explicitly before the soak (and report/skip unsupported timing), or gate the GPU timing progress assertion on that feature while retaining the frameId progress check.",
+          "disposition": "Timestamp progress assertion is conditional on capability."
+        },
+        {
+          "path": "ForWeb/tools/model-tests.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "The reported `ms` now includes `closeScene()` and OPFS enumeration, whereas the stage totals stop at `operation.result` and the previous runner measured only loading. This makes load timings dependent on teardown/storage latency and no longer comparable with earlier results. Capture the load duration immediately after awaiting the result; report cleanup duration separately if needed.",
+          "disposition": "Load and cleanup durations separated."
+        },
+        {
+          "path": "ForWeb/tools/model-tests.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 17,
+          "end_line": 17,
+          "content": "These timing fields are asynchronous timestamp-readback results, not necessarily measurements of the frame just submitted by `open()`. The renderer updates them in `mapAsync`, while loading waits for validation queue completion and then submits another draw without awaiting its timing readback. Consequently this row can record null values or the offscreen validation frame rather than the displayed frame. Obtain an explicitly completed frame sample and verify its frame/GPU-frame IDs before recording these metrics (or omit frame timings from this load-only test).",
+          "disposition": "Frame timings removed from load-only model rows; dedicated completed benchmark owns timings."
+        },
+        {
+          "path": "ForWeb/tools/model-tests.mjs",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 1,
+          "end_line": 1,
+          "content": "`disposeBenchmark` and `validateTimingSamples` are imported but never used in this runner. Remove the unused imports so the dependency list accurately reflects the guards actually applied.",
+          "disposition": "Unused model runner imports removed."
+        },
+        {
+          "path": "ForWeb/tools/completed-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 39,
+          "end_line": 39,
+          "content": "Cleanup errors (including the five-second disposal timeout) are recorded but swallowed. If measurements succeed and disposal fails, this command still exits with status 0 even though results.json reports complete:false, so automation using the exit status accepts a failed lifecycle check. Preserve writing the results and closing the page, but propagate the cleanup failure afterward or set a nonzero process.exitCode whenever failures is nonempty.",
+          "disposition": "Cleanup errors propagate as nonzero exit."
+        },
+        {
+          "path": "ForWeb/tools/streaming-browser-tests.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 11,
+          "end_line": 11,
+          "content": "The HTTP server is already listening when this launch runs, but the cleanup try/finally starts only afterward. If Edge is missing or Playwright launch fails, the server is never closed and keeps the Node process alive, turning a startup failure into an unbounded test hang. Put browser startup inside the server's cleanup scope, and ensure server.close still runs if browser.close rejects (for example, with nested finally blocks).",
+          "disposition": "HTTP server encloses browser launch and nested final cleanup."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 601,
+          "end_line": 601,
+          "content": "If recovery times out while waiting for the upload barrier, this rejection occurs outside the transaction's catch block. recover() consequently returns DeviceLost rather than Timeout and never publishes a terminal phase, leaving the snapshot in Recovering even after the recovery promise is cleared. Handle this wait inside the recovery error boundary (or classify and publish failures in recoverInternal), including the stopped case.",
+          "disposition": "Recovery wrapper classifies/publishes terminal timeout, including upload-barrier wait."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 530,
+          "end_line": 534,
+          "content": "This viewport-sized validation texture bypasses the shared GPU-budget admission used by upload and capture. An admitted candidate plus the retained old scene can already consume almost all of limits.gpuBytes; validation then allocates another width × height × 4 bytes (256 MiB at 8192²) without a ResourceLimit check. Reserve the transient target through Renderer against resident scene/readback/base allocations before creating it, and release that reservation in finally, so loading and recovery cannot exceed the configured allocation budget.",
+          "disposition": "Temporary validation texture reserves aggregate GPU budget and releases once."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 405,
+          "end_line": 406,
+          "content": "The initial draw's FrameStats are discarded, then dirty is cleared and stats is explicitly published as null. For a stationary scene, draw has already set active.revision to the current camera/viewport revision, so tick() never enters its rendering/stat-publication branch again. A successful open() can therefore leave getSnapshot().stats null indefinitely, unlike the previous scheduled first draw. Preserve/publish the initial draw stats (and arrange to publish completed timing), or schedule a subsequent stats-producing frame.",
+          "disposition": "Initial presentation stats published and a stats-producing RAF scheduled."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 619,
+          "end_line": 623,
+          "content": "Aborting this wait does not cancel Renderer.create(), which configures the shared canvas context in its constructor. After a timed-out recovery returns, a subsequent recover() can create and install another renderer while this older creation is still pending. If the older creation completes late, it configures the same context and this cleanup calls dispose(), which unconditionally unconfigures it, breaking the newer renderer (whose configured flag remains true). Serialize outstanding renderer creation/cleanup, or separate device creation from canvas configuration and only let the current recovery generation configure/unconfigure the surface.",
+          "disposition": "Canvas configure is lazy and owner-guarded; real delayed creation/retry/capture browser fixture passes."
+        }
+      ]
+    },
+    {
+      "run": "ocr-final-recheck",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 41,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "9764bbbb545955c16e645dbb5d1be57c96f7da884464520cef571547f9300f13"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "4d01fc58214db4595d3f9980f1fbc402aec84321612b33fc3fa49cf407922b8a"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "2b6d36fb60e92ec690fcfbb92eba5fd1599e63d23f50aed1845090f9785d71dd"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "c21b053b26422ee7842020983d06fe92bb646423401a9fa98453ecc3638caed0"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ecedcccb1200894c224b4802c76d92456b2c46a737985daecef2c17af275b023"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "615a7360b930727e6a18fccde97f0c912d3f461cf999cd86dabc56e157309aa4"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "eeab2996b282f0b7e14bbfe25b073083ba2176141b2a7e5dd27242859a171010"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "b5d89cee68cf398d3faa205697fca530e5aa6eed2b3ab6709bf62a7d4948c022"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "86a156847fabe05a694556f4147d81a1174a41d80d225c31cd9855c322cd7fa8"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "1d92e8e35539d559f6d1d3750ed025067d96b5a4f5b898f97588d11c678464ba"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "fa0539202c7d7aac2476edc69ae321367bf7d42d264708a05edeb84461295a4a"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "0231c39d813189409aa07a837e6487ccbff6f54d3098174df78a732097437fbf"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "307409c5102ddce4159eb1461de178c970da49d28cccca01f09ef0708c136208"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "d01c59ba38f67e6306f85aeb0faa9d6aa09fa62252c492ca817f7658c295f2d8"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "7b91edee025448f7bbc70335996ad640e5bfc8d8c81968e1ba3db100cb84d006"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "9764bbbb545955c16e645dbb5d1be57c96f7da884464520cef571547f9300f13"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "4d01fc58214db4595d3f9980f1fbc402aec84321612b33fc3fa49cf407922b8a"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "2b6d36fb60e92ec690fcfbb92eba5fd1599e63d23f50aed1845090f9785d71dd"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "c21b053b26422ee7842020983d06fe92bb646423401a9fa98453ecc3638caed0"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ecedcccb1200894c224b4802c76d92456b2c46a737985daecef2c17af275b023"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "615a7360b930727e6a18fccde97f0c912d3f461cf999cd86dabc56e157309aa4"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "eeab2996b282f0b7e14bbfe25b073083ba2176141b2a7e5dd27242859a171010"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "b5d89cee68cf398d3faa205697fca530e5aa6eed2b3ab6709bf62a7d4948c022"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "86a156847fabe05a694556f4147d81a1174a41d80d225c31cd9855c322cd7fa8"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "1d92e8e35539d559f6d1d3750ed025067d96b5a4f5b898f97588d11c678464ba"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "fa0539202c7d7aac2476edc69ae321367bf7d42d264708a05edeb84461295a4a"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "0231c39d813189409aa07a837e6487ccbff6f54d3098174df78a732097437fbf"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "307409c5102ddce4159eb1461de178c970da49d28cccca01f09ef0708c136208"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "d01c59ba38f67e6306f85aeb0faa9d6aa09fa62252c492ca817f7658c295f2d8"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "7b91edee025448f7bbc70335996ad640e5bfc8d8c81968e1ba3db100cb84d006"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [],
+      "findings": [
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 14,
+          "end_line": 17,
+          "content": "This validates source inputs but never validates the artifacts being released. `pnpm pack` includes all of `dist` and has no rebuild/prepack hook, so a stale or modified SDK bundle or decoder can pass these checks. The later archive hashes merely describe those bytes; they do not establish that they match the recorded build. Verify decoder files against `build.assets.files` before copying/packing, and record and validate hashes for the SDK JS/declaration outputs as well.",
+          "disposition": "Recorded outputs include JS/declarations/WASM and full inventory validated."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "The staging directory is reused for every packaging run at the same commit without being cleared. On a second run, `walk(contents)` includes the previous MANIFEST.json, then overwrites it, so the new manifest contains an invalid hash for itself. Files removed from the inputs also survive recursive copying. Remove and recreate the staging directory (or use a fresh temporary directory), and exclude MANIFEST.json from the file inventory.",
+          "disposition": "Fresh staging directory and manifest excluded from own inventory."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 11,
+          "end_line": 12,
+          "content": "These checks do not ensure the native build inputs belong to the advertised source commit. The decoder also compiles `src/model-io` and reads shared headers under `include`, but dirty changes there are allowed if their hashes match the recorded build. Likewise, a clean submodule checked out at a different revision passes `foreach ... git status`, and its current revision need not match the build's recorded dependencies. Reject dirty shared input paths and submodule revisions differing from HEAD's gitlinks, and verify dependency revisions against the build evidence before attributing the archive to HEAD.",
+          "disposition": "Dirty shared sources/staged dependency changes rejected; build dependency revisions verified."
+        },
+        {
+          "path": "ForWeb/tools/browser-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 56,
+          "end_line": 57,
+          "content": "Assert that each compact reference has nonzero RGB output before comparing layouts. Both captures clear to opaque black, so a shared compact/tiled projection or culling regression can produce two blank images and still record maxError=0 for all SH degrees. The earlier transparency assertion exercises the padded layout, not these compact fixtures, and therefore does not guard this false-positive path.",
+          "disposition": "Compact/tiled image fixtures require nonblack RGB before equality."
+        },
+        {
+          "path": "ForWeb/src/web-adapters/dom.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "This resize handler is also invoked by ResizeObserver and visibilitychange, outside the adapters' initialization try/catch. If a consumer calls the exposed engine.dispose() while the host remains mounted, the next resize returns Stopped and this throws an uncaught browser error. There is also no rollback if the initial resize throws after observer.observe(host): bindCanvas never returns its cleanup, so the observer remains registered (for example, a finite but very large pixelRatio can overflow the dimension calculation to NaN). Handle callback failures without throwing into the browser, and disconnect the observer before propagating any initial setup failure.",
+          "disposition": "Stopped resize is harmless, ratio avoids overflow, observer disconnects on initial failure."
+        },
+        {
+          "path": "ForWeb/tools/sdk-consumer.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 90,
+          "end_line": 90,
+          "content": "The only assertion that `errors` is empty runs before this new dynamic-host sequence. A pageerror during mounting, removal, remounting, or disposal is therefore merely recorded and the test still reports conditionalHosts=true. Assert that errors is empty again after the final lifecycle wait so this coverage actually rejects uncaught adapter errors.",
+          "disposition": "Consumer checks error list after dynamic lifecycle."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 23,
+          "end_line": 24,
+          "content": "On Windows, `shell: true` joins these arguments into a command string without quoting the output path. If the checkout resides in a directory containing spaces (for example, `C:\\Users\\Jane Doe\\...`), `--out` receives a truncated path and the remaining pieces become extra arguments, so packaging fails or writes outside the expected staging location. Invoke pnpm through its JavaScript entry point without a shell, or correctly quote/escape the output argument for cmd.exe.",
+          "disposition": "Release invokes pnpm JavaScript CLI with no shell."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 405,
+          "end_line": 405,
+          "content": "This presentation can throw (for example, configure/getCurrentTexture can fail), but the candidate has already replaced `this.active` and `uploaded` has been cleared. The catch therefore neither rolls back the replacement nor releases `old`, and returns a failed load with the new scene active and the old GPU allocation permanently retained. Offscreen validation does not validate canvas acquisition. Keep the previous scene/camera until presentation succeeds, or explicitly restore them and release the candidate on presentation failure.",
+          "disposition": "Old active/camera stay owned until validated presentation succeeds; failure rollback regression."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 587,
+          "end_line": 587,
+          "content": "Aborting the controller does not bound the whole recovery transaction. It still awaits `oldRenderer.dispose()`, failure-path `replacement.dispose()`, and the final backing release without cancellation. Disposal can wait up to two seconds even for a shorter timeout, and the final OPFS cleanup (`getDirectory`/`removeEntry`) has no time bound. Consequently the watchdog can fire while `recover()` remains pending, and engine disposal also waits on that recovery indefinitely. Bound the externally awaited recovery result and arrange guarded late cleanup so timeout/stop actually produces a terminal result.",
+          "disposition": "Recovery result abort race bounds cleanup waits; storage deletion has a reported 5s bound; late work guarded."
+        },
+        {
+          "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 19,
+          "end_line": 19,
+          "content": "Awaiting dispose does not detect all native cleanup failures. Engine.dispose() uses Promise.allSettled and publishes storage cleanup failures in the terminal Stopped snapshot.error while resolving its promise. Consequently this guard can admit successful benchmark evidence after a backing-store cleanup failure. Have the native benchmark disposal wrapper inspect the terminal snapshot and reject on its cleanup error, and cover this resolving-with-error case in the contract tests.",
+          "disposition": "Native benchmark disposal checks Stopped StorageCleanup; resolving-error contract added."
+        },
+        {
+          "path": "ForWeb/tools/benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 35,
+          "end_line": 35,
+          "content": "Browser errors emitted during disposal are appended to disposalErrors, but that array is never checked after the observation delay. If disposal resolves while emitting a pageerror or console error, failures stays empty and results.json can declare complete:true (and the command exits successfully). Check disposalErrors after cleanup and invalidate the run before recording completeness.",
+          "disposition": "Cleanup error channels invalidate baseline benchmark."
+        },
+        {
+          "path": "ForWeb/tools/completed-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 37,
+          "end_line": 37,
+          "content": "This is the last check of browser errors, but disposal runs later in finally while the error listeners are still active. A cleanup-time pageerror/console error that does not reject disposeBenchmark is recorded in the row yet never added to failures, allowing complete:true and a successful exit. Observe and check cleanup-time browser errors after disposal, before computing completeness, and add a test for disposal that resolves while emitting an error.",
+          "disposition": "Completed benchmark checks error channels after finally cleanup."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 674,
+          "end_line": 675,
+          "content": "This synchronous phase check cannot detect asynchronous WebGPU errors from the preceding presentation. `uncapturederror` and `device.lost` are delivered later, so recovery can clear the retained scene and resolve successfully before a presentation-only error is reported. A loss delivered while `this.recovery` is still set also only returns the existing recovery promise instead of starting another recovery. Validate the actual presentation under error scopes and await its completion (with cancellation), and explicitly check device loss before publishing recovery success.",
+          "disposition": "Actual presentation scopes + completion/device-loss race precede recovery success."
+        }
+      ]
+    },
+    {
+      "run": "ocr-release",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 42,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "347cdb3bcdf597eb33bfe3bd3abddce8af88ae501dbf3af94c141a6a54d2ea38"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "d93fbe3373e98fcace7205fbe1b7e5f560aa1aa14454ec4e8ad9e01e6fc0c047"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "4194ecca830ca57cf536a078e40e78769ccc6c35291bf8bdb9cb1a069e1db92b"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "82b81cda92aac2a9754699009a64b35bd96b057ea2952b5482af871fd8114dba"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ecedcccb1200894c224b4802c76d92456b2c46a737985daecef2c17af275b023"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "b07157f2d37f2a0fdf0f670636d80edf6db31b26947f07255c60bc21defd0523"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "8c4e8feae52909068e38591cbf32a0275c9b39e653ae9ccd4d712b27e566d148"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "cb825b25bec65a318c58efb302a6bc3781b8d6240275e200d28b5f992ed76ead"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "86a156847fabe05a694556f4147d81a1174a41d80d225c31cd9855c322cd7fa8"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "e01f1f5529cdad27fef25e3cec13225c2cf9d629c48bddec61a528285b6c8112"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "07c875cb7b2d5dccd86f4f5177a03b453e4885321bd474904037fa9813690cdf"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "2ef50b758b7bc68dcde9861f41d6878258d5fa8d88a956e05cfed9163ce9fcd6"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e6c04b4e0f9f0a7d1ea7f202883b7ee8a5ecabd5c5ac93a2e773e657df7ea9a4",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "b66404189286829fcd15c632ee496a17a669a40ec1cdebaadb6813c86fb944d6"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "307409c5102ddce4159eb1461de178c970da49d28cccca01f09ef0708c136208"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "2f7162439de2c76f4b0566e039f0508ea5590363a41b10e6d427da7407b808a3"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c5c350356f1218063a0f952de49714756a046d843657d42ea7609feefffb2ba3"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "347cdb3bcdf597eb33bfe3bd3abddce8af88ae501dbf3af94c141a6a54d2ea38"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "d93fbe3373e98fcace7205fbe1b7e5f560aa1aa14454ec4e8ad9e01e6fc0c047"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "4194ecca830ca57cf536a078e40e78769ccc6c35291bf8bdb9cb1a069e1db92b"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "82b81cda92aac2a9754699009a64b35bd96b057ea2952b5482af871fd8114dba"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "ecedcccb1200894c224b4802c76d92456b2c46a737985daecef2c17af275b023"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "b07157f2d37f2a0fdf0f670636d80edf6db31b26947f07255c60bc21defd0523"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "8c4e8feae52909068e38591cbf32a0275c9b39e653ae9ccd4d712b27e566d148"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "cb825b25bec65a318c58efb302a6bc3781b8d6240275e200d28b5f992ed76ead"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "86a156847fabe05a694556f4147d81a1174a41d80d225c31cd9855c322cd7fa8"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "e01f1f5529cdad27fef25e3cec13225c2cf9d629c48bddec61a528285b6c8112"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "07c875cb7b2d5dccd86f4f5177a03b453e4885321bd474904037fa9813690cdf"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "2ef50b758b7bc68dcde9861f41d6878258d5fa8d88a956e05cfed9163ce9fcd6"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e6c04b4e0f9f0a7d1ea7f202883b7ee8a5ecabd5c5ac93a2e773e657df7ea9a4",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "b66404189286829fcd15c632ee496a17a669a40ec1cdebaadb6813c86fb944d6"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "307409c5102ddce4159eb1461de178c970da49d28cccca01f09ef0708c136208"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "e66a4a0e8f4e974e33c5a392e2783c27cd2ee0ab3e6594ff3584796897c292f7"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "2f7162439de2c76f4b0566e039f0508ea5590363a41b10e6d427da7407b808a3"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c5c350356f1218063a0f952de49714756a046d843657d42ea7609feefffb2ba3"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [],
+      "findings": [
+        {
+          "path": "ForWeb/tools/plot-benchmark.py",
+          "severity": "low",
+          "category": "bug",
+          "start_line": 0,
+          "end_line": 0,
+          "content": "The title now contains literal replacement characters (`��`) instead of multiplication/separator symbols. These will appear in both generated PNG and SVG evidence, making the resolution and repetition labels garbled. Restore the intended Unicode characters in these strings.",
+          "disposition": "Plot labels use ASCII and evidence metadata."
+        },
+        {
+          "path": "ForWeb/tools/model-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 18,
+          "end_line": 18,
+          "content": "Check `engine.getSnapshot().error` after cleanup as well as the remaining OPFS entries. `closeScene()` resolves even when cleanup fails: it publishes the failure into the snapshot rather than rejecting. A cleanup timeout followed by successful late deletion can therefore leave no `gs-` entries while this runner records a successful row (and the next close clears the error). This misses the cleanup-time errors that release verification is intended to reject.",
+          "disposition": "Model runner checks StorageCleanup after close."
+        },
+        {
+          "path": "ForWeb/tools/benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 35,
+          "end_line": 35,
+          "content": "Engine disposal still runs only on the success path. If load, capture, sampling, or the preceding errors check throws, finally closes the page without releasing the engine's backing storage. Page closure does not delete persistent OPFS jobs, and any cleanup failure is omitted from results.json. Move guarded disposal into finally, before page closure and evidence serialization, and record cleanup failures without replacing the original failure.",
+          "disposition": "Baseline benchmark disposal also runs in failure finally."
+        },
+        {
+          "path": "ForWeb/tools/layout-benchmark.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 57,
+          "end_line": 57,
+          "content": "The errors array is checked before cleanup and never checked afterward, and this runner does not collect console.error events. A pageerror during disposal (or a console-only cleanup error) can therefore coexist with a successful layout-ablation.json. Collect both error channels and validate them after disposal, before admitting the row or writing success evidence, as the completed benchmark runner does.",
+          "disposition": "Layout checks pageerror/console.error after cleanup."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 18,
+          "end_line": 21,
+          "content": "The freshness check validates only recorded paths, not the current output inventory. Adding a file to ignored `dist` after recording the build passes every check, but `package.json` includes all of `dist` and the recursive asset copy also includes unrecorded files. Thus stale or extra JS/types/assets can enter the release without recorded build hashes. Compare the complete current `dist` file set against `build.outputs` and reject additions as well as missing or changed files before packaging.",
+          "disposition": "Exact dist inventory and every output hash checked."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 17,
+          "end_line": 17,
+          "content": "Matching `git submodule status` does not prove the recorded build used clean dependency sources: that command reports gitlink revisions, not uncommitted changes inside submodules. A WASM build made with modified vendor sources can be recorded, those sources restored, and this release check will pass because current dependencies are clean and the recorded WASM hash still matches. The recorded `build.git.status` is not checked either. Require clean dependency working trees when build evidence is recorded (and persist/validate that result), or record and verify hashes of the dependency inputs.",
+          "disposition": "Build recording rejects dirty dependency source; release requires this evidence."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 397,
+          "end_line": 403,
+          "content": "The ordinary RAF loop is still allowed to draw this.active while this await is pending (Uploading is not excluded by tick). For example, camera input or requestFrame() can submit an old-scene frame after the candidate's canvas submission. The checks below only compare viewport revision/dimensions, so the candidate can then be committed although the most recent canvas frame is the old scene. Suspend ordinary canvas rendering throughout candidate presentation and commit/rollback, and add a test that runs a dirty RAF tick while presentation completion is deferred.",
+          "disposition": "Uploading excludes ordinary RAF; dirty deferred-presentation regression passes."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 771,
+          "end_line": 771,
+          "content": "A timed-out recovery can still publish a stale Faulted state here. recoverInternal stops waiting via abortable and clears this.recovery, but recoverTransaction continues awaiting oldRenderer.dispose() or replacement.dispose(). A subsequent recover() can succeed before that cleanup finishes; when the old transaction resumes, this branch publishes its Timeout over the new Ready state, disabling rendering. Guard late transaction mutations/publications with recovery ownership (e.g. this.recoveryController === controller), not just !this.stopped, and test a second successful recovery before the first cleanup resolves.",
+          "disposition": "Late recovery publication requires current recoveryController; retry-before-old-cleanup regression passes."
+        },
+        {
+          "path": "ForWeb/tools/streaming-browser-tests.mjs",
+          "severity": "medium",
+          "category": "test",
+          "start_line": 52,
+          "end_line": 52,
+          "content": "Cleanup failures are published in the engine snapshot rather than rejected by `closeScene()` or `dispose()`. This test awaits both without checking that error, so a cleanup timeout can be cleared by the next open (or complete deletion before the OPFS listing) and still produce successful release evidence. Check `engine.getSnapshot().error` after each close and after disposal, and fail the evaluation if it is set; the directory listing alone does not detect reported cleanup failures.",
+          "disposition": "Streaming browser checks cleanup snapshots after every close/dispose."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "high",
+          "category": "bug",
+          "start_line": 14,
+          "end_line": 14,
+          "content": "`git submodule status` compares submodule HEADs with the index, not with the committed HEAD tree. If a dependency is updated and its gitlink staged, this check reports it as clean; neither preceding cleanliness check covers `third_party`. A build recorded using that staged revision therefore passes packaging even though the advertised source commit still pins the old dependency. Reject staged/unstaged gitlink changes under `third_party` (or explicitly compare the index gitlinks with HEAD) before accepting dependencyState.",
+          "disposition": "Dirty staged/unstaged gitlinks under third_party rejected before packaging."
+        }
+      ]
+    },
+    {
+      "run": "ocr-closure",
+      "status": "complete",
+      "version": "v1.12.11",
+      "filesReviewed": 43,
+      "coverage": {
+        "selected": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "9b5e301e68e7f1f069eb0166d294ba1e15f256bba34d0d56d5ab19409dd63191"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "d93fbe3373e98fcace7205fbe1b7e5f560aa1aa14454ec4e8ad9e01e6fc0c047"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "ab28c324c7a1cb49363cd174f0ac0a7561eecf601915e68a32d1d5e654c5df82"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "82b81cda92aac2a9754699009a64b35bd96b057ea2952b5482af871fd8114dba"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "144f4c399cc0d4d96ece0de10183d31795cb25340f9250d0875acc06886048f9"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "b07157f2d37f2a0fdf0f670636d80edf6db31b26947f07255c60bc21defd0523"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "afc3abff23332ced67b726d2edd36e74c45cbd18cc79f9330d656f0c16c5518b"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "cb825b25bec65a318c58efb302a6bc3781b8d6240275e200d28b5f992ed76ead"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "5f809ce2df77be785a97ef3fa426356a4f6ed82df9b8817d3a1f4c89e518dc3d"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "e01f1f5529cdad27fef25e3cec13225c2cf9d629c48bddec61a528285b6c8112"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "f9ca05dc5da93aa5c5b9a0b3da008561595571539bab6efb52ea4e94a1202e04"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "2ef50b758b7bc68dcde9861f41d6878258d5fa8d88a956e05cfed9163ce9fcd6"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e6c04b4e0f9f0a7d1ea7f202883b7ee8a5ecabd5c5ac93a2e773e657df7ea9a4",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "b66404189286829fcd15c632ee496a17a669a40ec1cdebaadb6813c86fb944d6"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "7d84877f50f0e97e8f622f31f6101b11e757534bc44fe365bdce44cdaa4407e8"
+          },
+          {
+            "item_id": "f0df648c48f46ed8e2b79a8fccedf442bd7ae1c33e74bc7f5e0a47682daffb38",
+            "path": "ForWeb/tools/plot-completed-benchmark.py",
+            "fingerprint": "380d1e22b02be588b5e359ec8b7dbc17ccd7bbeb5b5a4f47f2f3050bce5f2aef"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "a0b1b5be60fe029ed23a313aea66693ef2d614349723112fb3199baa0a970340"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "0855dd29b918121b8810dae98fa3291d69a882c7650bbbd557bfbb5ee8decffa"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c5c350356f1218063a0f952de49714756a046d843657d42ea7609feefffb2ba3"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "completed": [
+          {
+            "item_id": "102b81355bd3e44031e2fd16e2249fecb22a235e152f656090e7a737cb2a5d72",
+            "path": "ForWeb/tools/integration-tests.mjs",
+            "fingerprint": "9774fbe3dec8ac8642af3e4c0d6a8b2b67cdbd3b6237df1754d63690658fd200"
+          },
+          {
+            "item_id": "12ee9247e59d8cd07cbb7090af4c61db9f09d7e99f9307cf525f6768aecefea4",
+            "path": "ForWeb/src/engine/engine.ts",
+            "fingerprint": "9b5e301e68e7f1f069eb0166d294ba1e15f256bba34d0d56d5ab19409dd63191"
+          },
+          {
+            "item_id": "1e3ec74da75e426d26dd0696f2a8e97f04f7b6f2a39f7d35a161137a2b00fd69",
+            "path": "ForWeb/src/render-core/sort.ts",
+            "fingerprint": "e20870ac4455e972cb95810996d43ff23a6dd4e2112d8ec0f1f70df59944bddd"
+          },
+          {
+            "item_id": "1f5dda2331e98360bcc3f6854e56b58a47feb90eae305c0bc6d8384e695fbdc6",
+            "path": "ForWeb/tools/verify.ps1",
+            "fingerprint": "55eaa1d591d013b7ede85f7629df78460b560baeb1375dd464e5fd25655fc2e3"
+          },
+          {
+            "item_id": "1faccac30d48f35e9a9fe761e3bab7a2f219f141b1464ec3e45f7d81fc91afa3",
+            "path": "ForWeb/tools/benchmark-comparison.py",
+            "fingerprint": "9df69bc66469151984c1e5c94d1477c318a7e8c08c08f59b68a25a2e5045847e"
+          },
+          {
+            "item_id": "1fec3d7f0753295bb805cdaaa3748d1462c1b413c68b4b6b1e68e9663b3a0253",
+            "path": "ForWeb/tools/image-tests.mjs",
+            "fingerprint": "7e85b326b45e2b9edad16f217ef1bd876f5ae0877f422b95923419dd5598e8e2"
+          },
+          {
+            "item_id": "218ed85b8aac7990b1936927dcb704638cb60eac72a5ee43a0de6dbe9841ce0a",
+            "path": "ForWeb/tools/stability-tests.mjs",
+            "fingerprint": "0af4033ef75f2f1d1c736067e1468fd38e80ae3c3228a7d0251c46917df882e6"
+          },
+          {
+            "item_id": "25e5087e1e1d6aa65919489a2e1c9b9c5b35e8ad23c5a96acc474651530fd3ad",
+            "path": "ForWeb/native/decoder.h",
+            "fingerprint": "426337e338aefb02684d1c36fadb67576cf6ad211cdbf214ece173eb3f4973b1"
+          },
+          {
+            "item_id": "2dece001cc281808f4b3579a636989e025511e678b8db8267b15a956dcbb4d19",
+            "path": "ForWeb/package.json",
+            "fingerprint": "3cfe6968beab3a326fa585307905a4d573e405bbbd685d99f614696e5d8940bb"
+          },
+          {
+            "item_id": "32cd6c5fb4c3cd4915ed2704bd53c0c02c6e8066a085b5d7439e26f942f3e55b",
+            "path": "ForWeb/tools/model-manifest.py",
+            "fingerprint": "1a80712dc539d8dda34bf0b17b570fb6111aa1bd148a9b0cb68d7e73ea9e77e3"
+          },
+          {
+            "item_id": "3357201a7c1661509c57f83567cec3175790d1228cb5ed325548341e0ccf4e35",
+            "path": "ForWeb/src/engine/camera.ts",
+            "fingerprint": "950d3b7d45a83bf352d6bf3a47a46e2fa6a6ee7e009e559220557bde90700811"
+          },
+          {
+            "item_id": "3826767977a777f1670afbd382f7b54622cb672791b45aa2fed00b7faf84aa6d",
+            "path": "ForWeb/src/web-adapters/dom.ts",
+            "fingerprint": "d93fbe3373e98fcace7205fbe1b7e5f560aa1aa14454ec4e8ad9e01e6fc0c047"
+          },
+          {
+            "item_id": "39891926c5be5076311b627b042323dcb8983ee8a133d2558fea3871b09d6e88",
+            "path": "ForWeb/src/render-core/renderer.ts",
+            "fingerprint": "8de208a16f6590613d9fbdc0126f2988c0250f3ba43bceb40479dd6c23d7952b"
+          },
+          {
+            "item_id": "4101ce96a8ccdf5054d92933244bebd2b9b26ced9a3c766529e1010082921605",
+            "path": "ForWeb/tools/package-release.mjs",
+            "fingerprint": "ab28c324c7a1cb49363cd174f0ac0a7561eecf601915e68a32d1d5e654c5df82"
+          },
+          {
+            "item_id": "48e11353a648aa53170e029edd588c01815e8a77435991a71769b7aabac0e5da",
+            "path": "ForWeb/src/model-io/wasm.ts",
+            "fingerprint": "cc5dd6f7da92a7371d7c22feffc9b63c90b6d02a4b4686284c6c4b122b6ac5a8"
+          },
+          {
+            "item_id": "4a248b5eb210d29b627e9ac5fad854412adce89d745190d61f41f718d1e2d8a5",
+            "path": "ForWeb/apps/benchmark.ts",
+            "fingerprint": "82b81cda92aac2a9754699009a64b35bd96b057ea2952b5482af871fd8114dba"
+          },
+          {
+            "item_id": "4d6c6f56c059bfdf5395ecb2acd4de0302820ec557f4b7babcc53da24973c949",
+            "path": "ForWeb/tools/plot-benchmark.py",
+            "fingerprint": "144f4c399cc0d4d96ece0de10183d31795cb25340f9250d0875acc06886048f9"
+          },
+          {
+            "item_id": "729aecfa195a1e4e66c300b4dff678dbbd4dd034e6ff6f6844b04e67a50a4970",
+            "path": "ForWeb/tools/decode-benchmark.mjs",
+            "fingerprint": "247e67109c058c9017967b6b90120980112342d1229c31c458accad637185ca7"
+          },
+          {
+            "item_id": "73a1bae065decbf9286ad57c9172a019aeaa547c6b3b6fa028b8f48ed55288cc",
+            "path": "ForWeb/vite.config.ts",
+            "fingerprint": "ccfba5f3da8020f524a96a8e7c6adf4e1ec03d7e67b5ebba87cec673c75e534a"
+          },
+          {
+            "item_id": "75a24250ae2a88e21316cc99f5bcd71cd1f5ec084234ef3fad61ead88be3ca68",
+            "path": "ForWeb/tools/browser-tests.mjs",
+            "fingerprint": "b07157f2d37f2a0fdf0f670636d80edf6db31b26947f07255c60bc21defd0523"
+          },
+          {
+            "item_id": "7be0ef482f33cd3f49826a3cab22daa15a1a7ca4610b52f52000365ebcdaef29",
+            "path": "ForWeb/src/model-io/streaming.ts",
+            "fingerprint": "7d05e7ff8748a03a35306ab3012e6502231ea1dd8b14014a3c5e3b6ce511014a"
+          },
+          {
+            "item_id": "83ff407884b7381ee7aa5bad824ae88faa5c96e6b8da353436f819515be4220e",
+            "path": "ForWeb/tests/contracts/streaming.test.mjs",
+            "fingerprint": "4dcb8f48a2b45cbe65d7c22cfed687f155fbee63f0ff5d93309bde1c01711a0d"
+          },
+          {
+            "item_id": "84d870a38cd052937f358a15d86b08d52799535a2d3d3ffebcebecb3efca0556",
+            "path": "ForWeb/src/splat-types/index.ts",
+            "fingerprint": "0dab01220a69484706093d348246c6595d6f9929f8e67d4402aeb5313d3108aa"
+          },
+          {
+            "item_id": "8a0c6358ca0e9e11cb384e7d1dd1fcbb6f3fd30ef95a7e1c9eb2fe5048b23960",
+            "path": "ForWeb/tools/benchmark.mjs",
+            "fingerprint": "afc3abff23332ced67b726d2edd36e74c45cbd18cc79f9330d656f0c16c5518b"
+          },
+          {
+            "item_id": "8aee994d0bb73c7d5401e5dac67011994f78b232f52adc8a15ff806e21524ccb",
+            "path": "ForWeb/native/decoder.cpp",
+            "fingerprint": "f702e1c2301c4f463a75d308e2f11d5a9f1018b97721a5c0e9645121b82f88a1"
+          },
+          {
+            "item_id": "8b44104266b85bf2922651a105f7c28715428d9e3f39b4a82e961d94aae69022",
+            "path": "ForWeb/tools/browser-benchmark-guards.mjs",
+            "fingerprint": "cb825b25bec65a318c58efb302a6bc3781b8d6240275e200d28b5f992ed76ead"
+          },
+          {
+            "item_id": "8e73b9002810a487b9ce7b11175e998f73f83cf4b37d4291d0dc9dd42855c36c",
+            "path": "ForWeb/native/inflate.cpp",
+            "fingerprint": "70e9974776d84358f807b03eb86a01679b4d2d7213cf1fe8282d4009cb2cbc9b"
+          },
+          {
+            "item_id": "8eb71089bef582a9f29f19b504e07d00d54fbd6a6720104cac9c1adb00ba701d",
+            "path": "ForWeb/tools/streaming-browser-tests.mjs",
+            "fingerprint": "5f809ce2df77be785a97ef3fa426356a4f6ed82df9b8817d3a1f4c89e518dc3d"
+          },
+          {
+            "item_id": "90cfc87dc30e69d176898909c5ae201fe44670b2a7c05303f5cf21d0e7d8a638",
+            "path": "ForWeb/tools/maximum-frame-benchmark.mjs",
+            "fingerprint": "5d44c1d703d0a799328caeb97ba7b1401e41f9f09420fb0b8e07fa0f1a34c7c6"
+          },
+          {
+            "item_id": "ae54f1a017ad473c9db329e545e4f9805b5b7b27fa21a55256a97d57ad765536",
+            "path": "ForWeb/tools/sdk-consumer.mjs",
+            "fingerprint": "e01f1f5529cdad27fef25e3cec13225c2cf9d629c48bddec61a528285b6c8112"
+          },
+          {
+            "item_id": "c0c3a6b6507cf66e4ec17419137c2996b92c3ec228ff7d23ac6930e50995f75c",
+            "path": "ForWeb/tools/record-build.mjs",
+            "fingerprint": "f9ca05dc5da93aa5c5b9a0b3da008561595571539bab6efb52ea4e94a1202e04"
+          },
+          {
+            "item_id": "c1701c37cff0ddb5d0905d7b2814e36c8ac54d9b7a90f4868c93acb9406389c4",
+            "path": "ForWeb/tests/contracts/benchmark-guards.test.mjs",
+            "fingerprint": "2ef50b758b7bc68dcde9861f41d6878258d5fa8d88a956e05cfed9163ce9fcd6"
+          },
+          {
+            "item_id": "e406b573dd8b6b480363b13e5897a67558df286643a099a638467e529f50f198",
+            "path": "ForWeb/src/vue.ts",
+            "fingerprint": "21d7597f5ba6a3544f3b9cf4c0a9249666f735173101a1866b31d17ebc0eac69"
+          },
+          {
+            "item_id": "e6c04b4e0f9f0a7d1ea7f202883b7ee8a5ecabd5c5ac93a2e773e657df7ea9a4",
+            "path": "ForWeb/src/model-io/backing.ts",
+            "fingerprint": "b66404189286829fcd15c632ee496a17a669a40ec1cdebaadb6813c86fb944d6"
+          },
+          {
+            "item_id": "e8de45bb365adfe6b4ef09780ad1015d92c5709d51e29925b345bd66e4490557",
+            "path": "ForWeb/src/react.ts",
+            "fingerprint": "dbd1d0a2c79e679f1dd6fa51c8f0d17eca4455e67bd9167c19bcc8d78e9c88c5"
+          },
+          {
+            "item_id": "eba01695af4ec264e5c7aa37d43c639d14eadfc91dff0ded6930a44ccee1e3db",
+            "path": "ForWeb/tools/model-tests.mjs",
+            "fingerprint": "7d84877f50f0e97e8f622f31f6101b11e757534bc44fe365bdce44cdaa4407e8"
+          },
+          {
+            "item_id": "f0df648c48f46ed8e2b79a8fccedf442bd7ae1c33e74bc7f5e0a47682daffb38",
+            "path": "ForWeb/tools/plot-completed-benchmark.py",
+            "fingerprint": "380d1e22b02be588b5e359ec8b7dbc17ccd7bbeb5b5a4f47f2f3050bce5f2aef"
+          },
+          {
+            "item_id": "f25a7838390d9f3956480abd455306a0f5f0a5b61503b357143c9ca9a4b2f8b7",
+            "path": "ForWeb/src/splat-types/async.ts",
+            "fingerprint": "a0b1b5be60fe029ed23a313aea66693ef2d614349723112fb3199baa0a970340"
+          },
+          {
+            "item_id": "f266731a0722b4f089238e379567c768710ef9b15898b9a79b630a09f835ed2b",
+            "path": "ForWeb/tools/layout-benchmark.mjs",
+            "fingerprint": "0855dd29b918121b8810dae98fa3291d69a882c7650bbbd557bfbb5ee8decffa"
+          },
+          {
+            "item_id": "f8cd01cfe93e564aca38c3cf50524203806dce5f9b7b6858301cfa0c7b99020b",
+            "path": "ForWeb/tools/performance-summary.py",
+            "fingerprint": "0ad384547b6f578c037e79510089302adb42dbc93d389292c7ca383ebb46d130"
+          },
+          {
+            "item_id": "f9d28dd2cbb6ce56ccf37583245bd19b01216669a8d7e279837b2711773641db",
+            "path": "ForWeb/native/pack.cpp",
+            "fingerprint": "653476cbe9518ea47b8aa385e4c556f9529494beafc7b8f63a55e230b4b29509"
+          },
+          {
+            "item_id": "fa734b99e80028addfb222158056509cd7103a6975ab19e8c40c63dab9da3884",
+            "path": "ForWeb/tools/completed-benchmark.mjs",
+            "fingerprint": "c5c350356f1218063a0f952de49714756a046d843657d42ea7609feefffb2ba3"
+          },
+          {
+            "item_id": "fe4bd860e288142aa00779e5d0191f2383df23dac4b66ede8f664731d26df1af",
+            "path": "ForWeb/src/render-core/shaders.ts",
+            "fingerprint": "3fd45bd62e6322bcf07cef29632ac434d633d7629f957a7dac53ea406e23f9ce"
+          }
+        ],
+        "reused": [],
+        "failed": [],
+        "waived": []
+      },
+      "toolFailures": [],
+      "findings": [
+        {
+          "path": "ForWeb/tools/browser-tests.mjs",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 1,
+          "end_line": 1,
+          "content": "`disposeBenchmark` and `validateTimingSamples` are never used in this runner. Remove these imports so the dependency list reflects the guards actually applied.",
+          "disposition": "Removed unused imports."
+        },
+        {
+          "path": "ForWeb/tools/image-tests.mjs",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 1,
+          "end_line": 1,
+          "content": "`disposeBenchmark` and `validateTimingSamples` are never used in this runner. Remove the unused imports; importing them does not perform cleanup or timing validation.",
+          "disposition": "Removed unused imports."
+        },
+        {
+          "path": "ForWeb/tools/integration-tests.mjs",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 1,
+          "end_line": 1,
+          "content": "`disposeBenchmark` and `validateTimingSamples` are unused here. Keep only `evaluateBenchmark` in this import; engine shutdown is already handled explicitly below.",
+          "disposition": "Removed unused imports."
+        },
+        {
+          "path": "ForWeb/tools/package-release.mjs",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "The MANIFEST.json exclusion also applies to walk('dist'), so adding an unrecorded dist/MANIFEST.json after recording the build bypasses the exact-output inventory check. pnpm pack includes dist, allowing that unvalidated file into the released SDK. Scope this exclusion to the generated staging manifest (or use a separate inventory option); the dist walk must include every file.",
+          "disposition": "Output inventory includes every file, including any MANIFEST.json; staging directory is new and has no previous manifest."
+        },
+        {
+          "path": "ForWeb/tools/plot-completed-benchmark.py",
+          "severity": "medium",
+          "category": "bug",
+          "start_line": 35,
+          "end_line": 35,
+          "content": "The title always claims full SH3, but GS_BENCH_MODELS accepts other models and each loaded row records its actual degree. A successful benchmark of an SH0/SH1/SH2 model would therefore produce a misleading figure. Derive the SH degrees (and resolution) from results.json, as plot-benchmark.py does.",
+          "disposition": "Plot title reads actual dimensions and loaded degrees from results."
+        },
+        {
+          "path": "ForWeb/tools/benchmark.mjs",
+          "severity": "low",
+          "category": "maintainability",
+          "start_line": 1,
+          "end_line": 1,
+          "content": "validateTimingSamples is imported but never used in this rendering-loop benchmark. Remove the unused import; the completed-frame validator's same-frame attribution contract is not applicable to these asynchronously observed GPU samples.",
+          "disposition": "Removed unused import."
+        },
+        {
+          "path": "ForWeb/src/engine/engine.ts",
+          "severity": "medium",
+          "category": "performance",
+          "start_line": 589,
+          "end_line": 591,
+          "content": "Each presentation adds a new continuation to `device.lost`, which normally remains pending for the device's entire lifetime. Winning the race with `onSubmittedWorkDone()` (or aborting the wait) does not remove that continuation or its associated race handlers. Repeated scene replacements therefore accumulate retained promise chains until device loss, when all of them also execute. Use a renderer-level loss notification with removable subscribers, and unsubscribe in a `finally` block after each presentation.",
+          "disposition": "Renderer-level device loss listeners are removable and unsubscribed on success/failure/abort; repeated waits regression."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "rows": [
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 62329.5,
+      "gpuBytes": 6575528468,
+      "packing": "compact",
+      "backingBytes": 5305365196,
+      "cpuResidentBytes": 0
+    }
+  ],
+  "errors": []
+}

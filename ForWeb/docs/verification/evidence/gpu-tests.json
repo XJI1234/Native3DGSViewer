@@ -45,6 +45,36 @@
       0,
       127,
       255
+    ],
+    "tiledImages": [
+      {
+        "count": 129,
+        "degree": 0,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 1,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 2,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      },
+      {
+        "count": 129,
+        "degree": 3,
+        "pages": 3,
+        "lastLogicalCount": 1,
+        "maxError": 0
+      }
     ]
   },
   "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0"

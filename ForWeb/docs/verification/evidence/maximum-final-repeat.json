@@ -1,0 +1,74 @@
+{
+  "rows": [
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 35941.59999999404,
+      "stages": {
+        "Inspecting": 31.899999976158142,
+        "Downloading": 9511.90000000596,
+        "Decoding": 12685.90000000596,
+        "Rebasing": 5300.5,
+        "Uploading": 7892,
+        "Ready": 0.09999999403953552
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0,
+      "projectionMs": 208.863232,
+      "sortMs": 50.397184,
+      "drawMs": 16.449536,
+      "gpuFrameMs": 275.709952
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 27457.90000000596,
+      "stages": {
+        "Inspecting": 43,
+        "Downloading": 1124.9000000059605,
+        "Inflating": 4687.9000000059605,
+        "Decoding": 10008.5,
+        "Rebasing": 3424.0999999940395,
+        "Uploading": 7782.300000011921,
+        "Ready": 0
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0,
+      "projectionMs": 217.9072,
+      "sortMs": 26.54208,
+      "drawMs": 17.36704,
+      "gpuFrameMs": 261.881856
+    }
+  ],
+  "stress": {
+    "accepted": 6,
+    "cancelled": 6,
+    "shutdown": {
+      "phase": "Stopped",
+      "requestId": 39,
+      "sceneCount": 0,
+      "degree": 0,
+      "source": null,
+      "progress": null,
+      "error": null,
+      "stats": null,
+      "deviceGeneration": 5,
+      "viewportRevision": 2
+    }
+  },
+  "errors": []
+}

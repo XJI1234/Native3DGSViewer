@@ -5,7 +5,7 @@
       "result": {
         "ok": true
       },
-      "ms": 413,
+      "ms": 622.8000000119209,
       "snapshot": {
         "phase": "Ready",
         "requestId": 1,
@@ -14,7 +14,16 @@
         "source": "URL",
         "progress": null,
         "error": null,
-        "stats": null,
+        "stats": {
+          "cpuMs": 0.20000001788139343,
+          "gpuMs": 1.114112,
+          "gpuFrameId": 1,
+          "frameId": 2,
+          "sorted": true,
+          "projectionMs": 0.131072,
+          "sortMs": 0.131072,
+          "drawMs": 0.786432
+        },
         "deviceGeneration": 1,
         "viewportRevision": 2
       }
@@ -24,7 +33,7 @@
       "result": {
         "ok": true
       },
-      "ms": 1095.1000000238419,
+      "ms": 1876.4000000059605,
       "snapshot": {
         "phase": "Ready",
         "requestId": 4,
@@ -33,7 +42,16 @@
         "source": "URL",
         "progress": null,
         "error": null,
-        "stats": null,
+        "stats": {
+          "cpuMs": 0.19999998807907104,
+          "gpuMs": 15.597568,
+          "gpuFrameId": 6,
+          "frameId": 7,
+          "sorted": true,
+          "projectionMs": 8.257536,
+          "sortMs": 4.849664,
+          "drawMs": 2.424832
+        },
         "deviceGeneration": 1,
         "viewportRevision": 3
       }
@@ -80,6 +98,23 @@
         "generation": 2
       },
       "hardwareLossInjected": false
+    },
+    {
+      "lateRecovery": {
+        "timeout": {
+          "ok": false,
+          "error": {
+            "code": "Timeout",
+            "stage": "Recovery",
+            "diagnostic": "Timeout"
+          }
+        },
+        "retry": {
+          "ok": true
+        },
+        "capture": true,
+        "disposed": true
+      }
     },
     {
       "detachedGpuBudget": {
