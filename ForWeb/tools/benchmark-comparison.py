@@ -11,6 +11,12 @@ summaries = json.loads((root / "summary.json").read_text())
 quality = json.loads((root / "image-quality.json").read_text())
 by_key = {(row["model"], row["engine"]): row for row in summaries}
 comparisons = []
+requested = protocol.get('requested')
+if not protocol.get('complete') or not requested or protocol.get('failures'):
+    raise ValueError('Benchmark has no complete requested matrix')
+expected = {(model, mode) for model in requested['models'] for mode in requested['modes']}
+if expected != {(row['model'], row['mode']) for row in protocol['rows']} or len(protocol['rows']) != len(expected):
+    raise ValueError('Incomplete requested benchmark matrix')
 model_names = list(dict.fromkeys(row["model"] for row in protocol["rows"]))
 expected_views = {model.replace("/", "_").replace(".", "_") + suffix
                   for model in model_names for suffix in ["", "-left", "-right"]}

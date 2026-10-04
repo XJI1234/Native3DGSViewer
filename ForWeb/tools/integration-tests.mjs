@@ -1,3 +1,4 @@
+import {evaluateBenchmark} from './browser-benchmark-guards.mjs';
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
@@ -5,7 +6,7 @@ const browser=await chromium.launch({channel:'msedge',headless:true});const page
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
 try{
     await page.goto('http://127.0.0.1:5173');await page.waitForFunction(()=>window.gs);
-    const results=await page.evaluate(async()=>{
+    const results=await evaluateBenchmark(page, async()=>{
         const engine=window.gs.engine;const rows=[];
         const open=async(path)=>{const start=performance.now();const result=await engine.open({kind:'url',url:new URL('/models/'+path,location.href).href}).result;rows.push({model:path,result,ms:performance.now()-start,snapshot:engine.getSnapshot()});return result;};
         let result=await open('changjin_v1.ply');if(!result.ok)throw Error(JSON.stringify(result));
@@ -16,7 +17,7 @@ try{
         if(result.ok||result.error.code!=='Cancelled'||engine.getSnapshot().sceneCount!==count)throw Error('Cancel did not retain active scene');
         engine.resize(800,600);engine.camera.orbit(100,20);engine.requestFrame();await new Promise(r=>setTimeout(r,100));
         result=await open('spz/shengyi_v1.spz');if(!result.ok)throw Error(JSON.stringify(result));
-        const pose=engine.camera.getPose();result=await engine.recover();if(!result.ok||engine.getSnapshot().sceneCount!==804758||JSON.stringify(engine.camera.getPose())!==JSON.stringify(pose))throw Error('Recovery failed');
+        engine.camera.orbit(67,19);engine.camera.pan(11,-5);engine.camera.dolly(1);const pose=engine.camera.getPose();result=await engine.recover();if(!result.ok||engine.getSnapshot().sceneCount!==804758||JSON.stringify(engine.camera.getPose())!==JSON.stringify(pose))throw Error('Recovery failed');
         rows.push({recovery:true,result,generation:engine.getSnapshot().deviceGeneration});
         const subscribers=[];const bad=engine.subscribe(()=>{throw Error('observer');});const good=engine.subscribe(()=>subscribers.push(1));
         engine.resize(900,600);bad();good();if(!subscribers.length)throw Error('Observer isolation failed');
@@ -28,7 +29,7 @@ try{
         const canvas=document.createElement('canvas');canvas.width=canvas.height=0;document.body.append(canvas);
         const created=await window.gs.createEngine({canvas,assets:{baseUrl:new URL('/assets/',location.href)},limits:{timeoutMs:3000}});
         if(!created.ok)throw Error(JSON.stringify(created));const hidden=created.value;
-        const pending=hidden.open(fixture);await new Promise(r=>setTimeout(r,300));
+        const pending=hidden.open(fixture);let settled=false;void pending.result.then(()=>{settled=true;});const waiting=performance.now();while(hidden.getSnapshot().phase!=='Uploading'){if(settled||performance.now()-waiting>2500)throw Error('Upload state not reached');await new Promise(r=>setTimeout(r,10));}
         if(hidden.getSnapshot().sceneCount||hidden.getSnapshot().phase!=='Uploading')throw Error('Zero viewport activated');
         hidden.resize(64,64);const activated=await pending.result;if(!activated.ok)throw Error(JSON.stringify(activated));
         hidden.resize(0,0);const timed=await hidden.open(fixture).result;
@@ -39,8 +40,23 @@ try{
         const rejected=await hidden.open(fixture).result;if(rejected.ok||rejected.error.code!=='DeviceLost'||hidden.getSnapshot().phase!=='Faulted')throw Error('Faulted open');
         const recovered=await hidden.recover();if(!recovered.ok||hidden.getSnapshot().phase!=='Ready')throw Error('Injected fault recovery');
         rows.push({browserBoundaryFixtures:{invalidUrl:invalid,zeroViewport:activated,timeout:timed,injectedFault:rejected,recovery:recovered,generation:hidden.getSnapshot().deviceGeneration},hardwareLossInjected:false});
+        const originalCreate=window.gs.Renderer.create;let releaseLate,lateDisposed=false,attempt=0;
+        const lateGate=new Promise(resolve=>{releaseLate=resolve;});
+        window.gs.Renderer.create=async(...args)=>{
+            if(++attempt!==1)return originalCreate(...args);
+            await lateGate;const renderer=await originalCreate(...args),dispose=renderer.dispose.bind(renderer);
+            renderer.dispose=async()=>{try{await dispose();}finally{lateDisposed=true;}};
+            return renderer;
+        };
+        try {
+            const expired=await hidden.recover();if(expired.ok||expired.error.code!=='Timeout'||hidden.getSnapshot().phase!=='Faulted')throw Error('Recovery deadline state');
+            const retry=await hidden.recover();if(!retry.ok)throw Error('Retry after recovery timeout');
+            releaseLate();const start=performance.now();while(!lateDisposed){if(performance.now()-start>5000)throw Error('Late recovery cleanup');await new Promise(r=>setTimeout(r,10));}
+            const capture=await hidden.capture();if(!capture.ok||hidden.getSnapshot().phase!=='Ready')throw Error('Late creation disrupted current surface');
+            rows.push({lateRecovery:{timeout:expired,retry,capture: capture.ok,disposed:lateDisposed}});
+        } finally {window.gs.Renderer.create=originalCreate;releaseLate();}
         await hidden.dispose();canvas.remove();
-        const tightCanvas=document.createElement('canvas');tightCanvas.width=tightCanvas.height=64;
+        const tightCanvas=document.createElement('canvas');tightCanvas.width=tightCanvas.height=1;
         const tightResult=await window.gs.createEngine({canvas:tightCanvas,assets:{baseUrl:new URL('/assets/',location.href)},limits:{gpuBytes:1100}});
         if(!tightResult.ok)throw Error(JSON.stringify(tightResult));const tight=tightResult.value;tight.pause();
         if(!(await tight.open(fixture).result).ok)throw Error('Tight baseline rejected');
@@ -70,7 +86,7 @@ try{
         return rows;
     });
     await page.screenshot({path:'test-results/real-model.png'});
-    const shutdown=await page.evaluate(async()=>{const e=window.gs.engine;await e.closeScene();if(e.getSnapshot().sceneCount!==0)throw Error('close');await e.dispose();await e.dispose();return e.getSnapshot();});
+    const shutdown=await evaluateBenchmark(page, async()=>{const e=window.gs.engine;await e.closeScene();if(e.getSnapshot().sceneCount!==0)throw Error('close');await e.dispose();await e.dispose();return e.getSnapshot();});
     assert.equal(shutdown.phase,'Stopped');assert.deepEqual(errors,[]);
     await mkdir('docs/verification/evidence',{recursive:true});await writeFile('docs/verification/evidence/integration-tests.json',JSON.stringify({results,shutdown,errors},null,2));console.log(JSON.stringify({results,shutdown}));
 }catch(reason){console.error('Browser errors',errors);throw reason;}finally{await browser.close();}

@@ -1,9 +1,10 @@
+import {evaluateBenchmark} from './browser-benchmark-guards.mjs';
 import {chromium} from '@playwright/test';
 import {writeFile} from 'node:fs/promises';
 const browser=await chromium.launch({channel:'msedge',headless:true});const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
 try{
 await page.goto('http://127.0.0.1:5173');await page.waitForFunction(()=>window.gs);
-const result=await page.evaluate(async()=>{
+const result=await evaluateBenchmark(page, async()=>{
     const canvas=document.createElement('canvas');canvas.width=64;canvas.height=64;document.body.append(canvas);
     const renderer=await window.gs.Renderer.create(canvas,16*2**20),Camera=window.gs.engine.camera.constructor,camera=new Camera();
     const x=3/Math.sqrt(50),y=4/Math.sqrt(50),z=5/Math.sqrt(50);
@@ -29,8 +30,9 @@ const result=await page.evaluate(async()=>{
     const point=make(64);point.set([.5,.1,.1],4);const angle=Math.PI/8;point.set([0,0,Math.sin(angle),Math.cos(angle)],8);
     const rgba=await capture(point);let sx=0,sy=0,sxx=0,syy=0,sxy=0,sum=0;
     for(let y=0;y<64;y++)for(let x=0;x<64;x++){const weight=rgba[(y*64+x)*4],dx=x+.5-32,dy=y+.5-32;sum+=weight;sx+=dx*weight;sy+=dy*weight;sxx+=dx*dx*weight;syy+=dy*dy*weight;sxy+=dx*dy*weight;}
+    if(!Number.isFinite(sum)||sum<=0)throw Error('Blank anisotropic fixture');
     const cov={xx:sxx/sum-(sx/sum)**2,yy:syy/sum-(sy/sum)**2,xy:sxy/sum-sx*sy/(sum*sum)};
-    if(Math.abs(cov.xx-cov.yy)>1 || cov.xy>-5)throw Error('Anisotropic rotated covariance failed '+JSON.stringify(cov));
+    if(!Object.values(cov).every(Number.isFinite) || Math.abs(cov.xx-cov.yy)>1 || cov.xy>-5)throw Error('Anisotropic rotated covariance failed '+JSON.stringify(cov));
     const clipped=make(64);clipped[2]=8;const black=await capture(clipped);if(black.some((v,i)=>i%4!==3&&v!==0))throw Error('Behind-camera culling failed');
     const singular=make(64);singular.set([1e-8,1e-8,1e-8],4);const small=await capture(singular);if(!small.some((v,i)=>i%4!==3&&v>0))throw Error('Subpixel preblur support missing');
     await renderer.dispose();canvas.remove();return {sh:rows,anisotropy:cov,behindCamera:true,subpixelPreblur:true};

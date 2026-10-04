@@ -2,7 +2,7 @@ param([switch]$Hardware)
 $ErrorActionPreference = 'Stop'
 Push-Location (Join-Path $PSScriptRoot '..')
 try {
-    foreach ($gate in @('typecheck','lint','check:boundaries','test:unit','test:contracts','build')) {
+    foreach ($gate in @('build:wasm','typecheck','lint','check:boundaries','test:unit','test:contracts','build')) {
         & pnpm run $gate
         if ($LASTEXITCODE -ne 0) { throw "Failed gate: $gate" }
     }

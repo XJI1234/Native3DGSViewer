@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'node:path';
-import { createReadStream, statSync } from 'node:fs';
+import { resolve, relative, isAbsolute } from 'node:path';
+import { createReadStream, statSync, realpathSync } from 'node:fs';
 
 export default defineConfig({
     publicDir: 'public',
@@ -18,9 +18,11 @@ export default defineConfig({
             server.middlewares.use('/models', (req, res, next) => {
                 try {
                     const name = decodeURIComponent((req.url ?? '').split('?')[0]!.replace(/^\//, ''));
-                    const root = resolve(modelRoot);
-                    const path = resolve(root, name);
-                    if (!path.startsWith(root + '/') && !path.startsWith(root + '\\')) { res.statusCode = 403; res.end(); return; }
+                    const root = realpathSync(modelRoot);
+                    if (name.includes('\\')) { res.statusCode = 403; res.end(); return; }
+                    const path = realpathSync(resolve(root, name));
+                    const child = relative(root, path);
+                    if (!child || child === '..' || child.startsWith('..' + '/') || child.startsWith('..' + '\\') || isAbsolute(child)) { res.statusCode = 403; res.end(); return; }
                     if (!/\.(ply|spz)$/.test(path)) { res.statusCode = 403; res.end(); return; }
                     res.setHeader('Content-Length', statSync(path).size);
                     res.setHeader('Content-Type', 'application/octet-stream');

@@ -15,7 +15,11 @@ for path in sorted(args.root.rglob('*')):
         header=prefix.split(b'end_header')[0].decode('ascii',errors='replace')
         for line in header.splitlines():
             if line.startswith('element vertex '): count=int(line.split()[-1])
-        rest=sum(line.startswith('property float f_rest_') for line in header.splitlines())
+        vertex=False;rest=0
+        for line in header.splitlines():
+            parts=line.split()
+            if parts[:1]==['element']: vertex=len(parts)>1 and parts[1]=='vertex'
+            if vertex and len(parts)==3 and parts[0]=='property' and parts[1] in ('float','float32') and parts[2].startswith('f_rest_'): rest+=1
         degree={0:0,9:1,24:2,45:3}.get(rest)
     else:
         if prefix[:2]==b'\x1f\x8b':

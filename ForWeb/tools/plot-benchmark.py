@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 root = Path(sys.argv[1])
+protocol = json.loads((root / 'results.json').read_text())
 rows = json.loads((root / "summary.json").read_text())
 models = list(dict.fromkeys(row["model"] for row in rows))
 lookup = {(row["model"], row["engine"]): row for row in rows}
@@ -44,9 +45,10 @@ axes[0].set_ylabel("Milliseconds")
 axes[1].set_title("1% low rendering-loop throughput")
 axes[1].set_ylabel("Callbacks / second")
 axes[0].legend(frameon=False, fontsize=8)
-fig.suptitle("1920 × 1080 · full SH3 · 30 s warmup + 3 × 60 s\n"
-             "Median and range across repetitions; physical presentation unverified",
-             fontsize=11)
+degrees = sorted({row['loaded']['degree'] for row in protocol['rows']})
+fig.suptitle(f"{protocol['resolution'][0]} x {protocol['resolution'][1]} | SH {degrees} | "
+             f"{protocol['warmup']/1000:g} s warmup + {protocol['runs']} x {protocol['duration']/1000:g} s\n"
+             "Median and range across repetitions; physical presentation unverified", fontsize=11)
 for extension in ["png", "svg"]:
     output = root / f"rendering-loop-comparison.{extension}"
     fig.savefig(output, dpi=180)
