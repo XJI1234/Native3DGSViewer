@@ -48,3 +48,8 @@ OCR初审19文件（含工具），修复错误优先级、包清单、环境文
 ### 最后工具审查处置
 
 后续OCR指出证据记录未强制fresh build、Python优化可能禁用assert、shutdown无界、发布ZIP会直接覆盖、浏览器hash采于结束及仅验证单色特征。现均修复：记录器自身执行frozen install/unit/format/build并核对前后输入；Python使用-E；shutdown含两次有界等待；临时ZIP验证后rename发布；浏览器启动前匹配强制build证据并核对结束时一致性；capture/recovery/cancel进行全RGB图像差异检查（容差2灰阶，截图时隐藏宿主文字叠层）。OCR低优先级静态版本命名建议不影响此固定v0.2.2/preview.2发布，当前版本和SDK完全匹配。没有未处置的high/medium发现。
+
+
+### 发布验收完成
+
+三份ZIP与各自sha256已上传原v0.2.2 release，GitHub资产digest与本地逐一相同。SDK实际source为eaa3b1b，模板source为076a999，MANIFEST均明确标注。两源码ZIP的文件哈希与对应Git提交字节一致；全新解压目录frozen安装、7项unit、format/strict/build通过，实际浏览器根路径React与`/viewer/`子路径Vue均加载成功并取得正确同源Worker/WASM。子路径preview启动与build使用相同VIEWER_BASE。对应证据为template-archive-smoke.json及web-release-preview2.json。
