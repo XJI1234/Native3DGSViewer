@@ -4,6 +4,15 @@ export interface Decoder {
     _free(ptr: number): void;
     _gs_probe(ptr: number, size: number, input: number, limit: number): number;
     _gs_begin(rdf: number): number;
+    _gs_begin_batch(rdf: number, count: number): number;
+    _gs_raw_spz(ptr: number, bytes: number, version: number, fractionalBits: number): number;
+    _gs_pack_compact(start: number, count: number): number;
+    _gs_rebase(ptr: number, count: number, stride: number, x: number, y: number, z: number): number;
+    _gs_inflate_begin(): number;
+    _gs_inflate_step(input: number, length: number, output: number, capacity: number): number;
+    _gs_inflate_consumed(): number;
+    _gs_inflate_produced(): number;
+    _gs_inflate_end(): void;
     _gs_chunk(ptr: number, size: number): number;
     _gs_spz(ptr: number, size: number): number;
     _gs_finish(spz: number): number;

@@ -9,6 +9,11 @@
 #include <memory>
 #include <string>
 
+namespace spz
+{
+GaussianCloud unpackGaussians(const PackedGaussians &, const UnpackOptions &);
+}
+
 using namespace gs::io;
 using namespace gs::io::detail;
 SceneHeader *gs_output = nullptr;
@@ -118,11 +123,16 @@ extern "C"
     {
         return inspected.probe.degree;
     }
-    int gs_begin(int rdf)
+    int gs_begin_batch(int rdf, uint32_t count)
     {
         try
         {
-            auto layout = make_layout(inspected.probe, 768ull << 20);
+            gs_release();
+            auto probe = inspected.probe;
+            if (!count || count > probe.count)
+                return reject("Invalid batch count");
+            probe.count = count;
+            auto layout = make_layout(probe, 768ull << 20);
             if (!inspected.ok || !layout)
                 return reject("ResourceLimit: normalized scene exceeds policy");
             gs_output = static_cast<SceneHeader *>(std::malloc(layout->totalBytes));
@@ -155,6 +165,60 @@ extern "C"
                 }
             }
             writer = std::make_unique<SceneWriter>(gs_output, rdf != 0);
+            return 1;
+        }
+        catch (const std::exception &e)
+        {
+            return reject(e.what());
+        }
+    }
+    int gs_begin(int rdf)
+    {
+        return gs_begin_batch(rdf, gs_count());
+    }
+    int gs_raw_spz(const uint8_t *data, uint32_t bytes, uint32_t version, uint32_t fractional_bits)
+    {
+        try
+        {
+            if (!writer || !gs_output || version < 1 || version > 3 || fractional_bits > 30)
+                return reject("Invalid SPZ batch state");
+            spz::PackedGaussians packed;
+            packed.version = version;
+            packed.numPoints = static_cast<int32_t>(gs_output->count);
+            packed.shDegree = gs_output->shDegree;
+            packed.fractionalBits = fractional_bits;
+            packed.usesQuaternionSmallestThree = version >= 3;
+            const uint32_t n = packed.numPoints;
+            const uint32_t rest = 3 * ((packed.shDegree + 1) * (packed.shDegree + 1) - 1);
+            const uint32_t position_bytes = version == 1 ? 6 : 9;
+            const uint32_t rotation_bytes = version >= 3 ? 4 : 3;
+            if (uint64_t(n) * (position_bytes + 7 + rotation_bytes + rest) != bytes)
+                return reject("Invalid SPZ attribute lengths");
+            uint32_t offset = 0;
+            const auto copy = [&](std::vector<uint8_t> &out, uint32_t width)
+            {
+                out.assign(data + offset, data + offset + n * width);
+                offset += n * width;
+            };
+            copy(packed.positions, position_bytes);
+            copy(packed.alphas, 1);
+            copy(packed.colors, 3);
+            copy(packed.scales, 3);
+            copy(packed.rotations, rotation_bytes);
+            copy(packed.sh, rest);
+            // Use the same vendor full-array unpack math as the original path.
+            spz::UnpackOptions options;
+            options.to = spz::CoordinateSystem::RUB;
+            const auto cloud = spz::unpackGaussians(packed, options);
+            if (cloud.numPoints != n)
+                return reject("SPZ batch mismatch");
+            for (uint32_t i = 0; i < n; ++i)
+                if (!writer->write(i, {cloud.positions.data() + 3ull * i, cloud.scales.data() + 3ull * i,
+                                       cloud.rotations.data() + 4ull * i, cloud.alphas[i],
+                                       cloud.colors.data() + 3ull * i,
+                                       rest ? cloud.sh.data() + uint64_t(rest) * i : nullptr}))
+                    return reject("Invalid SPZ attribute");
+            written = n;
             return 1;
         }
         catch (const std::exception &e)
