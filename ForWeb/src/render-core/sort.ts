@@ -11,15 +11,15 @@ struct Pair { key:u32, index:u32 }
 @group(0) @binding(4) var<uniform> params:Params;
 @group(0) @binding(5) var<storage,read_write> blocks:array<u32>;
 var<workgroup> bins:array<atomic<u32>,RADIX_BINS>;
-var<workgroup> localKeys:array<u32,256>;
-var<workgroup> localIndexes:array<u32,256>;
+var<workgroup> bitmap:array<atomic<u32>,RADIX_BINS*8u>;
 var<workgroup> scan:array<u32,256>;
 @compute @workgroup_size(256) fn count(@builtin(local_invocation_index) lane:u32,@builtin(workgroup_id) group:vec3u) {
   if(lane<RADIX_BINS){atomicStore(&bins[lane],0u);} workgroupBarrier();
-  let i=group.x*256u+lane;
+  let g=group.x+group.y*65535u;if(g>=params.groups){return;}
+  let i=g*256u+lane;
   let key=select(0xffffffffu,input[min(i,params.count-1u)].key,i<params.count);
   atomicAdd(&bins[(key>>params.shift)&RADIX_MASK],1u);workgroupBarrier();
-  if(lane<RADIX_BINS){histogram[lane*params.groups+group.x]=atomicLoad(&bins[lane]);}
+  if(lane<RADIX_BINS){histogram[lane*params.groups+g]=atomicLoad(&bins[lane]);}
 }
 @compute @workgroup_size(256) fn offsets(@builtin(local_invocation_index) lane:u32,@builtin(workgroup_id) group:vec3u) {
   let i=group.x*256u+lane;let bin=group.y;
@@ -31,10 +31,13 @@ var<workgroup> scan:array<u32,256>;
 }
 @compute @workgroup_size(256) fn blockOffsets(@builtin(local_invocation_index) lane:u32,@builtin(workgroup_id) group:vec3u) {
   let bin=group.x;let base=bin*(params.totalBlocks+1u);
-  let value=select(0u,blocks[base+min(lane,params.totalBlocks-1u)],lane<params.totalBlocks);
+  let width=(params.totalBlocks+255u)/256u;
+  let start=lane*width;let end=min(start+width,params.totalBlocks);
+  var value=0u;for(var j=start;j<end;j++){value+=blocks[base+j];}
   scan[lane]=value;workgroupBarrier();
   for(var step=1u;step<256u;step*=2u){var add=0u;if(lane>=step){add=scan[lane-step];}workgroupBarrier();scan[lane]+=add;workgroupBarrier();}
-  if(lane<params.totalBlocks){blocks[base+lane]=scan[lane]-value;}
+  var offset=scan[lane]-value;
+  for(var j=start;j<end;j++){let v=blocks[base+j];blocks[base+j]=offset;offset+=v;}
   if(lane==255u){blocks[base+params.totalBlocks]=scan[255u];}
 }
 @compute @workgroup_size(256) fn addOffsets(@builtin(global_invocation_id) id:vec3u) {
@@ -43,17 +46,19 @@ var<workgroup> scan:array<u32,256>;
   prefix[bin*params.groups+i]+=base+blocks[bin*(params.totalBlocks+1u)+i/256u];
 }
 @compute @workgroup_size(256) fn scatter(@builtin(local_invocation_index) lane:u32,@builtin(workgroup_id) group:vec3u) {
-  let i=group.x*256u+lane;let pair=input[min(i,params.count-1u)];
-  localKeys[lane]=select(0xffffffffu,pair.key,i<params.count);localIndexes[lane]=select(0xffffffffu,pair.index,i<params.count);
+  let g=group.x+group.y*65535u;if(g>=params.groups){return;}
+  let i=g*256u+lane;let pair=input[min(i,params.count-1u)];
+  for(var word=lane;word<RADIX_BINS*8u;word+=256u){atomicStore(&bitmap[word],0u);}
   workgroupBarrier();
-  // Deterministic local rank; one shared read phase, no subgroup width assumptions.
-  let key=localKeys[lane];let digit=(key>>params.shift)&RADIX_MASK;
+  let key=select(0xffffffffu,pair.key,i<params.count);let digit=(key>>params.shift)&RADIX_MASK;
+  let word=lane/32u;let bit=lane%32u;
+  atomicOr(&bitmap[digit*8u+word],1u<<bit);workgroupBarrier();
+  // Popcount counts only preceding lanes, preserving stable order on every adapter.
   var rank=0u;
-  for(var previous=0u;previous<lane;previous++){
-    if(((localKeys[previous]>>params.shift)&RADIX_MASK)==digit){rank++;}
-  }
-  let destination=prefix[digit*params.groups+group.x]+rank;
-  if(destination<params.count){output[destination]=Pair(key,localIndexes[lane]);}
+  for(var previous=0u;previous<word;previous++){rank+=countOneBits(atomicLoad(&bitmap[digit*8u+previous]));}
+  rank+=countOneBits(atomicLoad(&bitmap[digit*8u+word])&((1u<<bit)-1u));
+  let destination=prefix[digit*params.groups+g]+rank;
+  if(i<params.count && destination<params.count){output[destination]=Pair(key,pair.index);}
 }
 `;
 export class GpuSort {
@@ -107,7 +112,7 @@ export class GpuSort {
             (bits !== 4 && bits !== 8) ||
             !Number.isSafeInteger(count) ||
             count < 0 ||
-            Math.ceil(count / 256) > 65535
+            count > 0xffffffff
         )
             throw Error('ResourceLimit: radix count/profile');
         const groups = Math.ceil(count / 256),
@@ -170,7 +175,10 @@ export class GpuSort {
                 if (stage === 1 || stage === 3)
                     pass.dispatchWorkgroups(Math.ceil(Math.ceil(this.count / 256) / 256), this.bins);
                 else if (stage === 2) pass.dispatchWorkgroups(this.bins);
-                else pass.dispatchWorkgroups(Math.ceil(this.count / 256));
+                else {
+                    const groups = Math.ceil(this.count / 256);
+                    pass.dispatchWorkgroups(Math.min(groups, 65535), Math.ceil(groups / 65535));
+                }
                 pass.end();
             }
         }

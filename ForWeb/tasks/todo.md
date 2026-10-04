@@ -14,3 +14,11 @@
 每个任务必须附命令、结果与局限。checked 表示实测完成，不能只凭文件存在勾选。
 
 完整命令/证据/局限见docs/verification/{implementation-report,performance-report,review-and-interface-matrix}.md。大型超预算模型拒绝不算显示成功，跨平台、渲染Worker、SIMD/pthreads、LoD、云客户端是独立后续项。
+
+## Large-model continuation
+- [ ] Verify stable bitmap rank and 2D/segmented-prefix radix beyond 16m.
+- [ ] Implement bounded native batches and streamed validated SPZ inflation.
+- [ ] Implement OPFS backing and cancellation/recovery ownership tests.
+- [ ] Implement compact layout, paged projection and upload backpressure.
+- [ ] Load maximum PLY/SPZ, then require success for all 38 models.
+- [ ] Measure each stage, compare controlled Spark runs, review and document evidence.

@@ -25,3 +25,6 @@ Required cases: stable CPU reference, multi-page order, pixel fixtures, real GPU
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+## Large-model extension (ADR-002)
+Projection binds one page per dispatch and uses an integer base/count uniform. Global pairs and ellipses preserve order across pages. Compact scalar scene packing and 40-byte ellipses remove padding without quantization. Request adapter buffer/storage limits explicitly. Radix local ranks use bitmaps/popcount; 2D dispatch and segmented block-prefix support counts above 16m. Upload reads disk in bounded chunks and fences staging writes. Backing ownership is retained until actual scene release.

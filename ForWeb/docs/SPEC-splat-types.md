@@ -19,3 +19,6 @@ Required cases: NaN, overflow, layout/version, camera fit and replay. Actual out
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+## Large-model extension (ADR-002)
+Scene may provide reference-counted disk backing; pages remain the small-scene fixture contract. Backing exposes totalBytes, residentBytes, read(offset,length), retain(), release(). One transferred initial reference is always released by the load operation. Compact scalar packing is explicit. Limits are positive safe integers; disk streaming allows input/scene budgets beyond wasm32 address space while batch allocations remain bounded.

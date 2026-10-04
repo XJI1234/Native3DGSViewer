@@ -25,3 +25,6 @@ Required cases: malformed/unsupported inputs, truncation, resources, timeout, te
 
 ## Boundaries
 Always: validate inputs and resource arithmetic, preserve ownership/identity, test failures, pin dependencies. Review new scope/public semantics before changing them; routine authorized fixes proceed. Never: silently drop points/SH, bypass failing tests, copy unlicensed code, publish model files or credentials.
+
+## Large-model extension (ADR-002)
+URL streams and normalized world-coordinate batches are stored in job-owned OPFS files. Streaming batches are at most 4 MiB input with bounded normalization scratch. Legacy SPZ is incrementally inflated with exact length, checksum and trailing-input validation; attributes are unpacked by the pinned vendor implementation in batches. Global rebase occurs once. Cancellation terminates the worker and removes the uniquely named job; success keeps only the backing file until its last owner releases. Small SPZ v4 retains its validated existing path. Storage exhaustion is an explicit ResourceLimit.
