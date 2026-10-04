@@ -11,8 +11,17 @@ export interface Scene extends Bounds {
     readonly stride: number;
     readonly pageCapacity: number;
     readonly pages: readonly ArrayBuffer[];
+    readonly packing?: 'compact';
+    readonly backing?: SceneBacking;
     readonly source: string;
     readonly decodeMs: number;
+}
+export interface SceneBacking {
+    readonly totalBytes: number;
+    readonly residentBytes: number;
+    read(offset: number, length: number): Promise<ArrayBuffer>;
+    retain(): void;
+    release(): Promise<void>;
 }
 export type ErrorCode =
     | 'UnsupportedCapability'
@@ -57,16 +66,14 @@ export interface Limits {
     readonly timeoutMs: number;
 }
 export const defaultLimits: Limits = Object.freeze({
-    inputBytes: 256 * 2 ** 20,
-    sceneBytes: 768 * 2 ** 20,
-    gpuBytes: 512 * 2 ** 20,
-    cpuBytes: 1536 * 2 ** 20,
-    timeoutMs: 120000,
+    inputBytes: 8 * 2 ** 30,
+    sceneBytes: 8 * 2 ** 30,
+    gpuBytes: 8 * 2 ** 30,
+    cpuBytes: 512 * 2 ** 20,
+    timeoutMs: 600000,
 });
 
 export function validateLimits(value: Limits): void {
     for (const field of Object.values(value))
         if (!Number.isSafeInteger(field) || field <= 0) throw Error('Limits must be positive safe integers');
-    if (value.sceneBytes > 768 * 2 ** 20 || value.inputBytes > 768 * 2 ** 20)
-        throw Error('wasm32 profile exceeds validated policy');
 }

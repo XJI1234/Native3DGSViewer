@@ -6,6 +6,7 @@
 Latest-wins load transactions, camera/surface/device revisions, snapshots and async shutdown. Depends on model-io, render-core. Existing native provider contracts remain unchanged.
 
 ## Public contract
+Large-model backing has independent ownership across decode, GPU scene and recovery. closeScene/dispose wait for in-flight load completion and cancellation cleanup. Scene activation and snapshot publication remain synchronous before asynchronous old-scene cleanup; cleanup cannot publish a stale request. Cleanup failures produce a structured diagnostic while remaining GPU resources are destroyed. Automatic frames use one GPU completion fence at a time and retain the latest camera state.
 
 Snapshots freeze their nested progress/error/stat values as well as the outer object. Recovery/disposal promise guards are installed before invoking observers, including observers that reenter these operations. Nonzero viewport must be verified after asynchronous upload and first-frame completion; a collapsed viewport keeps activation pending until a new validated frame is submitted at a nonzero size.
 

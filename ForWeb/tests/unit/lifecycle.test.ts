@@ -69,6 +69,104 @@ test('zero viewport waits and resize does not overwrite upload transaction', asy
     expect(engine.getSnapshot().phase).toBe('Ready');
     await engine.dispose();
 });
+test('old-scene asynchronous cleanup cannot overwrite a later close snapshot', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    const cleanup = deferred<void>();
+    allocated.release.mockImplementationOnce(() => cleanup.promise);
+    const replacement = engine.open({ kind: 'blob', blob: new Blob() });
+    await vi.waitFor(() => expect(allocated.release).toHaveBeenCalled());
+    const close = engine.closeScene();
+    expect(engine.getSnapshot().sceneCount).toBe(0);
+    cleanup.resolve();
+    await replacement.result;
+    await close;
+    expect(engine.getSnapshot().sceneCount).toBe(0);
+    expect(engine.getSnapshot().phase).toBe('Idle');
+    await engine.dispose();
+});
+test('dispose waits for aborted decoder completion and its backing cleanup', async () => {
+    const decode = deferred<typeof scene>();
+    const cleanup = deferred<void>();
+    const backing = {
+        totalBytes: 64,
+        residentBytes: 0,
+        read: vi.fn(),
+        retain: vi.fn(),
+        release: vi.fn(() => cleanup.promise),
+    };
+    fake.decode.mockImplementationOnce(() => decode.promise);
+    const engine = await create();
+    const operation = engine.open({ kind: 'blob', blob: new Blob() });
+    let disposed = false;
+    const disposal = engine.dispose().then(() => {
+        disposed = true;
+    });
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(disposed).toBe(false);
+    decode.resolve({ ...scene, backing } as typeof scene);
+    await vi.waitFor(() => expect(backing.release).toHaveBeenCalledOnce());
+    expect(disposed).toBe(false);
+    cleanup.resolve();
+    expect((await operation.result).ok).toBe(false);
+    await disposal;
+    expect(engine.getSnapshot().phase).toBe('Stopped');
+});
+test('backing cleanup failure returns a structured error and clears the pending operation', async () => {
+    const allocated = renderer();
+    allocated.upload.mockRejectedValueOnce(Error('ResourceLimit: injected admission'));
+    fake.create.mockResolvedValue(allocated);
+    const backing = {
+        totalBytes: 64,
+        residentBytes: 0,
+        read: vi.fn(),
+        retain: vi.fn(),
+        release: vi.fn(async () => {
+            throw Error('injected storage deletion');
+        }),
+    };
+    fake.decode.mockResolvedValueOnce({ ...scene, backing });
+    const engine = await create();
+    const result = await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.stage).toBe('StorageCleanup');
+    expect(engine.getSnapshot().sceneCount).toBe(0);
+    await engine.dispose();
+});
+test('Loading observer disposal owns the load before synchronous publication and reports cleanup failures', async () => {
+    const decode = deferred<typeof scene>();
+    fake.decode.mockImplementationOnce(() => decode.promise);
+    const backing = {
+        totalBytes: 64,
+        residentBytes: 0,
+        read: vi.fn(),
+        retain: vi.fn(),
+        release: vi.fn(async () => {
+            throw Error('injected interrupted cleanup');
+        }),
+    };
+    const engine = await create();
+    let disposal: Promise<void> | undefined,
+        stopped = false;
+    engine.subscribe(() => {
+        if (engine.getSnapshot().phase === 'Loading')
+            disposal = engine.dispose().then(() => {
+                stopped = true;
+            });
+    });
+    const operation = engine.open({ kind: 'blob', blob: new Blob() });
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(disposal).toBeDefined();
+    expect(stopped).toBe(false);
+    decode.resolve({ ...scene, backing } as typeof scene);
+    expect((await operation.result).ok).toBe(false);
+    await disposal;
+    expect(engine.getSnapshot().phase).toBe('Stopped');
+    expect(engine.getSnapshot().error?.stage).toBe('StorageCleanup');
+    expect(engine.getSnapshot().error?.diagnostic).toContain('interrupted cleanup');
+});
 test('close during recovery upload never resurrects retained scene', async () => {
     const engine = await create();
     await engine.open({ kind: 'blob', blob: new Blob() }).result;

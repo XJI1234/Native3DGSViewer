@@ -108,12 +108,7 @@ export class GpuSort {
         }
     }
     static byteSize(count: number, bits = 4): number {
-        if (
-            (bits !== 4 && bits !== 8) ||
-            !Number.isSafeInteger(count) ||
-            count < 0 ||
-            count > 0xffffffff
-        )
+        if ((bits !== 4 && bits !== 8) || !Number.isSafeInteger(count) || count < 0 || count > 0xffffffff)
             throw Error('ResourceLimit: radix count/profile');
         const groups = Math.ceil(count / 256),
             bins = 1 << bits;
@@ -123,7 +118,14 @@ export class GpuSort {
             bins * 4 * (Math.ceil(groups / 256) + 1)
         );
     }
-    encode(encoder: GPUCommandEncoder, a: GPUBuffer, b: GPUBuffer, timestamps?: GPUQuerySet): GPUBuffer {
+    encode(
+        encoder: GPUCommandEncoder,
+        a: GPUBuffer,
+        b: GPUBuffer,
+        timestamps?: GPUQuerySet,
+        beginIndex = 0,
+        endIndex = 1,
+    ): GPUBuffer {
         if (!this.count) return a;
         if (!this.cached || this.cached.a !== a || this.cached.b !== b) {
             const groups = Array.from({ length: this.passes }, (_, digit) =>
@@ -164,8 +166,8 @@ export class GpuSort {
                               timestampWrites: {
                                   querySet: timestamps,
                                   ...(digit === 0
-                                      ? { beginningOfPassWriteIndex: 0 }
-                                      : { endOfPassWriteIndex: 1 }),
+                                      ? { beginningOfPassWriteIndex: beginIndex }
+                                      : { endOfPassWriteIndex: endIndex }),
                               },
                           }
                         : {};

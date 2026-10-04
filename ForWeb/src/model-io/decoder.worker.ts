@@ -1,4 +1,5 @@
 import type { Limits, Progress, Scene, Source, Vec3 } from '../splat-types/index';
+import { decodeStream, download } from './streaming';
 import { check, createDecoder, withBytes } from './wasm';
 
 const scope = globalThis as unknown as {
@@ -12,65 +13,51 @@ scope.onmessage = async (
         assets: string;
         pageBytes: number;
         retainedBytes: number;
+        job: string;
     }>,
 ) => {
-    const { source, limits, assets, pageBytes, retainedBytes } = event.data;
+    const { source, limits, assets, pageBytes, retainedBytes, job } = event.data;
     const begin = performance.now();
     const progress = (stage: string, done: number, total: number | null) =>
         scope.postMessage({ kind: 'progress', value: { stage, done, total } satisfies Progress });
     try {
-        let blob: Blob;
-        if (source.kind === 'blob') {
-            if (!(source.blob instanceof Blob)) throw Error('InvalidInput: Blob');
-            blob = source.blob;
-        } else {
-            if (source.kind !== 'url') throw Error('InvalidInput: source kind');
-            let url: URL;
-            try {
-                url = new URL(source.url);
-            } catch {
-                throw Error('InvalidInput: absolute URL required');
-            }
-            if (!['http:', 'https:'].includes(url.protocol)) throw Error('InvalidInput: URL protocol');
-            const response = await fetch(url).catch((reason) => {
-                throw Error(`NetworkFailure: ${reason}`);
-            });
-            if (!response.ok) throw Error(`NetworkFailure: HTTP ${response.status}`);
-            const declared = Number(response.headers.get('Content-Length'));
-            if (declared > limits.inputBytes) throw Error('ResourceLimit: input bytes');
-            if (declared * 2 + retainedBytes + 32 * 2 ** 20 > limits.cpuBytes)
-                throw Error('ResourceLimit: download CPU peak');
-            if (!response.body) throw Error('NetworkFailure: empty body');
-            const chunks: Uint8Array<ArrayBuffer>[] = [];
-            const reader = response.body.getReader();
-            let total = 0;
-            while (true) {
-                const { done, value } = await reader.read().catch((reason) => {
-                    throw Error(`NetworkFailure: ${reason}`);
-                });
-                if (done) break;
-                total += value.length;
-                if (total > limits.inputBytes || total * 2 + retainedBytes + 32 * 2 ** 20 > limits.cpuBytes) {
-                    await reader.cancel();
-                    throw Error('ResourceLimit: input bytes');
-                }
-                chunks.push(value);
-                progress('Downloading', total, declared || null);
-            }
-            blob = new Blob(chunks);
-        }
+        if (!navigator.storage?.getDirectory) throw Error('UnsupportedCapability: OPFS storage');
+        if (retainedBytes + 40 * 2 ** 20 > limits.cpuBytes) throw Error('ResourceLimit: input CPU peak');
+        const root = await navigator.storage.getDirectory();
+        const directory = await root.getDirectoryHandle(job, { create: true });
+        const blob = await download(source, directory, limits, progress);
         if (blob.size > limits.inputBytes) throw Error('ResourceLimit: input bytes');
         const wasm = await createDecoder(assets);
         try {
             const prefix = new Uint8Array(
                 await blob.slice(0, Math.min(blob.size, 1024 * 1024)).arrayBuffer(),
             );
-            withBytes(wasm, prefix, (p) =>
-                check(wasm, wasm._gs_probe(p, prefix.length, blob.size, limits.sceneBytes)),
-            );
+            withBytes(wasm, prefix, (p) => {
+                const admitted = wasm._gs_probe(p, prefix.length, blob.size, limits.sceneBytes);
+                if (!admitted)
+                    throw Error(
+                        `${wasm.UTF8ToString(wasm._gs_error())}; input=${blob.size}, prefix=${prefix.length}`,
+                    );
+            });
             const ply = prefix[0] === 112 && prefix[1] === 108 && prefix[2] === 121;
             if (source.plyCoordinates !== undefined && !['rdf', 'rub'].includes(source.plyCoordinates))
                 throw Error('InvalidInput: plyCoordinates');
+            const streamingBytes = wasm._gs_count() * (128 + 24 * ((wasm._gs_degree() + 1) ** 2 - 1));
+            if ((ply && streamingBytes > 64 * 2 ** 20) || (prefix[0] === 0x1f && prefix[1] === 0x8b)) {
+                const { scene, file } = await decodeStream(
+                    blob,
+                    source,
+                    wasm,
+                    directory,
+                    pageBytes,
+                    limits,
+                    retainedBytes,
+                    progress,
+                    begin,
+                );
+                scope.postMessage({ kind: 'ready', scene, file });
+                return;
+            }
             const points = wasm._gs_count(),
                 sh = wasm._gs_degree();
             const packedStride = [64, 112, 160, 256][sh];
@@ -159,7 +146,12 @@ scope.onmessage = async (
     } catch (reason) {
         scope.postMessage({
             kind: 'error',
-            reason: reason instanceof Error ? reason.message : String(reason),
+            reason:
+                reason instanceof DOMException && reason.name === 'QuotaExceededError'
+                    ? 'ResourceLimit: browser storage quota'
+                    : reason instanceof Error
+                      ? reason.message
+                      : String(reason),
         });
     }
 };
