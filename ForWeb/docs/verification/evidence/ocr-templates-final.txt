@@ -1,0 +1,34 @@
+Review complete: 4 finding(s) across 4 selected item(s).
+
+─── ForWeb/tools/template-tests.mjs:151-151 ───
+[bug · medium] Shutdown is still unbounded: server.kill() only requests termination, and awaiting
+serverClosed can hang indefinitely if Vite ignores SIGTERM or termination fails. Use a bounded
+shutdown wait, escalate to SIGKILL when needed, and fail explicitly if the child still does not
+exit.
+
+
+
+─── ForWeb/tools/record-template-build.mjs:7-7 ───
+[bug · medium] This records current sources and any existing dist without establishing that dist was
+built from those sources. After editing a source file, running this recorder and committing the edit
+allows packaging to pass with stale production outputs; the README build sequence is not enforced by
+either script. Run a successful fresh build before recording (checking inputs remain unchanged), or
+require matching evidence from an enforced build/test step.
+
+
+
+─── ForWeb/tools/package-templates.mjs:10-13 ───
+[bug · medium] These integrity checks disappear when the inherited environment sets PYTHONOPTIMIZE=1
+(or 2). In that case an SDK ZIP whose contents disagree with its manifest can be accepted, as long
+as the template tarball matches the ZIP's actual tarball. Replace Python assertions with explicit
+checks that raise exceptions, including the packing checks below, or launch Python with optimization
+disabled independently of the environment.
+
+
+
+─── ForWeb/tools/template-tests.mjs:165-165 ───
+[test · medium] The Python subprocess inherits PYTHONOPTIMIZE, which can remove this assertion and
+all the other pixel acceptance assertions. With optimization enabled, incorrect reflection, capture,
+recovery, and cancellation images can still produce a successful evidence file. Use explicit
+conditional failures for all acceptance checks or ensure this subprocess cannot inherit Python
+optimization settings.

@@ -65,6 +65,149 @@ async function create(width = 640, height = 480) {
     if (!result.ok) throw Error(result.error.diagnostic);
     return result.value;
 }
+
+test('automatic frames overlap two submissions, bound backlog and consume latest camera', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    const first = deferred<void>(),
+        second = deferred<void>();
+    allocated.device.queue.onSubmittedWorkDone = vi
+        .fn()
+        .mockImplementationOnce(() => first.promise)
+        .mockImplementationOnce(() => second.promise)
+        .mockImplementation(() => new Promise(() => {}));
+    const revisions: number[] = [];
+    allocated.render.mockImplementation((_scene, _frame, revision) => {
+        revisions.push(revision);
+        _scene.revision = revision;
+    });
+    const tick = () => (engine as unknown as { tick(): void }).tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(revisions).toHaveLength(2);
+    engine.camera.orbit(1, 0);
+    tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(revisions).toHaveLength(2);
+    first.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    tick();
+    expect(revisions).toHaveLength(3);
+    expect(revisions[2]! - revisions[1]!).toBe(2);
+    second.resolve();
+    await engine.dispose();
+});
+
+test('invalid frame depth fails before GPU allocation', async () => {
+    const result = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        maxFramesInFlight: 0,
+    } as unknown as Parameters<typeof WebEngine.create>[0]);
+    expect(result.ok).toBe(false);
+    expect(fake.create).not.toHaveBeenCalled();
+});
+
+test('caller mutation cannot increase the validated submission bound', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const options = {
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        maxFramesInFlight: 1 as 1 | 2 | 3,
+    };
+    const result = await WebEngine.create(options);
+    if (!result.ok) throw Error('create');
+    const engine = result.value;
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    allocated.device.queue.onSubmittedWorkDone = () => new Promise(() => {});
+    let submissions = 0;
+    allocated.render.mockImplementation((scene, _frame, revision) => {
+        scene.revision = revision;
+        submissions++;
+    });
+    const tick = () => (engine as unknown as { tick(): void }).tick();
+    tick();
+    options.maxFramesInFlight = 3;
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(submissions).toBe(1);
+    allocated.device.queue.onSubmittedWorkDone = async () => {};
+    await engine.dispose();
+});
+
+test('single-frame fallback suppresses paused and hidden draws without losing latest input', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const created = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        maxFramesInFlight: 1,
+    });
+    if (!created.ok) throw Error('create');
+    const engine = created.value;
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    const wait = deferred<void>();
+    allocated.device.queue.onSubmittedWorkDone = () => wait.promise;
+    const revisions: number[] = [];
+    allocated.render.mockImplementation((scene, _frame, revision) => {
+        scene.revision = revision;
+        revisions.push(revision);
+    });
+    const tick = () => (engine as unknown as { tick(): void }).tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(revisions).toHaveLength(1);
+    wait.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    engine.pause();
+    tick();
+    expect(revisions).toHaveLength(1);
+    engine.resume();
+    vi.stubGlobal('document', { hidden: true });
+    tick();
+    expect(revisions).toHaveLength(1);
+    vi.stubGlobal('document', { hidden: false });
+    tick();
+    expect(revisions).toHaveLength(2);
+    expect(revisions[1]! - revisions[0]!).toBe(1);
+    await engine.dispose();
+});
+
+test('old-device completion cannot free a new renderer submission slot', async () => {
+    const old = renderer(),
+        replacement = renderer();
+    fake.create.mockResolvedValueOnce(old).mockResolvedValueOnce(replacement);
+    const engine = await create();
+    await engine.open({ kind: 'blob', blob: new Blob() }).result;
+    const oldWait = deferred<void>();
+    old.device.queue.onSubmittedWorkDone = () => oldWait.promise;
+    const tick = () => (engine as unknown as { tick(): void }).tick();
+    tick();
+    expect((await engine.recover()).ok).toBe(true);
+    const newWait = deferred<void>();
+    replacement.device.queue.onSubmittedWorkDone = () => newWait.promise;
+    let submissions = 0;
+    replacement.render.mockImplementation((scene, _frame, revision) => {
+        scene.revision = revision;
+        submissions++;
+    });
+    tick();
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(submissions).toBe(2);
+    oldWait.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    engine.camera.orbit(1, 0);
+    tick();
+    expect(submissions).toBe(2);
+    newWait.resolve();
+    await engine.dispose();
+});
 test('zero viewport waits and resize does not overwrite upload transaction', async () => {
     const engine = await create(0, 0),
         operation = engine.open({ kind: 'blob', blob: new Blob() });

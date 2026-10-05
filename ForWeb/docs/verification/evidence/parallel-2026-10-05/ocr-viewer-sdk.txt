@@ -1,0 +1,38 @@
+Review complete: 4 finding(s) across 5 selected item(s).
+
+─── ForWeb/src/web-adapters/dom.ts:41-44 ───
+[bug · medium] Releasing the last flight key empties `keys`, so the next animation frame calls
+`clearFlight()` and exits pointer lock. This unexpectedly disables mouse-look whenever the user
+stops translating (including after tapping Shift). Separate stopping the keyboard animation from
+releasing pointer lock; reserve lock release for Escape, focus/visibility loss, mode exit, or
+disposal.
+
+
+
+─── ForWeb/src/web-adapters/dom.ts:69-70 ───
+[bug · medium] Pointer-lock acquisition is asynchronous, but cleanup only exits a lock already held.
+If blur or unbinding occurs before the request completes, a late acquisition can lock the canvas
+again; after unbinding there are no listeners left to handle it. Track lifecycle/request validity
+and release stale acquisitions on completion, with a `pointerlockchange` guard for browsers whose
+request returns void.
+
+
+
+─── ForWeb/src/web-adapters/dom.ts:172-172 ───
+[bug · medium] Window blur does not cover focus moving from the canvas to another control in the
+same document. With drag fallback/no pointer lock, holding W and tabbing to another control leaves
+the flight loop moving the camera, since it never checks canvas focus. Add canvas focus-loss cleanup
+(and matching removal), or stop flight when neither canvas focus nor pointer lock is held.
+
+
+
+─── ForWeb/src/web-adapters/dom.ts:80-80 ───
+[bug · medium] The negated deltas reverse fly-mode look controls. `Camera.look()` calls `orbit()`,
+which subtracts x from yaw and adds y to pitch; with the default pose, a positive x turns the
+viewing direction right and a positive y turns it down. Passing negative mouse deltas therefore
+makes rightward mouse movement look left and downward movement look up. The same negation in the
+drag fallback and arrow-key branch makes ArrowRight look left and ArrowUp look down. Pass the deltas
+directly in all three fly-look paths.
+
+-                 engine.camera.look(-event.movementX * pixelRatio, -event.movementY * pixelRatio);
++                 engine.camera.look(event.movementX * pixelRatio, event.movementY * pixelRatio);

@@ -5,7 +5,7 @@
       "result": {
         "ok": true
       },
-      "ms": 622.8000000119209,
+      "ms": 634.6000000238419,
       "snapshot": {
         "phase": "Ready",
         "requestId": 1,
@@ -15,14 +15,14 @@
         "progress": null,
         "error": null,
         "stats": {
-          "cpuMs": 0.20000001788139343,
-          "gpuMs": 1.114112,
+          "cpuMs": 0.19999998807907104,
+          "gpuMs": 0.524288,
           "gpuFrameId": 1,
           "frameId": 2,
           "sorted": true,
           "projectionMs": 0.131072,
           "sortMs": 0.131072,
-          "drawMs": 0.786432
+          "drawMs": 0.262144
         },
         "deviceGeneration": 1,
         "viewportRevision": 2
@@ -33,7 +33,7 @@
       "result": {
         "ok": true
       },
-      "ms": 1876.4000000059605,
+      "ms": 1759.5999999940395,
       "snapshot": {
         "phase": "Ready",
         "requestId": 4,
@@ -44,13 +44,13 @@
         "error": null,
         "stats": {
           "cpuMs": 0.19999998807907104,
-          "gpuMs": 15.597568,
+          "gpuMs": 1.507328,
           "gpuFrameId": 6,
           "frameId": 7,
           "sorted": true,
-          "projectionMs": 8.257536,
-          "sortMs": 4.849664,
-          "drawMs": 2.424832
+          "projectionMs": 0.393216,
+          "sortMs": 0.393216,
+          "drawMs": 0.720896
         },
         "deviceGeneration": 1,
         "viewportRevision": 3

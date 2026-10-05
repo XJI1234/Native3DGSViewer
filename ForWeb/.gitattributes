@@ -1,0 +1,4 @@
+src/**/*.ts text eol=lf
+tests/unit/*.ts text eol=lf
+apps/*-viewer/** text=auto eol=lf
+apps/*-viewer/vendor/*.tgz -text

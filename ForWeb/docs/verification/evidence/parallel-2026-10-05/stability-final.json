@@ -1,0 +1,294 @@
+{
+  "duration": 300000,
+  "cycles": 100,
+  "cycleResult": {
+    "replacements": 34,
+    "cancelled": 33,
+    "mounts": 33,
+    "counts": [
+      {
+        "cycle": 9,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 54181719
+        }
+      },
+      {
+        "cycle": 19,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 30500889
+        }
+      },
+      {
+        "cycle": 29,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 66871855
+        }
+      },
+      {
+        "cycle": 39,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 45842023
+        }
+      },
+      {
+        "cycle": 49,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 5386153
+        }
+      },
+      {
+        "cycle": 59,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 45895259
+        }
+      },
+      {
+        "cycle": 69,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 45847579
+        }
+      },
+      {
+        "cycle": 79,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 5389037
+        }
+      },
+      {
+        "cycle": 89,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 45896243
+        }
+      },
+      {
+        "cycle": 99,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 45866851
+        }
+      }
+    ]
+  },
+  "samples": [
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2808721
+      },
+      "phase": "Ready",
+      "frameId": 3724,
+      "gpuFrameId": 3725,
+      "frames": 3603,
+      "elapsedMs": 30018
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2802161
+      },
+      "phase": "Ready",
+      "frameId": 7314,
+      "gpuFrameId": 7324,
+      "frames": 7205,
+      "elapsedMs": 60039
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2804705
+      },
+      "phase": "Ready",
+      "frameId": 10905,
+      "gpuFrameId": 10924,
+      "frames": 10807,
+      "elapsedMs": 90058
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2803941
+      },
+      "phase": "Ready",
+      "frameId": 14502,
+      "gpuFrameId": 14523,
+      "frames": 14410,
+      "elapsedMs": 120080
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2825577
+      },
+      "phase": "Ready",
+      "frameId": 18122,
+      "gpuFrameId": 18122,
+      "frames": 18012,
+      "elapsedMs": 150096
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2825553
+      },
+      "phase": "Ready",
+      "frameId": 21713,
+      "gpuFrameId": 21721,
+      "frames": 21613,
+      "elapsedMs": 180108
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2806570
+      },
+      "phase": "Ready",
+      "frameId": 25302,
+      "gpuFrameId": 25320,
+      "frames": 25215,
+      "elapsedMs": 210125
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2814534
+      },
+      "phase": "Ready",
+      "frameId": 28895,
+      "gpuFrameId": 28920,
+      "frames": 28818,
+      "elapsedMs": 240146
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2814674
+      },
+      "phase": "Ready",
+      "frameId": 32514,
+      "gpuFrameId": 32519,
+      "frames": 32420,
+      "elapsedMs": 270164
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 21,
+        "bufferBytes": 49963720,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 2806606
+      },
+      "phase": "Ready",
+      "frameId": 36078,
+      "gpuFrameId": 36098,
+      "frames": 36001,
+      "elapsedMs": 300010
+    }
+  ],
+  "errors": [],
+  "shutdown": {
+    "closed": {
+      "devices": 1,
+      "buffers": 4,
+      "bufferBytes": 480,
+      "contexts": 1,
+      "workers": 0,
+      "jsHeap": 2830405
+    },
+    "disposed": {
+      "devices": 0,
+      "buffers": 0,
+      "bufferBytes": 0,
+      "contexts": 0,
+      "workers": 0,
+      "jsHeap": 2835241
+    },
+    "phase": "Stopped"
+  },
+  "complete": true
+}

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2-preview.2
+
+- Display-only Y reflection with persistent canonical input; orbit/fly adapter navigation, pointer lock, WASD/QE, focus cleanup and keyboard controls. — 2026-10-05（连续交互调优）
+
+- 自动绘制默认允许两个在途提交，新增固定初始化选项`maxFramesInFlight: 1 | 2 | 3`；队列满时消费最新相机，设备恢复隔离旧完成回调。
+- 删除不可见投影记录的冗余GPU清零；保留完整点、SH3、float32及当前排序与透明度语义。
+- 增加WASM/OPFS精确长度检查、连续交互/延迟/浏览器Present和阶段性能证据；私密浏览上下文的偶发缓存截短仍需定位。
+- radix pass合并、工作组原子汇总、透明度边界收缩与6-bit radix经实验未保留。详细结果见`docs/verification/parallel-optimization-2026-10-05.md`。
+
 ## 0.2.2-preview.1 — 2026-10-04（Web SDK 预览）
 
 - 完整大型模型采用有界 WASM/OPFS、逐页上传及投影，保留全部点、float32 和 SH；本机 38 个模型完整验收。

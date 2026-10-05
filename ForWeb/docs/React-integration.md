@@ -1,6 +1,8 @@
 # React 19 接入指南
 
-适用React19、TypeScript严格模式、`@native3dgs/web@0.2.2-preview.1`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
+适用React19、TypeScript严格模式、`@native3dgs/web@0.2.2-preview.2`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
+
+0.2.2-preview.2增加`maxFramesInFlight: 1 | 2 | 3`，通过`useNative3DGS(host, { assets, maxFramesInFlight: 2 })`初始化；默认2，1保留单帧门控。它不是响应式选项，需在创建实例之前确定。结果及适用范围见[连续交互调优记录](verification/parallel-optimization-2026-10-05.md)，不能将本机120次提交/秒当作所有设备的显示帧率承诺。
 
 ## 1. 依赖与文件布局
 
@@ -160,3 +162,14 @@ React多个查看器各自占用device/显存。默认GPU/input/scene预算各8G
 ## 条件容器与重新绑定
 
 推荐使用上例的 callback ref（setHost）及 HTMLElement|null 参数。容器在条件渲染后出现、消失或被替换时，hook 会取消旧绑定、移除旧 Canvas，并处理迟到的初始化。保留的 RefObject 参数仅适用于随 hook 一起挂载且不被替换的固定容器；修改 ref.current 本身不会触发 React effect。options 是初次调用的配置快照，更换配置应重新挂载宿主组件。
+
+
+## 查看器导航与 Y 轴翻转（preview.2）
+
+```ts
+engine.camera.setFlipY(true); // 显示模型Y镜像，canonical pose不变
+engine.camera.setMode('fly'); // 默认是orbit，框架适配器自动切换输入
+engine.requestFrame();
+```
+
+SDK直接构造反射投影视图，不要再给Canvas添加CSS scaleX/scaleY。翻转状态跨fit/reset/open/recover保留，鼠标增量来自未变换client坐标。固定模式左拖旋转、右拖平移、滚轮缩放；自由模式点击视口进入Pointer Lock，鼠标转向、WASD/QE移动、Shift加速，Escape/失焦退出；拒绝Pointer Lock时支持左拖转向。方向键与加减键可在聚焦Canvas时操作。`getPose()`/`setPose()`始终使用未反射的canonical坐标。模板仅使用公开SDK、hook/composable、snapshot与Result，不读取renderer或active字段。

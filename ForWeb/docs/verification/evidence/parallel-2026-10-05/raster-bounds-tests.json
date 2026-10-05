@@ -1,0 +1,259 @@
+{
+  "candidateDiffers": true,
+  "mode": "candidate comparison",
+  "rows": [
+    {
+      "count": 1,
+      "opacity": 0.003921607843137255,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.003921607843137255,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.008,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.008,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.02,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.02,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.1,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.1,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.5,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.5,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.999,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 1,
+      "opacity": 0.999,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.003921607843137255,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.003921607843137255,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.008,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.008,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.02,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.02,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.1,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.1,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.5,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.5,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.999,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 17,
+      "opacity": 0.999,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.003921607843137255,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.003921607843137255,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.008,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.008,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.02,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.02,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.1,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.1,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.5,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.5,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.999,
+      "clip": false,
+      "maxError": 0,
+      "different": 0
+    },
+    {
+      "count": 513,
+      "opacity": 0.999,
+      "clip": true,
+      "maxError": 0,
+      "different": 0
+    }
+  ],
+  "errors": []
+}

@@ -39,3 +39,62 @@ describe('Camera', () => {
         expect(() => camera.setPose({ position: [0, 0, 0], target: [0, 0, 0], up: [0, 1, 0] })).toThrow();
     });
 });
+
+describe('Camera display reflection', () => {
+    const bounds = {
+        origin: [10, 20, 30] as const,
+        min: [9, 19, 29] as const,
+        max: [11, 21, 31] as const,
+        maxScale: 0.01,
+    };
+    it('reflects all view rows and relative eye without changing canonical pose', () => {
+        const camera = new Camera();
+        camera.fit(bounds, 800, 600);
+        camera.orbit(30, 20);
+        const pose = camera.getPose();
+        const before = new Float32Array(camera.frame(bounds, 800, 600, 1, 3, 224, 1));
+        camera.setFlipY(true);
+        const after = new Float32Array(camera.frame(bounds, 800, 600, 1, 3, 224, 1));
+        expect(camera.getPose()).toEqual(pose);
+        for (const offset of [0, 4, 8, 12]) {
+            expect(after[offset]).toBe(before[offset]);
+            expect(after[offset + 1]).toBe(-before[offset + 1]!);
+            expect(after[offset + 2]).toBe(before[offset + 2]);
+        }
+        camera.setFlipY(false);
+        expect(new Float32Array(camera.frame(bounds, 800, 600, 1, 3, 224, 1))).toEqual(before);
+    });
+    it('preserves identical canonical drag direction and persistent flags through fit/reset', () => {
+        const normal = new Camera(),
+            flipped = new Camera();
+        normal.fit(bounds, 800, 600);
+        flipped.fit(bounds, 800, 600);
+        flipped.setFlipY(true);
+        flipped.setMode('fly');
+        for (const c of [normal, flipped]) {
+            c.orbit(50, 20);
+            c.pan(12, -8);
+            c.look(-10, 4);
+            c.fly(1, 0, 1, 0.02);
+        }
+        expect(flipped.getPose()).toEqual(normal.getPose());
+        flipped.reset();
+        flipped.fit(bounds, 600, 800);
+        expect(flipped.flipY).toBe(true);
+        expect(flipped.mode).toBe('fly');
+        expect(() => flipped.setMode('invalid' as 'orbit')).toThrow();
+        expect(() => flipped.setFlipY(1 as unknown as boolean)).toThrow();
+        expect(flipped.mode).toBe('fly');
+        expect(flipped.flipY).toBe(true);
+    });
+});
+
+it('positive fly-look deltas turn right and down with a fixed eye', () => {
+    const camera = new Camera();
+    const eye = camera.getPose().position;
+    camera.look(10, 10);
+    const pose = camera.getPose();
+    expect(pose.position).toEqual(eye);
+    expect(pose.target[0]).toBeGreaterThan(eye[0]);
+    expect(pose.target[1]).toBeLessThan(eye[1]);
+});

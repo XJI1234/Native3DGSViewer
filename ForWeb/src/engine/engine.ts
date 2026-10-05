@@ -41,6 +41,7 @@ export interface EngineOptions {
     canvas: HTMLCanvasElement;
     assets?: { baseUrl: URL | string; workerUrl?: URL | string };
     limits?: Partial<Limits>;
+    maxFramesInFlight?: 1 | 2 | 3;
 }
 export interface LoadOperation {
     readonly requestId: number;
@@ -74,7 +75,7 @@ export class WebEngine {
     private observers = new Set<() => void>();
     private lastPublish = 0;
     private paused = false;
-    private framePending = false;
+    private frameQueue = { owner: undefined as Renderer | undefined, pending: 0 };
     private uploadBarrier: Promise<void> = Promise.resolve();
     private recovery: Promise<Result<void>> | undefined;
     private recoveryController: AbortController | undefined;
@@ -85,6 +86,7 @@ export class WebEngine {
     private constructor(
         private renderer: Renderer,
         private options: EngineOptions,
+        private readonly maxFramesInFlight: 1 | 2 | 3,
     ) {
         this.limits = { ...defaultLimits, ...options.limits };
         this.assets = new URL(
@@ -99,9 +101,12 @@ export class WebEngine {
         try {
             const limits = { ...defaultLimits, ...options.limits };
             validateLimits(limits);
+            const maxFramesInFlight = options.maxFramesInFlight ?? 2;
+            if (![1, 2, 3].includes(maxFramesInFlight))
+                throw Error('InvalidInput: maxFramesInFlight must be 1, 2 or 3');
             if (!options.canvas) throw Error('InvalidInput: canvas');
             renderer = await Renderer.create(options.canvas, limits.gpuBytes);
-            return { ok: true, value: new WebEngine(renderer, options) };
+            return { ok: true, value: new WebEngine(renderer, options, maxFramesInFlight) };
         } catch (reason) {
             await renderer?.dispose();
             return {
@@ -166,13 +171,14 @@ export class WebEngine {
     private tick(): void {
         this.raf = 0;
         if (this.stopped) return;
+        if (this.frameQueue.owner !== this.renderer) this.frameQueue = { owner: this.renderer, pending: 0 };
         if (
             !this.paused &&
             this.active &&
             this.options.canvas.width &&
             this.options.canvas.height &&
             !document.hidden &&
-            !this.framePending &&
+            this.frameQueue.pending < this.maxFramesInFlight &&
             this.snapshot.phase !== 'Recovering' &&
             this.snapshot.phase !== 'Uploading' &&
             this.snapshot.phase !== 'Faulted'
@@ -180,12 +186,13 @@ export class WebEngine {
             if (this.dirty || this.active.revision !== this.camera.revision + this.revision) {
                 try {
                     const stats = this.draw(this.active);
-                    this.framePending = true;
-                    void this.renderer.device.queue
-                        .onSubmittedWorkDone()
+                    const queue = this.frameQueue;
+                    const completion = this.renderer.device.queue.onSubmittedWorkDone();
+                    queue.pending++;
+                    void completion
                         .catch(() => {})
                         .finally(() => {
-                            this.framePending = false;
+                            queue.pending--;
                         });
                     this.dirty = false;
                     if (performance.now() - this.lastPublish > 250) {
@@ -368,6 +375,8 @@ export class WebEngine {
                         height = this.options.canvas.height;
                     const revision = this.revision;
                     const camera = new Camera();
+                    const flipY = this.camera.flipY;
+                    camera.setFlipY(flipY);
                     camera.fit(scene, width, height);
                     const firstFrame = camera.frame(
                         scene,
@@ -390,6 +399,7 @@ export class WebEngine {
                     if (controller.signal.aborted || id !== this.requestId || this.stopped)
                         throw Error('Cancelled');
                     if (
+                        flipY === this.camera.flipY &&
                         revision === this.revision &&
                         width === this.options.canvas.width &&
                         height === this.options.canvas.height
@@ -405,6 +415,7 @@ export class WebEngine {
                         if (controller.signal.aborted || id !== this.requestId || this.stopped)
                             throw Error('Cancelled');
                         if (
+                            flipY === this.camera.flipY &&
                             revision === this.revision &&
                             width === this.options.canvas.width &&
                             height === this.options.canvas.height

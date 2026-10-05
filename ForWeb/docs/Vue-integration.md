@@ -1,6 +1,8 @@
 # Vue 3.5 接入指南
 
-适用Vue3.5、TypeScript及`@native3dgs/web@0.2.2-preview.1`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
+适用Vue3.5、TypeScript及`@native3dgs/web@0.2.2-preview.2`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
+
+0.2.2-preview.2增加`maxFramesInFlight: 1 | 2 | 3`，可通过`useNative3DGS(hostRef, { assets, maxFramesInFlight: 2 })`初始化；默认2，1保留单帧门控。现有实例不会响应options对象字段的修改；需要变更时重新创建实例。结果及边界见[连续交互调优记录](verification/parallel-optimization-2026-10-05.md)，双帧上限不代表两个GPU队列，也不保证物理显示帧率。
 
 ## 1. 模块与生命周期
 
@@ -156,3 +158,14 @@ capture仅稳定非零视口可用；加载中、恢复中或超读回预算返�
 ## 引擎类型与条件容器
 
 engine.value 保持 WebEngine 类型，可传入接收 WebEngine 的公共工具函数。只读限制作用于 ref.value 的替换，实例方法仍然可调用。host 为 null 时不创建 GPU 实例；watcher 在 DOM 更新后处理新元素，每个绑定独立清理订阅、事件、Canvas 和迟到创建。options 为初始配置，运行期更改配置应重新挂载组件。
+
+
+## 查看器导航与 Y 轴翻转（preview.2）
+
+```ts
+engine.camera.setFlipY(true); // 显示模型Y镜像，canonical pose不变
+engine.camera.setMode('fly'); // 默认是orbit，框架适配器自动切换输入
+engine.requestFrame();
+```
+
+SDK直接构造反射投影视图，不要再给Canvas添加CSS scaleX/scaleY。翻转状态跨fit/reset/open/recover保留，鼠标增量来自未变换client坐标。固定模式左拖旋转、右拖平移、滚轮缩放；自由模式点击视口进入Pointer Lock，鼠标转向、WASD/QE移动、Shift加速，Escape/失焦退出；拒绝Pointer Lock时支持左拖转向。方向键与加减键可在聚焦Canvas时操作。`getPose()`/`setPose()`始终使用未反射的canonical坐标。模板仅使用公开SDK、hook/composable、snapshot与Result，不读取renderer或active字段。

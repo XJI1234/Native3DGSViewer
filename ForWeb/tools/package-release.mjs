@@ -25,7 +25,9 @@ for (const input of [...build.files,...build.outputs]) {
     if (current !== input.sha256) throw Error(`Stale build input: ${input.path}`);
 }
 const commit = git('rev-parse', 'HEAD');
-const archive = `Native3DGS-SDK-${tag.slice(1)}-Web-WebGPU-preview.zip`;
+if (!/^\d+\.\d+\.\d+-preview\.\d+$/.test(packageInfo.version)) throw Error('Invalid Web preview version');
+const previewNumber = packageInfo.version.split('-preview.')[1];
+const archive = `Native3DGS-SDK-${tag.slice(1)}-Web-WebGPU-preview.${previewNumber}.zip`;
 const output = resolve('.local/release');
 await mkdir(output,{recursive:true});
 const contents = await mkdtemp(output + '/web-');

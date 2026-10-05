@@ -1,0 +1,38 @@
+{
+  "release": "v0.2.2",
+  "assets": [
+    {
+      "name": "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.2.zip",
+      "sha256": "afab272d9d56b906ba2051916e39ee34f5f253a83cf8611cddf5c2176b46c8b2",
+      "bytes": 535270,
+      "sourceCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+      "sdkSourceCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+      "url": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-SDK-0.2.2-Web-WebGPU-preview.2.zip",
+      "remoteDigestVerified": true,
+      "remoteUrl": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-SDK-0.2.2-Web-WebGPU-preview.2.zip"
+    },
+    {
+      "name": "Native3DGS-Template-0.2.2-Web-React-preview.2.zip",
+      "sha256": "f912a8dcb89acb7f393e92e49955aebf5b57b234b64b4c6108863dd9b0e0aabb",
+      "bytes": 294805,
+      "sourceCommit": "076a999eb598f2e64d1abc90c2de4dd2339b3dba",
+      "sdkSourceCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+      "url": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-Template-0.2.2-Web-React-preview.2.zip",
+      "remoteDigestVerified": true,
+      "remoteUrl": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-Template-0.2.2-Web-React-preview.2.zip"
+    },
+    {
+      "name": "Native3DGS-Template-0.2.2-Web-Vue-preview.2.zip",
+      "sha256": "fff44013c4334838b0d1c282891c4e416342eb9c72598ce9812f72cfddc69bc5",
+      "bytes": 295148,
+      "sourceCommit": "076a999eb598f2e64d1abc90c2de4dd2339b3dba",
+      "sdkSourceCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+      "url": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-Template-0.2.2-Web-Vue-preview.2.zip",
+      "remoteDigestVerified": true,
+      "remoteUrl": "https://github.com/XJI1234/Native3DGSViewer/releases/download/v0.2.2/Native3DGS-Template-0.2.2-Web-Vue-preview.2.zip"
+    }
+  ],
+  "checksums": true,
+  "archiveCrcAndManifest": true,
+  "templateGitBytesVerified": true
+}

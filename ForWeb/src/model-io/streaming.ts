@@ -7,6 +7,7 @@ interface SyncFile {
     truncate(size: number): void;
     flush(): void;
     close(): void;
+    getSize(): number;
 }
 async function openFile(directory: FileSystemDirectoryHandle, name: string) {
     const file = await directory.getFileHandle(name, { create: true });
@@ -256,11 +257,13 @@ export async function decodeStream(
             const p = wasm._gs_pack_tiled(0, n);
             if (!p) throw Error('OutOfMemory: pack batch');
             try {
-                write(
-                    packed.access,
-                    wasm.HEAPU8.subarray(p, p + Math.ceil(n / 64) * 64 * stride),
-                    start * stride,
-                );
+                const expected = Math.ceil(n / 64) * 64 * stride;
+                const bytes = wasm.HEAPU8.subarray(p, p + expected);
+                if (bytes.byteLength !== expected)
+                    throw Error(
+                        `DecoderFailure: pack view length start=${start}, ptr=${p}, expected=${expected}, actual=${bytes.byteLength}, heap=${wasm.HEAPU8.byteLength}`,
+                    );
+                write(packed.access, bytes, start * stride);
             } finally {
                 wasm._free(p);
             }
@@ -274,6 +277,8 @@ export async function decodeStream(
             report('Decoding', start + n, count);
         }
         const origin = min.map((v, k) => v + (max[k]! - v) / 2) as unknown as Vec3;
+        if (packed.access.getSize() !== totalBytes)
+            throw Error(`DecoderFailure: packed size before rebase ${packed.access.getSize()}/${totalBytes}`);
         const batchBytes = Math.floor(chunkBytes / (64 * stride)) * 64 * stride;
         const p = wasm._malloc(batchBytes);
         if (!p) throw Error('OutOfMemory: rebase batch');
@@ -285,12 +290,19 @@ export async function decodeStream(
                     const n = packed.access.read(wasm.HEAPU8.subarray(p + read, p + length), {
                         at: offset + read,
                     });
-                    if (!n) throw Error('DecoderFailure: backing read stalled');
+                    if (!n)
+                        throw Error(
+                            `DecoderFailure: backing read stalled at=${offset + read}, length=${length}, read=${read}, heap=${wasm.HEAPU8.byteLength}, ptr=${p}, file=${packed.access.getSize()}, expected=${totalBytes}`,
+                        );
                     read += n;
                 }
                 if (!wasm._gs_rebase_tiled(p, length / stride, stride, ...origin))
                     throw Error('DecoderFailure: rebase');
                 write(packed.access, wasm.HEAPU8.subarray(p, p + length), offset);
+                if (packed.access.getSize() !== totalBytes)
+                    throw Error(
+                        `DecoderFailure: rebase write resized backing at=${offset}, length=${length}, file=${packed.access.getSize()}, expected=${totalBytes}`,
+                    );
                 report('Rebasing', offset + length, totalBytes);
             }
         } finally {

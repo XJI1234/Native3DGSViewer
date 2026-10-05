@@ -1,0 +1,34 @@
+{
+  "name": "@native3dgs/template-react-viewer",
+  "version": "0.2.2-preview.2",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.4.0",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "assets": "node scripts/copy-sdk-assets.mjs",
+    "dev": "pnpm assets && vite",
+    "typecheck": "tsc --noEmit",
+    "build": "pnpm assets && pnpm typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run src/viewer.test.ts",
+    "format": "prettier --write src scripts vite.config.ts",
+    "format:check": "prettier --check src scripts vite.config.ts"
+  },
+  "dependencies": {
+    "@native3dgs/web": "file:vendor/native3dgs-web-0.2.2-preview.2.tgz",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@webgpu/types": "0.1.74",
+    "prettier": "3.9.9",
+    "typescript": "7.0.2",
+    "vite": "8.3.2",
+    "vitest": "5.0.3"
+  }
+}

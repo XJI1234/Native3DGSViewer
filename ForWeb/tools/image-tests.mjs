@@ -35,7 +35,17 @@ const result=await evaluateBenchmark(page, async()=>{
     if(!Object.values(cov).every(Number.isFinite) || Math.abs(cov.xx-cov.yy)>1 || cov.xy>-5)throw Error('Anisotropic rotated covariance failed '+JSON.stringify(cov));
     const clipped=make(64);clipped[2]=8;const black=await capture(clipped);if(black.some((v,i)=>i%4!==3&&v!==0))throw Error('Behind-camera culling failed');
     const singular=make(64);singular.set([1e-8,1e-8,1e-8],4);const small=await capture(singular);if(!small.some((v,i)=>i%4!==3&&v>0))throw Error('Subpixel preblur support missing');
-    await renderer.dispose();canvas.remove();return {sh:rows,anisotropy:cov,behindCamera:true,subpixelPreblur:true};
+    camera.setPose({position:[2,1,5],target:[0,0,0],up:[0,1,0]});
+    const asym=make(64);asym.set([.35,.45,0],0);asym.set([.4,.15,.1],4);asym.set([0,0,Math.sin(angle),Math.cos(angle)],8);
+    const reflected=asym.slice();reflected[1]=-reflected[1];reflected[8]=-reflected[8];reflected[10]=-reflected[10];
+    const explicit=await capture(reflected);
+    const canonical=camera.getPose();camera.setFlipY(true);
+    const implicit=await capture(asym);
+    const maxMirrorDifference=Math.max(...implicit.map((v,i)=>Math.abs(v-explicit[i])));
+    if(maxMirrorDifference>1||JSON.stringify(camera.getPose())!==JSON.stringify(canonical))throw Error('Y reflection projection mismatch '+maxMirrorDifference);
+    camera.orbit(20,10);camera.pan(4,3);if(!camera.flipY)throw Error('Interaction lost reflection');
+    camera.setFlipY(false);
+    await renderer.dispose();canvas.remove();return {sh:rows,anisotropy:cov,behindCamera:true,subpixelPreblur:true,yReflection:{maxMirrorDifference,canonicalPosePreserved:true}};
 });
 if(errors.length)throw Error(errors.join('\n'));await writeFile('docs/verification/evidence/image-tests.json',JSON.stringify({result,errors},null,2));console.log(JSON.stringify(result));
 }finally{await browser.close();}

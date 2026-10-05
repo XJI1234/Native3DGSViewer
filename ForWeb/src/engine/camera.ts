@@ -29,6 +29,24 @@ export class Camera {
     get revision(): number {
         return this.currentRevision;
     }
+    private reflectedY = false;
+    private navigation: 'orbit' | 'fly' = 'orbit';
+    get flipY(): boolean {
+        return this.reflectedY;
+    }
+    setFlipY(enabled: boolean): void {
+        if (typeof enabled !== 'boolean') throw Error('Invalid Y reflection');
+        if (this.reflectedY === enabled) return;
+        this.reflectedY = enabled;
+        this.currentRevision++;
+    }
+    get mode(): 'orbit' | 'fly' {
+        return this.navigation;
+    }
+    setMode(mode: 'orbit' | 'fly'): void {
+        if (mode !== 'orbit' && mode !== 'fly') throw Error('Invalid navigation mode');
+        this.navigation = mode;
+    }
     readonly fov = Math.PI / 3;
     setPose(pose: Pose): void {
         finite(...pose.position, ...pose.target, ...pose.up);
@@ -166,6 +184,13 @@ export class Camera {
             pose.position.map((v, i) => v - bounds.origin[i]!),
             12,
         );
+        // An orthogonal reflected basis projects a mirrored model directly. Unlike a
+        // quaternion view, it may have negative determinant; covariance projection
+        // supports this and no host-side Canvas mirror is needed. Canonical input
+        // remains unchanged, including fly and pan axes.
+        if (this.reflectedY) {
+            for (const offset of [1, 5, 9, 13]) values[offset] = -values[offset]!;
+        }
         const fy = height / (2 * Math.tan(this.fov / 2));
         values.set([fy, fy, width, height], 16);
         values.set([3, 1 / 255, 0.3, 4096], 20);

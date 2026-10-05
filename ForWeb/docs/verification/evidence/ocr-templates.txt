@@ -1,0 +1,114 @@
+Review complete: 13 finding(s) across 19 selected item(s).
+
+─── ForWeb/apps/vue-viewer/src/viewer.ts:103-103 ───
+[style · low] The checklist prohibits loose equality. Preserve the handling of both null and
+undefined with explicit strict comparisons instead of `value == null`.
+
+- export const time = (value: number | null | undefined): string => value == null ? '未提供' : `${value.toFixed(2)} ms`;
++ export const time = (value: number | null | undefined): string => value === null || value === undefined ? '未提供' : `${value.toFixed(2)} ms`;
+
+
+─── ForWeb/apps/react-viewer/src/App.tsx:21-21 ───
+[bug · medium] A previous host error always takes precedence over the current SDK error. For
+example, after a failed URL load, a subsequent device fault still displays the URL error instead of
+the recovery diagnostic. Successful recover() and close() also never clear ui.message, so the alert
+can remain after the underlying failure has been resolved. Prioritize active device faults and clear
+or scope host messages when their operation succeeds.
+
+
+
+─── ForWeb/apps/react-viewer/scripts/copy-sdk-assets.mjs:12-12 ───
+[bug · low] Recursive cp merges into an existing destination rather than removing files that are no
+longer present in the SDK. After an SDK change, obsolete workers/WASM or other assets can remain in
+public/gs-assets and be included by Vite in dist, despite never being verified against the current
+manifest. Remove the generated destination before copying the verified asset tree (or replace it
+atomically).
+
+
+
+─── ForWeb/tools/package-templates.mjs:39-39 ───
+[bug · high] The JavaScript template literal interprets `\n` before passing this script to Python,
+leaving an actual newline inside a Python single-quoted string. Python therefore raises an
+unterminated-string SyntaxError and neither template can be packaged. Escape the backslash (`\\n`)
+or use String.raw for the embedded script.
+
+
+
+─── ForWeb/tools/package-templates.mjs:29-29 ───
+[bug · medium] Require the exact `vendor/native3dgs-web-0.2.2-preview.2.tgz` and `pnpm-lock.yaml`
+paths in this tracked inventory. The preceding hashes only establish that files exist on disk;
+ignored/untracked files can satisfy those checks without entering the ZIP. Any unrelated tracked
+.tgz currently satisfies this guard, allowing an archive missing its dependency tarball or required
+lockfile.
+
+
+
+─── ForWeb/tools/package-templates.mjs:30-30 ───
+[security · medium] This guard accepts tracked `.env.production`, `.env.local`, and model files such
+as .ply/.spz, although the release requirements exclude credentials and models. Git ignore rules do
+not protect against already tracked or force-added files. Enforce a source allowlist, or explicitly
+reject environment variants, credential files, and model extensions before writing the public
+archive.
+
+
+
+─── ForWeb/tools/package-templates.mjs:23-24 ───
+[bug · medium] These checks detect modified/deleted recorded files but not additions. For example, a
+new committed src file can be shipped alongside an old dist and old build manifest while all checks
+pass. Re-enumerate the current build-input and dist inventories using the recorder's rules and
+require exact path-set equality as well as matching hashes before accepting build evidence.
+
+
+
+─── ForWeb/tools/template-tests.mjs:117-117 ───
+[bug · medium] If Vite has already exited (e.g. because --strictPort finds the port occupied), its
+exit event occurred before this listener is registered. After the connection failure, this finally
+block waits forever and masks the test failure. Register a completion promise immediately after
+spawning, handle spawn errors, and only kill a still-running child; await that existing completion
+promise during cleanup.
+
+
+
+─── ForWeb/tools/template-tests.mjs:83-84 ───
+[test · medium] The delayed request returns the same three-point fixture as the current scene, and
+this assertion runs before its 1500 ms response completes. A cancellation regression that commits
+the response later still passes; the next load can also supersede it before the regression is
+observed. Return a distinguishable scene, wait until the delayed response has completed without
+starting another load, and assert that the original scene name/count and rendered output remain
+unchanged.
+
+
+
+─── ForWeb/tools/template-tests.mjs:92-93 ───
+[test · medium] This verifies recovery status and host button state, but not the recovered
+rendering. A blank or incorrectly reflected recovered scene can pass and still be recorded as
+recovery:true. Capture the canvas after recovery and verify the fixture's visible features/reflected
+pixel positions against the pre-loss output, as well as the restored scene count.
+
+
+
+─── ForWeb/apps/react-viewer/src/viewer.ts:103-103 ───
+[style · low] The checklist explicitly prohibits loose equality. Preserve the intended
+null-or-undefined handling with `value === null || value === undefined` instead of `value == null`.
+
+- export const time = (value: number | null | undefined): string => value == null ? '未提供' : `${value.toFixed(2)} ms`;
++ export const time = (value: number | null | undefined): string => value === null || value === undefined ? '未提供' : `${value.toFixed(2)} ms`;
+
+
+─── ForWeb/tools/template-tests.mjs:97-97 ───
+[bug · medium] Playwright's waitForFunction signature is (pageFunction, arg, options), so this
+object is passed to the predicate rather than used as timeout options. The same mistake affects the
+60-second initialization/recovery waits and both 120-second real-model waits: all still use the
+30-second default set above. Pass undefined/null as the second argument and the timeout options as
+the third so slower GPU initialization or large-model loading does not fail prematurely.
+
+-             await page.waitForFunction(()=>document.querySelector('[data-testid=count]')?.textContent==='170,799',{timeout:120000});
++             await page.waitForFunction(()=>document.querySelector('[data-testid=count]')?.textContent==='170,799',undefined,{timeout:120000});
+
+
+─── ForWeb/tools/template-tests.mjs:79-79 ───
+[test · medium] A successful download only proves that the host produced a file; a blank, corrupt,
+or incorrectly sized SDK capture still passes this test. Unlike the normal/flipped canvas
+screenshots, the downloaded capture is never decoded or measured. Validate the saved PNG's
+dimensions and visible fixture features (including the current reflection) against the rendered
+canvas before treating screenshot export as verified.

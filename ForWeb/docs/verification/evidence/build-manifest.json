@@ -1,11 +1,11 @@
 {
   "git": {
     "dependencySourcesClean": true,
-    "commit": "fd18caee701eda8f69110e6ce207191dc7ec9321",
-    "status": "",
+    "commit": "6d0f171a094651126478dc76f210333db9c38fc4",
+    "status": " M ForWeb/docs/verification/evidence/parallel-2026-10-05/ocr-viewer-sdk-final.txt\n",
     "dependencies": " 52eb8108c5bdec04579160ae17225d66034bd723 ../third_party/googletest (v1.17.0)\n 1a235c70390fadf789695c9ccbf285ae712416b3 ../third_party/miniply (heads/master)\n 0c539948c8d196ae338d91efbc8ca495f1ea0d1d ../third_party/parallel-sort (v1.1.1)\n-d22060043138b38e3aa01f766227ee0bd4e4f83e ../third_party/parallel-sort/sample/libs/cauldron\n 5bf2945de1a003cee07133b1e495fe9c6ffdc7e7 ../third_party/spz (v3.0.0)\n 51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf ../third_party/zlib (v1.3.1)\n 794ea1b0afca0f020f4e57b6732332231fb23c70 ../third_party/zstd (v1.5.6)\n"
   },
-  "recordedAt": "2026-10-04T06:41:15.538Z",
+  "recordedAt": "2026-10-04T18:14:48.910Z",
   "outputs": [
     {
       "path": "dist/assets/decoder.mjs",
@@ -17,7 +17,7 @@
     },
     {
       "path": "dist/assets/decoder.worker.js",
-      "sha256": "ea6192db3f8aef3d0882b03b60b8f811fa0db3f88cd42efee2ba7e22df932c34"
+      "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
     },
     {
       "path": "dist/assets/licenses/spz.txt",
@@ -37,19 +37,19 @@
     },
     {
       "path": "dist/assets/manifest.json",
-      "sha256": "81082efe993c65b29d8eeb70a98806c59880e3ec9654d20887164a0e4e28b2ea"
+      "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
     },
     {
-      "path": "dist/dom-BAYTr-WR.js",
-      "sha256": "763c8f7b65560880c6d16db042dbaaaf72448dd23fa182e125a5de193bd86987"
+      "path": "dist/dom-ppJuA2vp.js",
+      "sha256": "314e95c9d53b95416aba9a6eb025463424b09bbd42fcbb94a9baa01d2a410420"
     },
     {
       "path": "dist/engine/camera.d.ts",
-      "sha256": "ed59e0df57d6c56013c006bfe46ce8a02796032841435d305d08e79fabb0be0a"
+      "sha256": "54eb36b767b4467d93d4c0e8283bba1e228e0021789820da1ebc3c816f03b87d"
     },
     {
       "path": "dist/engine/engine.d.ts",
-      "sha256": "8c9b8cd9c250f8af186101c3e4a74ce9528834d05bc537cc56cfec92852df999"
+      "sha256": "dc645f876c5b164fdd32f2f6316dc479769b45977a53fd7554866b42ab2b0a21"
     },
     {
       "path": "dist/index.d.ts",
@@ -57,7 +57,7 @@
     },
     {
       "path": "dist/index.js",
-      "sha256": "84eaeeedad023e4c9e6d1e1d5e4e4d417507c292afad5eb2b2a1c46470eb52e6"
+      "sha256": "0449717fe9f3d7717439be63197386386f3030c84c9cf19639c7279db1880027"
     },
     {
       "path": "dist/model-io/backing.d.ts",
@@ -85,7 +85,7 @@
     },
     {
       "path": "dist/react.js",
-      "sha256": "9b11a5903079886abbc48707f4615c0b7d42da6d9daf39af3ca8b7ea47b3c17a"
+      "sha256": "f80b676d509989911d330cb6740eb0c9560933121376701bf4fbdb08e17c4207"
     },
     {
       "path": "dist/render-core/renderer.d.ts",
@@ -93,7 +93,7 @@
     },
     {
       "path": "dist/render-core/shaders.d.ts",
-      "sha256": "2833d1e37923323dff88abbf8cd08816d484e39b8b25c1ef118ef669fd682c87"
+      "sha256": "00f3eed082a65ce29ace27739658da05407bb1f38a9097300acc78238737ec03"
     },
     {
       "path": "dist/render-core/sort.d.ts",
@@ -108,8 +108,8 @@
       "sha256": "49341290e4340be3568e53c0f7a929ce7c69b62c66a317933498a5ff1d37188b"
     },
     {
-      "path": "dist/src-DE-lKlry.js",
-      "sha256": "d81c852477f86bf15b44011eac38e68fd5cb2bb4346a8d1d8667dbea104f4231"
+      "path": "dist/src-CQ-auify.js",
+      "sha256": "6db2efc1ce1f10b30a427aba19142d2c20311a7d41de352061f5c8dc6c19a107"
     },
     {
       "path": "dist/vue.d.ts",
@@ -117,7 +117,7 @@
     },
     {
       "path": "dist/vue.js",
-      "sha256": "bfbdf3b5f56bde35bb67d2543527a56f6d321f52f0b5733ec34e82909761abdb"
+      "sha256": "7e8585f912e89e1b7cee0723b1ae4dadf242d33e1ca1d1d2dbbf48366fec5897"
     },
     {
       "path": "dist/web-adapters/dom.d.ts",
@@ -127,7 +127,7 @@
   "node": "24.14.1",
   "package": {
     "name": "@native3dgs/web",
-    "version": "0.2.2-preview.1",
+    "version": "0.2.2-preview.2",
     "type": "module",
     "packageManager": "pnpm@11.4.0",
     "engines": {
@@ -222,74 +222,74 @@
       },
       {
         "name": "decoder.worker.js",
-        "sha256": "ea6192db3f8aef3d0882b03b60b8f811fa0db3f88cd42efee2ba7e22df932c34"
+        "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
       }
     ]
   },
   "files": [
     {
       "path": "src/engine/camera.ts",
-      "sha256": "c8f7615dcfebbbf3acffb8f25a553cc7d3c3a7638263a9ceaf1f5f2697c5084c"
+      "sha256": "30029f388ddba8f79ac28cee4d6ba02a02e9d096fbb9234881e11abefb6ed197"
     },
     {
       "path": "src/engine/engine.ts",
-      "sha256": "b71cf31465c48447ec8ac0c2d02810d1cb7b9c4fc30f8982930ce5e4b403fbad"
+      "sha256": "678df97781e39c8d8651c9079e7826a97681a56174c8c268a0446d01979cb965"
     },
     {
       "path": "src/index.ts",
-      "sha256": "62d63911de9da62c0c9c82cf2ba1aaf68971994c7a2ffb63397abbf7a9ff11b2"
+      "sha256": "881f69ff9e0ee78148f8551a495a5cffcfc80130b031fecd3b3c7c8783c5f64f"
     },
     {
       "path": "src/model-io/backing.ts",
-      "sha256": "de81ea72367fdad13bb24d06f2ebc329c89a00a3ff04fba9298ad2af26cbd518"
+      "sha256": "964ef7e6203314fa57b6b34b3c35314f6b0149dbeaeb05e8b71781f47949e33f"
     },
     {
       "path": "src/model-io/decoder.worker.ts",
-      "sha256": "d2140114bb8b3d39b432d5bc2258dccd8b0fad7e5dafb14914a7631079767846"
+      "sha256": "61a14fd5cef2cc012f89e47a7904ccfda22bd9759a7f054e813bdf9008f90308"
     },
     {
       "path": "src/model-io/loader.ts",
-      "sha256": "181ab76a334fd4b6166e4ffd8777afdb2089b61da4762581435397bd5b637344"
+      "sha256": "342f528d5e09f046bd06af1a9ba2c50d7b3d92dd5f22deddaf720957e4a12ed5"
     },
     {
       "path": "src/model-io/streaming.ts",
-      "sha256": "98cf64a7c34bcc561d284d776bc48b62306c14f5edb976b034cdd9d73afaf514"
+      "sha256": "4c7f6da5e635ff890cbed19b7e9ba0d3ea7e2268ead425f4508876b94f2a0d45"
     },
     {
       "path": "src/model-io/wasm.ts",
-      "sha256": "e99d9ca96cbd64adfd487953e9a230e60fbb29fe0c352db85c87da6e19b3c971"
+      "sha256": "dbd775f8f1c8aa8d41a340c3bdee9a0561d5a0d57373ac7b5cfc11a5d8e52c91"
     },
     {
       "path": "src/react.ts",
-      "sha256": "433c59e1220a1fccf2b2c99ca86ae9d3c8e56358a042994c89505556ddd68b69"
+      "sha256": "d5ce7a3dda7dfd18d07b7f75ca7963c86402553cac80630c938497463042bf14"
     },
     {
       "path": "src/render-core/renderer.ts",
-      "sha256": "7af2e5dbf8e0299e9892faa7c03037adfdd11bda332b3cca4e47da6dbca74d4d"
+      "sha256": "c6e3a9d25df9af8d13f8d4f796d70d43c2199d079bd100ac52c25a91b716fede"
     },
     {
       "path": "src/render-core/shaders.ts",
-      "sha256": "49db7cbe4173bd361a93677254d262ebc1d060c2e0767d754d6fed3bc7f250fd"
+      "sha256": "2b1ba845545358ca7b0c53e463510461a70037808fa5f441eb0e0ae080c8ed17"
     },
     {
       "path": "src/render-core/sort.ts",
-      "sha256": "090d449787a30be0eb5b772956f8dbd9d728d421d4e03741fcf7d5cb0f52f177"
+      "sha256": "967c17f64f38e09c2b241f9b69e6ff2ea56e9b2481560eff6c01f00675915b6f"
     },
     {
       "path": "src/splat-types/async.ts",
-      "sha256": "d92da6fcc5af26b03d9ebba171da1c268d803603b5d7762d7c5047a4ccbc911f"
+      "sha256": "00c50caf93a1a190b29de33e73749acc45d680152f825376afded00dfeeb49de"
     },
     {
       "path": "src/splat-types/index.ts",
-      "sha256": "42c6539b75909fee50744714d0ed84d2e8c63b6332b538a3bd0348c4500d00ec"
+      "sha256": "e6aa41e7e649c34c43cbd5f24e33ecea45f8dbdab0d4b56c074c24af684f26a4"
     },
     {
       "path": "src/vue.ts",
-      "sha256": "3427aee55ebbf9530074bf3646279c3a57fbfae55965bce5d13dbf60c80e88be"
+      "sha256": "6230ce0cb0bf7a66660b3844a03c3a912223dda8b87a557c5293971afe3143b9"
     },
     {
       "path": "src/web-adapters/dom.ts",
-      "sha256": "c847b9bc3c8a34fb3f7462d1a8ef9f513a3c45edcb6fa71ec9eeeaa967c5818a"
+      "sha256": "3b60de3596a87928adbc7db20929eee501a84d2a59a425813d39740f1b94ea71"
     },
     {
       "path": "native/.clang-format",
@@ -341,7 +341,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "3e4e06ee5db04eaefc76d46a6df0da7a9df25853bdb06b414b2009b513d63d85"
+      "sha256": "215762e44f764afd03d4a8627ee1e0711a0754056356a08ca905e5d52a9f2eda"
     },
     {
       "path": "vite.config.ts",

@@ -26,7 +26,9 @@ fn sh(rgb:vec3f,dir:vec3f,i:u32)->vec3f {
 }
 @compute @workgroup_size(256) fn project(@builtin(global_invocation_id) id:vec3u){
   let local=id.x+id.y*batch.width*256u;if(local>=batch.count){return;}let i=batch.base+local;if(i>=frame.config.x){return;}
-  pairs[i]=Pair(0xffffffffu,i);ellipses[i]=Ellipse(vec2f(0),vec2f(0),vec2f(0),vec2f(0),vec2f(0));
+  // Invalid keys sort after all visible keys; drawIndirect uses only the visible
+  // count, so culled ellipses are unreachable and need no clearing write.
+  pairs[i]=Pair(0xffffffffu,i);
   let delta=v3(i,0)-frame.camera.xyz;let p=view(delta);let compact=batch.compact!=0u;let s=v3(i,select(4u,3u,compact));let q=vec4f(v3(i,select(8u,6u,compact)),value(i,select(11u,9u,compact)));let alpha=value(i,select(15u,13u,compact));
   let support=max(s.x,max(s.y,s.z))*frame.quality.x;let depth=-p.z;
   if(alpha<=frame.quality.y || depth+support<frame.clip.x || depth-support>frame.clip.y){return;}
