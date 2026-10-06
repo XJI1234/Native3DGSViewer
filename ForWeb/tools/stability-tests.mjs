@@ -1,9 +1,13 @@
 import {chromium} from '@playwright/test';
+import {launchBenchmarkBrowser} from './benchmark-browser.mjs';
 import {writeFile} from 'node:fs/promises';
+const testUrl=process.env.GS_TEST_URL??'http://127.0.0.1:5173',model=process.env.GS_SOAK_MODEL??'changjin_v1.ply';
 const output=process.env.GS_SOAK_OUTPUT??'docs/verification/evidence/stability-tests.json';
 const duration=Number(process.env.GS_SOAK_MS??1800000),cycles=Number(process.env.GS_SOAK_CYCLES??100);
-const browser=await chromium.launch({channel:'msedge',headless:true,args:['--enable-precise-memory-info']});const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];
+if(!Number.isSafeInteger(duration)||duration<=0||!Number.isSafeInteger(cycles)||cycles<=0)throw Error('Invalid stability duration/cycle count');
+const browser=process.env.GS_BENCH_PERSISTENT==='1'?await launchBenchmarkBrowser(true):await chromium.launch({channel:'msedge',headless:true,args:['--enable-precise-memory-info']});const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+await page.setViewportSize({width:1280,height:900});
 await page.addInitScript(()=>{
     const devices=new Map(),owners=new WeakMap(),contexts=new Set();let workers=0;
     const create=GPUDevice.prototype.createBuffer,destroy=GPUBuffer.prototype.destroy,deviceDestroy=GPUDevice.prototype.destroy;
@@ -19,9 +23,15 @@ await page.addInitScript(()=>{
 });
 const samples=[];
 try{
-await page.goto('http://127.0.0.1:5173');await page.waitForFunction(()=>window.gs);
-const cycleResult=await page.evaluate(async(cycles)=>{
-    const engine=window.gs.engine,url=new URL('/models/changjin_v1.ply',location.href).href;
+await page.goto(testUrl);await page.waitForFunction(()=>window.gs);
+if(process.env.GS_SOAK_SORTING==='adaptive')await page.evaluate(async()=>{
+    await window.gs.engine.dispose();
+    const created=await window.gs.createEngine({canvas:document.querySelector('#canvas'),assets:{baseUrl:new URL('/assets/',location.href)},sorting:{mode:'adaptive'}});
+    if(!created.ok)throw Error(JSON.stringify(created));window.gs.engine=created.value;
+});
+
+const cycleResult=await page.evaluate(async({cycles,model})=>{
+    const engine=window.gs.engine,url=new URL('/models/'+model,location.href).href;
     let replacements=0,cancelled=0,mounts=0;
     const counts=[];
     for(let i=0;i<cycles;i++){
@@ -34,8 +44,9 @@ const cycleResult=await page.evaluate(async(cycles)=>{
     window.soakPose=engine.camera.getPose();window.soakStart=performance.now();window.soakFrames=0;
     const animate=now=>{const base=window.soakPose,dx=base.position[0]-base.target[0],dz=base.position[2]-base.target[2],angle=.2*Math.sin((now-window.soakStart)*2*Math.PI/12000);engine.camera.setPose({position:[base.target[0]+dx*Math.cos(angle)+dz*Math.sin(angle),base.position[1],base.target[2]-dx*Math.sin(angle)+dz*Math.cos(angle)],target:base.target,up:base.up});engine.requestFrame();window.soakFrames++;window.soakRaf=requestAnimationFrame(animate);};window.soakRaf=requestAnimationFrame(animate);
     return {replacements,cancelled,mounts,counts};
-},cycles);
-const baseline=await page.evaluate(()=>({resources:window.ownedResources(),frameId:window.gs.engine.getSnapshot().stats?.frameId??0,gpuFrameId:window.gs.engine.renderer.lastGpuFrame??0,timestamps:window.gs.engine.renderer.device.features.has('timestamp-query')}));let lastFrame=baseline.frameId,lastGpu=baseline.gpuFrameId;
+},{cycles,model});
+const baseline=await page.evaluate(()=>({decoder:window.gs.engine.getSnapshot().decoder,resources:window.ownedResources(),frameId:window.gs.engine.getSnapshot().stats?.frameId??0,gpuFrameId:window.gs.engine.renderer.lastGpuFrame??0,timestamps:window.gs.engine.renderer.device.features.has('timestamp-query')}));let lastFrame=baseline.frameId,lastGpu=baseline.gpuFrameId;
+if(process.env.GS_SOAK_BACKEND&&baseline.decoder?.backend!==process.env.GS_SOAK_BACKEND)throw Error("Unexpected soak decoder: "+JSON.stringify(baseline.decoder));
 const cdp=await page.context().newCDPSession(page);const start=Date.now();
 while(Date.now()-start<duration){
     await new Promise(r=>setTimeout(r,Math.min(30000,duration-(Date.now()-start))));
@@ -43,9 +54,9 @@ while(Date.now()-start<duration){
     const sample=await page.evaluate(()=>({resources:window.ownedResources(),phase:window.gs.engine.getSnapshot().phase,frameId:window.gs.engine.getSnapshot().stats?.frameId??0,gpuFrameId:window.gs.engine.renderer.lastGpuFrame??0,frames:window.soakFrames}));sample.elapsedMs=Date.now()-start;samples.push(sample);
     if(sample.resources.buffers!==baseline.resources.buffers||sample.resources.bufferBytes!==baseline.resources.bufferBytes||sample.frameId<=lastFrame||(baseline.timestamps&&sample.gpuFrameId<=lastGpu))throw Error('Soak buffer growth or stalled GPU frames');lastFrame=sample.frameId;lastGpu=sample.gpuFrameId;
     if(sample.resources.workers!==0||sample.resources.devices!==1||sample.resources.contexts!==1||sample.phase!=='Ready')throw Error('Soak state/resource regression');
-    await writeFile(output,JSON.stringify({duration,cycles,cycleResult,samples,errors,complete:false},null,2));console.log(JSON.stringify(sample));
+    await writeFile(output,JSON.stringify({viewport:[1280,900],persistent:process.env.GS_BENCH_PERSISTENT==='1',testUrl,model,baseline,duration,cycles,cycleResult,samples,errors,complete:false},null,2));console.log(JSON.stringify(sample));
 }
 const shutdown=await page.evaluate(async()=>{cancelAnimationFrame(window.soakRaf);const engine=window.gs.engine;await engine.closeScene();const closed=window.ownedResources();await engine.dispose();return {closed,disposed:window.ownedResources(),phase:engine.getSnapshot().phase};});
 if(errors.length||shutdown.disposed.buffers||shutdown.disposed.workers||shutdown.disposed.contexts||shutdown.disposed.devices||shutdown.phase!=='Stopped')throw Error(JSON.stringify({errors,shutdown}));
-await writeFile(output,JSON.stringify({duration,cycles,cycleResult,samples,errors,shutdown,complete:true},null,2));
+await writeFile(output,JSON.stringify({viewport:[1280,900],persistent:process.env.GS_BENCH_PERSISTENT==='1',testUrl,model,baseline,duration,cycles,cycleResult,samples,errors,shutdown,complete:true},null,2));
 }finally{await browser.close();}

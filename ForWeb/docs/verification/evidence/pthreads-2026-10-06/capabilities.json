@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-06T05:58:57.739Z",
+  "rows": [
+    {
+      "label": "nonisolated legacy auto falls back",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Cross-origin isolation unavailable"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "nonisolated explicit parallel rejects",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "UnsupportedCapability",
+          "stage": "Load",
+          "diagnostic": "UnsupportedCapability: cross-origin isolation/SharedArrayBuffer"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "isolated auto enables pthreads",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "isolated explicit single retained",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "low CPU admission returns to base",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "CPU budget selects single-thread decoder"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "SPZ exact CPU admission retries base",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Streaming CPU admission selects single-thread decoder"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "missing optional assets auto falls back",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Parallel initialization failed: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5187/assets/threaded/decoder.mjs"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "missing assets explicit parallel fails",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "DecoderFailure",
+          "stage": "Load",
+          "diagnostic": "Failed to fetch dynamically imported module: http://127.0.0.1:5187/assets/threaded/decoder.mjs"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "stalled pthread module import is bounded",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Parallel initialization failed: Error: Timeout: pthread initialization"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "stalled pthread initialization is bounded",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Parallel initialization failed: Error: Timeout: pthread initialization"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "cancel Downloading",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Cancelled",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": "Downloading",
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "cancel Decoding",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Cancelled",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": "Decoding",
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "cancel Rebasing",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Cancelled",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": "Rebasing",
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "cancel Uploading",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Cancelled",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": "Uploading",
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "cancel Inflating",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Cancelled",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": "Inflating",
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "bounded load timeout",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "Timeout",
+          "stage": "Load",
+          "diagnostic": "Cancelled"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    }
+  ],
+  "complete": true
+}

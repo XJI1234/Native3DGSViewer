@@ -2,7 +2,11 @@ import { abortable } from '../splat-types/async';
 import type { Scene } from '../splat-types/index';
 import { drawing, projection } from './shaders';
 import { GpuSort, testSort } from './sort';
+import { resolveSortingOptions, type SortingOptions, SortingPolicy, type SortReason } from './sorting-policy';
 export interface FrameStats {
+    readonly sortAgeMs?: number;
+    readonly sortPositionErrorRatio?: number;
+    readonly sortReason?: SortReason;
     readonly cpuMs: number;
     readonly gpuMs: number | null;
     readonly gpuFrameId: number | null;
@@ -26,6 +30,7 @@ export interface GpuScene {
     drawGroup: GPUBindGroup;
     bytes: number;
     revision: number;
+    sorting: SortingPolicy;
 }
 export class Renderer {
     private lossObservers = new Set<(info: GPUDeviceLostInfo) => void>();
@@ -68,6 +73,7 @@ export class Renderer {
         adapter: GPUAdapter,
         readonly canvas: HTMLCanvasElement,
         private budget: number,
+        private readonly sortingOptions: Readonly<Required<SortingOptions>>,
     ) {
         void device.lost.then((info) => {
             this.deviceLoss = info;
@@ -142,7 +148,12 @@ export class Renderer {
         Renderer.surfaceOwners.set(this.context, this);
         this.configured = true;
     }
-    static async create(canvas: HTMLCanvasElement, budget: number): Promise<Renderer> {
+    static async create(
+        canvas: HTMLCanvasElement,
+        budget: number,
+        sorting: SortingOptions = {},
+    ): Promise<Renderer> {
+        const sortingOptions = resolveSortingOptions(sorting);
         if (!navigator.gpu) throw Error('UnsupportedCapability: WebGPU');
         const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
         if (!adapter) throw Error('UnsupportedCapability: adapter');
@@ -155,7 +166,7 @@ export class Renderer {
         });
         device.pushErrorScope('validation');
         try {
-            const renderer = new Renderer(device, adapter, canvas, budget);
+            const renderer = new Renderer(device, adapter, canvas, budget, sortingOptions);
             const sorted = await testSort(device, new Uint32Array([7, 1, 7, 0, 0xffffffff, 3]));
             const e = await device.popErrorScope();
             if (e) throw Error(e.message);
@@ -246,8 +257,8 @@ export class Renderer {
                 }
             }
             const ellipse = make(n * 40, GPUBufferUsage.STORAGE),
-                a = make(n * 8, GPUBufferUsage.STORAGE),
-                b = make(n * 8, GPUBufferUsage.STORAGE),
+                a = make(n * 8, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC),
+                b = make(n * 8, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST),
                 args = make(16, GPUBufferUsage.STORAGE | GPUBufferUsage.INDIRECT | GPUBufferUsage.COPY_DST);
             sort = new GpuSort(this.device, n);
             let projectPipeline = this.project;
@@ -279,10 +290,12 @@ export class Renderer {
             });
             const drawGroup = this.device.createBindGroup({
                 layout: this.draw.getBindGroupLayout(0),
-                entries: [ellipse, a, this.frame].map((buffer, binding) => ({
-                    binding,
-                    resource: { buffer },
-                })),
+                entries: [ellipse, this.sortingOptions.mode === 'adaptive' ? b : a, this.frame].map(
+                    (buffer, binding) => ({
+                        binding,
+                        resource: { buffer },
+                    }),
+                ),
             });
             await abortable(this.device.queue.onSubmittedWorkDone(), signal);
             scopesOpen = false;
@@ -306,6 +319,10 @@ export class Renderer {
                 drawGroup,
                 bytes,
                 revision: -1,
+                sorting: new SortingPolicy(
+                    this.sortingOptions,
+                    Math.hypot(...scene.max.map((v, i) => v - scene.min[i]!)),
+                ),
             };
             this.ownedScenes.add(uploaded);
             return uploaded;
@@ -346,12 +363,24 @@ export class Renderer {
             this.lastGpuFrame = null;
             this.lastProjection = this.lastSort = this.lastDraw = null;
         }
-        this.device.queue.writeBuffer(this.frame, 0, frame);
         const encoder = this.device.createCommandEncoder();
-        const sorted = scene.revision !== revision;
+        const changed = scene.revision !== revision;
+        const adaptive = this.sortingOptions.mode === 'adaptive';
+        const floats = new Float32Array(frame);
+        // Reserved clip.z enables full-permutation projection/culling. Clone the host frame.
+        const gpuFrame = adaptive ? frame.slice(0) : frame;
+        if (adaptive) new Float32Array(gpuFrame)[26] = 1;
+        this.device.queue.writeBuffer(this.frame, 0, gpuFrame);
+        const sortReason = scene.sorting.decide(floats, start, changed, !!capture || !!target);
+        const sorted = sortReason !== 'reuse';
+        const projected = changed;
         const timed = !!this.query && !this.queryBusy;
-        if (sorted) {
-            this.device.queue.writeBuffer(scene.args, 0, new Uint32Array([4, 0, 0, 0]));
+        if (projected) {
+            this.device.queue.writeBuffer(
+                scene.args,
+                0,
+                new Uint32Array([4, adaptive ? scene.scene.count : 0, 0, 0]),
+            );
             const pass = encoder.beginComputePass(
                 timed
                     ? {
@@ -370,8 +399,12 @@ export class Renderer {
                 pass.dispatchWorkgroups(Math.min(65535, groups), Math.ceil(groups / 65535));
             }
             pass.end();
-            scene.sort.encode(encoder, scene.a, scene.b, timed ? this.query : undefined, 2, 3);
             scene.revision = revision;
+        }
+        if (sorted) {
+            scene.sort.encode(encoder, scene.a, scene.b, timed ? this.query : undefined, 2, 3);
+            if (adaptive && scene.scene.count)
+                encoder.copyBufferToBuffer(scene.a, 0, scene.b, 0, scene.scene.count * 8);
         }
         const texture = target ?? this.context.getCurrentTexture();
         const pass = encoder.beginRenderPass({
@@ -404,21 +437,28 @@ export class Renderer {
                 { width: this.canvas.width, height: this.canvas.height },
             );
         if (timed) {
-            encoder.resolveQuerySet(this.query!, sorted ? 0 : 4, sorted ? 6 : 2, this.queryResolve!, 0);
-            encoder.copyBufferToBuffer(this.queryResolve!, 0, this.queryRead!, 0, sorted ? 48 : 16);
+            for (const index of [0, 2, 4]) {
+                if ((index === 0 && !projected) || (index === 2 && !sorted)) continue;
+                // resolve destinations require 256-byte alignment. Reuse the small
+                // resolve buffer sequentially, copying each written pair before overwrite.
+                encoder.resolveQuerySet(this.query!, index, 2, this.queryResolve!, 0);
+                encoder.copyBufferToBuffer(this.queryResolve!, 0, this.queryRead!, index * 8, 16);
+            }
             this.queryBusy = true;
         }
         this.device.queue.submit([encoder.finish()]);
+        if (sorted) scene.sorting.submitted(floats, start);
         if (timed) {
             this.timingReady = this.queryRead!.mapAsync(GPUMapMode.READ)
                 .then(() => {
                     const t = new BigUint64Array(this.queryRead!.getMappedRange());
                     if (this.timedScene === scene) {
-                        this.lastProjection = sorted ? Number(t[1]! - t[0]!) / 1e6 : 0;
+                        this.lastProjection = projected ? Number(t[1]! - t[0]!) / 1e6 : 0;
                         this.lastSort = sorted ? Number(t[3]! - t[2]!) / 1e6 : 0;
-                        this.lastDraw = Number(t[sorted ? 5 : 1]! - t[sorted ? 4 : 0]!) / 1e6;
-                        this.lastGpu = Number(t[sorted ? 5 : 1]! - t[0]!) / 1e6;
+                        this.lastDraw = Number(t[5]! - t[4]!) / 1e6;
+                        this.lastGpu = Number(t[5]! - t[projected ? 0 : sorted ? 2 : 4]!) / 1e6;
                         this.lastGpuFrame = frameId;
+                        if (sorted) scene.sorting.observeCost(this.lastSort);
                     }
                     this.queryRead!.unmap();
                 })
@@ -442,7 +482,12 @@ export class Renderer {
             projectionMs: this.lastProjection,
             sortMs: this.lastSort,
             drawMs: this.lastDraw,
+            ...scene.sorting.diagnostics(floats, start),
+            sortReason,
         };
+    }
+    needsSort(scene: GpuScene): boolean {
+        return scene.sorting.needsRefresh(performance.now());
     }
     async release(scene: GpuScene): Promise<void> {
         if (!this.ownedScenes.delete(scene)) return;

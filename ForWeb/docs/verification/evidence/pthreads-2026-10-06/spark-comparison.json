@@ -1,0 +1,5148 @@
+{
+  "date": "2026-10-06T05:56:57.095Z",
+  "browser": "154.0.4258.53",
+  "runs": 3,
+  "names": [
+    "changjin_v1.ply",
+    "shengyi_v1.ply",
+    "spz/shengyi_v1.spz",
+    "tumu_v1.ply",
+    "spz/tumu_v1.spz",
+    "zhihuizhimen.ply",
+    "jiulonghu_v1.ply",
+    "spz/jiulonghu_v1.spz"
+  ],
+  "configs": [
+    "single",
+    "parallel",
+    "spark"
+  ],
+  "resolution": [
+    1920,
+    1080
+  ],
+  "spark": "2.3.1",
+  "assets": [
+    {
+      "path": "public/assets/decoder.mjs",
+      "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
+    },
+    {
+      "path": "public/assets/decoder.wasm",
+      "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
+    },
+    {
+      "path": "public/assets/threaded/decoder.mjs",
+      "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+    },
+    {
+      "path": "public/assets/threaded/decoder.wasm",
+      "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+    },
+    {
+      "path": "apps/benchmark.ts",
+      "sha256": "f968647c6e7b34a6186b4360b45bbe0e01453ada8aba439b90d8fd4325aeb425"
+    },
+    {
+      "path": "src/model-io/streaming.ts",
+      "sha256": "09ff250ee55c10da525abfb011cc4f4e59d96d283f6aece3a4f507cb7d23d66a"
+    },
+    {
+      "path": "node_modules/@sparkjsdev/spark/dist/spark.module.js",
+      "sha256": "2de375d5e489692f976abe3199c8435ecc00f97fabaf35e489eb7d368e1f6f60"
+    }
+  ],
+  "scope": "Complete points/SH3, LoD disabled, identical world poses; 3 interleaved load repetitions; first run also 30 warmup + 120 completed frames x 3. Native stage GPU timestamps; Spark update includes Worker sort/readPause and its draw GPU timer has a different scope. Headless throughput protocol, not display FPS. Spark initializedMs combines network/decode/packing; no fabricated pure WASM stage split.",
+  "complete": true,
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 570.9699999999721,
+        "firstFrameMs": 565.0149999998976,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 45.420000000158325,
+          "writeMs": 10.645000000251457,
+          "batchWallMs": 47.65499999979511,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 0.8549999997485429,
+          "initializationMs": 14.65500000002794
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9899999999906868,
+              "p95": 5.550000000046566
+            },
+            "cpuMs": {
+              "p50": 0.1299999998882413,
+              "p95": 0.15999999991618097
+            },
+            "gpuMs": {
+              "p50": 0.524288,
+              "p95": 0.851968
+            },
+            "projectionMs": {
+              "p50": 0.065536,
+              "p95": 0.131072
+            },
+            "sortMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "drawMs": {
+              "p50": 0.262144,
+              "p95": 0.589824
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9850000001024455,
+              "p95": 5.955000000074506
+            },
+            "cpuMs": {
+              "p50": 0.13500000000931323,
+              "p95": 0.19999999995343387
+            },
+            "gpuMs": {
+              "p50": 0.524288,
+              "p95": 0.851968
+            },
+            "projectionMs": {
+              "p50": 0.065536,
+              "p95": 0.131072
+            },
+            "sortMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "drawMs": {
+              "p50": 0.262144,
+              "p95": 0.589824
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9399999999441206,
+              "p95": 5.560000000055879
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.1699999999254942
+            },
+            "gpuMs": {
+              "p50": 0.786432,
+              "p95": 1.179648
+            },
+            "projectionMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "sortMs": {
+              "p50": 0.196608,
+              "p95": 0.262144
+            },
+            "drawMs": {
+              "p50": 0.393216,
+              "p95": 0.786432
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 414.78000000002794,
+        "firstFrameMs": 410.8800000001211,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 27.584999999962747,
+          "writeMs": 11.240000000456348,
+          "batchWallMs": 28.919999999925494,
+          "decodeTaskMaxMs": 10.64501953125,
+          "finishPackTaskMaxMs": 9.1103515625,
+          "rebaseComputeMs": 0.44999999995343387,
+          "initializationMs": 33.27499999990687
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.984999999869615,
+              "p95": 5.554999999934807
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.15500000002793968
+            },
+            "gpuMs": {
+              "p50": 0.524288,
+              "p95": 0.851968
+            },
+            "projectionMs": {
+              "p50": 0.065536,
+              "p95": 0.131072
+            },
+            "sortMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "drawMs": {
+              "p50": 0.262144,
+              "p95": 0.589824
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.959999999962747,
+              "p95": 5.534999999916181
+            },
+            "cpuMs": {
+              "p50": 0.13000000012107193,
+              "p95": 0.17000000015832484
+            },
+            "gpuMs": {
+              "p50": 0.524288,
+              "p95": 0.851968
+            },
+            "projectionMs": {
+              "p50": 0.065536,
+              "p95": 0.131072
+            },
+            "sortMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "drawMs": {
+              "p50": 0.262144,
+              "p95": 0.589824
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9350000000558794,
+              "p95": 5.619999999878928
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.15999999991618097
+            },
+            "gpuMs": {
+              "p50": 0.524288,
+              "p95": 0.786432
+            },
+            "projectionMs": {
+              "p50": 0.065536,
+              "p95": 0.131072
+            },
+            "sortMs": {
+              "p50": 0.131072,
+              "p95": 0.196608
+            },
+            "drawMs": {
+              "p50": 0.262144,
+              "p95": 0.589824
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 1123.594999999972,
+        "firstFrameMs": 642.8149999999441,
+        "initializedMs": 268.37999999988824,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 17.510000000009313,
+              "p95": 22.044999999925494
+            },
+            "cpuMs": {
+              "p50": 0.11499999999068677,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 0.821696,
+              "p95": 2.238016
+            },
+            "updateMs": {
+              "p50": 12.28000000002794,
+              "p95": 14.609999999869615
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 17.510000000009313,
+              "p95": 23.069999999832362
+            },
+            "cpuMs": {
+              "p50": 0.10000000009313226,
+              "p95": 0.13500000000931323
+            },
+            "gpuMs": {
+              "p50": 0.97168,
+              "p95": 2.91744
+            },
+            "updateMs": {
+              "p50": 12.385000000009313,
+              "p95": 17.21500000008382
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 17.53000000002794,
+              "p95": 23.03000000002794
+            },
+            "cpuMs": {
+              "p50": 0.07999999984167516,
+              "p95": 0.10000000009313226
+            },
+            "gpuMs": {
+              "p50": 1.038208,
+              "p95": 2.833376
+            },
+            "updateMs": {
+              "p50": 12.330000000074506,
+              "p95": 17.21999999997206
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 806.7099999999627,
+        "firstFrameMs": 324.3049999999348,
+        "initializedMs": 258.85000000009313,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 433.8900000001304,
+        "firstFrameMs": 428.6700000001583,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 27.7750000001397,
+          "writeMs": 11.829999999608845,
+          "batchWallMs": 36.75999999977648,
+          "decodeTaskMaxMs": 11.65966796875,
+          "finishPackTaskMaxMs": 15.340087890625,
+          "rebaseComputeMs": 0.43500000005587935,
+          "initializationMs": 32.12999999988824
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 418.3900000001304,
+        "firstFrameMs": 413.1500000001397,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 43.87999999965541,
+          "writeMs": 9.869999999646097,
+          "batchWallMs": 46.540000000502914,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 0.41499999980442226,
+          "initializationMs": 11.5
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 415.30999999982305,
+        "firstFrameMs": 409.93499999982305,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 43.12499999976717,
+          "writeMs": 10.295000000158325,
+          "batchWallMs": 47.165000000735745,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 0.41999999969266355,
+          "initializationMs": 14.489999999990687
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 398.36000000010245,
+        "firstFrameMs": 394.05000000004657,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 27.640000000363216,
+          "writeMs": 10.969999999506399,
+          "batchWallMs": 34.6199999996461,
+          "decodeTaskMaxMs": 10.019775390625,
+          "finishPackTaskMaxMs": 15.80517578125,
+          "rebaseComputeMs": 0.4150000005029142,
+          "initializationMs": 30.895000000018626
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 824.714999999851,
+        "firstFrameMs": 340.45999999996275,
+        "initializedMs": 275.5099999997765,
+        "count": 170799,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.007192432880401611,
+            0.5516307801008224,
+            6.794528485567295
+          ],
+          "target": [
+            0.007192432880401611,
+            0.5516307801008224,
+            0.4995553493499756
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 1323.4950000001118,
+        "firstFrameMs": 1318.755000000121,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 201.53999999933876,
+          "writeMs": 47.60499999974854,
+          "batchWallMs": 200.6400000010617,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 1.3749999997671694,
+          "initializationMs": 11.230000000214204
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.5549999999348074,
+              "p95": 5.574999999953434
+            },
+            "cpuMs": {
+              "p50": 0.11499999999068677,
+              "p95": 0.15500000002793968
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.228224
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.458752
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.441792
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.970000000204891,
+              "p95": 5.554999999934807
+            },
+            "cpuMs": {
+              "p50": 0.11499999999068677,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.162688
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.589824
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9050000000279397,
+              "p95": 5.614999999990687
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.1600000001490116
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.097152
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.786432
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1197.9599999999627,
+        "firstFrameMs": 1193.8100000000559,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 129.88500000024214,
+          "writeMs": 51.99499999941327,
+          "batchWallMs": 107.00000000023283,
+          "decodeTaskMaxMs": 40.4951171875,
+          "finishPackTaskMaxMs": 29.910400390625,
+          "rebaseComputeMs": 1.5850000008940697,
+          "initializationMs": 35.57000000006519
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.920000000158325,
+              "p95": 5.59499999997206
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.1500000001396984
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.228224
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.65536
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.507328
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.550000000046566,
+              "p95": 6.524999999906868
+            },
+            "cpuMs": {
+              "p50": 0.11499999999068677,
+              "p95": 0.1500000001396984
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.097152
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.65536
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.545000000158325,
+              "p95": 5.6049999999813735
+            },
+            "cpuMs": {
+              "p50": 0.10499999998137355,
+              "p95": 0.1500000001396984
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.097152
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.589824
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 1652.9750000000931,
+        "firstFrameMs": 1168.9000000001397,
+        "initializedMs": 1072.1999999999534,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 29.510000000009313,
+              "p95": 35.075000000186265
+            },
+            "cpuMs": {
+              "p50": 0.13500000000931323,
+              "p95": 0.22500000009313226
+            },
+            "gpuMs": {
+              "p50": 2.589696,
+              "p95": 4.159168
+            },
+            "updateMs": {
+              "p50": 20.34499999997206,
+              "p95": 25.330000000074506
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 34.53000000002794,
+              "p95": 38.5999999998603
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.18000000016763806
+            },
+            "gpuMs": {
+              "p50": 2.962432,
+              "p95": 5.298176
+            },
+            "updateMs": {
+              "p50": 24.489999999990687,
+              "p95": 26.235000000102445
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 34.109999999869615,
+              "p95": 37.574999999953434
+            },
+            "cpuMs": {
+              "p50": 0.09499999997206032,
+              "p95": 0.15500000002793968
+            },
+            "gpuMs": {
+              "p50": 2.473728,
+              "p95": 4.36224
+            },
+            "updateMs": {
+              "p50": 24.320000000065193,
+              "p95": 26.084999999962747
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 1668.380000000121,
+        "firstFrameMs": 1183.9150000000373,
+        "initializedMs": 1078.1800000001676,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1222.8100000000559,
+        "firstFrameMs": 1218.0700000000652,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 140.98499999870546,
+          "writeMs": 53.579999999608845,
+          "batchWallMs": 112.41499999980442,
+          "decodeTaskMaxMs": 42.519775390625,
+          "finishPackTaskMaxMs": 31.92578125,
+          "rebaseComputeMs": 1.5949999999720603,
+          "initializationMs": 28.40999999991618
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 1340.160000000149,
+        "firstFrameMs": 1335.410000000149,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 203.98000000067987,
+          "writeMs": 48.33000000030734,
+          "batchWallMs": 201.32499999925494,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 1.4499999994877726,
+          "initializationMs": 11.229999999981374
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 1331.9449999998324,
+        "firstFrameMs": 1326.9599999999627,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 203.82000000146218,
+          "writeMs": 47.24500000011176,
+          "batchWallMs": 202.64000000059605,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 1.424999998882413,
+          "initializationMs": 11.305000000167638
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1240.2650000001304,
+        "firstFrameMs": 1235.9300000001676,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 137.21999999997206,
+          "writeMs": 53.559999998891726,
+          "batchWallMs": 106.42000000039116,
+          "decodeTaskMaxMs": 43.20458984375,
+          "finishPackTaskMaxMs": 26.496337890625,
+          "rebaseComputeMs": 1.5750000013504177,
+          "initializationMs": 29.605000000214204
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 1665.3649999999907,
+        "firstFrameMs": 1181.6750000000466,
+        "initializedMs": 1072.6049999999814,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.20379933714866638,
+            0.216009259223938,
+            4.365299374669728
+          ],
+          "target": [
+            0.20379933714866638,
+            0.216009259223938,
+            -0.08579897880554199
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 1185.0449999999255,
+        "firstFrameMs": 1178.8549999999814,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 84.3949999997858,
+          "writeMs": 51.36499999999069,
+          "batchWallMs": 246.29999999911524,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.4750000000931323,
+          "initializationMs": 10.559999999823049
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9899999999906868,
+              "p95": 5.544999999925494
+            },
+            "cpuMs": {
+              "p50": 0.14500000001862645,
+              "p95": 0.17999999993480742
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.29376
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.851968
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.507328
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9649999998509884,
+              "p95": 5.635000000009313
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.15999999991618097
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.29376
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.65536
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.4749999998603016,
+              "p95": 5.584999999962747
+            },
+            "cpuMs": {
+              "p50": 0.11499999999068677,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.097152
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.65536
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.31072
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 992.5849999999627,
+        "firstFrameMs": 987.8600000001024,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 63.57000000006519,
+          "writeMs": 49.760000000707805,
+          "batchWallMs": 132.62500000023283,
+          "decodeTaskMaxMs": 80.50048828125,
+          "finishPackTaskMaxMs": 38.545166015625,
+          "rebaseComputeMs": 1.5549999997019768,
+          "initializationMs": 29.354999999981374
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.9299999999348074,
+              "p95": 5.559999999823049
+            },
+            "cpuMs": {
+              "p50": 0.13000000012107193,
+              "p95": 0.1600000001490116
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.228224
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.65536
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.484999999869615,
+              "p95": 6.040000000037253
+            },
+            "cpuMs": {
+              "p50": 0.11999999987892807,
+              "p95": 0.1500000001396984
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.162688
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.786432
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 3.544999999925494,
+              "p95": 6.0200000000186265
+            },
+            "cpuMs": {
+              "p50": 0.11500000022351742,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 1.441792,
+              "p95": 2.097152
+            },
+            "projectionMs": {
+              "p50": 0.32768,
+              "p95": 0.393216
+            },
+            "sortMs": {
+              "p50": 0.393216,
+              "p95": 0.393216
+            },
+            "drawMs": {
+              "p50": 0.720896,
+              "p95": 1.376256
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 1373.4449999998324,
+        "firstFrameMs": 892.2749999999069,
+        "initializedMs": 793.375,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 29.00499999988824,
+              "p95": 35.05500000016764
+            },
+            "cpuMs": {
+              "p50": 0.13500000024214387,
+              "p95": 0.19000000040978193
+            },
+            "gpuMs": {
+              "p50": 2.389472,
+              "p95": 3.342336
+            },
+            "updateMs": {
+              "p50": 20.020000000018626,
+              "p95": 25.069999999832362
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 34.56000000005588,
+              "p95": 39.02499999990687
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.1699999999254942
+            },
+            "gpuMs": {
+              "p50": 3.206144,
+              "p95": 5.88288
+            },
+            "updateMs": {
+              "p50": 24.555000000167638,
+              "p95": 26.59500000020489
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 34.03499999968335,
+              "p95": 38.514999999664724
+            },
+            "cpuMs": {
+              "p50": 0.09499999973922968,
+              "p95": 0.1299999998882413
+            },
+            "gpuMs": {
+              "p50": 2.416256,
+              "p95": 4.668416
+            },
+            "updateMs": {
+              "p50": 24.559999999590218,
+              "p95": 26.46499999985099
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 1379.3899999996647,
+        "firstFrameMs": 896.1349999997765,
+        "initializedMs": 786.4549999996088,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 997.6800000001676,
+        "firstFrameMs": 993.4849999998696,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 63.584999999031425,
+          "writeMs": 50.200000000651926,
+          "batchWallMs": 126.94499999983236,
+          "decodeTaskMaxMs": 82.455322265625,
+          "finishPackTaskMaxMs": 32.01953125,
+          "rebaseComputeMs": 1.6499999999068677,
+          "initializationMs": 26.859999999869615
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 1113.820000000298,
+        "firstFrameMs": 1109.6299999998882,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 79.87000000057742,
+          "writeMs": 50.24999999953434,
+          "batchWallMs": 239.78000000072643,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 1.349999998230487,
+          "initializationMs": 10.754999999888241
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 1181.7150000003166,
+        "firstFrameMs": 1176.480000000447,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 82.14499999955297,
+          "writeMs": 49.99500000011176,
+          "batchWallMs": 242.85000000009313,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 1.694999998435378,
+          "initializationMs": 11.040000000037253
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1008.6949999998324,
+        "firstFrameMs": 1003.5150000001304,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 64.77999999932945,
+          "writeMs": 49.35000000055879,
+          "batchWallMs": 127.03500000108033,
+          "decodeTaskMaxMs": 83.149658203125,
+          "finishPackTaskMaxMs": 33.21533203125,
+          "rebaseComputeMs": 1.4449999989010394,
+          "initializationMs": 27.165000000037253
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 1377.9750000000931,
+        "firstFrameMs": 897.7999999998137,
+        "initializedMs": 792.5750000001863,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 2129.195000000298,
+        "firstFrameMs": 2124.3400000003166,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 316.6800000015646,
+          "writeMs": 77.28500000340864,
+          "batchWallMs": 316.35500000137836,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.0749999983236194,
+          "initializationMs": 11.964999999850988
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.540000000037253,
+              "p95": 7.010000000242144
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.15499999979510903
+            },
+            "gpuMs": {
+              "p50": 2.228224,
+              "p95": 3.407872
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 1.048576
+            },
+            "sortMs": {
+              "p50": 0.589824,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.835008
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.544999999925494,
+              "p95": 6.495000000111759
+            },
+            "cpuMs": {
+              "p50": 0.1299999998882413,
+              "p95": 0.1600000001490116
+            },
+            "gpuMs": {
+              "p50": 2.228224,
+              "p95": 3.2768
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 1.048576
+            },
+            "sortMs": {
+              "p50": 0.589824,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.769472
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.46999999973923,
+              "p95": 6.035000000149012
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.15000000037252903
+            },
+            "gpuMs": {
+              "p50": 2.162688,
+              "p95": 3.2768
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.835008
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1801.9799999999814,
+        "firstFrameMs": 1794.3149999999441,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 208.63500000117347,
+          "writeMs": 85.38500000257045,
+          "batchWallMs": 161.55000000121072,
+          "decodeTaskMaxMs": 63.850341796875,
+          "finishPackTaskMaxMs": 40.714111328125,
+          "rebaseComputeMs": 2.4599999976344407,
+          "initializationMs": 35.830000000074506
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.470000000204891,
+              "p95": 6.5
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 2.228224,
+              "p95": 3.211264
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.589824,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.114112,
+              "p95": 1.96608
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.475000000093132,
+              "p95": 6.535000000149012
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.15000000037252903
+            },
+            "gpuMs": {
+              "p50": 2.228224,
+              "p95": 3.145728
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.835008
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.5499999998137355,
+              "p95": 6.444999999832362
+            },
+            "cpuMs": {
+              "p50": 0.1299999998882413,
+              "p95": 0.15000000037252903
+            },
+            "gpuMs": {
+              "p50": 2.162688,
+              "p95": 3.080192
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.589824,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.835008
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 2278.529999999795,
+        "firstFrameMs": 1798.9399999999441,
+        "initializedMs": 1661.0049999998882,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 39.419999999925494,
+              "p95": 45.56000000005588
+            },
+            "cpuMs": {
+              "p50": 0.14000000013038516,
+              "p95": 0.2099999999627471
+            },
+            "gpuMs": {
+              "p50": 3.889152,
+              "p95": 6.595584
+            },
+            "updateMs": {
+              "p50": 29.290000000037253,
+              "p95": 34.640000000130385
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 41.04000000003725,
+              "p95": 46.08499999996275
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.18999999994412065
+            },
+            "gpuMs": {
+              "p50": 3.509248,
+              "p95": 6.029312
+            },
+            "updateMs": {
+              "p50": 30.49500000011176,
+              "p95": 35.02000000001863
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 41.03000000026077,
+              "p95": 45.58999999985099
+            },
+            "cpuMs": {
+              "p50": 0.09499999973922968,
+              "p95": 0.15500000026077032
+            },
+            "gpuMs": {
+              "p50": 3.136512,
+              "p95": 5.834752
+            },
+            "updateMs": {
+              "p50": 30.24500000011176,
+              "p95": 35.41500000003725
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 2285.6400000001304,
+        "firstFrameMs": 1804.3100000000559,
+        "initializedMs": 1640.5,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1794.7749999999069,
+        "firstFrameMs": 1789.5349999996834,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 211.714999998454,
+          "writeMs": 85.37499999906868,
+          "batchWallMs": 166.035000000149,
+          "decodeTaskMaxMs": 64.864501953125,
+          "finishPackTaskMaxMs": 45.275390625,
+          "rebaseComputeMs": 2.73500000173226,
+          "initializationMs": 36.84500000020489
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 2051.3950000000186,
+        "firstFrameMs": 2047.1349999997765,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 317.83500000089407,
+          "writeMs": 78.34500000113621,
+          "batchWallMs": 317.0600000019185,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.184999999590218,
+          "initializationMs": 11.169999999925494
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 2122.625,
+        "firstFrameMs": 2118.0049999998882,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 319.1300000003539,
+          "writeMs": 77.85500000044703,
+          "batchWallMs": 317.0100000007078,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.119999999180436,
+          "initializationMs": 11.680000000167638
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1801.9350000000559,
+        "firstFrameMs": 1796.285000000149,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 218.85500000230968,
+          "writeMs": 83.49500000104308,
+          "batchWallMs": 164.77499999804422,
+          "decodeTaskMaxMs": 65.360107421875,
+          "finishPackTaskMaxMs": 43.029541015625,
+          "rebaseComputeMs": 2.3649999988265336,
+          "initializationMs": 29.68500000005588
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 2246.185000000056,
+        "firstFrameMs": 1763.7050000000745,
+        "initializedMs": 1612.679999999702,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09526729583740234,
+            0.3147636577486992,
+            4.571915004496126
+          ],
+          "target": [
+            0.09526729583740234,
+            0.3147636577486992,
+            0.1002158522605896
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 1627.089999999851,
+        "firstFrameMs": 1618.875,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 123.10999999940395,
+          "writeMs": 77.46500000031665,
+          "batchWallMs": 362.7850000006147,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.630000000819564,
+          "initializationMs": 9.575000000186265
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.5450000003911555,
+              "p95": 6.509999999776483
+            },
+            "cpuMs": {
+              "p50": 0.1299999998882413,
+              "p95": 0.15499999979510903
+            },
+            "gpuMs": {
+              "p50": 2.29376,
+              "p95": 3.145728
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 0.851968
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.96608
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.4799999999813735,
+              "p95": 6.4799999999813735
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.1650000000372529
+            },
+            "gpuMs": {
+              "p50": 2.162688,
+              "p95": 3.211264
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 0.589824
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 2.097152
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.489999999757856,
+              "p95": 6.064999999944121
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 2.162688,
+              "p95": 3.145728
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 1.048576
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 2.097152
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1470.5,
+        "firstFrameMs": 1464.7600000002421,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 96.9050000011921,
+          "writeMs": 77.23000000184402,
+          "batchWallMs": 195.50999999884516,
+          "decodeTaskMaxMs": 119.790283203125,
+          "finishPackTaskMaxMs": 57.204833984375,
+          "rebaseComputeMs": 2.200000000651926,
+          "initializationMs": 26.40999999968335
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.2700000000186265,
+              "p95": 6.004999999888241
+            },
+            "cpuMs": {
+              "p50": 0.13000000035390258,
+              "p95": 0.15500000026077032
+            },
+            "gpuMs": {
+              "p50": 2.228224,
+              "p95": 3.080192
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 1.179648
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 0.786432
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.900544
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.455000000074506,
+              "p95": 6
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.15000000037252903
+            },
+            "gpuMs": {
+              "p50": 2.359296,
+              "p95": 3.145728
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 0.786432
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 1.900544
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 4.390000000130385,
+              "p95": 6.029999999795109
+            },
+            "cpuMs": {
+              "p50": 0.1299999998882413,
+              "p95": 0.15499999979510903
+            },
+            "gpuMs": {
+              "p50": 2.162688,
+              "p95": 3.211264
+            },
+            "projectionMs": {
+              "p50": 0.524288,
+              "p95": 0.98304
+            },
+            "sortMs": {
+              "p50": 0.524288,
+              "p95": 0.589824
+            },
+            "drawMs": {
+              "p50": 1.048576,
+              "p95": 2.097152
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 1702.3349999999627,
+        "firstFrameMs": 1224.6099999998696,
+        "initializedMs": 1092.9899999997579,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 36.54000000003725,
+              "p95": 45.49500000011176
+            },
+            "cpuMs": {
+              "p50": 0.13500000024214387,
+              "p95": 0.20499999960884452
+            },
+            "gpuMs": {
+              "p50": 3.410944,
+              "p95": 6.045696
+            },
+            "updateMs": {
+              "p50": 26.375,
+              "p95": 33.955000000074506
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 41.044999999925494,
+              "p95": 46.75
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.18999999994412065
+            },
+            "gpuMs": {
+              "p50": 3.590144,
+              "p95": 5.92384
+            },
+            "updateMs": {
+              "p50": 30.509999999776483,
+              "p95": 35.420000000391155
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 41.03500000014901,
+              "p95": 47.515000000130385
+            },
+            "cpuMs": {
+              "p50": 0.09499999973922968,
+              "p95": 0.1699999999254942
+            },
+            "gpuMs": {
+              "p50": 3.181568,
+              "p95": 5.929984
+            },
+            "updateMs": {
+              "p50": 30.430000000167638,
+              "p95": 35.71999999973923
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 1736.3700000001118,
+        "firstFrameMs": 1258.3799999998882,
+        "initializedMs": 1091.964999999851,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1434.5150000001304,
+        "firstFrameMs": 1430.2900000000373,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 96.25999999884516,
+          "writeMs": 78.7749999994412,
+          "batchWallMs": 194.22000000160187,
+          "decodeTaskMaxMs": 126.2197265625,
+          "finishPackTaskMaxMs": 51.60986328125,
+          "rebaseComputeMs": 2.309999999590218,
+          "initializationMs": 27.549999999813735
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 1664.375,
+        "firstFrameMs": 1658.9050000002608,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 122.63000000175089,
+          "writeMs": 76.33999999891967,
+          "batchWallMs": 364.4349999995902,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 2.5650000027380884,
+          "initializationMs": 10.029999999795109
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 1720.9849999998696,
+        "firstFrameMs": 1715.654999999795,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 126.43999999947846,
+          "writeMs": 80.1000000005588,
+          "batchWallMs": 412.84999999962747,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 3.0049999989569187,
+          "initializationMs": 11.765000000130385
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 1510.4449999998324,
+        "firstFrameMs": 1504.785000000149,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 105.59999999916181,
+          "writeMs": 82.55500000109896,
+          "batchWallMs": 219.77499999850988,
+          "decodeTaskMaxMs": 140.979736328125,
+          "finishPackTaskMaxMs": 61.809814453125,
+          "rebaseComputeMs": 2.6350000016391277,
+          "initializationMs": 29.109999999869615
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 1835.875,
+        "firstFrameMs": 1353.8050000001676,
+        "initializedMs": 1182.1100000003353,
+        "count": 1248730,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.09521484375,
+            -0.3148193359375,
+            4.384228882836458
+          ],
+          "target": [
+            0.09521484375,
+            -0.3148193359375,
+            -0.1002197265625
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 6668.98499999987,
+        "firstFrameMs": 6606.979999999981,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 1011.7499999981374,
+          "writeMs": 264.9300000038929,
+          "batchWallMs": 1154.6600000010803,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 11.934999994933605,
+          "initializationMs": 13
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.514999999664724,
+              "p95": 11.320000000298023
+            },
+            "cpuMs": {
+              "p50": 0.17499999981373549,
+              "p95": 0.2649999996647239
+            },
+            "gpuMs": {
+              "p50": 6.488064,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.6384,
+              "p95": 2.490368
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.29376
+            },
+            "drawMs": {
+              "p50": 2.818048,
+              "p95": 3.801088
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.53000000026077,
+              "p95": 11.839999999850988
+            },
+            "cpuMs": {
+              "p50": 0.17500000027939677,
+              "p95": 0.26500000013038516
+            },
+            "gpuMs": {
+              "p50": 6.5536,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.6384,
+              "p95": 2.424832
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.162688
+            },
+            "drawMs": {
+              "p50": 2.818048,
+              "p95": 3.866624
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.950000000186265,
+              "p95": 11.819999999832362
+            },
+            "cpuMs": {
+              "p50": 0.17499999981373549,
+              "p95": 0.25
+            },
+            "gpuMs": {
+              "p50": 6.5536,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.6384,
+              "p95": 2.424832
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.29376
+            },
+            "drawMs": {
+              "p50": 2.818048,
+              "p95": 3.866624
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 6186.625,
+        "firstFrameMs": 6112.370000000112,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 751.3800000008196,
+          "writeMs": 306.9549999930896,
+          "batchWallMs": 656.8799999989569,
+          "decodeTaskMaxMs": 285.54052734375,
+          "finishPackTaskMaxMs": 160.936279296875,
+          "rebaseComputeMs": 11.600000000093132,
+          "initializationMs": 36.484999999869615
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.504999999888241,
+              "p95": 10.970000000204891
+            },
+            "cpuMs": {
+              "p50": 0.2050000000745058,
+              "p95": 0.2549999998882413
+            },
+            "gpuMs": {
+              "p50": 6.488064,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.6384,
+              "p95": 2.555904
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.162688
+            },
+            "drawMs": {
+              "p50": 2.818048,
+              "p95": 3.866624
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.520000000018626,
+              "p95": 12.035000000149012
+            },
+            "cpuMs": {
+              "p50": 0.20000000018626451,
+              "p95": 0.2549999998882413
+            },
+            "gpuMs": {
+              "p50": 6.488064,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.6384,
+              "p95": 2.424832
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.424832
+            },
+            "drawMs": {
+              "p50": 2.752512,
+              "p95": 3.670016
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 8.529999999795109,
+              "p95": 11.865000000223517
+            },
+            "cpuMs": {
+              "p50": 0.18999999994412065,
+              "p95": 0.23999999975785613
+            },
+            "gpuMs": {
+              "p50": 6.488064,
+              "p95": 7.012352
+            },
+            "projectionMs": {
+              "p50": 1.835008,
+              "p95": 2.424832
+            },
+            "sortMs": {
+              "p50": 1.507328,
+              "p95": 2.228224
+            },
+            "drawMs": {
+              "p50": 2.752512,
+              "p95": 3.866624
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 6195.625,
+        "firstFrameMs": 5711.7400000002235,
+        "initializedMs": 5405.370000000112,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 101.68500000005588,
+              "p95": 116.22500000009313
+            },
+            "cpuMs": {
+              "p50": 0.14500000001862645,
+              "p95": 0.18999999994412065
+            },
+            "gpuMs": {
+              "p50": 8.1664,
+              "p95": 9.561088
+            },
+            "updateMs": {
+              "p50": 85.69500000029802,
+              "p95": 97.45000000018626
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 106.7949999999255,
+              "p95": 121.85499999998137
+            },
+            "cpuMs": {
+              "p50": 0.13000000035390258,
+              "p95": 0.18500000005587935
+            },
+            "gpuMs": {
+              "p50": 8.167424,
+              "p95": 9.956352
+            },
+            "updateMs": {
+              "p50": 88.72000000020489,
+              "p95": 104.02499999990687
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 100.62999999988824,
+              "p95": 108.12000000011176
+            },
+            "cpuMs": {
+              "p50": 0.10000000009313226,
+              "p95": 0.13499999977648258
+            },
+            "gpuMs": {
+              "p50": 8.179712,
+              "p95": 9.412608
+            },
+            "updateMs": {
+              "p50": 82.75499999988824,
+              "p95": 90.39999999990687
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 6233.714999999851,
+        "firstFrameMs": 5749.264999999665,
+        "initializedMs": 5305.784999999683,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 5741.279999999795,
+        "firstFrameMs": 5678.439999999944,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 696.0399999991059,
+          "writeMs": 276.86000000312924,
+          "batchWallMs": 601.9900000030175,
+          "decodeTaskMaxMs": 262.123779296875,
+          "finishPackTaskMaxMs": 156.995361328125,
+          "rebaseComputeMs": 8.195000001229346,
+          "initializationMs": 32.10000000009313
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 6597.399999999907,
+        "firstFrameMs": 6534.739999999758,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 983.6499999999069,
+          "writeMs": 271.51999999629334,
+          "batchWallMs": 1173.7399999992922,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 11.769999998621643,
+          "initializationMs": 13.245000000111759
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 6535.489999999758,
+        "firstFrameMs": 6519.35999999987,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 958.569999998901,
+          "writeMs": 261.1650000028312,
+          "batchWallMs": 1088.1850000005215,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 8.509999992791563,
+          "initializationMs": 36.31499999994412
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 5905.120000000112,
+        "firstFrameMs": 5844.380000000354,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 745.1800000038929,
+          "writeMs": 282.1550000049174,
+          "batchWallMs": 640.4400000004098,
+          "decodeTaskMaxMs": 282.430908203125,
+          "finishPackTaskMaxMs": 161.366943359375,
+          "rebaseComputeMs": 12.229999995790422,
+          "initializationMs": 34
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 6112.114999999758,
+        "firstFrameMs": 5629.899999999907,
+        "initializedMs": 5173.674999999814,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 33088.955000000075,
+        "firstFrameMs": 33045.25,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 5890.754999998026,
+          "writeMs": 1515.024999995716,
+          "batchWallMs": 6402.325000000186,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 44.82499999552965,
+          "initializationMs": 45.329999999608845
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 39.03000000026077,
+              "p95": 40.07000000029802
+            },
+            "cpuMs": {
+              "p50": 0.1600000001490116,
+              "p95": 0.22500000009313226
+            },
+            "gpuMs": {
+              "p50": 36.37248,
+              "p95": 36.962304
+            },
+            "projectionMs": {
+              "p50": 10.15808,
+              "p95": 10.878976
+            },
+            "sortMs": {
+              "p50": 9.17504,
+              "p95": 9.961472
+            },
+            "drawMs": {
+              "p50": 16.777216,
+              "p95": 17.432576
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 38.955000000074506,
+              "p95": 40.58499999996275
+            },
+            "cpuMs": {
+              "p50": 0.14999999990686774,
+              "p95": 0.19499999983236194
+            },
+            "gpuMs": {
+              "p50": 36.503552,
+              "p95": 37.289984
+            },
+            "projectionMs": {
+              "p50": 10.15808,
+              "p95": 10.944512
+            },
+            "sortMs": {
+              "p50": 9.371648,
+              "p95": 10.092544
+            },
+            "drawMs": {
+              "p50": 16.908288,
+              "p95": 17.36704
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 39.02999999979511,
+              "p95": 41.02000000001863
+            },
+            "cpuMs": {
+              "p50": 0.15499999979510903,
+              "p95": 0.22000000020489097
+            },
+            "gpuMs": {
+              "p50": 36.569088,
+              "p95": 37.35552
+            },
+            "projectionMs": {
+              "p50": 10.15808,
+              "p95": 11.075584
+            },
+            "sortMs": {
+              "p50": 9.306112,
+              "p95": 10.027008
+            },
+            "drawMs": {
+              "p50": 16.973824,
+              "p95": 17.432576
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 31517.435000000056,
+        "firstFrameMs": 31478.709999999963,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 4414.96999998996,
+          "writeMs": 1661.9350000056438,
+          "batchWallMs": 3482.580000005197,
+          "decodeTaskMaxMs": 1553.208251953125,
+          "finishPackTaskMaxMs": 819.132080078125,
+          "rebaseComputeMs": 46.26500000152737,
+          "initializationMs": 34.93999999994412
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 36.97500000009313,
+              "p95": 38.77499999990687
+            },
+            "cpuMs": {
+              "p50": 0.15499999979510903,
+              "p95": 0.18500000005587935
+            },
+            "gpuMs": {
+              "p50": 34.340864,
+              "p95": 35.258368
+            },
+            "projectionMs": {
+              "p50": 9.764864,
+              "p95": 10.223616
+            },
+            "sortMs": {
+              "p50": 8.585216,
+              "p95": 9.437184
+            },
+            "drawMs": {
+              "p50": 15.925248,
+              "p95": 16.449536
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 36.924999999813735,
+              "p95": 38.00999999977648
+            },
+            "cpuMs": {
+              "p50": 0.14000000013038516,
+              "p95": 0.1600000001490116
+            },
+            "gpuMs": {
+              "p50": 34.340864,
+              "p95": 35.258368
+            },
+            "projectionMs": {
+              "p50": 9.699328,
+              "p95": 10.289152
+            },
+            "sortMs": {
+              "p50": 8.585216,
+              "p95": 9.437184
+            },
+            "drawMs": {
+              "p50": 15.925248,
+              "p95": 16.449536
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 36.97999999998137,
+              "p95": 38.00499999988824
+            },
+            "cpuMs": {
+              "p50": 0.14000000013038516,
+              "p95": 0.15000000037252903
+            },
+            "gpuMs": {
+              "p50": 34.4064,
+              "p95": 35.192832
+            },
+            "projectionMs": {
+              "p50": 9.764864,
+              "p95": 10.420224
+            },
+            "sortMs": {
+              "p50": 8.650752,
+              "p95": 9.371648
+            },
+            "drawMs": {
+              "p50": 15.925248,
+              "p95": 16.384
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 33373.61499999976,
+        "firstFrameMs": 32175.279999999795,
+        "initializedMs": 30428.75499999989,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 398.6150000002235,
+              "p95": 446.75499999988824
+            },
+            "cpuMs": {
+              "p50": 0.125,
+              "p95": 0.1699999999254942
+            },
+            "gpuMs": {
+              "p50": 38.524288,
+              "p95": 53.537728
+            },
+            "updateMs": {
+              "p50": 345.3249999997206,
+              "p95": 401.2700000000186
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 395.6549999997951,
+              "p95": 448.7200000002049
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 38.836064,
+              "p95": 53.355456
+            },
+            "updateMs": {
+              "p50": 343.42499999981374,
+              "p95": 400.33499999996275
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 396.1049999999814,
+              "p95": 439.20499999960884
+            },
+            "cpuMs": {
+              "p50": 0.12000000011175871,
+              "p95": 0.13999999966472387
+            },
+            "gpuMs": {
+              "p50": 39.208704,
+              "p95": 54.250176
+            },
+            "updateMs": {
+              "p50": 342.22500000009313,
+              "p95": 399.1850000000559
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 32263.185000000056,
+        "firstFrameMs": 31082.075000000186,
+        "initializedMs": 29384.709999999963,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 32552.384999999776,
+        "firstFrameMs": 31576.889999999665,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 4516.040000001434,
+          "writeMs": 1688.960000002291,
+          "batchWallMs": 3360.3750000004657,
+          "decodeTaskMaxMs": 1514.010986328125,
+          "finishPackTaskMaxMs": 820.73291015625,
+          "rebaseComputeMs": 47.42000000551343,
+          "initializationMs": 35.205000000074506
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 34819.955000000075,
+        "firstFrameMs": 34777.55500000017,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 5996.2249999996275,
+          "writeMs": 1506.6650000042282,
+          "batchWallMs": 5700.2149999882095,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 36.68499999772757,
+          "initializationMs": 11.930000000167638
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 32707.97999999998,
+        "firstFrameMs": 32664.189999999944,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 5797.189999988768,
+          "writeMs": 1389.570000000298,
+          "batchWallMs": 5551.835000005551,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 41.560000002384186,
+          "initializationMs": 11.339999999850988
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 33998.21000000043,
+        "firstFrameMs": 33955.51000000024,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 4710.0449999985285,
+          "writeMs": 1650.9150000093505,
+          "batchWallMs": 3473.1649999944493,
+          "decodeTaskMaxMs": 1554.78955078125,
+          "finishPackTaskMaxMs": 837.81884765625,
+          "rebaseComputeMs": 45.88000000594184,
+          "initializationMs": 35.83499999996275
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 32996.529999999795,
+        "firstFrameMs": 31839.10999999987,
+        "initializedMs": 30005.26500000013,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.821502685546875,
+            -4.066814422607422,
+            3569.243494241544
+          ],
+          "target": [
+            -48.821502685546875,
+            -4.066814422607422,
+            -10.405609130859375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 0,
+      "config": "single",
+      "loaded": {
+        "ms": 29724.404999999795,
+        "firstFrameMs": 29105.864999999758,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 2832.9850000031292,
+          "writeMs": 1289.6499999994412,
+          "batchWallMs": 6352.484999994282,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 36.9050000035204,
+          "initializationMs": 10.375
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 112.66499999957159,
+              "p95": 127.83499999996275
+            },
+            "cpuMs": {
+              "p50": 0.15500000026077032,
+              "p95": 0.22999999998137355
+            },
+            "gpuMs": {
+              "p50": 110.10048,
+              "p95": 124.84608
+            },
+            "projectionMs": {
+              "p50": 83.689472,
+              "p95": 98.304
+            },
+            "sortMs": {
+              "p50": 9.109504,
+              "p95": 9.633792
+            },
+            "drawMs": {
+              "p50": 16.777216,
+              "p95": 17.498112
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 89.40499999979511,
+              "p95": 94.16000000014901
+            },
+            "cpuMs": {
+              "p50": 0.14500000001862645,
+              "p95": 0.18500000005587935
+            },
+            "gpuMs": {
+              "p50": 87.031808,
+              "p95": 90.76736
+            },
+            "projectionMs": {
+              "p50": 61.407232,
+              "p95": 63.963136
+            },
+            "sortMs": {
+              "p50": 9.109504,
+              "p95": 9.699328
+            },
+            "drawMs": {
+              "p50": 16.449536,
+              "p95": 17.36704
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 88.04000000003725,
+              "p95": 91.96499999985099
+            },
+            "cpuMs": {
+              "p50": 0.14000000013038516,
+              "p95": 0.1650000000372529
+            },
+            "gpuMs": {
+              "p50": 85.655552,
+              "p95": 89.260032
+            },
+            "projectionMs": {
+              "p50": 60.686336,
+              "p95": 62.91456
+            },
+            "sortMs": {
+              "p50": 8.978432,
+              "p95": 9.437184
+            },
+            "drawMs": {
+              "p50": 16.252928,
+              "p95": 17.235968
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 0,
+      "config": "parallel",
+      "loaded": {
+        "ms": 24356.010000000242,
+        "firstFrameMs": 24157.404999999795,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 1812.8299999972805,
+          "writeMs": 1472.1249999981374,
+          "batchWallMs": 3406.34500000719,
+          "decodeTaskMaxMs": 2193.477294921875,
+          "finishPackTaskMaxMs": 920.402099609375,
+          "rebaseComputeMs": 39.415000000502914,
+          "initializationMs": 28.68999999994412
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 37.03000000026077,
+              "p95": 39.3800000003539
+            },
+            "cpuMs": {
+              "p50": 0.15499999979510903,
+              "p95": 0.18000000016763806
+            },
+            "gpuMs": {
+              "p50": 34.73408,
+              "p95": 36.175872
+            },
+            "projectionMs": {
+              "p50": 9.8304,
+              "p95": 10.420224
+            },
+            "sortMs": {
+              "p50": 8.781824,
+              "p95": 9.50272
+            },
+            "drawMs": {
+              "p50": 16.252928,
+              "p95": 17.170432
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 36.99500000011176,
+              "p95": 40.02000000001863
+            },
+            "cpuMs": {
+              "p50": 0.14000000013038516,
+              "p95": 0.18000000016763806
+            },
+            "gpuMs": {
+              "p50": 34.668544,
+              "p95": 37.35552
+            },
+            "projectionMs": {
+              "p50": 9.8304,
+              "p95": 10.81344
+            },
+            "sortMs": {
+              "p50": 8.781824,
+              "p95": 9.50272
+            },
+            "drawMs": {
+              "p50": 16.252928,
+              "p95": 17.36704
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 69.5050000003539,
+              "p95": 102.02499999990687
+            },
+            "cpuMs": {
+              "p50": 0.14499999955296516,
+              "p95": 0.1650000000372529
+            },
+            "gpuMs": {
+              "p50": 66.51904,
+              "p95": 99.680256
+            },
+            "projectionMs": {
+              "p50": 41.156608,
+              "p95": 73.728
+            },
+            "sortMs": {
+              "p50": 8.781824,
+              "p95": 9.568256
+            },
+            "drawMs": {
+              "p50": 16.252928,
+              "p95": 17.563648
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 0,
+      "config": "spark",
+      "loaded": {
+        "ms": 21626.830000000075,
+        "firstFrameMs": 20477.23499999987,
+        "initializedMs": 18315.14500000002,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": [
+        {
+          "run": 0,
+          "metrics": {
+            "completedMs": {
+              "p50": 399,
+              "p95": 459.9849999998696
+            },
+            "cpuMs": {
+              "p50": 0.10999999986961484,
+              "p95": 0.14999999990686774
+            },
+            "gpuMs": {
+              "p50": 37.532864,
+              "p95": 53.128736
+            },
+            "updateMs": {
+              "p50": 346.7949999999255,
+              "p95": 400.2650000001304
+            }
+          }
+        },
+        {
+          "run": 1,
+          "metrics": {
+            "completedMs": {
+              "p50": 394.9849999998696,
+              "p95": 456.05500000016764
+            },
+            "cpuMs": {
+              "p50": 0.10499999998137355,
+              "p95": 0.125
+            },
+            "gpuMs": {
+              "p50": 39.400064,
+              "p95": 60.552608
+            },
+            "updateMs": {
+              "p50": 339.4199999999255,
+              "p95": 389.5099999997765
+            }
+          }
+        },
+        {
+          "run": 2,
+          "metrics": {
+            "completedMs": {
+              "p50": 394.97499999962747,
+              "p95": 452.9849999998696
+            },
+            "cpuMs": {
+              "p50": 0.10499999998137355,
+              "p95": 0.125
+            },
+            "gpuMs": {
+              "p50": 39.158016,
+              "p95": 55.3432
+            },
+            "updateMs": {
+              "p50": 338.4049999997951,
+              "p95": 392.5649999999441
+            }
+          }
+        }
+      ]
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 1,
+      "config": "spark",
+      "loaded": {
+        "ms": 20639.73499999987,
+        "firstFrameMs": 19536.78500000015,
+        "initializedMs": 17966.149999999907,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 1,
+      "config": "parallel",
+      "loaded": {
+        "ms": 22472.59499999974,
+        "firstFrameMs": 22273.209999999963,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 1646.1800000001676,
+          "writeMs": 1324.0099999960512,
+          "batchWallMs": 3002.629999991972,
+          "decodeTaskMaxMs": 1895.370361328125,
+          "finishPackTaskMaxMs": 828.978515625,
+          "rebaseComputeMs": 33.025000002700835,
+          "initializationMs": 37.389999999664724
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 1,
+      "config": "single",
+      "loaded": {
+        "ms": 25976.375,
+        "firstFrameMs": 25936.669999999925,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 2145.044999998063,
+          "writeMs": 1302.5450000003912,
+          "batchWallMs": 6134.094999998808,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 33.42999999644235,
+          "initializationMs": 10.140000000130385
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 2,
+      "config": "single",
+      "loaded": {
+        "ms": 26140.22999999998,
+        "firstFrameMs": 26099.799999999814,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "single",
+          "threads": 1,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 2136.179999999702,
+          "writeMs": 1304.4800000013784,
+          "batchWallMs": 6164.330000003334,
+          "decodeTaskMaxMs": 0,
+          "finishPackTaskMaxMs": 0,
+          "rebaseComputeMs": 33.34499999508262,
+          "initializationMs": 9.520000000018626
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 2,
+      "config": "parallel",
+      "loaded": {
+        "ms": 22140.489999999758,
+        "firstFrameMs": 22103.790000000037,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 1666.7349999975413,
+          "writeMs": 1339.4650000021793,
+          "batchWallMs": 3105.3549999995157,
+          "decodeTaskMaxMs": 1961.9716796875,
+          "finishPackTaskMaxMs": 841.734619140625,
+          "rebaseComputeMs": 33.56000000750646,
+          "initializationMs": 26.885000000242144
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "stages": null
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "run": 2,
+      "config": "spark",
+      "loaded": {
+        "ms": 20386.09499999974,
+        "firstFrameMs": 19258.419999999925,
+        "initializedMs": 17721.419999999925,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "stages": null
+    }
+  ],
+  "failures": []
+}

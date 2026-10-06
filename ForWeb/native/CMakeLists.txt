@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 project(Native3DGSWeb LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
+option(GS_WASM_THREADS "Build the optional shared-memory decoder" OFF)
 if(NOT EMSCRIPTEN)
   message(FATAL_ERROR "Use the pinned Emscripten toolchain")
 endif()
@@ -28,5 +29,13 @@ target_compile_options(decoder PRIVATE -O3 -fexceptions)
 target_link_options(decoder PRIVATE -O3 -fexceptions --no-entry
   "-sMODULARIZE=1" "-sEXPORT_ES6=1" "-sENVIRONMENT=web,worker,node" "-sALLOW_MEMORY_GROWTH=1"
   "-sMAXIMUM_MEMORY=1073741824" "-sINITIAL_MEMORY=16777216" "-sFILESYSTEM=0"
-  "-sEXPORTED_FUNCTIONS=['_malloc','_free','_gs_probe','_gs_begin','_gs_begin_batch','_gs_raw_spz','_gs_chunk','_gs_spz','_gs_finish','_gs_finish_batch','_gs_count','_gs_degree','_gs_meta','_gs_stride','_gs_pack','_gs_pack_compact','_gs_pack_tiled','_gs_rebase_tiled','_gs_rebase','_gs_inflate_begin','_gs_inflate_step','_gs_inflate_consumed','_gs_inflate_produced','_gs_inflate_end','_gs_error','_gs_release']"
+  "-sEXPORTED_FUNCTIONS=['_malloc','_free','_gs_probe','_gs_begin','_gs_begin_batch','_gs_raw_spz','_gs_chunk','_gs_spz','_gs_finish','_gs_finish_batch','_gs_count','_gs_degree','_gs_meta','_gs_stride','_gs_pack','_gs_pack_compact','_gs_pack_tiled','_gs_rebase_tiled','_gs_rebase','_gs_inflate_begin','_gs_inflate_step','_gs_inflate_consumed','_gs_inflate_produced','_gs_inflate_end','_gs_error','_gs_release','_gs_set_threads','_gs_decode_batch','_gs_rebase_parallel','_gs_timing']"
   "-sEXPORTED_RUNTIME_METHODS=['HEAPU8','HEAPF32','UTF8ToString']")
+if(GS_WASM_THREADS)
+  foreach(TARGET decoder gs_spz gs_zlib libzstd_static)
+    target_compile_options(${TARGET} PRIVATE -pthread)
+  endforeach()
+  target_link_options(decoder PRIVATE -pthread "-sPTHREAD_POOL_SIZE=Module['pthreadPoolSize']"
+    "-sPTHREAD_POOL_SIZE_STRICT=2" "-sSTACK_SIZE=2097152"
+    "-sEXPORTED_RUNTIME_METHODS=['HEAPU8','HEAPF32','UTF8ToString','PThread']")
+endif()

@@ -1,0 +1,13 @@
+{
+  "label": "current",
+  "source": "changjin_v1.ply",
+  "times": [
+    33.074299999999994,
+    34.842600000000004,
+    33.9101,
+    33.64640000000003,
+    33.7826
+  ],
+  "median": 33.7826,
+  "scope": "WASM probe + normalize, input preloaded, no packing/network/GPU"
+}

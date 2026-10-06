@@ -1,0 +1,6 @@
+{
+  "time": "2026-10-06T05:54:39.7070728Z",
+  "phase": "paired maximum SPZ completed-frame test",
+  "gpu": "3997 MiB, 10240 MiB, 4 %, 44, P5",
+  "note": "One environmental sample; driver usage includes all processes and is not SDK peak ownership. Earlier observed 9238 MiB of 10240 MiB."
+}

@@ -21,10 +21,11 @@ extern "C"
         auto *result = static_cast<uint8_t *>(std::calloc(count, stride));
         if (!result)
             return nullptr;
-        const auto array = [](ArrayIndex a)
+        const auto *header = gs_output;
+        const auto array = [header](ArrayIndex a)
         {
-            return reinterpret_cast<const float *>(reinterpret_cast<const uint8_t *>(gs_output) +
-                                                   gs_output->offsets[a]);
+            return reinterpret_cast<const float *>(reinterpret_cast<const uint8_t *>(header) +
+                                                   header->offsets[a]);
         };
         for (uint32_t j = 0; j < count; ++j)
         {
@@ -48,19 +49,20 @@ extern "C"
     {
         return pack(start, count, true);
     }
-    uint8_t *gs_pack_tiled(uint32_t start, uint32_t count)
+    int gs_pack_tiled_into(uint8_t *destination, uint32_t start, uint32_t count)
     {
         if (!gs_output || uint64_t(start) + count > gs_output->count)
-            return nullptr;
+            return 0;
         const uint32_t rest = 3 * ((gs_output->shDegree + 1) * (gs_output->shDegree + 1) - 1);
         const uint32_t width = 14 + rest, padded = (count + 63u) & ~63u;
-        auto *result = static_cast<float *>(std::calloc(uint64_t(padded) * width, 4));
+        auto *result = reinterpret_cast<float *>(destination);
         if (!result)
-            return nullptr;
-        const auto array = [](ArrayIndex a)
+            return 0;
+        const auto *header = gs_output;
+        const auto array = [header](ArrayIndex a)
         {
-            return reinterpret_cast<const float *>(reinterpret_cast<const uint8_t *>(gs_output) +
-                                                   gs_output->offsets[a]);
+            return reinterpret_cast<const float *>(reinterpret_cast<const uint8_t *>(header) +
+                                                   header->offsets[a]);
         };
         for (uint32_t tile = 0; tile < padded; tile += 64)
             for (uint32_t field = 0; field < width; ++field)
@@ -106,7 +108,22 @@ extern "C"
                     result[uint64_t(tile) * width + field * 64 + lane] =
                         source[uint64_t(start + tile + lane) * components + component];
             }
-        return reinterpret_cast<uint8_t *>(result);
+        return 1;
+    }
+    uint8_t *gs_pack_tiled(uint32_t start, uint32_t count)
+    {
+        if (!gs_output || uint64_t(start) + count > gs_output->count)
+            return nullptr;
+        const uint32_t rest = 3 * ((gs_output->shDegree + 1) * (gs_output->shDegree + 1) - 1);
+        auto *result = static_cast<uint8_t *>(std::calloc((uint64_t(count) + 63) / 64 * 64, (14 + rest) * 4));
+        if (!result)
+            return nullptr;
+        if (!gs_pack_tiled_into(result, start, count))
+        {
+            std::free(result);
+            return nullptr;
+        }
+        return result;
     }
     int gs_rebase_tiled(uint8_t *data, uint32_t count, uint32_t stride, double x, double y, double z)
     {

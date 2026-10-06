@@ -41,6 +41,7 @@ function renderer() {
         },
         upload: vi.fn(async () => ({ scene, bytes: 100, revision: -1 })),
         render: vi.fn(),
+        needsSort: vi.fn(() => false),
         clear: vi.fn(),
         waitForWork(signal: AbortSignal) {
             return abortable(this.device.queue.onSubmittedWorkDone(), signal);
@@ -110,6 +111,47 @@ test('invalid frame depth fails before GPU allocation', async () => {
     } as unknown as Parameters<typeof WebEngine.create>[0]);
     expect(result.ok).toBe(false);
     expect(fake.create).not.toHaveBeenCalled();
+});
+
+test('decoder options are validated before allocation and fixed before asynchronous initialization', async () => {
+    for (const decoder of [{ threads: 9 }, { mode: 'invalid' }]) {
+        const result = await WebEngine.create({
+            canvas: {} as HTMLCanvasElement,
+            decoder,
+        } as unknown as Parameters<typeof WebEngine.create>[0]);
+        expect(result.ok).toBe(false);
+    }
+    expect(fake.create).not.toHaveBeenCalled();
+    const wait = deferred<ReturnType<typeof renderer>>();
+    fake.create.mockReturnValueOnce(wait.promise);
+    const decoder = { mode: 'single' as 'single' | 'auto', threads: 2 };
+    const pending = WebEngine.create({ canvas: { width: 640, height: 480 } as HTMLCanvasElement, decoder });
+    decoder.mode = 'auto';
+    decoder.threads = 8;
+    wait.resolve(renderer());
+    const created = await pending;
+    if (!created.ok) throw Error('create');
+    await created.value.open({ kind: 'blob', blob: new Blob() }).result;
+    expect(fake.decode.mock.calls[0]![8]).toEqual({ mode: 'single', threads: 2 });
+    await created.value.dispose();
+});
+
+test('decoder diagnostics follow accepted scene ownership through recovery and close', async () => {
+    const info = { backend: 'pthreads' as const, threads: 4, fallbackReason: null };
+    fake.decode.mockResolvedValueOnce({ ...scene, decoder: info });
+    const allocated = renderer();
+    allocated.upload.mockImplementation(async (input) => ({ scene: input, bytes: 100, revision: -1 }));
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    expect((await engine.open({ kind: 'blob', blob: new Blob() }).result).ok).toBe(true);
+    expect(engine.getSnapshot().decoder).toEqual(info);
+    expect(Object.isFrozen(engine.getSnapshot().decoder)).toBe(true);
+    expect((await engine.recover()).ok).toBe(true);
+    expect(engine.getSnapshot().decoder).toEqual(info);
+    await engine.closeScene();
+    expect(engine.getSnapshot().decoder).toBeNull();
+    await engine.dispose();
+    expect(engine.getSnapshot().decoder).toBeNull();
 });
 
 test('caller mutation cannot increase the validated submission bound', async () => {
@@ -662,5 +704,42 @@ test('old recovery cleanup cannot overwrite a later successful recovery', async 
     cleanup.resolve();
     await new Promise((resolve) => setTimeout(resolve, 10));
     expect(engine.getSnapshot().phase).toBe('Idle');
+    await engine.dispose();
+});
+
+test('sorting options are validated before device creation and frozen through recovery', async () => {
+    const canvas = { width: 640, height: 480 } as HTMLCanvasElement;
+    const invalid = await WebEngine.create({ canvas, sorting: { maxSortAgeMs: NaN } });
+    expect(invalid.ok).toBe(false);
+    expect(fake.create).not.toHaveBeenCalled();
+    const sorting = { mode: 'adaptive' as const, maxSortAgeMs: 80 };
+    const created = await WebEngine.create({ canvas, sorting });
+    if (!created.ok) throw Error(created.error.diagnostic);
+    sorting.maxSortAgeMs = 900;
+    const copied = fake.create.mock.calls[0]![2];
+    expect(copied.maxSortAgeMs).toBe(80);
+    expect(Object.isFrozen(copied)).toBe(true);
+    expect((await created.value.recover()).ok).toBe(true);
+    expect(fake.create.mock.calls[1]![2]).toBe(copied);
+    await created.value.dispose();
+});
+
+test('idle RAF refreshes pending ordering while retaining frame backlog bounds', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    expect((await engine.open({ kind: 'blob', blob: new Blob() }).result).ok).toBe(true);
+    const internal = engine as unknown as {
+        dirty: boolean;
+        revision: number;
+        active: { revision: number };
+        tick(): void;
+    };
+    internal.dirty = false;
+    internal.active.revision = engine.camera.revision + internal.revision;
+    const before = allocated.render.mock.calls.length;
+    allocated.needsSort.mockReturnValue(true);
+    internal.tick();
+    expect(allocated.render.mock.calls.length).toBe(before + 1);
     await engine.dispose();
 });

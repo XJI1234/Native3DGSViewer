@@ -16,3 +16,12 @@ __pycache__/
 /docs/verification/evidence/interactive-trace-2026-10-04/
 /docs/verification/evidence/interactive-trace-retry-2026-10-04/
 /docs/verification/evidence/parallel-2026-10-05/
+
+# Keep summarized, attributed preview.3 evidence in git; retain raw frames/images locally.
+/docs/verification/evidence/adaptive-2026-10-06/**/*-native.json
+/docs/verification/evidence/adaptive-2026-10-06/**/*-spark.json
+/docs/verification/evidence/adaptive-2026-10-06/**/*.png
+/docs/verification/evidence/pthreads-2026-10-06/**/*.png
+
+/docs/verification/evidence/pthreads-2026-10-06/**/*-native.json
+/docs/verification/evidence/pthreads-2026-10-06/**/*-spark.json

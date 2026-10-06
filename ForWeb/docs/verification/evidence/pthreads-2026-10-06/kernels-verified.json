@@ -1,0 +1,668 @@
+{
+  "date": "2026-10-06T06:17:59.961Z",
+  "baselinePath": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\ForWeb\\.local\\parallel-baseline\\decoder.mjs",
+  "baselineSha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab",
+  "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+  "node": "v24.14.1",
+  "model": "shengyi_v1.ply",
+  "modelSha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+  "assets": [
+    {
+      "path": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\ForWeb\\.local\\parallel-baseline\\decoder.mjs",
+      "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+    },
+    {
+      "path": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\ForWeb\\.local\\parallel-baseline\\decoder.wasm",
+      "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+    },
+    {
+      "path": "public/assets/decoder.mjs",
+      "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
+    },
+    {
+      "path": "public/assets/decoder.wasm",
+      "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
+    },
+    {
+      "path": "public/assets/threaded/decoder.mjs",
+      "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+    },
+    {
+      "path": "public/assets/threaded/decoder.wasm",
+      "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+    }
+  ],
+  "inputSha256": "e62a039b46bca9a1571e3bfc281872fbb3c5050399c2dd0d3acca5f3255c6e53",
+  "count": 17728,
+  "degree": 3,
+  "inputBytes": 4183808,
+  "scope": "Node WASM preloaded 4MiB source batch; wall includes memcpy/dispatch and is comparable; baseline JS phase scopes differ from native task maxima and MUST NOT be compared as decode-only speedups; per-task maxima are not additive; separate initialization and rebase; 2 warmups/12 repeats",
+  "rebaseOffset": [
+    1.25,
+    -2.5,
+    0.375
+  ],
+  "reference": {
+    "hash": "02f9b9822c27de0dca9ee7441d923a90b4fa1df8cfb1a1390e3ee29c3df12da1",
+    "bounds": [
+      0,
+      0,
+      0,
+      -0.8296771049499512,
+      -0.32732027769088745,
+      -0.3052186369895935,
+      1.189092993736267,
+      -0.12554441392421722,
+      0.524932861328125,
+      0.19303339064475172
+    ],
+    "rebasedHash": "1265fb4cfcbf65cc97f209e6b2807e176b3a2948318864b0270c6ca53ada1eca"
+  },
+  "rows": [
+    {
+      "config": "baseline",
+      "initializationMs": 3.4507999999999868,
+      "scopes": {
+        "decodeMs": "JS wall: begin_batch/chunk excluding separately measured malloc/input copy; not a native task clock",
+        "finishPackMs": "JS wall: pack and finish_batch"
+      },
+      "samples": [
+        {
+          "wallMs": 4.1524,
+          "inputCopyMs": 0.26900000000000546,
+          "decodeMs": 2.299599999999998,
+          "finishPackMs": 1.5810999999999922,
+          "rebaseMs": 0.07799999999997453
+        },
+        {
+          "wallMs": 4.248799999999989,
+          "inputCopyMs": 0.2697000000000003,
+          "decodeMs": 2.30589999999998,
+          "finishPackMs": 1.6704000000000008,
+          "rebaseMs": 0.07409999999998718
+        },
+        {
+          "wallMs": 4.256999999999977,
+          "inputCopyMs": 0.32220000000000937,
+          "decodeMs": 2.310299999999984,
+          "finishPackMs": 1.6219000000000392,
+          "rebaseMs": 0.08080000000001064
+        },
+        {
+          "wallMs": 4.140500000000031,
+          "inputCopyMs": 0.30110000000001946,
+          "decodeMs": 2.2864999999999895,
+          "finishPackMs": 1.5504999999999995,
+          "rebaseMs": 0.098700000000008
+        },
+        {
+          "wallMs": 4.2374000000000365,
+          "inputCopyMs": 0.273900000000026,
+          "decodeMs": 2.3865000000000123,
+          "finishPackMs": 1.574700000000007,
+          "rebaseMs": 0.07699999999999818
+        },
+        {
+          "wallMs": 4.187999999999988,
+          "inputCopyMs": 0.2726000000000113,
+          "decodeMs": 2.3038999999999987,
+          "finishPackMs": 1.6096000000000004,
+          "rebaseMs": 0.069500000000005
+        },
+        {
+          "wallMs": 4.4085999999999785,
+          "inputCopyMs": 0.28019999999997935,
+          "decodeMs": 2.3600000000000136,
+          "finishPackMs": 1.7653999999999996,
+          "rebaseMs": 0.06499999999999773
+        },
+        {
+          "wallMs": 4.411400000000015,
+          "inputCopyMs": 0.2747999999999706,
+          "decodeMs": 2.395500000000027,
+          "finishPackMs": 1.7372999999999479,
+          "rebaseMs": 0.06979999999998654
+        },
+        {
+          "wallMs": 4.365099999999984,
+          "inputCopyMs": 0.3294999999999959,
+          "decodeMs": 2.3806999999999903,
+          "finishPackMs": 1.651900000000012,
+          "rebaseMs": 0.06279999999998154
+        },
+        {
+          "wallMs": 4.18180000000001,
+          "inputCopyMs": 0.2696000000000254,
+          "decodeMs": 2.2942999999999643,
+          "finishPackMs": 1.615700000000004,
+          "rebaseMs": 0.0917999999999779
+        },
+        {
+          "wallMs": 4.1200000000000045,
+          "inputCopyMs": 0.26370000000002847,
+          "decodeMs": 2.2982999999999265,
+          "finishPackMs": 1.526299999999992,
+          "rebaseMs": 0.06979999999998654
+        },
+        {
+          "wallMs": 4.1270000000000095,
+          "inputCopyMs": 0.2792999999999779,
+          "decodeMs": 2.295400000000029,
+          "finishPackMs": 1.5500999999999863,
+          "rebaseMs": 0.06580000000002428
+        }
+      ],
+      "summary": {
+        "wallMs": {
+          "p50": 4.2374000000000365,
+          "min": 4.1200000000000045,
+          "max": 4.411400000000015
+        },
+        "inputCopyMs": {
+          "p50": 0.2747999999999706,
+          "min": 0.26370000000002847,
+          "max": 0.3294999999999959
+        },
+        "decodeMs": {
+          "p50": 2.30589999999998,
+          "min": 2.2864999999999895,
+          "max": 2.395500000000027
+        },
+        "finishPackMs": {
+          "p50": 1.615700000000004,
+          "min": 1.526299999999992,
+          "max": 1.7653999999999996
+        },
+        "rebaseMs": {
+          "p50": 0.07409999999998718,
+          "min": 0.06279999999998154,
+          "max": 0.098700000000008
+        }
+      }
+    },
+    {
+      "config": 1,
+      "initializationMs": 3.281099999999981,
+      "scopes": {
+        "decodeMs": "Native task maximum: begin_batch/chunk, excludes input copy and dispatch",
+        "finishPackMs": "Native task maximum: finish_batch and direct pack"
+      },
+      "samples": [
+        {
+          "wallMs": 4.251300000000015,
+          "inputCopyMs": 0.29309999999998126,
+          "decodeMs": 2.4373999999999683,
+          "finishPackMs": 1.4039999999999964,
+          "rebaseMs": 0.0907999999999447
+        },
+        {
+          "wallMs": 4.2549999999999955,
+          "inputCopyMs": 0.24900000000002365,
+          "decodeMs": 2.459100000000035,
+          "finishPackMs": 1.4313999999999965,
+          "rebaseMs": 0.07179999999999609
+        },
+        {
+          "wallMs": 4.233799999999974,
+          "inputCopyMs": 0.25900000000001455,
+          "decodeMs": 2.424199999999985,
+          "finishPackMs": 1.4377000000000066,
+          "rebaseMs": 0.08499999999997954
+        },
+        {
+          "wallMs": 4.2982000000000085,
+          "inputCopyMs": 0.28779999999994743,
+          "decodeMs": 2.446900000000028,
+          "finishPackMs": 1.4432999999999652,
+          "rebaseMs": 0.10039999999997917
+        },
+        {
+          "wallMs": 4.457300000000032,
+          "inputCopyMs": 0.3338000000000534,
+          "decodeMs": 2.4887999999999693,
+          "finishPackMs": 1.491899999999987,
+          "rebaseMs": 0.06430000000000291
+        },
+        {
+          "wallMs": 4.289699999999982,
+          "inputCopyMs": 0.27649999999999864,
+          "decodeMs": 2.484200000000044,
+          "finishPackMs": 1.405300000000011,
+          "rebaseMs": 0.081799999999987
+        },
+        {
+          "wallMs": 4.279899999999998,
+          "inputCopyMs": 0.2898999999999887,
+          "decodeMs": 2.448699999999974,
+          "finishPackMs": 1.403599999999983,
+          "rebaseMs": 0.08129999999999882
+        },
+        {
+          "wallMs": 4.5312999999999874,
+          "inputCopyMs": 0.2872000000000412,
+          "decodeMs": 2.4920999999999935,
+          "finishPackMs": 1.5715000000000146,
+          "rebaseMs": 0.08640000000002601
+        },
+        {
+          "wallMs": 4.531499999999994,
+          "inputCopyMs": 0.27379999999999427,
+          "decodeMs": 2.525800000000004,
+          "finishPackMs": 1.5976999999999748,
+          "rebaseMs": 0.07320000000004256
+        },
+        {
+          "wallMs": 5.0569999999999595,
+          "inputCopyMs": 0.5921999999999912,
+          "decodeMs": 2.7351000000000454,
+          "finishPackMs": 1.4942000000000348,
+          "rebaseMs": 0.08629999999999427
+        },
+        {
+          "wallMs": 4.394800000000032,
+          "inputCopyMs": 0.3501000000000545,
+          "decodeMs": 2.4758000000000493,
+          "finishPackMs": 1.4208000000000425,
+          "rebaseMs": 0.0928000000000111
+        },
+        {
+          "wallMs": 4.45150000000001,
+          "inputCopyMs": 0.3417999999999779,
+          "decodeMs": 2.4653999999999883,
+          "finishPackMs": 1.4909999999999854,
+          "rebaseMs": 0.09919999999999618
+        }
+      ],
+      "summary": {
+        "wallMs": {
+          "p50": 4.394800000000032,
+          "min": 4.233799999999974,
+          "max": 5.0569999999999595
+        },
+        "inputCopyMs": {
+          "p50": 0.2898999999999887,
+          "min": 0.24900000000002365,
+          "max": 0.5921999999999912
+        },
+        "decodeMs": {
+          "p50": 2.4758000000000493,
+          "min": 2.424199999999985,
+          "max": 2.7351000000000454
+        },
+        "finishPackMs": {
+          "p50": 1.4432999999999652,
+          "min": 1.403599999999983,
+          "max": 1.5976999999999748
+        },
+        "rebaseMs": {
+          "p50": 0.08629999999999427,
+          "min": 0.06430000000000291,
+          "max": 0.10039999999997917
+        }
+      }
+    },
+    {
+      "config": 2,
+      "initializationMs": 33.92249999999996,
+      "scopes": {
+        "decodeMs": "Native task maximum: begin_batch/chunk, excludes input copy and dispatch",
+        "finishPackMs": "Native task maximum: finish_batch and direct pack"
+      },
+      "samples": [
+        {
+          "wallMs": 2.780200000000036,
+          "inputCopyMs": 0.35130000000003747,
+          "decodeMs": 1.374755859375,
+          "finishPackMs": 0.774658203125,
+          "rebaseMs": 0.25289999999995416
+        },
+        {
+          "wallMs": 2.679399999999987,
+          "inputCopyMs": 0.2982000000000653,
+          "decodeMs": 1.363037109375,
+          "finishPackMs": 0.742919921875,
+          "rebaseMs": 0.19719999999995252
+        },
+        {
+          "wallMs": 2.7216999999999416,
+          "inputCopyMs": 0.3691000000000031,
+          "decodeMs": 1.30712890625,
+          "finishPackMs": 0.72607421875,
+          "rebaseMs": 0.23520000000007713
+        },
+        {
+          "wallMs": 2.6737999999999147,
+          "inputCopyMs": 0.40599999999994907,
+          "decodeMs": 1.26953125,
+          "finishPackMs": 0.71923828125,
+          "rebaseMs": 0.19659999999998945
+        },
+        {
+          "wallMs": 2.554200000000037,
+          "inputCopyMs": 0.3785000000000309,
+          "decodeMs": 1.19873046875,
+          "finishPackMs": 0.72802734375,
+          "rebaseMs": 0.16429999999991196
+        },
+        {
+          "wallMs": 2.9102000000000317,
+          "inputCopyMs": 0.3768999999999778,
+          "decodeMs": 1.476806640625,
+          "finishPackMs": 0.771484375,
+          "rebaseMs": 0.18020000000001346
+        },
+        {
+          "wallMs": 2.7175000000000864,
+          "inputCopyMs": 0.3692999999999529,
+          "decodeMs": 1.348388671875,
+          "finishPackMs": 0.72705078125,
+          "rebaseMs": 0.19669999999996435
+        },
+        {
+          "wallMs": 2.6727999999999383,
+          "inputCopyMs": 0.33150000000000546,
+          "decodeMs": 1.343994140625,
+          "finishPackMs": 0.7509765625,
+          "rebaseMs": 0.22820000000001528
+        },
+        {
+          "wallMs": 2.8450000000000273,
+          "inputCopyMs": 0.37770000000000437,
+          "decodeMs": 1.39013671875,
+          "finishPackMs": 0.79443359375,
+          "rebaseMs": 0.1936999999999216
+        },
+        {
+          "wallMs": 2.814999999999941,
+          "inputCopyMs": 0.3790000000000191,
+          "decodeMs": 1.404296875,
+          "finishPackMs": 0.748779296875,
+          "rebaseMs": 0.1636999999999489
+        },
+        {
+          "wallMs": 2.616300000000024,
+          "inputCopyMs": 0.3009999999999309,
+          "decodeMs": 1.373046875,
+          "finishPackMs": 0.725341796875,
+          "rebaseMs": 0.16970000000003438
+        },
+        {
+          "wallMs": 2.5079999999999245,
+          "inputCopyMs": 0.31729999999993197,
+          "decodeMs": 1.20166015625,
+          "finishPackMs": 0.730224609375,
+          "rebaseMs": 0.16899999999998272
+        }
+      ],
+      "summary": {
+        "wallMs": {
+          "p50": 2.7175000000000864,
+          "min": 2.5079999999999245,
+          "max": 2.9102000000000317
+        },
+        "inputCopyMs": {
+          "p50": 0.3692999999999529,
+          "min": 0.2982000000000653,
+          "max": 0.40599999999994907
+        },
+        "decodeMs": {
+          "p50": 1.363037109375,
+          "min": 1.19873046875,
+          "max": 1.476806640625
+        },
+        "finishPackMs": {
+          "p50": 0.742919921875,
+          "min": 0.71923828125,
+          "max": 0.79443359375
+        },
+        "rebaseMs": {
+          "p50": 0.19659999999998945,
+          "min": 0.1636999999999489,
+          "max": 0.25289999999995416
+        }
+      }
+    },
+    {
+      "config": 4,
+      "initializationMs": 34.566100000000006,
+      "scopes": {
+        "decodeMs": "Native task maximum: begin_batch/chunk, excludes input copy and dispatch",
+        "finishPackMs": "Native task maximum: finish_batch and direct pack"
+      },
+      "samples": [
+        {
+          "wallMs": 2.1362000000000307,
+          "inputCopyMs": 0.4035000000000082,
+          "decodeMs": 0.916748046875,
+          "finishPackMs": 0.492431640625,
+          "rebaseMs": 0.24909999999999854
+        },
+        {
+          "wallMs": 2.209799999999973,
+          "inputCopyMs": 0.44069999999999254,
+          "decodeMs": 0.879150390625,
+          "finishPackMs": 0.505859375,
+          "rebaseMs": 0.21620000000007167
+        },
+        {
+          "wallMs": 2.0166000000000395,
+          "inputCopyMs": 0.36099999999999,
+          "decodeMs": 0.85888671875,
+          "finishPackMs": 0.486572265625,
+          "rebaseMs": 0.2705999999999449
+        },
+        {
+          "wallMs": 1.8620999999999412,
+          "inputCopyMs": 0.3222000000000662,
+          "decodeMs": 0.788330078125,
+          "finishPackMs": 0.485107421875,
+          "rebaseMs": 0.17669999999998254
+        },
+        {
+          "wallMs": 1.935699999999997,
+          "inputCopyMs": 0.34960000000000946,
+          "decodeMs": 0.832763671875,
+          "finishPackMs": 0.46142578125,
+          "rebaseMs": 0.1896000000000413
+        },
+        {
+          "wallMs": 1.8623000000000047,
+          "inputCopyMs": 0.3365000000000009,
+          "decodeMs": 0.820068359375,
+          "finishPackMs": 0.471435546875,
+          "rebaseMs": 0.1595999999999549
+        },
+        {
+          "wallMs": 1.8069000000000415,
+          "inputCopyMs": 0.3341000000000349,
+          "decodeMs": 0.84521484375,
+          "finishPackMs": 0.398193359375,
+          "rebaseMs": 0.24919999999997344
+        },
+        {
+          "wallMs": 1.8815000000000737,
+          "inputCopyMs": 0.3306999999999789,
+          "decodeMs": 0.832275390625,
+          "finishPackMs": 0.429443359375,
+          "rebaseMs": 0.16079999999999472
+        },
+        {
+          "wallMs": 1.788499999999999,
+          "inputCopyMs": 0.3260999999999967,
+          "decodeMs": 0.82666015625,
+          "finishPackMs": 0.40087890625,
+          "rebaseMs": 0.237700000000018
+        },
+        {
+          "wallMs": 1.9040999999999713,
+          "inputCopyMs": 0.35359999999991487,
+          "decodeMs": 0.7919921875,
+          "finishPackMs": 0.474609375,
+          "rebaseMs": 0.1693000000000211
+        },
+        {
+          "wallMs": 1.7906000000000404,
+          "inputCopyMs": 0.35390000000006694,
+          "decodeMs": 0.83642578125,
+          "finishPackMs": 0.399658203125,
+          "rebaseMs": 0.364400000000046
+        },
+        {
+          "wallMs": 1.9302999999999884,
+          "inputCopyMs": 0.38020000000005894,
+          "decodeMs": 0.827880859375,
+          "finishPackMs": 0.458251953125,
+          "rebaseMs": 0.14639999999997144
+        }
+      ],
+      "summary": {
+        "wallMs": {
+          "p50": 1.9040999999999713,
+          "min": 1.788499999999999,
+          "max": 2.209799999999973
+        },
+        "inputCopyMs": {
+          "p50": 0.35359999999991487,
+          "min": 0.3222000000000662,
+          "max": 0.44069999999999254
+        },
+        "decodeMs": {
+          "p50": 0.832763671875,
+          "min": 0.788330078125,
+          "max": 0.916748046875
+        },
+        "finishPackMs": {
+          "p50": 0.471435546875,
+          "min": 0.398193359375,
+          "max": 0.505859375
+        },
+        "rebaseMs": {
+          "p50": 0.21620000000007167,
+          "min": 0.14639999999997144,
+          "max": 0.364400000000046
+        }
+      }
+    },
+    {
+      "config": 8,
+      "initializationMs": 45.35590000000002,
+      "scopes": {
+        "decodeMs": "Native task maximum: begin_batch/chunk, excludes input copy and dispatch",
+        "finishPackMs": "Native task maximum: finish_batch and direct pack"
+      },
+      "samples": [
+        {
+          "wallMs": 1.2703000000000202,
+          "inputCopyMs": 0.30309999999997217,
+          "decodeMs": 0.4609375,
+          "finishPackMs": 0.24169921875,
+          "rebaseMs": 0.22039999999992688
+        },
+        {
+          "wallMs": 1.316599999999994,
+          "inputCopyMs": 0.33569999999997435,
+          "decodeMs": 0.4521484375,
+          "finishPackMs": 0.25244140625,
+          "rebaseMs": 0.3464000000000169
+        },
+        {
+          "wallMs": 1.4090999999999667,
+          "inputCopyMs": 0.32720000000006166,
+          "decodeMs": 0.443603515625,
+          "finishPackMs": 0.330078125,
+          "rebaseMs": 0.2076999999999316
+        },
+        {
+          "wallMs": 1.302000000000021,
+          "inputCopyMs": 0.35799999999994725,
+          "decodeMs": 0.45166015625,
+          "finishPackMs": 0.2431640625,
+          "rebaseMs": 0.20669999999995525
+        },
+        {
+          "wallMs": 1.7514999999999645,
+          "inputCopyMs": 0.4148000000000138,
+          "decodeMs": 0.786376953125,
+          "finishPackMs": 0.287353515625,
+          "rebaseMs": 0.18909999999993943
+        },
+        {
+          "wallMs": 1.361099999999965,
+          "inputCopyMs": 0.3222999999999274,
+          "decodeMs": 0.498779296875,
+          "finishPackMs": 0.2666015625,
+          "rebaseMs": 0.3231999999999289
+        },
+        {
+          "wallMs": 1.4953999999999041,
+          "inputCopyMs": 0.3085999999999558,
+          "decodeMs": 0.484375,
+          "finishPackMs": 0.25341796875,
+          "rebaseMs": 0.28099999999994907
+        },
+        {
+          "wallMs": 1.207899999999995,
+          "inputCopyMs": 0.2697000000000571,
+          "decodeMs": 0.43505859375,
+          "finishPackMs": 0.2529296875,
+          "rebaseMs": 0.18250000000000455
+        },
+        {
+          "wallMs": 1.254000000000019,
+          "inputCopyMs": 0.32720000000006166,
+          "decodeMs": 0.439208984375,
+          "finishPackMs": 0.244384765625,
+          "rebaseMs": 0.19020000000000437
+        },
+        {
+          "wallMs": 1.2964999999999236,
+          "inputCopyMs": 0.3247000000000071,
+          "decodeMs": 0.4384765625,
+          "finishPackMs": 0.260498046875,
+          "rebaseMs": 0.24350000000004002
+        },
+        {
+          "wallMs": 1.8330999999999449,
+          "inputCopyMs": 0.4149000000001024,
+          "decodeMs": 0.815673828125,
+          "finishPackMs": 0.30517578125,
+          "rebaseMs": 0.16440000000000055
+        },
+        {
+          "wallMs": 1.4272999999999456,
+          "inputCopyMs": 0.37210000000004584,
+          "decodeMs": 0.459716796875,
+          "finishPackMs": 0.245849609375,
+          "rebaseMs": 0.169399999999996
+        }
+      ],
+      "summary": {
+        "wallMs": {
+          "p50": 1.361099999999965,
+          "min": 1.207899999999995,
+          "max": 1.8330999999999449
+        },
+        "inputCopyMs": {
+          "p50": 0.32720000000006166,
+          "min": 0.2697000000000571,
+          "max": 0.4149000000001024
+        },
+        "decodeMs": {
+          "p50": 0.459716796875,
+          "min": 0.43505859375,
+          "max": 0.815673828125
+        },
+        "finishPackMs": {
+          "p50": 0.25341796875,
+          "min": 0.24169921875,
+          "max": 0.330078125
+        },
+        "rebaseMs": {
+          "p50": 0.2076999999999316,
+          "min": 0.16440000000000055,
+          "max": 0.3464000000000169
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1900 @@
+{
+  "date": "2026-10-06T06:54:34.944Z",
+  "browser": "154.0.4258.53",
+  "freshCase": true,
+  "headless": false,
+  "persistent": true,
+  "browserArgs": [],
+  "frameDepth": 2,
+  "decoder": "parallel",
+  "threads": 4,
+  "sorting": "strict",
+  "base": "http://127.0.0.1:5187",
+  "warmupMs": 5000,
+  "sampleMs": 20000,
+  "runs": 3,
+  "traced": false,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "requested": {
+    "models": [
+      "spz/shengyi_v1.spz",
+      "zhihuizhimen.ply",
+      "spz/jiulonghu_v1.spz"
+    ],
+    "modes": [
+      "native",
+      "spark"
+    ]
+  },
+  "provenance": {
+    "commit": "44600c37550b26995f74b80409d69ef7e08f26a7",
+    "files": [
+      {
+        "path": "apps/benchmark.ts",
+        "sha256": "9a11c74580ae7775c5d81f1f2abcd8e5d59760124c9b2bed7c94460e284124d0"
+      },
+      {
+        "path": "tools/interactive-benchmark.mjs",
+        "sha256": "2d750aee1aef2d75c1e9b54dac700175d015393faac8a1c543160c344cce31c6"
+      },
+      {
+        "path": "src/engine/engine.ts",
+        "sha256": "fc1e2a08f6ca2cc401cecc8d7e7c0a86ff9190424b5f7667192fae8d51c9167a"
+      },
+      {
+        "path": "src/render-core/renderer.ts",
+        "sha256": "bd4f13bcc1df076914a034c23790b711e290f35520e3ce59cc847d4a0db8951e"
+      },
+      {
+        "path": "src/render-core/shaders.ts",
+        "sha256": "772dd5b7f64ba708c911ef005565c313da9e5011e5bd0974fb68ca144b8aeee4"
+      },
+      {
+        "path": "src/render-core/sort.ts",
+        "sha256": "967c17f64f38e09c2b241f9b69e6ff2ea56e9b2481560eff6c01f00675915b6f"
+      },
+      {
+        "path": "src/render-core/sorting-policy.ts",
+        "sha256": "f81dae6476bacbaef5f68976f69b3839ceeddf688c0e532c22500f45bd85cebd"
+      },
+      {
+        "path": "public/assets/decoder.mjs",
+        "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
+      },
+      {
+        "path": "public/assets/decoder.wasm",
+        "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
+      },
+      {
+        "path": "public/assets/threaded/decoder.mjs",
+        "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+      },
+      {
+        "path": "public/assets/threaded/decoder.wasm",
+        "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+      },
+      {
+        "path": "node_modules/@sparkjsdev/spark/dist/spark.module.js",
+        "sha256": "2de375d5e489692f976abe3199c8435ecc00f97fabaf35e489eb7d368e1f6f60"
+      }
+    ],
+    "servedAssets": [
+      {
+        "path": "public/assets/decoder.mjs",
+        "url": "http://127.0.0.1:5187/assets/decoder.mjs",
+        "bytes": 21697,
+        "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31",
+        "verifiedAt": "2026-10-06T06:46:50.588Z"
+      },
+      {
+        "path": "public/assets/decoder.wasm",
+        "url": "http://127.0.0.1:5187/assets/decoder.wasm",
+        "bytes": 366847,
+        "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee",
+        "verifiedAt": "2026-10-06T06:46:50.593Z"
+      },
+      {
+        "path": "public/assets/threaded/decoder.mjs",
+        "url": "http://127.0.0.1:5187/assets/threaded/decoder.mjs",
+        "bytes": 36230,
+        "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf",
+        "verifiedAt": "2026-10-06T06:46:50.595Z"
+      },
+      {
+        "path": "public/assets/threaded/decoder.wasm",
+        "url": "http://127.0.0.1:5187/assets/threaded/decoder.wasm",
+        "bytes": 386868,
+        "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542",
+        "verifiedAt": "2026-10-06T06:46:50.599Z"
+      },
+      {
+        "path": "apps/benchmark.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/apps/benchmark.ts",
+        "bytes": 59661,
+        "sha256": "ed3cad9a6f0ebca1cfffb40bee53aaf4594cdb2127e5ca426a59bcfd80cc74e3",
+        "verifiedAt": "2026-10-06T06:46:50.601Z"
+      },
+      {
+        "path": "src/model-io/streaming.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/model-io/streaming.ts",
+        "bytes": 48586,
+        "sha256": "eb25445fc719cfd75987540c2c1a8551ca2bbfb10d7515ca490329392ec4a98d",
+        "verifiedAt": "2026-10-06T06:46:50.603Z"
+      },
+      {
+        "path": "src/model-io/wasm.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/model-io/wasm.ts",
+        "bytes": 9557,
+        "sha256": "a2ccdfeaae42781f558f512e42e349153526eaf99c33e00b7030aaab23eac8b0",
+        "verifiedAt": "2026-10-06T06:46:50.604Z"
+      },
+      {
+        "path": "src/model-io/decoder.worker.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/model-io/decoder.worker.ts",
+        "bytes": 28343,
+        "sha256": "3da0eb20c704029bd4f91f4e60e07395b6f186b3122788bf2e63d10a510a9a08",
+        "verifiedAt": "2026-10-06T06:46:50.605Z"
+      },
+      {
+        "path": "src/engine/engine.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/engine/engine.ts",
+        "bytes": 98390,
+        "sha256": "240f70eecf3eebb7a2524d36f78668f7c98ff98f1fedc33843e21cb0579abe00",
+        "verifiedAt": "2026-10-06T06:46:50.607Z"
+      },
+      {
+        "path": "src/render-core/renderer.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/render-core/renderer.ts",
+        "bytes": 72423,
+        "sha256": "3e2c2341f6d878092bc8ee79cabddca82ef49667b2059bd9d4bbf5b49a24990c",
+        "verifiedAt": "2026-10-06T06:46:50.608Z"
+      },
+      {
+        "path": "src/render-core/shaders.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/render-core/shaders.ts",
+        "bytes": 32779,
+        "sha256": "a5f2d45968ed35959175e6f75c63d36dd64e1154ab2eb097e0f4f9f2ac84f638",
+        "verifiedAt": "2026-10-06T06:46:50.611Z"
+      },
+      {
+        "path": "src/render-core/sort.ts",
+        "transformed": true,
+        "url": "http://127.0.0.1:5187/src/render-core/sort.ts",
+        "bytes": 34923,
+        "sha256": "9d6208f1f05adca6c2e540e6d330c9395db4be3fb4b370ed74eaca2102cec7eb",
+        "verifiedAt": "2026-10-06T06:46:50.613Z"
+      },
+      {
+        "path": "@sparkjsdev/spark",
+        "url": "http://127.0.0.1:5187/node_modules/.vite/deps/@sparkjsdev_spark.js?v=8ca849ae",
+        "bytes": 7083052,
+        "sha256": "a10b391d4317ba1e087195421d7e7c0f9e635ac9dfd5b272f862c536daf8f211",
+        "verifiedAt": "2026-10-06T06:46:50.668Z",
+        "sourceSha256": "2de375d5e489692f976abe3199c8435ecc00f97fabaf35e489eb7d368e1f6f60",
+        "mapSha256": "a0ca599776c2c5091870e44a1e49d7dce604eddcdc62b9b602b14424f428f682",
+        "mapUrl": "http://127.0.0.1:5187/node_modules/.vite/deps/@sparkjsdev_spark.js.map",
+        "scope": "Delivered optimized Spark module plus source-map match to pin; source includes embedded decode workers/WASM"
+      }
+    ],
+    "models": [
+      {
+        "model": "spz/shengyi_v1.spz",
+        "url": "http://127.0.0.1:5187/models/spz/shengyi_v1.spz",
+        "bytes": 17927619,
+        "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+        "verifiedAt": "2026-10-06T06:46:51.205Z"
+      },
+      {
+        "model": "zhihuizhimen.ply",
+        "url": "http://127.0.0.1:5187/models/zhihuizhimen.ply",
+        "bytes": 923849202,
+        "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+        "verifiedAt": "2026-10-06T06:49:10.427Z"
+      },
+      {
+        "model": "spz/jiulonghu_v1.spz",
+        "url": "http://127.0.0.1:5187/models/spz/jiulonghu_v1.spz",
+        "bytes": 500754282,
+        "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+        "verifiedAt": "2026-10-06T06:51:36.805Z"
+      }
+    ]
+  },
+  "complete": true,
+  "failures": [],
+  "rows": [
+    {
+      "model": "spz/shengyi_v1.spz",
+      "mode": "native",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "count": 804758,
+      "inputBytes": 17927619,
+      "loaded": {
+        "ms": 1251.0600000005215,
+        "firstFrameMs": 1246.4599999999627,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 65.10500000137836,
+          "writeMs": 50.264999999664724,
+          "batchWallMs": 142.50999999977648,
+          "decodeTaskMaxMs": 88.584716796875,
+          "finishPackTaskMaxMs": 42.85986328125,
+          "rebaseComputeMs": 1.5599999949336052,
+          "initializationMs": 32.49000000022352
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20000.264999999665,
+          "submissions": 2399,
+          "submissionFps": 119.94841068356045,
+          "inputFps": 119.99841002106923,
+          "intervalMs": {
+            "p50": 8.334999999962747,
+            "p95": 8.384999999776483,
+            "p99": 8.445000000298023,
+            "mean": 8.336930775646357
+          },
+          "cpuMs": {
+            "p50": 0.11500000022351742,
+            "p95": 0.13500000070780516,
+            "p99": 0.18499999959021807,
+            "mean": 0.11767931609920182
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.3050000006333,
+            "p95": 8.355000000447035,
+            "p99": 8.419999999925494,
+            "mean": 8.30662218515324
+          },
+          "cameraToCompleteMs": {
+            "p50": 13.669999999925494,
+            "p95": 15.024999999441206,
+            "p99": 15.320000000298023,
+            "mean": 13.519093372234815
+          },
+          "submitToCompleteMs": {
+            "p50": 5.375,
+            "p95": 6.705000000074506,
+            "p99": 6.980000000447035,
+            "mean": 5.209637348894177
+          },
+          "onePercentLowFps": 111.04941699146048,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2398,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.3050000006333,
+            "p95": 8.355000000447035,
+            "p99": 8.419999999925494,
+            "mean": 8.30662218515324
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20000.305000000633,
+          "submissions": 2399,
+          "submissionFps": 119.94817079039164,
+          "inputFps": 119.99817002790327,
+          "intervalMs": {
+            "p50": 8.330000000074506,
+            "p95": 8.395000000484288,
+            "p99": 8.5,
+            "mean": 8.336941201000586
+          },
+          "cpuMs": {
+            "p50": 0.12000000011175871,
+            "p95": 0.1600000001490116,
+            "p99": 0.2900000000372529,
+            "mean": 0.1263281901551875
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.304999999701977,
+            "p95": 8.365000000223517,
+            "p99": 8.459999999962747,
+            "mean": 8.301553377817564
+          },
+          "cameraToCompleteMs": {
+            "p50": 13.804999999701977,
+            "p95": 15.070000000298023,
+            "p99": 15.360000000335276,
+            "mean": 13.654160066675464
+          },
+          "submitToCompleteMs": {
+            "p50": 5.504999999888241,
+            "p95": 6.7650000005960464,
+            "p99": 7.025000000372529,
+            "mean": 5.349689453917122
+          },
+          "onePercentLowFps": 107.73927096482502,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2398,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.304999999701977,
+            "p95": 8.365000000223517,
+            "p99": 8.459999999962747,
+            "mean": 8.301553377817564
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20000.334999999963,
+          "submissions": 2399,
+          "submissionFps": 119.94799087115314,
+          "inputFps": 119.99799003366716,
+          "intervalMs": {
+            "p50": 8.334999999962747,
+            "p95": 8.384999999776483,
+            "p99": 8.43999999947846,
+            "mean": 8.336947456213512
+          },
+          "cpuMs": {
+            "p50": 0.11500000022351742,
+            "p95": 0.15500000026077032,
+            "p99": 0.18999999947845936,
+            "mean": 0.12081943288308765
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.3050000006333,
+            "p95": 8.359999999403954,
+            "p99": 8.400000000372529,
+            "mean": 8.304885321111884
+          },
+          "cameraToCompleteMs": {
+            "p50": 13.570000000298023,
+            "p95": 14.945000000298023,
+            "p99": 15.270000000484288,
+            "mean": 13.478028345160519
+          },
+          "submitToCompleteMs": {
+            "p50": 5.269999999552965,
+            "p95": 6.629999999888241,
+            "p99": 6.9500000001862645,
+            "mean": 5.170825343901271
+          },
+          "onePercentLowFps": 110.11194714534318,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2398,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.3050000006333,
+            "p95": 8.359999999403954,
+            "p99": 8.400000000372529,
+            "mean": 8.304885321111884
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127"
+      ],
+      "rawFile": "spz_shengyi_v1.spz-native.json"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "mode": "spark",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "count": 804758,
+      "inputBytes": 17927619,
+      "loaded": {
+        "ms": 1657.3149999994785,
+        "firstFrameMs": 1180.445000000298,
+        "initializedMs": 803.179999999702,
+        "count": 804758,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.2037353515625,
+            -0.2159423828125,
+            4.5712567292501785
+          ],
+          "target": [
+            0.2037353515625,
+            -0.2159423828125,
+            0.0858154296875
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20000.25499999989,
+          "submissions": 2400,
+          "submissionFps": 119.99847001950792,
+          "inputFps": 119.99847001950792,
+          "intervalMs": {
+            "p50": 8.320000000298023,
+            "p95": 9.190000000409782,
+            "p99": 9.974999999627471,
+            "mean": 8.333509795748167
+          },
+          "cpuMs": {
+            "p50": 0.1699999999254942,
+            "p95": 0.25,
+            "p99": 0.31500000040978193,
+            "mean": 0.17591079615099994
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.19500000029802322,
+            "p95": 0.2850000001490116,
+            "p99": 0.34999999962747097,
+            "mean": 0.19997082116247689
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 94.5850082761049,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 962,
+          "sortPositionErrorRatio": {
+            "p50": 0.006040390454659824,
+            "p95": 0.016695461882999554,
+            "p99": 0.020888931679416474,
+            "mean": 0.007184044838824493
+          },
+          "sortPoseAgeMs": {
+            "p50": 33.47999999951571,
+            "p95": 41.97999999951571,
+            "p99": 50.18500000052154,
+            "mean": 33.35025250417132
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20000.97500000056,
+          "submissions": 2400,
+          "submissionFps": 119.99415028517025,
+          "inputFps": 119.99415028517025,
+          "intervalMs": {
+            "p50": 8.320000000298023,
+            "p95": 9.070000000298023,
+            "p99": 9.665000000037253,
+            "mean": 8.333822426010776
+          },
+          "cpuMs": {
+            "p50": 0.1650000000372529,
+            "p95": 0.2450000001117587,
+            "p99": 0.27999999932944775,
+            "mean": 0.16978741141883233
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.18999999947845936,
+            "p95": 0.27999999932944775,
+            "p99": 0.3200000002980232,
+            "mean": 0.19490829512178773
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 98.84475196005532,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 969,
+          "sortPositionErrorRatio": {
+            "p50": 0.005856939173444796,
+            "p95": 0.016880559634690463,
+            "p99": 0.02099124146603249,
+            "mean": 0.007357628550128134
+          },
+          "sortPoseAgeMs": {
+            "p50": 33.47000000067055,
+            "p95": 41.94500000029802,
+            "p99": 42.77499999944121,
+            "mean": 32.97165901502882
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20008.075000000186,
+          "submissions": 2401,
+          "submissionFps": 120.00154937443895,
+          "inputFps": 120.00154937443895,
+          "intervalMs": {
+            "p50": 8.320000000298023,
+            "p95": 9.25,
+            "p99": 9.894999999552965,
+            "mean": 8.333529166666946
+          },
+          "cpuMs": {
+            "p50": 0.1650000000372529,
+            "p95": 0.24000000022351742,
+            "p99": 0.2850000001490116,
+            "mean": 0.169233333330291
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.18500000052154064,
+            "p95": 0.26999999955296516,
+            "p99": 0.3250000001862645,
+            "mean": 0.19160416665603408
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 96.09994394161335,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 963,
+          "sortPositionErrorRatio": {
+            "p50": 0.005846186535571223,
+            "p95": 0.016688098790012644,
+            "p99": 0.020869759867005663,
+            "mean": 0.006932945307386425
+          },
+          "sortPoseAgeMs": {
+            "p50": 33.46999999973923,
+            "p95": 41.950000000186265,
+            "p99": 50.21499999985099,
+            "mean": 33.10833819849017
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "THREE.WebGLProgram: Program Info Log: (451,6-34): warning X3203: signed/unsigned mismatch, unsigned assumed"
+      ],
+      "rawFile": "spz_shengyi_v1.spz-spark.json"
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "spark",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "count": 3914609,
+      "inputBytes": 923849202,
+      "loaded": {
+        "ms": 5602.665000000037,
+        "firstFrameMs": 5108.209999999963,
+        "initializedMs": 4447.520000000484,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 3.141592653589793
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20000.22000000067,
+          "submissions": 2400,
+          "submissionFps": 119.99868001451581,
+          "inputFps": 119.99868001451581,
+          "intervalMs": {
+            "p50": 8.31499999947846,
+            "p95": 12.019999999552965,
+            "p99": 19.259999999776483,
+            "mean": 8.333426427678448
+          },
+          "cpuMs": {
+            "p50": 0.15999999921768904,
+            "p95": 0.30500000063329935,
+            "p99": 0.4299999997019768,
+            "mean": 0.17957899124424076
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.17999999970197678,
+            "p95": 0.34999999962747097,
+            "p99": 0.4599999999627471,
+            "mean": 0.20322217590867753
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 51.612348254332254,
+          "over16_7": 0.03042934556065027,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 232,
+          "sortPositionErrorRatio": {
+            "p50": 0.023020961648682413,
+            "p95": 0.06465371905314354,
+            "p99": 0.08017379769197833,
+            "mean": 0.027511374314775367
+          },
+          "sortPoseAgeMs": {
+            "p50": 125.33999999985099,
+            "p95": 183.6499999994412,
+            "p99": 192.06000000052154,
+            "mean": 130.98446443515428
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20000.415000000037,
+          "submissions": 2400,
+          "submissionFps": 119.99751005166621,
+          "inputFps": 119.99751005166621,
+          "intervalMs": {
+            "p50": 8.309999999590218,
+            "p95": 18.950000000186265,
+            "p99": 19.264999999664724,
+            "mean": 8.333572321800455
+          },
+          "cpuMs": {
+            "p50": 0.15000000037252903,
+            "p95": 0.2999999998137355,
+            "p99": 0.39499999955296516,
+            "mean": 0.1707836598629173
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.17499999981373549,
+            "p95": 0.3449999997392297,
+            "p99": 0.44000000040978193,
+            "mean": 0.19518132555628875
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 51.587941318654785,
+          "over16_7": 0.05335556481867445,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 205,
+          "sortPositionErrorRatio": {
+            "p50": 0.02592412775071419,
+            "p95": 0.07314199217426122,
+            "p99": 0.08838869905885044,
+            "mean": 0.030471262010834662
+          },
+          "sortPoseAgeMs": {
+            "p50": 144.69000000040978,
+            "p95": 191.61000000033528,
+            "p99": 200.13499999977648,
+            "mean": 144.86574926746087
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20000.125,
+          "submissions": 2400,
+          "submissionFps": 119.99925000468747,
+          "inputFps": 119.99925000468747,
+          "intervalMs": {
+            "p50": 8.304999999701977,
+            "p95": 18.834999999962747,
+            "p99": 19.269999999552965,
+            "mean": 8.333384743643201
+          },
+          "cpuMs": {
+            "p50": 0.14499999955296516,
+            "p95": 0.2999999998137355,
+            "p99": 0.4100000001490116,
+            "mean": 0.16547102958667384
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.1600000001490116,
+            "p95": 0.3449999997392297,
+            "p99": 0.4599999999627471,
+            "mean": 0.18677365568766574
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 51.63177936008447,
+          "over16_7": 0.05085452271779908,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 207,
+          "sortPositionErrorRatio": {
+            "p50": 0.02563868998448397,
+            "p95": 0.07279000507919174,
+            "p99": 0.08728823275101597,
+            "mean": 0.030140061359957074
+          },
+          "sortPoseAgeMs": {
+            "p50": 141.76499999966472,
+            "p95": 183.74000000022352,
+            "p99": 192.01500000059605,
+            "mean": 142.54148303307937
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "THREE.WebGLProgram: Program Info Log: (451,6-34): warning X3203: signed/unsigned mismatch, unsigned assumed"
+      ],
+      "rawFile": "zhihuizhimen.ply-spark.json"
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "native",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "count": 3914609,
+      "inputBytes": 923849202,
+      "loaded": {
+        "ms": 5543.8650000002235,
+        "firstFrameMs": 5533.129999999888,
+        "count": 3914609,
+        "degree": 3,
+        "pose": {
+          "position": [
+            0.05345487594604492,
+            4.5300856828689575,
+            49.351125038628794
+          ],
+          "target": [
+            0.05345487594604492,
+            4.5300856828689575,
+            0.1777048110961914
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 653.1849999977276,
+          "writeMs": 265.91499999538064,
+          "batchWallMs": 462.85999999474734,
+          "decodeTaskMaxMs": 182.016845703125,
+          "finishPackTaskMaxMs": 113.934326171875,
+          "rebaseComputeMs": 5.6700000036507845,
+          "initializationMs": 34.889999999664724
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20000.349999999627,
+          "submissions": 2396,
+          "submissionFps": 119.79790353669034,
+          "inputFps": 119.99790003675159,
+          "intervalMs": {
+            "p50": 8.334999999962747,
+            "p95": 8.475000000558794,
+            "p99": 8.540000000037253,
+            "mean": 8.347346555323405
+          },
+          "cpuMs": {
+            "p50": 0.12000000011175871,
+            "p95": 0.2549999998882413,
+            "p99": 0.31000000052154064,
+            "mean": 0.13636325678101785
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.294999999925494,
+            "p95": 8.440000000409782,
+            "p99": 8.5,
+            "mean": 8.289300626305968
+          },
+          "cameraToCompleteMs": {
+            "p50": 16.47499999962747,
+            "p95": 16.934999999590218,
+            "p99": 17.080000000074506,
+            "mean": 16.359881051747635
+          },
+          "submitToCompleteMs": {
+            "p50": 8.174999999813735,
+            "p95": 8.639999999664724,
+            "p99": 8.75,
+            "mean": 8.06523789649243
+          },
+          "onePercentLowFps": 97.8613223525602,
+          "over16_7": 0.0004175365344467641,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2395,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.294999999925494,
+            "p95": 8.440000000409782,
+            "p99": 8.5,
+            "mean": 8.289300626305968
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20000.43499999959,
+          "submissions": 2399,
+          "submissionFps": 119.94739114424507,
+          "inputFps": 119.99739005676872,
+          "intervalMs": {
+            "p50": 8.330000000074506,
+            "p95": 8.429999999701977,
+            "p99": 8.519999999552965,
+            "mean": 8.337012093411285
+          },
+          "cpuMs": {
+            "p50": 0.11500000022351742,
+            "p95": 0.15000000037252903,
+            "p99": 0.26000000070780516,
+            "mean": 0.12002293579202701
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.290000000037253,
+            "p95": 8.385000000707805,
+            "p99": 8.480000000447035,
+            "mean": 8.289357798159653
+          },
+          "cameraToCompleteMs": {
+            "p50": 16.21499999985099,
+            "p95": 16.87999999988824,
+            "p99": 17.00499999988824,
+            "mean": 16.31990204251357
+          },
+          "submitToCompleteMs": {
+            "p50": 7.90500000026077,
+            "p95": 8.59499999973923,
+            "p99": 8.704999999143183,
+            "mean": 8.026900792004103
+          },
+          "onePercentLowFps": 110.2333272089201,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2398,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.290000000037253,
+            "p95": 8.385000000707805,
+            "p99": 8.480000000447035,
+            "mean": 8.289357798159653
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20000.229999999516,
+          "submissions": 2398,
+          "submissionFps": 119.8986211658595,
+          "inputFps": 119.99862001587272,
+          "intervalMs": {
+            "p50": 8.330000000074506,
+            "p95": 8.455000000074506,
+            "p99": 8.529999999329448,
+            "mean": 8.340444305381697
+          },
+          "cpuMs": {
+            "p50": 0.11500000022351742,
+            "p95": 0.24000000022351742,
+            "p99": 0.2900000000372529,
+            "mean": 0.12626825196806046
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.290000000037253,
+            "p95": 8.415000000037253,
+            "p99": 8.490000000223517,
+            "mean": 8.288043387564468
+          },
+          "cameraToCompleteMs": {
+            "p50": 16.25,
+            "p95": 16.919999999925494,
+            "p99": 17.06499999947846,
+            "mean": 16.348532110098454
+          },
+          "submitToCompleteMs": {
+            "p50": 7.949999999254942,
+            "p95": 8.634999999776483,
+            "p99": 8.75,
+            "mean": 8.05631359466534
+          },
+          "onePercentLowFps": 107.70542566123181,
+          "over16_7": 0,
+          "over33_3": 0,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 2397,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.290000000037253,
+            "p95": 8.415000000037253,
+            "p99": 8.490000000223517,
+            "mean": 8.288043387564468
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127"
+      ],
+      "rawFile": "zhihuizhimen.ply-native.json"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "mode": "native",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "count": 22480361,
+      "inputBytes": 500754282,
+      "loaded": {
+        "ms": 22922.134999999776,
+        "firstFrameMs": 22883.509999999776,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "decoder": {
+          "backend": "pthreads",
+          "threads": 4,
+          "fallbackReason": null
+        },
+        "decodeTimings": {
+          "readMs": 1831.0699999956414,
+          "writeMs": 1366.7150000045076,
+          "batchWallMs": 2930.9600000083447,
+          "decodeTaskMaxMs": 1802.189453125,
+          "finishPackTaskMaxMs": 846.614013671875,
+          "rebaseComputeMs": 32.414999997243285,
+          "initializationMs": 33.794999999925494
+        },
+        "adapter": {
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": ""
+        }
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20000.5,
+          "submissions": 581,
+          "submissionFps": 29.049273768155796,
+          "inputFps": 119.99700007499813,
+          "intervalMs": {
+            "p50": 33.33999999985099,
+            "p95": 41.72500000055879,
+            "p99": 41.80499999970198,
+            "mean": 34.45454310344789
+          },
+          "cpuMs": {
+            "p50": 0.14499999955296516,
+            "p95": 0.18000000063329935,
+            "p99": 0.21500000078231096,
+            "mean": 0.14381034480696867
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.484999999403954,
+            "p95": 8.584999999962747,
+            "p99": 8.990000000223517,
+            "mean": 8.498784482748858
+          },
+          "cameraToCompleteMs": {
+            "p50": 72.94000000040978,
+            "p95": 77.64500000048429,
+            "p99": 78.32500000018626,
+            "mean": 73.12702237520841
+          },
+          "submitToCompleteMs": {
+            "p50": 64.46499999985099,
+            "p95": 69.125,
+            "p99": 69.87999999988824,
+            "mean": 64.62320137693324
+          },
+          "onePercentLowFps": 23.55435166660128,
+          "over16_7": 1,
+          "over33_3": 0.753448275862069,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 580,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.484999999403954,
+            "p95": 8.584999999962747,
+            "p99": 8.990000000223517,
+            "mean": 8.498784482748858
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20000.360000000335,
+          "submissions": 579,
+          "submissionFps": 28.949478909379145,
+          "inputFps": 119.99784003887729,
+          "intervalMs": {
+            "p50": 33.33999999985099,
+            "p95": 41.70999999996275,
+            "p99": 41.75499999988824,
+            "mean": 34.545086505191215
+          },
+          "cpuMs": {
+            "p50": 0.14000000059604645,
+            "p95": 0.17499999981373549,
+            "p99": 0.21999999973922968,
+            "mean": 0.14387543253909965
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.479999999515712,
+            "p95": 8.540000000037253,
+            "p99": 9.0699999993667,
+            "mean": 8.487500000044149
+          },
+          "cameraToCompleteMs": {
+            "p50": 73.10999999940395,
+            "p95": 77.74500000011176,
+            "p99": 78.74000000022352,
+            "mean": 73.29816062180309
+          },
+          "submitToCompleteMs": {
+            "p50": 64.63499999977648,
+            "p95": 69.25999999977648,
+            "p99": 70.29000000003725,
+            "mean": 64.80738341967883
+          },
+          "onePercentLowFps": 23.528027763103694,
+          "over16_7": 1,
+          "over33_3": 0.7941176470588235,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 578,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.479999999515712,
+            "p95": 8.540000000037253,
+            "p99": 9.0699999993667,
+            "mean": 8.487500000044149
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20000.15500000026,
+          "submissions": 578,
+          "submissionFps": 28.899776026735417,
+          "inputFps": 119.99907000720587,
+          "intervalMs": {
+            "p50": 33.33999999985099,
+            "p95": 41.71499999985099,
+            "p99": 41.764999999664724,
+            "mean": 34.561646447140895
+          },
+          "cpuMs": {
+            "p50": 0.13500000070780516,
+            "p95": 0.1650000000372529,
+            "p99": 0.20000000018626451,
+            "mean": 0.13887348353372084
+          },
+          "cameraToSubmissionMs": {
+            "p50": 8.475000000558794,
+            "p95": 8.550000000745058,
+            "p99": 8.649999999441206,
+            "mean": 8.480797227041108
+          },
+          "cameraToCompleteMs": {
+            "p50": 73.21999999973923,
+            "p95": 77.45000000018626,
+            "p99": 78.54999999981374,
+            "mean": 73.33189446366937
+          },
+          "submitToCompleteMs": {
+            "p50": 64.74500000011176,
+            "p95": 68.99000000022352,
+            "p99": 70.06500000040978,
+            "mean": 64.8477768166213
+          },
+          "onePercentLowFps": 23.89343527863592,
+          "over16_7": 1,
+          "over33_3": 0.7954939341421143,
+          "over50": 0,
+          "longTasks": [],
+          "nativeSortSubmissions": 577,
+          "sparkWorkerCompletionObservations": null,
+          "sortPositionErrorRatio": {
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "mean": 0
+          },
+          "sortPoseAgeMs": {
+            "p50": 8.475000000558794,
+            "p95": 8.550000000745058,
+            "p99": 8.649999999441206,
+            "mean": 8.480797227041108
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127"
+      ],
+      "rawFile": "spz_jiulonghu_v1.spz-native.json"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "mode": "spark",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "count": 22480361,
+      "inputBytes": 500754282,
+      "loaded": {
+        "ms": 21585.794999999925,
+        "firstFrameMs": 20169.93499999959,
+        "initializedMs": 18083.820000000298,
+        "count": 22480361,
+        "degree": 3,
+        "pose": {
+          "position": [
+            -48.8214111328125,
+            -4.0667724609375,
+            3586.756122331928
+          ],
+          "target": [
+            -48.8214111328125,
+            -4.0667724609375,
+            -10.4056396484375
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        },
+        "rotationX": 0
+      },
+      "perRun": [
+        {
+          "run": 0,
+          "durationMs": 20003.46499999985,
+          "submissions": 629,
+          "submissionFps": 31.444552231326156,
+          "inputFps": 31.444552231326156,
+          "intervalMs": {
+            "p50": 30.5,
+            "p95": 103.64499999955297,
+            "p99": 111.16000000014901,
+            "mean": 31.85204617834389
+          },
+          "cpuMs": {
+            "p50": 0.2549999998882413,
+            "p95": 0.4500000001862645,
+            "p99": 0.7400000002235174,
+            "mean": 0.26791401271660853
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.2949999999254942,
+            "p95": 0.5049999998882413,
+            "p99": 0.8250000001862645,
+            "mean": 0.3023726114585023
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 8.85095621936685,
+          "over16_7": 0.6194267515923567,
+          "over33_3": 0.4028662420382166,
+          "over50": 0.1926751592356688,
+          "longTasks": [
+            {
+              "start": 27546.415000000037,
+              "duration": 93
+            },
+            {
+              "start": 28176.52499999944,
+              "duration": 79
+            },
+            {
+              "start": 28780.179999999702,
+              "duration": 92
+            },
+            {
+              "start": 29396.58999999985,
+              "duration": 109
+            },
+            {
+              "start": 30048.49500000011,
+              "duration": 92
+            },
+            {
+              "start": 30690.5,
+              "duration": 82
+            },
+            {
+              "start": 31321.790000000037,
+              "duration": 85
+            },
+            {
+              "start": 31957.74500000011,
+              "duration": 90
+            },
+            {
+              "start": 32592.64999999944,
+              "duration": 97
+            },
+            {
+              "start": 33205.27499999944,
+              "duration": 85
+            },
+            {
+              "start": 33837.25,
+              "duration": 93
+            },
+            {
+              "start": 34471.44499999937,
+              "duration": 94
+            },
+            {
+              "start": 35109.169999999925,
+              "duration": 97
+            },
+            {
+              "start": 35755.45999999996,
+              "duration": 93
+            },
+            {
+              "start": 36407.27499999944,
+              "duration": 108
+            },
+            {
+              "start": 37052.99500000011,
+              "duration": 95
+            },
+            {
+              "start": 37677.41000000015,
+              "duration": 104
+            },
+            {
+              "start": 38323.86500000022,
+              "duration": 90
+            },
+            {
+              "start": 38960.81499999948,
+              "duration": 95
+            },
+            {
+              "start": 39575.93499999959,
+              "duration": 105
+            },
+            {
+              "start": 40190.5,
+              "duration": 91
+            },
+            {
+              "start": 40835.18499999959,
+              "duration": 96
+            },
+            {
+              "start": 41453.34499999974,
+              "duration": 94
+            },
+            {
+              "start": 42076.96499999985,
+              "duration": 79
+            },
+            {
+              "start": 42685.33999999985,
+              "duration": 88
+            },
+            {
+              "start": 43300.174999999814,
+              "duration": 89
+            },
+            {
+              "start": 43927.08499999996,
+              "duration": 104
+            },
+            {
+              "start": 44553.139999999665,
+              "duration": 81
+            },
+            {
+              "start": 45161.09499999974,
+              "duration": 87
+            },
+            {
+              "start": 45778.49500000011,
+              "duration": 103
+            },
+            {
+              "start": 46420.950000000186,
+              "duration": 93
+            }
+          ],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 31,
+          "sortPositionErrorRatio": {
+            "p50": 0.1563396194171933,
+            "p95": 0.41522014139050684,
+            "p99": 0.6218467627351747,
+            "mean": 0.1843499525433023
+          },
+          "sortPoseAgeMs": {
+            "p50": 914.1000000005588,
+            "p95": 1130.5600000005215,
+            "p99": 1163.9850000003353,
+            "mean": 874.5297377049495
+          }
+        },
+        {
+          "run": 1,
+          "durationMs": 20025.450000000186,
+          "submissions": 626,
+          "submissionFps": 31.260221368308535,
+          "inputFps": 31.260221368308535,
+          "intervalMs": {
+            "p50": 26.00499999988824,
+            "p95": 110.39499999955297,
+            "p99": 111.45999999996275,
+            "mean": 31.987368000000714
+          },
+          "cpuMs": {
+            "p50": 0.23499999940395355,
+            "p95": 0.4199999999254942,
+            "p99": 0.6299999998882413,
+            "mean": 0.24528799997717143
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.27499999944120646,
+            "p95": 0.4649999998509884,
+            "p99": 0.6649999991059303,
+            "mean": 0.2765599999815226
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 8.707279907933456,
+          "over16_7": 0.6112,
+          "over33_3": 0.4048,
+          "over50": 0.1936,
+          "longTasks": [
+            {
+              "start": 47051.50999999978,
+              "duration": 97
+            },
+            {
+              "start": 47678.44499999937,
+              "duration": 81
+            },
+            {
+              "start": 48285.11500000022,
+              "duration": 79
+            },
+            {
+              "start": 48915.05999999959,
+              "duration": 91
+            },
+            {
+              "start": 49518.74500000011,
+              "duration": 96
+            },
+            {
+              "start": 49832.33499999996,
+              "duration": 50
+            },
+            {
+              "start": 50136.609999999404,
+              "duration": 81
+            },
+            {
+              "start": 50794.96499999985,
+              "duration": 86
+            },
+            {
+              "start": 51409.950000000186,
+              "duration": 80
+            },
+            {
+              "start": 52031.66500000004,
+              "duration": 100
+            },
+            {
+              "start": 52667.700000000186,
+              "duration": 105
+            },
+            {
+              "start": 53294.729999999516,
+              "duration": 78
+            },
+            {
+              "start": 53920.66000000015,
+              "duration": 102
+            },
+            {
+              "start": 54562.77499999944,
+              "duration": 93
+            },
+            {
+              "start": 55166.84999999963,
+              "duration": 89
+            },
+            {
+              "start": 55793.549999999814,
+              "duration": 96
+            },
+            {
+              "start": 56433.544999999925,
+              "duration": 98
+            },
+            {
+              "start": 57068.81499999948,
+              "duration": 96
+            },
+            {
+              "start": 57710.014999999665,
+              "duration": 105
+            },
+            {
+              "start": 58339.50999999978,
+              "duration": 84
+            },
+            {
+              "start": 58954.4299999997,
+              "duration": 80
+            },
+            {
+              "start": 59571.33499999996,
+              "duration": 102
+            },
+            {
+              "start": 60217.93999999948,
+              "duration": 97
+            },
+            {
+              "start": 60862.81499999948,
+              "duration": 95
+            },
+            {
+              "start": 61503.049999999814,
+              "duration": 103
+            },
+            {
+              "start": 62127.70999999996,
+              "duration": 87
+            },
+            {
+              "start": 62758.81999999937,
+              "duration": 89
+            },
+            {
+              "start": 63385.21499999985,
+              "duration": 88
+            },
+            {
+              "start": 64002.479999999516,
+              "duration": 96
+            },
+            {
+              "start": 64645.014999999665,
+              "duration": 103
+            },
+            {
+              "start": 65295.27499999944,
+              "duration": 103
+            },
+            {
+              "start": 65928.20500000007,
+              "duration": 87
+            },
+            {
+              "start": 66563.70999999996,
+              "duration": 93
+            }
+          ],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 31,
+          "sortPositionErrorRatio": {
+            "p50": 0.15556261266363716,
+            "p95": 0.4161902286285008,
+            "p99": 0.5772323152042635,
+            "mean": 0.1829131931199808
+          },
+          "sortPoseAgeMs": {
+            "p50": 918.4699999997392,
+            "p95": 1131.1049999995157,
+            "p99": 1164.4049999993294,
+            "mean": 872.735486798663
+          }
+        },
+        {
+          "run": 2,
+          "durationMs": 20053.334999999963,
+          "submissions": 625,
+          "submissionFps": 31.16688570753948,
+          "inputFps": 31.16688570753948,
+          "intervalMs": {
+            "p50": 33.00999999977648,
+            "p95": 103.63499999977648,
+            "p99": 110.71499999985099,
+            "mean": 32.05679487179553
+          },
+          "cpuMs": {
+            "p50": 0.23500000033527613,
+            "p95": 0.40000000037252903,
+            "p99": 0.5400000000372529,
+            "mean": 0.24061698721160588
+          },
+          "cameraToSubmissionMs": {
+            "p50": 0.27000000048428774,
+            "p95": 0.44499999936670065,
+            "p99": 0.5749999992549419,
+            "mean": 0.2720753205298351
+          },
+          "cameraToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "submitToCompleteMs": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "mean": null
+          },
+          "onePercentLowFps": 8.869123413843095,
+          "over16_7": 0.6121794871794872,
+          "over33_3": 0.41346153846153844,
+          "over50": 0.19391025641025642,
+          "longTasks": [
+            {
+              "start": 67210.64999999944,
+              "duration": 79
+            },
+            {
+              "start": 67832.55999999959,
+              "duration": 99
+            },
+            {
+              "start": 68476.0549999997,
+              "duration": 105
+            },
+            {
+              "start": 69119.82500000019,
+              "duration": 103
+            },
+            {
+              "start": 69759.58999999985,
+              "duration": 80
+            },
+            {
+              "start": 70385.62999999989,
+              "duration": 105
+            },
+            {
+              "start": 71035.1099999994,
+              "duration": 106
+            },
+            {
+              "start": 71683.37000000011,
+              "duration": 100
+            },
+            {
+              "start": 72321.17499999981,
+              "duration": 102
+            },
+            {
+              "start": 72970.24000000022,
+              "duration": 86
+            },
+            {
+              "start": 73599.95999999996,
+              "duration": 90
+            },
+            {
+              "start": 74211.72499999963,
+              "duration": 78
+            },
+            {
+              "start": 74828.95500000007,
+              "duration": 103
+            },
+            {
+              "start": 75479.22499999963,
+              "duration": 86
+            },
+            {
+              "start": 76085.49000000022,
+              "duration": 88
+            },
+            {
+              "start": 76719.0549999997,
+              "duration": 96
+            },
+            {
+              "start": 77363.76999999955,
+              "duration": 93
+            },
+            {
+              "start": 77979.34499999974,
+              "duration": 86
+            },
+            {
+              "start": 78597.43499999959,
+              "duration": 92
+            },
+            {
+              "start": 79197.59999999963,
+              "duration": 92
+            },
+            {
+              "start": 79834.51999999955,
+              "duration": 97
+            },
+            {
+              "start": 80476.66000000015,
+              "duration": 97
+            },
+            {
+              "start": 81101.51999999955,
+              "duration": 72
+            },
+            {
+              "start": 81735.03000000026,
+              "duration": 80
+            },
+            {
+              "start": 82342.75999999978,
+              "duration": 89
+            },
+            {
+              "start": 82976.01999999955,
+              "duration": 107
+            },
+            {
+              "start": 83611.08499999996,
+              "duration": 104
+            },
+            {
+              "start": 84245.81499999948,
+              "duration": 103
+            },
+            {
+              "start": 84825.125,
+              "duration": 90
+            },
+            {
+              "start": 85452.84499999974,
+              "duration": 96
+            },
+            {
+              "start": 86097.46499999985,
+              "duration": 84
+            },
+            {
+              "start": 86728.25,
+              "duration": 103
+            }
+          ],
+          "nativeSortSubmissions": null,
+          "sparkWorkerCompletionObservations": 31,
+          "sortPositionErrorRatio": {
+            "p50": 0.15606827484578006,
+            "p95": 0.43266677629931233,
+            "p99": 0.6012076631185779,
+            "mean": 0.18194029299079462
+          },
+          "sortPoseAgeMs": {
+            "p50": 914.3600000003353,
+            "p95": 1131.1049999995157,
+            "p99": 1172.5499999998137,
+            "mean": 873.3591416667991
+          }
+        }
+      ],
+      "errors": [],
+      "warnings": [
+        "THREE.WebGLProgram: Program Info Log: (451,6-34): warning X3203: signed/unsigned mismatch, unsigned assumed"
+      ],
+      "rawFile": "spz_jiulonghu_v1.spz-spark.json"
+    }
+  ]
+}

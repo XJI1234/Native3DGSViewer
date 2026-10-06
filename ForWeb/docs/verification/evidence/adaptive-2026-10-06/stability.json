@@ -1,0 +1,255 @@
+{
+  "persistent": true,
+  "testUrl": "http://127.0.0.1:5187",
+  "model": "shengyi_v1.ply",
+  "baseline": {
+    "decoder": {
+      "backend": "pthreads",
+      "threads": 4,
+      "fallbackReason": null
+    },
+    "resources": {
+      "devices": 1,
+      "buffers": 23,
+      "bufferBytes": 235403232,
+      "contexts": 1,
+      "workers": 0,
+      "jsHeap": 8517538
+    },
+    "frameId": 132,
+    "gpuFrameId": 131,
+    "timestamps": true
+  },
+  "duration": 180000,
+  "cycles": 100,
+  "cycleResult": {
+    "replacements": 34,
+    "cancelled": 33,
+    "mounts": 33,
+    "counts": [
+      {
+        "cycle": 9,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 29245583
+        }
+      },
+      {
+        "cycle": 19,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 8311892
+        }
+      },
+      {
+        "cycle": 29,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 58737050
+        }
+      },
+      {
+        "cycle": 39,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 33516603
+        }
+      },
+      {
+        "cycle": 49,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 29340580
+        }
+      },
+      {
+        "cycle": 59,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 8401430
+        }
+      },
+      {
+        "cycle": 69,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 58701115
+        }
+      },
+      {
+        "cycle": 79,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 41925796
+        }
+      },
+      {
+        "cycle": 89,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 67137122
+        }
+      },
+      {
+        "cycle": 99,
+        "resources": {
+          "devices": 1,
+          "buffers": 4,
+          "bufferBytes": 480,
+          "contexts": 1,
+          "workers": 0,
+          "jsHeap": 4225083
+        }
+      }
+    ]
+  },
+  "samples": [
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3033551
+      },
+      "phase": "Ready",
+      "frameId": 3697,
+      "gpuFrameId": 3716,
+      "frames": 3602,
+      "elapsedMs": 30009
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3041395
+      },
+      "phase": "Ready",
+      "frameId": 7304,
+      "gpuFrameId": 7316,
+      "frames": 7204,
+      "elapsedMs": 60029
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3042479
+      },
+      "phase": "Ready",
+      "frameId": 10907,
+      "gpuFrameId": 10917,
+      "frames": 10808,
+      "elapsedMs": 90060
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3066943
+      },
+      "phase": "Ready",
+      "frameId": 14508,
+      "gpuFrameId": 14517,
+      "frames": 14410,
+      "elapsedMs": 120076
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3076535
+      },
+      "phase": "Ready",
+      "frameId": 18119,
+      "gpuFrameId": 18118,
+      "frames": 18014,
+      "elapsedMs": 150109
+    },
+    {
+      "resources": {
+        "devices": 1,
+        "buffers": 23,
+        "bufferBytes": 235403232,
+        "contexts": 1,
+        "workers": 0,
+        "jsHeap": 3075887
+      },
+      "phase": "Ready",
+      "frameId": 21692,
+      "gpuFrameId": 21704,
+      "frames": 21602,
+      "elapsedMs": 180017
+    }
+  ],
+  "errors": [],
+  "shutdown": {
+    "closed": {
+      "devices": 1,
+      "buffers": 4,
+      "bufferBytes": 480,
+      "contexts": 1,
+      "workers": 0,
+      "jsHeap": 3075887
+    },
+    "disposed": {
+      "devices": 0,
+      "buffers": 0,
+      "bufferBytes": 0,
+      "contexts": 0,
+      "workers": 0,
+      "jsHeap": 3075887
+    },
+    "phase": "Stopped"
+  },
+  "complete": true
+}

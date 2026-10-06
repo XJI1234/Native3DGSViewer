@@ -24,4 +24,24 @@ Always: validate inputs and resource arithmetic, preserve ownership/identity, te
 
 
 ## Release artifact provenance
-The Web preview attached to native v0.2.2 is named Native3DGS-SDK-0.2.2-Web-WebGPU-preview.zip. Its package version is 0.2.2-preview.1 and its internal tarball is native3dgs-web-0.2.2-preview.1.tgz. Packaging requires committed ForWeb source; MANIFEST.json identifies the actual Web commit/tree, pinned dependencies, toolchain and per-file SHA-256. The native release tag is not moved and existing platform assets are not replaced. The archive includes SDK tarball, self-hosted assets/licenses and guides; models and Spark reference dependencies are excluded. Publication does not merge the PR or publish to npm.
+
+The current Web preview attached to native v0.2.2 is named
+`Native3DGS-SDK-0.2.2-Web-WebGPU-preview.3.zip`, with package version
+`0.2.2-preview.3` and internal tarball `native3dgs-web-0.2.2-preview.3.tgz`.
+The matching standalone source templates are
+`Native3DGS-Template-0.2.2-Web-React-preview.3.zip` and
+`Native3DGS-Template-0.2.2-Web-Vue-preview.3.zip`.
+Packaging requires committed source and a matching build inventory. Internal
+MANIFEST.json identifies actual SDK/template commits, dependencies and per-file
+SHA-256. Template vendor tarballs must exactly match the SDK archive tarball.
+No independent hash assets are published. Replacement removes only superseded
+Web SDK/template assets and their old sidecars; native platform assets and the
+v0.2.2 tag remain. Archives include licenses/guides, exclude models/Spark and
+node_modules, and do not merge the PR or publish to npm.
+
+preview.3 defaults are decoder auto/4 (with single-thread fallback) and adaptive
+sorting. Existing method signatures remain; omitted sorting changes behavior.
+The migration guide must document strict/single opt-outs, threaded assets,
+COOP/COEP/MIME, initialization-only options and measurement attribution.
+Installed SDK and independent template consumers must test real WASM, both
+frameworks, resource cleanup and the default behavior before publication.

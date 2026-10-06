@@ -2,6 +2,8 @@
 
 状态：架构方案已进入用户授权的实施阶段；2026-10-04。正文保留最初的目标和候选接口，实际0.1.0实现以[ADR-001](decisions/ADR-001-web-implementation-profile.md)、[SDK指南](SDK-guide.md)和[验收证据](verification/implementation-report.md)为准。未实现增强不能作为可用API；模块边界见[能力图](../CAPABILITY-MAP.md)。
 
+2026-10-06 增量：`preview.3` 实现可回退 pthreads 解码，见 [SPEC-parallel-decoder](SPEC-parallel-decoder.md)与[验收报告](verification/pthreads-2026-10-06.md)。采用 `decoder.mode=auto` 能力选择与明确 single/parallel 覆盖；跨源隔离只影响增强解码。渲染 Worker、SIMD 等正文候选路线未因此成为已实现能力。
+
 ## 1. 仓库理解与设计约束
 
 ### 1.1 现有结构
@@ -446,3 +448,5 @@ CI 分层：普通 PR 跑类型/lint/边界/CPU/WASM/SSR/打包；实际硬件 r
 待架构审阅确认：桌面/移动首期范围；云客户端是否进入首版包；资源 profile 是否满足目标模型集合；20% 等画质目标的可测条件与参考硬件；emsdk 具体稳定版本； npm 命名空间。缺少这些最终值不妨碍本轮系统设计草案交付，但影响后续模块规格封板。
 
 按 spec-driven-development，先审阅能力图，再逐提供者写 SPEC；规格通过后才生成 `ForWeb/tasks/plan.md` 与 `todo.md` 并实施。公共 API/场景布局的正式兼容性由这些模块规格定义，本文负责跨模块的系统约束与决策依据。
+
+2026-10-06 排序增量：可选 adaptive 完整排序延续，默认 adaptive（strict 可显式选择）。当前投影与全部 SH 保持实时更新，复用既有 A/B 并在顶点阶段处理当前可见集；见 [排序契约](SPEC-adaptive-sorting.md) 与 [实际交互验证](verification/adaptive-sorting-2026-10-06.md)。不是并发 GPU queue 排序，也没有移植 Spark 源码。

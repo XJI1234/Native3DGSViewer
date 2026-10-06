@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2-preview.3 — 2026-10-06
+
+- preview.3 默认启用 adaptive 排序和 auto/4 WASM；strict/single 可显式 opt-out，默认排序行为与 preview.2 不同。
+- 增加可选 `decoder: { mode, threads }`；默认 auto，保留无需跨源隔离的单线程基础版，增强资源初始化失败或 CPU 预算不足时自动回退。
+- 分块 PLY / SPZ v1–3 的规范化、验证、bounds 归并和 tile 打包使用 pthreads；减少 SPZ 范围复制、直接打包输出，并有界预取下一批。gzip 连续解压、SPZ v4 和小型内存路径保持单线程。
+- 新增可选只读 `Snapshot.decoder` 活动场景诊断，不改变现有方法或必需字段；React/Vue 继承配置。
+- SDK 增加 `assets/threaded/decoder.mjs` 和 `.wasm`，部署须递归复制资产。增强版需 HTTPS、COOP/COEP 和 SharedArrayBuffer；普通站点继续基础版。
+- 迁移说明见 `docs/SDK-migration-preview3.md`，逐阶段性能、38 模型两路径等价、回退/取消和审查见 `docs/verification/pthreads-2026-10-06.md`。完整点数、SH 与 float32 精度保持；默认排序行为变化见迁移指南。
+
+- 自适应策略每帧更新投影/SH/裁剪，在有界小位移期间复用完整排列；截图、Y 翻转、视口变化、突变与停止交互后的到期状态刷新排序。
+- React/Vue 模板同步 preview.3、隔离响应头与新诊断；Release 仅保留新版 Web ZIP，不附独立哈希文件，包内完整性清单保留。
+
 ## 0.2.2-preview.2
 
 - Display-only Y reflection with persistent canonical input; orbit/fly adapter navigation, pointer lock, WASD/QE, focus cleanup and keyboard controls. — 2026-10-05（连续交互调优）
@@ -36,3 +48,11 @@
 - Spark Rust/WASM源码研读、完成帧对照及Vue/React资源与存储接入文档；最终证据独立归档。
 
 未发布npm，现有原生/Android/Server接口未变。
+
+
+2026-10-06 preview.3: optional `sorting.mode: 'adaptive'` retains full-point
+ordering, projects current camera/SH, and rejects currently culled instances on GPU.
+Default is adaptive from preview.3; explicit strict preserves the previous sorting behavior. No extra per-point GPU buffer; fresh capture, Y flip,
+camera-jump and recovery semantics are specified in
+[adaptive sorting contract](docs/SPEC-adaptive-sorting.md). See
+[migration](docs/SDK-migration-preview3.md) for additive diagnostics and tradeoffs.

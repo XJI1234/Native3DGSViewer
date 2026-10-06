@@ -70,5 +70,5 @@ with zipfile.ZipFile(sys.argv[2]) as check:
 `});
 if (result.status !== 0) throw Error(result.stderr);
 const digest = hash(await readFile(output + '/' + archive));
-await writeFile(output + '/' + archive + '.sha256', `${digest}  ${archive}\n`);
+// No sidecar hash file: integrity inventories remain inside the archive.
 console.log(JSON.stringify({archive: output + '/' + archive, sha256: digest, sourceCommit: commit, version: packageInfo.version}));

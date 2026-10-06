@@ -1,8 +1,10 @@
 # Vue 3.5 接入指南
 
-适用Vue3.5、TypeScript及`@native3dgs/web@0.2.2-preview.2`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
+适用Vue3.5、TypeScript及`@native3dgs/web@0.2.2-preview.3`。先按[SDK指南](SDK-guide.md)安装本地tgz，将完整dist/assets复制到public/gs-assets。Vue为optional peer，不依赖Three.js。当前真实验证Windows/Edge154/RTX3080；移动/Safari另行验收。
 
 0.2.2-preview.2增加`maxFramesInFlight: 1 | 2 | 3`，可通过`useNative3DGS(hostRef, { assets, maxFramesInFlight: 2 })`初始化；默认2，1保留单帧门控。现有实例不会响应options对象字段的修改；需要变更时重新创建实例。结果及边界见[连续交互调优记录](verification/parallel-optimization-2026-10-05.md)，双帧上限不代表两个GPU队列，也不保证物理显示帧率。
+
+preview.3 增加可回退并行解码：原有 hook/composable 调用保持有效，可在 options 中添加 `decoder: { mode: 'auto', threads: 4 }`。非隔离页面仍走单线程；增强版需要 HTTPS、COOP/COEP 及递归部署新的 `threaded/` 资产。`snapshot.decoder` 表示实际场景解码路径。完整变化、Nginx 配置及升级步骤见 [preview.3 迁移指南](SDK-migration-preview3.md)。
 
 ## 1. 模块与生命周期
 
@@ -169,3 +171,41 @@ engine.requestFrame();
 ```
 
 SDK直接构造反射投影视图，不要再给Canvas添加CSS scaleX/scaleY。翻转状态跨fit/reset/open/recover保留，鼠标增量来自未变换client坐标。固定模式左拖旋转、右拖平移、滚轮缩放；自由模式点击视口进入Pointer Lock，鼠标转向、WASD/QE移动、Shift加速，Escape/失焦退出；拒绝Pointer Lock时支持左拖转向。方向键与加减键可在聚焦Canvas时操作。`getPose()`/`setPose()`始终使用未反射的canonical坐标。模板仅使用公开SDK、hook/composable、snapshot与Result，不读取renderer或active字段。
+
+
+### preview.3 默认排序延续与多线程
+
+初始化选项可添加 `sorting: { mode: 'adaptive', maxSortAgeMs: 100 }`。
+preview.3 省略该选项时默认 adaptive；希望保留旧排序行为时设置 strict；WASM 并行解码与排序策略互相独立。
+React hook / Vue composable 会原样传递初始化选项，保持既有卸载和重建流程。
+该策略持续更新当前投影和可见点，在小位移期间复用透明度顺序；截图强制
+刷新。新诊断的提交帧与完成测量帧含义、迁移示例及暂停边界见
+[preview.3 迁移指南](SDK-migration-preview3.md#默认排序自适应延续)。
+
+
+无需新增调用即可使用默认 adaptive + auto/4。若需要逐帧排序/单线程，
+在 hook/composable 创建时传入 `sorting: {mode:'strict'}`、
+`decoder: {mode:'single'}`；这些初始化设置不响应运行中的对象修改。
+下载 preview.3 模板后执行 frozen-lockfile 安装和 build；不要手工替换
+node_modules 或只复制基础 decoder 文件。生产部署需完整递归复制 SDK
+assets，包括 threaded/、manifest 与 licenses，并配置 COOP/COEP 和 mjs/wasm
+MIME。见 [迁移与部署示例](SDK-migration-preview3.md)。
+
+
+```ts
+// 固定配置对象在组件外定义；base 与应用部署子路径保持一致。
+const options = {
+  assets: { baseUrl: base, workerUrl: new URL('decoder.worker.js', base) },
+  decoder: { mode: 'auto' as const, threads: 4 },
+  sorting: { mode: 'adaptive' as const, maxSortAgeMs: 100, targetFrameMs: 1000 / 60 },
+};
+// useNative3DGS(host, options)
+```
+
+`Snapshot.decoder` 在加载成功后标识实际 `single`/`pthreads` 后端、线程数和
+回退原因；失败的候选不会覆盖原场景诊断。性能面板的 GPU 耗时属于
+`gpuFrameId`，排序状态属于本次 `frameId`，不要混作同一帧。诊断新增字段为
+可选字段，老项目应允许空场景值及无 GPU timestamp 的 null 值。
+两个模板默认使用 auto/4 与 adaptive，Vite dev/preview 提供 COOP/COEP；
+生产 dist 部署的响应头需自行配置。自动增强失败仍可单线程加载，
+显式 parallel 则报告失败以方便验收。

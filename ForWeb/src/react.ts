@@ -8,6 +8,7 @@ export interface AdapterOptions extends Omit<EngineOptions, 'canvas'> {
     pixelRatio?: number;
 }
 const emptySnapshot: Snapshot = Object.freeze({
+    decoder: null,
     phase: 'Idle',
     requestId: 0,
     sceneCount: 0,

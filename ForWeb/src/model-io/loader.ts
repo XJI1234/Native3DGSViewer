@@ -1,5 +1,6 @@
 import type { Limits, Progress, Scene, Source } from '../splat-types/index';
 import { diskBacking, removeJob } from './backing';
+import type { DecoderOptions } from './decoder-options';
 export function decode(
     source: Source,
     limits: Limits,
@@ -9,6 +10,7 @@ export function decode(
     onProgress: (p: Progress) => void,
     retainedBytes = 0,
     workerUrl?: URL | string,
+    decoder?: DecoderOptions,
 ): Promise<Scene> {
     return new Promise((resolve, reject) => {
         const job = `gs-${crypto.randomUUID()}`;
@@ -57,7 +59,7 @@ export function decode(
             return;
         }
         try {
-            worker.postMessage({ source, limits, assets, pageBytes, retainedBytes, job });
+            worker.postMessage({ source, limits, assets, pageBytes, retainedBytes, job, decoder });
         } catch (reason) {
             finish(undefined, reason);
         }

@@ -1,4 +1,14 @@
 export type Vec3 = readonly [number, number, number];
+export interface DecoderOptions {
+    readonly mode?: 'auto' | 'single' | 'parallel';
+    /** Upper bound, including the coordinating WASM thread. */
+    readonly threads?: number;
+}
+export interface DecoderInfo {
+    readonly backend: 'single' | 'pthreads';
+    readonly threads: number;
+    readonly fallbackReason: string | null;
+}
 export interface Bounds {
     readonly origin: Vec3;
     readonly min: Vec3;
@@ -6,6 +16,9 @@ export interface Bounds {
     readonly maxScale: number;
 }
 export interface Scene extends Bounds {
+    readonly decoder?: DecoderInfo;
+    /** Internal load instrumentation; task-max sums are not additive wall stages. */
+    readonly decodeTimings?: Readonly<Record<string, number>>;
     readonly count: number;
     readonly degree: number;
     readonly stride: number;
