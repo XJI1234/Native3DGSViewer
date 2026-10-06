@@ -130,6 +130,9 @@ add_executable(Native3DGSViewer.SceneBench bench/scene.cpp)
 target_include_directories(Native3DGSViewer.SceneBench PRIVATE src/render-core/device src/render-core/scene src/render-core/passes)
 target_compile_definitions(Native3DGSViewer.SceneBench PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.SceneBench PRIVATE native3dgs-engine)
+add_executable(Native3DGSViewer.InteractionBench bench/windows-interaction.cpp)
+target_compile_definitions(Native3DGSViewer.InteractionBench PRIVATE NOMINMAX)
+target_link_libraries(Native3DGSViewer.InteractionBench PRIVATE native3dgs-engine dxgi dcomp user32 winmm)
 add_executable(Native3DGSViewer.Tests
   tests/model-io/model_io_tests.cpp
   tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp

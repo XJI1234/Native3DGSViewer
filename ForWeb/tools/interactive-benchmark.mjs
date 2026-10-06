@@ -15,12 +15,16 @@ const decoder=process.env.GS_BENCH_DECODER??'single',threads=Number(process.env.
 if(!['single','auto','parallel'].includes(decoder)||!Number.isInteger(threads)||threads<1||threads>8)throw Error('Invalid decoder configuration');
 await mkdir(dir,{recursive:true});
 const manifest=JSON.parse(await readFile('docs/verification/evidence/model-manifest.json','utf8'));
-const reference=JSON.parse(await readFile('../docs/reports/native3dgs-2026-10-04/evidence/web-paired/results.json','utf8'));
-const largeReference=JSON.parse(await readFile('docs/verification/evidence/parallel-2026-10-05/stages-before-persistent-large/results.json','utf8'));
+const poseFile=process.env.GS_BENCH_POSES;
+const poseText=poseFile?await readFile(poseFile,'utf8'):null;
+const poseOverrides=poseText?JSON.parse(poseText):null;
+const reference=poseOverrides?null:JSON.parse(await readFile('../docs/reports/native3dgs-2026-10-04/evidence/web-paired/results.json','utf8'));
+const largeReference=poseOverrides?null:JSON.parse(await readFile('docs/verification/evidence/parallel-2026-10-05/stages-before-persistent-large/results.json','utf8'));
 const rows=[],failures=[];
 const quantile=(values,p)=>{const s=[...values].sort((a,b)=>a-b);return s[Math.floor((s.length-1)*p)]??null;};
 const stats=values=>({p50:quantile(values,.5),p95:quantile(values,.95),p99:quantile(values,.99),mean:values.length?values.reduce((a,b)=>a+b,0)/values.length:null});
 const provenance={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),files:await Promise.all(['apps/benchmark.ts','tools/interactive-benchmark.mjs','src/engine/engine.ts','src/render-core/renderer.ts','src/render-core/shaders.ts','src/render-core/sort.ts','src/render-core/sorting-policy.ts','public/assets/decoder.mjs','public/assets/decoder.wasm','public/assets/threaded/decoder.mjs','public/assets/threaded/decoder.wasm','node_modules/@sparkjsdev/spark/dist/spark.module.js'].map(async path=>({path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')})))};
+if(poseText)provenance.poseOverride={path:poseFile,sha256:createHash('sha256').update(poseText).digest('hex')};
 const freshCase=process.env.GS_BENCH_FRESH_CASE==='1';
 const sorting=process.env.GS_BENCH_SORTING??'strict';
 if(!['strict','adaptive'].includes(sorting))throw Error('Invalid sorting configuration');
@@ -32,7 +36,7 @@ for(let i=0;i<models.length;i++){
     const model=models[i],entry=manifest.models.find(m=>m.name===model);
     if(!entry)throw Error(`Unknown model ${model}`);
     provenance.models??=[];provenance.models.push(await verifyServedModel(base,entry));
-    const pose=reference.rows.find(r=>r.model===model&&r.mode==='native')?.loaded.pose??largeReference.rows.find(r=>r.model===model)?.loaded.pose;
+    const pose=poseOverrides?poseOverrides[model]:reference.rows.find(r=>r.model===model&&r.mode==='native')?.loaded.pose??largeReference.rows.find(r=>r.model===model)?.loaded.pose;
     if(!pose)throw Error(`Missing reference pose ${model}`);
     // Alternate order to reduce systematic engine-order bias.
     for(const mode of i%2?[...modes].reverse():modes){
