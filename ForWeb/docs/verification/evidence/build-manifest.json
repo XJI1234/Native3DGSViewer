@@ -1,23 +1,23 @@
 {
   "git": {
     "dependencySourcesClean": true,
-    "commit": "6d0f171a094651126478dc76f210333db9c38fc4",
-    "status": " M ForWeb/docs/verification/evidence/parallel-2026-10-05/ocr-viewer-sdk-final.txt\n",
+    "commit": "407c698379e3ced68df162cc1f389148c244fa72",
+    "status": " M ForWeb/.gitignore\n M ForWeb/CAPABILITY-MAP.md\n M ForWeb/CHANGELOG.md\n M ForWeb/README.md\n M ForWeb/apps/README.md\n M ForWeb/apps/benchmark.ts\n M ForWeb/apps/react-viewer/README.md\n M ForWeb/apps/vue-viewer/README.md\n M ForWeb/docs/React-integration.md\n M ForWeb/docs/SDK-guide.md\n M ForWeb/docs/SPEC-engine.md\n M ForWeb/docs/SPEC-model-io.md\n M ForWeb/docs/SPEC-render-core.md\n M ForWeb/docs/SPEC-sdk-package.md\n M ForWeb/docs/SPEC-web-viewer.md\n M ForWeb/docs/Vue-integration.md\n M ForWeb/docs/development-environment.md\n M ForWeb/docs/system-technical-design.md\n M ForWeb/docs/verification/evidence/build-manifest.json\n M ForWeb/docs/verification/evidence/integration-tests.json\n M ForWeb/docs/verification/evidence/sdk-consumer.json\n M ForWeb/native/CMakeLists.txt\n M ForWeb/native/decoder.cpp\n M ForWeb/native/decoder.h\n M ForWeb/native/pack.cpp\n M ForWeb/package.json\n M ForWeb/src/engine/engine.ts\n M ForWeb/src/index.ts\n M ForWeb/src/model-io/decoder.worker.ts\n M ForWeb/src/model-io/loader.ts\n M ForWeb/src/model-io/streaming.ts\n M ForWeb/src/model-io/wasm.ts\n M ForWeb/src/react.ts\n M ForWeb/src/render-core/renderer.ts\n M ForWeb/src/render-core/shaders.ts\n M ForWeb/src/splat-types/index.ts\n M ForWeb/tests/unit/lifecycle.test.ts\n M ForWeb/tools/build-wasm.mjs\n M ForWeb/tools/interactive-benchmark.mjs\n M ForWeb/tools/package-notices.mjs\n M ForWeb/tools/package-release.mjs\n M ForWeb/tools/package-templates.mjs\n M ForWeb/tools/sdk-consumer.mjs\n M ForWeb/tools/stability-tests.mjs\n M ForWeb/vite.config.ts\n?? ForWeb/docs/SDK-migration-preview3.md\n?? ForWeb/docs/SPEC-adaptive-sorting.md\n?? ForWeb/docs/SPEC-parallel-decoder.md\n?? ForWeb/docs/verification/adaptive-sorting-2026-10-06.md\n?? ForWeb/docs/verification/evidence/adaptive-2026-10-06/\n?? ForWeb/docs/verification/evidence/decode-current.json\n?? ForWeb/docs/verification/evidence/pthreads-2026-10-06/\n?? ForWeb/docs/verification/pthreads-2026-10-06.md\n?? ForWeb/src/model-io/decoder-options.ts\n?? ForWeb/src/render-core/sorting-policy.ts\n?? ForWeb/tests/contracts/parallel-decoder.test.mjs\n?? ForWeb/tests/unit/decoder-options.test.ts\n?? ForWeb/tests/unit/sorting-policy.test.ts\n?? ForWeb/tools/adaptive-sorting-tests.mjs\n?? ForWeb/tools/adaptive-stage-benchmark.mjs\n?? ForWeb/tools/benchmark-provenance.mjs\n?? ForWeb/tools/parallel-browser-tests.mjs\n?? ForWeb/tools/parallel-capability-tests.mjs\n?? ForWeb/tools/parallel-kernel-benchmark.mjs\n?? ForWeb/tools/parallel-spark-benchmark.mjs\n",
     "dependencies": " 52eb8108c5bdec04579160ae17225d66034bd723 ../third_party/googletest (v1.17.0)\n 1a235c70390fadf789695c9ccbf285ae712416b3 ../third_party/miniply (heads/master)\n 0c539948c8d196ae338d91efbc8ca495f1ea0d1d ../third_party/parallel-sort (v1.1.1)\n-d22060043138b38e3aa01f766227ee0bd4e4f83e ../third_party/parallel-sort/sample/libs/cauldron\n 5bf2945de1a003cee07133b1e495fe9c6ffdc7e7 ../third_party/spz (v3.0.0)\n 51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf ../third_party/zlib (v1.3.1)\n 794ea1b0afca0f020f4e57b6732332231fb23c70 ../third_party/zstd (v1.5.6)\n"
   },
-  "recordedAt": "2026-10-04T18:14:48.910Z",
+  "recordedAt": "2026-10-06T07:31:34.843Z",
   "outputs": [
     {
       "path": "dist/assets/decoder.mjs",
-      "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+      "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
     },
     {
       "path": "dist/assets/decoder.wasm",
-      "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+      "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
     },
     {
       "path": "dist/assets/decoder.worker.js",
-      "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+      "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
     },
     {
       "path": "dist/assets/licenses/spz.txt",
@@ -37,7 +37,15 @@
     },
     {
       "path": "dist/assets/manifest.json",
-      "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
+      "sha256": "8662e7c94c065824c1c045bed7358d9efbecf5486eb7a41403663373ccfed395"
+    },
+    {
+      "path": "dist/assets/threaded/decoder.mjs",
+      "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+    },
+    {
+      "path": "dist/assets/threaded/decoder.wasm",
+      "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
     },
     {
       "path": "dist/dom-ppJuA2vp.js",
@@ -49,19 +57,23 @@
     },
     {
       "path": "dist/engine/engine.d.ts",
-      "sha256": "dc645f876c5b164fdd32f2f6316dc479769b45977a53fd7554866b42ab2b0a21"
+      "sha256": "09d07a4a95832d92e4f54474070297fdf3c635d3fd4bffdfc5d679a0003f687a"
     },
     {
       "path": "dist/index.d.ts",
-      "sha256": "4edd1436e12e843499749fa636521a25a674e76db50b1744038c0b7cc6388c9f"
+      "sha256": "18f6494c06ebe9286d3a76c64466a828149b2b616b47f6a8870e4efc27ec7fac"
     },
     {
       "path": "dist/index.js",
-      "sha256": "0449717fe9f3d7717439be63197386386f3030c84c9cf19639c7279db1880027"
+      "sha256": "1a173cdc95c1c6c280cfc5f1f539c39d82a15b39dc159aca7c9f1ca2f69db78f"
     },
     {
       "path": "dist/model-io/backing.d.ts",
       "sha256": "b3f525f5cfd69d6e0924460489707ec84a241f26d9b8a985a50952fb750d308d"
+    },
+    {
+      "path": "dist/model-io/decoder-options.d.ts",
+      "sha256": "b159a372fadf965e48bd15aff6ef8e69873f7c64ddb261a88dba007986b91b36"
     },
     {
       "path": "dist/model-io/decoder.worker.d.ts",
@@ -69,15 +81,15 @@
     },
     {
       "path": "dist/model-io/loader.d.ts",
-      "sha256": "6d9be8ec5e526711213c2e1cb8bc896fc070f022d3cd14400e7f7455f5532886"
+      "sha256": "6efebd8fe9b9e28fa66943d9e5abf17118bb75649dcc878f80802c61cee8a117"
     },
     {
       "path": "dist/model-io/streaming.d.ts",
-      "sha256": "f4588396f14ac8021c77dce399e8af85a3e7f712cf91384ee458686c7a9084b8"
+      "sha256": "e80af9b7133b5337a3f15a8998289229f240329ec0fcf6dfd567d3168deb07d4"
     },
     {
       "path": "dist/model-io/wasm.d.ts",
-      "sha256": "d2a2753a05bd63d017c0c67ed05d6772243139a647c228753f2ef09e1081ceba"
+      "sha256": "51f04964967a1da641854a6e7255031c7f6905654832271422b7f9947aba2b7b"
     },
     {
       "path": "dist/react.d.ts",
@@ -85,19 +97,23 @@
     },
     {
       "path": "dist/react.js",
-      "sha256": "f80b676d509989911d330cb6740eb0c9560933121376701bf4fbdb08e17c4207"
+      "sha256": "0d4634d763281a0adc2e9e8200705b3ef92fd75665e83289db39191ad7aaa462"
     },
     {
       "path": "dist/render-core/renderer.d.ts",
-      "sha256": "87a7a3360a2595b9fd91cc5e8dbbf33d071c4682453c66db5558ec646a8a2ce6"
+      "sha256": "c4ca9836c3e1c89d6e73498b94831c11e73b2eb0ff2f49401e8fbe8f0e15bf75"
     },
     {
       "path": "dist/render-core/shaders.d.ts",
-      "sha256": "00f3eed082a65ce29ace27739658da05407bb1f38a9097300acc78238737ec03"
+      "sha256": "56ae970325c0679ed5a6b0c67a09ccdf78559f916c68e2b76d9259743e8fe379"
     },
     {
       "path": "dist/render-core/sort.d.ts",
       "sha256": "9be8ea0630d09f95ce44f09acf9b4a3f33e00c6568f27b91abd0f249c9aefa09"
+    },
+    {
+      "path": "dist/render-core/sorting-policy.d.ts",
+      "sha256": "9e8966a0cb3914a488d2bc4c4d3d5877796b76c713d766640d98dd652ae2ef80"
     },
     {
       "path": "dist/splat-types/async.d.ts",
@@ -105,11 +121,11 @@
     },
     {
       "path": "dist/splat-types/index.d.ts",
-      "sha256": "49341290e4340be3568e53c0f7a929ce7c69b62c66a317933498a5ff1d37188b"
+      "sha256": "3ce5a91ad3535f8182b84934bf1d76cb945b98d8129cafe9e1c8767e75ab0f21"
     },
     {
-      "path": "dist/src-CQ-auify.js",
-      "sha256": "6db2efc1ce1f10b30a427aba19142d2c20311a7d41de352061f5c8dc6c19a107"
+      "path": "dist/src-hdSWYNAb.js",
+      "sha256": "ccc1d5ed5949cf1392bec9788f8ba9d2ae0681a52881cb57f1f647dfa687cfd9"
     },
     {
       "path": "dist/vue.d.ts",
@@ -117,7 +133,7 @@
     },
     {
       "path": "dist/vue.js",
-      "sha256": "7e8585f912e89e1b7cee0723b1ae4dadf242d33e1ca1d1d2dbbf48366fec5897"
+      "sha256": "6bc4be06b4b83fe6db7763a94420e166309974caf6b291d5b9c1ab0152241480"
     },
     {
       "path": "dist/web-adapters/dom.d.ts",
@@ -127,7 +143,7 @@
   "node": "24.14.1",
   "package": {
     "name": "@native3dgs/web",
-    "version": "0.2.2-preview.2",
+    "version": "0.2.2-preview.3",
     "type": "module",
     "packageManager": "pnpm@11.4.0",
     "engines": {
@@ -210,19 +226,32 @@
     "emscripten": "6.0.11",
     "memoryMaxBytes": 1073741824,
     "threads": 1,
+    "parallel": {
+      "directory": "threaded/",
+      "maxThreads": 8,
+      "requiresCrossOriginIsolation": true
+    },
     "simd": false,
     "files": [
       {
         "name": "decoder.wasm",
-        "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+        "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
       },
       {
         "name": "decoder.mjs",
-        "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+        "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
       },
       {
         "name": "decoder.worker.js",
-        "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+        "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
+      },
+      {
+        "name": "threaded/decoder.wasm",
+        "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+      },
+      {
+        "name": "threaded/decoder.mjs",
+        "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
       }
     ]
   },
@@ -233,47 +262,55 @@
     },
     {
       "path": "src/engine/engine.ts",
-      "sha256": "678df97781e39c8d8651c9079e7826a97681a56174c8c268a0446d01979cb965"
+      "sha256": "fc1e2a08f6ca2cc401cecc8d7e7c0a86ff9190424b5f7667192fae8d51c9167a"
     },
     {
       "path": "src/index.ts",
-      "sha256": "881f69ff9e0ee78148f8551a495a5cffcfc80130b031fecd3b3c7c8783c5f64f"
+      "sha256": "472ce14fdb9acd40e8f22eabe5267cbdc84a321598531b19ec53ce693941edf8"
     },
     {
       "path": "src/model-io/backing.ts",
       "sha256": "964ef7e6203314fa57b6b34b3c35314f6b0149dbeaeb05e8b71781f47949e33f"
     },
     {
+      "path": "src/model-io/decoder-options.ts",
+      "sha256": "f27a83ed8ac24c5b8e8cb1dab1a12219485a36c60f68d0f579108f8543bb9f85"
+    },
+    {
       "path": "src/model-io/decoder.worker.ts",
-      "sha256": "61a14fd5cef2cc012f89e47a7904ccfda22bd9759a7f054e813bdf9008f90308"
+      "sha256": "f4a939a999013c39a529bf2f13c242c60ca97a0dcb723287589c6cd39b8e0ea4"
     },
     {
       "path": "src/model-io/loader.ts",
-      "sha256": "342f528d5e09f046bd06af1a9ba2c50d7b3d92dd5f22deddaf720957e4a12ed5"
+      "sha256": "a5b57c13564e9e08e5f5c72ebb6a842fce64f3eba1a8d5c31aeb7d143c386958"
     },
     {
       "path": "src/model-io/streaming.ts",
-      "sha256": "4c7f6da5e635ff890cbed19b7e9ba0d3ea7e2268ead425f4508876b94f2a0d45"
+      "sha256": "fbe67c64849259d224e51826a61cfc41a6463ea638b59be719ee179e931ef50b"
     },
     {
       "path": "src/model-io/wasm.ts",
-      "sha256": "dbd775f8f1c8aa8d41a340c3bdee9a0561d5a0d57373ac7b5cfc11a5d8e52c91"
+      "sha256": "5a0681abebd27554a59164975438d56c8ee69a71c9c5c6a46f612fce6b42f35a"
     },
     {
       "path": "src/react.ts",
-      "sha256": "d5ce7a3dda7dfd18d07b7f75ca7963c86402553cac80630c938497463042bf14"
+      "sha256": "c795601ed217a4ba7e5dcf1f3dac552a8820f2a37a8d9154e706a6790d3a0e93"
     },
     {
       "path": "src/render-core/renderer.ts",
-      "sha256": "c6e3a9d25df9af8d13f8d4f796d70d43c2199d079bd100ac52c25a91b716fede"
+      "sha256": "bd4f13bcc1df076914a034c23790b711e290f35520e3ce59cc847d4a0db8951e"
     },
     {
       "path": "src/render-core/shaders.ts",
-      "sha256": "2b1ba845545358ca7b0c53e463510461a70037808fa5f441eb0e0ae080c8ed17"
+      "sha256": "772dd5b7f64ba708c911ef005565c313da9e5011e5bd0974fb68ca144b8aeee4"
     },
     {
       "path": "src/render-core/sort.ts",
       "sha256": "967c17f64f38e09c2b241f9b69e6ff2ea56e9b2481560eff6c01f00675915b6f"
+    },
+    {
+      "path": "src/render-core/sorting-policy.ts",
+      "sha256": "fdf17abf77b18d5ca383096df05435bfecd26db4af902f3106f7ffbeb63bfc02"
     },
     {
       "path": "src/splat-types/async.ts",
@@ -281,7 +318,7 @@
     },
     {
       "path": "src/splat-types/index.ts",
-      "sha256": "e6aa41e7e649c34c43cbd5f24e33ecea45f8dbdab0d4b56c074c24af684f26a4"
+      "sha256": "91a44262d4afc1ab4e7952ed78fc982f1ad7999daebabded8ad86f1b8187a60b"
     },
     {
       "path": "src/vue.ts",
@@ -297,15 +334,15 @@
     },
     {
       "path": "native/CMakeLists.txt",
-      "sha256": "69c84ad97ba9c988d8d44b1dba40b38d5a4377be235fcb459c07f5fd42742499"
+      "sha256": "f88c387bfe77c16ba465f8676b981592bca8d9f32d67693ea4a687b9ad9fcca6"
     },
     {
       "path": "native/decoder.cpp",
-      "sha256": "2ce302dc8367d0a338dde11935eff833ecb93c3c165331e4027dd684a853e5de"
+      "sha256": "ac8d721ecaf652be195e3667abc57bd7ee192e160721fe3b5a239c9abeba6d19"
     },
     {
       "path": "native/decoder.h",
-      "sha256": "8423487ce3bc64f2ba05d2198723b18d16dcaa7aeb9bc86dcca50ebe88f04d00"
+      "sha256": "59af8b7e0ed5c72138efe6d6c0634dc5a342d920d847b6db84db8173305f46c7"
     },
     {
       "path": "native/inflate.cpp",
@@ -313,7 +350,7 @@
     },
     {
       "path": "native/pack.cpp",
-      "sha256": "657c80c9aefe05110d73ef8b0beef0a8c6d590411d4657af71a01a37a86c28a4"
+      "sha256": "47b6ce44a3db4b82de88ac4df84094407a5df1f59d1ad55fbab75b21bf26268e"
     },
     {
       "path": "../include/splat-types/scene.h",
@@ -329,11 +366,11 @@
     },
     {
       "path": "tools/build-wasm.mjs",
-      "sha256": "c1ceb3ae1817b06b24c89086508750df037baec7e2ad6eb4400f86315ec3f997"
+      "sha256": "6b4a5258079377c4ae2289184ed18780fd471a51d85475058c9d848e5b054e2a"
     },
     {
       "path": "tools/package-notices.mjs",
-      "sha256": "a8336f2d6b6a058b462005e538c4a9256295977ae5ed995c1b56f591e8ad9102"
+      "sha256": "8a562fb32a2478991b47e423c996d8e4a5322d316a84ae58b33fee26dbf9c27a"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -341,11 +378,11 @@
     },
     {
       "path": "package.json",
-      "sha256": "215762e44f764afd03d4a8627ee1e0711a0754056356a08ca905e5d52a9f2eda"
+      "sha256": "457406cc16333d3e78e9f729ca4f788431a579482300eb7c3d3310412017a371"
     },
     {
       "path": "vite.config.ts",
-      "sha256": "6c272b95a534862ad7eaab2b47644a6753ed09ae7337f241e53624e888a44438"
+      "sha256": "854b7c18dcd95539aaccf7c5b2c78bfa73444fb7bc89231d8d03ca46a76e71af"
     },
     {
       "path": "tsconfig.json",

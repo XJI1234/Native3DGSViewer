@@ -1,0 +1,11 @@
+{
+  "path": "@sparkjsdev/spark",
+  "url": "http://127.0.0.1:5187/node_modules/.vite/deps/@sparkjsdev_spark.js?v=8ca849ae",
+  "bytes": 7083052,
+  "sha256": "a10b391d4317ba1e087195421d7e7c0f9e635ac9dfd5b272f862c536daf8f211",
+  "verifiedAt": "2026-10-06T06:02:32.001Z",
+  "sourceSha256": "2de375d5e489692f976abe3199c8435ecc00f97fabaf35e489eb7d368e1f6f60",
+  "mapSha256": "a0ca599776c2c5091870e44a1e49d7dce604eddcdc62b9b602b14424f428f682",
+  "mapUrl": "http://127.0.0.1:5187/node_modules/.vite/deps/@sparkjsdev_spark.js.map",
+  "scope": "Delivered optimized Spark module plus source-map match to pin; source includes embedded decode workers/WASM"
+}

@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-06T05:57:44.408Z",
+  "rows": [
+    {
+      "label": "nonisolated legacy auto falls back",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Cross-origin isolation unavailable"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "nonisolated explicit parallel rejects",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "UnsupportedCapability",
+          "stage": "Load",
+          "diagnostic": "UnsupportedCapability: cross-origin isolation/SharedArrayBuffer"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "isolated auto enables pthreads",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "isolated explicit single retained",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "low CPU admission returns to base",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "CPU budget selects single-thread decoder"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "SPZ exact CPU admission retries base",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Streaming CPU admission selects single-thread decoder"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "missing optional assets auto falls back",
+      "result": {
+        "ok": true
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Parallel initialization failed: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5187/assets/threaded/decoder.mjs"
+      },
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    },
+    {
+      "label": "missing assets explicit parallel fails",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "DecoderFailure",
+          "stage": "Load",
+          "diagnostic": "Failed to fetch dynamically imported module: http://127.0.0.1:5187/assets/threaded/decoder.mjs"
+        }
+      },
+      "decoder": null,
+      "cancelledAt": null,
+      "workersAfterShutdown": 0
+    }
+  ],
+  "complete": false
+}

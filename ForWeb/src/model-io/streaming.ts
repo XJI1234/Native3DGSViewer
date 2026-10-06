@@ -153,6 +153,7 @@ export async function decodeStream(
     retainedBytes: number,
     report: Report,
     begin: number,
+    threads = 1,
 ): Promise<{ scene: Scene; file: File }> {
     const count = wasm._gs_count(),
         degree = wasm._gs_degree(),
@@ -166,6 +167,7 @@ export async function decodeStream(
     // Byte bound prevents wide PLY rows from bypassing CPU admission.
     check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, 1));
     const sourceStride = ply ? wasm._gs_meta(11) : 20 + 3 * ((degree + 1) ** 2 - 1);
+    const vertexOffset = ply ? wasm._gs_meta(10) : 0;
     const capacity = Math.min(65536, Math.floor(chunkBytes / sourceStride));
     const batch = capacity >= 64 ? Math.floor(capacity / 64) * 64 : capacity;
     if (!batch || (batch < 64 && count > batch))
@@ -179,9 +181,10 @@ export async function decodeStream(
     const nativeScratch = ply ? 2 * normalizedBatch + inputBatch : 3 * normalizedBatch + 2 * inputBatch;
     const cpuPeak =
         retainedBytes +
+        (threads > 1 ? 32 * 2 ** 20 + threads * 2 * 2 ** 20 : 0) +
         32 * 2 ** 20 +
         Math.max(16 * 2 ** 20, Math.ceil(nativeScratch * 1.5)) +
-        2 * inputBatch +
+        (threads > 1 ? 4 : 2) * inputBatch +
         packedBatch * stride +
         chunkBytes +
         2 ** 20;
@@ -220,42 +223,93 @@ export async function decodeStream(
     const min = [Infinity, Infinity, Infinity],
         max = [-Infinity, -Infinity, -Infinity];
     let maxScale = 0;
+    const timings = {
+        readMs: 0,
+        readWaitMs: 0,
+        writeMs: 0,
+        batchWallMs: 0,
+        decodeTaskMaxMs: 0,
+        finishPackTaskMaxMs: 0,
+        rebaseComputeMs: 0,
+    };
+    const readBatch = async (start: number, n: number): Promise<Uint8Array> => {
+        const began = performance.now();
+        try {
+            if (ply) {
+                const input = new Uint8Array(
+                    await raw
+                        .slice(vertexOffset + start * sourceStride, vertexOffset + (start + n) * sourceStride)
+                        .arrayBuffer(),
+                );
+                if (input.length !== n * sourceStride) throw Error('DecoderFailure: truncated PLY batch');
+                return input;
+            }
+            const bytes = new Uint8Array(n * widths.reduce((sum, width) => sum + width, 0));
+            const parts = await Promise.all(
+                widths.map((width, field) =>
+                    raw
+                        .slice(offsets[field]! + start * width, offsets[field]! + (start + n) * width)
+                        .arrayBuffer(),
+                ),
+            );
+            let cursor = 0;
+            for (let field = 0; field < widths.length; field++) {
+                const part = new Uint8Array(parts[field]!);
+                if (part.length !== n * widths[field]!)
+                    throw Error('DecoderFailure: truncated SPZ attributes');
+                bytes.set(part, cursor);
+                cursor += part.length;
+            }
+            return bytes;
+        } finally {
+            timings.readMs += performance.now() - began;
+        }
+    };
+    let pending: Promise<Uint8Array> | undefined;
     try {
         packed.access.truncate(totalBytes);
         for (let start = 0; start < count; start += batch) {
             const n = Math.min(batch, count - start);
             check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, n));
-            if (ply) {
-                const offset = wasm._gs_meta(10),
-                    width = wasm._gs_meta(11);
-                const bytes = new Uint8Array(
-                    await raw.slice(offset + start * width, offset + (start + n) * width).arrayBuffer(),
-                );
-                withBytes(wasm, bytes, (p) => check(wasm, wasm._gs_chunk(p, bytes.length)));
-            } else {
-                const bytes = new Uint8Array(n * widths.reduce((sum, width) => sum + width, 0));
-                let cursor = 0;
-                const parts = await Promise.all(
-                    widths.map((width, field) =>
-                        raw
-                            .slice(offsets[field]! + start * width, offsets[field]! + (start + n) * width)
-                            .arrayBuffer(),
+            const readBegin = performance.now();
+            const input = await (pending ?? readBatch(start, n));
+            pending = undefined;
+            if (threads > 1 && start + n < count) {
+                pending = readBatch(start + n, Math.min(batch, count - start - n));
+                // A preceding batch may fail before we await this read; observe its rejection.
+                void pending.catch(() => {});
+            }
+            timings.readWaitMs += performance.now() - readBegin;
+            const computeBegin = performance.now();
+            let p: number;
+            if (threads > 1) {
+                p = withBytes(wasm, input, (ptr) =>
+                    wasm._gs_decode_batch(
+                        ptr,
+                        input.length,
+                        ply && source.plyCoordinates !== 'rub' ? 1 : 0,
+                        n,
+                        version,
+                        fractional,
                     ),
                 );
-                for (let field = 0; field < widths.length; field++) {
-                    const width = widths[field]!;
-                    const part = new Uint8Array(parts[field]!);
-                    if (part.length !== n * width) throw Error('DecoderFailure: truncated SPZ attributes');
-                    bytes.set(part, cursor);
-                    cursor += part.length;
-                }
-                withBytes(wasm, bytes, (p) =>
-                    check(wasm, wasm._gs_raw_spz(p, bytes.length, version, fractional)),
+                if (!p) throw Error(wasm.UTF8ToString(wasm._gs_error()));
+                timings.decodeTaskMaxMs += wasm._gs_timing(0);
+                timings.finishPackTaskMaxMs += wasm._gs_timing(1);
+            } else {
+                withBytes(wasm, input, (ptr) =>
+                    check(
+                        wasm,
+                        ply
+                            ? wasm._gs_chunk(ptr, input.length)
+                            : wasm._gs_raw_spz(ptr, input.length, version, fractional),
+                    ),
                 );
+                p = wasm._gs_pack_tiled(0, n);
             }
             // Pack world centers BEFORE finish rebases the disposable batch.
-            const p = wasm._gs_pack_tiled(0, n);
             if (!p) throw Error('OutOfMemory: pack batch');
+            timings.batchWallMs += performance.now() - computeBegin;
             try {
                 const expected = Math.ceil(n / 64) * 64 * stride;
                 const bytes = wasm.HEAPU8.subarray(p, p + expected);
@@ -263,11 +317,17 @@ export async function decodeStream(
                     throw Error(
                         `DecoderFailure: pack view length start=${start}, ptr=${p}, expected=${expected}, actual=${bytes.byteLength}, heap=${wasm.HEAPU8.byteLength}`,
                     );
+                const writeBegin = performance.now();
                 write(packed.access, bytes, start * stride);
+                timings.writeMs += performance.now() - writeBegin;
             } finally {
                 wasm._free(p);
             }
-            check(wasm, wasm._gs_finish_batch());
+            if (threads === 1) {
+                const finishBegin = performance.now();
+                check(wasm, wasm._gs_finish_batch());
+                timings.batchWallMs += performance.now() - finishBegin;
+            }
             for (let k = 0; k < 3; k++) {
                 min[k] = Math.min(min[k]!, wasm._gs_meta(3 + k));
                 max[k] = Math.max(max[k]!, wasm._gs_meta(6 + k));
@@ -296,8 +356,10 @@ export async function decodeStream(
                         );
                     read += n;
                 }
+                const rebaseBegin = performance.now();
                 if (!wasm._gs_rebase_tiled(p, length / stride, stride, ...origin))
                     throw Error('DecoderFailure: rebase');
+                timings.rebaseComputeMs += performance.now() - rebaseBegin;
                 write(packed.access, wasm.HEAPU8.subarray(p, p + length), offset);
                 if (packed.access.getSize() !== totalBytes)
                     throw Error(
@@ -321,6 +383,7 @@ export async function decodeStream(
         });
         return {
             scene: {
+                decodeTimings: timings,
                 count,
                 degree,
                 stride,

@@ -1,0 +1,15 @@
+{
+  "complete": true,
+  "rows": 76,
+  "models": 38,
+  "fields": [
+    "count",
+    "degree",
+    "bounds",
+    "imageSha256"
+  ],
+  "current": "default-models.json",
+  "baseline": "../pthreads-2026-10-06/model-matrix.json",
+  "defaults": "adaptive sorting; decoder explicitly single vs auto/4",
+  "readMetric": "historical await-only readMs; final instrumentation updated separately"
+}

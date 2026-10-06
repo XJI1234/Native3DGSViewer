@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@native3dgs/web':
-        specifier: file:vendor/native3dgs-web-0.2.2-preview.2.tgz
-        version: file:vendor/native3dgs-web-0.2.2-preview.2.tgz(vue@3.5.43(typescript@6.0.3))
+        specifier: file:vendor/native3dgs-web-0.2.2-preview.3.tgz
+        version: file:vendor/native3dgs-web-0.2.2-preview.3.tgz(vue@3.5.43(typescript@6.0.3))
       vue:
         specifier: 3.5.43
         version: 3.5.43(typescript@6.0.3)
@@ -66,9 +66,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@native3dgs/web@file:vendor/native3dgs-web-0.2.2-preview.2.tgz':
-    resolution: {integrity: sha512-bLlLSF2VsdGU7kfRCPP6b11IpD4GBe5vF/IVCVOCmRrHZI3Q/Op1Ehcb8hqWUoCX6/5KmnXgicrdV7n8vnrYXQ==, tarball: file:vendor/native3dgs-web-0.2.2-preview.2.tgz}
-    version: 0.2.2-preview.2
+  '@native3dgs/web@file:vendor/native3dgs-web-0.2.2-preview.3.tgz':
+    resolution: {integrity: sha512-eLNY7svFdESryB7mF5onqlgs0Ul7iHWJzHOsX6GZN/a0TP6nehSRSfkOEs4TSEXehpfZ+TYPQxSEF4Sdh/RD/Q==, tarball: file:vendor/native3dgs-web-0.2.2-preview.3.tgz}
+    version: 0.2.2-preview.3
     engines: {node: '>=24.14.0'}
     peerDependencies:
       react: '>=19 <20'
@@ -572,7 +572,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@native3dgs/web@file:vendor/native3dgs-web-0.2.2-preview.2.tgz(vue@3.5.43(typescript@6.0.3))':
+  '@native3dgs/web@file:vendor/native3dgs-web-0.2.2-preview.3.tgz(vue@3.5.43(typescript@6.0.3))':
     optionalDependencies:
       vue: 3.5.43(typescript@6.0.3)
 

@@ -1,5 +1,7 @@
 # Spec: render-core
 
+Optional adaptive continuation is specified in [SPEC-adaptive-sorting.md](SPEC-adaptive-sorting.md).
+
 2026-10-04. Implementation authorized by the user; provider specification for ForWeb/render-core.
 
 ## Objective and boundaries
@@ -32,7 +34,7 @@ Always: validate inputs and resource arithmetic, preserve ownership/identity, te
 FrameStats exposes completed GPU projection/sort/draw timings and their gpuFrameId. Timings refer to a completed measured frame, not the current submission; unchanged-camera frames report zero projection and sort. The engine owns the configurable 1/2/3-frame submission bound and coalesces intermediate camera changes. Same-queue writeBuffer, projection, radix and draw remain ordered even when several submissions are pending; explicit capture retains its fence. Timestamp buffers allow only one readback at a time, with measured gpuFrameId attribution.
 Projection layouts are specialized at pipeline creation. A tiled input address is `(localIndex/64)*64*strideWords + attribute*64 + localIndex%64`; it improves adjacent invocation memory access without reducing precision. Last-page dispatch uses the logical count, never its padded storage count. Packing and global rebase must match compact AoS float values exactly. GPU timings await the existing timestamp promise directly, without timer polling.
 
-Culled points retain the invalid `0xffffffff` key, strictly after every valid key. Indirect instance count includes only valid projections, so rendering never addresses a culled ellipse; projection omits clearing those unreachable records. A previously visible buffer must still render black when every point is subsequently culled. Alpha, support, SH precision and stable key order are unchanged.
+In explicit strict mode, culled points retain the invalid `0xffffffff` key, strictly after every valid key. Indirect instance count includes only valid projections, so rendering never addresses a culled ellipse; projection omits clearing those unreachable records. A previously visible buffer must still render black when every point is subsequently culled. Alpha, support, SH precision and stable key order are unchanged.
 Projection binds one page per dispatch and uses an integer base/count uniform. Global pairs and ellipses preserve order across pages. Compact scalar scene packing and 40-byte ellipses remove padding without quantization. Request adapter buffer/storage limits explicitly. Radix local ranks use bitmaps/popcount; 2D dispatch and segmented block-prefix support counts above 16m. Upload reads disk in bounded chunks and fences staging writes. Backing ownership is retained until actual scene release.
 
 ### Interruptible upload and candidate frame
@@ -40,3 +42,5 @@ Projection binds one page per dispatch and uses an integer base/count uniform. G
 Backing reads, upload queue fences and error-scope results are abort-aware. Scopes are popped before upload ownership is released. Candidate validation uses a temporary render target without presenting to the canvas; the texture is destroyed on every outcome. Capture readback is admitted against maxBufferSize as well as aggregate GPU budget.
 
 Canvas configuration is lazy and belongs to the presenting renderer. Device creation and offscreen validation do not configure the live context; stale/disposed renderers may unconfigure only a context they still own. Validation targets reserve width*height*4 transient bytes in the same aggregate GPU admission as captures and release exactly once on every outcome.
+
+In preview.3 default adaptive mode, projection clears each ellipse visibility marker, writes radial keys for all points, and the draw reads the retained full permutation in B while clipping current invisible vertices. The strict prefix contract above remains for explicit strict. See SPEC-adaptive-sorting.md.

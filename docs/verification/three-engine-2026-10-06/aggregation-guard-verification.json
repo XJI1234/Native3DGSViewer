@@ -1,0 +1,27 @@
+{
+  "dateUtc": "2026-10-06T10:26:48.256253+00:00",
+  "complete": true,
+  "gpuRuns": 0,
+  "checks": [
+    {
+      "case": "different-pose",
+      "passed": true,
+      "rejection": "Browser initial pose differs"
+    },
+    {
+      "case": "wrong-warmup",
+      "passed": true,
+      "rejection": "Browser settings mismatch"
+    },
+    {
+      "case": "wrong-frame-depth",
+      "passed": true,
+      "rejection": "Browser settings mismatch"
+    },
+    {
+      "case": "changed-delivered-assets",
+      "passed": true,
+      "rejection": "Delivered assets changed across repetitions"
+    }
+  ]
+}

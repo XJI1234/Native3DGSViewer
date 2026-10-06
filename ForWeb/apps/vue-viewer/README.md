@@ -1,6 +1,6 @@
 # Native3DGS Vue 查看器模板
 
-独立项目，版本 `0.2.2-preview.2`。使用安装后的 `@native3dgs/web` 公开接口及 `/vue` 适配器，不引用仓库内部源码。模板源码包自带 `vendor/native3dgs-web-0.2.2-preview.2.tgz`，不需要先发布到 npm。锁文件固定全部依赖。
+独立项目，版本 `0.2.2-preview.3`。使用安装后的 `@native3dgs/web` 公开接口及 `/vue` 适配器，不引用仓库内部源码。模板源码包自带 `vendor/native3dgs-web-0.2.2-preview.3.tgz`，不需要先发布到 npm。锁文件固定全部依赖。
 
 ## 快速开始
 
@@ -60,6 +60,67 @@ $env:VIEWER_BASE = '/viewer/'
 pnpm build
 ```
 
-将生成目录部署到同一`/viewer/`路径。默认不添加COOP/COEP，因为当前SDK单线程WASM不依赖SharedArrayBuffer。CSP应允许应用脚本、同源Worker、WASM执行及必要模型connect-src；按网站实际域名配置，不能让资源请求返回登录页或跨域重定向。
+将生成目录部署到同一`/viewer/`路径。preview.3 默认使用 auto/4 多线程 WASM 与 adaptive 排序；Vite dev/preview 已配置 COOP/COEP。生产服务器必须添加这些头才能自动启用 pthreads；缺少隔离时 auto 仍可回退单线程。CSP应允许应用脚本、同源Worker、WASM执行及必要模型connect-src；按网站实际域名配置，不能让资源请求返回登录页或跨域重定向。
+
+### Nginx 部署排错
+
+公网网站必须使用 HTTPS；本地 localhost/127.0.0.1 的 HTTP 开发例外不适用于公网 IP。若加载时出现 `DecoderFailure · Load: Failed to fetch dynamically imported module: .../gs-assets/decoder.mjs`，检查该文件的响应类型：即使状态为 200，`application/octet-stream` 也会使浏览器拒绝导入 ES 模块。
+
+在网站的现有 HTTPS `server` 块内，与其他 `location` 同级添加：
+
+```nginx
+add_header Cross-Origin-Opener-Policy "same-origin" always;
+add_header Cross-Origin-Embedder-Policy "require-corp" always;
+
+location = /gs-assets/decoder.mjs {
+    types { }
+    default_type application/javascript;
+    try_files $uri =404;
+}
+location = /gs-assets/threaded/decoder.mjs {
+    types { }
+    default_type application/javascript;
+    try_files $uri =404;
+}
+```
+
+此配置沿用 `server` 的 `root`，应指向部署后的 `dist` 目录；若使用 `alias` 或目录仅配置在其他 `location`，需按实际路径配置本块的 `root`。子路径 `/viewer/` 部署时将匹配路径改为 `/viewer/gs-assets/decoder.mjs`。宝塔用户可在“网站 → 对应域名 → 设置 → 配置文件”中修改。
+
+运行 `sudo nginx -t`，成功后执行 `sudo systemctl reload nginx`（面板安装可使用其重载功能）。用 `curl -I https://你的域名/gs-assets/decoder.mjs` 检查类型已变为 `application/javascript` 或 `text/javascript`；同时确认 Worker 为 JavaScript、WASM 为 `application/wasm`，缺失资产不能回退到 HTML。清除 CDN/Service Worker 旧缓存并按 `Ctrl + Shift + R` 刷新后重试。
+
+完整配置与排查流程见仓库 [Web SDK 部署说明](../../docs/SDK-guide.md#12-nginx-的解码资产-mime-配置)。独立模板源码包用户可直接按本节操作。增强解码需要 COOP/COEP；这些头不能修复错误 MIME 或替代 HTTPS。
 
 升级SDK时替换vendor中的tarball、更新package.json文件依赖并重新生成pnpm-lock.yaml；运行unit/typecheck/build及真实浏览器加载/翻转/卸载验收，再发布。两模板故意各自携带相同viewer/style/tests以保持解压即用；维护时同时更新，仓库工具校验一致性。SDK与模板均为preview，附于原生v0.2.2 release，实际来源commit/hash以MANIFEST.json为准。模型和SparkJS不随包分发；第三方许可在安装包资源licenses中，仓库自有代码遵循仓库所有者条款。
+
+
+## preview.3 默认特性与迁移
+
+模板通过公开 EngineOptions 配置 `decoder: {mode:'auto',threads:4}` 与
+`sorting: {mode:'adaptive'}`，并在诊断面板展示实际解码路径和排序状态。
+完整递归复制包内 dist/assets，保留 threaded/、manifest.json 与 licenses。
+增强启动复用 threaded/decoder.mjs，不需要额外 worker.js。
+
+自动 pthreads 需要安全上下文、crossOriginIsolated、SharedArrayBuffer、
+分块路径至少 262,144 点、至少两个硬件线程及足够预算。小模型、SPZ v4、
+非隔离或增强初始化受限时使用 single；gzip 和重定位仍为串行。
+实际后端以 snapshot.decoder 为准，线程更多不保证更快。
+
+```ts
+// App 的固定 options：保留 preview.2 排序/解码行为
+decoder: { mode: 'single' as const },
+sorting: { mode: 'strict' as const },
+```
+
+这些是创建时选项，更改后需卸载并重建。默认 adaptive 仍实时更新投影、
+SH 和裁剪，仅在小位移时暂时复用透明度顺序，截图强制刷新；无需隔离也能
+使用自适应排序。GPU 耗时属于 gpuFrameId，排序状态属于提交 frameId。
+
+部署后检查 `isSecureContext`、`crossOriginIsolated` 及 SharedArrayBuffer，
+实际加载较大 PLY/SPZ 后确认面板显示 pthreads。require-corp 影响第三方
+资源，跨源模型/CDN 需正确 CORS/CORP。子 location 声明自己的 add_header
+时核验 Nginx 继承，文档与 Worker 响应都需包含隔离头。
+旧版本迁移详情：SDK 包的 docs/SDK-migration-preview3.md；
+[仓库迁移指南](https://github.com/XJI1234/Native3DGSViewer/blob/codex/web-sdk-preview3/ForWeb/docs/SDK-migration-preview3.md)。
+
+新版源码包内 MANIFEST.json 记录实际模板和 SDK 提交、文件完整性清单；
+Release 不附独立哈希文件。Web 包独立于原生 v0.2.2 tag，不表示发布 npm。

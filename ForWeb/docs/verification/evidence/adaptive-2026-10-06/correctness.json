@@ -1,0 +1,54 @@
+{
+  "complete": true,
+  "result": [
+    {
+      "packing": "padded",
+      "freshEqual": true,
+      "rotationReuseEqual": true,
+      "currentProjection": true,
+      "newVisibility": true,
+      "translationReuse": true,
+      "idleRefresh": true,
+      "captureEqual": true,
+      "yFlipFresh": true,
+      "allCulledBlack": true,
+      "bytes": [
+        8248,
+        8248
+      ]
+    },
+    {
+      "packing": "compact",
+      "freshEqual": true,
+      "rotationReuseEqual": true,
+      "currentProjection": true,
+      "newVisibility": true,
+      "translationReuse": true,
+      "idleRefresh": true,
+      "captureEqual": true,
+      "yFlipFresh": true,
+      "allCulledBlack": true,
+      "bytes": [
+        7728,
+        7728
+      ]
+    },
+    {
+      "packing": "tiled",
+      "freshEqual": true,
+      "rotationReuseEqual": true,
+      "currentProjection": true,
+      "newVisibility": true,
+      "translationReuse": true,
+      "idleRefresh": true,
+      "captureEqual": true,
+      "yFlipFresh": true,
+      "allCulledBlack": true,
+      "bytes": [
+        14840,
+        14840
+      ]
+    }
+  ],
+  "errors": []
+}

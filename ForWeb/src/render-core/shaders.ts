@@ -30,6 +30,12 @@ fn sh(rgb:vec3f,dir:vec3f,i:u32)->vec3f {
   // count, so culled ellipses are unreachable and need no clearing write.
   pairs[i]=Pair(0xffffffffu,i);
   let delta=v3(i,0)-frame.camera.xyz;let p=view(delta);let compact=batch.compact!=0u;let s=v3(i,select(4u,3u,compact));let q=vec4f(v3(i,select(8u,6u,compact)),value(i,select(11u,9u,compact)));let alpha=value(i,select(15u,13u,compact));
+  if(frame.clip.z!=0){
+    // Retained ordering includes culled points. Clear visibility before any early return.
+    ellipses[i].colorBA.y=0;
+    let largest=max(abs(delta.x),max(abs(delta.y),abs(delta.z)));
+    if(largest<=1.0e19){pairs[i].key=min(~bitcast<u32>(dot(delta,delta)),0xfffffffeu);}
+  }
   let support=max(s.x,max(s.y,s.z))*frame.quality.x;let depth=-p.z;
   if(alpha<=frame.quality.y || depth+support<frame.clip.x || depth-support>frame.clip.y){return;}
   let d=max(depth,frame.clip.x);let fx=frame.viewport.x;let fy=frame.viewport.y;
@@ -50,7 +56,8 @@ fn sh(rgb:vec3f,dir:vec3f,i:u32)->vec3f {
   let metric=dot(delta,delta);var direction=vec3f(0,0,1);if(largest>0){direction=normalize(delta/largest);}
   let color=sh(v3(i,select(12u,10u,compact)),direction,i);
   ellipses[i]=Ellipse(center,axis0,axis1,color.rg,vec2f(color.b,alpha));
-  pairs[i].key=min(~bitcast<u32>(metric),0xfffffffeu);atomicAdd(&args[1],1u);
+  pairs[i].key=min(~bitcast<u32>(metric),0xfffffffeu);
+  if(frame.clip.z==0){atomicAdd(&args[1],1u);}
 }
 `;
 export const drawing = `
@@ -63,7 +70,9 @@ struct Pair { key:u32,index:u32 }
 struct Vertex { @builtin(position) position:vec4f,@location(0) gaussian:vec2f,@location(1) color:vec4f }
 @vertex fn vertex(@builtin(vertex_index) v:u32,@builtin(instance_index) instance:u32)->Vertex {
   let corners=array<vec2f,4>(vec2f(-1,-1),vec2f(1,-1),vec2f(-1,1),vec2f(1,1));
-  let e=ellipses[pairs[instance].index];let uv=corners[v];let pixel=e.center+uv.x*e.axis0+uv.y*e.axis1;
+  let index=pairs[instance].index;
+  if(frame.clip.z!=0 && ellipses[index].colorBA.y==0){return Vertex(vec4f(2,2,2,1),vec2f(0),vec4f(0));}
+  let e=ellipses[index];let uv=corners[v];let pixel=e.center+uv.x*e.axis0+uv.y*e.axis1;
   return Vertex(vec4f(pixel.x*2/frame.viewport.z-1,1-pixel.y*2/frame.viewport.w,0,1),uv*frame.quality.x,vec4f(e.colorRG,e.colorBA));
 }
 @fragment fn fragment(input:Vertex)->@location(0) vec4f {

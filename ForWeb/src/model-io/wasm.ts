@@ -1,4 +1,5 @@
 export interface Decoder {
+    PThread?: { terminateAllThreads(): void };
     HEAPU8: Uint8Array;
     _malloc(bytes: number): number;
     _free(ptr: number): void;
@@ -26,14 +27,72 @@ export interface Decoder {
     _gs_pack(start: number, count: number): number;
     _gs_error(): number;
     _gs_release(): void;
+    _gs_set_threads(threads: number): number;
+    _gs_decode_batch(
+        ptr: number,
+        bytes: number,
+        rdf: number,
+        count: number,
+        version: number,
+        fractional: number,
+    ): number;
+    _gs_rebase_parallel(ptr: number, count: number, stride: number, x: number, y: number, z: number): number;
+    _gs_timing(stage: number): number;
     UTF8ToString(ptr: number): string;
 }
-export async function createDecoder(baseUrl: string): Promise<Decoder> {
-    const moduleUrl = new URL('decoder.mjs', baseUrl).href;
-    const factory = (await import(/* @vite-ignore */ moduleUrl)).default as (
-        options: unknown,
-    ) => Promise<Decoder>;
-    return factory({ locateFile: (path: string) => new URL(path, baseUrl).href });
+export async function createDecoder(baseUrl: string, threads = 1): Promise<Decoder> {
+    const directory = threads > 1 ? new URL('threaded/', baseUrl).href : baseUrl;
+    const moduleUrl = new URL('decoder.mjs', directory).href;
+    const options: {
+        locateFile: (path: string) => string;
+        pthreadPoolSize: number;
+        PThread?: Decoder['PThread'];
+    } = {
+        locateFile: (path) => new URL(path, directory).href,
+        pthreadPoolSize: threads - 1,
+    };
+    let failed = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let initialized: Decoder | undefined;
+    try {
+        // The optional module download and its factory share one initialization deadline.
+        const pending = (async () => {
+            const factory = (await import(/* @vite-ignore */ moduleUrl)).default as (
+                options: unknown,
+            ) => Promise<Decoder>;
+            // A late import cannot start another pool after auto has selected the base runtime.
+            if (failed) throw Error('Timeout: pthread initialization');
+            return factory(options);
+        })();
+        void pending.then(
+            (module) => {
+                if (failed) disposeDecoder(module);
+            },
+            () => {},
+        );
+        initialized =
+            threads === 1
+                ? await pending
+                : await Promise.race([
+                      pending,
+                      new Promise<never>((_, reject) => {
+                          timer = setTimeout(() => reject(Error('Timeout: pthread initialization')), 10000);
+                      }),
+                  ]);
+        check(initialized, initialized._gs_set_threads(threads));
+        return initialized;
+    } catch (reason) {
+        failed = true;
+        if (initialized) disposeDecoder(initialized);
+        else options.PThread?.terminateAllThreads();
+        throw reason;
+    } finally {
+        if (timer !== undefined) clearTimeout(timer);
+    }
+}
+export function disposeDecoder(module: Decoder): void {
+    module._gs_release();
+    module.PThread?.terminateAllThreads();
 }
 export function check(module: Decoder, value: number): void {
     if (!value) throw Error(module.UTF8ToString(module._gs_error()));

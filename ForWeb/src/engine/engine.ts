@@ -1,6 +1,8 @@
+import { type DecoderInfo, type DecoderOptions, validateDecoderOptions } from '../model-io/decoder-options';
 import { decode } from '../model-io/loader';
 import type { FrameStats, GpuScene } from '../render-core/renderer';
 import { Renderer } from '../render-core/renderer';
+import { resolveSortingOptions, type SortingOptions } from '../render-core/sorting-policy';
 import { abortable } from '../splat-types/async';
 import type { EngineError, ErrorCode, Limits, Progress, Result, Scene, Source } from '../splat-types/index';
 import { defaultLimits, error, validateLimits } from '../splat-types/index';
@@ -17,6 +19,7 @@ function storageCleanupFailure(
     return undefined;
 }
 export interface Snapshot {
+    readonly decoder?: DecoderInfo | null;
     readonly phase:
         | 'Idle'
         | 'Loading'
@@ -38,6 +41,8 @@ export interface Snapshot {
     readonly viewportRevision: number;
 }
 export interface EngineOptions {
+    sorting?: SortingOptions;
+    decoder?: DecoderOptions;
     canvas: HTMLCanvasElement;
     assets?: { baseUrl: URL | string; workerUrl?: URL | string };
     limits?: Partial<Limits>;
@@ -61,6 +66,7 @@ export class WebEngine {
     private stopped = false;
     private disposal: Promise<void> | undefined;
     private snapshot: Snapshot = Object.freeze({
+        decoder: null,
         phase: 'Idle',
         requestId: 0,
         sceneCount: 0,
@@ -83,12 +89,14 @@ export class WebEngine {
     private sceneEpoch = 0;
     private readonly limits: Limits;
     private readonly assets: string;
+    private readonly decoderOptions: DecoderOptions;
     private constructor(
         private renderer: Renderer,
         private options: EngineOptions,
         private readonly maxFramesInFlight: 1 | 2 | 3,
     ) {
         this.limits = { ...defaultLimits, ...options.limits };
+        this.decoderOptions = Object.freeze({ ...options.decoder });
         this.assets = new URL(
             String(options.assets?.baseUrl ?? new URL(/* @vite-ignore */ './assets/', import.meta.url)),
             location.href,
@@ -101,12 +109,22 @@ export class WebEngine {
         try {
             const limits = { ...defaultLimits, ...options.limits };
             validateLimits(limits);
+            const decoderOptions = Object.freeze({ ...options.decoder });
+            validateDecoderOptions(decoderOptions);
+            const sorting = resolveSortingOptions(options.sorting);
             const maxFramesInFlight = options.maxFramesInFlight ?? 2;
             if (![1, 2, 3].includes(maxFramesInFlight))
                 throw Error('InvalidInput: maxFramesInFlight must be 1, 2 or 3');
             if (!options.canvas) throw Error('InvalidInput: canvas');
-            renderer = await Renderer.create(options.canvas, limits.gpuBytes);
-            return { ok: true, value: new WebEngine(renderer, options, maxFramesInFlight) };
+            renderer = await Renderer.create(options.canvas, limits.gpuBytes, sorting);
+            return {
+                ok: true,
+                value: new WebEngine(
+                    renderer,
+                    { ...options, decoder: decoderOptions, sorting },
+                    maxFramesInFlight,
+                ),
+            };
         } catch (reason) {
             await renderer?.dispose();
             return {
@@ -140,6 +158,7 @@ export class WebEngine {
             progress: next.progress ? Object.freeze({ ...next.progress }) : null,
             error: next.error ? Object.freeze({ ...next.error }) : null,
             stats: next.stats ? Object.freeze({ ...next.stats }) : null,
+            decoder: next.decoder ? Object.freeze({ ...next.decoder }) : null,
         });
         for (const observer of this.observers) {
             try {
@@ -156,9 +175,14 @@ export class WebEngine {
               ? 'Ready'
               : 'Idle';
     }
-    private sceneMetadata(): Pick<Snapshot, 'sceneCount' | 'degree' | 'source'> {
+    private sceneMetadata(): Pick<Snapshot, 'sceneCount' | 'degree' | 'source' | 'decoder'> {
         const scene = this.active?.scene ?? this.retainedScene;
-        return { sceneCount: scene?.count ?? 0, degree: scene?.degree ?? 0, source: scene?.source ?? null };
+        return {
+            sceneCount: scene?.count ?? 0,
+            degree: scene?.degree ?? 0,
+            source: scene?.source ?? null,
+            decoder: scene?.decoder ?? null,
+        };
     }
     private surfacePhase(): Snapshot['phase'] {
         return ['Loading', 'Uploading', 'Recovering', 'Faulted'].includes(this.snapshot.phase)
@@ -183,7 +207,11 @@ export class WebEngine {
             this.snapshot.phase !== 'Uploading' &&
             this.snapshot.phase !== 'Faulted'
         ) {
-            if (this.dirty || this.active.revision !== this.camera.revision + this.revision) {
+            if (
+                this.dirty ||
+                this.active.revision !== this.camera.revision + this.revision ||
+                this.renderer.needsSort(this.active)
+            ) {
                 try {
                     const stats = this.draw(this.active);
                     const queue = this.frameQueue;
@@ -340,6 +368,7 @@ export class WebEngine {
                 },
                 this.renderer.retainedBytes,
                 this.options.assets?.workerUrl,
+                this.decoderOptions,
             );
             acquired(scene);
             if (controller.signal.aborted || id !== this.requestId) throw Error('Cancelled');
@@ -440,6 +469,7 @@ export class WebEngine {
                     sceneCount: scene.count,
                     degree: scene.degree,
                     source: scene.source,
+                    decoder: scene.decoder ?? null,
                     progress: null,
                     error: null,
                     stats,
@@ -531,6 +561,7 @@ export class WebEngine {
             sceneCount: 0,
             degree: 0,
             source: null,
+            decoder: null,
             progress: null,
             stats: null,
             error: this.snapshot.phase === 'Faulted' ? this.snapshot.error : null,
@@ -682,7 +713,11 @@ export class WebEngine {
                 try {
                     await oldRenderer.dispose();
                     if (controller.signal.aborted) throw Error('Cancelled');
-                    const creating = Renderer.create(this.options.canvas, this.limits.gpuBytes);
+                    const creating = Renderer.create(
+                        this.options.canvas,
+                        this.limits.gpuBytes,
+                        this.options.sorting,
+                    );
                     void creating
                         .then(async (renderer) => {
                             if (controller.signal.aborted) await renderer.dispose();
@@ -818,6 +853,7 @@ export class WebEngine {
             const failed = storageCleanupFailure(cleanup);
             this.publish({
                 phase: 'Stopped',
+                decoder: null,
                 sceneCount: 0,
                 degree: 0,
                 source: null,

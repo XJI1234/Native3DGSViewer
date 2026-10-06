@@ -29,23 +29,29 @@ let rotate=(pose:Pose,angle:number):Pose=>{
 };
 if(mode==='native'){
     const frameDepth=Number(new URLSearchParams(location.search).get('frames')??2) as 1|2|3;
-    const result=await createEngine({canvas,assets:{baseUrl:new URL('/assets/',location.href)},maxFramesInFlight:frameDepth});
+    const decoderMode=new URLSearchParams(location.search).get('decoder')??'single';
+    const decoderThreads=Number(new URLSearchParams(location.search).get('threads')??4);
+    const sortingMode=new URLSearchParams(location.search).get('sorting')??'strict';
+    const result=await createEngine({canvas,assets:{baseUrl:new URL('/assets/',location.href)},maxFramesInFlight:frameDepth,
+        sorting:{mode:sortingMode as 'strict'|'adaptive'},
+        decoder:{mode:decoderMode as 'single'|'auto'|'parallel',threads:decoderThreads}});
     if(!result.ok)throw Error(JSON.stringify(result));
     const engine=result.value;engine.pause();
     (window as unknown as {benchInternals:unknown}).benchInternals={engine};
     const internals=engine as unknown as {renderer:Renderer;active:GpuScene};
     if(interactiveMode){
         // Observe actual SDK submissions; retain its normal in-flight-frame gate.
+        let sortedInputTime:number|null=null;
         const render=internals.renderer.render.bind(internals.renderer);
-        internals.renderer.render=(...args)=>{const stats=render(...args),age=performance.now()-inputTime;frameObserver?.({cpuMs:stats.cpuMs,cameraAgeMs:age,sorted:stats.sorted,sortAgeMs:stats.sorted?age:null,positionErrorRatio:0});return stats;};
-        beginInteraction=()=>engine.resume();endInteraction=()=>engine.pause();
+        internals.renderer.render=(...args)=>{const stats=render(...args),age=performance.now()-inputTime;if(stats.sorted)sortedInputTime=inputTime;frameObserver?.({cpuMs:stats.cpuMs,cameraAgeMs:age,sorted:stats.sorted,sortAgeMs:sortedInputTime===null?null:performance.now()-sortedInputTime,positionErrorRatio:stats.sortPositionErrorRatio??0});return stats;};
+        beginInteraction=()=>{sortedInputTime=null;engine.resume();};endInteraction=()=>engine.pause();
         const queue=internals.renderer.device.queue,done=queue.onSubmittedWorkDone.bind(queue);
         queue.onSubmittedWorkDone=()=>{const submitted=performance.now(),input=inputTime,observer=completionObserver,result=done();if(observer)void result.then(()=>observer(input,submitted,performance.now()),()=>{});return result;};
         drainInteraction=()=>done();
     }
     setPose=pose=>engine.camera.setPose(pose);
     draw=pose=>{setPose(pose);const scene=internals.active;return internals.renderer.render(scene,engine.camera.frame(scene.scene,1920,1080,scene.scene.count,scene.scene.degree,scene.scene.stride,scene.scene.pageCapacity),engine.camera.revision);};
-    load=async(path,pose)=>{const start=performance.now();const result=await engine.open({kind:'url',url:new URL('/models/'+path,location.href).href}).result;if(!result.ok)throw Error(JSON.stringify(result));const firstFrameMs=performance.now()-start;initial=pose??engine.camera.getPose();setPose(initial);draw(initial);await internals.renderer.device.queue.onSubmittedWorkDone();const info=engine.capabilities.adapter;return {ms:performance.now()-start,firstFrameMs,count:engine.getSnapshot().sceneCount,degree:engine.getSnapshot().degree,pose:initial,adapter:{vendor:info.vendor,architecture:info.architecture,device:info.device,description:info.description}};};
+    load=async(path,pose)=>{const start=performance.now();const result=await engine.open({kind:'url',url:new URL('/models/'+path,location.href).href}).result;if(!result.ok)throw Error(JSON.stringify(result));const firstFrameMs=performance.now()-start;initial=pose??engine.camera.getPose();setPose(initial);draw(initial);await internals.renderer.device.queue.onSubmittedWorkDone();const info=engine.capabilities.adapter;return {ms:performance.now()-start,firstFrameMs,count:engine.getSnapshot().sceneCount,degree:engine.getSnapshot().degree,pose:initial,decoder:engine.getSnapshot().decoder,decodeTimings:internals.active.scene.decodeTimings,adapter:{vendor:info.vendor,architecture:info.architecture,device:info.device,description:info.description}};};
     capture=async()=>{const result=await engine.capture();if(!result.ok)throw Error(JSON.stringify(result));return result.value.rgba;};
     dispose=async()=>{await engine.dispose();const failure=engine.getSnapshot().error;if(failure?.stage==='StorageCleanup')throw Error(failure.diagnostic);};
     completedFrame=async(pose)=>{
@@ -96,7 +102,7 @@ if(mode==='native'){
         if(!pose)throw Error('Spark needs reference world pose');
         if(mesh){scene.remove(mesh);mesh.dispose();}
         const start=performance.now();mesh=new SplatMesh({url:new URL('/models/'+path,location.href).href,lod:false,nonLod:true,enableLod:false,extSplats:true});
-        await mesh.initialized;mesh.rotation.x=path.endsWith('.ply')?Math.PI:0;scene.add(mesh);initial=pose;setPose(pose);
+        await mesh.initialized;const initializedMs=performance.now()-start;mesh.rotation.x=path.endsWith('.ply')?Math.PI:0;scene.add(mesh);initial=pose;setPose(pose);
         await spark.update({scene,camera});
         const deadline=performance.now()+120000;
         while(!spark.orderingTexture || spark.activeSplats!==mesh.numSplats || spark.sorting){if(performance.now()>deadline)throw Error('Spark first ordering timeout');draw(pose);await next();}
@@ -114,7 +120,7 @@ if(mode==='native'){
                 const result=call(...args);void result.then(()=>{if(!observed||generation!==interactionGeneration)return;sortCompletions++;sortPose=center;sortInputTime=match?.time??null;},()=>{});return result;
             }) as typeof worker.call;
         }
-        return {ms:performance.now()-start,firstFrameMs,count:mesh.numSplats,degree:mesh.splats?.getNumSh()??0,pose,rotationX:mesh.rotation.x};
+        return {ms:performance.now()-start,firstFrameMs,initializedMs,count:mesh.numSplats,degree:mesh.splats?.getNumSh()??0,pose,rotationX:mesh.rotation.x};
     };
     capture=async()=>{draw(initial);await delay(100);draw(initial);const gl=renderer.getContext(),rgba=new Uint8Array(1920*1080*4);gl.readPixels(0,0,1920,1080,gl.RGBA,gl.UNSIGNED_BYTE,rgba);const flipped=new Uint8Array(rgba.length);for(let y=0;y<1080;y++)flipped.set(rgba.subarray(y*1920*4,(y+1)*1920*4),(1079-y)*1920*4);return flipped;};
     dispose=async()=>{if(query)gl.deleteQuery(query);mesh?.dispose();spark.dispose();renderer.dispose();renderer.forceContextLoss();};

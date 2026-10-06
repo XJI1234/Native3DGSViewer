@@ -1,0 +1,3 @@
+# Full per-frame browser JSON is published in raw-browser-samples.zip.
+web-repeat-*/*.json
+!web-repeat-*/results.json

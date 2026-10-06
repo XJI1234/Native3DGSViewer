@@ -1,0 +1,627 @@
+{
+  "date": "2026-10-06T09:48:46.006068+00:00",
+  "complete": true,
+  "protocol": "Public native model-loader/render-core SDK host, visible HWND DirectComposition swapchain, accepted DXGI Presents,120Hz paced input/render,5s warm+20s sample,full SH3/stride1/no mitigation,fresh process per repetition",
+  "sourceCommit": "b55a0cb575eed5b6a378a85ef23d21a95be65725",
+  "binarySha256": "787a8fa9ead4cb34f6e3817de689a6c832a4a768d732a40e141d4491d5d52cc1",
+  "sourceSha256": "5f94ffb116e234f081ed4dfac7c7d748f1c611a444383726225962249afa1f2b",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "rows": [
+    {
+      "model": "shengyi_v1.ply",
+      "repetition": 0,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "inputBytes": 189924365,
+      "decodeMs": 404.3473,
+      "firstFrameMs": 476.9906,
+      "durationMs": 20001.8992,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038601134436,
+      "frameMs": 8.33065356101626,
+      "onePercentLowFps": 108.21640080719929,
+      "pose": {
+        "position": [
+          0.203799337148666,
+          0.216009259223938,
+          4.36529937466973
+        ],
+        "target": [
+          0.203799337148666,
+          0.216009259223938,
+          -0.085798978805542
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "shengyi_v1.ply-native-0.log"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "repetition": 0,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "inputBytes": 17927619,
+      "decodeMs": 603.9727,
+      "firstFrameMs": 661.1264,
+      "durationMs": 20001.9401,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038355679307,
+      "frameMs": 8.330670595585195,
+      "onePercentLowFps": 108.36574097195783,
+      "pose": {
+        "position": [
+          0.2037353515625,
+          -0.2159423828125,
+          4.57125672925018
+        ],
+        "target": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_shengyi_v1.spz-native-0.log"
+    },
+    {
+      "model": "he_v1.ply",
+      "repetition": 0,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "inputBytes": 701629950,
+      "decodeMs": 1315.2664,
+      "firstFrameMs": 1490.4261,
+      "durationMs": 20001.8759,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038740966291,
+      "frameMs": 8.330643856726368,
+      "onePercentLowFps": 108.87491503022687,
+      "pose": {
+        "position": [
+          -0.0546509623527527,
+          0.100226942449808,
+          4.97627698270575
+        ],
+        "target": [
+          -0.0546509623527527,
+          0.100226942449808,
+          -0.0261414647102356
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "he_v1.ply-native-0.log"
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "repetition": 0,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "inputBytes": 51066812,
+      "decodeMs": 2010.8595,
+      "firstFrameMs": 2176.3023,
+      "durationMs": 20001.8847,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038688154222,
+      "frameMs": 8.330647521865874,
+      "onePercentLowFps": 106.5251271933172,
+      "pose": {
+        "position": [
+          -0.0546875,
+          0.1002197265625,
+          4.96898646210385
+        ],
+        "target": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_he_v1.spz-native-0.log"
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "repetition": 0,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "inputBytes": 5305366675,
+      "decodeMs": 9830.8156,
+      "firstFrameMs": 11082.4704,
+      "durationMs": 20017.8246,
+      "acceptedPresents": 578,
+      "renderCalls": 578,
+      "fps": 28.8742663875674,
+      "frameMs": 34.632914532871986,
+      "onePercentLowFps": 27.7969885854447,
+      "pose": {
+        "position": [
+          -48.8215026855469,
+          -4.06681442260742,
+          3569.24349424154
+        ],
+        "target": [
+          -48.8215026855469,
+          -4.06681442260742,
+          -10.4056091308594
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "jiulonghu_v1.ply-native-0.log"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "repetition": 0,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "inputBytes": 500754282,
+      "decodeMs": 14940.6952,
+      "firstFrameMs": 16160.1916,
+      "durationMs": 20007.5801,
+      "acceptedPresents": 578,
+      "renderCalls": 578,
+      "fps": 28.8890509052617,
+      "frameMs": 34.61519048442901,
+      "onePercentLowFps": 27.82257211888871,
+      "pose": {
+        "position": [
+          -48.8214111328125,
+          -4.0667724609375,
+          3586.75612233193
+        ],
+        "target": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_jiulonghu_v1.spz-native-0.log"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "repetition": 1,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "inputBytes": 500754282,
+      "decodeMs": 14582.8684,
+      "firstFrameMs": 15746.3883,
+      "durationMs": 20019.864,
+      "acceptedPresents": 580,
+      "renderCalls": 580,
+      "fps": 28.9712257785567,
+      "frameMs": 34.51700689655177,
+      "onePercentLowFps": 28.378970501762545,
+      "pose": {
+        "position": [
+          -48.8214111328125,
+          -4.0667724609375,
+          3586.75612233193
+        ],
+        "target": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_jiulonghu_v1.spz-native-1.log"
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "repetition": 1,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "inputBytes": 5305366675,
+      "decodeMs": 9612.0376,
+      "firstFrameMs": 10809.3495,
+      "durationMs": 20032.5565,
+      "acceptedPresents": 578,
+      "renderCalls": 578,
+      "fps": 28.8530323126756,
+      "frameMs": 34.658402249134966,
+      "onePercentLowFps": 27.910819350012726,
+      "pose": {
+        "position": [
+          -48.8215026855469,
+          -4.06681442260742,
+          3569.24349424154
+        ],
+        "target": [
+          -48.8215026855469,
+          -4.06681442260742,
+          -10.4056091308594
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "jiulonghu_v1.ply-native-1.log"
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "repetition": 1,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "inputBytes": 51066812,
+      "decodeMs": 1907.171,
+      "firstFrameMs": 2071.0199,
+      "durationMs": 20002.0677,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.037589913767,
+      "frameMs": 8.330723740108272,
+      "onePercentLowFps": 108.7496158301601,
+      "pose": {
+        "position": [
+          -0.0546875,
+          0.1002197265625,
+          4.96898646210385
+        ],
+        "target": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_he_v1.spz-native-1.log"
+    },
+    {
+      "model": "he_v1.ply",
+      "repetition": 1,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "inputBytes": 701629950,
+      "decodeMs": 1317.3724,
+      "firstFrameMs": 1471.3635,
+      "durationMs": 20001.9577,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038250055893,
+      "frameMs": 8.330677925864242,
+      "onePercentLowFps": 109.01786281381332,
+      "pose": {
+        "position": [
+          -0.0546509623527527,
+          0.100226942449808,
+          4.97627698270575
+        ],
+        "target": [
+          -0.0546509623527527,
+          0.100226942449808,
+          -0.0261414647102356
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "he_v1.ply-native-1.log"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "repetition": 1,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "inputBytes": 17927619,
+      "decodeMs": 563.9367,
+      "firstFrameMs": 615.0435,
+      "durationMs": 20001.0008,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.04399299859,
+      "frameMs": 8.330279383590195,
+      "onePercentLowFps": 108.57865815661438,
+      "pose": {
+        "position": [
+          0.2037353515625,
+          -0.2159423828125,
+          4.57125672925018
+        ],
+        "target": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_shengyi_v1.spz-native-1.log"
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "repetition": 1,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "inputBytes": 189924365,
+      "decodeMs": 371.4185,
+      "firstFrameMs": 424.8393,
+      "durationMs": 20001.2107,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.042733213145,
+      "frameMs": 8.330366805497706,
+      "onePercentLowFps": 107.33489326711299,
+      "pose": {
+        "position": [
+          0.203799337148666,
+          0.216009259223938,
+          4.36529937466973
+        ],
+        "target": [
+          0.203799337148666,
+          0.216009259223938,
+          -0.085798978805542
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "shengyi_v1.ply-native-1.log"
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "repetition": 2,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "inputBytes": 189924365,
+      "decodeMs": 361.2667,
+      "firstFrameMs": 411.9504,
+      "durationMs": 20000.9948,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.044029009997,
+      "frameMs": 8.330276884631406,
+      "onePercentLowFps": 107.80862562752012,
+      "pose": {
+        "position": [
+          0.203799337148666,
+          0.216009259223938,
+          4.36529937466973
+        ],
+        "target": [
+          0.203799337148666,
+          0.216009259223938,
+          -0.085798978805542
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "shengyi_v1.ply-native-2.log"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "repetition": 2,
+      "count": 804758,
+      "degree": 3,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "inputBytes": 17927619,
+      "decodeMs": 552.2297,
+      "firstFrameMs": 603.7113,
+      "durationMs": 20001.5145,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.040909902098,
+      "frameMs": 8.330493336109932,
+      "onePercentLowFps": 108.79601598449953,
+      "pose": {
+        "position": [
+          0.2037353515625,
+          -0.2159423828125,
+          4.57125672925018
+        ],
+        "target": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_shengyi_v1.spz-native-2.log"
+    },
+    {
+      "model": "he_v1.ply",
+      "repetition": 2,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "inputBytes": 701629950,
+      "decodeMs": 1303.2445,
+      "firstFrameMs": 1460.2458,
+      "durationMs": 20001.7566,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.039456934497,
+      "frameMs": 8.33059416909624,
+      "onePercentLowFps": 108.03863837494976,
+      "pose": {
+        "position": [
+          -0.0546509623527527,
+          0.100226942449808,
+          4.97627698270575
+        ],
+        "target": [
+          -0.0546509623527527,
+          0.100226942449808,
+          -0.0261414647102356
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "he_v1.ply-native-2.log"
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "repetition": 2,
+      "count": 2973002,
+      "degree": 3,
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "inputBytes": 51066812,
+      "decodeMs": 1979.525,
+      "firstFrameMs": 2142.3962,
+      "durationMs": 20001.8678,
+      "acceptedPresents": 2401,
+      "renderCalls": 2401,
+      "fps": 120.038789577441,
+      "frameMs": 8.330640483132054,
+      "onePercentLowFps": 107.320118649387,
+      "pose": {
+        "position": [
+          -0.0546875,
+          0.1002197265625,
+          4.96898646210385
+        ],
+        "target": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_he_v1.spz-native-2.log"
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "repetition": 2,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "inputBytes": 5305366675,
+      "decodeMs": 9637.7325,
+      "firstFrameMs": 10884.0733,
+      "durationMs": 20011.9598,
+      "acceptedPresents": 579,
+      "renderCalls": 579,
+      "fps": 28.9326985356027,
+      "frameMs": 34.562970293609666,
+      "onePercentLowFps": 28.360346563435183,
+      "pose": {
+        "position": [
+          -48.8215026855469,
+          -4.06681442260742,
+          3569.24349424154
+        ],
+        "target": [
+          -48.8215026855469,
+          -4.06681442260742,
+          -10.4056091308594
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "jiulonghu_v1.ply-native-2.log"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "repetition": 2,
+      "count": 22480361,
+      "degree": 3,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "inputBytes": 500754282,
+      "decodeMs": 14141.4294,
+      "firstFrameMs": 15320.9043,
+      "durationMs": 20014.1149,
+      "acceptedPresents": 580,
+      "renderCalls": 580,
+      "fps": 28.9795478290174,
+      "frameMs": 34.50709465517243,
+      "onePercentLowFps": 28.288879245524356,
+      "pose": {
+        "position": [
+          -48.8214111328125,
+          -4.0667724609375,
+          3586.75612233193
+        ],
+        "target": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "rawFile": "spz_jiulonghu_v1.spz-native-2.log"
+    }
+  ],
+  "failures": []
+}

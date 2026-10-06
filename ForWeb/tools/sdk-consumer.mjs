@@ -1,24 +1,81 @@
-import {mkdir,writeFile,readFile,cp} from 'node:fs/promises';
-import {spawn,spawnSync} from 'node:child_process';
-import {resolve} from 'node:path';
+import { mkdir, writeFile, readFile, cp, mkdtemp, rm } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { spawn, spawnSync } from 'node:child_process';
+import { resolve, sep } from 'node:path';
 import assert from 'node:assert/strict';
-import {chromium} from '@playwright/test';
-const root=resolve('.local/sdk-consumer');await mkdir(root,{recursive:true});
-const run=(cmd,args,cwd)=>{const r=spawnSync(cmd,args,{cwd,stdio:'inherit',shell:process.platform==='win32'});if(r.status!==0)throw Error(cmd+' failed');};
-const archive='sdk-'+Date.now()+'.tgz';
-run('pnpm',['pack','--out','.local/'+archive],resolve('.'));
-await writeFile(root+'/package.json',JSON.stringify({private:true,type:'module',dependencies:{'@native3dgs/web':'file:../'+archive,react:'19.3.0','react-dom':'19.3.0',vue:'3.5.43'},devDependencies:{vite:'8.3.2',typescript:'6.0.3','@webgpu/types':'0.1.74','@types/react':'19.3.0','@types/react-dom':'19.3.0','@vitejs/plugin-vue':'6.0.9','vue-tsc':'3.3.12'}},null,2));
-run('pnpm',['install','--ignore-scripts'],root);
-await cp('dist/assets',root+'/public/gs-assets',{recursive:true});
-for(const [document,language,target] of [['React-integration.md','tsx','DocumentedReact.tsx'],['Vue-integration.md','vue','DocumentedVue.vue']]){
-    const markdown=await readFile('docs/'+document,'utf8');
-    const code=markdown.replaceAll('\r\n','\n').split('```'+language+'\n')[1]?.split('\n```')[0];
-    if(!code)throw Error('Missing documented component: '+document);
-    await writeFile(root+'/'+target,code);
+import { chromium } from '@playwright/test';
+await mkdir(resolve('.local'), { recursive: true });
+const root = await mkdtemp(resolve('.local/sdk-consumer-'));
+assert(root.startsWith(resolve('.local')+sep));
+try {
+const run = (cmd, args, cwd) => {
+    const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', shell: process.platform === 'win32' });
+    if (r.status !== 0) throw Error(cmd + ' failed');
+};
+const archive = 'sdk-' + Date.now() + '.tgz';
+run('pnpm', ['pack', '--out', '.local/' + archive], resolve('.'));
+await writeFile(
+    root + '/package.json',
+    JSON.stringify(
+        {
+            private: true,
+            type: 'module',
+            dependencies: {
+                '@native3dgs/web': 'file:../' + archive,
+                react: '19.3.0',
+                'react-dom': '19.3.0',
+                vue: '3.5.43',
+            },
+            devDependencies: {
+                vite: '8.3.2',
+                typescript: '6.0.3',
+                '@webgpu/types': '0.1.74',
+                '@types/react': '19.3.0',
+                '@types/react-dom': '19.3.0',
+                '@vitejs/plugin-vue': '6.0.9',
+                'vue-tsc': '3.3.12',
+            },
+        },
+        null,
+        2,
+    ),
+);
+run('pnpm', ['install', '--ignore-scripts'], root);
+await cp(root + '/node_modules/@native3dgs/web/dist/assets', root + '/public/gs-assets', { recursive: true });
+const manifest = JSON.parse(await readFile(root + '/public/gs-assets/manifest.json', 'utf8'));
+for (const file of manifest.files)
+    assert.equal(
+        createHash('sha256')
+            .update(await readFile(root + '/public/gs-assets/' + file.name))
+            .digest('hex'),
+        file.sha256,
+    );
+assert(manifest.files.some((file) => file.name === 'threaded/decoder.wasm'));
+assert(manifest.files.some((file) => file.name === 'threaded/decoder.mjs'));
+
+for (const [document, language, target] of [
+    ['React-integration.md', 'tsx', 'DocumentedReact.tsx'],
+    ['Vue-integration.md', 'vue', 'DocumentedVue.vue'],
+]) {
+    const markdown = await readFile('docs/' + document, 'utf8');
+    const code = markdown
+        .replaceAll('\r\n', '\n')
+        .split('```' + language + '\n')[1]
+        ?.split('\n```')[0];
+    if (!code) throw Error('Missing documented component: ' + document);
+    await writeFile(root + '/' + target, code);
 }
-await writeFile(root+'/vite.config.ts',"import {defineConfig} from 'vite';import vue from '@vitejs/plugin-vue';export default defineConfig({plugins:[vue()]});");
-await writeFile(root+'/index.html','<html><link rel="icon" href="data:,"><div id="react"></div><div id="vue"></div><script type="module" src="/main.ts"></script></html>');
-await writeFile(root+'/main.ts',`
+await writeFile(
+    root + '/vite.config.ts',
+    "import {defineConfig} from 'vite';import vue from '@vitejs/plugin-vue';const headers={'Cross-Origin-Opener-Policy':'same-origin','Cross-Origin-Embedder-Policy':'require-corp'};export default defineConfig({plugins:[vue()],server:{headers},preview:{headers}});",
+);
+await writeFile(
+    root + '/index.html',
+    '<html><link rel="icon" href="data:,"><div id="react"></div><div id="vue"></div><script type="module" src="/main.ts"></script></html>',
+);
+await writeFile(
+    root + '/main.ts',
+    `
 import {createElement as h,StrictMode,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {createApp,defineComponent,h as vh,ref,watch} from 'vue';
@@ -40,57 +97,266 @@ w.mountDynamic=()=>{
  function Viewer(){const [host,setHost]=useState<HTMLElement|null>(null),[show,setShow]=useState(false);const state=useReact(host,options);w.dynamicState=state;w.showDynamic=setShow;return show?h('div',{ref:setHost,style:{width:'320px',height:'240px'}}):null;}
  dynamic.render(h(StrictMode,null,h(Viewer)));w.unmountDynamic=()=>dynamic.unmount();
 };w.createEngine=createEngine;
-`);
-await writeFile(root+'/tsconfig.json',JSON.stringify({compilerOptions:{target:'ES2022',module:'ESNext',moduleResolution:'Bundler',jsx:'react-jsx',strict:true,skipLibCheck:true,noEmit:true,types:['@webgpu/types','vite/client']},include:['main.ts','*.tsx','*.vue']}));
-run('pnpm',['exec','vue-tsc','--noEmit'],root);
+`,
+);
+await writeFile(
+    root + '/tsconfig.json',
+    JSON.stringify({
+        compilerOptions: {
+            target: 'ES2022',
+            module: 'ESNext',
+            moduleResolution: 'Bundler',
+            jsx: 'react-jsx',
+            strict: true,
+            skipLibCheck: true,
+            noEmit: true,
+            types: ['@webgpu/types', 'vite/client'],
+        },
+        include: ['main.ts', '*.tsx', '*.vue'],
+    }),
+);
+run('pnpm', ['exec', 'vue-tsc', '--noEmit'], root);
 // Verify server imports do not touch window/document/navigator.
-await writeFile(root+'/ssr.mjs',"await import('@native3dgs/web');await import('@native3dgs/web/react');await import('@native3dgs/web/vue');console.log('SSR imports passed');");run('node',['ssr.mjs'],root);
-run('pnpm',['exec','vite','build'],root);
-const browser=await chromium.launch({channel:'msedge',headless:true});const records=[];
-try{
-for(const mode of ['preview','development']){
-const server=spawn(process.execPath,[resolve(root,'node_modules/vite/bin/vite.js'),...(mode==='preview'?['preview']:[]),'--host','127.0.0.1','--port','5174','--strictPort'],{cwd:root,stdio:'pipe',windowsHide:true});
-server.stderr.on('data',d=>process.stderr.write(d));
-const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-await page.addInitScript(()=>{
-    if(!globalThis.GPUAdapter||!globalThis.GPUDevice)return;
-    const devices=new Set(),request=GPUAdapter.prototype.requestDevice,destroy=GPUDevice.prototype.destroy;let created=0;
-    GPUAdapter.prototype.requestDevice=async function(...args){const device=await request.apply(this,args);created++;devices.add(device);return device;};
-    GPUDevice.prototype.destroy=function(){devices.delete(this);return destroy.call(this);};
-    window.deviceCounts=()=>({created,active:devices.size});
-});
-try{
-    let connected=false;for(let attempt=0;attempt<30&&!connected;attempt++){try{await page.goto('http://127.0.0.1:5174');connected=true;}catch{await new Promise(r=>setTimeout(r,100));}}
-    if(!connected)throw Error('Consumer server unavailable');
-    await page.waitForFunction(()=>window.reactState?.engine&&window.vueState?.engine.value,{timeout:60000});
-    await page.waitForFunction(expected=>window.deviceCounts().created===expected&&window.deviceCounts().active===2,mode==='preview'?2:3);
-    await page.evaluate(()=>window.toggleVue());
-    await page.waitForFunction(()=>!window.vueState.engine.value&&window.deviceCounts().active===1);
-    await page.evaluate(()=>window.toggleVue());
-    await page.waitForFunction(()=>window.vueState.engine.value&&window.deviceCounts().active===2);
-    const result=await page.evaluate(async()=>{
-        const r=window.reactState.engine,v=window.vueState.engine.value;
-        const names=['x','y','z','f_dc_0','f_dc_1','f_dc_2','opacity','scale_0','scale_1','scale_2','rot_0','rot_1','rot_2','rot_3'];const header=new TextEncoder().encode('ply\nformat binary_little_endian 1.0\nelement vertex 1\n'+names.map(n=>'property float '+n+'\n').join('')+'end_header\n');
-        const source={kind:'blob',blob:new Blob([header,new Float32Array([0,0,0,0,0,0,0,-2,-2,-2,1,0,0,0])])};
-        const results=await Promise.all([r.open(source).result,v.open(source).result]);if(results.some(r=>!r.ok))throw Error(JSON.stringify(results));
-        const canvasCount=document.querySelectorAll('canvas').length;window.unmount();await Promise.all([r.dispose(),v.dispose()]);
-        return {results,canvasCount,remainingCanvases:document.querySelectorAll('canvas').length,react:r.getSnapshot().phase,vue:v.getSnapshot().phase,devices:window.deviceCounts()};
-    });
-    assert.equal(result.canvasCount,2);assert.equal(result.remainingCanvases,0);assert.equal(result.react,'Stopped');assert.equal(result.vue,'Stopped');assert.deepEqual(errors,[]);
-    await page.evaluate(()=>window.mountDynamic());
-    await page.waitForFunction(()=>window.dynamicState&&window.dynamicState.engine===null);
-    await page.evaluate(()=>window.showDynamic(true));
-    await page.waitForFunction(()=>window.dynamicState.engine&&window.deviceCounts().active===1);
-    await page.evaluate(()=>window.showDynamic(false));
-    await page.waitForFunction(()=>window.dynamicState.engine===null&&window.deviceCounts().active===0);
-    await page.evaluate(()=>window.showDynamic(true));
-    await page.waitForFunction(()=>window.dynamicState.engine&&window.deviceCounts().active===1);
-    await page.evaluate(async()=>{const engine=window.dynamicState.engine;window.unmountDynamic();await engine.dispose();});
-    await page.waitForFunction(()=>window.deviceCounts().active===0&&document.querySelectorAll('canvas').length===0);
-    assert.deepEqual(errors,[]);
-    result.conditionalHosts=true;
-    assert.equal(result.devices.active,0);records.push({mode,result,errors});console.log(JSON.stringify({mode,result}));
-}finally{await page.close();server.kill();await new Promise(resolve=>server.once('exit',resolve));}
+await writeFile(
+    root + '/ssr.mjs',
+    "await import('@native3dgs/web');await import('@native3dgs/web/react');await import('@native3dgs/web/vue');console.log('SSR imports passed');",
+);
+run('node', ['ssr.mjs'], root);
+run('pnpm', ['exec', 'vite', 'build'], root);
+const browser = await chromium.launch({ channel: 'msedge', headless: true });
+const records = [];
+try {
+    for (const mode of ['preview', 'development']) {
+        const server = spawn(
+            process.execPath,
+            [
+                resolve(root, 'node_modules/vite/bin/vite.js'),
+                ...(mode === 'preview' ? ['preview'] : []),
+                '--host',
+                '127.0.0.1',
+                '--port',
+                '5174',
+                '--strictPort',
+            ],
+            { cwd: root, stdio: 'pipe', windowsHide: true },
+        );
+        server.stderr.on('data', (d) => process.stderr.write(d));
+        const page = await browser.newPage();
+        const errors = [];
+        page.on('pageerror', (e) => errors.push(e.message));
+        await page.addInitScript(() => {
+            if (!globalThis.GPUAdapter || !globalThis.GPUDevice) return;
+            const devices = new Set(),
+                request = GPUAdapter.prototype.requestDevice,
+                destroy = GPUDevice.prototype.destroy;
+            let created = 0;
+            GPUAdapter.prototype.requestDevice = async function (...args) {
+                const device = await request.apply(this, args);
+                created++;
+                devices.add(device);
+                return device;
+            };
+            GPUDevice.prototype.destroy = function () {
+                devices.delete(this);
+                return destroy.call(this);
+            };
+            window.deviceCounts = () => ({ created, active: devices.size });
+        });
+        try {
+            let connected = false;
+            for (let attempt = 0; attempt < 30 && !connected; attempt++) {
+                try {
+                    await page.goto('http://127.0.0.1:5174');
+                    connected = true;
+                } catch {
+                    await new Promise((r) => setTimeout(r, 100));
+                }
+            }
+            if (!connected) throw Error('Consumer server unavailable');
+            await page.waitForFunction(() => window.reactState?.engine && window.vueState?.engine.value, {
+                timeout: 60000,
+            });
+            await page.waitForFunction(
+                (expected) =>
+                    window.deviceCounts().created === expected && window.deviceCounts().active === 2,
+                mode === 'preview' ? 2 : 3,
+            );
+            await page.evaluate(() => window.toggleVue());
+            await page.waitForFunction(
+                () => !window.vueState.engine.value && window.deviceCounts().active === 1,
+            );
+            await page.evaluate(() => window.toggleVue());
+            await page.waitForFunction(
+                () => window.vueState.engine.value && window.deviceCounts().active === 2,
+            );
+            const result = await page.evaluate(async () => {
+                const r = window.reactState.engine,
+                    v = window.vueState.engine.value;
+                const names = [
+                    'x',
+                    'y',
+                    'z',
+                    'f_dc_0',
+                    'f_dc_1',
+                    'f_dc_2',
+                    'opacity',
+                    'scale_0',
+                    'scale_1',
+                    'scale_2',
+                    'rot_0',
+                    'rot_1',
+                    'rot_2',
+                    'rot_3',
+                ];
+                const header = new TextEncoder().encode(
+                    'ply\nformat binary_little_endian 1.0\nelement vertex 1\n' +
+                        names.map((n) => 'property float ' + n + '\n').join('') +
+                        'end_header\n',
+                );
+                const source = {
+                    kind: 'blob',
+                    blob: new Blob([header, new Float32Array([0, 0, 0, 0, 0, 0, 0, -2, -2, -2, 1, 0, 0, 0])]),
+                };
+                const results = await Promise.all([r.open(source).result, v.open(source).result]);
+                if (results.some((r) => !r.ok)) throw Error(JSON.stringify(results));
+                const canvasCount = document.querySelectorAll('canvas').length;
+                window.unmount();
+                await Promise.all([r.dispose(), v.dispose()]);
+                return {
+                    results,
+                    canvasCount,
+                    remainingCanvases: document.querySelectorAll('canvas').length,
+                    react: r.getSnapshot().phase,
+                    vue: v.getSnapshot().phase,
+                    devices: window.deviceCounts(),
+                };
+            });
+            assert.equal(result.canvasCount, 2);
+            assert.equal(result.remainingCanvases, 0);
+            assert.equal(result.react, 'Stopped');
+            assert.equal(result.vue, 'Stopped');
+            assert.deepEqual(errors, []);
+            await page.evaluate(() => window.mountDynamic());
+            await page.waitForFunction(() => window.dynamicState && window.dynamicState.engine === null);
+            await page.evaluate(() => window.showDynamic(true));
+            await page.waitForFunction(
+                () => window.dynamicState.engine && window.deviceCounts().active === 1,
+            );
+            await page.evaluate(() => window.showDynamic(false));
+            await page.waitForFunction(
+                () => window.dynamicState.engine === null && window.deviceCounts().active === 0,
+            );
+            await page.evaluate(() => window.showDynamic(true));
+            await page.waitForFunction(
+                () => window.dynamicState.engine && window.deviceCounts().active === 1,
+            );
+            await page.evaluate(async () => {
+                const engine = window.dynamicState.engine;
+                window.unmountDynamic();
+                await engine.dispose();
+            });
+            await page.waitForFunction(
+                () => window.deviceCounts().active === 0 && document.querySelectorAll('canvas').length === 0,
+            );
+            assert.deepEqual(errors, []);
+            result.conditionalHosts = true;
+            result.parallel = await page.evaluate(async () => {
+                if (!crossOriginIsolated) throw Error('Installed SDK server must be isolated');
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 64;
+                document.body.append(canvas);
+                const created = await window.createEngine({
+                    canvas,
+                    assets: {
+                        baseUrl: new URL('/gs-assets/', location.href),
+                        workerUrl: new URL('/gs-assets/decoder.worker.js', location.href),
+                    },
+                    decoder: { mode: 'parallel', threads: 2 },
+                    // Omitted sorting exercises the released adaptive default.
+                });
+                if (!created.ok) throw Error(JSON.stringify(created));
+                const engine = created.value;
+                try {
+                    const count = 600000,
+                        names = [
+                            'x',
+                            'y',
+                            'z',
+                            'f_dc_0',
+                            'f_dc_1',
+                            'f_dc_2',
+                            'opacity',
+                            'scale_0',
+                            'scale_1',
+                            'scale_2',
+                            'rot_0',
+                            'rot_1',
+                            'rot_2',
+                            'rot_3',
+                        ];
+                    const header = new TextEncoder().encode(
+                        'ply\nformat binary_little_endian 1.0\nelement vertex ' +
+                            count +
+                            '\n' +
+                            names.map((n) => 'property float ' + n + '\n').join('') +
+                            'end_header\n',
+                    );
+                    const points = new Float32Array(count * 14);
+                    for (let i = 0; i < count; i++)
+                        points.set(
+                            [i % 100, ((i / 100) | 0) % 100, i % 17, 0, 0, 0, -4, -8, -8, -8, 1, 0, 0, 0],
+                            i * 14,
+                        );
+                    const loaded = await engine.open({ kind: 'blob', blob: new Blob([header, points]) })
+                        .result;
+                    const snapshot = engine.getSnapshot();
+                    if (
+                        !loaded.ok ||
+                        snapshot.sceneCount !== count ||
+                        snapshot.decoder?.backend !== 'pthreads' ||
+                        snapshot.decoder.threads !== 2
+                    )
+                        throw Error(JSON.stringify({ loaded, decoder: snapshot.decoder }));
+                    if (!snapshot.stats?.sortReason || snapshot.stats.sortReason === 'strict') throw Error('Installed adaptive sorting not enabled');
+                    return { count, decoder: snapshot.decoder, sortReason: snapshot.stats.sortReason };
+                } finally {
+                    await engine.dispose();
+                    canvas.remove();
+                }
+            });
+            await page.waitForFunction(
+                () => window.deviceCounts().active === 0 && document.querySelectorAll('canvas').length === 0,
+            );
+            assert.deepEqual(errors, []);
+            assert.equal(result.devices.active, 0);
+            records.push({ mode, result, errors });
+            console.log(JSON.stringify({ mode, result }));
+        } finally {
+            await page.close();
+            server.kill();
+            await new Promise((resolve) => server.once('exit', resolve));
+        }
+    }
+    await writeFile(
+        'docs/verification/evidence/sdk-consumer.json',
+        JSON.stringify(
+            {
+                records,
+                browser: browser.version(),
+                ssr: true,
+                installedTarball: true,
+                productionBundle: true,
+                developmentStrictMode: true,
+                documentedTsxAndSfcCompiled: true,
+            },
+            null,
+            2,
+        ),
+    );
+} finally {
+    await browser.close();
 }
-await writeFile('docs/verification/evidence/sdk-consumer.json',JSON.stringify({records,browser:browser.version(),ssr:true,installedTarball:true,productionBundle:true,developmentStrictMode:true,documentedTsxAndSfcCompiled:true},null,2));
-}finally{await browser.close();}
+
+} finally {
+    if (process.env.GS_KEEP_SDK_CONSUMER !== '1') await rm(root, {recursive:true,force:true,maxRetries:3,retryDelay:100});
+}

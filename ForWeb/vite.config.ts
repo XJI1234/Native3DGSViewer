@@ -5,7 +5,12 @@ import { createReadStream, statSync, realpathSync } from 'node:fs';
 export default defineConfig({
     publicDir: 'public',
     worker: {rollupOptions:{output:{entryFileNames:'assets/decoder.worker.js'}}},
-    server: {watch:{ignored:['**/.local/**','**/docs/verification/evidence/**','**/test-results/**']}},
+    server: {
+        headers: process.env.GS_CROSS_ORIGIN_ISOLATED === '1' ? {
+            'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Embedder-Policy': 'require-corp',
+        } : {},
+        watch:{ignored:['**/.local/**','**/docs/verification/evidence/**','**/test-results/**']},
+    },
     build: {
         lib: { entry: { index: 'src/index.ts', react: 'src/react.ts', vue: 'src/vue.ts' }, formats: ['es'] },
         rollupOptions: { external: ['react', 'vue'] },

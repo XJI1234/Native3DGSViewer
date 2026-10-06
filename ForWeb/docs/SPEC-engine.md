@@ -1,5 +1,9 @@
 # Spec: engine
 
+Optional `EngineOptions.sorting` and recovery/capture semantics follow [SPEC-adaptive-sorting.md](SPEC-adaptive-sorting.md). Preview.3 defaults to adaptive sorting and decoder auto/4; explicit strict/single opt-outs remain available.
+
+2026-10-06 增量：EngineOptions 可选 decoder 配置与场景解码诊断见 [SPEC-parallel-decoder](SPEC-parallel-decoder.md)；默认可回退 auto，既有公共方法不变。
+
 2026-10-04. Implementation authorized by the user; provider specification for ForWeb/engine.
 
 ## Objective and boundaries

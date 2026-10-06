@@ -1,6 +1,6 @@
 {
   "name": "@native3dgs/template-react-viewer",
-  "version": "0.2.2-preview.2",
+  "version": "0.2.2-preview.3",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.4.0",
@@ -18,7 +18,7 @@
     "format:check": "prettier --check src scripts vite.config.ts"
   },
   "dependencies": {
-    "@native3dgs/web": "file:vendor/native3dgs-web-0.2.2-preview.2.tgz",
+    "@native3dgs/web": "file:vendor/native3dgs-web-0.2.2-preview.3.tgz",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

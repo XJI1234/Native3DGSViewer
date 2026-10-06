@@ -1,0 +1,5526 @@
+{
+  "date": "2026-10-06T07:19:23.853Z",
+  "browser": "154.0.4258.53",
+  "url": "http://127.0.0.1:5187",
+  "runs": 1,
+  "configs": [
+    "single",
+    "auto"
+  ],
+  "requested": [
+    "changjin_v1.ply",
+    "citang_v1.ply",
+    "danganguan_v1.ply",
+    "haiwai_v1.ply",
+    "he_v1.ply",
+    "J1_v3.ply",
+    "jiaoxuelou_v2.ply",
+    "jiulonghu_v1.ply",
+    "jizhonglou_v2.ply",
+    "juyuan_v2.ply",
+    "meiyuan_v2.ply",
+    "PML_v1.ply",
+    "shengyi_v1.ply",
+    "spz/citang_v1.spz",
+    "spz/danganguan_v1.spz",
+    "spz/haiwai_v1.spz",
+    "spz/he_v1.spz",
+    "spz/J1_v3.spz",
+    "spz/jiaoxuelou_v2.spz",
+    "spz/jiulonghu_v1.spz",
+    "spz/jizhonglou_v2.spz",
+    "spz/juyuan_v2.spz",
+    "spz/meiyuan_v2.spz",
+    "spz/shengyi_v1.spz",
+    "spz/tiyuguan_v1.spz",
+    "spz/tumu_v1.spz",
+    "spz/tushuguan_v1.spz",
+    "spz/wenke_v2.spz",
+    "spz/xingxi_v1.spz",
+    "spz/yulin_v1.spz",
+    "tiyuguan_v1.ply",
+    "tumu_v1.ply",
+    "tushuguan_v1.ply",
+    "wenke_v2.ply",
+    "xingxi_v1.ply",
+    "yulin_v1.ply",
+    "zhihuizhimen.ply",
+    "zhishan_v3.ply"
+  ],
+  "scope": "End-to-end URL load through first validated GPU frame; stage boundaries include I/O; capture outside timings; fresh ordinary profile; complete count/SH",
+  "complete": true,
+  "servedModels": [
+    {
+      "model": "changjin_v1.ply",
+      "url": "http://127.0.0.1:5187/models/changjin_v1.ply",
+      "bytes": 40310041,
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "verifiedAt": "2026-10-06T07:13:30.146Z"
+    },
+    {
+      "model": "citang_v1.ply",
+      "url": "http://127.0.0.1:5187/models/citang_v1.ply",
+      "bytes": 499452290,
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "verifiedAt": "2026-10-06T07:13:32.647Z"
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "url": "http://127.0.0.1:5187/models/danganguan_v1.ply",
+      "bytes": 445793678,
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "verifiedAt": "2026-10-06T07:13:40.788Z"
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "url": "http://127.0.0.1:5187/models/haiwai_v1.ply",
+      "bytes": 433795202,
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "verifiedAt": "2026-10-06T07:13:47.484Z"
+    },
+    {
+      "model": "he_v1.ply",
+      "url": "http://127.0.0.1:5187/models/he_v1.ply",
+      "bytes": 701629950,
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "verifiedAt": "2026-10-06T07:13:55.365Z"
+    },
+    {
+      "model": "J1_v3.ply",
+      "url": "http://127.0.0.1:5187/models/J1_v3.ply",
+      "bytes": 619503366,
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "verifiedAt": "2026-10-06T07:14:05.964Z"
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "url": "http://127.0.0.1:5187/models/jiaoxuelou_v2.ply",
+      "bytes": 527090014,
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "verifiedAt": "2026-10-06T07:14:15.405Z"
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "url": "http://127.0.0.1:5187/models/jiulonghu_v1.ply",
+      "bytes": 5305366675,
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "verifiedAt": "2026-10-06T07:14:34.588Z"
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "url": "http://127.0.0.1:5187/models/jizhonglou_v2.ply",
+      "bytes": 371964618,
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "verifiedAt": "2026-10-06T07:15:35.840Z"
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "url": "http://127.0.0.1:5187/models/juyuan_v2.ply",
+      "bytes": 630125490,
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "verifiedAt": "2026-10-06T07:15:42.498Z"
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "url": "http://127.0.0.1:5187/models/meiyuan_v2.ply",
+      "bytes": 309845170,
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "verifiedAt": "2026-10-06T07:15:51.592Z"
+    },
+    {
+      "model": "PML_v1.ply",
+      "url": "http://127.0.0.1:5187/models/PML_v1.ply",
+      "bytes": 201032885,
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "verifiedAt": "2026-10-06T07:15:56.551Z"
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "url": "http://127.0.0.1:5187/models/shengyi_v1.ply",
+      "bytes": 189924365,
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "verifiedAt": "2026-10-06T07:16:00.007Z"
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/citang_v1.spz",
+      "bytes": 42443957,
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "verifiedAt": "2026-10-06T07:16:02.983Z"
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/danganguan_v1.spz",
+      "bytes": 35245308,
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "verifiedAt": "2026-10-06T07:16:08.860Z"
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/haiwai_v1.spz",
+      "bytes": 36505669,
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "verifiedAt": "2026-10-06T07:16:13.961Z"
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/he_v1.spz",
+      "bytes": 51066812,
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "verifiedAt": "2026-10-06T07:16:19.135Z"
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "url": "http://127.0.0.1:5187/models/spz/J1_v3.spz",
+      "bytes": 49594705,
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "verifiedAt": "2026-10-06T07:16:26.681Z"
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "url": "http://127.0.0.1:5187/models/spz/jiaoxuelou_v2.spz",
+      "bytes": 45492204,
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "verifiedAt": "2026-10-06T07:16:33.451Z"
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/jiulonghu_v1.spz",
+      "bytes": 500754282,
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "verifiedAt": "2026-10-06T07:16:40.938Z"
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "url": "http://127.0.0.1:5187/models/spz/jizhonglou_v2.spz",
+      "bytes": 34249121,
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "verifiedAt": "2026-10-06T07:17:40.140Z"
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "url": "http://127.0.0.1:5187/models/spz/juyuan_v2.spz",
+      "bytes": 52605719,
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "verifiedAt": "2026-10-06T07:17:45.077Z"
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "url": "http://127.0.0.1:5187/models/spz/meiyuan_v2.spz",
+      "bytes": 26643637,
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "verifiedAt": "2026-10-06T07:17:52.485Z"
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/shengyi_v1.spz",
+      "bytes": 17927619,
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "verifiedAt": "2026-10-06T07:17:56.520Z"
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/tiyuguan_v1.spz",
+      "bytes": 27823984,
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "verifiedAt": "2026-10-06T07:17:59.077Z"
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/tumu_v1.spz",
+      "bytes": 24412867,
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "verifiedAt": "2026-10-06T07:18:03.498Z"
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/tushuguan_v1.spz",
+      "bytes": 29476020,
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "verifiedAt": "2026-10-06T07:18:07.245Z"
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "url": "http://127.0.0.1:5187/models/spz/wenke_v2.spz",
+      "bytes": 37441108,
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "verifiedAt": "2026-10-06T07:18:12.033Z"
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/xingxi_v1.spz",
+      "bytes": 26426747,
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "verifiedAt": "2026-10-06T07:18:18.024Z"
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "url": "http://127.0.0.1:5187/models/spz/yulin_v1.spz",
+      "bytes": 20927268,
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "verifiedAt": "2026-10-06T07:18:22.527Z"
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "url": "http://127.0.0.1:5187/models/tiyuguan_v1.ply",
+      "bytes": 334887130,
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "verifiedAt": "2026-10-06T07:18:26.875Z"
+    },
+    {
+      "model": "tumu_v1.ply",
+      "url": "http://127.0.0.1:5187/models/tumu_v1.ply",
+      "bytes": 294701758,
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "verifiedAt": "2026-10-06T07:18:33.407Z"
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "url": "http://127.0.0.1:5187/models/tushuguan_v1.ply",
+      "bytes": 339554030,
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "verifiedAt": "2026-10-06T07:18:39.521Z"
+    },
+    {
+      "model": "wenke_v2.ply",
+      "url": "http://127.0.0.1:5187/models/wenke_v2.ply",
+      "bytes": 414690530,
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "verifiedAt": "2026-10-06T07:18:46.253Z"
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "url": "http://127.0.0.1:5187/models/xingxi_v1.ply",
+      "bytes": 308655022,
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "verifiedAt": "2026-10-06T07:18:53.891Z"
+    },
+    {
+      "model": "yulin_v1.ply",
+      "url": "http://127.0.0.1:5187/models/yulin_v1.ply",
+      "bytes": 242570066,
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "verifiedAt": "2026-10-06T07:18:59.811Z"
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "url": "http://127.0.0.1:5187/models/zhihuizhimen.ply",
+      "bytes": 923849202,
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "verifiedAt": "2026-10-06T07:19:06.309Z"
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "url": "http://127.0.0.1:5187/models/zhishan_v3.ply",
+      "bytes": 153288197,
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "verifiedAt": "2026-10-06T07:19:21.145Z"
+    }
+  ],
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "config": "single",
+      "count": 170799,
+      "degree": 3,
+      "ms": 560.5349999992177,
+      "stages": {
+        "Inspecting": 79.11500000022352,
+        "Downloading": 182.32000000029802,
+        "Decoding": 85.96499999985099,
+        "Rebasing": 41,
+        "Uploading": 172.07499999925494,
+        "Suspended": 0.04500000085681677
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 42.07999999821186,
+        "writeMs": 9.679999999701977,
+        "batchWallMs": 46.680000002495944,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 0.4150000009685755,
+        "initializationMs": 13.974999999627471
+      },
+      "bounds": {
+        "origin": [
+          0.007192432880401611,
+          0.5516307801008224,
+          0.4995553493499756
+        ],
+        "min": [
+          -1.7523218393325806,
+          -0.20193317532539368,
+          -0.680327296257019
+        ],
+        "max": [
+          1.7667067050933838,
+          1.3051947355270386,
+          1.6794379949569702
+        ],
+        "maxScale": 0.20427491994522443
+      },
+      "pose": {
+        "position": [
+          0.007192432880401611,
+          0.5516307801008224,
+          6.794528485567295
+        ],
+        "target": [
+          0.007192432880401611,
+          0.5516307801008224,
+          0.4995553493499756
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "30ceafb71e4f573e96b2fa0810becbbeabb165c7932a9d66f0da2264fb29c3ed",
+      "gpuBytes": 49963240,
+      "run": 0
+    },
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "config": "auto",
+      "count": 170799,
+      "degree": 3,
+      "ms": 549.230000000447,
+      "stages": {
+        "Inspecting": 31.705000000074506,
+        "Downloading": 322.3300000000745,
+        "Decoding": 84.61000000033528,
+        "Rebasing": 44.44500000029802,
+        "Uploading": 66.125,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": "Model below parallel threshold"
+      },
+      "timings": {
+        "readMs": 40.9300000006333,
+        "writeMs": 9.225000002421439,
+        "batchWallMs": 45.85999999847263,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 0.6899999994784594,
+        "initializationMs": 12.024999999441206
+      },
+      "bounds": {
+        "origin": [
+          0.007192432880401611,
+          0.5516307801008224,
+          0.4995553493499756
+        ],
+        "min": [
+          -1.7523218393325806,
+          -0.20193317532539368,
+          -0.680327296257019
+        ],
+        "max": [
+          1.7667067050933838,
+          1.3051947355270386,
+          1.6794379949569702
+        ],
+        "maxScale": 0.20427491994522443
+      },
+      "pose": {
+        "position": [
+          0.007192432880401611,
+          0.5516307801008224,
+          6.794528485567295
+        ],
+        "target": [
+          0.007192432880401611,
+          0.5516307801008224,
+          0.4995553493499756
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "30ceafb71e4f573e96b2fa0810becbbeabb165c7932a9d66f0da2264fb29c3ed",
+      "gpuBytes": 49963240,
+      "run": 0
+    },
+    {
+      "model": "citang_v1.ply",
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "config": "single",
+      "count": 2116317,
+      "degree": 3,
+      "ms": 3658.4500000001863,
+      "stages": {
+        "Inspecting": 26.729999999515712,
+        "Downloading": 1049.8150000004098,
+        "Decoding": 1216.945000000298,
+        "Rebasing": 423.04999999981374,
+        "Uploading": 941.875,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 542.7949999915436,
+        "writeMs": 143.86999999918044,
+        "batchWallMs": 537.6150000141934,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.544999996200204,
+        "initializationMs": 13.884999999776483
+      },
+      "bounds": {
+        "origin": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          -0.13111703097820282
+        ],
+        "min": [
+          -0.7228605151176453,
+          -0.10294962674379349,
+          -0.7317858934402466
+        ],
+        "max": [
+          0.5160166621208191,
+          0.3236094117164612,
+          0.46955183148384094
+        ],
+        "maxScale": 0.11350232808124719
+      },
+      "pose": {
+        "position": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          2.5733954141117352
+        ],
+        "target": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          -0.13111703097820282
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "5fe96ffeb56be9536fd6425095b3186786293e8b65d52c589b59f3a7e53b05c7",
+      "gpuBytes": 619033384,
+      "run": 0
+    },
+    {
+      "model": "citang_v1.ply",
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "config": "auto",
+      "count": 2116317,
+      "degree": 3,
+      "ms": 3124.8149999994785,
+      "stages": {
+        "Inspecting": 28.615000000223517,
+        "Downloading": 1148.3699999991804,
+        "Decoding": 766.2900000000373,
+        "Rebasing": 413.57499999925494,
+        "Uploading": 767.9349999995902,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 351.6700000045821,
+        "writeMs": 144.46000000368804,
+        "batchWallMs": 285.3299999907613,
+        "decodeTaskMaxMs": 113.784912109375,
+        "finishPackTaskMaxMs": 74.560546875,
+        "rebaseComputeMs": 3.5199999986216426,
+        "initializationMs": 31.24500000011176
+      },
+      "bounds": {
+        "origin": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          -0.13111703097820282
+        ],
+        "min": [
+          -0.7228605151176453,
+          -0.10294962674379349,
+          -0.7317858934402466
+        ],
+        "max": [
+          0.5160166621208191,
+          0.3236094117164612,
+          0.46955183148384094
+        ],
+        "maxScale": 0.11350232808124719
+      },
+      "pose": {
+        "position": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          2.5733954141117352
+        ],
+        "target": [
+          -0.10342192649841309,
+          0.11032989248633385,
+          -0.13111703097820282
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "5fe96ffeb56be9536fd6425095b3186786293e8b65d52c589b59f3a7e53b05c7",
+      "gpuBytes": 619033384,
+      "run": 0
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "config": "single",
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2972.0149999996647,
+      "stages": {
+        "Inspecting": 30.229999999515712,
+        "Downloading": 865.1299999998882,
+        "Decoding": 1014.9249999998137,
+        "Rebasing": 352.804999999702,
+        "Uploading": 708.8950000004843,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 452.0399999981746,
+        "writeMs": 109.46500000078231,
+        "batchWallMs": 460.5799999954179,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.8999999975785613,
+        "initializationMs": 10.325000000186265
+      },
+      "bounds": {
+        "origin": [
+          0.05545131862163544,
+          0.10813190042972565,
+          0.0542013943195343
+        ],
+        "min": [
+          -0.4770906865596771,
+          -0.07034596800804138,
+          -0.44036465883255005
+        ],
+        "max": [
+          0.587993323802948,
+          0.2866097688674927,
+          0.5487674474716187
+        ],
+        "maxScale": 0.09535384727665656
+      },
+      "pose": {
+        "position": [
+          0.05545131862163544,
+          0.10813190042972565,
+          2.329940880678829
+        ],
+        "target": [
+          0.05545131862163544,
+          0.10813190042972565,
+          0.0542013943195343
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "162ab4a1d59d2b1bd73d10ced0192fa8666183f9c268629cca721895c0c4b40f",
+      "gpuBytes": 552522400,
+      "run": 0
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "config": "auto",
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2476.8549999995157,
+      "stages": {
+        "Inspecting": 26.425000000745058,
+        "Downloading": 839.9449999993667,
+        "Decoding": 677.7749999994412,
+        "Rebasing": 361.2250000005588,
+        "Uploading": 571.4550000000745,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 324.62499999720603,
+        "writeMs": 130.67500000167638,
+        "batchWallMs": 236.9599999981001,
+        "decodeTaskMaxMs": 91.166259765625,
+        "finishPackTaskMaxMs": 60.249267578125,
+        "rebaseComputeMs": 3.1949999993667006,
+        "initializationMs": 33.080000000074506
+      },
+      "bounds": {
+        "origin": [
+          0.05545131862163544,
+          0.10813190042972565,
+          0.0542013943195343
+        ],
+        "min": [
+          -0.4770906865596771,
+          -0.07034596800804138,
+          -0.44036465883255005
+        ],
+        "max": [
+          0.587993323802948,
+          0.2866097688674927,
+          0.5487674474716187
+        ],
+        "maxScale": 0.09535384727665656
+      },
+      "pose": {
+        "position": [
+          0.05545131862163544,
+          0.10813190042972565,
+          2.329940880678829
+        ],
+        "target": [
+          0.05545131862163544,
+          0.10813190042972565,
+          0.0542013943195343
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "162ab4a1d59d2b1bd73d10ced0192fa8666183f9c268629cca721895c0c4b40f",
+      "gpuBytes": 552522400,
+      "run": 0
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "config": "single",
+      "count": 1838109,
+      "degree": 3,
+      "ms": 3086.2549999998882,
+      "stages": {
+        "Inspecting": 27.860000000335276,
+        "Downloading": 908.2000000001863,
+        "Decoding": 998.4050000002608,
+        "Rebasing": 353.3549999995157,
+        "Uploading": 798.3850000007078,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 448.3999999957159,
+        "writeMs": 110.20000000391155,
+        "batchWallMs": 448.9899999955669,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.680000006221235,
+        "initializationMs": 10.790000000037253
+      },
+      "bounds": {
+        "origin": [
+          0.09961631894111633,
+          0.2595900595188141,
+          0.24231836199760437
+        ],
+        "min": [
+          -0.9165422320365906,
+          -0.17379868030548096,
+          -0.674853503704071
+        ],
+        "max": [
+          1.1157748699188232,
+          0.6929787993431091,
+          1.1594902276992798
+        ],
+        "maxScale": 0.2098446513849319
+      },
+      "pose": {
+        "position": [
+          0.09961631894111633,
+          0.2595900595188141,
+          4.7861194004212875
+        ],
+        "target": [
+          0.09961631894111633,
+          0.2595900595188141,
+          0.24231836199760437
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "27ae12c241eb04c2f8fe89e2b76f734875e11e209ca2ca664d1b843279426ab2",
+      "gpuBytes": 537657384,
+      "run": 0
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "config": "auto",
+      "count": 1838109,
+      "degree": 3,
+      "ms": 2773.6899999994785,
+      "stages": {
+        "Inspecting": 28.15999999921769,
+        "Downloading": 932.804999999702,
+        "Decoding": 724.9199999999255,
+        "Rebasing": 368.99500000011176,
+        "Uploading": 718.7750000003725,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 330.9799999995157,
+        "writeMs": 132.16499999910593,
+        "batchWallMs": 269.84499999694526,
+        "decodeTaskMaxMs": 115.996337890625,
+        "finishPackTaskMaxMs": 63.1748046875,
+        "rebaseComputeMs": 3.395000008866191,
+        "initializationMs": 31.40000000037253
+      },
+      "bounds": {
+        "origin": [
+          0.09961631894111633,
+          0.2595900595188141,
+          0.24231836199760437
+        ],
+        "min": [
+          -0.9165422320365906,
+          -0.17379868030548096,
+          -0.674853503704071
+        ],
+        "max": [
+          1.1157748699188232,
+          0.6929787993431091,
+          1.1594902276992798
+        ],
+        "maxScale": 0.2098446513849319
+      },
+      "pose": {
+        "position": [
+          0.09961631894111633,
+          0.2595900595188141,
+          4.7861194004212875
+        ],
+        "target": [
+          0.09961631894111633,
+          0.2595900595188141,
+          0.24231836199760437
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "27ae12c241eb04c2f8fe89e2b76f734875e11e209ca2ca664d1b843279426ab2",
+      "gpuBytes": 537657384,
+      "run": 0
+    },
+    {
+      "model": "he_v1.ply",
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "config": "single",
+      "count": 2973002,
+      "degree": 3,
+      "ms": 4644.520000000484,
+      "stages": {
+        "Inspecting": 27.679999999701977,
+        "Downloading": 1307.9749999996275,
+        "Decoding": 1632.0800000000745,
+        "Rebasing": 569.3499999996275,
+        "Uploading": 1107.394999999553,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 725.7799999946728,
+        "writeMs": 181.87500000745058,
+        "batchWallMs": 730.1349999960512,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 5.270000004209578,
+        "initializationMs": 11.285000000149012
+      },
+      "bounds": {
+        "origin": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          -0.026141464710235596
+        ],
+        "min": [
+          -1.687199354171753,
+          -0.023006774485111237,
+          -0.40178003907203674
+        ],
+        "max": [
+          1.5778974294662476,
+          0.22346065938472748,
+          0.34949710965156555
+        ],
+        "maxScale": 0.1980309719163783
+      },
+      "pose": {
+        "position": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          4.9762769827057465
+        ],
+        "target": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          -0.026141464710235596
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "8daf2007421fbc8c034132408190dbf5abab1c8358dffd8db1aec5b6c8bec66b",
+      "gpuBytes": 869619168,
+      "run": 0
+    },
+    {
+      "model": "he_v1.ply",
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "config": "auto",
+      "count": 2973002,
+      "degree": 3,
+      "ms": 4252.489999999292,
+      "stages": {
+        "Inspecting": 27.679999999701977,
+        "Downloading": 1427.2649999996647,
+        "Decoding": 1129.859999999404,
+        "Rebasing": 594.265000000596,
+        "Uploading": 1073.3700000001118,
+        "Suspended": 0.024999999441206455
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 521.7799999956042,
+        "writeMs": 204.86500000208616,
+        "batchWallMs": 414.57000000122935,
+        "decodeTaskMaxMs": 169.83349609375,
+        "finishPackTaskMaxMs": 111.1748046875,
+        "rebaseComputeMs": 7.034999997355044,
+        "initializationMs": 32
+      },
+      "bounds": {
+        "origin": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          -0.026141464710235596
+        ],
+        "min": [
+          -1.687199354171753,
+          -0.023006774485111237,
+          -0.40178003907203674
+        ],
+        "max": [
+          1.5778974294662476,
+          0.22346065938472748,
+          0.34949710965156555
+        ],
+        "maxScale": 0.1980309719163783
+      },
+      "pose": {
+        "position": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          4.9762769827057465
+        ],
+        "target": [
+          -0.054650962352752686,
+          0.10022694244980812,
+          -0.026141464710235596
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "8daf2007421fbc8c034132408190dbf5abab1c8358dffd8db1aec5b6c8bec66b",
+      "gpuBytes": 869619168,
+      "run": 0
+    },
+    {
+      "model": "J1_v3.ply",
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "config": "single",
+      "count": 2625008,
+      "degree": 3,
+      "ms": 4339.8499999996275,
+      "stages": {
+        "Inspecting": 30.34499999973923,
+        "Downloading": 1174.5300000002608,
+        "Decoding": 1527.375,
+        "Rebasing": 515.160000000149,
+        "Uploading": 1092.3899999996647,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 666.3400000017136,
+        "writeMs": 178.08500000834465,
+        "batchWallMs": 687.7299999976531,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.930000005289912,
+        "initializationMs": 10.544999999925494
+      },
+      "bounds": {
+        "origin": [
+          3.1392126083374023,
+          -5.300528049468994,
+          -8.91954517364502
+        ],
+        "min": [
+          -21.757976531982422,
+          -21.99135398864746,
+          -40.06244659423828
+        ],
+        "max": [
+          28.036401748657227,
+          11.390297889709473,
+          22.223356246948242
+        ],
+        "maxScale": 5.1300376629929385
+      },
+      "pose": {
+        "position": [
+          3.1392126083374023,
+          -5.300528049468994,
+          120.03200806403416
+        ],
+        "target": [
+          3.1392126083374023,
+          -5.300528049468994,
+          -8.91954517364502
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "782acfcb398217ef109a006a294137c305e0c7dc10d24b479d61a3fcf0b9814c",
+      "gpuBytes": 767821536,
+      "run": 0
+    },
+    {
+      "model": "J1_v3.ply",
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "config": "auto",
+      "count": 2625008,
+      "degree": 3,
+      "ms": 3605.149999999441,
+      "stages": {
+        "Inspecting": 26.78500000014901,
+        "Downloading": 1200.2949999999255,
+        "Decoding": 963.4000000003725,
+        "Rebasing": 508.45999999996275,
+        "Uploading": 906.1749999998137,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 432.18000000249594,
+        "writeMs": 195.3250000104308,
+        "batchWallMs": 342.570000000298,
+        "decodeTaskMaxMs": 137.035888671875,
+        "finishPackTaskMaxMs": 80.123291015625,
+        "rebaseComputeMs": 5.00999999884516,
+        "initializationMs": 35.77999999932945
+      },
+      "bounds": {
+        "origin": [
+          3.1392126083374023,
+          -5.300528049468994,
+          -8.91954517364502
+        ],
+        "min": [
+          -21.757976531982422,
+          -21.99135398864746,
+          -40.06244659423828
+        ],
+        "max": [
+          28.036401748657227,
+          11.390297889709473,
+          22.223356246948242
+        ],
+        "maxScale": 5.1300376629929385
+      },
+      "pose": {
+        "position": [
+          3.1392126083374023,
+          -5.300528049468994,
+          120.03200806403416
+        ],
+        "target": [
+          3.1392126083374023,
+          -5.300528049468994,
+          -8.91954517364502
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "782acfcb398217ef109a006a294137c305e0c7dc10d24b479d61a3fcf0b9814c",
+      "gpuBytes": 767821536,
+      "run": 0
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "config": "single",
+      "count": 2233426,
+      "degree": 3,
+      "ms": 3810.8100000005215,
+      "stages": {
+        "Inspecting": 30.575000000186265,
+        "Downloading": 1111.9500000001863,
+        "Decoding": 1313.4200000008568,
+        "Rebasing": 440.23499999940395,
+        "Uploading": 914.5849999999627,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 589.8449999978766,
+        "writeMs": 169.4049999937415,
+        "batchWallMs": 561.0000000139698,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.035000007599592,
+        "initializationMs": 10.995000000111759
+      },
+      "bounds": {
+        "origin": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          -0.005864858627319336
+        ],
+        "min": [
+          -1.0796127319335938,
+          -0.41523292660713196,
+          -1.363327145576477
+        ],
+        "max": [
+          1.1314220428466797,
+          0.3189159631729126,
+          1.3515974283218384
+        ],
+        "maxScale": 0.19109650331430866
+      },
+      "pose": {
+        "position": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          5.190615692252565
+        ],
+        "target": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          -0.005864858627319336
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "10b11bcc63d8de3c357e43a160b0d95f1c2011f7b793adc1248d28034bf5f1b8",
+      "gpuBytes": 653290560,
+      "run": 0
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "config": "auto",
+      "count": 2233426,
+      "degree": 3,
+      "ms": 3462.6150000002235,
+      "stages": {
+        "Inspecting": 26.58999999985099,
+        "Downloading": 1155.7900000000373,
+        "Decoding": 825.2700000004843,
+        "Rebasing": 471.8849999997765,
+        "Uploading": 983.0449999999255,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 375.13499999884516,
+        "writeMs": 157.9799999995157,
+        "batchWallMs": 301.7349999975413,
+        "decodeTaskMaxMs": 125.228271484375,
+        "finishPackTaskMaxMs": 73.46142578125,
+        "rebaseComputeMs": 4.659999999217689,
+        "initializationMs": 46.4300000006333
+      },
+      "bounds": {
+        "origin": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          -0.005864858627319336
+        ],
+        "min": [
+          -1.0796127319335938,
+          -0.41523292660713196,
+          -1.363327145576477
+        ],
+        "max": [
+          1.1314220428466797,
+          0.3189159631729126,
+          1.3515974283218384
+        ],
+        "maxScale": 0.19109650331430866
+      },
+      "pose": {
+        "position": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          5.190615692252565
+        ],
+        "target": [
+          0.02590465545654297,
+          -0.04815848171710968,
+          -0.005864858627319336
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "10b11bcc63d8de3c357e43a160b0d95f1c2011f7b793adc1248d28034bf5f1b8",
+      "gpuBytes": 653290560,
+      "run": 0
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "config": "single",
+      "count": 22480361,
+      "degree": 3,
+      "ms": 31934.639999999665,
+      "stages": {
+        "Inspecting": 34.64500000048429,
+        "Downloading": 7947.094999999739,
+        "Decoding": 12973.139999999665,
+        "Rebasing": 3488.105000000447,
+        "Uploading": 7491.609999999404,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 5835.995000001043,
+        "writeMs": 1427.0050000073388,
+        "batchWallMs": 5664.820000011474,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 42.28500000201166,
+        "initializationMs": 12.575000000186265
+      },
+      "bounds": {
+        "origin": [
+          -48.821502685546875,
+          -4.066814422607422,
+          -10.405609130859375
+        ],
+        "min": [
+          -969.6543579101562,
+          -85.52670288085938,
+          -801.6432495117188
+        ],
+        "max": [
+          872.0113525390625,
+          77.39307403564453,
+          780.83203125
+        ],
+        "maxScale": 136.76784043822963
+      },
+      "pose": {
+        "position": [
+          -48.821502685546875,
+          -4.066814422607422,
+          3569.243494241544
+        ],
+        "target": [
+          -48.821502685546875,
+          -4.066814422607422,
+          -10.405609130859375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f34db09fa82dd92a362dfd2daf88260a4ed9218451e85cef95a565c0900d2c7f",
+      "gpuBytes": 6575533896,
+      "run": 0
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "config": "auto",
+      "count": 22480361,
+      "degree": 3,
+      "ms": 27303.78000000026,
+      "stages": {
+        "Inspecting": 29.384999999776483,
+        "Downloading": 8789.330000000075,
+        "Decoding": 8023.0449999999255,
+        "Rebasing": 3525.2199999997392,
+        "Uploading": 6936.7599999997765,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 3798.2150000073016,
+        "writeMs": 1503.0999999856576,
+        "batchWallMs": 2682.9249999988824,
+        "decodeTaskMaxMs": 1026.552734375,
+        "finishPackTaskMaxMs": 712.289794921875,
+        "rebaseComputeMs": 54.03000000119209,
+        "initializationMs": 30.054999999701977
+      },
+      "bounds": {
+        "origin": [
+          -48.821502685546875,
+          -4.066814422607422,
+          -10.405609130859375
+        ],
+        "min": [
+          -969.6543579101562,
+          -85.52670288085938,
+          -801.6432495117188
+        ],
+        "max": [
+          872.0113525390625,
+          77.39307403564453,
+          780.83203125
+        ],
+        "maxScale": 136.76784043822963
+      },
+      "pose": {
+        "position": [
+          -48.821502685546875,
+          -4.066814422607422,
+          3569.243494241544
+        ],
+        "target": [
+          -48.821502685546875,
+          -4.066814422607422,
+          -10.405609130859375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f34db09fa82dd92a362dfd2daf88260a4ed9218451e85cef95a565c0900d2c7f",
+      "gpuBytes": 6575533896,
+      "run": 0
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "config": "single",
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2604.899999999441,
+      "stages": {
+        "Inspecting": 33.20999999996275,
+        "Downloading": 779.6000000005588,
+        "Decoding": 848.839999999851,
+        "Rebasing": 337.2299999995157,
+        "Uploading": 605.9799999995157,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 380.54000000841916,
+        "writeMs": 96.59499999508262,
+        "batchWallMs": 380.5999999977648,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.485000004991889,
+        "initializationMs": 10.830000000074506
+      },
+      "bounds": {
+        "origin": [
+          0.12416523694992065,
+          0.020676717162132263,
+          0.13081684708595276
+        ],
+        "min": [
+          -1.153512716293335,
+          -0.34771454334259033,
+          -0.737437903881073
+        ],
+        "max": [
+          1.4018431901931763,
+          0.38906797766685486,
+          0.9990715980529785
+        ],
+        "maxScale": 0.20487863088274233
+      },
+      "pose": {
+        "position": [
+          0.12416523694992065,
+          0.020676717162132263,
+          4.976820417109889
+        ],
+        "target": [
+          0.12416523694992065,
+          0.020676717162132263,
+          0.13081684708595276
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "b877b2e38471062539db6a094143af2e2e55a8e7022e035e25f11f86752d0675",
+      "gpuBytes": 461018600,
+      "run": 0
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "config": "auto",
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2347.3300000000745,
+      "stages": {
+        "Inspecting": 25.514999999664724,
+        "Downloading": 793.769999999553,
+        "Decoding": 562.6200000001118,
+        "Rebasing": 326.95999999996275,
+        "Uploading": 638.4249999998137,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 260.1199999973178,
+        "writeMs": 110.14499999955297,
+        "batchWallMs": 202.29499999713153,
+        "decodeTaskMaxMs": 80.83447265625,
+        "finishPackTaskMaxMs": 50.14013671875,
+        "rebaseComputeMs": 2.7749999947845936,
+        "initializationMs": 39.78000000026077
+      },
+      "bounds": {
+        "origin": [
+          0.12416523694992065,
+          0.020676717162132263,
+          0.13081684708595276
+        ],
+        "min": [
+          -1.153512716293335,
+          -0.34771454334259033,
+          -0.737437903881073
+        ],
+        "max": [
+          1.4018431901931763,
+          0.38906797766685486,
+          0.9990715980529785
+        ],
+        "maxScale": 0.20487863088274233
+      },
+      "pose": {
+        "position": [
+          0.12416523694992065,
+          0.020676717162132263,
+          4.976820417109889
+        ],
+        "target": [
+          0.12416523694992065,
+          0.020676717162132263,
+          0.13081684708595276
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "b877b2e38471062539db6a094143af2e2e55a8e7022e035e25f11f86752d0675",
+      "gpuBytes": 461018600,
+      "run": 0
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "config": "single",
+      "count": 2670017,
+      "degree": 3,
+      "ms": 4358.709999999963,
+      "stages": {
+        "Inspecting": 29.68500000052154,
+        "Downloading": 1274.5299999993294,
+        "Decoding": 1433.1749999998137,
+        "Rebasing": 521.6299999998882,
+        "Uploading": 1099.6550000002608,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 635.1799999931827,
+        "writeMs": 160.02500000037253,
+        "batchWallMs": 643.7400000002235,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.1599999982863665,
+        "initializationMs": 11.504999999888241
+      },
+      "bounds": {
+        "origin": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          0.29432547092437744
+        ],
+        "min": [
+          -1.5615768432617188,
+          -0.4496682584285736,
+          -0.562568187713623
+        ],
+        "max": [
+          3.0112361907958984,
+          0.19494128227233887,
+          1.151219129562378
+        ],
+        "maxScale": 0.35718431372436993
+      },
+      "pose": {
+        "position": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          8.070088649002978
+        ],
+        "target": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          0.29432547092437744
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "3fdd60ce348ed02db6ce16c476bec5d6bfb24f6a35a1f7b594637d9566817c2f",
+      "gpuBytes": 780997784,
+      "run": 0
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "config": "auto",
+      "count": 2670017,
+      "degree": 3,
+      "ms": 3766.765000000596,
+      "stages": {
+        "Inspecting": 27.959999999962747,
+        "Downloading": 1329.355000000447,
+        "Decoding": 958.2649999996647,
+        "Rebasing": 516.7550000008196,
+        "Uploading": 934.3899999996647,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 439.7299999948591,
+        "writeMs": 182.61500001326203,
+        "batchWallMs": 348.4249999942258,
+        "decodeTaskMaxMs": 134.508544921875,
+        "finishPackTaskMaxMs": 95.21875,
+        "rebaseComputeMs": 6.804999998770654,
+        "initializationMs": 34.875
+      },
+      "bounds": {
+        "origin": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          0.29432547092437744
+        ],
+        "min": [
+          -1.5615768432617188,
+          -0.4496682584285736,
+          -0.562568187713623
+        ],
+        "max": [
+          3.0112361907958984,
+          0.19494128227233887,
+          1.151219129562378
+        ],
+        "maxScale": 0.35718431372436993
+      },
+      "pose": {
+        "position": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          8.070088649002978
+        ],
+        "target": [
+          0.7248296737670898,
+          -0.12736348807811737,
+          0.29432547092437744
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "3fdd60ce348ed02db6ce16c476bec5d6bfb24f6a35a1f7b594637d9566817c2f",
+      "gpuBytes": 780997784,
+      "run": 0
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "config": "single",
+      "count": 1312897,
+      "degree": 3,
+      "ms": 2328.3349999999627,
+      "stages": {
+        "Inspecting": 27.924999999813735,
+        "Downloading": 751.519999999553,
+        "Decoding": 748.5600000005215,
+        "Rebasing": 286.3849999997765,
+        "Uploading": 513.9049999993294,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 335.8149999976158,
+        "writeMs": 82.12499999068677,
+        "batchWallMs": 338.51000000257045,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.0900000035762787,
+        "initializationMs": 10.424999999813735
+      },
+      "bounds": {
+        "origin": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          -0.08691203594207764
+        ],
+        "min": [
+          -1.3016475439071655,
+          -0.2954667806625366,
+          -1.1918410062789917
+        ],
+        "max": [
+          1.1369460821151733,
+          0.24848440289497375,
+          1.0180169343948364
+        ],
+        "maxScale": 0.2239772725034138
+      },
+      "pose": {
+        "position": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          5.060475953433998
+        ],
+        "target": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          -0.08691203594207764
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "df49aebe05ddc55f83b3cc46937f2aed23a5f512fe38a90b6229a3b14197a529",
+      "gpuBytes": 384038904,
+      "run": 0
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "config": "auto",
+      "count": 1312897,
+      "degree": 3,
+      "ms": 1984.7050000000745,
+      "stages": {
+        "Inspecting": 28.040000000037253,
+        "Downloading": 731.4750000005588,
+        "Decoding": 486.304999999702,
+        "Rebasing": 289.910000000149,
+        "Uploading": 448.9349999995902,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 224.2000000011176,
+        "writeMs": 94.66000000294298,
+        "batchWallMs": 182.769999996759,
+        "decodeTaskMaxMs": 72.659912109375,
+        "finishPackTaskMaxMs": 50.143798828125,
+        "rebaseComputeMs": 4.380000000819564,
+        "initializationMs": 35.544999999925494
+      },
+      "bounds": {
+        "origin": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          -0.08691203594207764
+        ],
+        "min": [
+          -1.3016475439071655,
+          -0.2954667806625366,
+          -1.1918410062789917
+        ],
+        "max": [
+          1.1369460821151733,
+          0.24848440289497375,
+          1.0180169343948364
+        ],
+        "maxScale": 0.2239772725034138
+      },
+      "pose": {
+        "position": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          5.060475953433998
+        ],
+        "target": [
+          -0.0823507308959961,
+          -0.023491188883781433,
+          -0.08691203594207764
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "df49aebe05ddc55f83b3cc46937f2aed23a5f512fe38a90b6229a3b14197a529",
+      "gpuBytes": 384038904,
+      "run": 0
+    },
+    {
+      "model": "PML_v1.ply",
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "config": "single",
+      "count": 851828,
+      "degree": 3,
+      "ms": 1469.519999999553,
+      "stages": {
+        "Inspecting": 27.96499999985099,
+        "Downloading": 443.7250000005588,
+        "Decoding": 464.5699999993667,
+        "Rebasing": 176.67999999970198,
+        "Uploading": 356.53000000026077,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 208.16500000283122,
+        "writeMs": 53.1949999993667,
+        "batchWallMs": 213.3850000007078,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 1.5399999991059303,
+        "initializationMs": 11.09499999973923
+      },
+      "bounds": {
+        "origin": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          0.22439855337142944
+        ],
+        "min": [
+          -2.2471091747283936,
+          -0.5286917686462402,
+          -1.073983073234558
+        ],
+        "max": [
+          1.4969627857208252,
+          0.6711839437484741,
+          1.522780179977417
+        ],
+        "maxScale": 0.17927622860721013
+      },
+      "pose": {
+        "position": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          6.590589606877603
+        ],
+        "target": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          0.22439855337142944
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "1affbb9bff8e6873dfdaa18b124c1ed00c92a03ac0d7f70d8f564fe1252d108d",
+      "gpuBytes": 249163664,
+      "run": 0
+    },
+    {
+      "model": "PML_v1.ply",
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "config": "auto",
+      "count": 851828,
+      "degree": 3,
+      "ms": 1350.3450000006706,
+      "stages": {
+        "Inspecting": 25.975000000558794,
+        "Downloading": 508.84999999962747,
+        "Decoding": 304.47000000067055,
+        "Rebasing": 188.72499999962747,
+        "Uploading": 322.304999999702,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 143.30999999400228,
+        "writeMs": 56.78000000026077,
+        "batchWallMs": 121.50000000465661,
+        "decodeTaskMaxMs": 46.319580078125,
+        "finishPackTaskMaxMs": 35.624755859375,
+        "rebaseComputeMs": 2.344999996945262,
+        "initializationMs": 39.44000000040978
+      },
+      "bounds": {
+        "origin": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          0.22439855337142944
+        ],
+        "min": [
+          -2.2471091747283936,
+          -0.5286917686462402,
+          -1.073983073234558
+        ],
+        "max": [
+          1.4969627857208252,
+          0.6711839437484741,
+          1.522780179977417
+        ],
+        "maxScale": 0.17927622860721013
+      },
+      "pose": {
+        "position": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          6.590589606877603
+        ],
+        "target": [
+          -0.3750731945037842,
+          0.07124608755111694,
+          0.22439855337142944
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "1affbb9bff8e6873dfdaa18b124c1ed00c92a03ac0d7f70d8f564fe1252d108d",
+      "gpuBytes": 249163664,
+      "run": 0
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "config": "single",
+      "count": 804758,
+      "degree": 3,
+      "ms": 1477.160000000149,
+      "stages": {
+        "Inspecting": 28.959999999962747,
+        "Downloading": 443.5200000004843,
+        "Decoding": 458.5149999996647,
+        "Rebasing": 170.58499999996275,
+        "Uploading": 375.56000000052154,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 202.58000000193715,
+        "writeMs": 51.27999999932945,
+        "batchWallMs": 214.7150000007823,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 1.6199999982491136,
+        "initializationMs": 16.610000000335276
+      },
+      "bounds": {
+        "origin": [
+          0.20379933714866638,
+          0.216009259223938,
+          -0.08579897880554199
+        ],
+        "min": [
+          -0.8350934386253357,
+          -0.32732027769088745,
+          -0.7057473659515381
+        ],
+        "max": [
+          1.2426921129226685,
+          0.7593387961387634,
+          0.5341494083404541
+        ],
+        "maxScale": 0.2323378079323053
+      },
+      "pose": {
+        "position": [
+          0.20379933714866638,
+          0.216009259223938,
+          4.365299374669728
+        ],
+        "target": [
+          0.20379933714866638,
+          0.216009259223938,
+          -0.08579897880554199
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "fec30d7b5d0c12511417a84046777cabefe7980dc0e9a69b7f396a75ccfac867",
+      "gpuBytes": 235402752,
+      "run": 0
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "config": "auto",
+      "count": 804758,
+      "degree": 3,
+      "ms": 1135.0099999997765,
+      "stages": {
+        "Inspecting": 27.054999999701977,
+        "Downloading": 426.2050000000745,
+        "Decoding": 263.40000000037253,
+        "Rebasing": 162.22499999962747,
+        "Uploading": 256.08499999996275,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 126.75000000279397,
+        "writeMs": 50.48999999742955,
+        "batchWallMs": 99.5749999973923,
+        "decodeTaskMaxMs": 37.060302734375,
+        "finishPackTaskMaxMs": 27.359375,
+        "rebaseComputeMs": 1.6199999991804361,
+        "initializationMs": 35.46499999985099
+      },
+      "bounds": {
+        "origin": [
+          0.20379933714866638,
+          0.216009259223938,
+          -0.08579897880554199
+        ],
+        "min": [
+          -0.8350934386253357,
+          -0.32732027769088745,
+          -0.7057473659515381
+        ],
+        "max": [
+          1.2426921129226685,
+          0.7593387961387634,
+          0.5341494083404541
+        ],
+        "maxScale": 0.2323378079323053
+      },
+      "pose": {
+        "position": [
+          0.20379933714866638,
+          0.216009259223938,
+          4.365299374669728
+        ],
+        "target": [
+          0.20379933714866638,
+          0.216009259223938,
+          -0.08579897880554199
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "fec30d7b5d0c12511417a84046777cabefe7980dc0e9a69b7f396a75ccfac867",
+      "gpuBytes": 235402752,
+      "run": 0
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "config": "single",
+      "count": 2116317,
+      "degree": 3,
+      "ms": 2708.660000000149,
+      "stages": {
+        "Inspecting": 27.015000000596046,
+        "Downloading": 200.63999999966472,
+        "Inflating": 471.15000000037253,
+        "Decoding": 909.375,
+        "Rebasing": 381.3150000004098,
+        "Uploading": 719.1299999998882,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 211.76500000152737,
+        "writeMs": 128.00499999895692,
+        "batchWallMs": 609.5899999979883,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.390000001527369,
+        "initializationMs": 10.570000000298023
+      },
+      "bounds": {
+        "origin": [
+          -0.1033935546875,
+          0.1103515625,
+          -0.131103515625
+        ],
+        "min": [
+          -0.722900390625,
+          -0.10302734375,
+          -0.731689453125
+        ],
+        "max": [
+          0.51611328125,
+          0.32373046875,
+          0.469482421875
+        ],
+        "maxScale": 0.11219689052034373
+      },
+      "pose": {
+        "position": [
+          -0.1033935546875,
+          0.1103515625,
+          2.5648268834543946
+        ],
+        "target": [
+          -0.1033935546875,
+          0.1103515625,
+          -0.131103515625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "c041ad4fa751095adb24f0e20f04241356973de57aa6cf492c9ba2cbab776324",
+      "gpuBytes": 619033384,
+      "run": 0
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "config": "auto",
+      "count": 2116317,
+      "degree": 3,
+      "ms": 2816.9300000006333,
+      "stages": {
+        "Inspecting": 25.375,
+        "Downloading": 302.5800000000745,
+        "Inflating": 464.9550000000745,
+        "Decoding": 585.140000000596,
+        "Rebasing": 453.64499999955297,
+        "Uploading": 985.2000000001863,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 160.53000000305474,
+        "writeMs": 135.43000000249594,
+        "batchWallMs": 321.8099999958649,
+        "decodeTaskMaxMs": 207.619384765625,
+        "finishPackTaskMaxMs": 87.935302734375,
+        "rebaseComputeMs": 8.849999999627471,
+        "initializationMs": 28.15500000026077
+      },
+      "bounds": {
+        "origin": [
+          -0.1033935546875,
+          0.1103515625,
+          -0.131103515625
+        ],
+        "min": [
+          -0.722900390625,
+          -0.10302734375,
+          -0.731689453125
+        ],
+        "max": [
+          0.51611328125,
+          0.32373046875,
+          0.469482421875
+        ],
+        "maxScale": 0.11219689052034373
+      },
+      "pose": {
+        "position": [
+          -0.1033935546875,
+          0.1103515625,
+          2.5648268834543946
+        ],
+        "target": [
+          -0.1033935546875,
+          0.1103515625,
+          -0.131103515625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "c041ad4fa751095adb24f0e20f04241356973de57aa6cf492c9ba2cbab776324",
+      "gpuBytes": 619033384,
+      "run": 0
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "config": "single",
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2414.2099999999627,
+      "stages": {
+        "Inspecting": 28.104999999515712,
+        "Downloading": 177.70000000018626,
+        "Inflating": 393.8950000004843,
+        "Decoding": 808.7299999995157,
+        "Rebasing": 357.12000000011176,
+        "Uploading": 648.6350000007078,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 187.45499999355525,
+        "writeMs": 116.51500000059605,
+        "batchWallMs": 543.8349999999627,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.649999998509884,
+        "initializationMs": 9.629999999888241
+      },
+      "bounds": {
+        "origin": [
+          0.055419921875,
+          0.108154296875,
+          0.05419921875
+        ],
+        "min": [
+          -0.47705078125,
+          -0.0703125,
+          -0.4404296875
+        ],
+        "max": [
+          0.587890625,
+          0.28662109375,
+          0.548828125
+        ],
+        "maxScale": 0.09301448921066349
+      },
+      "pose": {
+        "position": [
+          0.055419921875,
+          0.108154296875,
+          2.3144729020920116
+        ],
+        "target": [
+          0.055419921875,
+          0.108154296875,
+          0.05419921875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "43ee3a212fb259f5b401f75cb890745789b4abd5c765f02bfd9ac685b3a8e969",
+      "gpuBytes": 552522400,
+      "run": 0
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "config": "auto",
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2248.5800000000745,
+      "stages": {
+        "Inspecting": 29.40500000026077,
+        "Downloading": 162.89000000059605,
+        "Inflating": 403.339999999851,
+        "Decoding": 517.7799999993294,
+        "Rebasing": 386.07500000018626,
+        "Uploading": 749.0650000004098,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 146.894999996759,
+        "writeMs": 121.28999999817461,
+        "batchWallMs": 282.1049999995157,
+        "decodeTaskMaxMs": 183.054931640625,
+        "finishPackTaskMaxMs": 74.955078125,
+        "rebaseComputeMs": 6.98999999742955,
+        "initializationMs": 26.990000000223517
+      },
+      "bounds": {
+        "origin": [
+          0.055419921875,
+          0.108154296875,
+          0.05419921875
+        ],
+        "min": [
+          -0.47705078125,
+          -0.0703125,
+          -0.4404296875
+        ],
+        "max": [
+          0.587890625,
+          0.28662109375,
+          0.548828125
+        ],
+        "maxScale": 0.09301448921066349
+      },
+      "pose": {
+        "position": [
+          0.055419921875,
+          0.108154296875,
+          2.3144729020920116
+        ],
+        "target": [
+          0.055419921875,
+          0.108154296875,
+          0.05419921875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "43ee3a212fb259f5b401f75cb890745789b4abd5c765f02bfd9ac685b3a8e969",
+      "gpuBytes": 552522400,
+      "run": 0
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "config": "single",
+      "count": 1838109,
+      "degree": 3,
+      "ms": 2489.8250000001863,
+      "stages": {
+        "Inspecting": 25.78000000026077,
+        "Downloading": 144.61500000022352,
+        "Inflating": 406.1849999995902,
+        "Decoding": 828.5650000004098,
+        "Rebasing": 363,
+        "Uploading": 721.644999999553,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 198.6499999994412,
+        "writeMs": 116.13999999780208,
+        "batchWallMs": 552.7099999981001,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.724999999627471,
+        "initializationMs": 10.294999999925494
+      },
+      "bounds": {
+        "origin": [
+          0.099609375,
+          -0.259521484375,
+          -0.2423095703125
+        ],
+        "min": [
+          -0.91650390625,
+          -0.69287109375,
+          -1.159423828125
+        ],
+        "max": [
+          1.11572265625,
+          0.173828125,
+          0.6748046875
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.099609375,
+          -0.259521484375,
+          4.299774499756361
+        ],
+        "target": [
+          0.099609375,
+          -0.259521484375,
+          -0.2423095703125
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "26bb2b1d8337a611ee93cc1541df71da43ee3df7e2b08555763fb3556a6f1189",
+      "gpuBytes": 537657384,
+      "run": 0
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "config": "auto",
+      "count": 1838109,
+      "degree": 3,
+      "ms": 2281.054999999702,
+      "stages": {
+        "Inspecting": 32.44500000029802,
+        "Downloading": 236.54999999981374,
+        "Inflating": 410.95000000018626,
+        "Decoding": 507.7299999995157,
+        "Rebasing": 375.32500000018626,
+        "Uploading": 718.035000000149,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 145.9500000020489,
+        "writeMs": 119.6149999992922,
+        "batchWallMs": 276.4949999982491,
+        "decodeTaskMaxMs": 177.8046875,
+        "finishPackTaskMaxMs": 75.645751953125,
+        "rebaseComputeMs": 8.084999993443489,
+        "initializationMs": 30.25499999988824
+      },
+      "bounds": {
+        "origin": [
+          0.099609375,
+          -0.259521484375,
+          -0.2423095703125
+        ],
+        "min": [
+          -0.91650390625,
+          -0.69287109375,
+          -1.159423828125
+        ],
+        "max": [
+          1.11572265625,
+          0.173828125,
+          0.6748046875
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.099609375,
+          -0.259521484375,
+          4.299774499756361
+        ],
+        "target": [
+          0.099609375,
+          -0.259521484375,
+          -0.2423095703125
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "26bb2b1d8337a611ee93cc1541df71da43ee3df7e2b08555763fb3556a6f1189",
+      "gpuBytes": 537657384,
+      "run": 0
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "config": "single",
+      "count": 2973002,
+      "degree": 3,
+      "ms": 3926.804999999702,
+      "stages": {
+        "Inspecting": 26.609999999403954,
+        "Downloading": 208.7600000007078,
+        "Inflating": 574.8249999992549,
+        "Decoding": 1282.3349999999627,
+        "Rebasing": 564.3999999994412,
+        "Uploading": 1269.8400000007823,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 303.40999999828637,
+        "writeMs": 178.92500000353903,
+        "batchWallMs": 839.2799999993294,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 5.775000005029142,
+        "initializationMs": 14.504999999888241
+      },
+      "bounds": {
+        "origin": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "min": [
+          -1.687255859375,
+          -0.02294921875,
+          -0.40185546875
+        ],
+        "max": [
+          1.577880859375,
+          0.223388671875,
+          0.349609375
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          -0.0546875,
+          0.1002197265625,
+          4.968986462103855
+        ],
+        "target": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f0c80d6ea4cb66ce0cce0aeefd04e13f532ac62a1d6f332cf17aba37bf9f672e",
+      "gpuBytes": 869619168,
+      "run": 0
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "config": "auto",
+      "count": 2973002,
+      "degree": 3,
+      "ms": 3251.800000000745,
+      "stages": {
+        "Inspecting": 28.5,
+        "Downloading": 257.93999999947846,
+        "Inflating": 588.9599999999627,
+        "Decoding": 835.625,
+        "Rebasing": 527.5149999996647,
+        "Uploading": 1013.2249999996275,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 236.714999999851,
+        "writeMs": 189.3500000052154,
+        "batchWallMs": 440.46000000089407,
+        "decodeTaskMaxMs": 279.489990234375,
+        "finishPackTaskMaxMs": 117.65478515625,
+        "rebaseComputeMs": 4.435000004246831,
+        "initializationMs": 32.97499999962747
+      },
+      "bounds": {
+        "origin": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "min": [
+          -1.687255859375,
+          -0.02294921875,
+          -0.40185546875
+        ],
+        "max": [
+          1.577880859375,
+          0.223388671875,
+          0.349609375
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          -0.0546875,
+          0.1002197265625,
+          4.968986462103855
+        ],
+        "target": [
+          -0.0546875,
+          0.1002197265625,
+          -0.026123046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f0c80d6ea4cb66ce0cce0aeefd04e13f532ac62a1d6f332cf17aba37bf9f672e",
+      "gpuBytes": 869619168,
+      "run": 0
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "config": "single",
+      "count": 2625008,
+      "degree": 3,
+      "ms": 3372.9150000000373,
+      "stages": {
+        "Inspecting": 23.395000000484288,
+        "Downloading": 274.29999999981374,
+        "Inflating": 572.1900000004098,
+        "Decoding": 1153.0200000004843,
+        "Rebasing": 469.3899999996647,
+        "Uploading": 880.5849999999627,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 267.79000000003725,
+        "writeMs": 164.28499999828637,
+        "batchWallMs": 760.1399999987334,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.925000000745058,
+        "initializationMs": 16.235000000335276
+      },
+      "bounds": {
+        "origin": [
+          3.13916015625,
+          -5.300537109375,
+          -8.9195556640625
+        ],
+        "min": [
+          -21.758056640625,
+          -21.991455078125,
+          -40.0625
+        ],
+        "max": [
+          28.036376953125,
+          11.390380859375,
+          22.223388671875
+        ],
+        "maxScale": 5.0784190371800815
+      },
+      "pose": {
+        "position": [
+          3.13916015625,
+          -5.300537109375,
+          119.69149589546299
+        ],
+        "target": [
+          3.13916015625,
+          -5.300537109375,
+          -8.9195556640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "b41a08e2efdef1039ae0ae8fdfc000ae74b751732d52d7800c195ef81465d399",
+      "gpuBytes": 767821536,
+      "run": 0
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "config": "auto",
+      "count": 2625008,
+      "degree": 3,
+      "ms": 3010.9500000001863,
+      "stages": {
+        "Inspecting": 30.354999999515712,
+        "Downloading": 327.03000000026077,
+        "Inflating": 561.4850000003353,
+        "Decoding": 731.6150000002235,
+        "Rebasing": 495.4199999999255,
+        "Uploading": 865.0250000003725,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 202.38500000257045,
+        "writeMs": 171.75999999791384,
+        "batchWallMs": 390.6150000030175,
+        "decodeTaskMaxMs": 250.44970703125,
+        "finishPackTaskMaxMs": 110.80078125,
+        "rebaseComputeMs": 4.310000006109476,
+        "initializationMs": 33.07000000029802
+      },
+      "bounds": {
+        "origin": [
+          3.13916015625,
+          -5.300537109375,
+          -8.9195556640625
+        ],
+        "min": [
+          -21.758056640625,
+          -21.991455078125,
+          -40.0625
+        ],
+        "max": [
+          28.036376953125,
+          11.390380859375,
+          22.223388671875
+        ],
+        "maxScale": 5.0784190371800815
+      },
+      "pose": {
+        "position": [
+          3.13916015625,
+          -5.300537109375,
+          119.69149589546299
+        ],
+        "target": [
+          3.13916015625,
+          -5.300537109375,
+          -8.9195556640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "b41a08e2efdef1039ae0ae8fdfc000ae74b751732d52d7800c195ef81465d399",
+      "gpuBytes": 767821536,
+      "run": 0
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "config": "single",
+      "count": 2233426,
+      "degree": 3,
+      "ms": 3215.2099999999627,
+      "stages": {
+        "Inspecting": 37.04000000003725,
+        "Downloading": 267.89499999955297,
+        "Inflating": 502.82500000018626,
+        "Decoding": 1010.6000000005588,
+        "Rebasing": 432.21999999973923,
+        "Uploading": 964.5999999996275,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 236.75000000186265,
+        "writeMs": 141.79500000085682,
+        "batchWallMs": 674.0049999970943,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.430000003427267,
+        "initializationMs": 9.864999999292195
+      },
+      "bounds": {
+        "origin": [
+          0.02587890625,
+          -0.0482177734375,
+          -0.005859375
+        ],
+        "min": [
+          -1.07958984375,
+          -0.415283203125,
+          -1.36328125
+        ],
+        "max": [
+          1.13134765625,
+          0.31884765625,
+          1.3515625
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          0.02587890625,
+          -0.0482177734375,
+          5.2288636385937455
+        ],
+        "target": [
+          0.02587890625,
+          -0.0482177734375,
+          -0.005859375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "295e0b80078e076687279f9b2f88d71f55c1d443c96a15fc4bf8872b1f9d2268",
+      "gpuBytes": 653290560,
+      "run": 0
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "config": "auto",
+      "count": 2233426,
+      "degree": 3,
+      "ms": 2711.7900000000373,
+      "stages": {
+        "Inspecting": 24.825000000186265,
+        "Downloading": 219.30499999970198,
+        "Inflating": 498.445000000298,
+        "Decoding": 610.6399999996647,
+        "Rebasing": 425.29000000003725,
+        "Uploading": 933.2599999997765,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 172.5300000058487,
+        "writeMs": 140.67500000074506,
+        "batchWallMs": 333.179999999702,
+        "decodeTaskMaxMs": 211.36474609375,
+        "finishPackTaskMaxMs": 92.98486328125,
+        "rebaseComputeMs": 4.060000000521541,
+        "initializationMs": 29.08999999985099
+      },
+      "bounds": {
+        "origin": [
+          0.02587890625,
+          -0.0482177734375,
+          -0.005859375
+        ],
+        "min": [
+          -1.07958984375,
+          -0.415283203125,
+          -1.36328125
+        ],
+        "max": [
+          1.13134765625,
+          0.31884765625,
+          1.3515625
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          0.02587890625,
+          -0.0482177734375,
+          5.2288636385937455
+        ],
+        "target": [
+          0.02587890625,
+          -0.0482177734375,
+          -0.005859375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "295e0b80078e076687279f9b2f88d71f55c1d443c96a15fc4bf8872b1f9d2268",
+      "gpuBytes": 653290560,
+      "run": 0
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "config": "single",
+      "count": 22480361,
+      "degree": 3,
+      "ms": 30146.644999999553,
+      "stages": {
+        "Inspecting": 38.65499999932945,
+        "Downloading": 1151.6100000003353,
+        "Inflating": 5014.875,
+        "Decoding": 11156.739999999292,
+        "Rebasing": 3514.5550000006333,
+        "Uploading": 9270.165000000037,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 2999.509999996051,
+        "writeMs": 1407.9899999983609,
+        "batchWallMs": 6776.429999998771,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 38.96000001579523,
+        "initializationMs": 10.900000000372529
+      },
+      "bounds": {
+        "origin": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "min": [
+          -969.654296875,
+          -85.526611328125,
+          -801.643310546875
+        ],
+        "max": [
+          872.011474609375,
+          77.39306640625,
+          780.83203125
+        ],
+        "maxScale": 139.42126035437516
+      },
+      "pose": {
+        "position": [
+          -48.8214111328125,
+          -4.0667724609375,
+          3586.756122331928
+        ],
+        "target": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "a360638ccc812b5d9265073958f72540b3d6e8424d63e5546157db68cbb4e265",
+      "gpuBytes": 6575533896,
+      "run": 0
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "config": "auto",
+      "count": 22480361,
+      "degree": 3,
+      "ms": 27803.980000000447,
+      "stages": {
+        "Inspecting": 33.27000000048429,
+        "Downloading": 1292.5949999997392,
+        "Inflating": 5101.6349999997765,
+        "Decoding": 6988.429999999702,
+        "Rebasing": 5304.80999999959,
+        "Uploading": 9083.18499999959,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 2055.169999992475,
+        "writeMs": 1442.4549999944866,
+        "batchWallMs": 3514.079999995418,
+        "decodeTaskMaxMs": 2235.972412109375,
+        "finishPackTaskMaxMs": 973.732666015625,
+        "rebaseComputeMs": 38.45499999914318,
+        "initializationMs": 31.424999999813735
+      },
+      "bounds": {
+        "origin": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "min": [
+          -969.654296875,
+          -85.526611328125,
+          -801.643310546875
+        ],
+        "max": [
+          872.011474609375,
+          77.39306640625,
+          780.83203125
+        ],
+        "maxScale": 139.42126035437516
+      },
+      "pose": {
+        "position": [
+          -48.8214111328125,
+          -4.0667724609375,
+          3586.756122331928
+        ],
+        "target": [
+          -48.8214111328125,
+          -4.0667724609375,
+          -10.4056396484375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "a360638ccc812b5d9265073958f72540b3d6e8424d63e5546157db68cbb4e265",
+      "gpuBytes": 6575533896,
+      "run": 0
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "config": "single",
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2463.6100000003353,
+      "stages": {
+        "Inspecting": 36.860000000335276,
+        "Downloading": 211.80499999970198,
+        "Inflating": 456.9799999995157,
+        "Decoding": 806.1800000006333,
+        "Rebasing": 339.2749999994412,
+        "Uploading": 612.4599999999627,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 212.90499999839813,
+        "writeMs": 110.85499999951571,
+        "batchWallMs": 540.9549999963492,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.4400000013411045,
+        "initializationMs": 12.785000000149012
+      },
+      "bounds": {
+        "origin": [
+          0.1241455078125,
+          0.020751953125,
+          0.1307373046875
+        ],
+        "min": [
+          -1.153564453125,
+          -0.34765625,
+          -0.737548828125
+        ],
+        "max": [
+          1.40185546875,
+          0.38916015625,
+          0.9990234375
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.1241455078125,
+          0.020751953125,
+          5.00808011165819
+        ],
+        "target": [
+          0.1241455078125,
+          0.020751953125,
+          0.1307373046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "314e4d7fd3deb661cd6f848ed5b76f0b3d4edb95bbe7cbda7beae61da8541eec",
+      "gpuBytes": 461018600,
+      "run": 0
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "config": "auto",
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2078.339999999851,
+      "stages": {
+        "Inspecting": 38.62000000011176,
+        "Downloading": 218.40500000026077,
+        "Inflating": 393.125,
+        "Decoding": 474.0149999996647,
+        "Rebasing": 324.04999999981374,
+        "Uploading": 630.105000000447,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 147.72499999776483,
+        "writeMs": 104.8600000012666,
+        "batchWallMs": 265.4750000005588,
+        "decodeTaskMaxMs": 169.9501953125,
+        "finishPackTaskMaxMs": 73.590087890625,
+        "rebaseComputeMs": 3.0049999970942736,
+        "initializationMs": 33.889999999664724
+      },
+      "bounds": {
+        "origin": [
+          0.1241455078125,
+          0.020751953125,
+          0.1307373046875
+        ],
+        "min": [
+          -1.153564453125,
+          -0.34765625,
+          -0.737548828125
+        ],
+        "max": [
+          1.40185546875,
+          0.38916015625,
+          0.9990234375
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.1241455078125,
+          0.020751953125,
+          5.00808011165819
+        ],
+        "target": [
+          0.1241455078125,
+          0.020751953125,
+          0.1307373046875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "314e4d7fd3deb661cd6f848ed5b76f0b3d4edb95bbe7cbda7beae61da8541eec",
+      "gpuBytes": 461018600,
+      "run": 0
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "config": "single",
+      "count": 2670017,
+      "degree": 3,
+      "ms": 3948.5299999993294,
+      "stages": {
+        "Inspecting": 32.985000000335276,
+        "Downloading": 241.33499999996275,
+        "Inflating": 596.7400000002235,
+        "Decoding": 1303.6550000002608,
+        "Rebasing": 510.660000000149,
+        "Uploading": 1263.125,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 344.6899999976158,
+        "writeMs": 173.07499999552965,
+        "batchWallMs": 830.1550000077114,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.205000005662441,
+        "initializationMs": 15.129999999888241
+      },
+      "bounds": {
+        "origin": [
+          0.724853515625,
+          -0.12744140625,
+          0.2943115234375
+        ],
+        "min": [
+          -1.5615234375,
+          -0.44970703125,
+          -0.5625
+        ],
+        "max": [
+          3.01123046875,
+          0.19482421875,
+          1.151123046875
+        ],
+        "maxScale": 0.36787944117144233
+      },
+      "pose": {
+        "position": [
+          0.724853515625,
+          -0.12744140625,
+          8.14052802619847
+        ],
+        "target": [
+          0.724853515625,
+          -0.12744140625,
+          0.2943115234375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "8f04ff430aa4e32bf01cb5cff07716b97f478dd2b9f1220e22be7a1420a3a01b",
+      "gpuBytes": 780997784,
+      "run": 0
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "config": "auto",
+      "count": 2670017,
+      "degree": 3,
+      "ms": 3130.6100000003353,
+      "stages": {
+        "Inspecting": 32.44500000029802,
+        "Downloading": 242.6699999999255,
+        "Inflating": 583.5500000007451,
+        "Decoding": 815.7249999996275,
+        "Rebasing": 512.8300000000745,
+        "Uploading": 943.359999999404,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 242.89000000152737,
+        "writeMs": 181.23499999940395,
+        "batchWallMs": 431.2099999990314,
+        "decodeTaskMaxMs": 274.252197265625,
+        "finishPackTaskMaxMs": 121.265869140625,
+        "rebaseComputeMs": 4.800000002607703,
+        "initializationMs": 33.16500000003725
+      },
+      "bounds": {
+        "origin": [
+          0.724853515625,
+          -0.12744140625,
+          0.2943115234375
+        ],
+        "min": [
+          -1.5615234375,
+          -0.44970703125,
+          -0.5625
+        ],
+        "max": [
+          3.01123046875,
+          0.19482421875,
+          1.151123046875
+        ],
+        "maxScale": 0.36787944117144233
+      },
+      "pose": {
+        "position": [
+          0.724853515625,
+          -0.12744140625,
+          8.14052802619847
+        ],
+        "target": [
+          0.724853515625,
+          -0.12744140625,
+          0.2943115234375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "8f04ff430aa4e32bf01cb5cff07716b97f478dd2b9f1220e22be7a1420a3a01b",
+      "gpuBytes": 780997784,
+      "run": 0
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "config": "single",
+      "count": 1312897,
+      "degree": 3,
+      "ms": 1937.1000000005588,
+      "stages": {
+        "Inspecting": 34.41000000014901,
+        "Downloading": 163.57000000029802,
+        "Inflating": 312.1049999995157,
+        "Decoding": 602.1200000001118,
+        "Rebasing": 273.2150000007823,
+        "Uploading": 551.6399999996647,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 166.0299999974668,
+        "writeMs": 83.50999999977648,
+        "batchWallMs": 398.1399999996647,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.565000002272427,
+        "initializationMs": 10.875
+      },
+      "bounds": {
+        "origin": [
+          -0.0823974609375,
+          -0.0234375,
+          -0.0869140625
+        ],
+        "min": [
+          -1.3017578125,
+          -0.29541015625,
+          -1.19189453125
+        ],
+        "max": [
+          1.136962890625,
+          0.24853515625,
+          1.01806640625
+        ],
+        "maxScale": 0.22313016014842982
+      },
+      "pose": {
+        "position": [
+          -0.0823974609375,
+          -0.0234375,
+          5.055059187145849
+        ],
+        "target": [
+          -0.0823974609375,
+          -0.0234375,
+          -0.0869140625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "d5b0726a6a8b9e306a653d9c2bbfb945cf0bff21cbcdb29c11dbe6e8370866b6",
+      "gpuBytes": 384038904,
+      "run": 0
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "config": "auto",
+      "count": 1312897,
+      "degree": 3,
+      "ms": 1807.1150000002235,
+      "stages": {
+        "Inspecting": 32.625,
+        "Downloading": 198.41500000003725,
+        "Inflating": 312.7949999999255,
+        "Decoding": 368.285000000149,
+        "Rebasing": 253.63999999966472,
+        "Uploading": 641.3100000005215,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 112.47500000242144,
+        "writeMs": 83.16000000108033,
+        "batchWallMs": 213.30000000074506,
+        "decodeTaskMaxMs": 136.12548828125,
+        "finishPackTaskMaxMs": 56.775146484375,
+        "rebaseComputeMs": 2.2899999944493175,
+        "initializationMs": 31.1949999993667
+      },
+      "bounds": {
+        "origin": [
+          -0.0823974609375,
+          -0.0234375,
+          -0.0869140625
+        ],
+        "min": [
+          -1.3017578125,
+          -0.29541015625,
+          -1.19189453125
+        ],
+        "max": [
+          1.136962890625,
+          0.24853515625,
+          1.01806640625
+        ],
+        "maxScale": 0.22313016014842982
+      },
+      "pose": {
+        "position": [
+          -0.0823974609375,
+          -0.0234375,
+          5.055059187145849
+        ],
+        "target": [
+          -0.0823974609375,
+          -0.0234375,
+          -0.0869140625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "d5b0726a6a8b9e306a653d9c2bbfb945cf0bff21cbcdb29c11dbe6e8370866b6",
+      "gpuBytes": 384038904,
+      "run": 0
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "config": "single",
+      "count": 804758,
+      "degree": 3,
+      "ms": 1185.0800000000745,
+      "stages": {
+        "Inspecting": 30.46499999985099,
+        "Downloading": 124.73500000033528,
+        "Inflating": 215.17499999981374,
+        "Decoding": 351.035000000149,
+        "Rebasing": 158.59499999973923,
+        "Uploading": 305.0449999999255,
+        "Suspended": 0.02500000037252903
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 101.76499999966472,
+        "writeMs": 50.794999999925494,
+        "batchWallMs": 244.75999999977648,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 1.3049999997019768,
+        "initializationMs": 12.649999999441206
+      },
+      "bounds": {
+        "origin": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "min": [
+          -0.835205078125,
+          -0.75927734375,
+          -0.5341796875
+        ],
+        "max": [
+          1.24267578125,
+          0.327392578125,
+          0.705810546875
+        ],
+        "maxScale": 0.23752081909545814
+      },
+      "pose": {
+        "position": [
+          0.2037353515625,
+          -0.2159423828125,
+          4.5712567292501785
+        ],
+        "target": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "45f9f545ca2b33071cce00f3fcb5ec82a07991f3bd954cb0d991482f753cc9ca",
+      "gpuBytes": 235402752,
+      "run": 0
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "config": "auto",
+      "count": 804758,
+      "degree": 3,
+      "ms": 1139.3100000005215,
+      "stages": {
+        "Inspecting": 33.12999999988824,
+        "Downloading": 184.0900000007823,
+        "Inflating": 223.32999999914318,
+        "Decoding": 220.33499999996275,
+        "Rebasing": 154.1949999993667,
+        "Uploading": 324.18999999947846,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 70.04999999888241,
+        "writeMs": 52.24999999906868,
+        "batchWallMs": 139.30000000074506,
+        "decodeTaskMaxMs": 88.860107421875,
+        "finishPackTaskMaxMs": 37.199951171875,
+        "rebaseComputeMs": 1.2799999983981252,
+        "initializationMs": 33.450000000186265
+      },
+      "bounds": {
+        "origin": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "min": [
+          -0.835205078125,
+          -0.75927734375,
+          -0.5341796875
+        ],
+        "max": [
+          1.24267578125,
+          0.327392578125,
+          0.705810546875
+        ],
+        "maxScale": 0.23752081909545814
+      },
+      "pose": {
+        "position": [
+          0.2037353515625,
+          -0.2159423828125,
+          4.5712567292501785
+        ],
+        "target": [
+          0.2037353515625,
+          -0.2159423828125,
+          0.0858154296875
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "45f9f545ca2b33071cce00f3fcb5ec82a07991f3bd954cb0d991482f753cc9ca",
+      "gpuBytes": 235402752,
+      "run": 0
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "config": "single",
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2110.9049999993294,
+      "stages": {
+        "Inspecting": 33.125,
+        "Downloading": 156.464999999851,
+        "Inflating": 351.04999999981374,
+        "Decoding": 677.7700000004843,
+        "Rebasing": 286.8650000002235,
+        "Uploading": 605.589999999851,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 178.4550000000745,
+        "writeMs": 94.42499999981374,
+        "batchWallMs": 455.53499999828637,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.574999999254942,
+        "initializationMs": 12.184999999590218
+      },
+      "bounds": {
+        "origin": [
+          0.055908203125,
+          -0.0843505859375,
+          -0.0179443359375
+        ],
+        "min": [
+          -0.741943359375,
+          -0.288818359375,
+          -1.073974609375
+        ],
+        "max": [
+          0.853759765625,
+          0.1201171875,
+          1.0380859375
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          0.055908203125,
+          -0.0843505859375,
+          4.228009219003199
+        ],
+        "target": [
+          0.055908203125,
+          -0.0843505859375,
+          -0.0179443359375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "89616f155636e2a0b5b9ec9c16e98c101a79c2291654bd95b217543f579a2d1b",
+      "gpuBytes": 415061448,
+      "run": 0
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "config": "auto",
+      "count": 1419007,
+      "degree": 3,
+      "ms": 1972.2249999996275,
+      "stages": {
+        "Inspecting": 33.62000000011176,
+        "Downloading": 188.9550000000745,
+        "Inflating": 334.8849999997765,
+        "Decoding": 405.7700000004843,
+        "Rebasing": 290.91500000003725,
+        "Uploading": 718.0449999999255,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 122.97999999951571,
+        "writeMs": 88.14999999757856,
+        "batchWallMs": 249.27500000037253,
+        "decodeTaskMaxMs": 148.7646484375,
+        "finishPackTaskMaxMs": 78.690185546875,
+        "rebaseComputeMs": 3.025000002235174,
+        "initializationMs": 30.105000000447035
+      },
+      "bounds": {
+        "origin": [
+          0.055908203125,
+          -0.0843505859375,
+          -0.0179443359375
+        ],
+        "min": [
+          -0.741943359375,
+          -0.288818359375,
+          -1.073974609375
+        ],
+        "max": [
+          0.853759765625,
+          0.1201171875,
+          1.0380859375
+        ],
+        "maxScale": 0.19691167520419406
+      },
+      "pose": {
+        "position": [
+          0.055908203125,
+          -0.0843505859375,
+          4.228009219003199
+        ],
+        "target": [
+          0.055908203125,
+          -0.0843505859375,
+          -0.0179443359375
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "89616f155636e2a0b5b9ec9c16e98c101a79c2291654bd95b217543f579a2d1b",
+      "gpuBytes": 415061448,
+      "run": 0
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "config": "single",
+      "count": 1248730,
+      "degree": 3,
+      "ms": 1826.1499999994412,
+      "stages": {
+        "Inspecting": 35.62999999988824,
+        "Downloading": 138.41500000003725,
+        "Inflating": 292.0149999996647,
+        "Decoding": 564.265000000596,
+        "Rebasing": 266.84499999973923,
+        "Uploading": 528.945000000298,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 155.46999999694526,
+        "writeMs": 77.92500000353903,
+        "batchWallMs": 376.4749999977648,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.620000005699694,
+        "initializationMs": 11.790000000037253
+      },
+      "bounds": {
+        "origin": [
+          0.09521484375,
+          -0.3148193359375,
+          -0.1002197265625
+        ],
+        "min": [
+          -0.63623046875,
+          -0.736328125,
+          -1.22900390625
+        ],
+        "max": [
+          0.82666015625,
+          0.106689453125,
+          1.028564453125
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.09521484375,
+          -0.3148193359375,
+          4.384228882836458
+        ],
+        "target": [
+          0.09521484375,
+          -0.3148193359375,
+          -0.1002197265625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f08dfa68ce085d59b74c26f3fdf0b53f9922bcc619c885c2f54cf82b4661f37d",
+      "gpuBytes": 365264048,
+      "run": 0
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "config": "auto",
+      "count": 1248730,
+      "degree": 3,
+      "ms": 1611,
+      "stages": {
+        "Inspecting": 32.95999999996275,
+        "Downloading": 149.14000000059605,
+        "Inflating": 297.535000000149,
+        "Decoding": 375.4400000004098,
+        "Rebasing": 244,
+        "Uploading": 511.87000000011176,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 114.99000000208616,
+        "writeMs": 87.32500000018626,
+        "batchWallMs": 212.27000000234693,
+        "decodeTaskMaxMs": 135.725341796875,
+        "finishPackTaskMaxMs": 58.080322265625,
+        "rebaseComputeMs": 2.5799999991431832,
+        "initializationMs": 28.84499999973923
+      },
+      "bounds": {
+        "origin": [
+          0.09521484375,
+          -0.3148193359375,
+          -0.1002197265625
+        ],
+        "min": [
+          -0.63623046875,
+          -0.736328125,
+          -1.22900390625
+        ],
+        "max": [
+          0.82666015625,
+          0.106689453125,
+          1.028564453125
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.09521484375,
+          -0.3148193359375,
+          4.384228882836458
+        ],
+        "target": [
+          0.09521484375,
+          -0.3148193359375,
+          -0.1002197265625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f08dfa68ce085d59b74c26f3fdf0b53f9922bcc619c885c2f54cf82b4661f37d",
+      "gpuBytes": 365264048,
+      "run": 0
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "config": "single",
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2394.359999999404,
+      "stages": {
+        "Inspecting": 30.84499999973923,
+        "Downloading": 171.00499999988824,
+        "Inflating": 393.1699999999255,
+        "Decoding": 768.7900000000373,
+        "Rebasing": 307.695000000298,
+        "Uploading": 722.8250000001863,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 195.79000000096858,
+        "writeMs": 99.1149999992922,
+        "batchWallMs": 526.8100000014529,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.15499999653548,
+        "initializationMs": 12.699999999254942
+      },
+      "bounds": {
+        "origin": [
+          0.13037109375,
+          -0.1749267578125,
+          0.0802001953125
+        ],
+        "min": [
+          -1.0771484375,
+          -0.42431640625,
+          -0.86279296875
+        ],
+        "max": [
+          1.337890625,
+          0.074462890625,
+          1.023193359375
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.13037109375,
+          -0.1749267578125,
+          4.878624085077163
+        ],
+        "target": [
+          0.13037109375,
+          -0.1749267578125,
+          0.0802001953125
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "ca4c8ef43512842259d1060ec370e0d9df6ee54ac41aad9f1523667dbb58d78f",
+      "gpuBytes": 420845968,
+      "run": 0
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "config": "auto",
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2034.8099999995902,
+      "stages": {
+        "Inspecting": 34.1949999993667,
+        "Downloading": 174.16500000003725,
+        "Inflating": 384.1049999995157,
+        "Decoding": 453.50499999988824,
+        "Rebasing": 306.945000000298,
+        "Uploading": 681.8650000002235,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 142.96500000264496,
+        "writeMs": 104.58499999996275,
+        "batchWallMs": 250.89999999850988,
+        "decodeTaskMaxMs": 155.034912109375,
+        "finishPackTaskMaxMs": 69.354736328125,
+        "rebaseComputeMs": 3.179999995045364,
+        "initializationMs": 33.93500000052154
+      },
+      "bounds": {
+        "origin": [
+          0.13037109375,
+          -0.1749267578125,
+          0.0802001953125
+        ],
+        "min": [
+          -1.0771484375,
+          -0.42431640625,
+          -0.86279296875
+        ],
+        "max": [
+          1.337890625,
+          0.074462890625,
+          1.023193359375
+        ],
+        "maxScale": 0.2096113871510978
+      },
+      "pose": {
+        "position": [
+          0.13037109375,
+          -0.1749267578125,
+          4.878624085077163
+        ],
+        "target": [
+          0.13037109375,
+          -0.1749267578125,
+          0.0802001953125
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "ca4c8ef43512842259d1060ec370e0d9df6ee54ac41aad9f1523667dbb58d78f",
+      "gpuBytes": 420845968,
+      "run": 0
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "config": "single",
+      "count": 1757157,
+      "degree": 3,
+      "ms": 3039.510000000708,
+      "stages": {
+        "Inspecting": 36.4300000006333,
+        "Downloading": 315.40500000026077,
+        "Inflating": 497.33499999996275,
+        "Decoding": 938.445000000298,
+        "Rebasing": 364.0599999995902,
+        "Uploading": 887.785000000149,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 237.08999999891967,
+        "writeMs": 121.2750000031665,
+        "batchWallMs": 632.5349999992177,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.28999999538064,
+        "initializationMs": 11.785000000149012
+      },
+      "bounds": {
+        "origin": [
+          -0.492431640625,
+          -0.2056884765625,
+          0.3101806640625
+        ],
+        "min": [
+          -1.840087890625,
+          -0.957275390625,
+          -1.686279296875
+        ],
+        "max": [
+          0.855224609375,
+          0.5458984375,
+          2.306640625
+        ],
+        "maxScale": 0.3455907525769745
+      },
+      "pose": {
+        "position": [
+          -0.492431640625,
+          -0.2056884765625,
+          8.14228284700437
+        ],
+        "target": [
+          -0.492431640625,
+          -0.2056884765625,
+          0.3101806640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f552c8474e610733eb594d4388f8f5a38c0af6c5b15c776b98cc9ee2a51771dd",
+      "gpuBytes": 513976808,
+      "run": 0
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "config": "auto",
+      "count": 1757157,
+      "degree": 3,
+      "ms": 2557.2700000004843,
+      "stages": {
+        "Inspecting": 35.28500000014901,
+        "Downloading": 232.78000000026077,
+        "Inflating": 495.81000000052154,
+        "Decoding": 552.3549999995157,
+        "Rebasing": 393.3650000002235,
+        "Uploading": 847.6399999996647,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 169.6249999953434,
+        "writeMs": 127.26500000059605,
+        "batchWallMs": 301.93500000145286,
+        "decodeTaskMaxMs": 187.979736328125,
+        "finishPackTaskMaxMs": 86.10009765625,
+        "rebaseComputeMs": 4.105000001378357,
+        "initializationMs": 34.34000000078231
+      },
+      "bounds": {
+        "origin": [
+          -0.492431640625,
+          -0.2056884765625,
+          0.3101806640625
+        ],
+        "min": [
+          -1.840087890625,
+          -0.957275390625,
+          -1.686279296875
+        ],
+        "max": [
+          0.855224609375,
+          0.5458984375,
+          2.306640625
+        ],
+        "maxScale": 0.3455907525769745
+      },
+      "pose": {
+        "position": [
+          -0.492431640625,
+          -0.2056884765625,
+          8.14228284700437
+        ],
+        "target": [
+          -0.492431640625,
+          -0.2056884765625,
+          0.3101806640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "f552c8474e610733eb594d4388f8f5a38c0af6c5b15c776b98cc9ee2a51771dd",
+      "gpuBytes": 513976808,
+      "run": 0
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "config": "single",
+      "count": 1307854,
+      "degree": 3,
+      "ms": 2202.1749999998137,
+      "stages": {
+        "Inspecting": 34.83999999985099,
+        "Downloading": 175.86000000033528,
+        "Inflating": 352.089999999851,
+        "Decoding": 681.7350000003353,
+        "Rebasing": 314.339999999851,
+        "Uploading": 643.2750000003725,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 175.24499999918044,
+        "writeMs": 97.45500000100583,
+        "batchWallMs": 460.320000000298,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.924999996088445,
+        "initializationMs": 13.120000000111759
+      },
+      "bounds": {
+        "origin": [
+          -0.010498046875,
+          -0.06982421875,
+          -0.0133056640625
+        ],
+        "min": [
+          -0.466796875,
+          -0.30859375,
+          -0.431884765625
+        ],
+        "max": [
+          0.44580078125,
+          0.1689453125,
+          0.4052734375
+        ],
+        "maxScale": 0.11219689052034373
+      },
+      "pose": {
+        "position": [
+          -0.010498046875,
+          -0.06982421875,
+          2.1872182630005
+        ],
+        "target": [
+          -0.010498046875,
+          -0.06982421875,
+          -0.0133056640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "87c33dbf8bfe882cae4c2a3f130266d001a72c6aae0af8c81f2d2b883a1a88cb",
+      "gpuBytes": 382560656,
+      "run": 0
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "config": "auto",
+      "count": 1307854,
+      "degree": 3,
+      "ms": 1939.4249999998137,
+      "stages": {
+        "Inspecting": 35.96499999985099,
+        "Downloading": 202.59999999962747,
+        "Inflating": 374.60999999940395,
+        "Decoding": 407.3150000004098,
+        "Rebasing": 278.20999999996275,
+        "Uploading": 640.695000000298,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 130.90500000026077,
+        "writeMs": 94.97500000149012,
+        "batchWallMs": 230.62500000093132,
+        "decodeTaskMaxMs": 142.30078125,
+        "finishPackTaskMaxMs": 67.52001953125,
+        "rebaseComputeMs": 2.929999998770654,
+        "initializationMs": 32.33999999985099
+      },
+      "bounds": {
+        "origin": [
+          -0.010498046875,
+          -0.06982421875,
+          -0.0133056640625
+        ],
+        "min": [
+          -0.466796875,
+          -0.30859375,
+          -0.431884765625
+        ],
+        "max": [
+          0.44580078125,
+          0.1689453125,
+          0.4052734375
+        ],
+        "maxScale": 0.11219689052034373
+      },
+      "pose": {
+        "position": [
+          -0.010498046875,
+          -0.06982421875,
+          2.1872182630005
+        ],
+        "target": [
+          -0.010498046875,
+          -0.06982421875,
+          -0.0133056640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "87c33dbf8bfe882cae4c2a3f130266d001a72c6aae0af8c81f2d2b883a1a88cb",
+      "gpuBytes": 382560656,
+      "run": 0
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "config": "single",
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1673.2900000000373,
+      "stages": {
+        "Inspecting": 34.544999999925494,
+        "Downloading": 155.20000000018626,
+        "Inflating": 302.125,
+        "Decoding": 534.3100000005215,
+        "Rebasing": 225.68499999959022,
+        "Uploading": 421.40000000037253,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 137.95999999903142,
+        "writeMs": 73.98000000044703,
+        "batchWallMs": 380.72000000439584,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.7200000025331974,
+        "initializationMs": 12.239999999292195
+      },
+      "bounds": {
+        "origin": [
+          -0.1240234375,
+          -1.4539794921875,
+          0.0211181640625
+        ],
+        "min": [
+          -1.596435546875,
+          -1.61083984375,
+          -1.363037109375
+        ],
+        "max": [
+          1.348388671875,
+          -1.297119140625,
+          1.4052734375
+        ],
+        "maxScale": 0.22313016014842982
+      },
+      "pose": {
+        "position": [
+          -0.1240234375,
+          -1.4539794921875,
+          5.953046657602642
+        ],
+        "target": [
+          -0.1240234375,
+          -1.4539794921875,
+          0.0211181640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "feaa0b37b1652e41fe583ae1d0a8fcac827e2672377b10f4db88899f770b15dc",
+      "gpuBytes": 300644072,
+      "run": 0
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "config": "auto",
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1524.804999999702,
+      "stages": {
+        "Inspecting": 37.169999999925494,
+        "Downloading": 152.10500000044703,
+        "Inflating": 309.50499999988824,
+        "Decoding": 316.4199999999255,
+        "Rebasing": 239.1000000005588,
+        "Uploading": 470.47499999962747,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 99.88999999966472,
+        "writeMs": 80.0449999999255,
+        "batchWallMs": 193.1599999992177,
+        "decodeTaskMaxMs": 112.18994140625,
+        "finishPackTaskMaxMs": 64.0498046875,
+        "rebaseComputeMs": 3.0749999983236194,
+        "initializationMs": 32.66500000003725
+      },
+      "bounds": {
+        "origin": [
+          -0.1240234375,
+          -1.4539794921875,
+          0.0211181640625
+        ],
+        "min": [
+          -1.596435546875,
+          -1.61083984375,
+          -1.363037109375
+        ],
+        "max": [
+          1.348388671875,
+          -1.297119140625,
+          1.4052734375
+        ],
+        "maxScale": 0.22313016014842982
+      },
+      "pose": {
+        "position": [
+          -0.1240234375,
+          -1.4539794921875,
+          5.953046657602642
+        ],
+        "target": [
+          -0.1240234375,
+          -1.4539794921875,
+          0.0211181640625
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "feaa0b37b1652e41fe583ae1d0a8fcac827e2672377b10f4db88899f770b15dc",
+      "gpuBytes": 300644072,
+      "run": 0
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "config": "single",
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2968.5,
+      "stages": {
+        "Inspecting": 36.230000000447035,
+        "Downloading": 849.2999999998137,
+        "Decoding": 1036.6900000004098,
+        "Rebasing": 305.9449999993667,
+        "Uploading": 740.2949999999255,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 476.70999999996275,
+        "writeMs": 104.35500000137836,
+        "batchWallMs": 467.3300000037998,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.0200000051409006,
+        "initializationMs": 13.96999999973923
+      },
+      "bounds": {
+        "origin": [
+          0.0558355450630188,
+          0.08444173634052277,
+          0.018017470836639404
+        ],
+        "min": [
+          -0.7420520782470703,
+          -0.12003913521766663,
+          -1.0380076169967651
+        ],
+        "max": [
+          0.8537231683731079,
+          0.28892260789871216,
+          1.074042558670044
+        ],
+        "maxScale": 0.19768123456603823
+      },
+      "pose": {
+        "position": [
+          0.0558355450630188,
+          0.08444173634052277,
+          4.26909278506893
+        ],
+        "target": [
+          0.0558355450630188,
+          0.08444173634052277,
+          0.018017470836639404
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "c85c458d0f4d01f917ab7dbd0096faebd85a78e788a771d59960131b26692df5",
+      "gpuBytes": 415061448,
+      "run": 0
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "config": "auto",
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2556.125,
+      "stages": {
+        "Inspecting": 33.94000000040978,
+        "Downloading": 891.4550000000745,
+        "Decoding": 633.679999999702,
+        "Rebasing": 385.339999999851,
+        "Uploading": 611.6500000003725,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 307.90999999828637,
+        "writeMs": 107.35499999392778,
+        "batchWallMs": 230.10000000242144,
+        "decodeTaskMaxMs": 102.12646484375,
+        "finishPackTaskMaxMs": 56.446533203125,
+        "rebaseComputeMs": 6.505000001750886,
+        "initializationMs": 35.69500000029802
+      },
+      "bounds": {
+        "origin": [
+          0.0558355450630188,
+          0.08444173634052277,
+          0.018017470836639404
+        ],
+        "min": [
+          -0.7420520782470703,
+          -0.12003913521766663,
+          -1.0380076169967651
+        ],
+        "max": [
+          0.8537231683731079,
+          0.28892260789871216,
+          1.074042558670044
+        ],
+        "maxScale": 0.19768123456603823
+      },
+      "pose": {
+        "position": [
+          0.0558355450630188,
+          0.08444173634052277,
+          4.26909278506893
+        ],
+        "target": [
+          0.0558355450630188,
+          0.08444173634052277,
+          0.018017470836639404
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "c85c458d0f4d01f917ab7dbd0096faebd85a78e788a771d59960131b26692df5",
+      "gpuBytes": 415061448,
+      "run": 0
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "config": "single",
+      "count": 1248730,
+      "degree": 3,
+      "ms": 2604.4599999999627,
+      "stages": {
+        "Inspecting": 34.28000000026077,
+        "Downloading": 748.4550000000745,
+        "Decoding": 908.5300000002608,
+        "Rebasing": 289.3649999992922,
+        "Uploading": 623.7949999999255,
+        "Suspended": 0.009999999776482582
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 405.93500000424683,
+        "writeMs": 87.33000000473112,
+        "batchWallMs": 426.7399999955669,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 3.0649999994784594,
+        "initializationMs": 12.785000000149012
+      },
+      "bounds": {
+        "origin": [
+          0.09526729583740234,
+          0.3147636577486992,
+          0.1002158522605896
+        ],
+        "min": [
+          -0.636128306388855,
+          -0.10674287378787994,
+          -1.0286016464233398
+        ],
+        "max": [
+          0.8266628980636597,
+          0.7362701892852783,
+          1.229033350944519
+        ],
+        "maxScale": 0.20767958031160283
+      },
+      "pose": {
+        "position": [
+          0.09526729583740234,
+          0.3147636577486992,
+          4.571915004496126
+        ],
+        "target": [
+          0.09526729583740234,
+          0.3147636577486992,
+          0.1002158522605896
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "6530412af6171040d9c6d6ec0286811faadd8a0039101ce0dbdaa23275200a0a",
+      "gpuBytes": 365264048,
+      "run": 0
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "config": "auto",
+      "count": 1248730,
+      "degree": 3,
+      "ms": 2426.0900000007823,
+      "stages": {
+        "Inspecting": 31.985000000335276,
+        "Downloading": 774.7450000001118,
+        "Decoding": 551.7949999999255,
+        "Rebasing": 330.59500000067055,
+        "Uploading": 736.9349999995902,
+        "Suspended": 0.010000000707805157
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 265.1200000019744,
+        "writeMs": 88.38000000361353,
+        "batchWallMs": 210.4449999993667,
+        "decodeTaskMaxMs": 96.219482421875,
+        "finishPackTaskMaxMs": 50.505859375,
+        "rebaseComputeMs": 6.0700000040233135,
+        "initializationMs": 35.89000000059605
+      },
+      "bounds": {
+        "origin": [
+          0.09526729583740234,
+          0.3147636577486992,
+          0.1002158522605896
+        ],
+        "min": [
+          -0.636128306388855,
+          -0.10674287378787994,
+          -1.0286016464233398
+        ],
+        "max": [
+          0.8266628980636597,
+          0.7362701892852783,
+          1.229033350944519
+        ],
+        "maxScale": 0.20767958031160283
+      },
+      "pose": {
+        "position": [
+          0.09526729583740234,
+          0.3147636577486992,
+          4.571915004496126
+        ],
+        "target": [
+          0.09526729583740234,
+          0.3147636577486992,
+          0.1002158522605896
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "6530412af6171040d9c6d6ec0286811faadd8a0039101ce0dbdaa23275200a0a",
+      "gpuBytes": 365264048,
+      "run": 0
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "config": "single",
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2992.1749999998137,
+      "stages": {
+        "Inspecting": 34.72999999951571,
+        "Downloading": 953.355000000447,
+        "Decoding": 1014.0300000002608,
+        "Rebasing": 312.1049999995157,
+        "Uploading": 677.9150000000373,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 443.3250000020489,
+        "writeMs": 101.04000000376254,
+        "batchWallMs": 482.00999998953193,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.8100000005215406,
+        "initializationMs": 18.144999999552965
+      },
+      "bounds": {
+        "origin": [
+          0.13041937351226807,
+          0.17498956993222237,
+          -0.08018726110458374
+        ],
+        "min": [
+          -1.0770732164382935,
+          -0.07439082115888596,
+          -1.0231839418411255
+        ],
+        "max": [
+          1.3379119634628296,
+          0.4243699610233307,
+          0.862809419631958
+        ],
+        "maxScale": 0.2036250654351088
+      },
+      "pose": {
+        "position": [
+          0.13041937351226807,
+          0.17498956993222237,
+          4.678682226351619
+        ],
+        "target": [
+          0.13041937351226807,
+          0.17498956993222237,
+          -0.08018726110458374
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "d29dd01e577b00d122e98a8824168e4e99dc54d254ef3a35589416d304af1bb6",
+      "gpuBytes": 420845968,
+      "run": 0
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "config": "auto",
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2454.769999999553,
+      "stages": {
+        "Inspecting": 31.294999999925494,
+        "Downloading": 883.535000000149,
+        "Decoding": 662.6200000001118,
+        "Rebasing": 334.695000000298,
+        "Uploading": 542.5949999997392,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 326.6049999957904,
+        "writeMs": 102.90500000026077,
+        "batchWallMs": 243.9150000018999,
+        "decodeTaskMaxMs": 104.69482421875,
+        "finishPackTaskMaxMs": 63.470458984375,
+        "rebaseComputeMs": 4.569999998435378,
+        "initializationMs": 33.90500000026077
+      },
+      "bounds": {
+        "origin": [
+          0.13041937351226807,
+          0.17498956993222237,
+          -0.08018726110458374
+        ],
+        "min": [
+          -1.0770732164382935,
+          -0.07439082115888596,
+          -1.0231839418411255
+        ],
+        "max": [
+          1.3379119634628296,
+          0.4243699610233307,
+          0.862809419631958
+        ],
+        "maxScale": 0.2036250654351088
+      },
+      "pose": {
+        "position": [
+          0.13041937351226807,
+          0.17498956993222237,
+          4.678682226351619
+        ],
+        "target": [
+          0.13041937351226807,
+          0.17498956993222237,
+          -0.08018726110458374
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "d29dd01e577b00d122e98a8824168e4e99dc54d254ef3a35589416d304af1bb6",
+      "gpuBytes": 420845968,
+      "run": 0
+    },
+    {
+      "model": "wenke_v2.ply",
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "config": "single",
+      "count": 1757157,
+      "degree": 3,
+      "ms": 3675.25,
+      "stages": {
+        "Inspecting": 34.769999999552965,
+        "Downloading": 1040.0400000000373,
+        "Decoding": 1225.2200000006706,
+        "Rebasing": 423.375,
+        "Uploading": 951.8099999995902,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 572.3999999966472,
+        "writeMs": 127.1350000044331,
+        "batchWallMs": 537.3549999948591,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 4.194999998435378,
+        "initializationMs": 13.524999999441206
+      },
+      "bounds": {
+        "origin": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          -0.31017494201660156
+        ],
+        "min": [
+          -1.8400852680206299,
+          -0.5460149645805359,
+          -2.3065989017486572
+        ],
+        "max": [
+          0.8552255630493164,
+          0.9572449326515198,
+          1.686249017715454
+        ],
+        "maxScale": 0.35214747607952
+      },
+      "pose": {
+        "position": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          7.56516617060845
+        ],
+        "target": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          -0.31017494201660156
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "4e532355b8b95b3d3dbd23024d87db02a57a5be8c4613e654e320778f664f33f",
+      "gpuBytes": 513976808,
+      "run": 0
+    },
+    {
+      "model": "wenke_v2.ply",
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "config": "auto",
+      "count": 1757157,
+      "degree": 3,
+      "ms": 2935.800000000745,
+      "stages": {
+        "Inspecting": 32.135000000707805,
+        "Downloading": 1012.8199999993667,
+        "Decoding": 761.2199999997392,
+        "Rebasing": 379.0800000000745,
+        "Uploading": 750.5049999998882,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 363.12999999616295,
+        "writeMs": 128.92499999981374,
+        "batchWallMs": 281.1900000087917,
+        "decodeTaskMaxMs": 127.5244140625,
+        "finishPackTaskMaxMs": 67.680908203125,
+        "rebaseComputeMs": 3.459999999962747,
+        "initializationMs": 40.575000000186265
+      },
+      "bounds": {
+        "origin": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          -0.31017494201660156
+        ],
+        "min": [
+          -1.8400852680206299,
+          -0.5460149645805359,
+          -2.3065989017486572
+        ],
+        "max": [
+          0.8552255630493164,
+          0.9572449326515198,
+          1.686249017715454
+        ],
+        "maxScale": 0.35214747607952
+      },
+      "pose": {
+        "position": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          7.56516617060845
+        ],
+        "target": [
+          -0.49242985248565674,
+          0.20561498403549194,
+          -0.31017494201660156
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "4e532355b8b95b3d3dbd23024d87db02a57a5be8c4613e654e320778f664f33f",
+      "gpuBytes": 513976808,
+      "run": 0
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "config": "single",
+      "count": 1307854,
+      "degree": 3,
+      "ms": 2734.5449999999255,
+      "stages": {
+        "Inspecting": 33.74500000011176,
+        "Downloading": 803.8650000002235,
+        "Decoding": 947.0250000003725,
+        "Rebasing": 282.92499999981374,
+        "Uploading": 666.9599999999627,
+        "Suspended": 0.02000000048428774
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 417.73000000137836,
+        "writeMs": 91.24499999824911,
+        "batchWallMs": 454.6450000060722,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.465000000782311,
+        "initializationMs": 16.21499999985099
+      },
+      "bounds": {
+        "origin": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          0.013231456279754639
+        ],
+        "min": [
+          -0.46680670976638794,
+          -0.16893784701824188,
+          -0.4053482711315155
+        ],
+        "max": [
+          0.4458797574043274,
+          0.3086693286895752,
+          0.4318111836910248
+        ],
+        "maxScale": 0.11398430481406323
+      },
+      "pose": {
+        "position": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          2.2256473141514004
+        ],
+        "target": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          0.013231456279754639
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "e743c10f618c93bf6b2e5b90a3f9dd430d7b2a2b02597e011b24c7522fbfb727",
+      "gpuBytes": 382560656,
+      "run": 0
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "config": "auto",
+      "count": 1307854,
+      "degree": 3,
+      "ms": 2268.5849999999627,
+      "stages": {
+        "Inspecting": 32.15499999932945,
+        "Downloading": 767.5400000000373,
+        "Decoding": 582.4899999992922,
+        "Rebasing": 300.34999999962747,
+        "Uploading": 586,
+        "Suspended": 0.015000000596046448
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 282.2950000045821,
+        "writeMs": 98.1900000050664,
+        "batchWallMs": 213.95999999251217,
+        "decodeTaskMaxMs": 97.674072265625,
+        "finishPackTaskMaxMs": 51.206787109375,
+        "rebaseComputeMs": 3.0499999998137355,
+        "initializationMs": 34.33999999985099
+      },
+      "bounds": {
+        "origin": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          0.013231456279754639
+        ],
+        "min": [
+          -0.46680670976638794,
+          -0.16893784701824188,
+          -0.4053482711315155
+        ],
+        "max": [
+          0.4458797574043274,
+          0.3086693286895752,
+          0.4318111836910248
+        ],
+        "maxScale": 0.11398430481406323
+      },
+      "pose": {
+        "position": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          2.2256473141514004
+        ],
+        "target": [
+          -0.010463476181030273,
+          0.06986574083566666,
+          0.013231456279754639
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "e743c10f618c93bf6b2e5b90a3f9dd430d7b2a2b02597e011b24c7522fbfb727",
+      "gpuBytes": 382560656,
+      "run": 0
+    },
+    {
+      "model": "yulin_v1.ply",
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "config": "single",
+      "count": 1027833,
+      "degree": 3,
+      "ms": 2240.2450000001118,
+      "stages": {
+        "Inspecting": 36.58499999996275,
+        "Downloading": 662.5599999995902,
+        "Decoding": 749.1199999991804,
+        "Rebasing": 238.910000000149,
+        "Uploading": 553,
+        "Suspended": 0.03000000026077032
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 328.7549999989569,
+        "writeMs": 75.28500000294298,
+        "batchWallMs": 358.34499999694526,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 2.3200000021606684,
+        "initializationMs": 25.625
+      },
+      "bounds": {
+        "origin": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          -0.021113812923431396
+        ],
+        "min": [
+          -1.596408724784851,
+          1.297186017036438,
+          -1.4053118228912354
+        ],
+        "max": [
+          1.3484885692596436,
+          1.6107971668243408,
+          1.3630841970443726
+        ],
+        "maxScale": 0.21804872797083977
+      },
+      "pose": {
+        "position": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          5.877390500559187
+        ],
+        "target": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          -0.021113812923431396
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "2d64b2fcc181ecab96407c528597eb488e7b0df6e7d23ce595310302c5d6e92b",
+      "gpuBytes": 300644072,
+      "run": 0
+    },
+    {
+      "model": "yulin_v1.ply",
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "config": "auto",
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1804.4599999999627,
+      "stages": {
+        "Inspecting": 35.38499999977648,
+        "Downloading": 673.230000000447,
+        "Decoding": 449.3600000003353,
+        "Rebasing": 233.93999999947846,
+        "Uploading": 412.5,
+        "Suspended": 0.019999999552965164
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 213.56999999750406,
+        "writeMs": 73.13499999884516,
+        "batchWallMs": 178.03000000026077,
+        "decodeTaskMaxMs": 81.505859375,
+        "finishPackTaskMaxMs": 42.490234375,
+        "rebaseComputeMs": 2.394999999552965,
+        "initializationMs": 35.97000000067055
+      },
+      "bounds": {
+        "origin": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          -0.021113812923431396
+        ],
+        "min": [
+          -1.596408724784851,
+          1.297186017036438,
+          -1.4053118228912354
+        ],
+        "max": [
+          1.3484885692596436,
+          1.6107971668243408,
+          1.3630841970443726
+        ],
+        "maxScale": 0.21804872797083977
+      },
+      "pose": {
+        "position": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          5.877390500559187
+        ],
+        "target": [
+          -0.12396007776260376,
+          1.4539915919303894,
+          -0.021113812923431396
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "2d64b2fcc181ecab96407c528597eb488e7b0df6e7d23ce595310302c5d6e92b",
+      "gpuBytes": 300644072,
+      "run": 0
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "config": "single",
+      "count": 3914609,
+      "degree": 3,
+      "ms": 7529.819999999367,
+      "stages": {
+        "Inspecting": 32.424999999813735,
+        "Downloading": 2070.5449999999255,
+        "Decoding": 2793.4050000002608,
+        "Rebasing": 845.6349999997765,
+        "Uploading": 1787.7800000002608,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 1221.9500000029802,
+        "writeMs": 285.4450000040233,
+        "batchWallMs": 1290.6349999979138,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 7.335000007413328,
+        "initializationMs": 13.934999999590218
+      },
+      "bounds": {
+        "origin": [
+          0.05345487594604492,
+          4.5300856828689575,
+          0.1777048110961914
+        ],
+        "min": [
+          -8.432506561279297,
+          -2.867950201034546,
+          -10.133370399475098
+        ],
+        "max": [
+          8.539416313171387,
+          11.928121566772461,
+          10.48878002166748
+        ],
+        "maxScale": 2.3617424581314492
+      },
+      "pose": {
+        "position": [
+          0.05345487594604492,
+          4.5300856828689575,
+          49.351125038628794
+        ],
+        "target": [
+          0.05345487594604492,
+          4.5300856828689575,
+          0.1777048110961914
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "22a64a43124e3519b5d31f3ebb69e8854bc51c0cd447682d6cd57d011945d9b0",
+      "gpuBytes": 1145030904,
+      "run": 0
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "config": "auto",
+      "count": 3914609,
+      "degree": 3,
+      "ms": 6526.6349999997765,
+      "stages": {
+        "Inspecting": 33.044999999925494,
+        "Downloading": 2134.4150000000373,
+        "Decoding": 1699.8500000005588,
+        "Rebasing": 860.5099999997765,
+        "Uploading": 1798.7700000004843,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 800.5850000018254,
+        "writeMs": 290.44000001065433,
+        "batchWallMs": 612.8899999856949,
+        "decodeTaskMaxMs": 274.991943359375,
+        "finishPackTaskMaxMs": 147.140380859375,
+        "rebaseComputeMs": 7.664999985136092,
+        "initializationMs": 34.299999999813735
+      },
+      "bounds": {
+        "origin": [
+          0.05345487594604492,
+          4.5300856828689575,
+          0.1777048110961914
+        ],
+        "min": [
+          -8.432506561279297,
+          -2.867950201034546,
+          -10.133370399475098
+        ],
+        "max": [
+          8.539416313171387,
+          11.928121566772461,
+          10.48878002166748
+        ],
+        "maxScale": 2.3617424581314492
+      },
+      "pose": {
+        "position": [
+          0.05345487594604492,
+          4.5300856828689575,
+          49.351125038628794
+        ],
+        "target": [
+          0.05345487594604492,
+          4.5300856828689575,
+          0.1777048110961914
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "22a64a43124e3519b5d31f3ebb69e8854bc51c0cd447682d6cd57d011945d9b0",
+      "gpuBytes": 1145030904,
+      "run": 0
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "config": "single",
+      "count": 649520,
+      "degree": 3,
+      "ms": 1277.8899999996647,
+      "stages": {
+        "Inspecting": 33.37000000011176,
+        "Downloading": 390.089999999851,
+        "Decoding": 445.679999999702,
+        "Rebasing": 144.36000000033528,
+        "Uploading": 264.3650000002235,
+        "Suspended": 0.014999999664723873
+      },
+      "decoder": {
+        "backend": "single",
+        "threads": 1,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 202.79500000178814,
+        "writeMs": 44.350000001490116,
+        "batchWallMs": 212.5400000018999,
+        "decodeTaskMaxMs": 0,
+        "finishPackTaskMaxMs": 0,
+        "rebaseComputeMs": 1.3300000010058284,
+        "initializationMs": 12.34499999973923
+      },
+      "bounds": {
+        "origin": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          0.042833536863327026
+        ],
+        "min": [
+          -0.8116958737373352,
+          -0.03618772700428963,
+          -0.47218406200408936
+        ],
+        "max": [
+          0.6007574200630188,
+          0.1452234983444214,
+          0.5578511357307434
+        ],
+        "maxScale": 0.08955074774419648
+      },
+      "pose": {
+        "position": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          2.5671499534441296
+        ],
+        "target": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          0.042833536863327026
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "6959b79d4571eaf30d9eb15633fd62967bbd749a4b42d9b70a724b3af869a978",
+      "gpuBytes": 189989360,
+      "run": 0
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "config": "auto",
+      "count": 649520,
+      "degree": 3,
+      "ms": 1240.1450000004843,
+      "stages": {
+        "Inspecting": 32.37000000011176,
+        "Downloading": 456.21999999973923,
+        "Decoding": 271.49500000011176,
+        "Rebasing": 149.86000000033528,
+        "Uploading": 330.15500000026077,
+        "Suspended": 0.02500000037252903
+      },
+      "decoder": {
+        "backend": "pthreads",
+        "threads": 4,
+        "fallbackReason": null
+      },
+      "timings": {
+        "readMs": 132.53499999642372,
+        "writeMs": 43.10000000055879,
+        "batchWallMs": 110.07500000391155,
+        "decodeTaskMaxMs": 49.5546875,
+        "finishPackTaskMaxMs": 26.96484375,
+        "rebaseComputeMs": 2.0599999967962503,
+        "initializationMs": 35.74000000022352
+      },
+      "bounds": {
+        "origin": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          0.042833536863327026
+        ],
+        "min": [
+          -0.8116958737373352,
+          -0.03618772700428963,
+          -0.47218406200408936
+        ],
+        "max": [
+          0.6007574200630188,
+          0.1452234983444214,
+          0.5578511357307434
+        ],
+        "maxScale": 0.08955074774419648
+      },
+      "pose": {
+        "position": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          2.5671499534441296
+        ],
+        "target": [
+          -0.1054692268371582,
+          0.05451788567006588,
+          0.042833536863327026
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "imageSha256": "6959b79d4571eaf30d9eb15633fd62967bbd749a4b42d9b70a724b3af869a978",
+      "gpuBytes": 189989360,
+      "run": 0
+    }
+  ],
+  "failures": [],
+  "errors": []
+}

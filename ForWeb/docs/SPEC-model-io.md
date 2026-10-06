@@ -1,5 +1,7 @@
 # Spec: model-io
 
+2026-10-06 增量：可回退的单线程/pthreads 并行路径契约见 [SPEC-parallel-decoder](SPEC-parallel-decoder.md)。解码、归并、资源、失败和验收规则先于实现；已有 Source/错误/模型语义保持。
+
 2026-10-04. Implementation authorized by the user; provider specification for ForWeb/model-io.
 
 ## Objective and boundaries
