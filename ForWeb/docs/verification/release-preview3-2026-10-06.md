@@ -43,3 +43,10 @@ SDK 源码提交：`372401c3f4abf3a5a5eb095d4a799c406c5c5c6c`。
 
 上传新版并核验实际下载后，只删除旧 Web SDK/React/Vue ZIP 与旧 sidecars。
 Windows/Android/Cloud 原生包和原生 tag 保留。未发布 npm，不自动合并 PR。
+
+## 发布结果
+
+三个 ZIP 已上传并实际下载核验：与本地产物逐字节一致，所有内部清单与
+两模板 vendor SDK 相同。已删除 8 个旧 Web ZIP/sidecar，保留其余
+6 个原生平台资产。模板源码为 `7746e81a9f5d5b6b1d919170ad893d128999324f`。
+[发布核验](evidence/adaptive-2026-10-06/release-publication.json)。

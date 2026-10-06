@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-06",
+  "complete": true,
+  "scope": "Release download bytes and archive integrity only; no new runtime tests after user stop",
+  "records": [
+    {
+      "name": "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.3.zip",
+      "sourceCommit": "372401c3f4abf3a5a5eb095d4a799c406c5c5c6c",
+      "sdkSourceCommit": null,
+      "files": 43,
+      "downloadMatchesLocal": true,
+      "internalInventoryVerified": true
+    },
+    {
+      "name": "Native3DGS-Template-0.2.2-Web-React-preview.3.zip",
+      "sourceCommit": "7746e81a9f5d5b6b1d919170ad893d128999324f",
+      "sdkSourceCommit": "372401c3f4abf3a5a5eb095d4a799c406c5c5c6c",
+      "files": 15,
+      "downloadMatchesLocal": true,
+      "internalInventoryVerified": true
+    },
+    {
+      "name": "Native3DGS-Template-0.2.2-Web-Vue-preview.3.zip",
+      "sourceCommit": "7746e81a9f5d5b6b1d919170ad893d128999324f",
+      "sdkSourceCommit": "372401c3f4abf3a5a5eb095d4a799c406c5c5c6c",
+      "files": 15,
+      "downloadMatchesLocal": true,
+      "internalInventoryVerified": true
+    }
+  ],
+  "identicalVendorTarballs": true,
+  "independentHashUploads": false,
+  "releaseUrl": "https://github.com/XJI1234/Native3DGSViewer/releases/tag/v0.2.2",
+  "removedOldWebAssets": [
+    "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.2.zip",
+    "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.2.zip.sha256",
+    "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.zip",
+    "Native3DGS-SDK-0.2.2-Web-WebGPU-preview.zip.sha256",
+    "Native3DGS-Template-0.2.2-Web-React-preview.2.zip",
+    "Native3DGS-Template-0.2.2-Web-React-preview.2.zip.sha256",
+    "Native3DGS-Template-0.2.2-Web-Vue-preview.2.zip",
+    "Native3DGS-Template-0.2.2-Web-Vue-preview.2.zip.sha256"
+  ],
+  "preservedNativeAssets": [
+    "Native3DGS-SDK-0.2.2-Android-arm64-v8a.zip",
+    "Native3DGS-SDK-0.2.2-Windows-x64.zip",
+    "Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe",
+    "Native3DGSCloudViewer-0.2.2-Windows-x64-Setup.exe.sha256",
+    "Native3DGSViewer-0.2.2-Android-arm64-v8a-preview.apk",
+    "Native3DGSViewer-0.2.2-Windows-x64-Setup.exe"
+  ]
+}
