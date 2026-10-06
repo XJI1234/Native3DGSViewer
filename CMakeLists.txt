@@ -208,6 +208,7 @@ option(NATIVE3DGS_ENABLE_ASAN "Instrument engine, decoders and tests with MSVC A
 if(NATIVE3DGS_ENABLE_ASAN)
   foreach(TARGET_NAME native3dgs-engine render-core render-core-testing model-io model-io-helper
       Native3DGSViewer.Tests Native3DGSViewer.SortBench Native3DGSViewer.SceneBench
+      Native3DGSViewer.InteractionBench
       spz zlibstatic libzstd_static gtest gtest_main)
     target_compile_options(${TARGET_NAME} PRIVATE /fsanitize=address /Zi)
   endforeach()
