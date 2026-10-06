@@ -3,6 +3,8 @@ import { useNative3DGS } from "@native3dgs/web/react";
 import { ViewerSession, number, status, diagnostic, time } from "./viewer";
 import "./style.css";
 const options = {
+  decoder: { mode: "auto" as const, threads: 4 },
+  sorting: { mode: "adaptive" as const },
   assets: {
     baseUrl: new URL(`${import.meta.env.BASE_URL}gs-assets/`, location.href),
     workerUrl: new URL(
@@ -243,6 +245,18 @@ export default function App() {
               </dd>
               <dt>绘制</dt>
               <dd>{time(snapshot.stats?.drawMs)}</dd>
+              <dt>解码后端</dt>
+              <dd data-testid="decoder">
+                {snapshot.decoder
+                  ? `${snapshot.decoder.backend} · ${snapshot.decoder.threads}`
+                  : "未加载"}
+              </dd>
+              <dt>排序策略</dt>
+              <dd data-testid="sorting">
+                adaptive · {snapshot.stats?.sortReason ?? "尚未提交"}
+              </dd>
+              <dt>排序年龄</dt>
+              <dd>{time(snapshot.stats?.sortAgeMs)}</dd>
               <dt>设备代际</dt>
               <dd>{snapshot.deviceGeneration}</dd>
             </dl>

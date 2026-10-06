@@ -6,6 +6,8 @@ import "./style.css";
 const host = ref<HTMLElement | null>(null),
   file = ref<HTMLInputElement | null>(null);
 const options = {
+  decoder: { mode: "auto" as const, threads: 4 },
+  sorting: { mode: "adaptive" as const },
   assets: {
     baseUrl: new URL(`${import.meta.env.BASE_URL}gs-assets/`, location.href),
     workerUrl: new URL(
@@ -235,6 +237,20 @@ function drop(event: DragEvent) {
             </dd>
             <dt>绘制</dt>
             <dd>{{ time(snapshot?.stats?.drawMs) }}</dd>
+            <dt>解码后端</dt>
+            <dd data-testid="decoder">
+              {{
+                snapshot?.decoder
+                  ? `${snapshot.decoder.backend} · ${snapshot.decoder.threads}`
+                  : "未加载"
+              }}
+            </dd>
+            <dt>排序策略</dt>
+            <dd data-testid="sorting">
+              adaptive · {{ snapshot?.stats?.sortReason ?? "尚未提交" }}
+            </dd>
+            <dt>排序年龄</dt>
+            <dd>{{ time(snapshot?.stats?.sortAgeMs) }}</dd>
             <dt>设备代际</dt>
             <dd>{{ snapshot?.deviceGeneration ?? 0 }}</dd>
           </dl>

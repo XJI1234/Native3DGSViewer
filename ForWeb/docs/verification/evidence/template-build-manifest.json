@@ -1,8 +1,16 @@
 {
   "schema": 1,
   "inputState": "working tree hashes; packaging requires matching clean committed inputs",
-  "baseCommit": "eaa3b1b58cff268b3a5254ca2eb4d28f5236a26e",
+  "baseCommit": "372401c3f4abf3a5a5eb095d4a799c406c5c5c6c",
   "node": "24.14.1",
+  "verification": {
+    "dependencyUpdate": true,
+    "formatWrite": true,
+    "typecheck": true,
+    "productionBuild": true,
+    "unitTests": "not rerun: user stopped testing",
+    "browserTests": "not rerun: user stopped testing"
+  },
   "records": [
     {
       "framework": "react",
@@ -14,11 +22,11 @@
         },
         {
           "path": "package.json",
-          "sha256": "4094112648dcb86421eeb63fa6c9822efe508583e9e0240b4f6772e30fcc85c2"
+          "sha256": "854c2971812f814732b47e0145eed698bfe0d54f96fd4f6bbf2aa74c4a2443f4"
         },
         {
           "path": "pnpm-lock.yaml",
-          "sha256": "73beb525da1d039a02100ae78b069353da197aa860857d02a9c3c2054fa775f6"
+          "sha256": "78132ca6789eb38ba7ae6e0050148bdea019cc5048d18263020279a732a2b6a7"
         },
         {
           "path": "scripts/copy-sdk-assets.mjs",
@@ -26,7 +34,7 @@
         },
         {
           "path": "src/App.tsx",
-          "sha256": "e69de73ab54ebbe8026577c8309b042a3466628560ec9f4dec5da93b992e8d9c"
+          "sha256": "b2637ef498d77b65bc6da8950e515abfd53cad4571946e15f55669dcb81045c4"
         },
         {
           "path": "src/main.tsx",
@@ -49,18 +57,18 @@
           "sha256": "58830e1f7be62b3aefb0508cc1ade39aaf8acca769d3a4b93e6a7989b307965e"
         },
         {
-          "path": "vendor/native3dgs-web-0.2.2-preview.2.tgz",
-          "sha256": "4a978996d31a6bce0f632c7c4b4fde1d138b039135ca7c6a547341f190c0c088"
+          "path": "vendor/native3dgs-web-0.2.2-preview.3.tgz",
+          "sha256": "24459b44b904d4bba46576d887e15400a471a7767a59908516d8349d8b94f20e"
         },
         {
           "path": "vite.config.ts",
-          "sha256": "550ccb4d463faa46fd26c9963f47f8039f40eed4ffe14107f0d837c60c04038f"
+          "sha256": "95a5c1909aa841cdf44dbee9a3160335a7e2d9d9ea3ffd4a5f5008b920d11b48"
         }
       ],
       "outputs": [
         {
-          "path": "assets/index-DCOr6cN6.js",
-          "sha256": "fb948617a83021cd0f962e4f5e1461a60cadac5875ff3a04d5b252a551f5841a"
+          "path": "assets/index-g831Lza6.js",
+          "sha256": "671f646d513d55989b11cb10d5a5fcb0696321aba395c94bba30e40f9bcadeee"
         },
         {
           "path": "assets/index-KOkQuLsw.css",
@@ -68,15 +76,15 @@
         },
         {
           "path": "gs-assets/decoder.mjs",
-          "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+          "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
         },
         {
           "path": "gs-assets/decoder.wasm",
-          "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+          "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
         },
         {
           "path": "gs-assets/decoder.worker.js",
-          "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+          "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
         },
         {
           "path": "gs-assets/licenses/spz.txt",
@@ -96,11 +104,19 @@
         },
         {
           "path": "gs-assets/manifest.json",
-          "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
+          "sha256": "8662e7c94c065824c1c045bed7358d9efbecf5486eb7a41403663373ccfed395"
+        },
+        {
+          "path": "gs-assets/threaded/decoder.mjs",
+          "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+        },
+        {
+          "path": "gs-assets/threaded/decoder.wasm",
+          "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
         },
         {
           "path": "index.html",
-          "sha256": "4887878e10385af2037ca43dc182a79de74312b27ca497aa9b3510783cdabdf0"
+          "sha256": "57e3d91eeb32cb9bf1c327f5ed1080c89c700d63e979d06ac79fd309d689b54c"
         }
       ]
     },
@@ -114,11 +130,11 @@
         },
         {
           "path": "package.json",
-          "sha256": "6d2be28bc12b773f5783cf09aef34acb5a17a5be6bc9cda9e2d3c24b59c9561f"
+          "sha256": "d2aee5b161901465392e3ddf3ae7d039b2ac125cd018b2775366b766c92de75c"
         },
         {
           "path": "pnpm-lock.yaml",
-          "sha256": "05513c0ec35c7dfac9542b40f2974ac793e3535c52ac62f74a6daecdb60510e7"
+          "sha256": "7022f867c59384945be1acf63216f73669f7938c6bebf56bf593d2c5f5997a2d"
         },
         {
           "path": "scripts/copy-sdk-assets.mjs",
@@ -126,7 +142,7 @@
         },
         {
           "path": "src/App.vue",
-          "sha256": "a245a4f21a67299efc04bcd37185d0b553a30d54dd0543859e78b1ab05ea5a4c"
+          "sha256": "8ac1da2241cc0c488263aea4e2b548cc1aebf1494da71f37d4a067c4870d8742"
         },
         {
           "path": "src/main.ts",
@@ -149,18 +165,18 @@
           "sha256": "58830e1f7be62b3aefb0508cc1ade39aaf8acca769d3a4b93e6a7989b307965e"
         },
         {
-          "path": "vendor/native3dgs-web-0.2.2-preview.2.tgz",
-          "sha256": "4a978996d31a6bce0f632c7c4b4fde1d138b039135ca7c6a547341f190c0c088"
+          "path": "vendor/native3dgs-web-0.2.2-preview.3.tgz",
+          "sha256": "24459b44b904d4bba46576d887e15400a471a7767a59908516d8349d8b94f20e"
         },
         {
           "path": "vite.config.ts",
-          "sha256": "260a7489b42dba3c25d87b7f4772b78a6c73ad084814d90c0107eafee3f176df"
+          "sha256": "7170a8cd69db1e351694634cacb037b4fdec89c0d07dc3a40920ee3f2884f3e8"
         }
       ],
       "outputs": [
         {
-          "path": "assets/index-CXodfNlI.js",
-          "sha256": "d6f58722e6834c5830dadfa0303e153c41dd66d81b358df82c9c52eb0842ebbd"
+          "path": "assets/index-DM5RcAnG.js",
+          "sha256": "a0e860ba4b7ccd1c70d7bac5e780c5ed52de34d0ec2e3f87f862ec352307f9ad"
         },
         {
           "path": "assets/index-KOkQuLsw.css",
@@ -168,15 +184,15 @@
         },
         {
           "path": "gs-assets/decoder.mjs",
-          "sha256": "55c4349825b7f4824b5e5a490d2bb0c01b5c7a1f901fe902f4691fc7221bf8ab"
+          "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
         },
         {
           "path": "gs-assets/decoder.wasm",
-          "sha256": "9369c6f8f62e53d980166ac1d0854e07b11df061e32166499ab55772a0df5295"
+          "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
         },
         {
           "path": "gs-assets/decoder.worker.js",
-          "sha256": "0fea17224afed75a9fbc99bd72b634b060d2ecddb6523da6e04dac20e4b2466d"
+          "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
         },
         {
           "path": "gs-assets/licenses/spz.txt",
@@ -196,11 +212,19 @@
         },
         {
           "path": "gs-assets/manifest.json",
-          "sha256": "1a267889dca338b7d37eaa1803478d4f9ee7ec24b468d57ebbf4525c070123e7"
+          "sha256": "8662e7c94c065824c1c045bed7358d9efbecf5486eb7a41403663373ccfed395"
+        },
+        {
+          "path": "gs-assets/threaded/decoder.mjs",
+          "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+        },
+        {
+          "path": "gs-assets/threaded/decoder.wasm",
+          "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
         },
         {
           "path": "index.html",
-          "sha256": "604ea7b62d5424180bd95c87ea7a69929a6647811c14fb92201ee8af4c0e47d8"
+          "sha256": "9cd29c0a46e8bbca55f5120ffcb5d6a6243cb20672452791e609f084c00fd92c"
         }
       ]
     }

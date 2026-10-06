@@ -62,10 +62,14 @@ for(const framework of ['react','vue']) for(const mode of ['production','develop
         await page.getByRole('button',{name:'打开模型',exact:true}).waitFor();
         await page.waitForFunction(()=>!document.querySelector('.primary')?.disabled,undefined,{timeout:60000});
         assert.equal(await page.locator('canvas').count(),1);
+        assert.equal(await page.evaluate(()=>crossOriginIsolated),true,'Template isolation headers missing');
         await page.screenshot({path:resolve(output,framework+'-'+mode+'-empty.png')});
         const input=page.getByLabel('选择模型文件');
         await input.setInputFiles({name:'asymmetric.ply',mimeType:'application/octet-stream',buffer:fixture});
         await page.waitForFunction(()=>document.querySelector('[data-testid=count]')?.textContent==='3');
+        assert.ok((await page.getByTestId('decoder').textContent()).includes('single'),'Small model fallback missing');
+        assert.ok((await page.getByTestId('sorting').textContent()).includes('adaptive'),'Adaptive config missing');
+        assert.ok(!(await page.getByTestId('sorting').textContent()).includes('strict'),'Strict strategy unexpectedly selected');
         const pose=()=>page.getByLabel('相机位置').textContent();
         await page.waitForFunction(()=>document.querySelector('output')?.textContent?.startsWith('0.050,'));
         const initial=await pose();
@@ -138,6 +142,7 @@ for(const framework of ['react','vue']) for(const mode of ['production','develop
             await page.screenshot({path:resolve(output,framework+'-loaded-1440.png')});
             await input.setInputFiles(resolve(modelRoot,'spz/shengyi_v1.spz'));
             await page.waitForFunction(()=>document.querySelector('[data-testid=count]')?.textContent==='804,758',undefined,{timeout:120000});
+            assert.ok((await page.getByTestId('decoder').textContent()).includes('pthreads'),'Automatic pthreads missing');
         }
         const layouts=[];
         for(const width of [320,768,1024,1440]) {
@@ -154,7 +159,7 @@ for(const framework of ['react','vue']) for(const mode of ['production','develop
         assert.deepEqual(errors,[]);
         assert.deepEqual(await inputs(root),sourceBefore,'Source changed during browser test');
         assert.deepEqual(await walk(root+'/dist'),outputsBefore,'Dist changed during browser test');
-        records.push({framework,mode,sources:sourceBefore,outputs:outputsBefore,poses,layouts,actualYReflection:true,faultInjection:'uncaptured validation error + device destruction, not hardware loss',cancelPreservedScene:true,urlFailurePreservedScene:true,recovery:true,realPlySpz:mode==='production',unmount:mode==='development',errors});
+        records.push({framework,mode,sources:sourceBefore,outputs:outputsBefore,poses,layouts,actualYReflection:true,faultInjection:'uncaptured validation error + device destruction, not hardware loss',cancelPreservedScene:true,urlFailurePreservedScene:true,recovery:true,realPlySpz:mode==='production',crossOriginIsolated:true,smallModelSingleFallback:true,adaptiveSorting:true,automaticPthreads:mode==='production',unmount:mode==='development',errors});
         console.log('PASS',framework,mode);
     } finally { try { await context?.close(); } finally { if(!serverExited)server.kill();
         try { await within(serverClosed,5000,'Vite shutdown timeout'); }
