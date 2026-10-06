@@ -55,6 +55,7 @@ def main():
                      "source": row["rawFile"]})
     browsers = []
     browser_source_hashes = None
+    served_asset_hashes = None
     for repetition in range(3):
         path = OUT / f"web-repeat-{repetition}/results.json"
         browser = json.loads(path.read_text(encoding="utf-8"))
@@ -71,6 +72,11 @@ def main():
         if browser_source_hashes is None:
             browser_source_hashes = source_hashes
         require(source_hashes == browser_source_hashes, "Browser source changed across repetitions")
+        served_hashes = {entry.get("path", entry.get("url")): entry["sha256"]
+                         for entry in browser["provenance"]["servedAssets"]}
+        if served_asset_hashes is None:
+            served_asset_hashes = served_hashes
+        require(served_hashes == served_asset_hashes, "Delivered assets changed across repetitions")
         browsers.append(browser["browser"])
         for row in browser["rows"]:
             require(not row["errors"] and len(row["perRun"]) == 1, "Browser case failed")
@@ -177,6 +183,8 @@ def main():
     for extension in ["png", "svg", "pdf"]:
         fig.savefig(OUT / f"three-engine-comparison.{extension}", dpi=180,
                     facecolor=fig.get_facecolor())
+    svg = OUT / "three-engine-comparison.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
     plt.close(fig)
     print(json.dumps(summaries, indent=2))
 

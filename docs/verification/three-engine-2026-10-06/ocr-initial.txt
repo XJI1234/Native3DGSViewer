@@ -1,0 +1,26 @@
+Review complete: 3 finding(s) across 5 selected item(s).
+
+─── bench/measure-interaction.py:15-15 ───
+[bug · medium] These evidence-integrity checks (including the later exit-status, count/SH and sample
+checks) disappear under `python -O` or `PYTHONOPTIMIZE`. A mismatched model or failed executable
+that emitted parseable output can then be recorded and the report marked complete. Use explicit
+checks that raise exceptions rather than assertions for benchmark validation.
+
+
+
+─── bench/measure-interaction.py:19-19 ───
+[bug · medium] A timeout or launch failure occurs outside the reporting try/finally, so it neither
+records a failure nor invalidates an existing complete windows-results.json. In particular, a failed
+first run can leave the browser driver consuming the previous run's complete results and reference
+poses. Persist an incomplete report before starting measurement, and include process execution in
+the guarded block, retaining TimeoutExpired stdout/stderr as raw failure evidence.
+
+
+
+─── bench/plot-three-engine.py:49-52 ───
+[bug · medium] The aggregation accepts complete browser reports from a different pose/protocol: it
+never checks loaded.pose against the native rows, provenance.poseOverride across repetitions, or
+warmupMs/frameDepth against the requested 5000 ms/2-frame configuration. Matching model hashes and
+counts do not establish equal camera workloads, so stale repeats can be published as a validated
+comparison. Validate the per-model reference poses and pose provenance, plus the timing/frame-depth
+settings, before writing summaries.

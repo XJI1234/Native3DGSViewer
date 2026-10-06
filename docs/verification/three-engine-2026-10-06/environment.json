@@ -1,0 +1,33 @@
+{
+  "dateUtc": "2026-10-06T09:56:26.9478415Z",
+  "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+  "memoryBytes": 33706704896,
+  "os": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "video": [
+    {
+      "Name": "GameViewer Virtual Display Adapter",
+      "DriverVersion": "15.6.5.199",
+      "CurrentHorizontalResolution": null,
+      "CurrentVerticalResolution": null,
+      "CurrentRefreshRate": null
+    },
+    {
+      "Name": "MuMu Virtual Display Adapter",
+      "DriverVersion": "20.36.41.498",
+      "CurrentHorizontalResolution": null,
+      "CurrentVerticalResolution": null,
+      "CurrentRefreshRate": null
+    },
+    {
+      "Name": "NVIDIA GeForce RTX 3080",
+      "DriverVersion": "32.0.16.1692",
+      "CurrentHorizontalResolution": 2560,
+      "CurrentVerticalResolution": 1600,
+      "CurrentRefreshRate": 119
+    }
+  ]
+}

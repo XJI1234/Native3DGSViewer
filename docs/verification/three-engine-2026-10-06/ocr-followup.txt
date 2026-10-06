@@ -1,0 +1,10 @@
+Review complete: 1 finding(s) across 5 selected item(s).
+
+─── bench/measure-browser-interaction.py:37-37 ───
+[bug · medium] Invalidate the previous results.json before launching each repetition. The Node
+harness does not save a report until after setup and browser launch, so an early failure (for
+example, an unavailable server during verifyServedAssets) leaves an old complete report in this
+reused directory while runner.log is overwritten. Although this runner raises, plot-three-engine.py
+can subsequently accept that stale report because its settings and pose hash still match. Remove the
+previous report or replace it with an incomplete marker before starting Node; this can be verified
+with a setup-failure test without rerunning GPU measurements.
