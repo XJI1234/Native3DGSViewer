@@ -26,6 +26,9 @@ class GS_CUDA_API Context
     void end(ID3D12CommandQueue *queue);
     bool wait_idle(uint32_t timeout_ms = 5000);
     void *native_stream() const;
+    // Single submission thread; first begin binds one device queue for life.
+    bool owns(const SharedBuffer &) const;
+    bool owns(const SharedTexture &) const;
 
   private:
     std::shared_ptr<ContextState> state_;
@@ -45,6 +48,7 @@ class GS_CUDA_API SharedBuffer
     uint64_t bytes() const;
 
   private:
+    friend class Context;
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
@@ -64,6 +68,7 @@ class GS_CUDA_API SharedTexture
     uint32_t height() const;
 
   private:
+    friend class Context;
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };

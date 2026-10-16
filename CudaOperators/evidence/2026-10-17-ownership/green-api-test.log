@@ -1,0 +1,12 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaInterop.TracksResourceOwnershipAndRejectsForeignQueues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaInterop
+[ RUN      ] CudaInterop.TracksResourceOwnershipAndRejectsForeignQueues
+[       OK ] CudaInterop.TracksResourceOwnershipAndRejectsForeignQueues (561 ms)
+[----------] 1 test from CudaInterop (561 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (562 ms total)
+[  PASSED  ] 1 test.

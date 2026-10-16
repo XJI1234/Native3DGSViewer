@@ -45,6 +45,8 @@
 
 ### 3.2 D3D12/CUDA 互操作
 
+归属检查切片（2026-10-17）：构造Context时核对实际D3D12 device LUID与声明LUID一致。Context首次begin绑定同device的一条队列，之后begin/end必须使用该队列；错误调用在提交任何fence/kernel之前拒绝，正确队列仍可结束尚未完成的交接。Context提供私有owns(buffer/texture)查询；fill、sort、project、compact、tile/list/composite全部拒绝其他Context资源，即使adapter相同或count为0也不借用另一stream的所有权。组合workspace构造前核对列表归属。先建立负测，再实现；正式采集的冻结二进制不受后续源码修改影响。
+
 1. 按适配器 **LUID** 匹配 CUDA 设备与 D3D12 设备；多 GPU、无 NVIDIA、不可共享资源时明确失败或选择已标识的 D3D12 后端，不能选错卡拷贝后冒充零拷贝。
 2. 用可共享 D3D12 heap/resource 与 external memory 导入，按实际 allocation size、offset、alignment 和资源类型映射。共享纹理使用合法的 array/surface 映射，不能把纹理当线性内存。
 3. 共享 D3D12 fence 导入 external semaphore；每帧为单调值：D3D12 producer signal → CUDA wait/计算/signal → D3D12 consumer wait。明确资源状态转换及访问独占区间。

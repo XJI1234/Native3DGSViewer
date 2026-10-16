@@ -102,3 +102,40 @@ TEST(CudaInterop, WritesSharedTextureWithPaddedRows)
     readback->Unmap(0, &empty);
     EXPECT_TRUE(gpu.debug_errors().empty());
 }
+
+TEST(CudaInterop, TracksResourceOwnershipAndRejectsForeignQueues)
+{
+    GpuDevice gpu;
+    Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
+    Context other(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
+    SharedBuffer buffer(context, 4), foreign(other, 4);
+    SharedTexture texture(context, 1, 1), foreign_texture(other, 1, 1);
+    EXPECT_TRUE(context.owns(buffer));
+    EXPECT_TRUE(context.owns(texture));
+    EXPECT_FALSE(context.owns(foreign));
+    EXPECT_FALSE(context.owns(foreign_texture));
+
+    D3D12_COMMAND_QUEUE_DESC description{};
+    description.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+    ComPtr<ID3D12CommandQueue> second;
+    check(gpu.device->CreateCommandQueue(&description, IID_PPV_ARGS(&second)), "Ownership queue");
+    context.begin(gpu.direct.Get());
+    EXPECT_THROW(context.end(second.Get()), std::logic_error);
+    context.end(gpu.direct.Get());
+    check(gpu.direct->Signal(gpu.direct_fence.Get(), ++gpu.direct_value), "Ownership complete");
+    gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    EXPECT_THROW(context.begin(second.Get()), std::logic_error);
+
+    // D3D12CreateDevice reuses a device for the same adapter. WARP provides a
+    // genuinely different device for rejection, without running any rendering.
+    ComPtr<IDXGIAdapter> warp_adapter;
+    ComPtr<ID3D12Device> warp_device;
+    ComPtr<ID3D12CommandQueue> warp_queue;
+    check(gpu.factory->EnumWarpAdapter(IID_PPV_ARGS(&warp_adapter)), "Ownership WARP adapter");
+    check(D3D12CreateDevice(warp_adapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&warp_device)), "Ownership WARP device");
+    check(warp_device->CreateCommandQueue(&description, IID_PPV_ARGS(&warp_queue)), "Ownership WARP queue");
+    EXPECT_THROW(Context(warp_device.Get(), gpu.adapter_description.AdapterLuid), std::runtime_error);
+    EXPECT_THROW(other.begin(warp_queue.Get()), std::invalid_argument);
+    ASSERT_TRUE(context.wait_idle());
+    ASSERT_TRUE(other.wait_idle());
+}

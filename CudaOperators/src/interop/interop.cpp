@@ -43,6 +43,7 @@ struct ContextState
 {
     Microsoft::WRL::ComPtr<ID3D12Device> device;
     Microsoft::WRL::ComPtr<ID3D12Fence> fence;
+    Microsoft::WRL::ComPtr<ID3D12CommandQueue> queue;
     cudaStream_t stream = nullptr;
     cudaExternalSemaphore_t semaphore = nullptr;
     uint64_t value = 0;
@@ -64,6 +65,9 @@ struct ContextState
 Context::Context(ID3D12Device *device, LUID adapter) : state_(std::make_shared<ContextState>())
 {
     if (!device) throw std::invalid_argument("Null D3D12 device");
+    const auto actual_adapter = device->GetAdapterLuid();
+    if (std::memcmp(&actual_adapter, &adapter, sizeof(adapter)) != 0)
+        throw std::runtime_error("D3D12 device does not match the declared adapter LUID");
     int count = 0, selected = -1;
     checked(cudaGetDeviceCount(&count));
     for (int i = 0; i < count; ++i)
@@ -91,6 +95,15 @@ bool Context::wait_idle(uint32_t timeout_ms) { return wait_stream(state_->stream
 void Context::begin(ID3D12CommandQueue *queue)
 {
     if (!queue || state_->active) throw std::logic_error("Invalid interop begin");
+    if (state_->queue && state_->queue.Get() != queue) throw std::logic_error("Interop queue changed");
+    if (!state_->queue)
+    {
+        Microsoft::WRL::ComPtr<IUnknown> queue_device, owner_device;
+        checked(queue->GetDevice(IID_PPV_ARGS(&queue_device)));
+        checked(state_->device.As(&owner_device));
+        if (queue_device.Get() != owner_device.Get()) throw std::invalid_argument("Interop queue belongs to another device");
+        state_->queue = queue;
+    }
     const auto value = ++state_->value;
     checked(queue->Signal(state_->fence.Get(), value));
     cudaExternalSemaphoreWaitParams params{};
@@ -100,7 +113,7 @@ void Context::begin(ID3D12CommandQueue *queue)
 }
 void Context::end(ID3D12CommandQueue *queue)
 {
-    if (!queue || !state_->active) throw std::logic_error("Invalid interop end");
+    if (!queue || !state_->active || state_->queue.Get() != queue) throw std::logic_error("Invalid interop end");
     cudaExternalSemaphoreSignalParams params{};
     params.params.fence.value = ++state_->value;
     checked(cudaSignalExternalSemaphoresAsync(&state_->semaphore, &params, 1, state_->stream));
@@ -237,4 +250,6 @@ ID3D12Resource *SharedTexture::resource() const { return impl_->resource.Get(); 
 uint64_t SharedTexture::surface() const { return impl_->surface; }
 uint32_t SharedTexture::width() const { return impl_->width; }
 uint32_t SharedTexture::height() const { return impl_->height; }
+bool Context::owns(const SharedBuffer &buffer) const { return buffer.impl_->context == state_; }
+bool Context::owns(const SharedTexture &texture) const { return texture.impl_->context == state_; }
 } // namespace gs::cuda_ops
