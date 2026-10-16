@@ -1,0 +1,12 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaLifecycle
+[ RUN      ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+[       OK ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth (594 ms)
+[----------] 1 test from CudaLifecycle (594 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (594 ms total)
+[  PASSED  ] 1 test.

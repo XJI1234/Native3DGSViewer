@@ -1,0 +1,80 @@
+UpdateCTestConfiguration  from :C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/DartConfiguration.tcl
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 8
+    Start 8: CudaLifecycle
+
+8: Test command: C:\Users\21544\workspace\Native3DGSViewer\out\cmake-cuda\cuda\Release\Native3DGSViewer.CudaTests.exe "--gtest_filter=CudaLifecycle.*"
+8: Working Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/CudaOperators
+8: Test timeout computed to be: 120
+8: Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+8: Note: Google Test filter = CudaLifecycle.*
+8: [==========] Running 3 tests from 1 test suite.
+8: [----------] Global test environment set-up.
+8: [----------] 3 tests from CudaLifecycle
+8: [ RUN      ] CudaLifecycle.DiagnoseHandleGrowth
+8: category=0 before=397 after=579 settled=579
+8: category=1 before=579 after=579 settled=579
+8: category=2 before=579 after=579 settled=579
+8: category=3 before=579 after=579 settled=579
+8: category=4 before=579 after=579 settled=579
+8: [       OK ] CudaLifecycle.DiagnoseHandleGrowth (3046 ms)
+8: [ RUN      ] CudaLifecycle.ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall
+8: [       OK ] CudaLifecycle.ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall (299 ms)
+8: [ RUN      ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+8: C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\interop_tests.cpp(97): error: Expected: (after) <= (before + 4), actual: 694 vs 599
+8: before=595 after=694
+8: 
+8: [  FAILED  ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth (435 ms)
+8: [----------] 3 tests from CudaLifecycle (3781 ms total)
+8: 
+8: [----------] Global test environment tear-down
+8: [==========] 3 tests from 1 test suite ran. (3781 ms total)
+8: [  PASSED  ] 2 tests.
+8: [  FAILED  ] 1 test, listed below:
+8: [  FAILED  ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+8: 
+8:  1 FAILED TEST
+1/1 Test #8: CudaLifecycle ....................***Failed    3.83 sec
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaLifecycle.*
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from CudaLifecycle
+[ RUN      ] CudaLifecycle.DiagnoseHandleGrowth
+category=0 before=397 after=579 settled=579
+category=1 before=579 after=579 settled=579
+category=2 before=579 after=579 settled=579
+category=3 before=579 after=579 settled=579
+category=4 before=579 after=579 settled=579
+[       OK ] CudaLifecycle.DiagnoseHandleGrowth (3046 ms)
+[ RUN      ] CudaLifecycle.ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall
+[       OK ] CudaLifecycle.ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall (299 ms)
+[ RUN      ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\interop_tests.cpp(97): error: Expected: (after) <= (before + 4), actual: 694 vs 599
+before=595 after=694
+
+[  FAILED  ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth (435 ms)
+[----------] 3 tests from CudaLifecycle (3781 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (3781 ms total)
+[  PASSED  ] 2 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth
+
+ 1 FAILED TEST
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   3.83 sec
+
+The following tests FAILED:
+	  8 - CudaLifecycle (Failed)
+Errors while running CTest

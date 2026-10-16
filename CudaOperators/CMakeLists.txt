@@ -40,6 +40,17 @@ add_custom_command(TARGET Native3DGSViewer.CudaTests POST_BUILD
   VERBATIM)
 add_test(NAME CudaInterop COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaInterop.*)
 set_tests_properties(CudaInterop PROPERTIES TIMEOUT 60)
+add_executable(Native3DGSViewer.CudaLifecycleTests tests/lifecycle_tests.cpp)
+target_include_directories(Native3DGSViewer.CudaLifecycleTests PRIVATE "${PROJECT_SOURCE_DIR}/src/render-core/device")
+target_compile_definitions(Native3DGSViewer.CudaLifecycleTests PRIVATE NOMINMAX)
+target_link_libraries(Native3DGSViewer.CudaLifecycleTests PRIVATE gs-cuda-backend render-core GTest::gtest_main)
+cuda_experiment_output(Native3DGSViewer.CudaLifecycleTests)
+add_dependencies(Native3DGSViewer.CudaTests Native3DGSViewer.CudaLifecycleTests)
+# Debug-layer activation is process global. Resource accounting must run in a
+# fresh process; debug interop fence retirement is recorded separately.
+add_test(NAME CudaLifecycleHandles COMMAND Native3DGSViewer.CudaLifecycleTests --gtest_filter=CudaLifecycle.RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth)
+add_test(NAME CudaLifecycle COMMAND Native3DGSViewer.CudaLifecycleTests --gtest_filter=CudaLifecycle.ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall)
+set_tests_properties(CudaLifecycle CudaLifecycleHandles PROPERTIES TIMEOUT 60)
 add_test(NAME CudaSort COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaSort.*)
 set_tests_properties(CudaSort PROPERTIES TIMEOUT 240)
 add_test(NAME CudaProject COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaProject.*)

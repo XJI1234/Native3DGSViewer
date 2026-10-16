@@ -1,0 +1,18 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaLifecycle.DiagnoseHandleGrowth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaLifecycle
+[ RUN      ] CudaLifecycle.DiagnoseHandleGrowth
+category=0 before=417 after=599 settled=599
+category=1 before=599 after=599 settled=599
+category=2 before=599 after=599 settled=599
+category=3 before=599 after=622 settled=620
+category=4 before=620 after=638 settled=638
+category=5 before=638 after=638 settled=638
+[       OK ] CudaLifecycle.DiagnoseHandleGrowth (3586 ms)
+[----------] 1 test from CudaLifecycle (3586 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (3587 ms total)
+[  PASSED  ] 1 test.
