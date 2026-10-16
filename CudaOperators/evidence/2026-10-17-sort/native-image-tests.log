@@ -1,0 +1,30 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = RenderImage.*
+[==========] Running 10 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 10 tests from RenderImage
+[ RUN      ] RenderImage.SampledUploadPacksSelectedSplatsAndSh
+[       OK ] RenderImage.SampledUploadPacksSelectedSplatsAndSh (466 ms)
+[ RUN      ] RenderImage.GaussianPixelsMatchAnalyticReference
+[       OK ] RenderImage.GaussianPixelsMatchAnalyticReference (333 ms)
+[ RUN      ] RenderImage.FarToNearPremultipliedOverlap
+[       OK ] RenderImage.FarToNearPremultipliedOverlap (357 ms)
+[ RUN      ] RenderImage.ShZeroThroughThreeAndFarOriginPreserveTrainingColor
+[       OK ] RenderImage.ShZeroThroughThreeAndFarOriginPreserveTrainingColor (2818 ms)
+[ RUN      ] RenderImage.ConservativeEdgesNearPlaneAndOverflowHaveFiniteResults
+[       OK ] RenderImage.ConservativeEdgesNearPlaneAndOverflowHaveFiniteResults (1543 ms)
+[ RUN      ] RenderImage.RotatedAnisotropicCovarianceAndBlurMatchPrincipalAxes
+[       OK ] RenderImage.RotatedAnisotropicCovarianceAndBlurMatchPrincipalAxes (313 ms)
+[ RUN      ] RenderImage.DepthAndRadialModesProduceTheirDeclaredOverlapOrder
+[       OK ] RenderImage.DepthAndRadialModesProduceTheirDeclaredOverlapOrder (699 ms)
+[ RUN      ] RenderImage.ColorClampAndShCapAreAppliedAfterEvaluation
+[       OK ] RenderImage.ColorClampAndShCapAreAppliedAfterEvaluation (280 ms)
+[ RUN      ] RenderImage.ShCapUsesEachSplatsOwnCoefficients
+[       OK ] RenderImage.ShCapUsesEachSplatsOwnCoefficients (279 ms)
+[ RUN      ] RenderImage.ThinAnisotropicSplatRetainsPositiveMinorAxis
+[       OK ] RenderImage.ThinAnisotropicSplatRetainsPositiveMinorAxis (281 ms)
+[----------] 10 tests from RenderImage (7374 ms total)
+
+[----------] Global test environment tear-down
+[==========] 10 tests from 1 test suite ran. (7374 ms total)
+[  PASSED  ] 10 tests.

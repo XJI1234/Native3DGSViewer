@@ -1,0 +1,2 @@
+# Compiler diagnostics are verbatim evidence, including Ninja's trailing spaces.
+*.log -whitespace

@@ -40,6 +40,8 @@ class SplatPass
                                        bool memory_mitigation = false,
                                        uint32_t point_stride = 1);
     FrameConstants constants(const SceneGpu &, Viewport) const;
+    void project(ID3D12GraphicsCommandList *, SceneGpu &, Viewport,
+                 ID3D12QueryHeap *stage_queries = nullptr);
     void project_sort(ID3D12GraphicsCommandList *, SceneGpu &, Viewport,
                       ID3D12QueryHeap *stage_queries = nullptr);
     void draw(ID3D12GraphicsCommandList *, SceneGpu &, Viewport, D3D12_CPU_DESCRIPTOR_HANDLE);
