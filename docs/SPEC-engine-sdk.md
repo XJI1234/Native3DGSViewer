@@ -20,6 +20,12 @@ gs::engine::CameraController 使用 double 世界位置、焦点和四元数。�
 
 ## 引擎契约
 
+### 2026-10-16 测距扩展
+
+提供原生 `measurement.h` 值类型、JSON 解析/米制计算与投影函数。使用 Windows 内建 JSON，无第三方新依赖。`IEngine` 增加异步 `import_metric(path)`、`set_measurement_enabled(bool)`、`clear_measurement()`、`measure_at(x_px,y_px)`；快照增加测距启用、导入中、拾取中、标定质量、RUB/源坐标 A/B、米制距离和结构化错误。JSON 最大 1 MiB、深度 64；导入由独立串行工作线程完成，不持有引擎锁进行文件 I/O。允许任意比例尺，不核验模型指纹。公开 API 仅以数值/路径/错误值交互，不暴露 WinRT JSON 类型。
+
+会话版本与单调操作 ID 过滤迟到结果；相机/镜像/resize/打开/设备丢失撤销在途拾取，退出/关闭撤销导入。新模型激活清空标定和端点，失败/取消保留旧模型会话。源坐标 PLY 使用实际加载选项，SPZ 使用 RDF 等价坐标。解析失败保留原有效标定；导入成功清空端点；第三点不覆盖完成结果；clear 保留标定。5 秒拾取超时仅撤销资格，GPU 资源仍由 fence 安全回收。新增头和系统库随 SDK 安装/消费验证。
+
 IEngine 以线程安全、非阻塞命令向桌面宿主提供 open/cancel/close、surface queue/attach/detach/resize、相机命令和快照/事件轮询。create_engine 完成初始设备创建后返回结构化成功/失败。引擎拥有一个串行加载线程和一个渲染线程；阻塞 load、GPU 等待及 renderer 销毁均在后台执行。
 
 - open 每次返回递增 RequestId；仅保留最新一个未启动请求。新请求停止旧解码并撤销旧上传；旧活动场景仍显示。过期解码结果/进度和 renderer ticket 无权改变当前请求。
