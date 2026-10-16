@@ -21,3 +21,5 @@ ctest --test-dir out/cmake-cuda -C Release --output-on-failure -R '^Cuda'
 `texture-test.log`记录CudaToolchain/CudaInterop两组通过，后者含四项测试。RED编译与修复构建日志均保留。故障设备移除、无法完成fence、长稳、整帧互操作性能仍待后续验收，当前通过不代表这些项已测。
 
 头文件CUDART_VERSION=13030；运行时版本查询由本机驱动报告13040，构建链接路径实际固定为本安装根的cudart_static.lib。保留两者，不将驱动报告值称为已安装13.4开发工具链。
+
+再次核验：桌面应用环境下，Python的Path.resolve()会将上述AppData/Local逻辑路径解析到OpenAI.Codex包LocalCache/Local；samefile()为true。install-receipt.json记录的是解析后的同一目录，不代表另一个Toolkit版本。显式逻辑路径重新安装校验日志见install-verified-root.log，组件内容与官方归档一致。

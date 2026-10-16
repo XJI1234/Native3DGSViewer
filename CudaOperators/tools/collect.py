@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import statistics
+import shutil
 import subprocess
 import time
 
@@ -27,18 +28,23 @@ def main():
     parser.add_argument("--models", nargs="+", default=["changjin_v1.ply", "shengyi_v1.ply", "tumu_v1.ply", "zhihuizhimen.ply", "jiulonghu_v1.ply"])
     parser.add_argument("--backends", nargs="+", default=["d3d12", "interop-noop", "cuda-sort"])
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--binary", type=Path, help="Source executable; copied with its runtime files before collection")
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--formal", action="store_true")
     parser.add_argument("--camera", choices=["fit", "orbit"], default="fit")
     args = parser.parse_args()
-    if args.repetitions < 1 or len(set(args.backends)) != len(args.backends):
-        parser.error("Positive repetitions and distinct backends required")
+    if args.repetitions < 1 or len(set(args.backends)) != len(args.backends) or "d3d12" not in args.backends:
+        parser.error("Positive repetitions, distinct backends and a d3d12 reference required")
     root = Path(__file__).resolve().parents[2]
-    binary = root / "out/cmake-cuda/cuda/Release/Native3DGSViewer.CudaBench.exe"
+    source_binary = (args.binary or root / "out/cmake-cuda/cuda/Release/Native3DGSViewer.CudaBench.exe").resolve()
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     temporary = root / "out/cuda-results" / output.name
     temporary.mkdir(parents=True, exist_ok=False)
+    runtime = temporary / "runtime"
+    shutil.copytree(source_binary.parent, runtime)
+    binary = runtime / source_binary.name
+    runtime_hashes = {str(p.relative_to(runtime)): sha(p) for p in sorted(runtime.rglob("*")) if p.is_file()}
     models = []
     for name in args.models:
         path = (args.model_root / name).resolve()
@@ -53,7 +59,7 @@ def main():
               "diff_sha256": hashlib.sha256(subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=root)).hexdigest(),
               "binaries": {p.name: sha(p) for p in [binary, binary.parent / "gs-cuda-backend.dll", binary.parent / "model-io-helper.exe"]},
               "shaders": {p.name: sha(p) for p in sorted((binary.parent / "shaders").glob("*.cso"))},
-              "models": models, "runs": []}
+              "runtime_sha256": runtime_hashes, "models": models, "runs": []}
     references = {}
     for repetition in range(1, args.repetitions + 1):
         ordered_models = args.models if repetition % 2 else list(reversed(args.models))
@@ -106,6 +112,10 @@ def main():
             baseline = next(r for r in result["runs"] if r["model"] == run["model"] and
                             r["repetition"] == run["repetition"] and r["backend"] == "d3d12")
             run["bit_identical_to_d3d12"] = run["image_sha256"] == baseline["image_sha256"]
+    after = {str(p.relative_to(runtime)): sha(p) for p in sorted(runtime.rglob("*")) if p.is_file()}
+    result["runtime_unchanged"] = after == runtime_hashes
+    if not result["runtime_unchanged"]:
+        raise RuntimeError("Runtime changed during collection; results invalid")
     result["complete"] = True
     (output / "results.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
 
