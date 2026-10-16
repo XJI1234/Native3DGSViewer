@@ -102,6 +102,8 @@ E06–E08实测处置（2026-10-17）：CUDA/HLSL统一512项有界批次，后�
 
 E09实施约束（2026-10-17）：实验host提供1/3帧槽独立allocator/list、query/readback与CUDA events，仅在对应最终fence完成后复用。共享模型缓冲区/目标通过D3D队列顺序及CUDA fence形成逐帧依赖，每帧重新计算当前相机投影/排序，不复用旧排序。每阶段按帧号排空槽，固定图像比较最终完成帧。CPU submit不含槽回收等待；CPU wall包含队列驻留和稍后解析延迟，不能称为输入延迟。Graph只捕获CUB计算，保留图外交接，绑定stream/四buffer地址/count，变化则拒绝并要求重建。必须有D3D12三槽控制，避免将通用提交调优归因CUDA。
 
+固定CUB Graph的count约束包含0：已捕获非零规模后提交0也应抛出invalid_argument，不能绕过绑定校验；尚未捕获的零容量workspace仍允许零规模no-op。负测先复现该边界，再修复，不改变普通正规模CUB算法。
+
 正式相机覆盖补充：fit之后复核pan-x=900的最大模型可见内容场景，先短时检查、再同样30s/60s/3轮配对。所有后端在全部计时和截图后读回最终DrawCounters，采集器保存visible/source；不向正常逐帧路径加入计数读回，不以全剔除帧作为可见内容收益证据。各次冻结运行时单独保存hash。
 
 截图复核补充：默认fit和平移视角对该地形模型接近水平侧视，平移后只剩边缘窄带，不能据此宣称常规浏览加速。host增加固定yaw/pitch角度和dolly步数，通过现有CameraController施加；测试固定yaw=30°、pitch=-45°、dolly=2的俯斜视角，并记录非零alpha像素比例与截图。与动态orbit叠加时仍从同一初始相机按墙钟变化；不改renderer相机算法。先图像/诊断，通过收益筛选后才扩大正式矩阵。

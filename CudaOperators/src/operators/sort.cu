@@ -54,7 +54,11 @@ uint32_t SortWorkspace::submit(Context &context, SharedBuffer &keys0, SharedBuff
         if (!context.owns(*buffer)) throw std::invalid_argument("Foreign sort buffer");
         if (buffer->bytes() < uint64_t(count) * 4) throw std::out_of_range("Sort buffer capacity");
     }
-    if (!count) return 0;
+    if (!count)
+    {
+        if (impl_->executable) throw std::invalid_argument("Sort graph count changed; rebuild workspace");
+        return 0;
+    }
     if (&keys0 == &keys1 || &values0 == &values1 || &keys0 == &values0 || &keys1 == &values1 ||
         &keys0 == &values1 || &keys1 == &values0) throw std::invalid_argument("Aliased sort buffers");
     const std::array<void *, 4> addresses{keys0.device_pointer(), keys1.device_pointer(), values0.device_pointer(), values1.device_pointer()};

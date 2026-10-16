@@ -75,7 +75,7 @@ TEST(CudaSort, StableEightMillionRandomPairs) { verify_sort(8000000, 0); }
 TEST(CudaSort, StableFullLargeSceneCount) { verify_sort(22480361, 0); }
 TEST(CudaSort, GraphReplaysChangingInputsWithStablePairs)
 {
-    for (auto count : {1u, 513u, 1000000u}) for (auto distribution : {0u, 3u}) verify_sort(count, distribution, true);
+    for (auto count : {0u, 1u, 513u, 1000000u}) for (auto distribution : {0u, 3u}) verify_sort(count, distribution, true);
 }
 
 TEST(CudaSort, GraphRejectsChangedBindingsAndCapacity)
@@ -93,6 +93,8 @@ TEST(CudaSort, GraphRejectsChangedBindingsAndCapacity)
     workspace.submit(context, keys0, keys1, values0, values1, 513);
     EXPECT_THROW(workspace.submit(context, replacement, keys1, values0, values1, 513), std::invalid_argument);
     EXPECT_THROW(workspace.submit(context, keys0, keys1, values0, values1, 512), std::invalid_argument);
+    EXPECT_THROW(workspace.submit(context, keys0, keys1, values0, values1, 0), std::invalid_argument);
+    EXPECT_NO_THROW(workspace.submit(context, keys0, keys1, values0, values1, 513));
     context.end(gpu.direct.Get());
     ASSERT_TRUE(context.wait_idle());
     Context other(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
