@@ -79,6 +79,8 @@ E05 不能以中心不在视锥为由丢弃可见椭圆。完整场景/可见候
 
 ### 4.2 Tile 合成的等价性
 
+E05实施决定（2026-10-17）：CUB的SortPairs数量参数是host值。对照两种不读取device count的实现：稳定DeviceSelect后仍排序完整容量；以及由GPU计数选择有界容量桶的conditional switch graph。桶从min(32768,N)按2倍增长至N，每个分支用固定host容量的CUB排序；GPU只执行选中分支，不逐帧CPU等待。所有桶先查询scratch取最大值，稳定gather及填充不改变有效前缀顺序，输出统一到固定buffer。Graph只承担device-count分派，E09仍须另测整管线capture的调度收益。Graph不支持时明确拒绝该变体，保留完整容量对照。新增selected-index与count/scratch容量计入预算，N变化重建workspace/graph，资源地址变化不得复用旧图。
+
 - 先采用现有全局径向稳定排序所得 **global rank**，按 `(tile_id, global_rank)` 建立列表，保留同一个像素的完整覆盖顺序。先不改成 tile 局部视深度排序。
 - 原管线从后到前绘制；从前到后合成必须反转完整顺序，**包含同键 tie 的顺序**。背景、alpha clamp、最小 alpha、椭圆支撑、SH、颜色空间与当前实现一致。
 - E06 关闭提前终止，与 D3D12 比较；E08 才增加误差受控的 transmittance 阈值。浮点累加与硬件 blend 精度差异必须测量，不能用数学等价推定像素等价。

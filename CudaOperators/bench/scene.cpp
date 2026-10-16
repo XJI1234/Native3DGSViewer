@@ -1,5 +1,6 @@
 #include "gs_cuda/sort.h"
 #include "gs_cuda/project.h"
+#include "gs_cuda/compact.h"
 #include "model-io/model_loader.h"
 #include "native3dgs/camera.h"
 #include "splat.h"
@@ -155,7 +156,7 @@ int wmain(int argc, wchar_t **argv)
     {
         std::map<std::wstring, std::wstring> args;
         const std::vector<std::wstring> accepted{L"--model", L"--backend", L"--frames", L"--warmup-frames",
-            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events"};
+            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x"};
         for (int i = 1; i < argc; i += 2)
         {
             if (i + 1 >= argc || std::find(accepted.begin(), accepted.end(), argv[i]) == accepted.end() || args.contains(argv[i]))
@@ -173,10 +174,11 @@ int wmain(int argc, wchar_t **argv)
         };
         const auto backend = get(L"--backend", L"d3d12");
         const std::vector<std::wstring> backends{L"d3d12", L"interop-noop", L"cuda-sort", L"cuda-project-128",
-            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256"};
+            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets"};
         if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
         const bool interop = backend != L"d3d12", cuda_projection = backend.starts_with(L"cuda-project");
-        const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort");
+        const bool cuda_compact = backend.starts_with(L"cuda-compact");
+        const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort") || cuda_compact;
         const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
         const auto event_mode = get(L"--cuda-events", L"off");
         if (event_mode != L"off" && event_mode != L"on") throw std::invalid_argument("Invalid CUDA events switch");
@@ -203,16 +205,20 @@ int wmain(int argc, wchar_t **argv)
         if (auto error = validate_scene(scene)) throw std::runtime_error(error->diagnostic);
         gs::engine::CameraController camera;
         if (auto error = camera.fit_scene(*scene, quality, viewport)) throw std::runtime_error(error->diagnostic);
+        if (auto error = camera.pan(number(L"--pan-x", L"0", 1000000), 0)) throw std::runtime_error(error->diagnostic);
         const auto initial_camera = camera;
         GpuDevice gpu(get(L"--diagnostics", L"off") == L"on");
         MemorySamples memory(gpu, output_path.string() + ".memory.csv");
         std::unique_ptr<cuda_ops::Context> context;
         std::unique_ptr<cuda_ops::SortWorkspace> workspace;
+        std::unique_ptr<cuda_ops::CompactWorkspace> compact;
         std::unique_ptr<KernelEvents> events;
         if (interop)
         {
             context = std::make_unique<cuda_ops::Context>(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
-            if (cuda_sort) workspace = std::make_unique<cuda_ops::SortWorkspace>(*context, uint32_t(scene->count));
+            if (cuda_compact) compact = std::make_unique<cuda_ops::CompactWorkspace>(*context, uint32_t(scene->count),
+                backend == L"cuda-compact-buckets" ? cuda_ops::CompactMode::DeviceBuckets : cuda_ops::CompactMode::FullCapacity);
+            else if (cuda_sort) workspace = std::make_unique<cuda_ops::SortWorkspace>(*context, uint32_t(scene->count));
             if (event_mode == L"on") events = std::make_unique<KernelEvents>();
         }
         SplatPass pass(gpu, quality);
@@ -224,7 +230,7 @@ int wmain(int argc, wchar_t **argv)
         const uint64_t required = base_required + (32ull << 20); // target + shared heap alignment
         const uint64_t staging = upload_reserve_bytes(*scene, scene->shDegree, 1) + (16ull << 20); // image readback
         std::cout << "admission required_local=" << required << " local_usage=" << local.CurrentUsage
-                  << " local_budget=" << local.Budget << " scratch=" << (workspace ? workspace->scratch_bytes() : 0) << '\n';
+                  << " local_budget=" << local.Budget << " scratch=" << (workspace ? workspace->scratch_bytes() : compact ? compact->scratch_bytes() : 0) << '\n';
         if (!fits_scene_budgets(required, staging, local.Budget, local.CurrentUsage,
                                nonlocal.Budget, nonlocal.CurrentUsage, gpu.uma))
             throw std::runtime_error("Equal-quality scene exceeds native 80% admission budget");
@@ -322,7 +328,8 @@ int wmain(int argc, wchar_t **argv)
                     if (cuda_projection) cuda_ops::project(*context, pass.constants(*model, viewport),
                         *shared[6], *shared[7], *shared[4], *shared[0], *shared[2], *shared[5], block_size);
                     if (events) events->mark(*context, 1);
-                    if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
+                    if (compact) selected = compact->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
+                    else if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     if (events) events->mark(*context, 2);
                     context->end(gpu.direct.Get());
                     consumer.reset();
@@ -359,6 +366,17 @@ int wmain(int argc, wchar_t **argv)
         }
         if (context && !context->wait_idle()) throw std::runtime_error("CUDA shutdown timeout");
         capture(gpu, target.Get(), output_path.string() + ".bgra");
+        if (compact)
+        {
+            const auto data = gpu.readback(compact->visible_count_buffer().resource(), 4, D3D12_RESOURCE_STATE_COMMON);
+            uint32_t visible = 0;
+            std::memcpy(&visible, data.data(), 4);
+            const auto args_data = gpu.readback(model->arguments.Get(), sizeof(DrawCounters), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            DrawCounters draw{};
+            std::memcpy(&draw, args_data.data(), sizeof(draw));
+            if (visible != draw.instance_count) throw std::runtime_error("Compact count differs from projected draw count");
+            std::cout << "visible=" << visible << " total=" << model->count << " (read after all measured frames)\n";
+        }
         memory.sample("captured");
         if (!output) throw std::runtime_error("Cannot save samples");
         if (!gpu.debug_errors().empty()) throw std::runtime_error("D3D12 validation failed");

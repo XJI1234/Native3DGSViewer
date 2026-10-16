@@ -33,6 +33,7 @@ def main():
     parser.add_argument("--formal", action="store_true")
     parser.add_argument("--kernel-timing", action="store_true", help="CUDA event diagnostics; excluded from formal timing")
     parser.add_argument("--camera", choices=["fit", "orbit"], default="fit")
+    parser.add_argument("--pan-x", type=float, default=0)
     args = parser.parse_args()
     if args.repetitions < 1 or len(set(args.backends)) != len(args.backends) or "d3d12" not in args.backends:
         parser.error("Positive repetitions, distinct backends and a d3d12 reference required")
@@ -58,7 +59,7 @@ def main():
               "formal_duration": args.formal, "cuda_event_diagnostics": args.kernel_timing,
               "warmup_seconds": 30 if args.formal else None,
               "sample_seconds": 60 if args.formal else None, "frames": None if args.formal else 120,
-              "warmup_frames": None if args.formal else 60, "camera": args.camera,
+              "warmup_frames": None if args.formal else 60, "camera": args.camera, "pan_x": args.pan_x,
               "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
               "diff_sha256": hashlib.sha256(subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=root)).hexdigest(),
               "binaries": {p.name: sha(p) for p in [binary, binary.parent / "gs-cuda-backend.dll", binary.parent / "model-io-helper.exe"]},
@@ -73,7 +74,7 @@ def main():
                 stem = name.replace("/", "_").replace("\\", "_") + f"-{backend}-{repetition}"
                 sample = temporary / (stem + ".csv")
                 command = [str(binary), "--model", str(args.model_root / name), "--backend", backend,
-                           "--output", str(sample), "--camera", args.camera]
+                           "--output", str(sample), "--camera", args.camera, "--pan-x", str(args.pan_x)]
                 if args.kernel_timing:
                     command += ["--cuda-events", "on"]
                 if args.formal:

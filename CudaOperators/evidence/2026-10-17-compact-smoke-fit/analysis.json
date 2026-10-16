@@ -1,0 +1,329 @@
+{
+  "protocol": "offscreen-serialized-full-GPU-span; no Present; no display FPS",
+  "formal_duration": false,
+  "note": "Offscreen serialized GPU timing; no Present or input-latency conclusion. Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+  "comparisons": [
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort",
+      "rounds": 1,
+      "d3d12_median_ms": 2.037248,
+      "candidate_median_ms": 2.112,
+      "paired_frame_reduction_percent": [
+        -3.669263634078912
+      ],
+      "mean_reduction_percent": -3.669263634078912,
+      "paired_bootstrap_95ci_percent": [
+        -3.669263634078912,
+        -3.669263634078912
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -1.7377247928874517
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-full",
+      "rounds": 1,
+      "d3d12_median_ms": 2.037248,
+      "candidate_median_ms": 2.179072,
+      "paired_frame_reduction_percent": [
+        -6.9615481276702695
+      ],
+      "mean_reduction_percent": -6.9615481276702695,
+      "paired_bootstrap_95ci_percent": [
+        -6.9615481276702695,
+        -6.9615481276702695
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -4.196217494089849
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-buckets",
+      "rounds": 1,
+      "d3d12_median_ms": 2.037248,
+      "candidate_median_ms": 2.277376,
+      "paired_frame_reduction_percent": [
+        -11.78688112591102
+      ],
+      "mean_reduction_percent": -11.78688112591102,
+      "paired_bootstrap_95ci_percent": [
+        -11.78688112591102,
+        -11.78688112591102
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -8.624577226606544
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    }
+  ],
+  "runs": [
+    {
+      "model": "tumu_v1.ply",
+      "backend": "d3d12",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.647013900001184,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "d3d12",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\tumu_v1.ply-d3d12-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.57344,
+        "sort_and_interop_ms": 0.477184,
+        "draw_ms": 0.8704000000000001,
+        "gpu_total_ms": 2.037248,
+        "cpu_wall_ms": 2.25705,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 388505600,
+        "sampled_nonlocal_peak_bytes": 32432128,
+        "process_peak_private_bytes": 551698432,
+        "process_peak_working_set_bytes": 449204224
+      },
+      "image_sha256": "516c9383ea2913c1c92ac1d32117a64da02b77b77d035b053ff7cd146689159b",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.3216639999999997,
+        "p99_ms": 2.44103168,
+        "one_percent_low_gpu_fps": 401.6296524778943
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.8165508000020054,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "cuda-sort",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\tumu_v1.ply-cuda-sort-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.774144,
+        "sort_and_interop_ms": 0.474112,
+        "draw_ms": 0.859136,
+        "gpu_total_ms": 2.112,
+        "cpu_wall_ms": 2.2805,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.188416004181
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 610017280,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 861421568,
+        "process_peak_working_set_bytes": 561823744
+      },
+      "image_sha256": "516c9383ea2913c1c92ac1d32117a64da02b77b77d035b053ff7cd146689159b",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.41024,
+        "p99_ms": 2.4856576,
+        "one_percent_low_gpu_fps": 394.6504344311982
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-full",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.7849378000028082,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "cuda-compact-full",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\tumu_v1.ply-cuda-compact-full-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.774144,
+        "sort_and_interop_ms": 0.533504,
+        "draw_ms": 0.859136,
+        "gpu_total_ms": 2.179072,
+        "cpu_wall_ms": 2.3472,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.245759993792
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 616316928,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 868057088,
+        "process_peak_working_set_bytes": 562925568
+      },
+      "image_sha256": "516c9383ea2913c1c92ac1d32117a64da02b77b77d035b053ff7cd146689159b",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.4515583999999997,
+        "p99_ms": 2.53740032,
+        "one_percent_low_gpu_fps": 384.7763987391646
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-buckets",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.7904960000014398,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "cuda-compact-buckets",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-fit\\tumu_v1.ply-cuda-compact-buckets-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.775168,
+        "sort_and_interop_ms": 0.6333439999999999,
+        "draw_ms": 0.859136,
+        "gpu_total_ms": 2.277376,
+        "cpu_wall_ms": 2.4579500000000003,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.340992003679
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 616316928,
+        "sampled_nonlocal_peak_bytes": 110419968,
+        "process_peak_private_bytes": 867352576,
+        "process_peak_working_set_bytes": 564613120
+      },
+      "image_sha256": "516c9383ea2913c1c92ac1d32117a64da02b77b77d035b053ff7cd146689159b",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.6039808,
+        "p99_ms": 2.68883968,
+        "one_percent_low_gpu_fps": 366.9907929349868
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    }
+  ]
+}

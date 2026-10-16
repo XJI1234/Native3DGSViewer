@@ -1,0 +1,67 @@
+[1/4] Running utility command for render-shaders
+[2/4] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\compact.cu.obj
+FAILED: CudaOperators/CMakeFiles/gs-cuda-backend.dir/src/operators/compact.cu.obj 
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\bin\nvcc.exe -forward-unknown-to-host-compiler -DGS_CUDA_EXPORTS -DNOMINMAX -Dgs_cuda_backend_EXPORTS -IC:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\passes -isystem C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include -isystem C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cccl -D_WINDOWS -Xcompiler=" /EHsc" -Xcompiler="-O2 -Ob2" -DNDEBUG -std=c++20 "--generate-code=arch=compute_86,code=[compute_86,sm_86]" -Xcompiler=-MD -Xcompiler=/utf-8,/Zc:preprocessor -MD -MT CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\compact.cu.obj -MF CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\compact.cu.obj.d -x cu -c C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu -o CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\compact.cu.obj -Xcompiler=-FdCudaOperators\CMakeFiles\gs-cuda-backend.dir\,-FS
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(31): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(49): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(68): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/compact.h(23): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(74): error: namespace "cub" has no member "CountingInputIterator"
+          checked(cub::DeviceSelect::If(scratch, available, cub::CountingInputIterator<uint32_t>(0),
+                                                                 ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(74): error: type name is not allowed
+          checked(cub::DeviceSelect::If(scratch, available, cub::CountingInputIterator<uint32_t>(0),
+                                                                                       ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(118): error: argument of type "size_t *" (aka "unsigned long long *") is incompatible with parameter of type "cudaGraphEdgeData *" (aka "cudaGraphEdgeData_st *")
+              checked(cudaGraphNodeGetDependentNodes(node, nullptr, &dependents));
+                                                                    ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(118): error: too few arguments in function call
+              checked(cudaGraphNodeGetDependentNodes(node, nullptr, &dependents));
+                                                                               ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(127): error: argument of type "std::vector<cudaGraphNode_t, std::allocator<cudaGraphNode_t>>::size_type" (aka "unsigned long long") is incompatible with parameter of type "const cudaGraphEdgeData *"
+          checked(cudaGraphAddNode(&conditional, graph, leaves.data(), leaves.size(), &parameters));
+                                                                       ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(127): error: argument of type "cudaGraphNodeParams *" is incompatible with parameter of type "size_t" (aka "unsigned long long")
+          checked(cudaGraphAddNode(&conditional, graph, leaves.data(), leaves.size(), &parameters));
+                                                                                      ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(127): error: too few arguments in function call
+          checked(cudaGraphAddNode(&conditional, graph, leaves.data(), leaves.size(), &parameters));
+                                                                                                 ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(151): error: namespace "cub" has no member "CountingInputIterator"
+      checked(cub::DeviceSelect::If(nullptr, needed, cub::CountingInputIterator<uint32_t>(0),
+                                                          ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\src\operators\compact.cu(151): error: type name is not allowed
+
+      checked(cub::DeviceSelect::If(nullptr, needed, cub::CountingInputIterator<uint32_t>(0),
+
+                                                                                ^
+
+
+
+9 errors detected in the compilation of "C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/src/operators/compact.cu".
+
+compact.cu
+
+ninja: build stopped: subcommand failed.
