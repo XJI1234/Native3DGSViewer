@@ -11,9 +11,10 @@ __global__ void fill_kernel(uint32_t *buffer, uint32_t value, uint32_t count)
 }
 void fill_u32(Context &context, SharedBuffer &buffer, uint32_t value, uint32_t count)
 {
+    if (!context.owns(buffer)) throw std::invalid_argument("Foreign fill buffer");
     if (uint64_t(count) * sizeof(uint32_t) > buffer.bytes()) throw std::out_of_range("Fill capacity");
     if (!count) return;
-    fill_kernel<<<(count + 255u) / 256u, 256, 0, static_cast<cudaStream_t>(context.native_stream())>>>(
+    fill_kernel<<<uint32_t((uint64_t(count) + 255u) / 256u), 256, 0, static_cast<cudaStream_t>(context.native_stream())>>>(
         static_cast<uint32_t *>(buffer.device_pointer()), value, count);
     const auto result = cudaGetLastError();
     if (result != cudaSuccess) throw std::runtime_error(cudaGetErrorString(result));
@@ -27,6 +28,7 @@ __global__ void fill_surface(cudaSurfaceObject_t surface, uint32_t rgba, uint32_
 }
 void fill_rgba(Context &context, SharedTexture &texture, uint32_t rgba)
 {
+    if (!context.owns(texture)) throw std::invalid_argument("Foreign fill texture");
     fill_surface<<<dim3((texture.width() + 15) / 16, (texture.height() + 15) / 16),
         dim3(16, 16), 0, static_cast<cudaStream_t>(context.native_stream())>>>(
             texture.surface(), rgba, texture.width(), texture.height());

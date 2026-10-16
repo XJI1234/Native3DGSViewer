@@ -35,7 +35,7 @@ target_link_libraries(gs-cuda-backend PRIVATE CUDA::cudart_static d3d12 dxgi)
 set_target_properties(gs-cuda-backend PROPERTIES CUDA_RUNTIME_LIBRARY Static)
 cuda_experiment_output(gs-cuda-backend)
 
-add_executable(Native3DGSViewer.CudaTests tests/interop_tests.cpp tests/sort_tests.cpp tests/project_tests.cpp tests/compact_tests.cpp tests/tile_tests.cpp)
+add_executable(Native3DGSViewer.CudaTests tests/interop_tests.cpp tests/ownership_tests.cpp tests/sort_tests.cpp tests/project_tests.cpp tests/compact_tests.cpp tests/tile_tests.cpp)
 target_include_directories(Native3DGSViewer.CudaTests PRIVATE include "${PROJECT_SOURCE_DIR}/src/render-core/device")
 target_compile_definitions(Native3DGSViewer.CudaTests PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.CudaTests PRIVATE gs-cuda-backend render-core GTest::gtest_main)

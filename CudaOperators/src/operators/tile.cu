@@ -139,6 +139,8 @@ void TileWorkspace::submit(Context &context, SharedBuffer &ellipses, SharedBuffe
 {
     auto &s = *impl_; const auto c = s.config;
     if (context.native_stream() != s.stream) throw std::invalid_argument("Tile context changed");
+    for (auto *buffer : {&ellipses, &order, &arguments})
+        if (!context.owns(*buffer)) throw std::invalid_argument("Foreign tile input");
     if (&ellipses == &order || &ellipses == &arguments || &order == &arguments) throw std::invalid_argument("Aliased tile inputs");
     if (ellipses.bytes() < uint64_t(c.source_count) * sizeof(ProjectedEllipse) || order.bytes() < uint64_t(c.source_count) * 4 ||
         arguments.bytes() < sizeof(DrawCounters)) throw std::out_of_range("Tile input capacity");

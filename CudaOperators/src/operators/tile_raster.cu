@@ -197,6 +197,8 @@ uint64_t TileCompositeWorkspace::required_bytes(uint32_t width, uint32_t height)
 }
 TileCompositeWorkspace::TileCompositeWorkspace(Context &context, TileWorkspace &lists, uint64_t budget) : impl_(std::make_unique<Impl>())
 {
+    if (!context.owns(lists.keys()) || !context.owns(lists.ranges()) || !context.owns(lists.status()))
+        throw std::invalid_argument("Foreign tile lists");
     auto &s = *impl_; s.lists = &lists; s.stream = static_cast<cudaStream_t>(context.native_stream());
     const auto &c = lists.config();
     if (required_bytes(c.width, c.height) > budget) throw std::out_of_range("Tile composite exceeds budget");
@@ -209,6 +211,8 @@ void TileCompositeWorkspace::submit(Context &context, SharedBuffer &ellipses, Sh
 {
     auto &s = *impl_; const auto c = s.lists->config();
     if (context.native_stream() != s.stream) throw std::invalid_argument("Tile composite context changed");
+    if (!context.owns(ellipses) || !context.owns(order) || !context.owns(target))
+        throw std::invalid_argument("Foreign tile composite resource");
     if (!std::isfinite(options.stddev) || options.stddev <= 0 || options.stddev > 32 || !std::isfinite(options.alpha_cutoff) ||
         options.alpha_cutoff < 0 || options.alpha_cutoff > 1) throw std::invalid_argument("Invalid tile composite quality");
     if (!std::isfinite(options.transmittance_cutoff) || options.transmittance_cutoff < 0 || options.transmittance_cutoff > .001f ||

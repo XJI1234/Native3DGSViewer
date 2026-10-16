@@ -1,0 +1,278 @@
+[1/34] Generating CXX dyndep file CMakeFiles\spz.dir\CXX.dd
+[2/30] Generating CXX dyndep file CMakeFiles\model-io-helper.dir\CXX.dd
+[3/25] Running utility command for render-shaders
+[4/25] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\fill.cu.obj
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+fill.cu
+
+tmpxft_0000a0e4_00000000-7_fill.cudafe1.cpp
+
+[5/25] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\project.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+project.cu
+
+tmpxft_0000a1a4_00000000-7_project.cudafe1.cpp
+
+[6/25] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\tile_raster.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(37): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(59): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(37): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(59): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+tile_raster.cu
+
+tmpxft_0000a798_00000000-7_tile_raster.cudafe1.cpp
+
+[7/25] Generating CXX dyndep file CMakeFiles\model-io.dir\CXX.dd
+[8/21] Generating CXX dyndep file CMakeFiles\native3dgs-engine.dir\CXX.dd
+[9/17] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\CXX.dd
+[10/16] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\sort.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/sort.h(22): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/sort.h(22): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+sort.cu
+
+tmpxft_0000a98c_00000000-7_sort.cudafe1.cpp
+
+[11/16] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\compact.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/compact.h(23): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/compact.h(23): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+compact.cu
+
+tmpxft_00007ef4_00000000-7_compact.cudafe1.cpp
+
+[12/16] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\tile.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(37): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(59): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(37): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/tile.h(59): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+tile.cu
+
+tmpxft_0000927c_00000000-7_tile.cudafe1.cpp
+
+[13/16] Linking CXX shared library cuda\Release\gs-cuda-backend.dll
+[14/14] Linking CXX executable cuda\Release\Native3DGSViewer.CudaBench.exe

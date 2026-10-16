@@ -143,6 +143,9 @@ void checked(cudaError_t error)
 void project(Context &context, const FrameConstants &c, SharedBuffer &attributes, SharedBuffer &sh,
     SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments, uint32_t block_size, ProjectMath math)
 {
+    SharedBuffer *buffers[]{&attributes, &sh, &ellipses, &keys, &indexes, &arguments};
+    for (auto *buffer : buffers)
+        if (!context.owns(*buffer)) throw std::invalid_argument("Foreign projection buffer");
     if ((block_size != 128 && block_size != 256) || c.meta[1] > 3 ||
         c.meta[2] < 3 * ((c.meta[1] + 1) * (c.meta[1] + 1) - 1) || c.meta[3] > 1 ||
         !std::isfinite(c.clip[0]) || c.clip[0] <= 0 || uint32_t(math) > 3)
@@ -157,7 +160,6 @@ void project(Context &context, const FrameConstants &c, SharedBuffer &attributes
         if (c.offsets[field] % 4 || uint64_t(c.offsets[field]) + count * sizes[field] > attributes.bytes())
             throw std::out_of_range("Projection attribute capacity or alignment");
     if (count * c.meta[2] * 4 > sh.bytes()) throw std::out_of_range("Projection SH capacity");
-    SharedBuffer *buffers[]{&attributes, &sh, &ellipses, &keys, &indexes, &arguments};
     for (int i = 0; i < 6; ++i) for (int j = i + 1; j < 6; ++j)
         if (buffers[i] == buffers[j]) throw std::invalid_argument("Aliased projection buffers");
     auto stream = static_cast<cudaStream_t>(context.native_stream());

@@ -174,6 +174,7 @@ uint32_t CompactWorkspace::submit(Context &context, SharedBuffer &keys0, SharedB
     std::array<uint32_t *, 4> p{};
     for (int i = 0; i < 4; ++i)
     {
+        if (!context.owns(*buffers[i])) throw std::invalid_argument("Foreign compact buffer");
         if (buffers[i]->bytes() < uint64_t(count) * 4) throw std::out_of_range("Compact buffer capacity");
         for (int j = 0; j < i; ++j) if (buffers[j] == buffers[i]) throw std::invalid_argument("Aliased compact buffers");
         p[i] = static_cast<uint32_t *>(buffers[i]->device_pointer());
