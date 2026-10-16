@@ -1,4 +1,5 @@
 #include "gs_cuda/sort.h"
+#include "gs_cuda/project.h"
 #include "model-io/model_loader.h"
 #include "native3dgs/camera.h"
 #include "splat.h"
@@ -69,6 +70,30 @@ static void capture(GpuDevice &gpu, ID3D12Resource *texture, const std::filesyst
     if (!output) throw std::runtime_error("Cannot save image");
 }
 
+static void upload_span(GpuDevice &gpu, ID3D12Resource *target, uint64_t destination, std::span<const float> values)
+{
+    constexpr uint64_t page_bytes = 64 * 1024 * 1024;
+    if (values.empty()) return;
+    auto staging = gpu.buffer((std::min)(page_bytes, uint64_t(values.size_bytes())),
+        D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    Commands commands(gpu);
+    for (uint64_t offset = 0; offset < values.size_bytes(); offset += page_bytes)
+    {
+        const auto size = (std::min)(page_bytes, uint64_t(values.size_bytes()) - offset);
+        void *mapped = nullptr;
+        D3D12_RANGE empty{};
+        check(staging->Map(0, &empty, &mapped), "Shared input upload map");
+        std::memcpy(mapped, reinterpret_cast<const uint8_t *>(values.data()) + offset, size_t(size));
+        staging->Unmap(0, nullptr);
+        commands.reset();
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+        commands.list->CopyBufferRegion(target, destination + offset, staging.Get(), 0, size);
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
+        commands.submit(gpu);
+        gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    }
+}
+
 int wmain(int argc, wchar_t **argv)
 {
     try
@@ -92,8 +117,12 @@ int wmain(int argc, wchar_t **argv)
             return value;
         };
         const auto backend = get(L"--backend", L"d3d12");
-        if (backend != L"d3d12" && backend != L"interop-noop" && backend != L"cuda-sort") throw std::invalid_argument("Backend not implemented");
-        const bool interop = backend != L"d3d12", cuda_sort = backend == L"cuda-sort";
+        const std::vector<std::wstring> backends{L"d3d12", L"interop-noop", L"cuda-sort", L"cuda-project-128",
+            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256"};
+        if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
+        const bool interop = backend != L"d3d12", cuda_projection = backend.starts_with(L"cuda-project");
+        const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort");
+        const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
         const auto camera_mode = get(L"--camera", L"fit");
         if (camera_mode != L"fit" && camera_mode != L"orbit") throw std::invalid_argument("Unknown camera path");
         const uint32_t frames = uint32_t(number(L"--frames", L"120", 10000000));
@@ -116,16 +145,35 @@ int wmain(int argc, wchar_t **argv)
         while (!upload.ready) { upload.advance(gpu); if (!upload.ready) std::this_thread::sleep_for(std::chrono::milliseconds(1)); }
         auto model = upload.scene;
         std::unique_ptr<cuda_ops::Context> context;
-        std::array<std::unique_ptr<cuda_ops::SharedBuffer>, 4> shared;
+        std::array<std::unique_ptr<cuda_ops::SharedBuffer>, 8> shared;
+        const uint32_t mutable_buffers = cuda_projection ? 6 : 4;
         std::unique_ptr<cuda_ops::SortWorkspace> workspace;
         Commands producer(gpu), consumer(gpu);
         if (interop)
         {
             context = std::make_unique<cuda_ops::Context>(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
             const uint64_t bytes = (uint64_t(model->count) + 511) / 512 * 512 * 4;
-            for (auto &buffer : shared) buffer = std::make_unique<cuda_ops::SharedBuffer>(*context, bytes);
+            for (int i = 0; i < 4; ++i) shared[i] = std::make_unique<cuda_ops::SharedBuffer>(*context, bytes);
+            if (cuda_projection)
+            {
+                // Re-upload canonical CPU spans before timing. Release original input
+                // allocations first to avoid doubling a 4GB SH buffer on the 10GB GPU.
+                model->attributes.Reset(); model->sh_attributes.Reset();
+                model->projected.Reset(); model->arguments.Reset();
+                shared[4] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * sizeof(ProjectedEllipse));
+                shared[5] = std::make_unique<cuda_ops::SharedBuffer>(*context, sizeof(DrawCounters));
+                shared[6] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * 56);
+                shared[7] = std::make_unique<cuda_ops::SharedBuffer>(*context,
+                    (std::max)(uint64_t{4}, uint64_t(model->count) * model->sh_floats_per_splat * 4));
+                const std::array spans{scene->centerLocal, scene->scale, scene->rotation, scene->opacity, scene->rgb0};
+                for (int i = 0; i < 5; ++i) upload_span(gpu, shared[6]->resource(), model->offsets[i], spans[i]);
+                upload_span(gpu, shared[7]->resource(), 0, scene->shRest);
+                model->projected = shared[4]->resource(); model->arguments = shared[5]->resource();
+                model->attributes = shared[6]->resource();
+                if (model->sh_floats_per_splat) model->sh_attributes = shared[7]->resource();
+            }
             producer.reset();
-            for (auto &buffer : shared) transition(producer.list.Get(), buffer->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            for (uint32_t i = 0; i < mutable_buffers; ++i) transition(producer.list.Get(), shared[i]->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
             producer.submit(gpu);
             gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
             for (int i = 0; i < 2; ++i) { model->sorting.keys[i] = shared[i]->resource(); model->sorting.values[i] = shared[i + 2]->resource(); }
@@ -174,19 +222,28 @@ int wmain(int argc, wchar_t **argv)
                 producer.reset();
                 auto *list = producer.list.Get();
                 list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 0);
-                if (cuda_sort) pass.project(list, *model, viewport, queries.Get());
-                else pass.project_sort(list, *model, viewport, queries.Get());
+                if (!cuda_projection)
+                {
+                    if (cuda_sort) pass.project(list, *model, viewport, queries.Get());
+                    else pass.project_sort(list, *model, viewport, queries.Get());
+                }
                 uint32_t selected = 0;
                 if (interop)
                 {
-                    for (auto &buffer : shared) transition(list, buffer->resource(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COMMON);
+                    for (uint32_t i = 0; i < mutable_buffers; ++i) transition(list, shared[i]->resource(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COMMON);
                     producer.submit(gpu);
                     context->begin(gpu.direct.Get());
+                    if (cuda_projection) cuda_ops::project(*context, pass.constants(*model, viewport),
+                        *shared[6], *shared[7], *shared[4], *shared[0], *shared[2], *shared[5], block_size);
                     if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     context->end(gpu.direct.Get());
                     consumer.reset();
                     list = consumer.list.Get();
-                    for (auto &buffer : shared) transition(list, buffer->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                    for (uint32_t i = 0; i < mutable_buffers; ++i) transition(list, shared[i]->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                    // For E04 this span contains projection + CUB + interop; CUDA
+                    // events will provide separate kernel diagnostics, not D3D clocks.
+                    if (cuda_projection) list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 1);
+                    if (cuda_projection && !cuda_sort) pass.sort().record(list, model->sorting);
                     if (selected) { std::swap(model->sorting.keys[0], model->sorting.keys[1]); std::swap(model->sorting.values[0], model->sorting.values[1]); }
                 }
                 list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 2);

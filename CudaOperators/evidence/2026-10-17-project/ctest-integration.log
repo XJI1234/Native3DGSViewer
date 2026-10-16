@@ -1,0 +1,23 @@
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+    Start 1: ModelIo
+1/9 Test #1: ModelIo ..........................   Passed    6.49 sec
+    Start 2: RenderCore
+2/9 Test #2: RenderCore .......................   Passed   34.03 sec
+    Start 3: ModelRenderIntegration
+3/9 Test #3: ModelRenderIntegration ...........   Passed    5.22 sec
+    Start 4: Engine
+4/9 Test #4: Engine ...........................   Passed   20.89 sec
+    Start 5: InstalledSDK
+5/9 Test #5: InstalledSDK .....................   Passed   17.80 sec
+    Start 6: CudaToolchain
+6/9 Test #6: CudaToolchain ....................   Passed    0.14 sec
+    Start 7: CudaInterop
+7/9 Test #7: CudaInterop ......................   Passed    1.94 sec
+    Start 8: CudaSort
+8/9 Test #8: CudaSort .........................   Passed   12.37 sec
+    Start 9: CudaProject
+9/9 Test #9: CudaProject ......................   Passed    4.27 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) = 103.17 sec

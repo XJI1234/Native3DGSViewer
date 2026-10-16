@@ -5,17 +5,6 @@
 
 namespace gs::render::detail
 {
-struct FrameConstants
-{
-    float view_rows[12]{};
-    float camera[4]{};
-    float viewport[4]{};
-    float quality[4]{};
-    float clip[4]{};
-    uint32_t meta[4]{};
-    uint32_t offsets[8]{};
-};
-static_assert(sizeof(FrameConstants) == 160);
 struct SceneGpu
 {
     SceneHandle cpu;

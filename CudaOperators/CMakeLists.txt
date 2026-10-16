@@ -22,22 +22,28 @@ cuda_experiment_output(Native3DGSViewer.CudaProbe)
 add_test(NAME CudaToolchain COMMAND Native3DGSViewer.CudaProbe)
 set_tests_properties(CudaToolchain PROPERTIES TIMEOUT 30)
 
-add_library(gs-cuda-backend SHARED src/interop/interop.cpp src/operators/fill.cu src/operators/sort.cu)
-target_include_directories(gs-cuda-backend PUBLIC include)
+add_library(gs-cuda-backend SHARED src/interop/interop.cpp src/operators/fill.cu src/operators/sort.cu src/operators/project.cu)
+target_include_directories(gs-cuda-backend PUBLIC include "${PROJECT_SOURCE_DIR}/src/render-core/passes")
 target_compile_definitions(gs-cuda-backend PRIVATE GS_CUDA_EXPORTS NOMINMAX)
 target_link_libraries(gs-cuda-backend PRIVATE CUDA::cudart_static d3d12 dxgi)
 set_target_properties(gs-cuda-backend PROPERTIES CUDA_RUNTIME_LIBRARY Static)
 cuda_experiment_output(gs-cuda-backend)
 
-add_executable(Native3DGSViewer.CudaTests tests/interop_tests.cpp tests/sort_tests.cpp)
+add_executable(Native3DGSViewer.CudaTests tests/interop_tests.cpp tests/sort_tests.cpp tests/project_tests.cpp)
 target_include_directories(Native3DGSViewer.CudaTests PRIVATE include "${PROJECT_SOURCE_DIR}/src/render-core/device")
 target_compile_definitions(Native3DGSViewer.CudaTests PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.CudaTests PRIVATE gs-cuda-backend render-core GTest::gtest_main)
 cuda_experiment_output(Native3DGSViewer.CudaTests)
+add_custom_command(TARGET Native3DGSViewer.CudaTests POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:Native3DGSViewer.CudaTests>/shaders"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RENDER_SHADER_OUTPUTS} "$<TARGET_FILE_DIR:Native3DGSViewer.CudaTests>/shaders"
+  VERBATIM)
 add_test(NAME CudaInterop COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaInterop.*)
 set_tests_properties(CudaInterop PROPERTIES TIMEOUT 60)
 add_test(NAME CudaSort COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaSort.*)
 set_tests_properties(CudaSort PROPERTIES TIMEOUT 240)
+add_test(NAME CudaProject COMMAND Native3DGSViewer.CudaTests --gtest_filter=CudaProject.*)
+set_tests_properties(CudaProject PROPERTIES TIMEOUT 60)
 
 add_executable(Native3DGSViewer.CudaBench bench/scene.cpp)
 target_include_directories(Native3DGSViewer.CudaBench PRIVATE
