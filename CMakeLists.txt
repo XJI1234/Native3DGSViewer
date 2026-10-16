@@ -118,10 +118,10 @@ add_library(render-core-testing STATIC src/render-core/device/renderer.cpp)
 target_include_directories(render-core-testing PRIVATE src/render-core/scene src/render-core/device src/render-core/passes)
 target_compile_definitions(render-core-testing PRIVATE NOMINMAX GS_RENDER_TEST_HOOKS)
 target_link_libraries(render-core-testing PUBLIC render-core)
-add_library(native3dgs-engine STATIC src/engine/camera.cpp src/engine/engine.cpp)
+add_library(native3dgs-engine STATIC src/engine/camera.cpp src/engine/engine.cpp src/engine/measurement.cpp)
 target_include_directories(native3dgs-engine PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
 target_compile_definitions(native3dgs-engine PRIVATE NOMINMAX)
-target_link_libraries(native3dgs-engine PUBLIC model-io render-core)
+target_link_libraries(native3dgs-engine PUBLIC model-io render-core PRIVATE windowsapp)
 add_executable(Native3DGSViewer.SortBench bench/gpu-sort.cpp)
 target_include_directories(Native3DGSViewer.SortBench PRIVATE src/render-core/device)
 target_compile_definitions(Native3DGSViewer.SortBench PRIVATE NOMINMAX)
@@ -138,7 +138,7 @@ add_executable(Native3DGSViewer.Tests
   tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp
   tests/render-core/test_support.cpp tests/render-core/image_tests.cpp tests/render-core/lifecycle_tests.cpp
   tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp
-  tests/engine/camera_tests.cpp tests/engine/engine_tests.cpp)
+  tests/engine/camera_tests.cpp tests/engine/engine_tests.cpp tests/engine/measurement_tests.cpp)
 add_executable(model-io-fault-helper tests/model-io/fault_helper.cpp)
 target_include_directories(model-io-fault-helper PRIVATE include src/model-io/common)
 target_include_directories(Native3DGSViewer.Tests PRIVATE include src/model-io/common src/model-io/normalize src/render-core/scene src/render-core/device src/render-core/passes)
