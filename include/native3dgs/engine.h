@@ -1,6 +1,7 @@
 #pragma once
 #include "model-io/model_loader.h"
 #include "native3dgs/camera.h"
+#include "native3dgs/measurement.h"
 #include "render-core/renderer.h"
 #include <chrono>
 #include <cstdint>
@@ -56,6 +57,7 @@ struct Snapshot
     std::optional<SceneInfo> active_scene;
     render::RenderStats stats{};
     std::optional<EngineError> error;
+    MeasurementSnapshot measurement;
 };
 struct EngineEvent
 {
@@ -113,6 +115,10 @@ class IEngine
                                                       render::Viewport) = 0;
     virtual bool acknowledge_device_release(render::SurfaceGeneration) = 0;
     virtual Snapshot snapshot() const = 0;
+    virtual std::optional<MeasurementError> set_measurement_enabled(bool) = 0;
+    virtual std::optional<MeasurementError> import_metric(std::filesystem::path) = 0;
+    virtual void clear_measurement() = 0;
+    virtual std::optional<MeasurementError> measure_at(double x_px, double y_px) = 0;
     virtual std::vector<EngineEvent> poll_events() = 0;
     virtual void request_shutdown() = 0;
     virtual bool wait_until_stopped(std::chrono::milliseconds) = 0;

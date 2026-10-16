@@ -1,8 +1,35 @@
 #include "../render-core/test_support.h"
 #include "native3dgs/camera.h"
+#include "render-core/picking.h"
 #include <cmath>
 
 using namespace gs::engine;
+TEST(EngineCamera, MeasurementReprojectsWithAllAxisFlipsAndLargeOrigin)
+{
+    auto scene = std::make_shared<gs::SplatScene>(*render_test::make_scene());
+    scene->worldOrigin = {1e9, 1e9, 1e9};
+    scene->bounds = {{1e9, 1e9, 1e9 - 2}, {1e9, 1e9, 1e9 - 2}};
+    CameraController controller;
+    const gs::render::Viewport viewport{1800, 1200};
+    ASSERT_FALSE(controller.fit_scene(*scene, {}, viewport));
+    ASSERT_FALSE(controller.orbit(130, 45));
+    for (uint8_t mask = 0; mask < 8; ++mask)
+    {
+        SCOPED_TRACE(int(mask));
+        controller.set_flip_axes(mask);
+        auto camera = controller.camera();
+        const bool mirror = (bool(mask & 1) + bool(mask & 2) + bool(mask & 4)) % 2;
+        const double x = mirror ? viewport.physical_width - 1 - 1170 : 1170;
+        auto point = gs::render::unproject_pixel(x, 470, 2, camera, viewport);
+        ASSERT_TRUE(point);
+        auto pixel = gs::render::project_world(*point, camera, viewport);
+        ASSERT_TRUE(pixel);
+        if (mirror)
+            pixel->x_px = viewport.physical_width - pixel->x_px;
+        EXPECT_NEAR(pixel->x_px, 1170.5, 0.001);
+        EXPECT_NEAR(pixel->y_px, 470.5, 0.001);
+    }
+}
 TEST(EngineCamera, FitAccountsForTallViewportAndGaussianSupport)
 {
     auto scene = std::make_shared<gs::SplatScene>(*render_test::make_scene());

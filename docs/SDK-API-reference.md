@@ -30,6 +30,23 @@
 
 ## 引擎接口
 
+测距扩展包含 `<native3dgs/measurement.h>`；调用细节见 [SDK 指南](SDK-guide.md#model-measurement)。
+
+| 调用 | 返回与行为 |
+| --- | --- |
+| `set_measurement_enabled(bool)` | `optional<MeasurementError>`；Ready 模型可启用，退出保留比例尺、清空端点并取消在途工作。 |
+| `import_metric(path)` | `optional<MeasurementError>`；接受后异步读取，快照 `importing`/`error`/`calibration` 表示结果；不核验模型对应关系。 |
+| `measure_at(x_px, y_px)` | `optional<MeasurementError>`；提交未做宿主显示镜像的物理像素，异步发布端点/距离/未命中；最多一个在途拾取。 |
+| `clear_measurement()` | 取消在途工作并清空端点，保留比例尺。 |
+| `snapshot().measurement` | 值副本：启用/导入/拾取/未命中状态、操作 ID、标定、A/B RUB 与源坐标、可选米值和错误。 |
+
+独立工具 `parse_metric(string_view)` / `load_metric(path, stop_token)` 返回 `MetricResult`（标定或错误）；
+`distance_meters(a_source,b_source,scale)` 返回有限非负距离或空值。
+`source_from_rub(point,coordinates)` 还原源坐标。
+错误区分 JSON、资源上限、schema/坐标约定、不可用标定、矩阵、I/O、取消、无模型、繁忙、过期、超时、无标定和设备不可用。
+只有 `load_metric` 是阻塞 I/O；使用工作线程。A/B 中源坐标 PLY 按实际加载选项，SPZ 按 RDF 等价解释。
+`render::project_world` / `unproject_pixel` / `project_segment` 位于 `<render-core/picking.h>`，以 double 世界坐标和物理像素工作，不做宿主镜像补偿；线段裁剪到六个视锥平面。
+
 包含 `<native3dgs/engine.h>`，链接 `Native3DGS::Engine`。
 `EngineConfig{quality, viewport, event_capacity}` 配置画质、初始物理尺寸
 和有界事件队列容量。`create_engine` 返回引擎或 `RenderError`；失败时

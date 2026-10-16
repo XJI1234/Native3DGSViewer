@@ -123,6 +123,31 @@ struct RenderStats
     uint64_t nonlocal_budget_bytes = 0, nonlocal_usage_bytes = 0;
     uint32_t device_recovery_count = 0;
 };
+struct PickRequest
+{
+    uint64_t id = 0;
+    UploadTicket ticket = 0;
+    SurfaceGeneration generation = 0;
+    ViewportRevision revision = 0;
+    CameraState camera{};
+    Viewport viewport{};
+    double x_px = 0, y_px = 0;
+};
+enum class PickStatus : uint8_t
+{
+    Hit,
+    Miss,
+    Stale,
+    Overflow,
+    DeviceUnavailable
+};
+struct PickResult
+{
+    uint64_t id = 0;
+    PickStatus status = PickStatus::Miss;
+    Double3 position_rub{};
+    double depth = 0;
+};
 class IRenderer
 {
   public:
@@ -142,6 +167,10 @@ class IRenderer
     // After DeviceLost, release old surface/device/queue references before calling again.
     virtual void render_frame() = 0;
     virtual RenderStats get_stats() const = 0;
+    // At most one pending/unconsumed request. Coordinates refer to an unmirrored
+    // physical viewport; the caller removes composition mirroring before submitting.
+    virtual std::optional<RenderError> request_pick(PickRequest) = 0;
+    virtual std::optional<PickResult> take_pick_result() = 0;
 };
 using EventSink = std::function<void(const RendererEvent &)>;
 std::variant<std::unique_ptr<IRenderer>, RenderError> create_renderer(QualityConfig, EventSink);

@@ -11,6 +11,14 @@
 - 适配：根据场景包围盒重新设置视距。重置：恢复该模型初次打开时的视角。
 - 翻转 Y：切换显示时的 Y 坐标镜像，再次点击恢复。模型文件和 `SceneHandle` 不会改变，固定/自由模式和当前视角仍可继续使用。
 
+### 模型测距
+
+模型就绪后点击“测距”，再点击“导入比例尺”选择训练导出的 `.metric.json`。允许加载任意有效比例尺，不核验 JSON 与模型的名称、大小或指纹。导入成功后按提示依次点击起点 A、终点 B，显示三维直线距离（米，三位小数），并在模型上显示标记和辅助连线。端点采用可见高斯贡献的中位深度估计，半透明/边缘处可能有选择误差。
+
+“重新测量”清除端点并保留比例尺；“退出”或 Esc 结束测距。左键拖动超过 4 DIP 可旋转，右键平移和滚轮缩放仍可用；退出后恢复此前固定/自由模式。第三次点击不会覆盖完成结果。切换模型成功后清除比例尺，加载失败保留旧会话；导入失败保留已有有效比例尺。
+
+界面持续显示比例尺来源说明。GPS 估算尺度且未实测验证时，不将三位小数视为毫米精度；应使用独立实测长度校核。详细契约和验证范围见 [测距规格](../docs/SPEC-model-measurement.md)及[验证记录](../docs/model-measurement-verification.md)。测距界面逻辑集中在 `measurement.cpp`。
+
 ## 引擎接入
 
 窗口使用 `gs::engine::create_engine()` 创建引擎，`open({path})` 返回请求 ID；取消、关闭、视角和模式分别调用 `cancel(id)`、`close()`、`camera_command()`。定时读取 `snapshot()` 显示进度，并通过 `poll_events()` 处理场景完成、失败、设备恢复和交换链解绑。窗口以 `surface_generation` 取得 `addref_surface_queue()`，创建合成交换链，随后调用 `attach_swapchain()` 和 `resize()`。关闭时请求 `detach_swapchain()`，收到 `SurfaceDetached` 后在 UI 线程解除 `SwapChainPanel` 绑定；最后调用 `request_shutdown()`，后台销毁引擎。

@@ -11,6 +11,7 @@
                 <Button x:Name="FitButton" Content="适配" MinHeight="36" IsEnabled="False" />
                 <Button x:Name="ResetButton" Content="重置" MinHeight="36" IsEnabled="False" />
                 <ToggleButton x:Name="FlipYButton" Content="翻转 Y" MinHeight="36" IsEnabled="False" />
+                <ToggleButton x:Name="MeasureButton" Content="测距" MinHeight="36" IsEnabled="False" AutomationProperties.Name="模型测距模式" />
             </StackPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
                 <RadioButton x:Name="OrbitButton" Content="固定" GroupName="ViewMode" IsChecked="True" />
@@ -19,6 +20,21 @@
         </Grid>
         <Grid Grid.Row="1" Margin="16,0,16,12" Background="#FFFAFBFC">
             <SwapChainPanel x:Name="ScenePanel" AllowDrop="True" />
+            <Canvas x:Name="MeasurementOverlay" IsHitTestVisible="False" />
+            <Border x:Name="MeasurementPanel" Background="#F5FFFFFF" BorderBrush="#FFE2E6EA" BorderThickness="1" CornerRadius="6" Padding="16" Margin="16" Width="390" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="模型测距" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock x:Name="MeasurementHint" Text="请导入模型生成时输出的 .metric.json" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                    <TextBlock x:Name="MetricQualityText" Text="用户指定比例尺，未校验模型对应关系" TextWrapping="Wrap" FontSize="12" Foreground="#FF66717D" />
+                    <TextBlock x:Name="MeasurementResult" Text="距离：—" FontSize="24" FontWeight="SemiBold" AutomationProperties.LiveSetting="Polite" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="ImportMetricButton" Content="导入比例尺" />
+                        <Button x:Name="RestartMeasurementButton" Content="重新测量" />
+                        <Button x:Name="ExitMeasurementButton" Content="退出" AutomationProperties.Name="退出测距模式" />
+                    </StackPanel>
+                    <TextBlock Text="点击选点 · 拖动旋转 · 右键平移 · 滚轮缩放 · Esc 退出。连线为辅助叠加线。" TextWrapping="Wrap" FontSize="11" Foreground="#FF66717D" />
+                </StackPanel>
+            </Border>
             <TextBlock x:Name="EmptyText" Text="打开 PLY 或 SPZ 模型" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Foreground="#FF18212B" IsHitTestVisible="False" />
             <Border x:Name="BusyPanel" Background="White" BorderBrush="#FFE2E6EA" BorderThickness="1" CornerRadius="6" Padding="14,8" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal" Spacing="12">

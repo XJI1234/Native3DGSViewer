@@ -21,7 +21,17 @@ try {
     & cmake --build (Join-Path $consumerRoot 'build') --config $Configuration --parallel 4
     if ($LASTEXITCODE -ne 0) { throw 'Consumer build failed' }
     $hostExecutable = Join-Path $consumerRoot "build/$Configuration/sdk-host.exe"
-    if ($Scene) { & $hostExecutable $Scene } else { & $hostExecutable }
+    if ($Scene) {
+        $metricPath = Join-Path $consumerRoot 'arbitrary.metric.json'
+        @'
+{"schema_version":1,"model":{"sha256":"deliberately-unrelated"},
+"frame":{"source":"ply_local","target":"local_enu","units":"meters",
+"matrix_convention":"row_serialized_column_vector_left_multiply"},
+"quality":{"status":"estimated"},"meters_per_model_unit":2,
+"enu_from_ply":[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]}
+'@ | Set-Content -LiteralPath $metricPath -Encoding utf8NoBOM
+        & $hostExecutable $Scene $metricPath
+    } else { & $hostExecutable }
     if ($LASTEXITCODE -ne 0) { throw 'Installed consumer run failed' }
     Write-Output "Independent relocated SDK consumer passed: $consumerRoot"
 } finally {
