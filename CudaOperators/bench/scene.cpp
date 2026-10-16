@@ -499,16 +499,16 @@ int wmain(int argc, wchar_t **argv)
                 << " count_only=" << tile_count_only << " (read after all measured frames)\n";
             if (status.flags && !(tile_count_only && status.flags == 2)) throw std::runtime_error("Tile list invalid or exceeds capacity; frame rejected");
         }
+        const auto final_args_data = gpu.readback(model->arguments.Get(), sizeof(DrawCounters), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+        DrawCounters final_draw{};
+        std::memcpy(&final_draw, final_args_data.data(), sizeof(final_draw));
+        std::cout << "visible=" << final_draw.instance_count << " total=" << model->count << " (read after all measured frames)\n";
         if (compact)
         {
             const auto data = gpu.readback(compact->visible_count_buffer().resource(), 4, D3D12_RESOURCE_STATE_COMMON);
             uint32_t visible = 0;
             std::memcpy(&visible, data.data(), 4);
-            const auto args_data = gpu.readback(model->arguments.Get(), sizeof(DrawCounters), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-            DrawCounters draw{};
-            std::memcpy(&draw, args_data.data(), sizeof(draw));
-            if (visible != draw.instance_count) throw std::runtime_error("Compact count differs from projected draw count");
-            std::cout << "visible=" << visible << " total=" << model->count << " (read after all measured frames)\n";
+            if (visible != final_draw.instance_count) throw std::runtime_error("Compact count differs from projected draw count");
         }
         memory.sample("captured");
         if (!output) throw std::runtime_error("Cannot save samples");

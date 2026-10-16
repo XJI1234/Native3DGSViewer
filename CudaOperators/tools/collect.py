@@ -5,6 +5,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import statistics
 import shutil
@@ -114,6 +115,11 @@ def main():
                           "command": command}
                 record["gpu_before"] = before_gpu
                 record["gpu_after"] = gpu_snapshot()
+                visibility = re.search(r"visible=(\d+) total=(\d+)", process.stdout)
+                if visibility:
+                    record["visible_count"], record["source_count"] = map(int, visibility.groups())
+                    if record["visible_count"] > record["source_count"]:
+                        raise RuntimeError("Visible count exceeds source count")
                 if process.returncode == 0:
                     with sample.open(newline="", encoding="utf-8") as source:
                         rows = list(csv.DictReader(source))
