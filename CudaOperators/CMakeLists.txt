@@ -79,7 +79,25 @@ foreach(ENTRY blit_vertex blit_pixel)
     DEPENDS shaders/blit.hlsl VERBATIM)
   list(APPEND CUDA_EXPERIMENT_SHADERS "${OUTPUT}")
 endforeach()
+foreach(ENTRY tile_init tile_store tile_composite_8 tile_composite_16)
+  set(OUTPUT "${RENDER_SHADER_DIRECTORY}/${ENTRY}.cso")
+  set(KERNEL ${ENTRY})
+  set(TILE_SIZE 16)
+  if(ENTRY MATCHES "tile_composite")
+    set(KERNEL tile_composite)
+    if(ENTRY STREQUAL "tile_composite_8")
+      set(TILE_SIZE 8)
+    endif()
+  endif()
+  add_custom_command(OUTPUT "${OUTPUT}"
+    COMMAND "${DXC}" -T cs_6_0 -E ${KERNEL} -D TILE_SIZE=${TILE_SIZE} -O3 -WX -Ges -Fo "${OUTPUT}" "${CMAKE_CURRENT_SOURCE_DIR}/shaders/tile.hlsl"
+    DEPENDS shaders/tile.hlsl VERBATIM)
+  list(APPEND CUDA_EXPERIMENT_SHADERS "${OUTPUT}")
+endforeach()
 add_custom_target(cuda-experiment-shaders DEPENDS ${CUDA_EXPERIMENT_SHADERS})
+add_dependencies(Native3DGSViewer.CudaTests cuda-experiment-shaders)
+add_custom_command(TARGET Native3DGSViewer.CudaTests POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CUDA_EXPERIMENT_SHADERS} "$<TARGET_FILE_DIR:Native3DGSViewer.CudaTests>/shaders" VERBATIM)
 add_executable(Native3DGSViewer.CudaBench bench/scene.cpp)
 target_include_directories(Native3DGSViewer.CudaBench PRIVATE
   "${PROJECT_SOURCE_DIR}/src/render-core/device" "${PROJECT_SOURCE_DIR}/src/render-core/scene"

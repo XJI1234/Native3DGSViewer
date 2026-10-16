@@ -17,11 +17,11 @@
 - [ ] 检查点A：支持工具链/互操作与资源释放证据齐全。
 - [ ] W04：CUB稳定排序。
   - 独立重置分布微基准已补齐：513/百万/800万/22480361，random/sorted/reverse/equal各3轮，逐次重置key/value且每组全数组CPU稳定对照通过，见sort-distributions/。
-  - 已通过全数组CPU稳定排序对照（含22480361项）；5模型/3轮完整GPU帧和全图像见 `../evidence/2026-10-17-sort-diagnostic/README.md`。独立分布微基准及正式时长仍待补全，小场景不胜出。
+  - 已通过全数组CPU稳定排序对照（含22480361项）；5模型/3轮完整GPU帧和全图像见 `../evidence/2026-10-17-sort-diagnostic/README.md`。独立分布微基准已补全，正式时长仍待补全，小场景不胜出。
   - 验收：边界/同键/分布/真实规模全key/value对CPU，E02独立和整帧数据。
   - 验证：`CudaSort.*`与E02采集。文件：sort.cu、头、测试、bench、报告（≤5）。前置：W03。
 - [ ] W05：CUDA投影等价。
-  - 6项测试、memcheck及5主模型/3轮图像通过（真实最大误差3/255），见project/与project-diagnostic/；高重叠/更多相机/完整压力继续验收。
+  - 7项测试、memcheck及5主模型/3轮图像通过（真实最大误差3/255），见project/与project-diagnostic/；高重叠/更多相机/完整压力继续验收。
   - 验收：SH0–3/椭圆/键/裁剪与CPU、D3D12图像对照。
   - 验证：`CudaProject.*`。文件：project.cu、布局头、测试、host（≤4）。前置：W03。
 - [ ] W06：投影调优及排序组合。
@@ -39,20 +39,24 @@
   - 验收：覆盖、global rank稳定顺序、64位计数与预算/溢出拒绝。
   - 验证：`CudaTile.List*`。文件：列表kernel、头、测试、bench（≤4）。前置：W04/W05。
 - [ ] W09：CUDA精确合成。
-  - 8/16与FP32/逐splatUNORM有界直接提交通过CPU1301层oracle和重复memcheck；最小真实模型图像门槛通过，但远慢于native。conditional while不稳定，最小复现、失败/修复尝试见tile-list/README.md，不能勾选稳定性或作为性能结果。更多模型/HLSL对照待完成。
+  - 8/16与FP32/逐splatUNORM有界提交通过CPU1301层oracle和重复memcheck；最小真实模型图像通过，但远慢于native。shengyi/tumu真实图像最大误差失败，HLSL同算法复现，见hlsl-tile/quality-investigation.md，禁止集成。conditional while不稳定，最小复现和修复尝试见tile-list/README.md，不计为稳定性或有效性能结果。
   - 验收：8×8/16×16、原顺序与无提前终止，图像及纹理交接通过。
   - 验证：`CudaTile.Image*`与E06。文件：tile.cu、纹理interop、图像测试、bench（≤4）。前置：W08。
 - [ ] W10：HLSL等算法对照。
+  - 8/16、FP32/逐splatUNORM与CPU夹具通过。真实CUDA/HLSL差≤1/255，但均未通过原quad图像门槛、完整span显著回退，见tile-early-graph-diagnostic/。路径拒绝产品集成，不扩大失败路径正式矩阵。
   - 验收：同数据/列表/公式/精度的E07完整span对照。
   - 验证：合成图像及E07。文件：HLSL、host、CMake、测试、报告（≤5）。前置：W09。
 - [ ] W11：提前终止。
+  - 前到后0/1e-5/1e-4与Graph通过夹具及重复memcheck，2模型8变体16次诊断完成。中模型仍失败quad画质且慢；贡献数统计未完成，不勾选完整。
   - 验收：关闭/1e-5/1e-4各有图像误差/贡献数/性能，未达门槛不启用。
   - 验证：`CudaTile.Early*`与E08。文件：tile.cu、测试、bench、报告（≤4）。前置：W09。
 - [ ] 检查点C：E06–E08算法与CUDA收益区分，图像/显存门槛不降级。
 - [ ] W12：帧槽调度。
+  - 独立1/3槽allocator/query/events，24组Debug Layer短帧/阶段边界、帧ID/时间、最终全图byte一致通过。当前相机每帧重算，仅offscreen host，尚无resize/取消/输入呈现延迟验收。
   - 验收：当前相机语义下的提交/尾部、resize/取消/失败正确。
   - 验证：`CudaLifecycle.*`与E09调度消融。文件：帧槽、host、测试、报告（≤4）。前置：W06/W09。
 - [ ] W13：CUDA Graph。
+  - CUB固定地址/规模Graph重放变动输入全数组稳定CPU对照、绑定/容量/上下文拒绝测试及memcheck通过，最新Cuda CTest8/8通过。tile普通Graph过夹具，但真实画质不合格；conditional while单独失败。
   - 验收：独立于调度的Graph收益、场景/容量/resize重建正确。
   - 验证：Graph测试与E09。文件：graph源、测试、host、报告（≤4）。前置：W12。
 - [ ] W14：正式配对采集。

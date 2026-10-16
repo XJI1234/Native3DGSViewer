@@ -41,6 +41,9 @@ struct TileCompositeOptions
     float stddev = 3, alpha_cutoff = 0;
     bool quantize_each_splat = false;
     bool conditional_while = false; // Diagnostic only: unresolved sanitizer/driver failures.
+    bool front_to_back = false;
+    float transmittance_cutoff = 0;
+    bool capture_direct = false;
 };
 class GS_CUDA_API TileCompositeWorkspace
 {

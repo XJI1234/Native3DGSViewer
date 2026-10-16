@@ -1,5 +1,6 @@
 #include "gs_cuda/tile.h"
 #include "gpu.h"
+#include "../bench/hlsl_tile.h"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
@@ -197,15 +198,21 @@ TEST(CudaTile, ListHandlesEmptySourceAndValidatesInputCapacityAndAliases)
 }
 TEST(CudaTile, ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset)
 {
-    for (const auto size : {8u, 16u}) for (const auto quantize : {false, true})
+    for (const auto size : {8u, 16u}) for (const auto quantize : {false, true}) for (uint32_t scenario = 0; scenario < 7; ++scenario)
     {
+        if (quantize && scenario >= 3) continue;
+        const bool use_hlsl = scenario == 1;
+        TileCompositeOptions options{3, 0, quantize};
+        options.front_to_back = scenario >= 3;
+        options.transmittance_cutoff = scenario == 4 ? 1e-5f : scenario >= 5 ? 1e-4f : 0;
+        options.capture_direct = scenario == 2 || scenario == 6;
         TileFixture f;
         constexpr uint32_t count = 1301, width = 33, height = 19;
         std::vector<ProjectedEllipse> points(count);
         std::vector<uint32_t> order(count); std::iota(order.rbegin(), order.rend(), 0u);
         for (uint32_t i = 0; i < count; ++i)
         {
-            points[i] = {{16.5f, 9.5f}, {20, 0}, {0, 20}, {.1f, .2f, .3f, .002f}};
+            points[i] = {{16.5f, 9.5f}, {20, 0}, {0, 20}, {.1f, .2f, .3f, .02f}};
             points[i].color[i % 3] = .9f;
         }
         SharedBuffer ellipses(f.context, points.size() * 40), indexes(f.context, order.size() * 4), args(f.context, 20);
@@ -213,14 +220,27 @@ TEST(CudaTile, ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyRes
         DrawCounters counters{4, count, 0, 0, 0}; f.upload(args, &counters, 20);
         TileWorkspace lists(f.context, {count, width, height, size, count * 20, 16ull << 20});
         SharedTexture target(f.context, width, height);
-        TileCompositeWorkspace composite(f.context, lists, 16ull << 20);
+        std::unique_ptr<TileCompositeWorkspace> composite;
+        std::unique_ptr<HlslTilePass> hlsl;
+        if (use_hlsl) hlsl = std::make_unique<HlslTilePass>(f.gpu, lists.config(), target.resource());
+        else composite = std::make_unique<TileCompositeWorkspace>(f.context, lists, 16ull << 20);
         for (const auto visible : {count, 0u, count})
         {
             counters.instance_count = visible; f.upload(args, &counters, 20);
             f.context.begin(f.gpu.direct.Get());
             lists.submit(f.context, ellipses, indexes, args);
-            composite.submit(f.context, ellipses, indexes, target, {3, 0, quantize});
+            if (composite) composite->submit(f.context, ellipses, indexes, target, options);
             f.context.end(f.gpu.direct.Get());
+            ComPtr<ID3D12CommandAllocator> allocator; ComPtr<ID3D12GraphicsCommandList> list;
+            if (hlsl)
+            {
+                check(f.gpu.device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)), "HLSL image allocator");
+                check(f.gpu.device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr, IID_PPV_ARGS(&list)), "HLSL image list");
+                for (auto *buffer : {&ellipses, &indexes}) transition(list.Get(), buffer->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                hlsl->record(list.Get(), lists, ellipses, indexes, {3, 0, quantize});
+                for (auto *buffer : {&ellipses, &indexes}) transition(list.Get(), buffer->resource(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COMMON);
+                check(list->Close(), "HLSL image close"); f.gpu.submit(f.gpu.direct.Get(), list.Get(), f.gpu.direct_fence.Get(), f.gpu.direct_value);
+            }
             check(f.gpu.direct->Signal(f.gpu.direct_fence.Get(), ++f.gpu.direct_value), "Composite finish");
             f.gpu.wait(f.gpu.direct_fence.Get(), f.gpu.direct_value);
             const auto actual = f.read_texture(target);
@@ -246,7 +266,7 @@ TEST(CudaTile, ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyRes
                 }
                 for (int channel = 0; channel < 4; ++channel)
                     ASSERT_LE(std::abs(int(actual[(y * width + x) * 4 + channel]) - int(std::nearbyint(result[channel] * 255))), 2)
-                        << "pixel=" << x << ',' << y << " channel=" << channel << " tile=" << size << " quantize=" << quantize;
+                        << "pixel=" << x << ',' << y << " channel=" << channel << " tile=" << size << " quantize=" << quantize << " scenario=" << scenario;
             }
         }
         EXPECT_TRUE(f.context.wait_idle()); EXPECT_TRUE(f.gpu.debug_errors().empty());

@@ -39,9 +39,12 @@ def stem(run):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
+    parser.add_argument("--reference", help="Paired timing control; defaults to collection image control")
     args = parser.parse_args()
     path = args.directory
     result = json.loads((path / "results.json").read_text(encoding="utf-8"))
+    image_reference = result.get("image_reference", "d3d12")
+    args.reference = args.reference or image_reference
     if not result.get("complete") or not result.get("runtime_unchanged"):
         raise RuntimeError("Incomplete collection or missing runtime integrity check")
     random = np.random.default_rng(42)
@@ -54,19 +57,19 @@ def main():
                         "one_percent_low_gpu_fps": float(1000 / slow.mean())}
         if result["camera"] == "fit":
             baseline = next(r for r in runs if r["model"] == run["model"] and
-                            r["repetition"] == run["repetition"] and r["backend"] == "d3d12")
+                            r["repetition"] == run["repetition"] and r["backend"] == image_reference)
             run["quality"] = quality(path / (stem(baseline) + ".png"), path / (stem(run) + ".png"))
     rows = []
     for model in dict.fromkeys(r["model"] for r in runs):
         for backend in dict.fromkeys(r["backend"] for r in runs):
-            if backend == "d3d12":
+            if backend == args.reference:
                 continue
             paired = []
             low = []
             baseline_ms, candidate_ms = [], []
             selected = [r for r in runs if r["model"] == model and r["backend"] == backend]
             for run in selected:
-                base = next(r for r in runs if r["model"] == model and r["backend"] == "d3d12" and
+                base = next(r for r in runs if r["model"] == model and r["backend"] == args.reference and
                             r["repetition"] == run["repetition"])
                 a, b = base["medians"]["gpu_total_ms"], run["medians"]["gpu_total_ms"]
                 paired.append((1 - b / a) * 100)
@@ -80,7 +83,8 @@ def main():
                 estimates = random.choice(gains, size=(20000, len(gains)), replace=True).mean(axis=1)
                 interval = np.quantile(estimates, [.025, .975]).tolist()
             rows.append({"model": model, "backend": backend, "rounds": len(gains),
-                         "d3d12_median_ms": statistics.median(baseline_ms),
+                         "reference_backend": args.reference,
+                         "reference_median_ms": statistics.median(baseline_ms),
                          "candidate_median_ms": statistics.median(candidate_ms),
                          "paired_frame_reduction_percent": paired, "mean_reduction_percent": float(gains.mean()),
                          "paired_bootstrap_95ci_percent": interval,
@@ -88,20 +92,24 @@ def main():
                          "all_quality_passed": all(r.get("quality", {}).get("passed", False) for r in selected),
                          "all_bit_identical": all(r.get("bit_identical_to_d3d12", False) for r in selected)})
     summary = {"protocol": result["protocol"], "formal_duration": result["formal_duration"],
-               "note": "Offscreen serialized GPU timing; no Present or input-latency conclusion. "
+               "frame_slots": result.get("frame_slots", {}),
+               "note": "Offscreen GPU timing; frame slots follow collection metadata. No Present or input-latency conclusion. "
                        "Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
                "comparisons": rows, "runs": runs}
-    (path / "analysis.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-    lines = ["# Paired GPU diagnostic", "", summary["note"], "",
-             "| Model | Backend | D3D12 ms | Candidate ms | Reduction % | Paired 95% CI % | Image gate |",
+    suffix = "" if args.reference == image_reference else "-vs-" + args.reference
+    (path / ("analysis" + suffix + ".json")).write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    title = "# Paired GPU timing (formal duration)" if result["formal_duration"] else "# Paired GPU diagnostic"
+    lines = [title, "", summary["note"], "",
+             f"Timing reference: `{args.reference}`. Image reference: `{image_reference}`.", "",
+             "| Model | Backend | Reference ms | Candidate ms | Reduction % | Paired 95% CI % | Image gate |",
              "|---|---|---:|---:|---:|---|---|"]
     for row in rows:
         interval = row["paired_bootstrap_95ci_percent"]
         interval_text = f'[{interval[0]:.2f}, {interval[1]:.2f}]' if interval else 'unavailable (<3 rounds)'
-        lines.append(f'| {row["model"]} | {row["backend"]} | {row["d3d12_median_ms"]:.4f} | '
+        lines.append(f'| {row["model"]} | {row["backend"]} | {row["reference_median_ms"]:.4f} | '
                      f'{row["candidate_median_ms"]:.4f} | {row["mean_reduction_percent"]:.2f} | '
                      f'{interval_text} | {row["all_quality_passed"]} |')
-    (path / "SUMMARY.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (path / ("SUMMARY" + suffix + ".md")).write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 
 

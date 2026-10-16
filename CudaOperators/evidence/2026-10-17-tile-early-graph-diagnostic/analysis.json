@@ -1,0 +1,1351 @@
+{
+  "protocol": "offscreen-serialized-full-GPU-span; no Present; no display FPS",
+  "formal_duration": false,
+  "note": "Offscreen serialized GPU timing; no Present or input-latency conclusion. Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+  "comparisons": [
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-exact-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 7.753728000000001,
+      "paired_frame_reduction_percent": [
+        -1660.9302325581396
+      ],
+      "mean_reduction_percent": -1660.9302325581396,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -92.01992252351965
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "hlsl-tile-exact-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 7.3077760000000005,
+      "paired_frame_reduction_percent": [
+        -1559.6511627906978
+      ],
+      "mean_reduction_percent": -1559.6511627906978,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -91.53308672420879
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-front-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 7.808,
+      "paired_frame_reduction_percent": [
+        -1673.2558139534883
+      ],
+      "mean_reduction_percent": -1673.2558139534883,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -92.20877458396369
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early5-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 7.559168,
+      "paired_frame_reduction_percent": [
+        -1616.7441860465115
+      ],
+      "mean_reduction_percent": -1616.7441860465115,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -92.16091329165535
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early4-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 7.208448000000001,
+      "paired_frame_reduction_percent": [
+        -1537.0930232558142
+      ],
+      "mean_reduction_percent": -1537.0930232558142,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -93.12580445249559
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-graph-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 6.826496000000001,
+      "paired_frame_reduction_percent": [
+        -1450.3488372093025
+      ],
+      "mean_reduction_percent": -1450.3488372093025,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -89.83218163869694
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early4-graph-16",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 6.325760000000001,
+      "paired_frame_reduction_percent": [
+        -1336.6279069767443
+      ],
+      "mean_reduction_percent": -1336.6279069767443,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -89.08650571406947
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-exact-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 33.20064,
+      "paired_frame_reduction_percent": [
+        -2510.5072463768115
+      ],
+      "mean_reduction_percent": -2510.5072463768115,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -95.04308809913825
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "hlsl-tile-exact-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 31.172607999999997,
+      "paired_frame_reduction_percent": [
+        -2351.046698872786
+      ],
+      "mean_reduction_percent": -2351.046698872786,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -94.83158082338264
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-front-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 32.856576000000004,
+      "paired_frame_reduction_percent": [
+        -2483.4541062801936
+      ],
+      "mean_reduction_percent": -2483.4541062801936,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -95.43097223133985
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early5-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 34.396672,
+      "paired_frame_reduction_percent": [
+        -2604.549114331723
+      ],
+      "mean_reduction_percent": -2604.549114331723,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -95.48310056591038
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early4-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 34.249728000000005,
+      "paired_frame_reduction_percent": [
+        -2592.995169082126
+      ],
+      "mean_reduction_percent": -2592.995169082126,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -95.19569268999793
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-graph-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 28.12416,
+      "paired_frame_reduction_percent": [
+        -2111.3526570048307
+      ],
+      "mean_reduction_percent": -2111.3526570048307,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -93.82770791578723
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early4-graph-16",
+      "rounds": 1,
+      "d3d12_median_ms": 1.271808,
+      "candidate_median_ms": 29.366272000000002,
+      "paired_frame_reduction_percent": [
+        -2209.0177133655393
+      ],
+      "mean_reduction_percent": -2209.0177133655393,
+      "paired_bootstrap_95ci_percent": null,
+      "one_percent_low_gpu_fps_change_percent": [
+        -94.03353564448102
+      ],
+      "all_quality_passed": false,
+      "all_bit_identical": false
+    }
+  ],
+  "runs": [
+    {
+      "model": "changjin_v1.ply",
+      "backend": "d3d12",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.6420005999971181,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "d3d12",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-d3d12-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.094208,
+        "sort_and_interop_ms": 0.13824,
+        "draw_ms": 0.20736,
+        "gpu_total_ms": 0.44032,
+        "cpu_wall_ms": 0.6077,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 73535488,
+        "sampled_nonlocal_peak_bytes": 32415744,
+        "process_peak_private_bytes": 204337152,
+        "process_peak_working_set_bytes": 168062976
+      },
+      "image_sha256": "b6f00ffe49695659332ac64f286f74ee45a8661888996738e42c1e3ded1de51d",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 0.7015935999999999,
+        "p99_ms": 0.7283609600000001,
+        "one_percent_low_gpu_fps": 1354.4556171983354
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-exact-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 2.1990440000008675,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-exact-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-exact-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.099328,
+        "sort_and_interop_ms": 7.640064000000001,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 7.753728000000001,
+        "cpu_wall_ms": 7.952,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.1080319993195,
+        "cuda_tile_list_kernel_ms": 0.723968029022,
+        "cuda_composite_kernel_ms": 6.290944099424999
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 418398208,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 556748800,
+        "process_peak_working_set_bytes": 283160576
+      },
+      "image_sha256": "949ed8899938e1c43cca2d1984cff63dd07e0dc01e2eec4b3ca438f7ad8e0114",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 8.316057599999999,
+        "p99_ms": 8.81175552,
+        "one_percent_low_gpu_fps": 108.08660763696736
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9993302046947145,
+          "rmse_255": 0.256909719875809,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "hlsl-tile-exact-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 2.0810274000032223,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "hlsl-tile-exact-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-hlsl-tile-exact-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.096256,
+        "sort_and_interop_ms": 1.330176,
+        "draw_ms": 5.878784,
+        "gpu_total_ms": 7.3077760000000005,
+        "cpu_wall_ms": 7.5365,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.10956799984,
+        "cuda_tile_list_kernel_ms": 0.722944021225,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 419192832,
+        "sampled_nonlocal_peak_bytes": 111058944,
+        "process_peak_private_bytes": 555884544,
+        "process_peak_working_set_bytes": 283377664
+      },
+      "image_sha256": "09b9fba7f6f47d04ccf7b63c814ed124cf345e396a30f46eb342b2cf3e06b702",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 7.9566848,
+        "p99_ms": 8.547205120000001,
+        "one_percent_low_gpu_fps": 114.68058246726557
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9993353220950284,
+          "rmse_255": 0.25622459223631655,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999258633265855,
+          "rmse_255": 0.13077515514693036,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-front-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 2.2032363999969675,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-front-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-front-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.099328,
+        "sort_and_interop_ms": 7.693824,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 7.808,
+        "cpu_wall_ms": 8.0154,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.107519999146,
+        "cuda_tile_list_kernel_ms": 0.7224320173265,
+        "cuda_composite_kernel_ms": 6.34367990494
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 418398208,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 555769856,
+        "process_peak_working_set_bytes": 283377664
+      },
+      "image_sha256": "5af861f469132166ad8f05d759575f10a55cf6fc6b0074d7433d707dcb99160d",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 8.7131136,
+        "p99_ms": 9.41514752,
+        "one_percent_low_gpu_fps": 105.5286902960882
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9993301942543881,
+          "rmse_255": 0.25691222270436476,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early5-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 2.1585017000033986,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-early5-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-early5-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.099328,
+        "sort_and_interop_ms": 7.444992,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 7.559168,
+        "cpu_wall_ms": 7.7768,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.108543999493,
+        "cuda_tile_list_kernel_ms": 0.722944021225,
+        "cuda_composite_kernel_ms": 6.10867190361
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 418398208,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 554295296,
+        "process_peak_working_set_bytes": 283492352
+      },
+      "image_sha256": "3aa7cc995bb0ed3728f1e177d0720ca1d23923e9230f3c1995d96d8df348561d",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 8.6939136,
+        "p99_ms": 9.14171904,
+        "one_percent_low_gpu_fps": 106.17695025822233
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9993302111326754,
+          "rmse_255": 0.25690721702287034,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early4-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 2.0783958999963943,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-early4-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-early4-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.099328,
+        "sort_and_interop_ms": 7.094784000000001,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 7.208448000000001,
+        "cpu_wall_ms": 7.4024,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.10905599966650001,
+        "cuda_tile_list_kernel_ms": 0.722944021225,
+        "cuda_composite_kernel_ms": 5.73900794983
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 418398208,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 556277760,
+        "process_peak_working_set_bytes": 283353088
+      },
+      "image_sha256": "7efe51cb4ed207767961eb84f3ec3d78d8001704fa497da35b053de8d0818cfe",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 8.754176,
+        "p99_ms": 10.37451264,
+        "one_percent_low_gpu_fps": 93.10792773037136
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.999330108380576,
+          "rmse_255": 0.25690784273839096,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-graph-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.9808914000022924,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-graph-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-graph-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.099328,
+        "sort_and_interop_ms": 6.712832,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 6.826496000000001,
+        "cpu_wall_ms": 7.0465,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.10956799984,
+        "cuda_tile_list_kernel_ms": 0.722944021225,
+        "cuda_composite_kernel_ms": 5.42105579376
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 422592512,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 559120384,
+        "process_peak_working_set_bytes": 286568448
+      },
+      "image_sha256": "949ed8899938e1c43cca2d1984cff63dd07e0dc01e2eec4b3ca438f7ad8e0114",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 7.1163392000000005,
+        "p99_ms": 7.21405952,
+        "one_percent_low_gpu_fps": 137.71858694119305
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9993302046947145,
+          "rmse_255": 0.256909719875809,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-tile-early4-graph-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.873067300002731,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-tile-early4-graph-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\changjin_v1.ply-cuda-tile-early4-graph-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.098304,
+        "sort_and_interop_ms": 6.212096000000001,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 6.325760000000001,
+        "cpu_wall_ms": 6.5123,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.107519999146,
+        "cuda_tile_list_kernel_ms": 0.723968029022,
+        "cuda_composite_kernel_ms": 4.93107199669
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 422592512,
+        "sampled_nonlocal_peak_bytes": 110010368,
+        "process_peak_private_bytes": 558559232,
+        "process_peak_working_set_bytes": 286543872
+      },
+      "image_sha256": "7efe51cb4ed207767961eb84f3ec3d78d8001704fa497da35b053de8d0818cfe",
+      "max_channel_error_255": 5,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 6.62656,
+        "p99_ms": 6.70949376,
+        "one_percent_low_gpu_fps": 147.81843638840536
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.999330108380576,
+          "rmse_255": 0.25690784273839096,
+          "p99_error_255": 1.0,
+          "max_error_255": 5.0
+        },
+        "alpha": {
+          "ssim": 0.9999218281348458,
+          "rmse_255": 0.1321416654696255,
+          "p99_error_255": 1.0,
+          "max_error_255": 3.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "d3d12",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.2443103999976302,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "d3d12",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-d3d12-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.379904,
+        "sort_and_interop_ms": 0.328704,
+        "draw_ms": 0.5632,
+        "gpu_total_ms": 1.271808,
+        "cpu_wall_ms": 1.5308,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 258818048,
+        "sampled_nonlocal_peak_bytes": 32432128,
+        "process_peak_private_bytes": 421224448,
+        "process_peak_working_set_bytes": 344006656
+      },
+      "image_sha256": "41715ac54a0888ba32463fdc25c14d3bb7481f77c961a63d0272b4988db47975",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 1.5696895999999998,
+        "p99_ms": 1.7313177600000003,
+        "one_percent_low_gpu_fps": 561.2428160919541
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-exact-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 7.138502699999663,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-exact-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-exact-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.391168,
+        "sort_and_interop_ms": 32.78848,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 33.20064,
+        "cpu_wall_ms": 33.3896,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.136191993952,
+        "cuda_tile_list_kernel_ms": 1.04038405418,
+        "cuda_composite_kernel_ms": 31.070208549500002
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 653946880,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 776773632,
+        "process_peak_working_set_bytes": 459608064
+      },
+      "image_sha256": "c75c735880850ff1bb412096224c32df34694dc8ea0b621283b42f303580f489",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 34.9508608,
+        "p99_ms": 35.79534336,
+        "one_percent_low_gpu_fps": 27.820311943593765
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312467998187,
+          "rmse_255": 0.24554577500632502,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "hlsl-tile-exact-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 6.695027599998866,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "hlsl-tile-exact-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-hlsl-tile-exact-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.390144,
+        "sort_and_interop_ms": 1.992192,
+        "draw_ms": 28.532224,
+        "gpu_total_ms": 31.172607999999997,
+        "cpu_wall_ms": 31.431150000000002,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.134143993258,
+        "cuda_tile_list_kernel_ms": 1.04550397396,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 658956288,
+        "sampled_nonlocal_peak_bytes": 116318208,
+        "process_peak_private_bytes": 775839744,
+        "process_peak_working_set_bytes": 459673600
+      },
+      "image_sha256": "7e96488c2f7d8a562ae70e828534c83f6e6535ff05fde0589401593cbde47955",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 33.6052736,
+        "p99_ms": 34.429624319999995,
+        "one_percent_low_gpu_fps": 29.007381334283846
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998767628409447,
+          "rmse_255": 0.2425643183975557,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998740895087099,
+          "rmse_255": 0.13181645839463182,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-front-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 6.995609000005061,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-front-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-front-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.392192,
+        "sort_and_interop_ms": 32.446976,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 32.856576000000004,
+        "cpu_wall_ms": 33.034,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.134143993258,
+        "cuda_tile_list_kernel_ms": 1.03936004639,
+        "cuda_composite_kernel_ms": 30.737919807449998
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 653946880,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 777986048,
+        "process_peak_working_set_bytes": 459792384
+      },
+      "image_sha256": "c75c735880850ff1bb412096224c32df34694dc8ea0b621283b42f303580f489",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 34.6253312,
+        "p99_ms": 38.87497216,
+        "one_percent_low_gpu_fps": 25.643340116851572
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312467998187,
+          "rmse_255": 0.24554577500632502,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early5-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 7.27045299999736,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-early5-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-early5-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.391168,
+        "sort_and_interop_ms": 33.984512,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 34.396672,
+        "cpu_wall_ms": 34.57975,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.135168001056,
+        "cuda_tile_list_kernel_ms": 1.04038405418,
+        "cuda_composite_kernel_ms": 32.2657279968
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 653946880,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 777592832,
+        "process_peak_working_set_bytes": 451461120
+      },
+      "image_sha256": "f4b262386cfee4a8b46b22a0812335ee8f22d61b9698a90eb1eee19c23b35755",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 35.4909696,
+        "p99_ms": 36.60541952,
+        "one_percent_low_gpu_fps": 25.350773583926067
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312415432702,
+          "rmse_255": 0.24553038981988132,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early4-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 7.211681499997212,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-early4-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-early4-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.392192,
+        "sort_and_interop_ms": 33.836032,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 34.249728000000005,
+        "cpu_wall_ms": 34.4692,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.134143993258,
+        "cuda_tile_list_kernel_ms": 1.03936004639,
+        "cuda_composite_kernel_ms": 32.085504531850006
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 653946880,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 778104832,
+        "process_peak_working_set_bytes": 451571712
+      },
+      "image_sha256": "6670af67c25e226802ab5cc95f9e8e362c82d91438534007a44bc773d9e679c9",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 35.412736,
+        "p99_ms": 36.65473536,
+        "one_percent_low_gpu_fps": 26.963829640367226
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312699208708,
+          "rmse_255": 0.24539712030987365,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-graph-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 6.083604899999045,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-graph-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-graph-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.392192,
+        "sort_and_interop_ms": 27.68128,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 28.12416,
+        "cpu_wall_ms": 28.3964,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.135168001056,
+        "cuda_tile_list_kernel_ms": 1.04243195057,
+        "cuda_composite_kernel_ms": 25.934335708600003
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 666529792,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 791728128,
+        "process_peak_working_set_bytes": 473604096
+      },
+      "image_sha256": "c75c735880850ff1bb412096224c32df34694dc8ea0b621283b42f303580f489",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 28.567552,
+        "p99_ms": 28.70875136,
+        "one_percent_low_gpu_fps": 34.64154591085649
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312467998187,
+          "rmse_255": 0.24554577500632502,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-tile-early4-graph-16",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 6.423827599996002,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "--backend",
+        "cuda-tile-early4-graph-16",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-tile-early-graph-diagnostic\\shengyi_v1.ply-cuda-tile-early4-graph-16-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--cuda-events",
+        "on",
+        "--tile-capacity",
+        "2500000",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.392192,
+        "sort_and_interop_ms": 28.947456000000003,
+        "draw_ms": 0.014336,
+        "gpu_total_ms": 29.366272000000002,
+        "cpu_wall_ms": 29.6006,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.134655997157,
+        "cuda_tile_list_kernel_ms": 1.04243195057,
+        "cuda_composite_kernel_ms": 27.240447998
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 666529792,
+        "sampled_nonlocal_peak_bytes": 110026752,
+        "process_peak_private_bytes": 792375296,
+        "process_peak_working_set_bytes": 473501696
+      },
+      "image_sha256": "6670af67c25e226802ab5cc95f9e8e362c82d91438534007a44bc773d9e679c9",
+      "max_channel_error_255": 68,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 29.7301504,
+        "p99_ms": 29.81366784,
+        "one_percent_low_gpu_fps": 33.486352570037376
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9998312699208708,
+          "rmse_255": 0.24539712030987365,
+          "p99_error_255": 1.0,
+          "max_error_255": 45.0
+        },
+        "alpha": {
+          "ssim": 0.9998359691547977,
+          "rmse_255": 0.13584156984798665,
+          "p99_error_255": 1.0,
+          "max_error_255": 68.0
+        },
+        "passed": false
+      }
+    }
+  ]
+}

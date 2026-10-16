@@ -1,0 +1,233 @@
+{
+  "protocol": "offscreen-full-GPU-span; per-backend frame slots; no Present; no display FPS",
+  "frame_slots": {
+    "d3d12-queued": 3,
+    "cuda-sort-queued": 3
+  },
+  "image_reference": "d3d12-queued",
+  "cpu_wall_semantics": "submit start to CPU fence resolution; includes queue residence and resolution delay",
+  "cpu_submit_semantics": "CPU command recording and submission, excluding slot-recycle fence wait",
+  "formal_duration": false,
+  "cuda_event_diagnostics": false,
+  "warmup_seconds": null,
+  "sample_seconds": null,
+  "frames": 120,
+  "warmup_frames": 60,
+  "camera": "fit",
+  "pan_x": 0,
+  "tile_capacity": null,
+  "head": "db2be3a0835d815e4432a92a856e9f80d5f1c655",
+  "diff_sha256": "d5f81273ae05de08fa2a4d8e263f094572dcea75743c744b979671fb225f1f7c",
+  "binaries": {
+    "Native3DGSViewer.CudaBench.exe": "687e2a2b6002cf567609383771719f4a9a45070af411e77d5a406c63de5e73a2",
+    "gs-cuda-backend.dll": "72c298f161ccf17e1e0abd4bb2afe305ee3bb4723498de8b53a9605e8d97bf74",
+    "model-io-helper.exe": "11d83e0fa6e31873b0321bf7f5d2c6bfc714ca094ee9254994f3db4cc12adb40"
+  },
+  "shaders": {
+    "blit_pixel.cso": "7c9fff3c257ed74d005cd855c6b162ae58b6a68a6dd6043a45fa11a4cf937879",
+    "blit_vertex.cso": "aa51df5e87bc17c078449f76a6a05d395675126fd842344c27afdd5fa4380aba",
+    "count.cso": "fff1c78b23a11350eb101c1b7c0998d830caf5ecc9bc53efd7cd0967066c48dd",
+    "count_wave32.cso": "f4b1977bb8b759ff5391bede1c8d60d797876145ccf7a9da4ef8f0832afa74a8",
+    "count_wave_agnostic.cso": "fff1c78b23a11350eb101c1b7c0998d830caf5ecc9bc53efd7cd0967066c48dd",
+    "pick_collect.cso": "ebfc921fa061451df9dc4ae88a6246dc753f6f8a2863dd481e4915359346a963",
+    "pick_reset.cso": "3a2a95937ebeb79ec5e04bb6df6fa28f6c7c86dd008c63a3204226ffb86e6550",
+    "pixel.cso": "840234b9959cf49e8d573f997bff529dbe0fcbed761579ed0d2774274d7771d2",
+    "project.cso": "3486769fb21606b8e261a88c98285b6e91b8458b465198105dd33cf8e559823b",
+    "reduce.cso": "10684fb17fcecc3d42c925b7544798c54b9bdcbc315b8add5210b707b9af8e2c",
+    "reduce_wave32.cso": "eb92ad45ef73fbbc833df7a044aafc7409b20b2aef1cbbb07a65bd19ba70580a",
+    "reduce_wave_agnostic.cso": "eb3acf8da89b22f96921e06952d719269a7e4946b42bc08bcb346475f255de95",
+    "reset_args.cso": "21c5475cb95087d65f0a595f502ca7c00de450ab3d57d233a239906a7e816855",
+    "scan.cso": "407f8644285bda1820b29efcfcfb0000baca35646f941941263614aaeac82c4c",
+    "scan_add.cso": "01848d5453239da5047cc2b36042e685f15155cb8d6c08adb3ea64a747884332",
+    "scan_add_wave32.cso": "5442b163c0b8004db81fa4fe39fa2991bcb9ef2e8225948af5253fa11db0f34d",
+    "scan_add_wave_agnostic.cso": "cdba336260af16b2080155511220cff6aed5bfb921020d3cbb82df3f6ced7db2",
+    "scan_wave32.cso": "7f9de8c07af50046312fe6fbfd0a43fd77538f7455fb1b36fcf9a22b3aee9f5f",
+    "scan_wave_agnostic.cso": "76af348e56842791f5d99a925ef2f9222beb61a522aac1b9fbbb0e3145c0163f",
+    "scatter.cso": "2939c935585cd7a68a760e28b21d6bc3c90e7020222e4995b158c719178f4500",
+    "scatter_wave32.cso": "1b6b10a2616a4eb520ce3c10e46279ef6dbaf81e17b3ef88e3aee615a3f340be",
+    "scatter_wave_agnostic.cso": "4248b608ee3cb458cd3d53f0b61b78f2a6001610b130aa6632c476e867d46b4f",
+    "tile_composite_16.cso": "b0201210881a8350dcb8952d65e48d5a5176358d351618ca0d424a4383af3b4b",
+    "tile_composite_8.cso": "751b48cd1c61d5e95404a86d96b4871e45e0ca93c2415c58bed7cc405506a114",
+    "tile_init.cso": "cf619deefa0040d5fce579f0ceb23f99a8bbcb38220b7068d44926b586671e09",
+    "tile_store.cso": "e71ef4460958d86464db853b91e51438943317a994353a6541e4f0fa3728f0a5",
+    "vertex.cso": "3b9cb3ab7b04f8f30c63734721fa62da808898cf61e2783d51490e1f146b94fe"
+  },
+  "runtime_sha256": {
+    "gs-cuda-backend.dll": "72c298f161ccf17e1e0abd4bb2afe305ee3bb4723498de8b53a9605e8d97bf74",
+    "gs-cuda-backend.exp": "da0e689acc2037b17cbe526c89c71a8afac1620f7a3c8caed8e5bc02e5bacb13",
+    "gs-cuda-backend.lib": "c1e178ed907f1f0cdff4bd16208cbebf788db5a49a126d192518071ba1b48fc3",
+    "model-io-helper.exe": "11d83e0fa6e31873b0321bf7f5d2c6bfc714ca094ee9254994f3db4cc12adb40",
+    "Native3DGSViewer.CudaBench.exe": "687e2a2b6002cf567609383771719f4a9a45070af411e77d5a406c63de5e73a2",
+    "Native3DGSViewer.CudaConditionalProbe.exe": "3419491f82bc9131b3627bb74c996f7e1f4322d00e7e5f11c8652b6469266690",
+    "Native3DGSViewer.CudaLifecycleTests.exe": "045ae2ec06f5d1eec334ef9e72c5b9cbe39429223a7250ff5155cc5228a43f92",
+    "Native3DGSViewer.CudaProbe.exe": "ea09d375f977e6523404af6f31587d082c7c89c3b51f4e0185a202f3076b3af9",
+    "Native3DGSViewer.CudaSortBench.exe": "7ef527bd6f8318342b53b5db88e747989c8c9e9c3bb751330aa1209c09b96526",
+    "Native3DGSViewer.CudaTests.exe": "99c5d5ad33cca72304f1e058c936fe8ced0b58d0ea3c9bd0a1b2d672c63df1dc",
+    "shaders\\blit_pixel.cso": "7c9fff3c257ed74d005cd855c6b162ae58b6a68a6dd6043a45fa11a4cf937879",
+    "shaders\\blit_vertex.cso": "aa51df5e87bc17c078449f76a6a05d395675126fd842344c27afdd5fa4380aba",
+    "shaders\\count.cso": "fff1c78b23a11350eb101c1b7c0998d830caf5ecc9bc53efd7cd0967066c48dd",
+    "shaders\\count_wave32.cso": "f4b1977bb8b759ff5391bede1c8d60d797876145ccf7a9da4ef8f0832afa74a8",
+    "shaders\\count_wave_agnostic.cso": "fff1c78b23a11350eb101c1b7c0998d830caf5ecc9bc53efd7cd0967066c48dd",
+    "shaders\\pick_collect.cso": "ebfc921fa061451df9dc4ae88a6246dc753f6f8a2863dd481e4915359346a963",
+    "shaders\\pick_reset.cso": "3a2a95937ebeb79ec5e04bb6df6fa28f6c7c86dd008c63a3204226ffb86e6550",
+    "shaders\\pixel.cso": "840234b9959cf49e8d573f997bff529dbe0fcbed761579ed0d2774274d7771d2",
+    "shaders\\project.cso": "3486769fb21606b8e261a88c98285b6e91b8458b465198105dd33cf8e559823b",
+    "shaders\\reduce.cso": "10684fb17fcecc3d42c925b7544798c54b9bdcbc315b8add5210b707b9af8e2c",
+    "shaders\\reduce_wave32.cso": "eb92ad45ef73fbbc833df7a044aafc7409b20b2aef1cbbb07a65bd19ba70580a",
+    "shaders\\reduce_wave_agnostic.cso": "eb3acf8da89b22f96921e06952d719269a7e4946b42bc08bcb346475f255de95",
+    "shaders\\reset_args.cso": "21c5475cb95087d65f0a595f502ca7c00de450ab3d57d233a239906a7e816855",
+    "shaders\\scan.cso": "407f8644285bda1820b29efcfcfb0000baca35646f941941263614aaeac82c4c",
+    "shaders\\scan_add.cso": "01848d5453239da5047cc2b36042e685f15155cb8d6c08adb3ea64a747884332",
+    "shaders\\scan_add_wave32.cso": "5442b163c0b8004db81fa4fe39fa2991bcb9ef2e8225948af5253fa11db0f34d",
+    "shaders\\scan_add_wave_agnostic.cso": "cdba336260af16b2080155511220cff6aed5bfb921020d3cbb82df3f6ced7db2",
+    "shaders\\scan_wave32.cso": "7f9de8c07af50046312fe6fbfd0a43fd77538f7455fb1b36fcf9a22b3aee9f5f",
+    "shaders\\scan_wave_agnostic.cso": "76af348e56842791f5d99a925ef2f9222beb61a522aac1b9fbbb0e3145c0163f",
+    "shaders\\scatter.cso": "2939c935585cd7a68a760e28b21d6bc3c90e7020222e4995b158c719178f4500",
+    "shaders\\scatter_wave32.cso": "1b6b10a2616a4eb520ce3c10e46279ef6dbaf81e17b3ef88e3aee615a3f340be",
+    "shaders\\scatter_wave_agnostic.cso": "4248b608ee3cb458cd3d53f0b61b78f2a6001610b130aa6632c476e867d46b4f",
+    "shaders\\tile_composite_16.cso": "b0201210881a8350dcb8952d65e48d5a5176358d351618ca0d424a4383af3b4b",
+    "shaders\\tile_composite_8.cso": "751b48cd1c61d5e95404a86d96b4871e45e0ca93c2415c58bed7cc405506a114",
+    "shaders\\tile_init.cso": "cf619deefa0040d5fce579f0ceb23f99a8bbcb38220b7068d44926b586671e09",
+    "shaders\\tile_store.cso": "e71ef4460958d86464db853b91e51438943317a994353a6541e4f0fa3728f0a5",
+    "shaders\\vertex.cso": "3b9cb3ab7b04f8f30c63734721fa62da808898cf61e2783d51490e1f146b94fe"
+  },
+  "models": [
+    {
+      "name": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83"
+    }
+  ],
+  "runs": [
+    {
+      "model": "changjin_v1.ply",
+      "backend": "d3d12-queued",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.6077284999992116,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-collector-queue-control\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "d3d12-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-collector-queue-control\\changjin_v1.ply-d3d12-queued-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2030, 49, 210, 31.68\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2030, 49, 210, 31.80\n"
+      },
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_and_interop_ms": 0.139264,
+        "draw_ms": 0.201728,
+        "gpu_total_ms": 0.435712,
+        "cpu_wall_ms": 1.3362500000000002,
+        "cpu_submit_ms": 0.0974,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 73543680,
+        "sampled_nonlocal_peak_bytes": 34914304,
+        "process_peak_private_bytes": 206610432,
+        "process_peak_working_set_bytes": 168308736
+      },
+      "image_sha256": "b6f00ffe49695659332ac64f286f74ee45a8661888996738e42c1e3ded1de51d",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-queued",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.8248567999980878,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-collector-queue-control\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-sort-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-collector-queue-control\\changjin_v1.ply-cuda-sort-queued-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "0",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2030, 51, 1785, 50.99\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2021, 53, 1785, 112.58\n"
+      },
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.098304,
+        "sort_and_interop_ms": 0.401408,
+        "draw_ms": 0.200704,
+        "gpu_total_ms": 0.700928,
+        "cpu_wall_ms": 2.13435,
+        "cpu_submit_ms": 0.3978,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 277753856,
+        "sampled_nonlocal_peak_bytes": 113688576,
+        "process_peak_private_bytes": 518459392,
+        "process_peak_working_set_bytes": 281096192
+      },
+      "image_sha256": "b6f00ffe49695659332ac64f286f74ee45a8661888996738e42c1e3ded1de51d",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true
+    }
+  ],
+  "collector_sha256": "747fe6e077d4b8ba158abcc68f805609abcb4da4c41d3929c445fa00d3ce3785",
+  "runtime_unchanged": true,
+  "complete": true
+}

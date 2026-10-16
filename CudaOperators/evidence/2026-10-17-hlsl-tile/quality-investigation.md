@@ -1,0 +1,9 @@
+# Native rasterizer equivalence investigation
+
+The middle-scene failure is highly localized and fails the unchanged max-error gate despite SSIM/RMSE passing. shengyi:120 pixels exceed8/255, worst(1019,560) nativeRGBA=(63,69,61,122), CUDA per-splatUNORM=(23,22,24,51). tumu:357 pixels exceed8/255, worstRGB19/255. Heatmaps and magnified nearest-neighbor crops retained in tile-image-medium/.
+
+Same-list HLSL compute compositing repeats the same large local errors, differing from CUDA by at most1/255 (alpha0/255 for UNORM). Thus this is not evidence that CUDA arithmetic alone is wrong. A post-timing native projection/index readback isolates818 conservative candidates near(1019,560). Independent double-precision ellipse inversion and per-splatUNORM reproducesRGBA=(23,22,24,51) exactly. That also checks stable ordering and the tile result at this pixel independently.
+
+Many nearby splats have a minor axis below.02 pixels, some near.0002. Snapping the four quad vertices to an8-bit subpixel grid before independent triangle barycentric interpolation changes the same CPU result to(58,68,59,114), with sourceindex432884 contributingalpha.310, much closer to the native(63,69,61,122). A9/10/12-bit grid produces other results. This supports rasterizer subpixel/interpolation precision as the main mechanism; it does not fully reproduce NVIDIA hardware rasterization or prove every discrepancy has the same cause. The vertex CSO uses FP32 multiply/add/divide and then viewport mapping, whose precise hardware evaluation also matters for thin triangles.
+
+Do not relax maximum error, add covariance blur, discard thin splats or modify the native baseline to make this path pass. Analytic CUDA/HLSL tile compositing is not accepted as equal-quality. E08/Graph can remain diagnostic ablations against their own tile control but cannot become product candidates without resolving this gate. Resource and conditional-while failures remain separate.

@@ -17,4 +17,8 @@ CUDA13.3/MSVC19.50/SM86工具链、共享buffer/纹理、10000次fence交接及�
 硬件测试：`ctest --test-dir out/cmake-cuda -C Release --output-on-failure -R '^Cuda'`。
 采集：`python CudaOperators/tools/collect.py --output <新证据目录>`；分析：`python CudaOperators/tools/analyze.py <该目录>`。
 
-实验host另支持cuda-project-128/256、cuda-project-sort-128/256。它们只改变投影/排序，保留原生draw、原始点数/SH和质量参数。E03的projection_ms含CUDA投影及交接，E04的该列包含整个CUDA投影+排序区域；不能把它当作纯投影kernel时间。完整gpu_total_ms使用同一D3D12时间域，覆盖跨API依赖链。所有当前采集为逐帧等待的offscreen诊断，不表示显示帧率或已通过生产稳定性验收。
+实验host另支持cuda-project-128/256、cuda-project-sort-128/256。它们只改变投影/排序，保留原生draw、原始点数/SH和质量参数。E03的projection_ms含CUDA投影及交接，E04的该列包含整个CUDA投影+排序区域；不能把它当作纯投影kernel时间。完整gpu_total_ms使用同一D3D12时间域，覆盖跨API依赖链。offscreen时间不表示显示帧率或已通过生产稳定性验收。
+
+[E09三帧槽/Graph三轮消融](evidence/2026-10-17-queue-graph-diagnostic/README.md)完成90次运行、全图byte一致。CUDA三帧槽相对原生三帧槽在391万/2248万点约降低GPU帧耗时7.78%/14.86%，小模型仍回退，Graph在大场景没有独立收益。正式候选采用普通CUB三帧槽。采集支持 `--formal --image-reference d3d12-queued --backends d3d12-queued cuda-sort-queued`；每后端30秒预热/60秒采样、默认3轮。
+
+[E06–E08画质失败调查](evidence/2026-10-17-hlsl-tile/README.md)：analytic CUDA/HLSL tile对薄quad的亚像素光栅化/插值不能完全复现，两个中等模型超出原最大误差门槛，并且明显慢于原生。提前终止和Graph无法解除画质失败，不接入生产。conditional while另有未解决稳定性问题，正常路径禁用。
