@@ -47,6 +47,9 @@ def main():
     parser.add_argument("--kernel-timing", action="store_true", help="CUDA event diagnostics; excluded from formal timing")
     parser.add_argument("--camera", choices=["fit", "orbit"], default="fit")
     parser.add_argument("--pan-x", type=float, default=0)
+    parser.add_argument("--yaw-degrees", type=float, default=0)
+    parser.add_argument("--pitch-degrees", type=float, default=0)
+    parser.add_argument("--dolly-steps", type=float, default=0)
     parser.add_argument("--tile-capacity", type=int, help="Explicit fixed reference capacity for tile diagnostics")
     args = parser.parse_args()
     if args.repetitions < 1 or len(set(args.backends)) != len(args.backends) or args.image_reference not in args.backends:
@@ -78,6 +81,7 @@ def main():
               "warmup_seconds": 30 if args.formal else None,
               "sample_seconds": 60 if args.formal else None, "frames": None if args.formal else 120,
               "warmup_frames": None if args.formal else 60, "camera": args.camera, "pan_x": args.pan_x,
+              "yaw_degrees": args.yaw_degrees, "pitch_degrees": args.pitch_degrees, "dolly_steps": args.dolly_steps,
               "tile_capacity": args.tile_capacity,
               "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
               "diff_sha256": hashlib.sha256(subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=root)).hexdigest(),
@@ -95,6 +99,10 @@ def main():
                 sample = temporary / (stem + ".csv")
                 command = [str(binary), "--model", str(args.model_root / name), "--backend", backend,
                            "--output", str(sample), "--camera", args.camera, "--pan-x", str(args.pan_x)]
+                for flag, value in [("--yaw-degrees", args.yaw_degrees), ("--pitch-degrees", args.pitch_degrees),
+                                    ("--dolly-steps", args.dolly_steps)]:
+                    if value:
+                        command += [flag, str(value)]
                 if args.kernel_timing:
                     command += ["--cuda-events", "on"]
                 if args.tile_capacity is not None:
@@ -154,6 +162,7 @@ def main():
                     pixels = Path(str(sample) + ".bgra").read_bytes()
                     record["image_sha256"] = hashlib.sha256(pixels).hexdigest()
                     array = np.frombuffer(pixels, dtype=np.uint8).reshape(1080, 1920, 4)
+                    record["nonzero_alpha_pixel_fraction"] = float(np.count_nonzero(array[:, :, 3]) / (1080 * 1920))
                     Image.fromarray(array[:, :, [2, 1, 0, 3]]).save(output / (stem + ".png"))
                     if args.camera == "fit":
                         if backend == args.image_reference:

@@ -40,7 +40,7 @@
 - 启用构建时，CUDA实现封装为按需加载的私有后端DLL，使用明确的应用部署路径；引擎启动不要求CUDA DLL在场。CUDA后端或其runtime缺失时，D3D12仍能启动；显式请求CUDA则返回可解释错误。部署测试覆盖缺少DLL、无NVIDIA及版本不匹配。冷初始化/首帧成本单列，不混入预热后的kernel计时。
 - 初期只通过实验 host 选择路径；若要增加正式 `QualityConfig`/SDK 后端选择或统计字段，**先修改提供者规格及契约测试**，再更改公开头文件。
 - 私有边界采用批量 buffer view、容量、布局版本、stream/帧槽状态与结构化结果。公共头不暴露 `cudaStream_t` 或 CUDA 头；不逐 splat 调用。
-- 主实验模式必须可独立选择 `d3d12`、`interop-noop`、`cuda-sort`、`cuda-project`、`cuda-project-sort`、`cuda-compact`、`cuda-tile-exact`、`hlsl-tile-exact`、`cuda-tile-early`、`cuda-graph`。名字是拟定基准契约，尚无这些命令实现。
+- 主实验模式可独立选择D3D12、interop-noop、CUDA排序/投影/组合/压缩、CUDA/HLSL tile、提前终止及Graph。实际带线程块/tile/调度后缀的模式名以bench/scene.cpp白名单为准，实测命令在各组results.json固定。
 - 组合方案必须保留单项消融；不建立多个长期维护的重复 renderer。稳定后保留 D3D12 与少数有收益的 CUDA 策略，实验失败的实现撤回、台账保留。
 
 ### 3.2 D3D12/CUDA 互操作
@@ -104,6 +104,8 @@ E09实施约束（2026-10-17）：实验host提供1/3帧槽独立allocator/list�
 
 正式相机覆盖补充：fit之后复核pan-x=900的最大模型可见内容场景，先短时检查、再同样30s/60s/3轮配对。所有后端在全部计时和截图后读回最终DrawCounters，采集器保存visible/source；不向正常逐帧路径加入计数读回，不以全剔除帧作为可见内容收益证据。各次冻结运行时单独保存hash。
 
+截图复核补充：默认fit和平移视角对该地形模型接近水平侧视，平移后只剩边缘窄带，不能据此宣称常规浏览加速。host增加固定yaw/pitch角度和dolly步数，通过现有CameraController施加；测试固定yaw=30°、pitch=-45°、dolly=2的俯斜视角，并记录非零alpha像素比例与截图。与动态orbit叠加时仍从同一初始相机按墙钟变化；不改renderer相机算法。先图像/诊断，通过收益筛选后才扩大正式矩阵。
+
 ### 5.1 主集合
 
 | 样本（相对用户目录） | splat 数 | 用途 |
@@ -163,14 +165,15 @@ CudaOperators/
   README.md
   SPEC-cuda-operators.md         本规格，当前阶段产物
   evidence/<date>-<experiment>/  原始命令/日志/环境/摘要
-  CMakeLists.txt                以下为审批后拟建立
+  CMakeLists.txt                可选CUDA构建，默认OFF
   include/gs_cuda/              私有批量算子契约，不安装到公共SDK
   src/interop/                  共享内存/fence/帧槽RAII
   src/operators/                sort.cu、project.cu、compact.cu、tile.cu
   tests/                        独立正确性与生命周期测试
   bench/                        实验host与采集/分析工具
-  tasks/plan.md                 拟用实施计划位置，待确认
-  tasks/todo.md                 拟用任务目标位置，待确认
+  tools/                       工具链/采集/分析脚本
+  tasks/plan.md                 已授权实施计划
+  tasks/todo.md                 实际验收状态
 ```
 
 C++20、四空格、类型PascalCase、函数/变量snake_case；`.cu`采用受支持工具链的相同语言标准。每个kernel职责单一；显式stream、受检容量/乘法、结构化错误。布局用static_assert与CPU/HLSL/CUDA对照测试锁定，不复制三份容易漂移的数学常数。不启用全局fast-math；任何近似优化独立计量。
@@ -207,20 +210,20 @@ cmake --install out/cmake --config Release --prefix out/sdk --component SDK
 git diff --check
 ```
 
-审批后的拟定基准命令契约（**目标/脚本/参数尚未实现，不能现在执行**；工具链绝对路径由E01合格结果固定）：
+已实现的CUDA构建/采集命令（build.ps1显式设置已验证的本地13.3.0工具链，不依赖全局PATH）：
 
 ```powershell
-cmake -S . -B out/cmake-cuda -G 'Visual Studio 18 2026' -A x64 -DGS_ENABLE_CUDA_OPERATORS=ON
-cmake --build out/cmake-cuda --config Release --target Native3DGSViewer.CudaTests Native3DGSViewer.CudaBench --parallel
+pwsh -NoProfile -File CudaOperators/tools/build.ps1 -Configure -Targets Native3DGSViewer.CudaTests,Native3DGSViewer.CudaBench
 ctest --test-dir out/cmake-cuda -C Release --output-on-failure -R '^Cuda'
-& .\out\cmake-cuda\cuda\Release\Native3DGSViewer.CudaBench.exe --model 'C:\Users\21544\Desktop\zhishan\zhihuizhimen.ply' --backend cuda-sort --width 1920 --height 1080 --sh-cap 3 --point-stride 1 --memory-mitigation off --warmup-seconds 30 --sample-seconds 60 --repetitions 3 --output CudaOperators/evidence/E02-zhihuizhimen
+python CudaOperators/tools/collect.py --models jiulonghu_v1.ply --backends d3d12-queued cuda-sort-queued --image-reference d3d12-queued --formal --output CudaOperators/evidence/new-formal-run
+python CudaOperators/tools/analyze.py CudaOperators/evidence/new-formal-run
 ```
 
 新增CUDA目标显式使用自己的runtime输出目录，不覆盖基线exe；集成阶段如需重建render-core，先保存基线host/依赖/shader及hash。每次正式采集验证运行二进制与当前实验提交对应。
 
 ## 10. 审阅后的拟实施工作包
 
-本节帮助估计规格范围；正式Plan/Tasks需审阅后生成，每项不超过约5个文件，过大继续拆分。执行顺序与E编号保持一致。
+本节记录工作包及依赖；已授权的Plan/Tasks在本目录tasks/，实际验收状态以todo.md为准。每项约5文件，过大继续拆分，执行顺序与E编号保持一致。
 
 | 工作包 | 前置 | 可验证完成条件 | 预期文件范围 |
 |---|---|---|---|

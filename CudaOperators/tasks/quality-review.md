@@ -8,7 +8,7 @@
 |---|---|---|
 | Required | analytic tile不能复现薄quad的硬件亚像素光栅化/插值；真实最大误差超规格。普通CPU数学oracle通过不能代替quad图像通过。 | E06–E08全部拒绝产品集成；质量调查和原始失败图像保留。W09–W11不勾选。 |
 | Required | conditional while最小复现仍有间歇非法读取/error999与清理卡住，准确归属未证明。 | 验收路径改为普通有界kernel/普通Graph；conditional选项只作诊断，probe不进入CTest。不得默认启用。 |
-| Required | 算子仅部分核对stream，未完整核对每个输入buffer/texture的Context归属；互操作begin/end未绑定同一队列。错误调用可能绕过真正的数据依赖。 | W03/检查点A：增加统一归属与队列一致性检查，并覆盖跨Context/跨queue负测后才能接产品。当前host单Context/单队列调用，已验证路径没有依赖这些无效调用。 |
+| Resolved | 算子原先未完整核对输入Context，begin/end也未绑定队列；RED测试实际将另一Context的哨兵0x12345678写成99。 | 已增加实际device LUID、单device/单queue绑定和所有算子输入归属检查；3项负测、完整Cuda CTest8/8、memcheck通过，见ownership/。包含零count拒绝、组合列表构造、不同device及错误调用后正确结束交接。 |
 | Required | shared import完成前释放、算子scratch析构中的cudaFree，在驱动故障下没有完整有界退出保证。当前共享资源超时保留在途导入，不能宣称无泄漏/可恢复。 | W03/W16：明确在途资源退役所有权，故障隔离/设备移除与不可完成fence逐条注入。正常生命周期测试不能替代此项。 |
 | Required | Debug Layer下CUDA交接退役fence约每Context遗留1 Event；非调试100次正常生命周期通过。 | 已有最小分类对照与日志，具体持有方未定；保留原句柄阈值。W03未通过完整稳定性。 |
 | Required | CUDA/DXGI共享映射计费与物理增量不同，现有原生准入估计不足以证明映射后80%预算合规。 | W14/W15前先锁定唯一分配统计与WDDM预算策略，不以全局nvidia-smi峰值替代独占显存。 |
@@ -26,3 +26,5 @@
 实验入口集中在独立host；tile、投影、压缩、排序各自有头/实现和行为测试，失败方法保留为复现资料。当前host后端名称分派适合实验矩阵，不是SDK后端选择接口；若未来达生产门槛，应以提供者规格中的显式策略替换host字符串组合，不能把整个实验分派复制进renderer。
 
 本轮允许保留实验基础设施与证据，**不批准产品合并/启用CUDA后端**。正式性能、相机覆盖、资源/故障、GUI呈现与2小时长稳均独立验收；未验证项留在todo，不以绿色单测替代。
+
+后续审查：普通有界tile的racecheck零hazards、synccheck零错误（ownership目录）；前者仅检查CUDA共享内存，不证明全部全局内存/跨API竞态不存在。正式pan视角收益16.70%，但非零alpha面积仅1.42%；不得把该窄带视角等同常规浏览。已增加完整校园俯斜视角与画面面积统计。归属修复后GPU数学与排序方式未改，正式测量仍按各组冻结二进制识别，不能混写为同一版本。

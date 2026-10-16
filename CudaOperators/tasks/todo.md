@@ -11,6 +11,7 @@
   - 验收：按LUID匹配、CUDA写/D3D12读正确、容量/无设备/导入失败处理。
   - 验证：`CudaInterop.*`。文件：interop头/源、测试、CMake（≤4）。前置：W01。
 - [ ] W03：fence/帧槽与纹理。
+  - 已补实际device LUID、Context单队列绑定及全部算子buffer/texture归属拒绝；RED重现跨Context哨兵被改写，修复后3负测及Cuda CTest8/8通过。memcheck5项、tile racecheck/synccheck均零错误。故障退役及调试层句柄问题仍未解决。
   - 100次生产配置Context/buffer/texture生命周期、可控fence超时/解除后恢复通过。Debug Layer/CUDA退役fence的Event滞留未解决，见toolchain/lifecycle-notes.md；不勾选完整稳定性。
   - 验收：10000次GPU交接、纹理读写、关闭/超时与noop时间。
   - 验证：`CudaInterop.*:CudaLifecycle.*`。文件：帧槽/纹理实现、测试、bench（≤4）。前置：W02。
@@ -60,6 +61,7 @@
   - 验收：独立于调度的Graph收益、场景/容量/resize重建正确。
   - 验证：Graph测试与E09。文件：graph源、测试、host、报告（≤4）。前置：W12。
 - [ ] W14：正式配对采集。
+  - 最大模型fit与pan900均完成30s/60s/3轮：GPU耗时降低14.45% [14.23,14.58]与16.70% [16.62,16.81]，共26915测量帧、图像byte一致；但两视角alpha覆盖仅2.06%/1.42%，补测固定俯斜完整校园。此处不代表显示FPS或全部场景/稳定性验收。
   - 验收：30s/60s/3轮起步、时间路径/完整图像/内存峰值/CI/全模型记录。
   - 验证：采集工具及质量校验；呈现受限明确标注。文件：采集、分析、相机、报告（≤4）。前置：候选正确性通过。
 - [ ] 检查点D：达到5%保留/15%后端目标与≤3%回退，否则撤回产品优化并留证据。

@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <iostream>
 #include <map>
+#include <numbers>
 #include <thread>
 
 using namespace gs::render;
@@ -179,7 +180,8 @@ int wmain(int argc, wchar_t **argv)
     {
         std::map<std::wstring, std::wstring> args;
         const std::vector<std::wstring> accepted{L"--model", L"--backend", L"--frames", L"--warmup-frames",
-            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x", L"--tile-capacity", L"--debug-pixel-x", L"--debug-pixel-y"};
+            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x", L"--tile-capacity", L"--debug-pixel-x", L"--debug-pixel-y",
+            L"--yaw-degrees", L"--pitch-degrees", L"--dolly-steps"};
         for (int i = 1; i < argc; i += 2)
         {
             if (i + 1 >= argc || std::find(accepted.begin(), accepted.end(), argv[i]) == accepted.end() || args.contains(argv[i]))
@@ -188,11 +190,11 @@ int wmain(int argc, wchar_t **argv)
         }
         if (!args.contains(L"--model")) throw std::invalid_argument("--model is required");
         auto get = [&](const wchar_t *key, const wchar_t *fallback) { return args.contains(key) ? args.at(key) : std::wstring(fallback); };
-        auto number = [&](const wchar_t *key, const wchar_t *fallback, double maximum) {
+        auto number = [&](const wchar_t *key, const wchar_t *fallback, double maximum, double minimum = 0) {
             const auto text = get(key, fallback);
             size_t used = 0;
             const double value = std::stod(text, &used);
-            if (used != text.size() || !std::isfinite(value) || value < 0 || value > maximum) throw std::invalid_argument("Invalid numeric argument");
+            if (used != text.size() || !std::isfinite(value) || value < minimum || value > maximum) throw std::invalid_argument("Invalid numeric argument");
             return value;
         };
         const auto backend = get(L"--backend", L"d3d12");
@@ -241,6 +243,10 @@ int wmain(int argc, wchar_t **argv)
         if (auto error = validate_scene(scene)) throw std::runtime_error(error->diagnostic);
         gs::engine::CameraController camera;
         if (auto error = camera.fit_scene(*scene, quality, viewport)) throw std::runtime_error(error->diagnostic);
+        const double degrees_to_pixels = std::numbers::pi / (180 * .005);
+        if (auto error = camera.orbit(number(L"--yaw-degrees", L"0", 360, -360) * degrees_to_pixels,
+                number(L"--pitch-degrees", L"0", 89, -89) * degrees_to_pixels)) throw std::runtime_error(error->diagnostic);
+        if (auto error = camera.dolly(number(L"--dolly-steps", L"0", 100, -100))) throw std::runtime_error(error->diagnostic);
         if (auto error = camera.pan(number(L"--pan-x", L"0", 1000000), 0)) throw std::runtime_error(error->diagnostic);
         const auto initial_camera = camera;
         GpuDevice gpu(get(L"--diagnostics", L"off") == L"on");
