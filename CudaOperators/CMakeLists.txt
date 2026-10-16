@@ -66,6 +66,12 @@ target_compile_definitions(Native3DGSViewer.CudaBench PRIVATE NOMINMAX)
 target_link_libraries(Native3DGSViewer.CudaBench PRIVATE native3dgs-engine gs-cuda-backend CUDA::cudart_static)
 cuda_experiment_output(Native3DGSViewer.CudaBench)
 add_dependencies(Native3DGSViewer.CudaBench model-io-helper render-shaders)
+add_executable(Native3DGSViewer.CudaSortBench bench/sort.cpp)
+target_include_directories(Native3DGSViewer.CudaSortBench PRIVATE "${PROJECT_SOURCE_DIR}/src/render-core/device")
+target_compile_definitions(Native3DGSViewer.CudaSortBench PRIVATE NOMINMAX)
+target_link_libraries(Native3DGSViewer.CudaSortBench PRIVATE render-core gs-cuda-backend CUDA::cudart_static)
+cuda_experiment_output(Native3DGSViewer.CudaSortBench)
+add_dependencies(Native3DGSViewer.CudaSortBench Native3DGSViewer.CudaTests)
 add_custom_command(TARGET Native3DGSViewer.CudaBench POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:model-io-helper>" "$<TARGET_FILE_DIR:Native3DGSViewer.CudaBench>"
   COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:Native3DGSViewer.CudaBench>/shaders"
