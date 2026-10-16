@@ -105,11 +105,18 @@ foreach(ENTRY reset_args project vertex pixel)
     DEPENDS shaders/splat.hlsl VERBATIM)
   list(APPEND RENDER_SHADER_OUTPUTS "${OUTPUT}")
 endforeach()
+foreach(ENTRY pick_reset pick_collect)
+  set(OUTPUT "${RENDER_SHADER_DIRECTORY}/${ENTRY}.cso")
+  add_custom_command(OUTPUT "${OUTPUT}"
+    COMMAND "${DXC}" -T cs_6_0 -E ${ENTRY} -O3 -WX -Ges -Fo "${OUTPUT}" "${CMAKE_SOURCE_DIR}/shaders/pick.hlsl"
+    DEPENDS shaders/pick.hlsl VERBATIM)
+  list(APPEND RENDER_SHADER_OUTPUTS "${OUTPUT}")
+endforeach()
 add_custom_target(render-shaders DEPENDS ${RENDER_SHADER_OUTPUTS})
 add_custom_command(TARGET render-shaders POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/shaders"
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RENDER_SHADER_OUTPUTS} "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/shaders" VERBATIM)
-add_library(render-core STATIC src/render-core/scene/contracts.cpp src/render-core/scene/upload.cpp src/render-core/device/gpu.cpp src/render-core/device/renderer.cpp src/render-core/passes/sort.cpp src/render-core/passes/splat.cpp)
+add_library(render-core STATIC src/render-core/scene/contracts.cpp src/render-core/scene/upload.cpp src/render-core/device/gpu.cpp src/render-core/device/renderer.cpp src/render-core/passes/sort.cpp src/render-core/passes/splat.cpp src/render-core/passes/picking.cpp)
 target_include_directories(render-core PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include> PRIVATE src/render-core/scene src/render-core/device src/render-core/passes third_party/parallel-sort/ffx-parallelsort)
 target_compile_definitions(render-core PRIVATE NOMINMAX)
 target_link_libraries(render-core PRIVATE d3d12 dxgi dxguid)
@@ -137,7 +144,7 @@ add_executable(Native3DGSViewer.Tests
   tests/model-io/model_io_tests.cpp
   tests/render-core/contracts_tests.cpp tests/render-core/sort_tests.cpp
   tests/render-core/test_support.cpp tests/render-core/image_tests.cpp tests/render-core/lifecycle_tests.cpp
-  tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp
+  tests/render-core/recovery_tests.cpp tests/render-core/integration_tests.cpp tests/render-core/picking_tests.cpp
   tests/engine/camera_tests.cpp tests/engine/engine_tests.cpp tests/engine/measurement_tests.cpp)
 add_executable(model-io-fault-helper tests/model-io/fault_helper.cpp)
 target_include_directories(model-io-fault-helper PRIVATE include src/model-io/common)

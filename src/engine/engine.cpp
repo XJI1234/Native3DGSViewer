@@ -17,7 +17,7 @@ RenderError error(RenderErrorCode code, const char *message)
 class Engine final : public IEngine
 {
   public:
-    explicit Engine(EngineConfig config) : config_(config)
+    explicit Engine(EngineConfig config) : config_(config), measurement_viewport_(config.viewport)
     {
         render_thread_ = std::thread([this] { render_loop(); });
         std::unique_lock lock(mutex_);
@@ -28,12 +28,15 @@ class Engine final : public IEngine
             {
                 load_thread_ = std::thread([this] { load_loop(); });
                 load_started_ = true;
+                metric_thread_ = std::thread([this] { metric_loop(); });
             }
             catch (...)
             {
                 stopping_ = true;
                 cv_.notify_all();
                 lock.unlock();
+                if (load_thread_.joinable())
+                    load_thread_.join();
                 render_thread_.join();
                 throw;
             }
@@ -44,6 +47,8 @@ class Engine final : public IEngine
         request_shutdown();
         if (load_thread_.joinable())
             load_thread_.join();
+        if (metric_thread_.joinable())
+            metric_thread_.join();
         if (render_thread_.joinable())
             render_thread_.join();
     }
@@ -57,6 +62,8 @@ class Engine final : public IEngine
         if (stopping_ || fatal_ || awaiting_release_)
             return error(RenderErrorCode::DeviceRemoved, "Engine unavailable");
         supersede();
+        invalidate_pick();
+        invalidate_import();
         const auto id = ++next_request_;
         state_.current_request = id;
         queued_ = Job{id, std::move(request), std::stop_source{}};
@@ -90,6 +97,7 @@ class Engine final : public IEngine
         supersede();
         state_.current_request = 0;
         state_.phase = Phase::Closing;
+        reset_measurement();
         state_.load_progress.reset();
         state_.upload_done = state_.upload_total = 0;
         state_.error.reset();
@@ -152,6 +160,7 @@ class Engine final : public IEngine
             e = renderer_->set_camera(state_.active_ticket, candidate.camera());
         if (!e)
         {
+            invalidate_pick();
             camera_ = candidate;
             if (command.action == CameraAction::FlipX ||
                 command.action == CameraAction::FlipY ||
@@ -193,6 +202,8 @@ class Engine final : public IEngine
         auto e = renderer_->resize(generation, ++revision_, viewport);
         if (!e)
         {
+            measurement_viewport_ = viewport;
+            invalidate_pick();
             // A hidden 0x0 viewport pauses presentation without corrupting camera state.
             if (viewport.physical_width && viewport.physical_height)
             {
@@ -220,6 +231,70 @@ class Engine final : public IEngine
         std::lock_guard lock(mutex_);
         return state_;
     }
+    std::optional<MeasurementError> set_measurement_enabled(bool enabled) override
+    {
+        std::lock_guard lock(mutex_);
+        if (enabled && (!active_scene_ || stopping_ || fatal_ || state_.phase != Phase::Ready))
+            return MeasurementError::NoScene;
+        if (state_.measurement.enabled == enabled)
+            return {};
+        invalidate_pick();
+        if (!enabled)
+            invalidate_import();
+        state_.measurement.enabled = enabled;
+        clear_points();
+        return {};
+    }
+    std::optional<MeasurementError> import_metric(std::filesystem::path path) override
+    {
+        std::lock_guard lock(mutex_);
+        if (!measurement_ready())
+            return MeasurementError::NoScene;
+        invalidate_pick();
+        invalidate_import();
+        state_.measurement.importing = true;
+        state_.measurement.error.reset();
+        metric_stop_ = std::stop_source{};
+        metric_job_ = MetricJob{++import_id_, state_.active_request, std::move(path), metric_stop_};
+        cv_.notify_all();
+        return {};
+    }
+    void clear_measurement() override
+    {
+        std::lock_guard lock(mutex_);
+        invalidate_pick();
+        invalidate_import();
+        clear_points();
+    }
+    std::optional<MeasurementError> measure_at(double x, double y) override
+    {
+        std::lock_guard lock(mutex_);
+        auto &measurement = state_.measurement;
+        if (!measurement_ready())
+            return MeasurementError::NoScene;
+        if (!measurement.calibration)
+            return MeasurementError::NoCalibration;
+        if (measurement.importing || measurement.picking || measurement.b)
+            return MeasurementError::Busy;
+        const auto operation = ++next_measurement_operation_;
+        if (auto e =
+                renderer_->request_pick({operation, state_.active_ticket, state_.surface_generation,
+                                         revision_, state_.camera, measurement_viewport_, x, y}))
+        {
+            const auto code = e->code == RenderErrorCode::ResourceLimit ? MeasurementError::Busy
+                              : e->code == RenderErrorCode::DeviceRemoved
+                                  ? MeasurementError::DeviceUnavailable
+                                  : MeasurementError::StaleRequest;
+            measurement.error = code;
+            return code;
+        }
+        measurement.operation = operation;
+        measurement.picking = true;
+        measurement.missed = false;
+        measurement.error.reset();
+        pick_deadline_ = Clock::now() + std::chrono::seconds(5);
+        return {};
+    }
     std::vector<EngineEvent> poll_events() override
     {
         std::lock_guard lock(mutex_);
@@ -233,6 +308,7 @@ class Engine final : public IEngine
         if (stopping_)
             return;
         stopping_ = true;
+        reset_measurement();
         supersede();
         state_.phase = Phase::Stopping;
         cv_.notify_all();
@@ -256,7 +332,120 @@ class Engine final : public IEngine
         SceneHandle scene;
         CameraController camera;
         UploadTicket ticket;
+        io::Coordinates coordinates = io::Coordinates::Rdf;
     };
+    struct MetricJob
+    {
+        uint64_t id;
+        RequestId scene;
+        std::filesystem::path path;
+        std::stop_source stop;
+    };
+    bool measurement_ready() const
+    {
+        return state_.measurement.enabled && active_scene_ && state_.phase == Phase::Ready &&
+               !stopping_ && !fatal_ && !awaiting_release_;
+    }
+    void clear_points()
+    {
+        auto &m = state_.measurement;
+        m.a.reset();
+        m.b.reset();
+        m.distance_m.reset();
+        m.error.reset();
+        m.missed = false;
+    }
+    void invalidate_pick()
+    {
+        auto &m = state_.measurement;
+        if (m.picking)
+            m.error = MeasurementError::StaleRequest;
+        m.picking = false;
+        m.operation = ++next_measurement_operation_;
+    }
+    void invalidate_import()
+    {
+        ++import_id_;
+        metric_job_.reset();
+        metric_stop_.request_stop();
+        state_.measurement.importing = false;
+    }
+    void reset_measurement()
+    {
+        invalidate_import();
+        invalidate_pick();
+        state_.measurement = {};
+    }
+    void metric_loop() noexcept
+    {
+        for (;;)
+        {
+            std::optional<MetricJob> job;
+            {
+                std::unique_lock lock(mutex_);
+                cv_.wait(lock, [this] { return stopping_ || metric_job_.has_value(); });
+                if (stopping_)
+                    return;
+                job = std::move(metric_job_);
+                metric_job_.reset();
+            }
+            auto result = load_metric(job->path, job->stop.get_token());
+            std::lock_guard lock(mutex_);
+            if (stopping_ || job->id != import_id_ || job->scene != state_.active_request ||
+                job->stop.stop_requested())
+                continue;
+            auto &m = state_.measurement;
+            m.importing = false;
+            if (auto calibration = std::get_if<MetricCalibration>(&result))
+            {
+                m.calibration = *calibration;
+                clear_points();
+            }
+            else
+                m.error = std::get<MeasurementError>(result);
+        }
+    }
+    void collect_measurement()
+    {
+        auto result = renderer_->take_pick_result();
+        auto &m = state_.measurement;
+        if (m.picking && Clock::now() >= pick_deadline_)
+        {
+            invalidate_pick();
+            m.error = MeasurementError::Timeout;
+        }
+        if (!result || !m.picking || result->id != m.operation || !measurement_ready())
+            return;
+        m.picking = false;
+        if (result->status == PickStatus::Miss)
+        {
+            m.missed = true;
+            return;
+        }
+        if (result->status != PickStatus::Hit)
+        {
+            m.error = result->status == PickStatus::Overflow ? MeasurementError::ResourceLimit
+                      : result->status == PickStatus::Stale  ? MeasurementError::StaleRequest
+                                                             : MeasurementError::DeviceUnavailable;
+            return;
+        }
+        MeasurementPoint point{result->position_rub,
+                               source_from_rub(result->position_rub, active_coordinates_)};
+        if (!m.a)
+            m.a = point;
+        else if (!m.b)
+        {
+            auto distance = distance_meters(m.a->position_source, point.position_source,
+                                            m.calibration->meters_per_model_unit);
+            if (distance)
+            {
+                m.b = point;
+                m.distance_m = distance;
+            }
+            else
+                m.error = MeasurementError::InvalidTransform;
+        }
+    }
     void supersede()
     {
         queued_.reset();
@@ -311,7 +500,11 @@ class Engine final : public IEngine
                 if (auto e = std::get_if<io::LoadError>(&result))
                     fail(job.id, *e);
                 else
-                    decoded_ = Pending{job.id, std::get<SceneHandle>(std::move(result)), {}, 0};
+                    decoded_ = Pending{job.id,
+                                       std::get<SceneHandle>(std::move(result)),
+                                       {},
+                                       0,
+                                       job.request.plyCoordinates};
                 cv_.notify_all();
             }
         }
@@ -344,6 +537,10 @@ class Engine final : public IEngine
                 state_.stats = renderer_->get_stats();
                 // Cancellation after core activation is ordered after that successful commit.
                 active_scene_ = pending_->scene;
+                active_coordinates_ = active_scene_->sourceFormat == SourceFormat::Spz
+                                          ? io::Coordinates::Rdf
+                                          : pending_->coordinates;
+                reset_measurement();
                 camera_ = pending_->camera;
                 camera_.set_flip_axes(flip_axes_);
                 pending_camera_sync_ = true;
@@ -378,6 +575,7 @@ class Engine final : public IEngine
             {
                 state_.stats = renderer_->get_stats();
                 active_scene_.reset();
+                reset_measurement();
                 camera_ = {};
                 state_.active_request = 0;
                 state_.active_ticket = 0;
@@ -389,6 +587,8 @@ class Engine final : public IEngine
             }
             break;
         case RendererEvent::Kind::DeviceLost:
+            invalidate_pick();
+            invalidate_import();
             state_.stats = renderer_->get_stats();
             supersede();
             state_.current_request = 0;
@@ -524,6 +724,7 @@ class Engine final : public IEngine
                     }
                 }
                 state_.stats = renderer_->get_stats();
+                collect_measurement();
                 cv_.wait_for(lock, std::chrono::milliseconds(1),
                              [this] { return stopping_ || awaiting_release_; });
             }
@@ -567,7 +768,7 @@ class Engine final : public IEngine
     EngineConfig config_;
     mutable std::mutex mutex_;
     std::condition_variable cv_;
-    std::thread render_thread_, load_thread_;
+    std::thread render_thread_, load_thread_, metric_thread_;
     std::unique_ptr<IRenderer> renderer_;
     std::optional<RenderError> init_error_;
     Snapshot state_;
@@ -577,6 +778,12 @@ class Engine final : public IEngine
     std::optional<Pending> decoded_, pending_;
     SceneHandle active_scene_;
     CameraController camera_;
+    io::Coordinates active_coordinates_ = io::Coordinates::Rdf;
+    Viewport measurement_viewport_{};
+    std::optional<MetricJob> metric_job_;
+    std::stop_source metric_stop_;
+    uint64_t import_id_ = 0, next_measurement_operation_ = 0;
+    Clock::time_point pick_deadline_{};
     uint8_t flip_axes_ = 0;
     bool pending_camera_sync_ = false;
     bool camera_sync_fault_reported_ = false;

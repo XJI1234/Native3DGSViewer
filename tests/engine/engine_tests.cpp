@@ -147,6 +147,99 @@ TEST(EngineRuntime, OpensControlsPreservesOldSceneOnFailureAndCloses)
     EXPECT_EQ(s.engine->snapshot().stats.active_ticket, 0u);
     EXPECT_EQ(s.engine->snapshot().stats.presented_frame_id, 0u);
 }
+TEST(EngineRuntime, MeasuresWithArbitraryCalibrationAndDiscardsCancelledResults)
+{
+    Fixture file;
+    auto metric_path = file.path.wstring() + L".metric.json";
+    const auto json = R"({"schema_version":1,"model":{"sha256":"unrelated"},
+"frame":{"source":"ply_local","target":"local_enu","units":"meters",
+"matrix_convention":"row_serialized_column_vector_left_multiply"},
+"quality":{"status":"estimated"},"meters_per_model_unit":2,
+"enu_from_ply":[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]})";
+    {
+        std::ofstream out(metric_path);
+        out << json;
+    }
+    struct Cleanup
+    {
+        std::filesystem::path path;
+        ~Cleanup()
+        {
+            std::error_code ec;
+            std::filesystem::remove(path, ec);
+        }
+    } cleanup{metric_path};
+    Session s;
+    auto id = s.open(file.path);
+    ASSERT_TRUE(until([&] {
+        auto v = s.engine->snapshot();
+        return v.phase == Phase::Ready && v.stats.presented_frame_id > 0;
+    }));
+    ASSERT_FALSE(s.engine->set_measurement_enabled(true));
+    ASSERT_FALSE(s.engine->import_metric(metric_path));
+    ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.importing; }));
+    ASSERT_TRUE(s.engine->snapshot().measurement.calibration);
+    // Wait for the pending initial camera synchronization to reach a presented frame.
+    ASSERT_TRUE(until([&] {
+        auto error = s.engine->measure_at(64, 64);
+        if (error)
+            return false;
+        return until([&] { return !s.engine->snapshot().measurement.picking; }) &&
+               s.engine->snapshot().measurement.a.has_value();
+    }));
+    ASSERT_FALSE(s.engine->measure_at(72, 64));
+    ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.picking; }));
+    auto complete = s.engine->snapshot().measurement;
+    ASSERT_TRUE(complete.a);
+    ASSERT_TRUE(complete.b);
+    ASSERT_TRUE(complete.distance_m);
+    EXPECT_GT(*complete.distance_m, 0);
+    EXPECT_NEAR(*complete.distance_m,
+                *distance_meters(complete.a->position_source, complete.b->position_source, 2),
+                1e-9);
+    EXPECT_TRUE(s.engine->measure_at(80, 64)); // A third click cannot overwrite B.
+    for (int i = 0; i < 100; ++i)
+    {
+        SCOPED_TRACE(i);
+        s.engine->clear_measurement();
+        ASSERT_FALSE(s.engine->measure_at(64, 64));
+        ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.picking; }));
+        ASSERT_TRUE(s.engine->snapshot().measurement.a);
+        ASSERT_FALSE(s.engine->measure_at(72, 64));
+        ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.picking; }));
+        ASSERT_TRUE(s.engine->snapshot().measurement.distance_m);
+    }
+    for (int i = 0; i < 20; ++i)
+    {
+        ASSERT_FALSE(s.engine->set_measurement_enabled(false));
+        ASSERT_FALSE(s.engine->set_measurement_enabled(true));
+        EXPECT_TRUE(s.engine->snapshot().measurement.calibration);
+        EXPECT_FALSE(s.engine->snapshot().measurement.a);
+    }
+    ASSERT_FALSE(s.engine->import_metric(metric_path));
+    ASSERT_FALSE(s.engine->set_measurement_enabled(false));
+    EXPECT_FALSE(s.engine->snapshot().measurement.importing);
+    ASSERT_FALSE(s.engine->set_measurement_enabled(true));
+    s.engine->clear_measurement();
+    ASSERT_FALSE(s.engine->measure_at(64, 64));
+    ASSERT_FALSE(s.engine->set_measurement_enabled(false));
+    ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.picking; }));
+    EXPECT_FALSE(s.engine->snapshot().measurement.a);
+    EXPECT_TRUE(s.engine->snapshot().measurement.calibration);
+    ASSERT_FALSE(s.engine->set_measurement_enabled(true));
+    ASSERT_FALSE(s.engine->import_metric(metric_path + L".missing"));
+    ASSERT_TRUE(until([&] { return !s.engine->snapshot().measurement.importing; }));
+    EXPECT_TRUE(s.engine->snapshot().measurement.calibration);
+    EXPECT_EQ(s.engine->snapshot().measurement.error, MeasurementError::IoFailure);
+    s.open(file.path.wstring() + L".missing");
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().phase == Phase::Ready; }));
+    EXPECT_EQ(s.engine->snapshot().active_request, id);
+    EXPECT_TRUE(s.engine->snapshot().measurement.calibration);
+    auto replacement = s.open(file.path);
+    ASSERT_TRUE(until([&] { return s.engine->snapshot().active_request == replacement; }));
+    EXPECT_FALSE(s.engine->snapshot().measurement.calibration);
+    EXPECT_FALSE(s.engine->snapshot().measurement.enabled);
+}
 TEST(EngineRuntime, LatestRequestWinsAndCancelPreservesActiveScene)
 {
     Fixture file;

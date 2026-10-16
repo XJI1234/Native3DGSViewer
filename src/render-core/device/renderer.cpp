@@ -1,4 +1,5 @@
 #include "splat.h"
+#include "picking.h"
 #ifdef GS_RENDER_TEST_HOOKS
 #include "test_renderer.h"
 #endif
@@ -352,6 +353,33 @@ class Renderer final : public IRenderer
         std::lock_guard lock(mutex_);
         return stats_;
     }
+    std::optional<RenderError> request_pick(PickRequest request) override
+    {
+        std::lock_guard lock(mutex_);
+        if (fatal_ || recovering_)
+            return failure(RenderErrorCode::DeviceRemoved);
+        if (pick_busy_)
+            return failure(RenderErrorCode::ResourceLimit);
+        if (!request.id || request.ticket != active_ticket_ || !request.ticket ||
+            request.generation != generation_ || request.revision != accepted_revision_ ||
+            !request.viewport.physical_width || !request.viewport.physical_height ||
+            !std::isfinite(request.x_px) || !std::isfinite(request.y_px) || request.x_px < 0 ||
+            request.y_px < 0 || request.x_px >= request.viewport.physical_width ||
+            request.y_px >= request.viewport.physical_height || validate_camera(request.camera))
+            return failure(RenderErrorCode::InvalidSurface);
+        pick_request_ = request;
+        pick_busy_ = true;
+        return {};
+    }
+    std::optional<PickResult> take_pick_result() override
+    {
+        std::lock_guard lock(mutex_);
+        auto result = std::move(pick_result_);
+        pick_result_.reset();
+        if (result)
+            pick_busy_ = false;
+        return result;
+    }
     void render_frame() override
     {
         const auto caller = std::this_thread::get_id();
@@ -380,6 +408,7 @@ class Renderer final : public IRenderer
                 }
 #endif
                 process_commands();
+                collect_pick();
                 pump_upload();
                 collect_stats();
                 if (recovering_ && !swapchain_ && Clock::now() > rebind_deadline_)
@@ -470,6 +499,93 @@ class Renderer final : public IRenderer
     }
 
   private:
+    bool matches_pick(const PickRequest &request) const
+    {
+        return active_ && swapchain_ && !surface_lost_ && active_->sorted &&
+               request.ticket == active_->ticket && request.generation == generation_ &&
+               request.revision == applied_revision_ && presented_revision_ == applied_revision_ &&
+               presented_ticket_ == request.ticket &&
+               same_camera(presented_camera_, request.camera) &&
+               same_camera(active_->camera, request.camera) &&
+               request.viewport.physical_width == viewport_.physical_width &&
+               request.viewport.physical_height == viewport_.physical_height;
+    }
+    void collect_pick()
+    {
+        {
+            std::lock_guard lock(mutex_);
+            if (pick_request_ && !matches_pick(*pick_request_))
+            {
+                pick_result_ = PickResult{pick_request_->id, PickStatus::Stale};
+                pick_request_.reset();
+            }
+        }
+        if (!inflight_pick_ || !pick_fence_ ||
+            gpu_->direct_fence->GetCompletedValue() < pick_fence_)
+            return;
+        PickResult result{inflight_pick_->id, PickStatus::Stale};
+        try
+        {
+            if (matches_pick(*inflight_pick_))
+                result = pick_pass_->read(*inflight_pick_);
+        }
+        catch (const std::bad_alloc &)
+        {
+            result.status = PickStatus::Overflow;
+        }
+        catch (const GpuFailure &e)
+        {
+            if (FAILED(gpu_->device->GetDeviceRemovedReason()))
+                throw;
+            result.status =
+                e.hr == E_OUTOFMEMORY ? PickStatus::Overflow : PickStatus::DeviceUnavailable;
+        }
+        std::lock_guard lock(mutex_);
+        pick_result_ = result;
+        inflight_pick_.reset();
+        pick_fence_ = 0;
+    }
+    bool record_pick(ID3D12GraphicsCommandList *list, const std::shared_ptr<SceneGpu> &candidate)
+    {
+        std::optional<PickRequest> request;
+        {
+            std::lock_guard lock(mutex_);
+            request = std::move(pick_request_);
+            pick_request_.reset();
+        }
+        if (!request)
+            return false;
+        if (candidate != active_ || !matches_pick(*request))
+        {
+            std::lock_guard lock(mutex_);
+            pick_result_ = PickResult{request->id, PickStatus::Stale};
+            return false;
+        }
+        try
+        {
+            if (!pick_pass_)
+                pick_pass_ = std::make_unique<PickPass>(*gpu_);
+        }
+        catch (const std::bad_alloc &)
+        {
+            std::lock_guard lock(mutex_);
+            pick_result_ = PickResult{request->id, PickStatus::Overflow};
+            return false;
+        }
+        catch (const GpuFailure &e)
+        {
+            if (FAILED(gpu_->device->GetDeviceRemovedReason()))
+                throw;
+            std::lock_guard lock(mutex_);
+            pick_result_ =
+                PickResult{request->id, e.hr == E_OUTOFMEMORY ? PickStatus::Overflow
+                                                              : PickStatus::DeviceUnavailable};
+            return false;
+        }
+        pick_pass_->record(list, *active_, pass_->constants(*active_, viewport_), *request);
+        inflight_pick_ = *request;
+        return true;
+    }
     void enqueue(Command command)
     {
         if (command.kind != Command::Kind::Upload)
@@ -865,6 +981,7 @@ class Renderer final : public IRenderer
         list->ClearRenderTargetView(handle, clear, 0, nullptr);
         if (candidate)
             pass_->draw(list, *candidate, viewport_, handle);
+        const bool picked = record_pick(list, candidate);
         list->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3 + 2);
         list->ResolveQueryData(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3, 3,
                                slot.readback.Get(), 0);
@@ -881,6 +998,8 @@ class Renderer final : public IRenderer
         check(list->Close(), "Frame close");
         slot.fence =
             gpu_->submit(gpu_->direct.Get(), list, gpu_->direct_fence.Get(), gpu_->direct_value);
+        if (picked)
+            pick_fence_ = slot.fence;
         slot.scene = candidate;
         const auto beforePresent = Clock::now();
         const HRESULT present = swapchain_->Present(0, DXGI_PRESENT_DO_NOT_WAIT);
@@ -896,6 +1015,9 @@ class Renderer final : public IRenderer
         if (present == DXGI_ERROR_WAS_STILL_DRAWING || present == DXGI_STATUS_OCCLUDED)
             return;
         check(present, "Present");
+        presented_ticket_ = candidate ? candidate->ticket : 0;
+        presented_camera_ = candidate ? candidate->camera : CameraState{};
+        presented_revision_ = applied_revision_;
         slot.frame = frame_number_;
         if (pending_ && pending_->ready)
         {
@@ -1022,6 +1144,17 @@ class Renderer final : public IRenderer
         targets_ = {};
         swapchain_.Reset();
         frames_ = {};
+        {
+            std::lock_guard lock(mutex_);
+            if (pick_request_ || inflight_pick_)
+                pick_result_ = PickResult{pick_request_ ? pick_request_->id : inflight_pick_->id,
+                                          PickStatus::DeviceUnavailable};
+            pick_request_.reset();
+        }
+        inflight_pick_.reset();
+        pick_fence_ = 0;
+        pick_pass_.reset();
+        presented_ticket_ = 0;
         queries_.Reset();
         rtv_.Reset();
         pass_.reset();
@@ -1096,6 +1229,14 @@ class Renderer final : public IRenderer
     std::unique_ptr<GpuDevice> gpu_;
     std::optional<LUID> adapter_luid_;
     std::unique_ptr<SplatPass> pass_;
+    std::unique_ptr<PickPass> pick_pass_;
+    std::optional<PickRequest> pick_request_, inflight_pick_;
+    std::optional<PickResult> pick_result_;
+    bool pick_busy_ = false;
+    uint64_t pick_fence_ = 0;
+    UploadTicket presented_ticket_ = 0;
+    ViewportRevision presented_revision_ = 0;
+    CameraState presented_camera_{};
     ComPtr<ID3D12CommandQueue> surface_queue_;
     ComPtr<ID3D12Device> surface_device_;
     ComPtr<IDXGIAdapter3> surface_adapter_;
