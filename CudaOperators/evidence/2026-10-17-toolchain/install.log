@@ -1,0 +1,8 @@
+Installed cuda_nvcc 13.3.33: 12 files
+Installed cuda_crt 13.3.33: 27 files
+Installed cuda_cudart 13.3.29: 104 files
+Installed cccl 13.3.3.3.1: 2009 files
+Installed cuda_nvdisasm 13.3.29: 2 files
+Installed cuda_cuobjdump 13.3.29: 2 files
+Installed cuda_sanitizer_api 13.3.27: 129 files
+Toolkit root: C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0

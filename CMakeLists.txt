@@ -211,6 +211,11 @@ set(CPACK_COMPONENTS_ALL SDK)
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 include(CPack)
 
+option(GS_ENABLE_CUDA_OPERATORS "Build the optional Windows CUDA experiment host" OFF)
+if(GS_ENABLE_CUDA_OPERATORS)
+  add_subdirectory(CudaOperators)
+endif()
+
 option(NATIVE3DGS_ENABLE_ASAN "Instrument engine, decoders and tests with MSVC AddressSanitizer" OFF)
 if(NATIVE3DGS_ENABLE_ASAN)
   foreach(TARGET_NAME native3dgs-engine render-core render-core-testing model-io model-io-helper

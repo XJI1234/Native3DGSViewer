@@ -1,0 +1,1 @@
+device=NVIDIA GeForce RTX 3080 sm=86 runtime=13040 driver=13040 msvc=1950 cub=300303 arithmetic=pass
