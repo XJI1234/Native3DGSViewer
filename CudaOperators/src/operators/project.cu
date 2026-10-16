@@ -16,11 +16,23 @@ struct V3 { float x, y, z; };
 __device__ V3 operator+(V3 a, V3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
 __device__ V3 operator-(V3 a, V3 b) { return {a.x - b.x, a.y - b.y, a.z - b.z}; }
 __device__ V3 operator*(V3 a, float s) { return {a.x * s, a.y * s, a.z * s}; }
-__device__ V3 operator/(V3 a, float s) { return {a.x / s, a.y / s, a.z / s}; }
+template<int math> __device__ V3 divide(V3 a, float s)
+{
+    if constexpr (math & 1)
+    {
+        const float inverse = 1.f / s;
+        if (isfinite(inverse)) return a * inverse;
+    }
+    return {a.x / s, a.y / s, a.z / s};
+}
 __device__ float dot(V3 a, V3 b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
 __device__ V3 cross(V3 a, V3 b) { return {a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x}; }
 __device__ bool finite(V3 a) { return isfinite(a.x) && isfinite(a.y) && isfinite(a.z); }
-__device__ V3 normalize(V3 a) { return a / sqrtf(dot(a, a)); }
+template<int math> __device__ V3 normalize(V3 a)
+{
+    if constexpr (math & 2) return a * rsqrtf(dot(a, a));
+    return divide<math>(a, sqrtf(dot(a, a)));
+}
 __device__ V3 load3(const float *data, uint32_t offset, uint32_t i)
 {
     const float *p = data + uint64_t(offset) / 4 + uint64_t(i) * 3;
@@ -55,7 +67,7 @@ __device__ V3 sh_color(V3 rgb, V3 dir, const float *sh, uint32_t stride, uint32_
     }
     return {fminf(1, fmaxf(0, rgb.x)), fminf(1, fmaxf(0, rgb.y)), fminf(1, fmaxf(0, rgb.z))};
 }
-__global__ void project_kernel(FrameConstants c, const float *data, const float *sh,
+template<int math> __global__ void project_kernel(FrameConstants c, const float *data, const float *sh,
     ProjectedEllipse *ellipses, uint32_t *keys, uint32_t *indexes, DrawCounters *arguments)
 {
     const uint32_t i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -86,7 +98,9 @@ __global__ void project_kernel(FrameConstants c, const float *data, const float 
     const float xxn = xx / scale, yyn = yy / scale, xyn = xy / scale;
     const float diff = (xxn - yyn) * .5f;
     const float major_normalized = (xxn + yyn) * .5f + sqrtf(diff * diff + xyn * xyn);
-    const V3 gram = cross(tx / sqrtf(scale), ty / sqrtf(scale));
+    V3 gram;
+    if constexpr (math & 2) gram = cross(tx * rsqrtf(scale), ty * rsqrtf(scale));
+    else gram = cross(divide<math>(tx, sqrtf(scale)), divide<math>(ty, sqrtf(scale)));
     const float blur = c.quality[2] / scale;
     const float determinant = dot(gram, gram) + blur * (xxn + yyn - blur);
     const float major = scale * major_normalized, minor = scale * (determinant / major_normalized);
@@ -111,7 +125,7 @@ __global__ void project_kernel(FrameConstants c, const float *data, const float 
     if (c.meta[3] == 0 && largest > 1e19f) { reject(arguments); return; }
     const float metric = c.meta[3] == 0 ? dot(delta, delta) : fmaxf(depth, 0);
     if (!isfinite(metric)) { reject(arguments); return; }
-    const V3 direction = largest > 0 ? normalize(delta / largest) : V3{0, 0, 1};
+    const V3 direction = largest > 0 ? normalize<math>(divide<math>(delta, largest)) : V3{0, 0, 1};
     const V3 rgb = sh_color(load3(data, c.offsets[4], i), direction, sh, c.meta[2], c.meta[1], i);
     e.color[0] = rgb.x; e.color[1] = rgb.y; e.color[2] = rgb.z; e.color[3] = alpha;
     ellipses[i] = e;
@@ -127,11 +141,11 @@ void checked(cudaError_t error)
 }
 
 void project(Context &context, const FrameConstants &c, SharedBuffer &attributes, SharedBuffer &sh,
-    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments, uint32_t block_size)
+    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments, uint32_t block_size, ProjectMath math)
 {
     if ((block_size != 128 && block_size != 256) || c.meta[1] > 3 ||
         c.meta[2] < 3 * ((c.meta[1] + 1) * (c.meta[1] + 1) - 1) || c.meta[3] > 1 ||
-        !std::isfinite(c.clip[0]) || c.clip[0] <= 0)
+        !std::isfinite(c.clip[0]) || c.clip[0] <= 0 || uint32_t(math) > 3)
         throw std::invalid_argument("Invalid projection layout or launch configuration");
     const uint64_t count = c.meta[0];
     for (auto pair : {std::pair{&ellipses, count * sizeof(ProjectedEllipse)},
@@ -151,10 +165,19 @@ void project(Context &context, const FrameConstants &c, SharedBuffer &attributes
     reset<<<1, 1, 0, stream>>>(counters);
     checked(cudaGetLastError());
     if (!count) return;
-    project_kernel<<<uint32_t((count + block_size - 1) / block_size), block_size, 0, stream>>>(c,
-        static_cast<const float *>(attributes.device_pointer()), static_cast<const float *>(sh.device_pointer()),
-        static_cast<ProjectedEllipse *>(ellipses.device_pointer()), static_cast<uint32_t *>(keys.device_pointer()),
-        static_cast<uint32_t *>(indexes.device_pointer()), counters);
+    const auto launch = [&]<int mode>() {
+        project_kernel<mode><<<uint32_t((count + block_size - 1) / block_size), block_size, 0, stream>>>(c,
+            static_cast<const float *>(attributes.device_pointer()), static_cast<const float *>(sh.device_pointer()),
+            static_cast<ProjectedEllipse *>(ellipses.device_pointer()), static_cast<uint32_t *>(keys.device_pointer()),
+            static_cast<uint32_t *>(indexes.device_pointer()), counters);
+    };
+    switch (math)
+    {
+    case ProjectMath::Reference: launch.operator()<0>(); break;
+    case ProjectMath::FactoredReciprocal: launch.operator()<1>(); break;
+    case ProjectMath::ReciprocalSqrt: launch.operator()<2>(); break;
+    case ProjectMath::FactoredAndRsqrt: launch.operator()<3>(); break;
+    }
     checked(cudaGetLastError());
 }
 }

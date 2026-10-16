@@ -12,17 +12,20 @@ from skimage.metrics import structural_similarity
 
 
 def quality(reference, candidate):
-    a = np.asarray(Image.open(reference)).astype(np.float64) / 255
-    b = np.asarray(Image.open(candidate)).astype(np.float64) / 255
+    a = np.asarray(Image.open(reference)).astype(np.float64)
+    b = np.asarray(Image.open(candidate)).astype(np.float64)
     metrics = {}
     for label, channels in [("rgb", slice(0, 3)), ("alpha", 3)]:
         first, second = a[:, :, channels], b[:, :, channels]
         error = np.abs(first - second)
-        ssim = structural_similarity(first, second, data_range=1,
-                                    channel_axis=2 if label == "rgb" else None)
-        metrics[label] = {"ssim": float(ssim), "rmse_255": float(np.sqrt(np.mean(error ** 2)) * 255),
-                          "p99_error_255": float(np.quantile(error, .99) * 255),
-                          "max_error_255": float(error.max() * 255)}
+        # Exact equality has SSIM=1; avoid expensive filtering of identical
+        # frames. Keep errors in integer channel units to avoid rounding a
+        # threshold value (e.g. 2/255) above its exact acceptance boundary.
+        ssim = 1.0 if np.array_equal(first, second) else structural_similarity(
+            first, second, data_range=255, channel_axis=2 if label == "rgb" else None)
+        metrics[label] = {"ssim": float(ssim), "rmse_255": float(np.sqrt(np.mean(error ** 2))),
+                          "p99_error_255": float(np.quantile(error, .99)),
+                          "max_error_255": float(error.max())}
     metrics["passed"] = all(m["ssim"] >= .995 and m["rmse_255"] <= 1 and
                             m["p99_error_255"] <= 2 and m["max_error_255"] <= 8
                             for key, m in metrics.items() if key != "passed")
@@ -72,13 +75,15 @@ def main():
                 candidate_ms.append(b)
             gains = np.asarray(paired)
             # Resample whole paired rounds; n=3 remains weak evidence and is reported.
-            estimates = random.choice(gains, size=(20000, len(gains)), replace=True).mean(axis=1)
-            interval = np.quantile(estimates, [.025, .975])
+            interval = None
+            if len(gains) >= 3:
+                estimates = random.choice(gains, size=(20000, len(gains)), replace=True).mean(axis=1)
+                interval = np.quantile(estimates, [.025, .975]).tolist()
             rows.append({"model": model, "backend": backend, "rounds": len(gains),
                          "d3d12_median_ms": statistics.median(baseline_ms),
                          "candidate_median_ms": statistics.median(candidate_ms),
                          "paired_frame_reduction_percent": paired, "mean_reduction_percent": float(gains.mean()),
-                         "paired_bootstrap_95ci_percent": interval.tolist(),
+                         "paired_bootstrap_95ci_percent": interval,
                          "one_percent_low_gpu_fps_change_percent": low,
                          "all_quality_passed": all(r.get("quality", {}).get("passed", False) for r in selected),
                          "all_bit_identical": all(r.get("bit_identical_to_d3d12", False) for r in selected)})
@@ -92,9 +97,10 @@ def main():
              "|---|---|---:|---:|---:|---|---|"]
     for row in rows:
         interval = row["paired_bootstrap_95ci_percent"]
+        interval_text = f'[{interval[0]:.2f}, {interval[1]:.2f}]' if interval else 'unavailable (<3 rounds)'
         lines.append(f'| {row["model"]} | {row["backend"]} | {row["d3d12_median_ms"]:.4f} | '
                      f'{row["candidate_median_ms"]:.4f} | {row["mean_reduction_percent"]:.2f} | '
-                     f'[{interval[0]:.2f}, {interval[1]:.2f}] | {row["all_quality_passed"]} |')
+                     f'{interval_text} | {row["all_quality_passed"]} |')
     (path / "SUMMARY.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 

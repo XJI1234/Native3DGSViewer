@@ -51,7 +51,7 @@ struct Fixture
         const uint32_t stride[]{3, 3, 4, 1, 3};
         attributes[constants.offsets[field] / 4 + i * stride[field] + component] = value;
     }
-    void run(uint32_t block_size)
+    void run(uint32_t block_size, ProjectMath math = ProjectMath::Reference)
     {
         auto upload = gpu.buffer(input.bytes() + harmonics.bytes(), D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
         void *mapped = nullptr;
@@ -75,7 +75,7 @@ struct Fixture
         check(list->Close(), "Project close");
         gpu.submit(gpu.direct.Get(), list.Get(), gpu.direct_fence.Get(), gpu.direct_value);
         context.begin(gpu.direct.Get());
-        gs::cuda_ops::project(context, constants, input, harmonics, output, keys, indexes, arguments, block_size);
+        gs::cuda_ops::project(context, constants, input, harmonics, output, keys, indexes, arguments, block_size, math);
         context.end(gpu.direct.Get());
         check(gpu.direct->Signal(gpu.direct_fence.Get(), ++gpu.direct_value), "Project completion");
         gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
@@ -133,13 +133,14 @@ TEST(CudaProject, AnalyticalCenteredEllipsesAndShDegrees)
 {
     // Independent double precision oracle at direction (0,0,-1).
     const double z_basis[]{-.4886025119029199, .6307831305050401, -.7463526651802308};
+    for (auto math : {ProjectMath::Reference, ProjectMath::FactoredReciprocal, ProjectMath::ReciprocalSqrt, ProjectMath::FactoredAndRsqrt})
     for (uint32_t block : {128u, 256u}) for (uint32_t degree = 0; degree <= 3; ++degree)
     {
         Fixture f;
         f.constants.meta[1] = degree;
         for (uint32_t i = 0; i < Fixture::count; ++i)
             for (uint32_t j : {1u, 5u, 11u}) f.sh[i * 45 + j * 3] = .1f;
-        f.run(block);
+        f.run(block, math);
         auto ellipses = f.read<ProjectedEllipse>(f.output);
         auto keys = f.read<uint32_t>(f.keys), indexes = f.read<uint32_t>(f.indexes);
         double red = .5;
@@ -200,6 +201,7 @@ TEST(CudaProject, MatchesHlslForAnisotropyRotationsShAndClipping)
 {
     std::mt19937 random(42);
     std::uniform_real_distribution<float> unit(0, 1);
+    for (auto math : {ProjectMath::Reference, ProjectMath::FactoredReciprocal, ProjectMath::ReciprocalSqrt, ProjectMath::FactoredAndRsqrt})
     for (uint32_t degree = 0; degree <= 3; ++degree)
     {
         Fixture f;
@@ -218,7 +220,7 @@ TEST(CudaProject, MatchesHlslForAnisotropyRotationsShAndClipping)
             f.set(3, i, 0, unit(random));
             for (uint32_t j = 0; j < 45; ++j) f.sh[i * 45 + j] = (unit(random) - .5f) * .1f;
         }
-        f.run(256);
+        f.run(256, math);
         auto actual = f.read<ProjectedEllipse>(f.output);
         auto keys = f.read<uint32_t>(f.keys);
         auto counters = f.read<DrawCounters>(f.arguments)[0];
@@ -258,24 +260,42 @@ TEST(CudaProject, EmptyFrameResetsCounters)
 
 TEST(CudaProject, PreservesNearPlaneCrossingThinSplatsAndZeroDistance)
 {
-    Fixture f;
-    f.set(0, 0, 2, -.05f); // center in front of near plane; support crosses it
-    f.set(0, 1, 2, 0); // valid radial zero, distinct from reserved culled key
-    f.set(1, 2, 1, 1e-6f); f.set(1, 2, 2, 1e-6f); // stable Gram minor eigenvalue
-    f.set(1, 3, 0, 1e30f); // covariance overflow must reject
-    f.run(256);
-    auto ellipses = f.read<ProjectedEllipse>(f.output);
-    auto keys = f.read<uint32_t>(f.keys);
-    auto counters = f.read<DrawCounters>(f.arguments)[0];
-    EXPECT_NE(keys[0], UINT32_MAX);
-    EXPECT_EQ(keys[1], UINT32_MAX - 1);
-    EXPECT_NEAR(ellipses[0].axis0[0], 1024, 1e-3);
-    EXPECT_NEAR(ellipses[2].axis1[1], 3e-5, 1e-9);
-    EXPECT_EQ(keys[3], UINT32_MAX);
-    EXPECT_EQ(counters.rejected, 1u);
-    EXPECT_EQ(counters.instance_count, Fixture::count - 1);
-    f.run_hlsl();
-    auto expected_keys = f.read<uint32_t>(f.keys);
-    for (uint32_t i = 0; i < 4; ++i) EXPECT_EQ(keys[i], expected_keys[i]);
-    EXPECT_TRUE(f.gpu.debug_errors().empty());
+    for (auto math : {ProjectMath::Reference, ProjectMath::FactoredReciprocal, ProjectMath::ReciprocalSqrt, ProjectMath::FactoredAndRsqrt})
+    {
+        Fixture f;
+        f.set(0, 0, 2, -.05f); // center in front of near plane; support crosses it
+        f.set(0, 1, 2, 0); // valid radial zero, distinct from reserved culled key
+        f.set(1, 2, 1, 1e-6f); f.set(1, 2, 2, 1e-6f); // stable Gram minor eigenvalue
+        f.set(1, 3, 0, 1e30f); // covariance overflow must reject
+        f.run(256, math);
+        auto ellipses = f.read<ProjectedEllipse>(f.output);
+        auto keys = f.read<uint32_t>(f.keys);
+        auto counters = f.read<DrawCounters>(f.arguments)[0];
+        EXPECT_NE(keys[0], UINT32_MAX);
+        EXPECT_EQ(keys[1], UINT32_MAX - 1);
+        EXPECT_NEAR(ellipses[0].axis0[0], 1024, 1e-3);
+        EXPECT_NEAR(ellipses[2].axis1[1], 3e-5, 1e-9);
+        EXPECT_EQ(keys[3], UINT32_MAX);
+        EXPECT_EQ(counters.rejected, 1u);
+        EXPECT_EQ(counters.instance_count, Fixture::count - 1);
+        f.run_hlsl();
+        auto expected_keys = f.read<uint32_t>(f.keys);
+        for (uint32_t i = 0; i < 4; ++i) EXPECT_EQ(keys[i], expected_keys[i]);
+        EXPECT_TRUE(f.gpu.debug_errors().empty());
+    }
+}
+
+TEST(CudaProject, FactoredReciprocalHandlesSubnormalCameraDelta)
+{
+    for (auto math : {ProjectMath::FactoredReciprocal, ProjectMath::FactoredAndRsqrt})
+    {
+        Fixture f;
+        f.constants.meta[1] = 1;
+        f.set(0, 0, 0, 1e-42f); f.set(0, 0, 2, 0);
+        f.sh[2 * 3] = .1f; // direction +X, first-degree X basis is negative
+        f.run(256, math);
+        const auto ellipses = f.read<ProjectedEllipse>(f.output);
+        EXPECT_NEAR(ellipses[0].color[0], .5 - .04886025119029199, 1e-6);
+        EXPECT_EQ(f.read<uint32_t>(f.keys)[0], UINT32_MAX - 1);
+    }
 }

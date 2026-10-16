@@ -77,9 +77,11 @@ E02 先保持现有 32 位径向键及稳定同键原始索引顺序；视深度
 
 E05 不能以中心不在视锥为由丢弃可见椭圆。完整场景/可见候选/GPU绘制数量分开记录；按 GPU 计数驱动动态规模，不能为获得数量引入每帧同步读回。如果 CUB 当前 API 无法直接消费 device count，必须比较支持的 GPU 间接方案或有界分桶方案与完整规模排序；禁止把 CPU 等待隐藏在“压缩收益”里。2248万点的历史 fit 视角几乎全可见，不能预设此项有效。
 
-### 4.2 Tile 合成的等价性
-
 E05实施决定（2026-10-17）：CUB的SortPairs数量参数是host值。对照两种不读取device count的实现：稳定DeviceSelect后仍排序完整容量；以及由GPU计数选择有界容量桶的conditional switch graph。桶从min(32768,N)按2倍增长至N，每个分支用固定host容量的CUB排序；GPU只执行选中分支，不逐帧CPU等待。所有桶先查询scratch取最大值，稳定gather及填充不改变有效前缀顺序，输出统一到固定buffer。Graph只承担device-count分派，E09仍须另测整管线capture的调度收益。Graph不支持时明确拒绝该变体，保留完整容量对照。新增selected-index与count/scratch容量计入预算，N变化重建workspace/graph，资源地址变化不得复用旧图。
+
+E03调优决定（2026-10-17）：初版CUDA投影比HLSL慢，cuobjdump显示56寄存器且LOCAL/STACK为0，不能以未经验证的spill归因。保持参考数学路径，新增三项独立消融：向量除法公共倒数提取、仅归一化/Gram尺度采用显式FP32 rsqrtf、两者组合。公共倒数非有限时回退原逐分量除法；不启用全局fast-math、不改径向键计算。每个变体均须通过同一CPU/HLSL、极端值和原图像门槛，失败则撤回该变体，不调整阈值。
+
+### 4.2 Tile 合成的等价性
 
 - 先采用现有全局径向稳定排序所得 **global rank**，按 `(tile_id, global_rank)` 建立列表，保留同一个像素的完整覆盖顺序。先不改成 tile 局部视深度排序。
 - 原管线从后到前绘制；从前到后合成必须反转完整顺序，**包含同键 tie 的顺序**。背景、alpha clamp、最小 alpha、椭圆支撑、SH、颜色空间与当前实现一致。

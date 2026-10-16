@@ -174,12 +174,17 @@ int wmain(int argc, wchar_t **argv)
         };
         const auto backend = get(L"--backend", L"d3d12");
         const std::vector<std::wstring> backends{L"d3d12", L"interop-noop", L"cuda-sort", L"cuda-project-128",
-            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets"};
+            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets",
+            L"cuda-project-256-rcp", L"cuda-project-256-rsqrt", L"cuda-project-256-rcp-rsqrt",
+            L"cuda-project-sort-256-rcp", L"cuda-project-sort-256-rsqrt", L"cuda-project-sort-256-rcp-rsqrt"};
         if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
         const bool interop = backend != L"d3d12", cuda_projection = backend.starts_with(L"cuda-project");
         const bool cuda_compact = backend.starts_with(L"cuda-compact");
         const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort") || cuda_compact;
         const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
+        const auto math = backend.ends_with(L"rcp-rsqrt") ? cuda_ops::ProjectMath::FactoredAndRsqrt :
+            backend.ends_with(L"rsqrt") ? cuda_ops::ProjectMath::ReciprocalSqrt :
+            backend.ends_with(L"rcp") ? cuda_ops::ProjectMath::FactoredReciprocal : cuda_ops::ProjectMath::Reference;
         const auto event_mode = get(L"--cuda-events", L"off");
         if (event_mode != L"off" && event_mode != L"on") throw std::invalid_argument("Invalid CUDA events switch");
         const auto camera_mode = get(L"--camera", L"fit");
@@ -326,7 +331,7 @@ int wmain(int argc, wchar_t **argv)
                     context->begin(gpu.direct.Get());
                     if (events) events->mark(*context, 0);
                     if (cuda_projection) cuda_ops::project(*context, pass.constants(*model, viewport),
-                        *shared[6], *shared[7], *shared[4], *shared[0], *shared[2], *shared[5], block_size);
+                        *shared[6], *shared[7], *shared[4], *shared[0], *shared[2], *shared[5], block_size, math);
                     if (events) events->mark(*context, 1);
                     if (compact) selected = compact->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     else if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
