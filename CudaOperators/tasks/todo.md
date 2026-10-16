@@ -28,7 +28,7 @@
   - 验收：128/256线程单项对照，E03/E04交接与完整span可归因。
   - 验证：图像测试和E03/E04。文件：投影、bench、采集、报告（≤4）。前置：W04/W05。
 - [ ] W07：稳定可见集压缩。
-  - 完整容量与GPU conditional switch容量桶实现；多可见率/同graph变动计数、百万点稳定对照与memcheck通过；真实125万点全可见/72%/空帧图像通过。多模型性能和资源验收继续执行。
+  - 完整容量与GPU conditional switch容量桶实现；多可见率/同graph变动计数、百万点稳定对照与memcheck通过。fit/partial/culled三组132次/3轮图像均bit-identical；可见内容视角仍慢于全数组CUB，明显收益只出现在空帧，不用于证明可见内容加速。见compact-*-diagnostic/README.md；正式与资源验收继续执行。
   - 验收：0/1/10/50/100%可见率正确；device count方案无需每帧CPU等候；全可见退化明确。
   - 验证：`CudaCompact.*`与E05。文件：compact.cu、头、测试、bench、报告（≤5）。前置：W05。
 - [ ] 检查点B：E02–E05各自正确性/整帧收益/失败台账齐全。
