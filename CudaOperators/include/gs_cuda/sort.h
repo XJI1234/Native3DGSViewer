@@ -6,7 +6,7 @@ namespace gs::cuda_ops
 class GS_CUDA_API SortWorkspace
 {
   public:
-    SortWorkspace(Context &, uint32_t capacity);
+    SortWorkspace(Context &, uint32_t capacity, bool capture = false);
     ~SortWorkspace();
     SortWorkspace(const SortWorkspace &) = delete;
     SortWorkspace &operator=(const SortWorkspace &) = delete;
