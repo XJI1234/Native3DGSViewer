@@ -34,6 +34,7 @@ def main():
     parser.add_argument("--kernel-timing", action="store_true", help="CUDA event diagnostics; excluded from formal timing")
     parser.add_argument("--camera", choices=["fit", "orbit"], default="fit")
     parser.add_argument("--pan-x", type=float, default=0)
+    parser.add_argument("--tile-capacity", type=int, help="Explicit fixed reference capacity for tile diagnostics")
     args = parser.parse_args()
     if args.repetitions < 1 or len(set(args.backends)) != len(args.backends) or "d3d12" not in args.backends:
         parser.error("Positive repetitions, distinct backends and a d3d12 reference required")
@@ -60,6 +61,7 @@ def main():
               "warmup_seconds": 30 if args.formal else None,
               "sample_seconds": 60 if args.formal else None, "frames": None if args.formal else 120,
               "warmup_frames": None if args.formal else 60, "camera": args.camera, "pan_x": args.pan_x,
+              "tile_capacity": args.tile_capacity,
               "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
               "diff_sha256": hashlib.sha256(subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=root)).hexdigest(),
               "binaries": {p.name: sha(p) for p in [binary, binary.parent / "gs-cuda-backend.dll", binary.parent / "model-io-helper.exe"]},
@@ -77,6 +79,8 @@ def main():
                            "--output", str(sample), "--camera", args.camera, "--pan-x", str(args.pan_x)]
                 if args.kernel_timing:
                     command += ["--cuda-events", "on"]
+                if args.tile_capacity is not None:
+                    command += ["--tile-capacity", str(args.tile_capacity)]
                 if args.formal:
                     command += ["--warmup-seconds", "30", "--sample-seconds", "60"]
                 else:
@@ -96,7 +100,7 @@ def main():
                     record["sample_count"] = len(rows)
                     record["medians"] = {key: statistics.median(float(row[key]) for row in rows) for key in
                                          ["projection_ms", "sort_and_interop_ms", "draw_ms", "gpu_total_ms", "cpu_wall_ms"]}
-                    for key in ["cuda_projection_kernel_ms", "cuda_sort_kernel_ms"]:
+                    for key in ["cuda_projection_kernel_ms", "cuda_sort_kernel_ms", "cuda_tile_list_kernel_ms", "cuda_composite_kernel_ms"]:
                         if key in rows[0]:
                             record["medians"][key] = statistics.median(float(row[key]) for row in rows)
                     (output / sample.name).write_bytes(sample.read_bytes())

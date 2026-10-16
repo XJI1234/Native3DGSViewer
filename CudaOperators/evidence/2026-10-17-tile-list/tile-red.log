@@ -1,0 +1,28 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaTile.*
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from CudaTile
+[ RUN      ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+unknown file: error: C++ exception with description "tile list not implemented" thrown in the test body.
+
+[  FAILED  ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks (439 ms)
+[ RUN      ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+unknown file: error: C++ exception with description "tile list not implemented" thrown in the test body.
+
+[  FAILED  ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation (267 ms)
+[ RUN      ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+unknown file: error: C++ exception with description "tile list not implemented" thrown in the test body.
+
+[  FAILED  ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation (261 ms)
+[----------] 3 tests from CudaTile (967 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (967 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 3 tests, listed below:
+[  FAILED  ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+[  FAILED  ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+[  FAILED  ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+
+ 3 FAILED TESTS

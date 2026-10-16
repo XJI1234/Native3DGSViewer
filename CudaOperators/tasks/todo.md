@@ -16,6 +16,7 @@
   - 验证：`CudaInterop.*:CudaLifecycle.*`。文件：帧槽/纹理实现、测试、bench（≤4）。前置：W02。
 - [ ] 检查点A：支持工具链/互操作与资源释放证据齐全。
 - [ ] W04：CUB稳定排序。
+  - 独立重置分布微基准已补齐：513/百万/800万/22480361，random/sorted/reverse/equal各3轮，逐次重置key/value且每组全数组CPU稳定对照通过，见sort-distributions/。
   - 已通过全数组CPU稳定排序对照（含22480361项）；5模型/3轮完整GPU帧和全图像见 `../evidence/2026-10-17-sort-diagnostic/README.md`。独立分布微基准及正式时长仍待补全，小场景不胜出。
   - 验收：边界/同键/分布/真实规模全key/value对CPU，E02独立和整帧数据。
   - 验证：`CudaSort.*`与E02采集。文件：sort.cu、头、测试、bench、报告（≤5）。前置：W03。
@@ -34,9 +35,11 @@
   - 验证：`CudaCompact.*`与E05。文件：compact.cu、头、测试、bench、报告（≤5）。前置：W05。
 - [ ] 检查点B：E02–E05各自正确性/整帧收益/失败台账齐全。
 - [ ] W08：tile列表。
+  - 64位count/prefix、global rank列表/预算/整帧拒绝实现；独立CPU全keys/ranges、超过UINT32总引用数与memcheck通过。五真实模型8/16列表均flags0、保留原draw时图像bit-identical。见tile-list/及tile-list-{real,large}/；更多相机压力待验收。
   - 验收：覆盖、global rank稳定顺序、64位计数与预算/溢出拒绝。
   - 验证：`CudaTile.List*`。文件：列表kernel、头、测试、bench（≤4）。前置：W04/W05。
 - [ ] W09：CUDA精确合成。
+  - 8/16与FP32/逐splatUNORM有界直接提交通过CPU1301层oracle和重复memcheck；最小真实模型图像门槛通过，但远慢于native。conditional while不稳定，最小复现、失败/修复尝试见tile-list/README.md，不能勾选稳定性或作为性能结果。更多模型/HLSL对照待完成。
   - 验收：8×8/16×16、原顺序与无提前终止，图像及纹理交接通过。
   - 验证：`CudaTile.Image*`与E06。文件：tile.cu、纹理interop、图像测试、bench（≤4）。前置：W08。
 - [ ] W10：HLSL等算法对照。

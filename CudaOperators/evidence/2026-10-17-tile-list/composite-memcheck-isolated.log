@@ -1,0 +1,53 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\tile_tests.cpp(248): error: Expected: (std::abs(int(actual[(y * width + x) * 4 + channel]) - int(std::nearbyint(result[channel] * 255)))) <= (2), actual: 5 vs 2
+pixel=0,0 channel=0 tile=8 quantize=false
+
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83b2fbff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e532d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedTexture::~SharedTexture [0x7ff83e53253b] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1b4d8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83b2fc043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e532d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedTexture::~SharedTexture [0x7ff83e53253b] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1b4d8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Target application returned an error
+========= ERROR SUMMARY: 2 errors

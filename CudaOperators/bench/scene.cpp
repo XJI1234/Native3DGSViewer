@@ -1,10 +1,12 @@
 #include "gs_cuda/sort.h"
 #include "gs_cuda/project.h"
 #include "gs_cuda/compact.h"
+#include "gs_cuda/tile.h"
 #include "model-io/model_loader.h"
 #include "native3dgs/camera.h"
 #include "splat.h"
 #include "upload.h"
+#include "blit.h"
 #include <cuda_runtime_api.h>
 #include <psapi.h>
 #include <algorithm>
@@ -44,7 +46,7 @@ struct Commands
 
 struct KernelEvents
 {
-    std::array<cudaEvent_t, 3> events{};
+    std::array<cudaEvent_t, 5> events{};
     static void checked(cudaError_t error)
     {
         if (error != cudaSuccess) throw std::runtime_error(cudaGetErrorString(error));
@@ -156,7 +158,7 @@ int wmain(int argc, wchar_t **argv)
     {
         std::map<std::wstring, std::wstring> args;
         const std::vector<std::wstring> accepted{L"--model", L"--backend", L"--frames", L"--warmup-frames",
-            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x"};
+            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x", L"--tile-capacity"};
         for (int i = 1; i < argc; i += 2)
         {
             if (i + 1 >= argc || std::find(accepted.begin(), accepted.end(), argv[i]) == accepted.end() || args.contains(argv[i]))
@@ -176,11 +178,15 @@ int wmain(int argc, wchar_t **argv)
         const std::vector<std::wstring> backends{L"d3d12", L"interop-noop", L"cuda-sort", L"cuda-project-128",
             L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets",
             L"cuda-project-256-rcp", L"cuda-project-256-rsqrt", L"cuda-project-256-rcp-rsqrt",
-            L"cuda-project-sort-256-rcp", L"cuda-project-sort-256-rsqrt", L"cuda-project-sort-256-rcp-rsqrt"};
+            L"cuda-project-sort-256-rcp", L"cuda-project-sort-256-rsqrt", L"cuda-project-sort-256-rcp-rsqrt",
+            L"cuda-tile-list-8", L"cuda-tile-list-16", L"cuda-tile-count-8", L"cuda-tile-count-16",
+            L"cuda-tile-exact-8", L"cuda-tile-exact-16", L"cuda-tile-unorm-8", L"cuda-tile-unorm-16"};
         if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
         const bool interop = backend != L"d3d12", cuda_projection = backend.starts_with(L"cuda-project");
         const bool cuda_compact = backend.starts_with(L"cuda-compact");
-        const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort") || cuda_compact;
+        const bool cuda_tile = backend.starts_with(L"cuda-tile"), tile_count_only = backend.starts_with(L"cuda-tile-count");
+        const bool tile_composite = backend.starts_with(L"cuda-tile-exact") || backend.starts_with(L"cuda-tile-unorm");
+        const bool cuda_sort = backend == L"cuda-sort" || backend.starts_with(L"cuda-project-sort") || cuda_compact || cuda_tile;
         const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
         const auto math = backend.ends_with(L"rcp-rsqrt") ? cuda_ops::ProjectMath::FactoredAndRsqrt :
             backend.ends_with(L"rsqrt") ? cuda_ops::ProjectMath::ReciprocalSqrt :
@@ -217,6 +223,11 @@ int wmain(int argc, wchar_t **argv)
         std::unique_ptr<cuda_ops::Context> context;
         std::unique_ptr<cuda_ops::SortWorkspace> workspace;
         std::unique_ptr<cuda_ops::CompactWorkspace> compact;
+        std::unique_ptr<cuda_ops::TileWorkspace> tiles;
+        std::unique_ptr<cuda_ops::TileCompositeWorkspace> composite;
+        std::unique_ptr<cuda_ops::SharedTexture> composite_target;
+        std::unique_ptr<SurfaceBlit> blit;
+        cuda_ops::TileConfig tile_config{};
         std::unique_ptr<KernelEvents> events;
         if (interop)
         {
@@ -234,38 +245,66 @@ int wmain(int argc, wchar_t **argv)
         if (base_required == UINT64_MAX) throw std::runtime_error("Scene allocation arithmetic exceeds supported capacity");
         const uint64_t required = base_required + (32ull << 20); // target + shared heap alignment
         const uint64_t staging = upload_reserve_bytes(*scene, scene->shDegree, 1) + (16ull << 20); // image readback
+        uint64_t tile_bytes = 0;
+        if (cuda_tile)
+        {
+            const auto capacity = args.contains(L"--tile-capacity") ? number(L"--tile-capacity", L"1", INT32_MAX) :
+                tile_count_only ? 1.0 : (std::min)(double(scene->count) * 4, double(INT32_MAX));
+            if (capacity < 1 || capacity != std::floor(capacity)) throw std::invalid_argument("Invalid tile reference capacity");
+            tile_config = {uint32_t(scene->count), viewport.physical_width, viewport.physical_height, backend.ends_with(L"16") ? 16u : 8u,
+                uint32_t(capacity), UINT64_MAX};
+            tile_bytes = cuda_ops::TileWorkspace::required_bytes(*context, tile_config);
+            if (tile_composite) tile_bytes += cuda_ops::TileCompositeWorkspace::required_bytes(viewport.physical_width, viewport.physical_height) + (16ull << 20);
+        }
         std::cout << "admission required_local=" << required << " local_usage=" << local.CurrentUsage
-                  << " local_budget=" << local.Budget << " scratch=" << (workspace ? workspace->scratch_bytes() : compact ? compact->scratch_bytes() : 0) << '\n';
-        if (!fits_scene_budgets(required, staging, local.Budget, local.CurrentUsage,
+                  << " local_budget=" << local.Budget << " scratch=" << (workspace ? workspace->scratch_bytes() : compact ? compact->scratch_bytes() : 0)
+                  << " tile_required=" << tile_bytes << '\n';
+        if (tile_bytes > UINT64_MAX - required || !fits_scene_budgets(required + tile_bytes, staging, local.Budget, local.CurrentUsage,
                                nonlocal.Budget, nonlocal.CurrentUsage, gpu.uma))
             throw std::runtime_error("Equal-quality scene exceeds native 80% admission budget");
+        if (cuda_tile)
+        {
+            tile_config.budget_bytes = tile_bytes;
+            tiles = std::make_unique<cuda_ops::TileWorkspace>(*context, tile_config);
+            std::cout << "tile_capacity=" << tile_config.reference_capacity << " tile_bytes=" << tiles->allocated_bytes() << '\n';
+            if (tile_composite)
+            {
+                composite_target = std::make_unique<cuda_ops::SharedTexture>(*context, viewport.physical_width, viewport.physical_height);
+                composite = std::make_unique<cuda_ops::TileCompositeWorkspace>(*context, *tiles,
+                    cuda_ops::TileCompositeWorkspace::required_bytes(viewport.physical_width, viewport.physical_height));
+                blit = std::make_unique<SurfaceBlit>(gpu, composite_target->resource());
+            }
+        }
         UploadTransaction upload(gpu, pass, scene, 1, camera.camera(), scene->shDegree, false, 1);
         while (!upload.ready) { upload.advance(gpu); if (!upload.ready) std::this_thread::sleep_for(std::chrono::milliseconds(1)); }
         auto model = upload.scene;
         memory.sample("native_uploaded");
         std::array<std::unique_ptr<cuda_ops::SharedBuffer>, 8> shared;
-        const uint32_t mutable_buffers = cuda_projection ? 6 : 4;
+        const uint32_t mutable_buffers = cuda_projection || cuda_tile ? 6 : 4;
         Commands producer(gpu), consumer(gpu);
         if (interop)
         {
             const uint64_t bytes = (uint64_t(model->count) + 511) / 512 * 512 * 4;
             for (int i = 0; i < 2; ++i) { model->sorting.keys[i].Reset(); model->sorting.values[i].Reset(); }
             for (int i = 0; i < 4; ++i) shared[i] = std::make_unique<cuda_ops::SharedBuffer>(*context, bytes);
+            if (cuda_projection || cuda_tile)
+            {
+                model->projected.Reset(); model->arguments.Reset();
+                shared[4] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * sizeof(ProjectedEllipse));
+                shared[5] = std::make_unique<cuda_ops::SharedBuffer>(*context, sizeof(DrawCounters));
+                model->projected = shared[4]->resource(); model->arguments = shared[5]->resource();
+            }
             if (cuda_projection)
             {
                 // Re-upload canonical CPU spans before timing. Release original input
                 // allocations first to avoid doubling a 4GB SH buffer on the 10GB GPU.
                 model->attributes.Reset(); model->sh_attributes.Reset();
-                model->projected.Reset(); model->arguments.Reset();
-                shared[4] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * sizeof(ProjectedEllipse));
-                shared[5] = std::make_unique<cuda_ops::SharedBuffer>(*context, sizeof(DrawCounters));
                 shared[6] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * 56);
                 shared[7] = std::make_unique<cuda_ops::SharedBuffer>(*context,
                     (std::max)(uint64_t{4}, uint64_t(model->count) * model->sh_floats_per_splat * 4));
                 const std::array spans{scene->centerLocal, scene->scale, scene->rotation, scene->opacity, scene->rgb0};
                 for (int i = 0; i < 5; ++i) upload_span(gpu, shared[6]->resource(), model->offsets[i], spans[i]);
                 upload_span(gpu, shared[7]->resource(), 0, scene->shRest);
-                model->projected = shared[4]->resource(); model->arguments = shared[5]->resource();
                 model->attributes = shared[6]->resource();
                 if (model->sh_floats_per_splat) model->sh_attributes = shared[7]->resource();
             }
@@ -296,7 +335,7 @@ int wmain(int argc, wchar_t **argv)
         check(gpu.device->CreateQueryHeap(&q, IID_PPV_ARGS(&queries)), "Bench queries");
         auto times = gpu.buffer(32, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
         std::ofstream output(output_path);
-        output << std::setprecision(12) << "frame,time_s,count,projection_ms,sort_and_interop_ms,draw_ms,gpu_total_ms,cpu_wall_ms,cuda_projection_kernel_ms,cuda_sort_kernel_ms\n";
+        output << std::setprecision(12) << "frame,time_s,count,projection_ms,sort_and_interop_ms,draw_ms,gpu_total_ms,cpu_wall_ms,cuda_projection_kernel_ms,cuda_sort_kernel_ms,cuda_tile_list_kernel_ms,cuda_composite_kernel_ms\n";
         std::cout << "cuda_events=" << (events ? "on" : "off") << " (off reports kernel columns as -1)\n";
         std::cout << "count=" << model->count << " SH=" << unsigned(model->sh_degree)
                   << " stride=1 viewport=1920x1080 radial stddev=3 alpha=0 blur=0 radius=1024 no_mitigation\n";
@@ -336,6 +375,11 @@ int wmain(int argc, wchar_t **argv)
                     if (compact) selected = compact->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     else if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     if (events) events->mark(*context, 2);
+                    if (tiles) tiles->submit(*context, *shared[4], *shared[selected ? 3 : 2], *shared[5]);
+                    if (events && tiles) events->mark(*context, 3);
+                    if (composite) composite->submit(*context, *shared[4], *shared[selected ? 3 : 2], *composite_target,
+                        {quality.max_stddev, quality.min_alpha, backend.starts_with(L"cuda-tile-unorm")});
+                    if (events && composite) events->mark(*context, 4);
                     context->end(gpu.direct.Get());
                     consumer.reset();
                     list = consumer.list.Get();
@@ -349,7 +393,8 @@ int wmain(int argc, wchar_t **argv)
                 list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 2);
                 const float clear[4]{};
                 list->ClearRenderTargetView(handle, clear, 0, nullptr);
-                pass.draw(list, *model, viewport, handle);
+                if (blit) blit->record(list, handle);
+                else pass.draw(list, *model, viewport, handle);
                 if (selected) { std::swap(model->sorting.keys[0], model->sorting.keys[1]); std::swap(model->sorting.values[0], model->sorting.values[1]); }
                 list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 3);
                 list->ResolveQueryData(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 0, 4, times.Get(), 0);
@@ -365,12 +410,22 @@ int wmain(int argc, wchar_t **argv)
                     << (ticks[1] - ticks[0]) * factor << ',' << (ticks[2] - ticks[1]) * factor << ','
                     << (ticks[3] - ticks[2]) * factor << ',' << (ticks[3] - ticks[0]) * factor << ',' << wall_ms << ','
                     << (events && cuda_projection ? events->elapsed(0, 1) : -1) << ','
-                    << (events && cuda_sort ? events->elapsed(1, 2) : -1) << '\n';
+                    << (events && cuda_sort ? events->elapsed(1, 2) : -1) << ','
+                    << (events && tiles ? events->elapsed(2, 3) : -1) << ','
+                    << (events && composite ? events->elapsed(3, 4) : -1) << '\n';
                 memory.periodic();
             }
         }
         if (context && !context->wait_idle()) throw std::runtime_error("CUDA shutdown timeout");
         capture(gpu, target.Get(), output_path.string() + ".bgra");
+        if (tiles)
+        {
+            const auto data = gpu.readback(tiles->status().resource(), sizeof(cuda_ops::TileStatus), D3D12_RESOURCE_STATE_COMMON);
+            cuda_ops::TileStatus status{}; std::memcpy(&status, data.data(), sizeof(status));
+            std::cout << "tile_references=" << status.references << " flags=" << status.flags << " max_tile_length=" << status.max_tile_length
+                << " count_only=" << tile_count_only << " (read after all measured frames)\n";
+            if (status.flags && !(tile_count_only && status.flags == 2)) throw std::runtime_error("Tile list invalid or exceeds capacity; frame rejected");
+        }
         if (compact)
         {
             const auto data = gpu.readback(compact->visible_count_buffer().resource(), 4, D3D12_RESOURCE_STATE_COMMON);

@@ -1,0 +1,41 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+
+Repeating all tests (iteration 1) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (3631 ms)
+[----------] 1 test from CudaTile (3631 ms total)
+
+[==========] 1 test from 1 test suite ran. (3631 ms total)
+[  PASSED  ] 1 test.
+
+Repeating all tests (iteration 2) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (1756 ms)
+[----------] 1 test from CudaTile (1756 ms total)
+
+[==========] 1 test from 1 test suite ran. (1756 ms total)
+[  PASSED  ] 1 test.
+
+Repeating all tests (iteration 3) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (1771 ms)
+[----------] 1 test from CudaTile (1771 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1771 ms total)
+[  PASSED  ] 1 test.
+========= ERROR SUMMARY: 0 errors
