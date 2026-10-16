@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tools\merge_rounds.py", line 85, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tools\merge_rounds.py", line 43, in main
+    raise RuntimeError(f"Collection differs in {key}: {directory}")
+RuntimeError: Collection differs in yaw_degrees: C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\evidence\2026-10-17-oblique-formal

@@ -2,6 +2,8 @@
 
 审查基准：f1c86cb，另含已提交的db2be3a固定绑定CUB Graph切片。采用code-review-and-quality的正确性、可读性、架构、边界校验和性能五轴检查；这是本轮单代理自审，不冒充独立第三方审查。正式计时期间只做静态审查，不构建、不启动其他GPU程序。
 
+最终增量审查覆盖78bd75e之后的七轮证据、扩轮合并工具及Graph零count修复；仍为单代理自审。最终性能14.77% [14.65,14.94]，不通过15%生产门槛。合并核对完整配对、全部输入/参数/runtime/collector hash与来源，拒绝重复组和原始run；未将复制证据计为新增轮次。
+
 ## 阻止进入产品的发现
 
 | 严重性 | 发现与影响 | 处理/验收位置 |
@@ -9,6 +11,7 @@
 | Required | analytic tile不能复现薄quad的硬件亚像素光栅化/插值；真实最大误差超规格。普通CPU数学oracle通过不能代替quad图像通过。 | E06–E08全部拒绝产品集成；质量调查和原始失败图像保留。W09–W11不勾选。 |
 | Required | conditional while最小复现仍有间歇非法读取/error999与清理卡住，准确归属未证明。 | 验收路径改为普通有界kernel/普通Graph；conditional选项只作诊断，probe不进入CTest。不得默认启用。 |
 | Resolved | 算子原先未完整核对输入Context，begin/end也未绑定队列；RED测试实际将另一Context的哨兵0x12345678写成99。 | 已增加实际device LUID、单device/单queue绑定和所有算子输入归属检查；3项负测、完整Cuda CTest8/8、memcheck通过，见ownership/。包含零count拒绝、组合列表构造、不同device及错误调用后正确结束交接。 |
+| Resolved | CUB Graph已捕获非零count后，0被早期no-op分支接受，绕过固定count契约。 | RED复现；显式拒绝已捕获Graph的0，未捕获零容量继续no-op。Graph两项、普通边界及memcheck通过，见graph-zero/；不改变普通正规模GPU算法。 |
 | Required | shared import完成前释放、算子scratch析构中的cudaFree，在驱动故障下没有完整有界退出保证。当前共享资源超时保留在途导入，不能宣称无泄漏/可恢复。 | W03/W16：明确在途资源退役所有权，故障隔离/设备移除与不可完成fence逐条注入。正常生命周期测试不能替代此项。 |
 | Required | Debug Layer下CUDA交接退役fence约每Context遗留1 Event；非调试100次正常生命周期通过。 | 已有最小分类对照与日志，具体持有方未定；保留原句柄阈值。W03未通过完整稳定性。 |
 | Required | CUDA/DXGI共享映射计费与物理增量不同，现有原生准入估计不足以证明映射后80%预算合规。 | W14/W15前先锁定唯一分配统计与WDDM预算策略，不以全局nvidia-smi峰值替代独占显存。 |
@@ -28,3 +31,5 @@
 本轮允许保留实验基础设施与证据，**不批准产品合并/启用CUDA后端**。正式性能、相机覆盖、资源/故障、GUI呈现与2小时长稳均独立验收；未验证项留在todo，不以绿色单测替代。
 
 后续审查：普通有界tile的racecheck零hazards、synccheck零错误（ownership目录）；前者仅检查CUDA共享内存，不证明全部全局内存/跨API竞态不存在。正式pan视角收益16.70%，但非零alpha面积仅1.42%；不得把该窄带视角等同常规浏览。已增加完整校园俯斜视角与画面面积统计。归属修复后GPU数学与排序方式未改，正式测量仍按各组冻结二进制识别，不能混写为同一版本。
+
+最终生命周期复核：随机种子1将Debug Layer测试排在100次句柄测试之前，同进程592→692再次失败；独立普通配置仍通过。两份结果同时保留于lifecycle-recheck/。没有放宽阈值、冒称修复或将该失败混写为绿色CTest。

@@ -2,6 +2,8 @@
 
 全部验证命令从仓库根执行。每项代码切片最多约5文件，超出时拆分并保留依赖。
 
+本轮判定：E00–E09主要路径已逐项筛选，E10正式固定俯斜七轮降低14.77% [14.65,14.94]、图像byte一致，低于15%产品性能门槛；Debug Layer与故障退役仍阻塞稳定性。W15/W16依赖尚未满足，暂不接入产品。详见[实测总报告](../EXPERIMENT-REPORT.md)。下列未勾选项保留其完整验收要求，不能把实验执行过等同验收通过。
+
 - [x] E00：现有D3D12阶段基线。45次/5400帧、5/5 CTest；见 `../evidence/2026-10-17-baseline/README.md`。
 - [x] W01：CUDA13.3工具链。官方hash、MSVC1950/C++20/SM86和CUB探针通过，见toolchain证据。
   - 验收：官方组件hash核对、受支持MSVC/C++20编译，SM86运行与CUB结果正确。
@@ -11,6 +13,7 @@
   - 验收：按LUID匹配、CUDA写/D3D12读正确、容量/无设备/导入失败处理。
   - 验证：`CudaInterop.*`。文件：interop头/源、测试、CMake（≤4）。前置：W01。
 - [ ] W03：fence/帧槽与纹理。
+  - 最终构建复查：Debug Layer先启用后100次Context句柄592→692，原阈值失败；普通隔离进程仍通过。见lifecycle-recheck/，问题未解决。
   - 已补实际device LUID、Context单队列绑定及全部算子buffer/texture归属拒绝；RED重现跨Context哨兵被改写，修复后3负测及Cuda CTest8/8通过。memcheck5项、tile racecheck/synccheck均零错误。故障退役及调试层句柄问题仍未解决。
   - 100次生产配置Context/buffer/texture生命周期、可控fence超时/解除后恢复通过。Debug Layer/CUDA退役fence的Event滞留未解决，见toolchain/lifecycle-notes.md；不勾选完整稳定性。
   - 验收：10000次GPU交接、纹理读写、关闭/超时与noop时间。
@@ -18,7 +21,7 @@
 - [ ] 检查点A：支持工具链/互操作与资源释放证据齐全。
 - [ ] W04：CUB稳定排序。
   - 独立重置分布微基准已补齐：513/百万/800万/22480361，random/sorted/reverse/equal各3轮，逐次重置key/value且每组全数组CPU稳定对照通过，见sort-distributions/。
-  - 已通过全数组CPU稳定排序对照（含22480361项）；5模型/3轮完整GPU帧和全图像见 `../evidence/2026-10-17-sort-diagnostic/README.md`。独立分布微基准已补全，正式时长仍待补全，小场景不胜出。
+  - 已通过全数组CPU稳定排序对照（含22480361项）；5模型/3轮完整GPU帧和全图像见 `../evidence/2026-10-17-sort-diagnostic/README.md`。独立分布微基准与最大模型三固定相机正式时长已补；其他模型/动态正式与资源完整验收未完成，小场景不胜出。
   - 验收：边界/同键/分布/真实规模全key/value对CPU，E02独立和整帧数据。
   - 验证：`CudaSort.*`与E02采集。文件：sort.cu、头、测试、bench、报告（≤5）。前置：W03。
 - [ ] W05：CUDA投影等价。
@@ -57,10 +60,12 @@
   - 验收：当前相机语义下的提交/尾部、resize/取消/失败正确。
   - 验证：`CudaLifecycle.*`与E09调度消融。文件：帧槽、host、测试、报告（≤4）。前置：W06/W09。
 - [ ] W13：CUDA Graph。
+  - 最后补齐已捕获513后传0的绑定拒绝：RED真实失败，修复后Graph两项/普通边界通过，memcheck零错误；未捕获零容量no-op仍通过。见graph-zero/。
   - CUB固定地址/规模Graph重放变动输入全数组稳定CPU对照、绑定/容量/上下文拒绝测试及memcheck通过，最新Cuda CTest8/8通过。tile普通Graph过夹具，但真实画质不合格；conditional while单独失败。
   - 验收：独立于调度的Graph收益、场景/容量/resize重建正确。
   - 验证：Graph测试与E09。文件：graph源、测试、host、报告（≤4）。前置：W12。
 - [ ] W14：正式配对采集。
+  - 俯斜yaw30/pitch-45/dolly2已完成7对14次、26184帧：34.9251→29.7800ms，降低14.77% [14.65,14.94]；全点可见、alpha面积12.78%、全部图像byte一致，runtime/collector hash及全局AB/BA通过。完整区间低于15%，不再挑轮次；见oblique-formal-seven/。
   - 最大模型fit与pan900均完成30s/60s/3轮：GPU耗时降低14.45% [14.23,14.58]与16.70% [16.62,16.81]，共26915测量帧、图像byte一致；但两视角alpha覆盖仅2.06%/1.42%，补测固定俯斜完整校园。此处不代表显示FPS或全部场景/稳定性验收。
   - 验收：30s/60s/3轮起步、时间路径/完整图像/内存峰值/CI/全模型记录。
   - 验证：采集工具及质量校验；呈现受限明确标注。文件：采集、分析、相机、报告（≤4）。前置：候选正确性通过。

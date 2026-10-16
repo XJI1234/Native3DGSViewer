@@ -94,7 +94,8 @@ def main():
     summary = {"protocol": result["protocol"], "formal_duration": result["formal_duration"],
                "frame_slots": result.get("frame_slots", {}),
                "note": "Offscreen GPU timing; frame slots follow collection metadata. No Present or input-latency conclusion. "
-                       "Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+                       "Bootstrap resamples whole paired rounds; small round counts may understate uncertainty. "
+                       "Lifecycle/resource gates remain separate.",
                "comparisons": rows, "runs": runs}
     suffix = "" if args.reference == image_reference else "-vs-" + args.reference
     (path / ("analysis" + suffix + ".json")).write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
