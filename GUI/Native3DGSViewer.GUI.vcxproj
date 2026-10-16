@@ -79,6 +79,7 @@
     <ClCompile Include="App.xaml.cpp" />
     <ClCompile Include="app_log.cpp" />
     <ClCompile Include="MainWindow.xaml.cpp" />
+    <ClCompile Include="measurement.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>

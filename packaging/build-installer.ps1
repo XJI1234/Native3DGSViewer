@@ -23,7 +23,7 @@ if (-not $SkipBuild) {
 }
 
 $shaders = @('count', 'reduce', 'scan', 'scan_add', 'scatter', 'reset_args',
-             'project', 'vertex', 'pixel') | ForEach-Object { "shaders\$_.cso" }
+             'project', 'vertex', 'pixel', 'pick_reset', 'pick_collect') | ForEach-Object { "shaders\$_.cso" }
 $shaders += @('count', 'reduce', 'scan', 'scan_add', 'scatter') | ForEach-Object {
     @("shaders\${_}_wave32.cso", "shaders\${_}_wave_agnostic.cso")
 }

@@ -3,6 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <iostream>
+#include <native3dgs/measurement.h>
 #include <native3dgs/engine.h>
 #include <sstream>
 #include <stdexcept>
@@ -24,6 +25,14 @@ int wmain(int argc, wchar_t **argv)
     int exit_code = 0;
     try
     {
+        const auto metric = parse_metric(R"({"schema_version":1,
+"frame":{"source":"ply_local","target":"local_enu","units":"meters",
+"matrix_convention":"row_serialized_column_vector_left_multiply"},
+"quality":{"status":"estimated"},"meters_per_model_unit":2,
+"enu_from_ply":[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]})");
+        if (!std::holds_alternative<MetricCalibration>(metric) ||
+            distance_meters({0, 0, 0}, {3, 4, 0}, 2) != 10)
+            throw std::runtime_error("Metric SDK contract failed");
         auto require = [](HRESULT hr, const char *operation) {
             if (FAILED(hr))
             {
@@ -80,6 +89,60 @@ int wmain(int argc, wchar_t **argv)
             if (std::chrono::steady_clock::now() >= deadline)
                 throw std::runtime_error("Host timeout");
             std::this_thread::sleep_for(std::chrono::milliseconds(2));
+        }
+        if (request && argc > 2)
+        {
+            if (engine->set_measurement_enabled(true) || engine->import_metric(argv[2]))
+                throw std::runtime_error("Metric import rejected");
+            auto wait_measurement = [&](auto predicate) {
+                const auto until = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+                for (;;)
+                {
+                    const auto measurement = engine->snapshot().measurement;
+                    if (measurement.error)
+                        throw std::runtime_error(
+                            "Measurement error=" +
+                            std::to_string(static_cast<unsigned>(*measurement.error)));
+                    if (predicate(measurement))
+                        return measurement;
+                    if (std::chrono::steady_clock::now() >= until)
+                        throw std::runtime_error("Measurement timeout");
+                    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                }
+            };
+            auto calibration = wait_measurement([](const auto &m) { return !m.importing; });
+            if (!calibration.calibration)
+                throw std::runtime_error("Missing calibration");
+            const auto begin = std::chrono::steady_clock::now();
+            bool completed = false;
+            for (int y = 48; y < 480 && !completed; y += 48)
+                for (int x = 64; x < 640 && !completed; x += 64)
+                {
+                    if (engine->measure_at(x, y))
+                        throw std::runtime_error("Pick rejected");
+                    const auto m =
+                        wait_measurement([](const auto &value) { return !value.picking; });
+                    if (!m.distance_m)
+                        continue;
+                    const auto expected =
+                        distance_meters(m.a->position_source, m.b->position_source,
+                                        m.calibration->meters_per_model_unit);
+                    if (!expected || *expected != *m.distance_m)
+                        throw std::runtime_error("Inconsistent distance");
+                    std::cout << "MEASUREMENT OK meters=" << *m.distance_m
+                              << " scale=" << m.calibration->meters_per_model_unit
+                              << " estimated=" << m.calibration->estimated << " elapsed_ms="
+                              << std::chrono::duration_cast<std::chrono::milliseconds>(
+                                     std::chrono::steady_clock::now() - begin)
+                                     .count()
+                              << "\n";
+                    completed = true;
+                }
+            if (!completed)
+                throw std::runtime_error("No measurable pair in sample grid");
+            engine->clear_measurement();
+            if (engine->set_measurement_enabled(false))
+                throw std::runtime_error("Exit measurement rejected");
         }
     }
     catch (const std::exception &e)

@@ -31,4 +31,28 @@ The console validation host ends its process with exit code 2 if shutdown exceed
 
 See `SPEC-engine-sdk.md`, `GUI/README.md` and verification records for scope and evidence. Spark SSIM, PresentMon and AMD/Intel gates remain external acceptance work.
 
+## Model measurement
+
+After a model is Ready, call `set_measurement_enabled(true)` and `import_metric(path)`.
+Poll `snapshot().measurement` until `importing` is false; check `error` and `calibration`.
+Any valid v1 metric JSON may be used with PLY or SPZ: model/provenance correspondence is deliberately not checked.
+The loader validates the scale and uniform similarity matrix, with a 1 MiB / 64-level input bound.
+It uses Windows system JSON and needs no additional redistributed library.
+
+Call `measure_at(x_px, y_px)` twice, waiting for `picking` to become false after each call.
+Coordinates are physical pixels relative to the render viewport, before the host's display mirror.
+For an odd number of axis flips, undo the host's horizontal mirror once with `width - 1 - floor(x_px)`.
+The snapshot supplies `a`/`b` in RUB world and original source coordinates, `distance_m`, `missed`, and structured errors.
+No hit keeps existing endpoints; the completed pair rejects a third point. Camera/viewport changes cancel pending picks.
+`clear_measurement()` cancels pending work and clears points while retaining calibration;
+`set_measurement_enabled(false)` also clears points, and successful model replacement clears the entire session.
+Failed imports/replacements retain the prior calibration. A pick times out after five seconds.
+
+`<native3dgs/measurement.h>` also provides bounded blocking `load_metric`, `parse_metric`,
+`source_from_rub`, and checked `distance_meters` for worker-thread consumers.
+`<render-core/picking.h>` supplies double projection/unprojection and frustum-clipped line projection for overlays.
+Visible-surface depth uses contribution-weighted median Gaussian depth; this is an estimate and independent length accuracy needs validation.
+The sample accepts an optional second argument: `sdk-host.exe model.ply scene.metric.json`.
+The installed consumer test imports a deliberately unrelated calibration and completes two GPU picks.
+
 The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.2-Windows-x64.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.

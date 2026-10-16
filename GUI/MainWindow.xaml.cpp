@@ -155,11 +155,52 @@ void MainWindow::build_interface()
     status_text_ = root_.FindName(L"StatusText").as<TextBlock>();
     model_text_ = root_.FindName(L"ModelText").as<TextBlock>();
     busy_panel_ = root_.FindName(L"BusyPanel").as<Border>();
+    measure_button_ = root_.FindName(L"MeasureButton")
+                          .as<Microsoft::UI::Xaml::Controls::Primitives::ToggleButton>();
+    import_metric_button_ = root_.FindName(L"ImportMetricButton").as<Button>();
+    restart_measurement_button_ = root_.FindName(L"RestartMeasurementButton").as<Button>();
+    exit_measurement_button_ = root_.FindName(L"ExitMeasurementButton").as<Button>();
+    measurement_panel_ = root_.FindName(L"MeasurementPanel").as<Border>();
+    measurement_hint_ = root_.FindName(L"MeasurementHint").as<TextBlock>();
+    metric_quality_text_ = root_.FindName(L"MetricQualityText").as<TextBlock>();
+    measurement_result_ = root_.FindName(L"MeasurementResult").as<TextBlock>();
+    measurement_overlay_ = root_.FindName(L"MeasurementOverlay").as<Canvas>();
+    auto brush = Microsoft::UI::Xaml::Media::SolidColorBrush{Windows::UI::Color{255, 255, 202, 75}};
+    measurement_line_ = Microsoft::UI::Xaml::Shapes::Line{};
+    measurement_line_.Stroke(brush);
+    measurement_line_.StrokeThickness(2);
+    marker_a_ = TextBlock{};
+    marker_b_ = TextBlock{};
+    marker_a_.Text(L"● A");
+    marker_b_.Text(L"● B");
+    for (auto marker : {marker_a_, marker_b_})
+    {
+        marker.Foreground(brush);
+        marker.FontSize(18);
+        marker.Visibility(Visibility::Collapsed);
+    }
+    measurement_overlay_.Children().Append(measurement_line_);
+    measurement_overlay_.Children().Append(marker_a_);
+    measurement_overlay_.Children().Append(marker_b_);
 }
 
 void MainWindow::connect_events()
 {
     open_button_.Click([this](auto&&, auto&&) { pick_file(); });
+    measure_button_.Checked([this](auto &&, auto &&) {
+        if (!updating_measure_button_)
+            set_measurement_mode(true);
+    });
+    measure_button_.Unchecked([this](auto &&, auto &&) {
+        if (!updating_measure_button_)
+            set_measurement_mode(false);
+    });
+    import_metric_button_.Click([this](auto &&, auto &&) { pick_metric(); });
+    restart_measurement_button_.Click([this](auto &&, auto &&) {
+        if (engine_)
+            engine_->clear_measurement();
+    });
+    exit_measurement_button_.Click([this](auto &&, auto &&) { set_measurement_mode(false); });
     close_button_.Click([this](auto&&, auto&&) { if (engine_) engine_->close(); });
     cancel_button_.Click([this](auto&&, auto&&) {
         if (engine_) engine_->cancel(request_id_);
@@ -195,18 +236,45 @@ void MainWindow::connect_events()
         xaml_root_changed_ = xaml_root_.Changed([this](auto&&, auto&&) { resize_surface(); });
     scene_panel_.PointerPressed([this](auto&&, auto&& args) {
         last_pointer_ = args.GetCurrentPoint(root_).Position();
+        pointer_down_ = last_pointer_;
+        measurement_click_ =
+            measurement_mode_ && args.GetCurrentPoint(root_).Properties().IsLeftButtonPressed();
+        measurement_drag_ = false;
         right_drag_ = args.GetCurrentPoint(root_).Properties().IsRightButtonPressed();
         dragging_ = true;
         if (fly_mode_) fly_capture_ = true;
         scene_panel_.CapturePointer(args.Pointer());
     });
     scene_panel_.PointerMoved([this](auto&&, auto&& args) { on_pointer_move(args); });
-    scene_panel_.PointerReleased([this](auto&&, auto&&) {
+    scene_panel_.PointerReleased([this](auto &&, auto &&args) {
+        const auto point = args.GetCurrentPoint(root_).Position();
+        if (measurement_click_ && !measurement_drag_ && measurement_mode_ && engine_ &&
+            std::hypot(point.X - pointer_down_.X, point.Y - pointer_down_.Y) <= 4)
+        {
+            auto origin = measurement_overlay_.TransformToVisual(root_).TransformPoint({0, 0});
+            const double scale = scene_panel_.XamlRoot().RasterizationScale();
+            double x = std::floor((point.X - origin.X) * scale),
+                   y = std::floor((point.Y - origin.Y) * scale);
+            auto size = viewport();
+            if (x >= 0 && y >= 0 && x < size.physical_width && y < size.physical_height)
+            {
+                if (flip_y_)
+                    x = size.physical_width - 1 - x;
+                auto measurement = engine_->snapshot().measurement;
+                if (!measurement.b && !measurement.picking && !measurement.importing)
+                    if (auto error = engine_->measure_at(x, y))
+                        measurement_hint_.Text(measurement_error(*error));
+            }
+        }
+        measurement_click_ = false;
         dragging_ = false;
-        if (!fly_capture_) scene_panel_.ReleasePointerCaptures();
+        if (!fly_capture_)
+            scene_panel_.ReleasePointerCaptures();
     });
-    scene_panel_.PointerCanceled([this](auto&&, auto&&) {
-        dragging_ = fly_capture_ = false; keys_.fill(false);
+    scene_panel_.PointerCanceled([this](auto &&, auto &&) {
+        measurement_click_ = false;
+        dragging_ = fly_capture_ = false;
+        keys_.fill(false);
         scene_panel_.ReleasePointerCaptures();
     });
     scene_panel_.PointerWheelChanged([this](auto&&, auto&& args) {
@@ -440,7 +508,6 @@ winrt::fire_and_forget MainWindow::pick_file()
     }
     catch (...) { log_current_exception("file_picker_failed"); if (!closing_) set_status(L"无法打开文件选择器"); }
 }
-
 winrt::fire_and_forget MainWindow::accept_drop(DragEventArgs args)
 {
     auto lifetime = get_strong();
@@ -469,6 +536,12 @@ void MainWindow::on_pointer_move(Microsoft::UI::Xaml::Input::PointerRoutedEventA
 {
     if (!engine_ || !scene_ready_ || (!dragging_ && !fly_capture_)) return;
     auto point = args.GetCurrentPoint(root_).Position();
+    if (measurement_click_ && !measurement_drag_)
+    {
+        if (std::hypot(point.X - pointer_down_.X, point.Y - pointer_down_.Y) <= 4)
+            return;
+        measurement_drag_ = true;
+    }
     const double dx = point.X - last_pointer_.X;
     const double dy = point.Y - last_pointer_.Y;
     last_pointer_ = point;
@@ -484,6 +557,7 @@ void MainWindow::on_key(UINT message, WPARAM key)
 {
     if (message == WM_KILLFOCUS || (message == WM_ACTIVATE && LOWORD(key) == WA_INACTIVE))
     {
+        measurement_click_ = dragging_ = false;
         keys_.fill(false); shift_ = false; fly_capture_ = false;
         scene_panel_.ReleasePointerCaptures();
         return;
@@ -492,6 +566,8 @@ void MainWindow::on_key(UINT message, WPARAM key)
     const bool down = message == WM_KEYDOWN;
     if (key == VK_ESCAPE && down)
     {
+        if (measurement_mode_ && !metric_picker_open_)
+            set_measurement_mode(false);
         fly_capture_ = false; dragging_ = false; keys_.fill(false);
         scene_panel_.ReleasePointerCaptures();
     }
@@ -619,6 +695,7 @@ void MainWindow::update_engine()
         }
     }
     const auto state = engine_->snapshot();
+    update_measurement(state);
     const auto now = std::chrono::steady_clock::now();
     if (state.active_scene && state.stats.memory_mitigation &&
         state.active_request != mitigation_notice_request_)

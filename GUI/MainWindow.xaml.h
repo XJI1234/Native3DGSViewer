@@ -3,6 +3,7 @@
 #include "native3dgs/engine.h"
 #include <dxgi1_4.h>
 #include <winrt/Microsoft.UI.Windowing.h>
+#include <winrt/Microsoft.UI.Xaml.Shapes.h>
 
 #include <array>
 #include <chrono>
@@ -33,6 +34,10 @@ struct MainWindow : MainWindowT<MainWindow>
     void open_path(std::filesystem::path path);
     void try_open_initial();
     winrt::fire_and_forget pick_file();
+    winrt::fire_and_forget pick_metric();
+    void set_measurement_mode(bool);
+    void update_measurement(const gs::engine::Snapshot &);
+    static std::wstring measurement_error(gs::engine::MeasurementError);
     winrt::fire_and_forget accept_drop(Microsoft::UI::Xaml::DragEventArgs args);
     void on_pointer_move(Microsoft::UI::Xaml::Input::PointerRoutedEventArgs args);
     void on_key(UINT message, WPARAM key);
@@ -43,6 +48,15 @@ struct MainWindow : MainWindowT<MainWindow>
     Microsoft::UI::Xaml::Controls::Button open_button_{nullptr}, close_button_{nullptr};
     Microsoft::UI::Xaml::Controls::Button fit_button_{nullptr}, reset_button_{nullptr};
     Microsoft::UI::Xaml::Controls::Primitives::ToggleButton flip_y_button_{nullptr};
+    Microsoft::UI::Xaml::Controls::Primitives::ToggleButton measure_button_{nullptr};
+    Microsoft::UI::Xaml::Controls::Button import_metric_button_{nullptr},
+        restart_measurement_button_{nullptr}, exit_measurement_button_{nullptr};
+    Microsoft::UI::Xaml::Controls::Border measurement_panel_{nullptr};
+    Microsoft::UI::Xaml::Controls::TextBlock measurement_hint_{nullptr},
+        metric_quality_text_{nullptr}, measurement_result_{nullptr};
+    Microsoft::UI::Xaml::Controls::Canvas measurement_overlay_{nullptr};
+    Microsoft::UI::Xaml::Controls::TextBlock marker_a_{nullptr}, marker_b_{nullptr};
+    Microsoft::UI::Xaml::Shapes::Line measurement_line_{nullptr};
     Microsoft::UI::Xaml::Controls::Button cancel_button_{nullptr};
     Microsoft::UI::Xaml::Controls::RadioButton orbit_button_{nullptr}, fly_button_{nullptr};
     Microsoft::UI::Xaml::Controls::TextBlock empty_text_{nullptr}, busy_text_{nullptr};
@@ -64,6 +78,9 @@ struct MainWindow : MainWindowT<MainWindow>
     bool initialized_ = false;
     bool flip_y_ = false, fly_mode_ = false, updating_flip_button_ = false;
     bool scene_ready_ = false;
+    bool measurement_mode_ = false, updating_measure_button_ = false, restore_fly_ = false;
+    bool measurement_drag_ = false, measurement_click_ = false, metric_picker_open_ = false;
+    Windows::Foundation::Point pointer_down_{};
     Microsoft::UI::Xaml::XamlRoot xaml_root_{nullptr};
     winrt::event_token xaml_root_changed_{};
     Microsoft::UI::Windowing::AppWindow app_window_{nullptr};
