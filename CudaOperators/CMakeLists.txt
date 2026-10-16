@@ -50,7 +50,7 @@ target_include_directories(Native3DGSViewer.CudaBench PRIVATE
   "${PROJECT_SOURCE_DIR}/src/render-core/device" "${PROJECT_SOURCE_DIR}/src/render-core/scene"
   "${PROJECT_SOURCE_DIR}/src/render-core/passes")
 target_compile_definitions(Native3DGSViewer.CudaBench PRIVATE NOMINMAX)
-target_link_libraries(Native3DGSViewer.CudaBench PRIVATE native3dgs-engine gs-cuda-backend)
+target_link_libraries(Native3DGSViewer.CudaBench PRIVATE native3dgs-engine gs-cuda-backend CUDA::cudart_static)
 cuda_experiment_output(Native3DGSViewer.CudaBench)
 add_dependencies(Native3DGSViewer.CudaBench model-io-helper render-shaders)
 add_custom_command(TARGET Native3DGSViewer.CudaBench POST_BUILD

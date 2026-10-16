@@ -31,10 +31,13 @@ def main():
     parser.add_argument("--binary", type=Path, help="Source executable; copied with its runtime files before collection")
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--formal", action="store_true")
+    parser.add_argument("--kernel-timing", action="store_true", help="CUDA event diagnostics; excluded from formal timing")
     parser.add_argument("--camera", choices=["fit", "orbit"], default="fit")
     args = parser.parse_args()
     if args.repetitions < 1 or len(set(args.backends)) != len(args.backends) or "d3d12" not in args.backends:
         parser.error("Positive repetitions, distinct backends and a d3d12 reference required")
+    if args.formal and args.kernel_timing:
+        parser.error("CUDA event diagnostics must run separately from formal timing")
     root = Path(__file__).resolve().parents[2]
     source_binary = (args.binary or root / "out/cmake-cuda/cuda/Release/Native3DGSViewer.CudaBench.exe").resolve()
     output = args.output.resolve()
@@ -52,7 +55,8 @@ def main():
             parser.error("Model path escapes model root")
         models.append({"name": name, "sha256": sha(path)})
     result = {"protocol": "offscreen-serialized-full-GPU-span; no Present; no display FPS",
-              "formal_duration": args.formal, "warmup_seconds": 30 if args.formal else None,
+              "formal_duration": args.formal, "cuda_event_diagnostics": args.kernel_timing,
+              "warmup_seconds": 30 if args.formal else None,
               "sample_seconds": 60 if args.formal else None, "frames": None if args.formal else 120,
               "warmup_frames": None if args.formal else 60, "camera": args.camera,
               "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
@@ -70,6 +74,8 @@ def main():
                 sample = temporary / (stem + ".csv")
                 command = [str(binary), "--model", str(args.model_root / name), "--backend", backend,
                            "--output", str(sample), "--camera", args.camera]
+                if args.kernel_timing:
+                    command += ["--cuda-events", "on"]
                 if args.formal:
                     command += ["--warmup-seconds", "30", "--sample-seconds", "60"]
                 else:
@@ -89,7 +95,19 @@ def main():
                     record["sample_count"] = len(rows)
                     record["medians"] = {key: statistics.median(float(row[key]) for row in rows) for key in
                                          ["projection_ms", "sort_and_interop_ms", "draw_ms", "gpu_total_ms", "cpu_wall_ms"]}
+                    for key in ["cuda_projection_kernel_ms", "cuda_sort_kernel_ms"]:
+                        if key in rows[0]:
+                            record["medians"][key] = statistics.median(float(row[key]) for row in rows)
                     (output / sample.name).write_bytes(sample.read_bytes())
+                    memory_path = Path(str(sample) + ".memory.csv")
+                    if memory_path.exists():
+                        shutil.copyfile(memory_path, output / memory_path.name)
+                        with memory_path.open(newline="", encoding="utf-8") as source:
+                            memory = list(csv.DictReader(source))
+                        record["memory"] = {"sampled_local_peak_bytes": max(int(r["local_usage"]) for r in memory),
+                                            "sampled_nonlocal_peak_bytes": max(int(r["nonlocal_usage"]) for r in memory),
+                                            "process_peak_private_bytes": max(int(r["peak_private_bytes"]) for r in memory),
+                                            "process_peak_working_set_bytes": max(int(r["peak_working_set"]) for r in memory)}
                     pixels = Path(str(sample) + ".bgra").read_bytes()
                     record["image_sha256"] = hashlib.sha256(pixels).hexdigest()
                     array = np.frombuffer(pixels, dtype=np.uint8).reshape(1080, 1920, 4)
