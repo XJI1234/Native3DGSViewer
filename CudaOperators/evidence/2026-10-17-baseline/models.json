@@ -1,0 +1,281 @@
+{
+  "model_root": "C:\\Users\\21544\\Desktop\\zhishan",
+  "models": [
+    {
+      "relative_path": "changjin_v1.ply",
+      "file_bytes": 40310041,
+      "selected": true,
+      "declared_splats": 170799,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0",
+      "sha256": "7C7CB96BED46540483FDD488544DAB77A6BF512D97621F1D6B02334793637B83"
+    },
+    {
+      "relative_path": "citang_v1.ply",
+      "file_bytes": 499452290,
+      "selected": false,
+      "declared_splats": 2116317,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "danganguan_v1.ply",
+      "file_bytes": 445793678,
+      "selected": false,
+      "declared_splats": 1888950,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "haiwai_v1.ply",
+      "file_bytes": 433795202,
+      "selected": false,
+      "declared_splats": 1838109,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "he_v1.ply",
+      "file_bytes": 701629950,
+      "selected": false,
+      "declared_splats": 2973002,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "J1_v3.ply",
+      "file_bytes": 619503366,
+      "selected": false,
+      "declared_splats": 2625008,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "jiaoxuelou_v2.ply",
+      "file_bytes": 527090014,
+      "selected": false,
+      "declared_splats": 2233426,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "jiulonghu_v1.ply",
+      "file_bytes": 5305366675,
+      "selected": true,
+      "declared_splats": 22480361,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0",
+      "sha256": "BFABDEDB67D3D83DEA046834DFF6B50152DDA3C513EF48037A332671BD155C85"
+    },
+    {
+      "relative_path": "jizhonglou_v2.ply",
+      "file_bytes": 371964618,
+      "selected": false,
+      "declared_splats": 1576115,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "juyuan_v2.ply",
+      "file_bytes": 630125490,
+      "selected": false,
+      "declared_splats": 2670017,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "meiyuan_v2.ply",
+      "file_bytes": 309845170,
+      "selected": false,
+      "declared_splats": 1312897,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "PML_v1.ply",
+      "file_bytes": 201032885,
+      "selected": false,
+      "declared_splats": 851828,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "shengyi_v1.ply",
+      "file_bytes": 189924365,
+      "selected": true,
+      "declared_splats": 804758,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0",
+      "sha256": "31283B07EF49679B5FBE8854669A7A2D948E9CBF76795D4AE4D3057F86683D79"
+    },
+    {
+      "relative_path": "spz/citang_v1.spz",
+      "file_bytes": 42443957,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/danganguan_v1.spz",
+      "file_bytes": 35245308,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/haiwai_v1.spz",
+      "file_bytes": 36505669,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/he_v1.spz",
+      "file_bytes": 51066812,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/J1_v3.spz",
+      "file_bytes": 49594705,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/jiaoxuelou_v2.spz",
+      "file_bytes": 45492204,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/jiulonghu_v1.spz",
+      "file_bytes": 500754282,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/jizhonglou_v2.spz",
+      "file_bytes": 34249121,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/juyuan_v2.spz",
+      "file_bytes": 52605719,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/meiyuan_v2.spz",
+      "file_bytes": 26643637,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/shengyi_v1.spz",
+      "file_bytes": 17927619,
+      "selected": true,
+      "sha256": "FD7AF1E635B7932FC1FC9A19B2C69606C51A5BE0B14ECD62F3FABF9479CA2866"
+    },
+    {
+      "relative_path": "spz/tiyuguan_v1.spz",
+      "file_bytes": 27823984,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/tumu_v1.spz",
+      "file_bytes": 24412867,
+      "selected": true,
+      "sha256": "C2296C3500DADD3FE56EFB76E984F09FD903F04F676A5E71D4D902A819278167"
+    },
+    {
+      "relative_path": "spz/tushuguan_v1.spz",
+      "file_bytes": 29476020,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/wenke_v2.spz",
+      "file_bytes": 37441108,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/xingxi_v1.spz",
+      "file_bytes": 26426747,
+      "selected": false
+    },
+    {
+      "relative_path": "spz/yulin_v1.spz",
+      "file_bytes": 20927268,
+      "selected": false
+    },
+    {
+      "relative_path": "tiyuguan_v1.ply",
+      "file_bytes": 334887130,
+      "selected": false,
+      "declared_splats": 1419007,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "tumu_v1.ply",
+      "file_bytes": 294701758,
+      "selected": true,
+      "declared_splats": 1248730,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0",
+      "sha256": "2B82A22A97254D2D3375F669E4DA15FF8D639DA0169C28297A1CE777E9D3C7F9"
+    },
+    {
+      "relative_path": "tushuguan_v1.ply",
+      "file_bytes": 339554030,
+      "selected": false,
+      "declared_splats": 1438782,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "wenke_v2.ply",
+      "file_bytes": 414690530,
+      "selected": false,
+      "declared_splats": 1757157,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "xingxi_v1.ply",
+      "file_bytes": 308655022,
+      "selected": false,
+      "declared_splats": 1307854,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "yulin_v1.ply",
+      "file_bytes": 242570066,
+      "selected": false,
+      "declared_splats": 1027833,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "zhihuizhimen.ply",
+      "file_bytes": 923849202,
+      "selected": true,
+      "declared_splats": 3914609,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0",
+      "sha256": "D86FA4BE8A412F3B78169CCB3DD25044397FB1D2DD3F275C27497B6B39D3A669"
+    },
+    {
+      "relative_path": "zhishan.ply",
+      "file_bytes": 107458177,
+      "selected": false,
+      "declared_splats": 455325,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "zhishan_cleaned.ply",
+      "file_bytes": 107458177,
+      "selected": false,
+      "declared_splats": 455325,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    },
+    {
+      "relative_path": "zhishan_v3.ply",
+      "file_bytes": 153288197,
+      "selected": false,
+      "declared_splats": 649520,
+      "rest_property_count": 45,
+      "format": "format binary_little_endian 1.0"
+    }
+  ]
+}
