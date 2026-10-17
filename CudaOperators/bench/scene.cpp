@@ -174,6 +174,117 @@ static void upload_span(GpuDevice &gpu, ID3D12Resource *target, uint64_t destina
     }
 }
 
+static void upload_sh_planes(GpuDevice &gpu, ID3D12Resource *target,
+    std::span<const float> values, uint32_t count, uint32_t stride)
+{
+    if (values.size() != uint64_t(count) * stride) throw std::invalid_argument("SH plane upload layout");
+    if (values.empty()) return;
+    constexpr uint64_t page_bytes = 64 * 1024 * 1024;
+    const uint64_t batch_capacity = (std::min)(uint64_t(count), page_bytes / (stride * 4ull));
+    auto staging = gpu.buffer(batch_capacity * stride * 4, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    Commands commands(gpu);
+    for (uint64_t first = 0; first < count; first += batch_capacity)
+    {
+        const uint64_t batch = (std::min)(batch_capacity, count - first);
+        void *mapped = nullptr;
+        D3D12_RANGE empty{};
+        check(staging->Map(0, &empty, &mapped), "SH plane staging map");
+        auto *packed = static_cast<float *>(mapped);
+        for (uint64_t i = 0; i < batch; ++i)
+            for (uint32_t j = 0; j < stride; ++j)
+                packed[j * batch + i] = values[(first + i) * stride + j];
+        staging->Unmap(0, nullptr);
+        commands.reset();
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+        for (uint32_t j = 0; j < stride; ++j)
+            commands.list->CopyBufferRegion(target, (uint64_t(j) * count + first) * 4,
+                staging.Get(), j * batch * 4, batch * 4);
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
+        commands.submit(gpu);
+        gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    }
+}
+
+static void upload_owned_span(cuda_ops::Context &context, cuda_ops::OwnedBuffer &target,
+    uint64_t destination, std::span<const float> values)
+{
+    constexpr uint64_t page_floats = 64 * 1024 * 1024 / sizeof(float);
+    for (uint64_t first = 0; first < values.size(); first += page_floats)
+        target.upload(context, destination + first * sizeof(float),
+            values.subspan(size_t(first), size_t((std::min)(page_floats, values.size() - first))));
+}
+
+static void upload_owned_sh_planes(cuda_ops::Context &context, cuda_ops::OwnedBuffer &target,
+    std::span<const float> values, uint32_t count, uint32_t stride)
+{
+    if (values.size() != uint64_t(count) * stride) throw std::invalid_argument("Owned SH plane layout");
+    if (values.empty()) return;
+    const uint64_t capacity = (std::min)(uint64_t(count), uint64_t{64 * 1024 * 1024} / (stride * 4ull));
+    std::vector<float> staging(capacity * stride);
+    for (uint64_t first = 0; first < count; first += capacity)
+    {
+        const auto batch = (std::min)(capacity, count - first);
+        for (uint64_t i = 0; i < batch; ++i)
+            for (uint32_t j = 0; j < stride; ++j)
+                staging[j * batch + i] = values[(first + i) * stride + j];
+        for (uint32_t j = 0; j < stride; ++j)
+            target.upload(context, (uint64_t(j) * count + first) * 4,
+                std::span<const float>(staging).subspan(size_t(j * batch), size_t(batch)));
+    }
+}
+
+// Post-measurement oracle. A CSV changes only local candidates; a .u32 dump
+// replaces the full permutation. Neither mode is part of a rendering backend.
+static size_t apply_reference_order(const std::filesystem::path &path, std::vector<uint8_t> &indexes,
+    std::span<const uint32_t> candidate_ranks, std::span<const uint32_t> candidate_indexes)
+{
+    const auto count = indexes.size() / 4;
+    if (path.extension() == L".u32")
+    {
+        if (std::filesystem::file_size(path) != indexes.size() || indexes.size() > 256ull * 1024 * 1024)
+            throw std::invalid_argument("Full order reference size mismatch or diagnostic limit");
+        std::vector<uint8_t> order(indexes.size());
+        std::ifstream input(path, std::ios::binary);
+        if (!input.read(reinterpret_cast<char *>(order.data()), std::streamsize(order.size())))
+            throw std::runtime_error("Cannot read full order reference");
+        std::vector<bool> seen(count);
+        for (size_t rank = 0; rank < count; ++rank)
+        {
+            uint32_t index = 0; std::memcpy(&index, order.data() + rank * 4, 4);
+            if (index >= count || seen[index]) throw std::invalid_argument("Full order reference is not a permutation");
+            seen[index] = true;
+        }
+        indexes.swap(order);
+        return count;
+    }
+    if (std::filesystem::file_size(path) > 64ull * 1024 * 1024)
+        throw std::invalid_argument("Order reference exceeds diagnostic limit");
+    std::ifstream input(path);
+    std::string line;
+    if (!std::getline(input, line) || !line.starts_with("rank,index,"))
+        throw std::invalid_argument("Invalid order reference header");
+    std::vector<uint32_t> reference;
+    while (std::getline(input, line))
+    {
+        const auto first = line.find(','), second = line.find(',', first + 1);
+        if (first == std::string::npos || second == std::string::npos || reference.size() >= count)
+            throw std::invalid_argument("Invalid order reference row");
+        const auto field = line.substr(first + 1, second - first - 1);
+        size_t used = 0;
+        const auto index = std::stoull(field, &used);
+        if (used != field.size() || index >= count) throw std::invalid_argument("Invalid reference index");
+        reference.push_back(uint32_t(index));
+    }
+    auto expected = reference;
+    std::vector<uint32_t> actual(candidate_indexes.begin(), candidate_indexes.end());
+    std::sort(expected.begin(), expected.end()); std::sort(actual.begin(), actual.end());
+    if (expected != actual || std::adjacent_find(expected.begin(), expected.end()) != expected.end())
+        throw std::invalid_argument("Order diagnostic candidate sets differ");
+    for (size_t i = 0; i < reference.size(); ++i)
+        std::memcpy(indexes.data() + uint64_t(candidate_ranks[i]) * 4, &reference[i], 4);
+    return reference.size();
+}
+
 int wmain(int argc, wchar_t **argv)
 {
     try
@@ -181,7 +292,7 @@ int wmain(int argc, wchar_t **argv)
         std::map<std::wstring, std::wstring> args;
         const std::vector<std::wstring> accepted{L"--model", L"--backend", L"--frames", L"--warmup-frames",
             L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x", L"--tile-capacity", L"--debug-pixel-x", L"--debug-pixel-y",
-            L"--yaw-degrees", L"--pitch-degrees", L"--dolly-steps"};
+            L"--yaw-degrees", L"--pitch-degrees", L"--dolly-steps", L"--debug-order-reference"};
         for (int i = 1; i < argc; i += 2)
         {
             if (i + 1 >= argc || std::find(accepted.begin(), accepted.end(), argv[i]) == accepted.end() || args.contains(argv[i]))
@@ -198,16 +309,25 @@ int wmain(int argc, wchar_t **argv)
             return value;
         };
         const auto backend = get(L"--backend", L"d3d12");
-        const std::vector<std::wstring> backends{L"d3d12", L"d3d12-queued", L"interop-noop", L"cuda-sort", L"cuda-sort-graph", L"cuda-sort-queued", L"cuda-sort-graph-queued", L"cuda-project-128",
+        const std::vector<std::wstring> backends{L"d3d12", L"d3d12-queued", L"interop-noop", L"cuda-sort", L"cuda-sort-i32", L"cuda-sort-i32-queued", L"cuda-sort-graph", L"cuda-sort-queued", L"cuda-sort-graph-queued", L"cuda-project-128",
             L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets",
             L"cuda-project-256-rcp", L"cuda-project-256-rsqrt", L"cuda-project-256-rcp-rsqrt",
             L"cuda-project-sort-256-rcp", L"cuda-project-sort-256-rsqrt", L"cuda-project-sort-256-rcp-rsqrt",
+            L"cuda-project-warp-256", L"cuda-project-sort-warp-256",
+            L"cuda-project-plane-256", L"cuda-project-sort-plane-256",
+            L"cuda-project-owned-256", L"cuda-project-owned-plane-256",
+            L"cuda-project-sort-owned-256", L"cuda-project-sort-owned-plane-256",
+            L"cuda-project-sort-owned-plane-256-queued",
             L"cuda-tile-list-8", L"cuda-tile-list-16", L"cuda-tile-count-8", L"cuda-tile-count-16",
             L"cuda-tile-exact-8", L"cuda-tile-exact-16", L"cuda-tile-unorm-8", L"cuda-tile-unorm-16",
             L"hlsl-tile-exact-8", L"hlsl-tile-exact-16", L"hlsl-tile-unorm-8", L"hlsl-tile-unorm-16",
             L"cuda-tile-front-16", L"cuda-tile-early5-16", L"cuda-tile-early4-16", L"cuda-tile-graph-16", L"cuda-tile-early4-graph-16"};
         if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
         const bool interop = !backend.starts_with(L"d3d12"), cuda_projection = backend.starts_with(L"cuda-project");
+        const bool owned_inputs = backend.find(L"owned") != std::wstring::npos;
+        if (args.contains(L"--debug-order-reference") && (!cuda_projection ||
+            !args.contains(L"--debug-pixel-x") || !args.contains(L"--debug-pixel-y")))
+            throw std::invalid_argument("Order diagnostic requires CUDA projection and both pixel coordinates");
         const uint32_t slot_count = backend.ends_with(L"queued") ? 3u : 1u;
         const bool cuda_compact = backend.starts_with(L"cuda-compact");
         const bool hlsl_tile = backend.starts_with(L"hlsl-tile");
@@ -215,6 +335,10 @@ int wmain(int argc, wchar_t **argv)
         const bool tile_composite = cuda_tile && !tile_count_only && !backend.starts_with(L"cuda-tile-list");
         const bool cuda_sort = backend.starts_with(L"cuda-sort") || backend.starts_with(L"cuda-project-sort") || cuda_compact || cuda_tile;
         const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
+        const auto counters = backend.find(L"warp") != std::wstring::npos ?
+            cuda_ops::ProjectCounters::WarpAggregated : cuda_ops::ProjectCounters::Scalar;
+        const auto sh_layout = backend.find(L"plane") != std::wstring::npos ?
+            cuda_ops::ShLayout::PlaneMajor : cuda_ops::ShLayout::Interleaved;
         const auto math = backend.ends_with(L"rcp-rsqrt") ? cuda_ops::ProjectMath::FactoredAndRsqrt :
             backend.ends_with(L"rsqrt") ? cuda_ops::ProjectMath::ReciprocalSqrt :
             backend.ends_with(L"rcp") ? cuda_ops::ProjectMath::FactoredReciprocal : cuda_ops::ProjectMath::Reference;
@@ -266,7 +390,8 @@ int wmain(int argc, wchar_t **argv)
             context = std::make_unique<cuda_ops::Context>(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
             if (cuda_compact) compact = std::make_unique<cuda_ops::CompactWorkspace>(*context, uint32_t(scene->count),
                 backend == L"cuda-compact-buckets" ? cuda_ops::CompactMode::DeviceBuckets : cuda_ops::CompactMode::FullCapacity);
-            else if (cuda_sort) workspace = std::make_unique<cuda_ops::SortWorkspace>(*context, uint32_t(scene->count), backend.starts_with(L"cuda-sort-graph"));
+            else if (cuda_sort) workspace = std::make_unique<cuda_ops::SortWorkspace>(*context, uint32_t(scene->count), backend.starts_with(L"cuda-sort-graph"),
+                backend.starts_with(L"cuda-sort-i32") ? cuda_ops::SortOffsets::Int32 : cuda_ops::SortOffsets::Int64);
             if (event_mode == L"on") events = std::make_unique<KernelEvents>();
         }
         SplatPass pass(gpu, quality);
@@ -314,6 +439,7 @@ int wmain(int argc, wchar_t **argv)
         auto model = upload.scene;
         memory.sample("native_uploaded");
         std::array<std::unique_ptr<cuda_ops::SharedBuffer>, 8> shared;
+        std::unique_ptr<cuda_ops::OwnedBuffer> owned_attributes, owned_sh;
         const uint32_t mutable_buffers = cuda_projection || cuda_tile ? 6 : 4;
         Commands producer(gpu), consumer(gpu);
         if (interop)
@@ -333,14 +459,38 @@ int wmain(int argc, wchar_t **argv)
                 // Re-upload canonical CPU spans before timing. Release original input
                 // allocations first to avoid doubling a 4GB SH buffer on the 10GB GPU.
                 model->attributes.Reset(); model->sh_attributes.Reset();
-                shared[6] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * 56);
-                shared[7] = std::make_unique<cuda_ops::SharedBuffer>(*context,
-                    (std::max)(uint64_t{4}, uint64_t(model->count) * model->sh_floats_per_splat * 4));
+                const auto attribute_bytes = uint64_t(model->count) * 56;
+                const auto sh_bytes = (std::max)(uint64_t{4}, uint64_t(model->count) * model->sh_floats_per_splat * 4);
+                if (owned_inputs)
+                {
+                    owned_attributes = std::make_unique<cuda_ops::OwnedBuffer>(*context, attribute_bytes);
+                    owned_sh = std::make_unique<cuda_ops::OwnedBuffer>(*context, sh_bytes);
+                    // The quad draw only reads projected ellipses and indexes.
+                    // Keep its unused root SRVs valid without importing inputs.
+                    model->attributes = gpu.buffer(4, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_GENERIC_READ);
+                }
+                else
+                {
+                    shared[6] = std::make_unique<cuda_ops::SharedBuffer>(*context, attribute_bytes);
+                    shared[7] = std::make_unique<cuda_ops::SharedBuffer>(*context, sh_bytes);
+                    model->attributes = shared[6]->resource();
+                    if (model->sh_floats_per_splat) model->sh_attributes = shared[7]->resource();
+                }
                 const std::array spans{scene->centerLocal, scene->scale, scene->rotation, scene->opacity, scene->rgb0};
-                for (int i = 0; i < 5; ++i) upload_span(gpu, shared[6]->resource(), model->offsets[i], spans[i]);
-                upload_span(gpu, shared[7]->resource(), 0, scene->shRest);
-                model->attributes = shared[6]->resource();
-                if (model->sh_floats_per_splat) model->sh_attributes = shared[7]->resource();
+                for (int i = 0; i < 5; ++i)
+                    if (owned_inputs) upload_owned_span(*context, *owned_attributes, model->offsets[i], spans[i]);
+                    else upload_span(gpu, shared[6]->resource(), model->offsets[i], spans[i]);
+                const auto sh_upload_start = Clock::now();
+                if (owned_inputs)
+                {
+                    if (sh_layout == cuda_ops::ShLayout::PlaneMajor)
+                        upload_owned_sh_planes(*context, *owned_sh, scene->shRest, model->count, model->sh_floats_per_splat);
+                    else upload_owned_span(*context, *owned_sh, 0, scene->shRest);
+                }
+                else if (sh_layout == cuda_ops::ShLayout::PlaneMajor)
+                    upload_sh_planes(gpu, shared[7]->resource(), scene->shRest, model->count, model->sh_floats_per_splat);
+                else upload_span(gpu, shared[7]->resource(), 0, scene->shRest);
+                std::cout << "sh_upload_seconds=" << seconds(sh_upload_start) << " staging_limit_bytes=67108864\n";
             }
             producer.reset();
             for (uint32_t i = 0; i < mutable_buffers; ++i) transition(producer.list.Get(), shared[i]->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
@@ -426,8 +576,14 @@ int wmain(int argc, wchar_t **argv)
                     producer.submit(gpu);
                     context->begin(gpu.direct.Get());
                     if (events) events->mark(*context, 0);
-                    if (cuda_projection) cuda_ops::project(*context, pass.constants(*model, viewport),
-                        *shared[6], *shared[7], *shared[4], *shared[0], *shared[2], *shared[5], block_size, math);
+                    if (cuda_projection)
+                    {
+                        const auto constants = pass.constants(*model, viewport);
+                        if (owned_inputs) cuda_ops::project(*context, constants, *owned_attributes, *owned_sh,
+                            *shared[4], *shared[0], *shared[2], *shared[5], block_size, math, counters, sh_layout);
+                        else cuda_ops::project(*context, constants, *shared[6], *shared[7],
+                            *shared[4], *shared[0], *shared[2], *shared[5], block_size, math, counters, sh_layout);
+                    }
                     if (events) events->mark(*context, 1);
                     if (compact) selected = compact->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
                     else if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
@@ -482,8 +638,14 @@ int wmain(int argc, wchar_t **argv)
             if (!args.contains(L"--debug-pixel-x") || !args.contains(L"--debug-pixel-y")) throw std::invalid_argument("Both debug pixel coordinates required");
             const auto x = number(L"--debug-pixel-x", L"0", 1919) + .5, y = number(L"--debug-pixel-y", L"0", 1079) + .5;
             const auto ellipses = gpu.readback(model->projected.Get(), uint64_t(model->count) * sizeof(ProjectedEllipse), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-            const auto indexes = gpu.readback(model->sorting.values[last_selector].Get(), uint64_t(model->count) * 4, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-            std::ofstream debug(output_path.string() + ".pixel.csv"); debug << std::setprecision(12) << "rank,index,cx,cy,a0x,a0y,a1x,a1y,r,g,b,a\n";
+            auto indexes = gpu.readback(model->sorting.values[last_selector].Get(), uint64_t(model->count) * 4, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            std::ofstream order_dump(output_path.string() + ".indexes.u32", std::ios::binary);
+            order_dump.write(reinterpret_cast<const char *>(indexes.data()), std::streamsize(indexes.size()));
+            if (!order_dump) throw std::runtime_error("Cannot write full order diagnostic");
+            order_dump.close();
+            const auto keys = gpu.readback(model->sorting.keys[last_selector].Get(), uint64_t(model->count) * 4, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            std::vector<uint32_t> candidate_ranks, candidate_indexes;
+            std::ofstream debug(output_path.string() + ".pixel.csv"); debug << std::setprecision(12) << "rank,index,key,cx,cy,a0x,a0y,a1x,a1y,r,g,b,a\n";
             for (uint32_t rank = 0; rank < model->count; ++rank)
             {
                 uint32_t index = 0; std::memcpy(&index, indexes.data() + uint64_t(rank) * 4, 4);
@@ -491,11 +653,36 @@ int wmain(int argc, wchar_t **argv)
                 ProjectedEllipse e{}; std::memcpy(&e, ellipses.data() + uint64_t(index) * sizeof(e), sizeof(e));
                 if (e.color[3] <= 0 || std::abs(e.center[0] - x) > std::abs(e.axis0[0]) + std::abs(e.axis1[0]) + 1 ||
                     std::abs(e.center[1] - y) > std::abs(e.axis0[1]) + std::abs(e.axis1[1]) + 1) continue;
-                debug << rank << ',' << index;
+                candidate_ranks.push_back(rank); candidate_indexes.push_back(index);
+                uint32_t key = 0; std::memcpy(&key, keys.data() + uint64_t(rank) * 4, 4);
+                debug << rank << ',' << index << ',' << key;
                 for (const auto value : {e.center[0], e.center[1], e.axis0[0], e.axis0[1], e.axis1[0], e.axis1[1], e.color[0], e.color[1], e.color[2], e.color[3]}) debug << ',' << value;
                 debug << '\n';
             }
             if (!debug) throw std::runtime_error("Debug pixel output failed");
+            if (args.contains(L"--debug-order-reference"))
+            {
+                // Post-measurement causal probe only, preserving CUDA ellipses.
+                // This CPU readback/permutation is never an acceleration path.
+                const auto changed = apply_reference_order(std::filesystem::path(args.at(L"--debug-order-reference")),
+                    indexes, candidate_ranks, candidate_indexes);
+                auto staging = gpu.buffer(indexes.size(), D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+                void *mapped = nullptr; D3D12_RANGE empty{};
+                check(staging->Map(0, &empty, &mapped), "Order diagnostic staging");
+                std::memcpy(mapped, indexes.data(), indexes.size()); staging->Unmap(0, nullptr);
+                Commands commands(gpu); commands.reset();
+                auto *sorted = model->sorting.values[last_selector].Get();
+                transition(commands.list.Get(), sorted, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_DEST);
+                commands.list->CopyBufferRegion(sorted, 0, staging.Get(), 0, indexes.size());
+                transition(commands.list.Get(), sorted, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                const float clear[4]{}; commands.list->ClearRenderTargetView(handle, clear, 0, nullptr);
+                if (last_selector) std::swap(model->sorting.values[0], model->sorting.values[1]);
+                pass.draw(commands.list.Get(), *model, viewport, handle);
+                if (last_selector) std::swap(model->sorting.values[0], model->sorting.values[1]);
+                commands.submit(gpu); gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+                capture(gpu, target.Get(), output_path.string() + ".order-corrected.bgra");
+                std::cout << "post_measurement_order_probe_candidates=" << changed << '\n';
+            }
         }
         if (tiles)
         {

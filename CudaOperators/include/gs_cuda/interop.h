@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <cstdint>
 #include <memory>
+#include <span>
 
 #ifdef GS_CUDA_EXPORTS
 #define GS_CUDA_API __declspec(dllexport)
@@ -14,6 +15,7 @@ namespace gs::cuda_ops
 struct ContextState;
 class SharedBuffer;
 class SharedTexture;
+class OwnedBuffer;
 
 class GS_CUDA_API Context
 {
@@ -29,11 +31,13 @@ class GS_CUDA_API Context
     // Single submission thread; first begin binds one device queue for life.
     bool owns(const SharedBuffer &) const;
     bool owns(const SharedTexture &) const;
+    bool owns(const OwnedBuffer &) const;
 
   private:
     std::shared_ptr<ContextState> state_;
     friend class SharedBuffer;
     friend class SharedTexture;
+    friend class OwnedBuffer;
 };
 
 class GS_CUDA_API SharedBuffer
@@ -54,6 +58,25 @@ class GS_CUDA_API SharedBuffer
 };
 
 GS_CUDA_API void fill_u32(Context &, SharedBuffer &, uint32_t value, uint32_t count);
+
+// CUDA-only storage. Upload during loading, with no in-flight readers/writers;
+// the source span may be released after this synchronous upload returns.
+class GS_CUDA_API OwnedBuffer
+{
+  public:
+    OwnedBuffer(Context &, uint64_t bytes);
+    ~OwnedBuffer();
+    OwnedBuffer(const OwnedBuffer &) = delete;
+    OwnedBuffer &operator=(const OwnedBuffer &) = delete;
+    void upload(Context &, uint64_t destination, std::span<const float>);
+    void *device_pointer() const;
+    uint64_t bytes() const;
+
+  private:
+    friend class Context;
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
 
 class GS_CUDA_API SharedTexture
 {

@@ -3,13 +3,14 @@
 #include <gtest/gtest.h>
 #include <chrono>
 #include <cstring>
+#include <vector>
 
 using namespace gs::cuda_ops;
 using namespace gs::render::detail;
 
-TEST(CudaLifecycle, RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth)
+static void verify_lifetimes(bool debug)
 {
-    GpuDevice gpu;
+    GpuDevice gpu(debug);
     auto cycle = [&] {
         Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
         SharedBuffer buffer(context, 4096);
@@ -29,6 +30,33 @@ TEST(CudaLifecycle, RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrow
     ASSERT_TRUE(GetProcessHandleCount(GetCurrentProcess(), &after));
     EXPECT_LE(after, before + 4) << "before=" << before << " after=" << after;
     EXPECT_TRUE(gpu.debug_errors().empty());
+}
+
+TEST(CudaLifecycle, RepeatsHundredContextBufferTextureLifetimesWithoutHandleGrowth)
+{
+    verify_lifetimes(false);
+}
+
+TEST(CudaLifecycle, RepeatsHundredDebugContextBufferTextureLifetimesWithoutHandleGrowth)
+{
+    verify_lifetimes(true);
+}
+
+TEST(CudaLifecycle, RepeatsHundredOwnedInputLifetimesWithoutHandleGrowth)
+{
+    GpuDevice gpu;
+    Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
+    const std::vector<float> values(1024, .125f);
+    auto cycle = [&] {
+        OwnedBuffer attributes(context, values.size() * sizeof(float));
+        attributes.upload(context, 0, values);
+    };
+    for (int i = 0; i < 5; ++i) cycle();
+    DWORD before = 0, after = 0;
+    ASSERT_TRUE(GetProcessHandleCount(GetCurrentProcess(), &before));
+    for (int i = 0; i < 100; ++i) cycle();
+    ASSERT_TRUE(GetProcessHandleCount(GetCurrentProcess(), &after));
+    EXPECT_LE(after, before + 4) << "before=" << before << " after=" << after;
 }
 
 TEST(CudaLifecycle, ReportsBoundedTimeoutAndRecoversAfterInjectedQueueStall)

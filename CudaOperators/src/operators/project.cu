@@ -1,5 +1,6 @@
 #include "gs_cuda/project.h"
 #include <cuda_runtime.h>
+#include <cooperative_groups.h>
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
@@ -45,8 +46,18 @@ __device__ V3 to_view(const FrameConstants &c, V3 p)
             dot({c.view_rows[8], c.view_rows[9], c.view_rows[10]}, p)};
 }
 __device__ V3 rotate(V3 q, float w, V3 p) { return p + cross(q, cross(q, p) + p * w) * 2; }
-__device__ void reject(DrawCounters *arguments) { atomicAdd(&arguments->rejected, 1u); }
-__device__ V3 sh_color(V3 rgb, V3 dir, const float *sh, uint32_t stride, uint32_t degree, uint32_t i)
+template<bool warp> __device__ void increment(uint32_t *counter)
+{
+    if constexpr (warp)
+    {
+        const auto group = cooperative_groups::coalesced_threads();
+        if (group.thread_rank() == 0) atomicAdd(counter, uint32_t(group.size()));
+    }
+    else atomicAdd(counter, 1u);
+}
+template<bool warp> __device__ void reject(DrawCounters *arguments) { increment<warp>(&arguments->rejected); }
+template<bool plane> __device__ V3 sh_color(V3 rgb, V3 dir, const float *sh, uint32_t stride,
+    uint32_t degree, uint32_t i, uint32_t count)
 {
     const float x = dir.x, y = dir.y, z = dir.z;
     // Same real SH convention and coefficient ordering as shaders/splat.hlsl.
@@ -62,12 +73,20 @@ __device__ V3 sh_color(V3 rgb, V3 dir, const float *sh, uint32_t stride, uint32_
     const uint32_t n = (degree + 1) * (degree + 1) - 1;
     for (uint32_t j = 0; j < n; ++j)
     {
-        const float *p = sh + uint64_t(i) * stride + j * 3;
-        rgb = rgb + V3{p[0], p[1], p[2]} * b[j];
+        if constexpr (plane)
+        {
+            const float *p = sh + uint64_t(j * 3) * count + i;
+            rgb = rgb + V3{p[0], p[count], p[uint64_t(count) * 2]} * b[j];
+        }
+        else
+        {
+            const float *p = sh + uint64_t(i) * stride + j * 3;
+            rgb = rgb + V3{p[0], p[1], p[2]} * b[j];
+        }
     }
     return {fminf(1, fmaxf(0, rgb.x)), fminf(1, fmaxf(0, rgb.y)), fminf(1, fmaxf(0, rgb.z))};
 }
-template<int math> __global__ void project_kernel(FrameConstants c, const float *data, const float *sh,
+template<int math, bool warp, bool plane> __global__ void project_kernel(FrameConstants c, const float *data, const float *sh,
     ProjectedEllipse *ellipses, uint32_t *keys, uint32_t *indexes, DrawCounters *arguments)
 {
     const uint32_t i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -83,7 +102,7 @@ template<int math> __global__ void project_kernel(FrameConstants c, const float 
     const float support = fmaxf(s.x, fmaxf(s.y, s.z)) * c.quality[0], depth = -p.z;
     if (!finite(p) || !finite(s) || s.x <= 0 || s.y <= 0 || s.z <= 0 || !finite(q) || !isfinite(w) ||
         fabsf(dot(q, q) + w * w - 1) > .001f || !isfinite(alpha) || alpha < 0 || alpha > 1)
-    { reject(arguments); return; }
+    { reject<warp>(arguments); return; }
     if (alpha <= c.quality[1] || depth + support < c.clip[0] || depth - support > c.clip[1]) return;
     const float d = fmaxf(depth, c.clip[0]);
     const V3 jx{c.viewport[0] / d, 0, c.viewport[0] * p.x / (d * d)};
@@ -94,7 +113,7 @@ template<int math> __global__ void project_kernel(FrameConstants c, const float 
     const V3 tx{dot(jx, a0), dot(jx, a1), dot(jx, a2)}, ty{dot(jy, a0), dot(jy, a1), dot(jy, a2)};
     const float xx = dot(tx, tx) + c.quality[2], yy = dot(ty, ty) + c.quality[2], xy = dot(tx, ty);
     const float scale = fmaxf(xx, yy);
-    if (!isfinite(scale) || scale <= 0) { reject(arguments); return; }
+    if (!isfinite(scale) || scale <= 0) { reject<warp>(arguments); return; }
     const float xxn = xx / scale, yyn = yy / scale, xyn = xy / scale;
     const float diff = (xxn - yyn) * .5f;
     const float major_normalized = (xxn + yyn) * .5f + sqrtf(diff * diff + xyn * xyn);
@@ -104,7 +123,7 @@ template<int math> __global__ void project_kernel(FrameConstants c, const float 
     const float blur = c.quality[2] / scale;
     const float determinant = dot(gram, gram) + blur * (xxn + yyn - blur);
     const float major = scale * major_normalized, minor = scale * (determinant / major_normalized);
-    if (!isfinite(major) || !isfinite(minor) || minor <= 0) { reject(arguments); return; }
+    if (!isfinite(major) || !isfinite(minor) || minor <= 0) { reject<warp>(arguments); return; }
     float ax = xx >= yy ? 1.f : 0.f, ay = xx >= yy ? 0.f : 1.f;
     if (fabsf(xyn) > 1e-10f)
     {
@@ -122,16 +141,16 @@ template<int math> __global__ void project_kernel(FrameConstants c, const float 
     if (e.center[0] + ex < 0 || e.center[1] + ey < 0 || e.center[0] - ex > c.viewport[2] || e.center[1] - ey > c.viewport[3])
     { ellipses[i] = e; return; }
     const float largest = fmaxf(fabsf(delta.x), fmaxf(fabsf(delta.y), fabsf(delta.z)));
-    if (c.meta[3] == 0 && largest > 1e19f) { reject(arguments); return; }
+    if (c.meta[3] == 0 && largest > 1e19f) { reject<warp>(arguments); return; }
     const float metric = c.meta[3] == 0 ? dot(delta, delta) : fmaxf(depth, 0);
-    if (!isfinite(metric)) { reject(arguments); return; }
+    if (!isfinite(metric)) { reject<warp>(arguments); return; }
     const V3 direction = largest > 0 ? normalize<math>(divide<math>(delta, largest)) : V3{0, 0, 1};
-    const V3 rgb = sh_color(load3(data, c.offsets[4], i), direction, sh, c.meta[2], c.meta[1], i);
+    const V3 rgb = sh_color<plane>(load3(data, c.offsets[4], i), direction, sh, c.meta[2], c.meta[1], i, c.meta[0]);
     e.color[0] = rgb.x; e.color[1] = rgb.y; e.color[2] = rgb.z; e.color[3] = alpha;
     ellipses[i] = e;
     keys[i] = ~__float_as_uint(metric);
     if (keys[i] == UINT32_MAX) keys[i] = UINT32_MAX - 1;
-    atomicAdd(&arguments->instance_count, 1u);
+    increment<warp>(&arguments->instance_count);
 }
 __global__ void reset(DrawCounters *arguments) { *arguments = {4, 0, 0, 0, 0}; }
 void checked(cudaError_t error)
@@ -140,15 +159,17 @@ void checked(cudaError_t error)
 }
 }
 
-void project(Context &context, const FrameConstants &c, SharedBuffer &attributes, SharedBuffer &sh,
-    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments, uint32_t block_size, ProjectMath math)
+static void project_impl(Context &context, const FrameConstants &c,
+    const void *attributes, uint64_t attribute_bytes, const void *sh, uint64_t sh_bytes,
+    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments, uint32_t block_size,
+    ProjectMath math, ProjectCounters counter_mode, ShLayout layout)
 {
-    SharedBuffer *buffers[]{&attributes, &sh, &ellipses, &keys, &indexes, &arguments};
+    SharedBuffer *buffers[]{&ellipses, &keys, &indexes, &arguments};
     for (auto *buffer : buffers)
         if (!context.owns(*buffer)) throw std::invalid_argument("Foreign projection buffer");
     if ((block_size != 128 && block_size != 256) || c.meta[1] > 3 ||
         c.meta[2] < 3 * ((c.meta[1] + 1) * (c.meta[1] + 1) - 1) || c.meta[3] > 1 ||
-        !std::isfinite(c.clip[0]) || c.clip[0] <= 0 || uint32_t(math) > 3)
+        !std::isfinite(c.clip[0]) || c.clip[0] <= 0 || uint32_t(math) > 3 || uint32_t(counter_mode) > 1 || uint32_t(layout) > 1)
         throw std::invalid_argument("Invalid projection layout or launch configuration");
     const uint64_t count = c.meta[0];
     for (auto pair : {std::pair{&ellipses, count * sizeof(ProjectedEllipse)},
@@ -157,21 +178,29 @@ void project(Context &context, const FrameConstants &c, SharedBuffer &attributes
         if (pair.first->bytes() < pair.second) throw std::out_of_range("Projection output capacity");
     const uint32_t sizes[]{12, 12, 16, 4, 12};
     for (uint32_t field = 0; field < 5; ++field)
-        if (c.offsets[field] % 4 || uint64_t(c.offsets[field]) + count * sizes[field] > attributes.bytes())
+        if (c.offsets[field] % 4 || uint64_t(c.offsets[field]) + count * sizes[field] > attribute_bytes)
             throw std::out_of_range("Projection attribute capacity or alignment");
-    if (count * c.meta[2] * 4 > sh.bytes()) throw std::out_of_range("Projection SH capacity");
-    for (int i = 0; i < 6; ++i) for (int j = i + 1; j < 6; ++j)
+    if (count * c.meta[2] * 4 > sh_bytes) throw std::out_of_range("Projection SH capacity");
+    for (int i = 0; i < 4; ++i) for (int j = i + 1; j < 4; ++j)
         if (buffers[i] == buffers[j]) throw std::invalid_argument("Aliased projection buffers");
     auto stream = static_cast<cudaStream_t>(context.native_stream());
     auto *counters = static_cast<DrawCounters *>(arguments.device_pointer());
     reset<<<1, 1, 0, stream>>>(counters);
     checked(cudaGetLastError());
     if (!count) return;
-    const auto launch = [&]<int mode>() {
-        project_kernel<mode><<<uint32_t((count + block_size - 1) / block_size), block_size, 0, stream>>>(c,
-            static_cast<const float *>(attributes.device_pointer()), static_cast<const float *>(sh.device_pointer()),
+    const auto launch_kernel = [&]<int mode, bool warp, bool plane>() {
+        project_kernel<mode, warp, plane><<<uint32_t((count + block_size - 1) / block_size), block_size, 0, stream>>>(c,
+            static_cast<const float *>(attributes), static_cast<const float *>(sh),
             static_cast<ProjectedEllipse *>(ellipses.device_pointer()), static_cast<uint32_t *>(keys.device_pointer()),
             static_cast<uint32_t *>(indexes.device_pointer()), counters);
+    };
+    const auto launch_layout = [&]<int mode, bool warp>() {
+        if (layout == ShLayout::PlaneMajor) launch_kernel.operator()<mode, warp, true>();
+        else launch_kernel.operator()<mode, warp, false>();
+    };
+    const auto launch = [&]<int mode>() {
+        if (counter_mode == ProjectCounters::WarpAggregated) launch_layout.operator()<mode, true>();
+        else launch_layout.operator()<mode, false>();
     };
     switch (math)
     {
@@ -181,5 +210,27 @@ void project(Context &context, const FrameConstants &c, SharedBuffer &attributes
     case ProjectMath::FactoredAndRsqrt: launch.operator()<3>(); break;
     }
     checked(cudaGetLastError());
+}
+
+void project(Context &context, const FrameConstants &c, SharedBuffer &attributes, SharedBuffer &sh,
+    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments,
+    uint32_t block_size, ProjectMath math, ProjectCounters counters, ShLayout layout)
+{
+    if (!context.owns(attributes) || !context.owns(sh)) throw std::invalid_argument("Foreign projection input");
+    if (&attributes == &sh) throw std::invalid_argument("Aliased projection inputs");
+    for (auto *output : {&ellipses, &keys, &indexes, &arguments})
+        if (output == &attributes || output == &sh) throw std::invalid_argument("Aliased projection buffers");
+    project_impl(context, c, attributes.device_pointer(), attributes.bytes(), sh.device_pointer(), sh.bytes(),
+        ellipses, keys, indexes, arguments, block_size, math, counters, layout);
+}
+
+void project(Context &context, const FrameConstants &c, OwnedBuffer &attributes, OwnedBuffer &sh,
+    SharedBuffer &ellipses, SharedBuffer &keys, SharedBuffer &indexes, SharedBuffer &arguments,
+    uint32_t block_size, ProjectMath math, ProjectCounters counters, ShLayout layout)
+{
+    if (!context.owns(attributes) || !context.owns(sh)) throw std::invalid_argument("Foreign projection input");
+    if (&attributes == &sh) throw std::invalid_argument("Aliased projection inputs");
+    project_impl(context, c, attributes.device_pointer(), attributes.bytes(), sh.device_pointer(), sh.bytes(),
+        ellipses, keys, indexes, arguments, block_size, math, counters, layout);
 }
 }

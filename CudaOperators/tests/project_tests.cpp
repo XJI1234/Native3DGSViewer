@@ -51,14 +51,25 @@ struct Fixture
         const uint32_t stride[]{3, 3, 4, 1, 3};
         attributes[constants.offsets[field] / 4 + i * stride[field] + component] = value;
     }
-    void run(uint32_t block_size, ProjectMath math = ProjectMath::Reference)
+    void run(uint32_t block_size, ProjectMath math = ProjectMath::Reference,
+        ProjectCounters counters = ProjectCounters::Scalar, ShLayout layout = ShLayout::Interleaved,
+        bool owned_inputs = false)
     {
         auto upload = gpu.buffer(input.bytes() + harmonics.bytes(), D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
         void *mapped = nullptr;
         D3D12_RANGE empty{};
         check(upload->Map(0, &empty, &mapped), "Project test upload");
         std::memcpy(mapped, attributes.data(), size_t(input.bytes()));
-        std::memcpy(static_cast<uint8_t *>(mapped) + input.bytes(), sh.data(), size_t(harmonics.bytes()));
+        auto *uploaded_sh = reinterpret_cast<float *>(static_cast<uint8_t *>(mapped) + input.bytes());
+        std::vector<float> packed_sh(sh.size());
+        if (layout == ShLayout::PlaneMajor)
+        {
+            for (uint32_t i = 0; i < constants.meta[0]; ++i)
+                for (uint32_t j = 0; j < constants.meta[2]; ++j)
+                    packed_sh[uint64_t(j) * constants.meta[0] + i] = sh[i * 45 + j];
+        }
+        else packed_sh = sh;
+        std::memcpy(uploaded_sh, packed_sh.data(), size_t(harmonics.bytes()));
         upload->Unmap(0, nullptr);
         ComPtr<ID3D12CommandAllocator> allocator;
         ComPtr<ID3D12GraphicsCommandList> list;
@@ -75,7 +86,17 @@ struct Fixture
         check(list->Close(), "Project close");
         gpu.submit(gpu.direct.Get(), list.Get(), gpu.direct_fence.Get(), gpu.direct_value);
         context.begin(gpu.direct.Get());
-        gs::cuda_ops::project(context, constants, input, harmonics, output, keys, indexes, arguments, block_size, math);
+        std::unique_ptr<OwnedBuffer> owned_attributes, owned_sh;
+        if (owned_inputs)
+        {
+            owned_attributes = std::make_unique<OwnedBuffer>(context, input.bytes());
+            owned_sh = std::make_unique<OwnedBuffer>(context, harmonics.bytes());
+            owned_attributes->upload(context, 0, attributes);
+            owned_sh->upload(context, 0, packed_sh);
+            gs::cuda_ops::project(context, constants, *owned_attributes, *owned_sh,
+                output, keys, indexes, arguments, block_size, math, counters, layout);
+        }
+        else gs::cuda_ops::project(context, constants, input, harmonics, output, keys, indexes, arguments, block_size, math, counters, layout);
         context.end(gpu.direct.Get());
         check(gpu.direct->Signal(gpu.direct_fence.Get(), ++gpu.direct_value), "Project completion");
         gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
@@ -190,6 +211,12 @@ TEST(CudaProject, ValidatesLayoutCapacityAndLaunchSize)
     auto submit = [&](uint32_t block) { gs::cuda_ops::project(f.context, f.constants, f.input, f.harmonics,
         f.output, f.keys, f.indexes, f.arguments, block); };
     EXPECT_THROW(submit(64), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, f.input, f.harmonics,
+        f.output, f.keys, f.indexes, f.arguments, 256, ProjectMath::Reference,
+        static_cast<ProjectCounters>(99)), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, f.input, f.harmonics,
+        f.output, f.keys, f.indexes, f.arguments, 256, ProjectMath::Reference,
+        ProjectCounters::Scalar, static_cast<ShLayout>(99)), std::invalid_argument);
     f.constants.meta[1] = 4;
     EXPECT_THROW(submit(256), std::invalid_argument);
     f.constants.meta[1] = 0;
@@ -256,6 +283,137 @@ TEST(CudaProject, EmptyFrameResetsCounters)
     EXPECT_EQ(counters.vertices_per_instance, 4u);
     EXPECT_EQ(counters.instance_count, 0u);
     EXPECT_EQ(counters.rejected, 0u);
+}
+
+TEST(CudaProject, WarpCountersPreserveDivergentOutputsAndTailLanes)
+{
+    Fixture f;
+    f.constants.meta[1] = 3;
+    for (uint32_t i = 0; i < Fixture::count; ++i)
+    {
+        // Divergent lanes reach early rejection, ordinary culling, late numeric
+        // rejection and the visible counter. Include nonzero SH in every lane.
+        switch (i % 7)
+        {
+        case 0: f.set(0, i, 0, std::numeric_limits<float>::quiet_NaN()); break;
+        case 1: f.set(3, i, 0, 0); break;
+        case 2: f.set(0, i, 2, -200); break;
+        case 3: f.set(0, i, 0, 10000); break;
+        case 4: f.set(1, i, 0, 1e30f); break;
+        default: break;
+        }
+        for (uint32_t j = 0; j < 45; ++j) f.sh[i * 45 + j] = float((i + j) % 13) * .001f;
+    }
+    for (uint32_t block : {128u, 256u})
+    for (uint32_t count : {0u, 1u, 31u, 32u, 33u, 127u, 128u, 129u, 511u, 512u, 513u})
+    {
+        SCOPED_TRACE(::testing::Message() << "block=" << block << " count=" << count);
+        f.constants.meta[0] = count;
+        f.run(block);
+        auto ellipses = f.read<ProjectedEllipse>(f.output);
+        auto keys = f.read<uint32_t>(f.keys), indexes = f.read<uint32_t>(f.indexes);
+        auto counters = f.read<DrawCounters>(f.arguments);
+        f.run(block, ProjectMath::Reference, ProjectCounters::WarpAggregated);
+        const auto actual = f.read<ProjectedEllipse>(f.output);
+        EXPECT_EQ(std::memcmp(ellipses.data(), actual.data(), count * sizeof(ProjectedEllipse)), 0);
+        auto actual_keys = f.read<uint32_t>(f.keys), actual_indexes = f.read<uint32_t>(f.indexes);
+        EXPECT_TRUE(std::equal(keys.begin(), keys.begin() + count, actual_keys.begin()));
+        EXPECT_TRUE(std::equal(indexes.begin(), indexes.begin() + count, actual_indexes.begin()));
+        const auto actual_counters = f.read<DrawCounters>(f.arguments);
+        EXPECT_EQ(std::memcmp(counters.data(), actual_counters.data(), sizeof(DrawCounters)), 0);
+        uint32_t visible = 0, rejected = 0;
+        for (uint32_t i = 0; i < count; ++i)
+        {
+            visible += i % 7 >= 5;
+            rejected += i % 7 == 0 || i % 7 == 4;
+        }
+        EXPECT_EQ(actual_counters[0].instance_count, visible);
+        EXPECT_EQ(actual_counters[0].rejected, rejected);
+    }
+    EXPECT_TRUE(f.gpu.debug_errors().empty());
+}
+
+TEST(CudaProject, PlaneMajorShPreservesAllCoefficientsAndDegrees)
+{
+    Fixture f;
+    std::mt19937 random(101);
+    std::uniform_real_distribution<float> unit(-1, 1);
+    for (uint32_t i = 0; i < Fixture::count; ++i)
+    {
+        f.set(0, i, 0, unit(random) * 2);
+        f.set(0, i, 1, unit(random) * 2);
+        for (uint32_t j = 0; j < 45; ++j) f.sh[i * 45 + j] = unit(random) * .15f;
+    }
+    for (uint32_t degree = 0; degree <= 3; ++degree)
+    for (uint32_t count : {0u, 1u, 31u, 32u, 33u, 511u, 513u})
+    for (uint32_t block : {128u, 256u})
+    {
+        SCOPED_TRACE(::testing::Message() << "degree=" << degree << " count=" << count << " block=" << block);
+        f.constants.meta[0] = count;
+        f.constants.meta[1] = degree;
+        f.run(block);
+        const auto ellipses = f.read<ProjectedEllipse>(f.output);
+        const auto keys = f.read<uint32_t>(f.keys), indexes = f.read<uint32_t>(f.indexes);
+        const auto counters = f.read<DrawCounters>(f.arguments);
+        f.run(block, ProjectMath::Reference, ProjectCounters::Scalar, ShLayout::PlaneMajor);
+        const auto actual = f.read<ProjectedEllipse>(f.output);
+        EXPECT_EQ(std::memcmp(ellipses.data(), actual.data(), count * sizeof(ProjectedEllipse)), 0);
+        const auto actual_keys = f.read<uint32_t>(f.keys), actual_indexes = f.read<uint32_t>(f.indexes);
+        EXPECT_TRUE(std::equal(keys.begin(), keys.begin() + count, actual_keys.begin()));
+        EXPECT_TRUE(std::equal(indexes.begin(), indexes.begin() + count, actual_indexes.begin()));
+        const auto actual_counters = f.read<DrawCounters>(f.arguments);
+        EXPECT_EQ(std::memcmp(counters.data(), actual_counters.data(), sizeof(DrawCounters)), 0);
+    }
+    EXPECT_TRUE(f.gpu.debug_errors().empty());
+}
+
+TEST(CudaProject, OwnedInputsMatchSharedInputsAndRejectForeignStorage)
+{
+    Fixture f;
+    for (uint32_t i = 0; i < Fixture::count; ++i)
+    {
+        f.set(0, i, 0, float(i % 23) * .01f);
+        f.set(0, i, 1, float(i % 19) * .01f);
+        for (uint32_t j = 0; j < 45; ++j) f.sh[i * 45 + j] = float((i + j) % 17) * .003f;
+    }
+    for (auto layout : {ShLayout::Interleaved, ShLayout::PlaneMajor})
+    for (uint32_t degree = 0; degree <= 3; ++degree)
+    {
+        f.constants.meta[1] = degree;
+        f.run(256, ProjectMath::Reference, ProjectCounters::Scalar, layout);
+        auto ellipses = f.read<ProjectedEllipse>(f.output);
+        auto keys = f.read<uint32_t>(f.keys), indexes = f.read<uint32_t>(f.indexes);
+        auto counters = f.read<DrawCounters>(f.arguments);
+        f.run(256, ProjectMath::Reference, ProjectCounters::Scalar, layout, true);
+        const auto actual = f.read<ProjectedEllipse>(f.output);
+        EXPECT_EQ(std::memcmp(ellipses.data(), actual.data(), Fixture::count * sizeof(ProjectedEllipse)), 0);
+        EXPECT_EQ(keys, f.read<uint32_t>(f.keys));
+        EXPECT_EQ(indexes, f.read<uint32_t>(f.indexes));
+        const auto actual_counters = f.read<DrawCounters>(f.arguments);
+        EXPECT_EQ(std::memcmp(counters.data(), actual_counters.data(), sizeof(DrawCounters)), 0);
+    }
+    Context other(f.gpu.device.Get(), f.gpu.adapter_description.AdapterLuid);
+    OwnedBuffer attributes(f.context, f.input.bytes()), harmonics(f.context, f.harmonics.bytes());
+    OwnedBuffer foreign(other, f.input.bytes());
+    OwnedBuffer small_sh(f.context, 4);
+    SharedBuffer foreign_output(other, f.output.bytes());
+    EXPECT_THROW(attributes.upload(other, 0, f.attributes), std::invalid_argument);
+    EXPECT_THROW(attributes.upload(f.context, attributes.bytes() - 1, f.attributes), std::out_of_range);
+    EXPECT_THROW(attributes.upload(f.context, UINT64_MAX, {}), std::out_of_range);
+    EXPECT_THROW(OwnedBuffer(f.context, 0), std::invalid_argument);
+    EXPECT_THROW(OwnedBuffer(f.context, (uint64_t{1} << 34) + 1), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, foreign, harmonics,
+        f.output, f.keys, f.indexes, f.arguments), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, attributes, attributes,
+        f.output, f.keys, f.indexes, f.arguments), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, attributes, harmonics,
+        foreign_output, f.keys, f.indexes, f.arguments), std::invalid_argument);
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, attributes, small_sh,
+        f.output, f.keys, f.indexes, f.arguments), std::out_of_range);
+    f.constants.meta[0] = Fixture::count + 1;
+    EXPECT_THROW(gs::cuda_ops::project(f.context, f.constants, attributes, harmonics,
+        f.output, f.keys, f.indexes, f.arguments), std::out_of_range);
+    EXPECT_TRUE(f.gpu.debug_errors().empty());
 }
 
 TEST(CudaProject, PreservesNearPlaneCrossingThinSplatsAndZeroDistance)

@@ -50,8 +50,10 @@ struct ContextState
     bool active = false;
     ~ContextState()
     {
-        // Never block indefinitely during device failure. An unfinished import is
-        // retained by CUDA; normal owners call wait_idle before releasing buffers.
+        // Best-effort in-process cleanup. CUDA may block inside any API, so this
+        // polling deadline is not a bound for arbitrary driver failures. Normal
+        // owners call wait_idle before releasing buffers; strong isolation needs
+        // an external worker supervisor (see the fault-isolation experiment).
         try
         {
             if (stream && !wait_stream(stream, 5000)) return;
@@ -252,4 +254,45 @@ uint32_t SharedTexture::width() const { return impl_->width; }
 uint32_t SharedTexture::height() const { return impl_->height; }
 bool Context::owns(const SharedBuffer &buffer) const { return buffer.impl_->context == state_; }
 bool Context::owns(const SharedTexture &texture) const { return texture.impl_->context == state_; }
+
+struct OwnedBuffer::Impl
+{
+    std::shared_ptr<ContextState> context;
+    void *pointer = nullptr;
+    uint64_t size = 0;
+    ~Impl() { if (pointer) cudaFree(pointer); }
+};
+OwnedBuffer::OwnedBuffer(Context &context, uint64_t bytes) : impl_(std::make_unique<Impl>())
+{
+    if (!bytes || bytes > (uint64_t{1} << 34)) throw std::invalid_argument("Invalid owned buffer size");
+    impl_->context = context.state_;
+    impl_->size = bytes;
+    checked(cudaMalloc(&impl_->pointer, size_t(bytes)));
+}
+OwnedBuffer::~OwnedBuffer()
+{
+    try
+    {
+        if (!wait_stream(impl_->context->stream, 5000)) impl_.release();
+    }
+    catch (...) { impl_.release(); }
+}
+void OwnedBuffer::upload(Context &context, uint64_t destination, std::span<const float> values)
+{
+    if (!context.owns(*this)) throw std::invalid_argument("Foreign owned upload buffer");
+    if (destination > impl_->size || values.size_bytes() > impl_->size - destination)
+        throw std::out_of_range("Owned upload capacity");
+    if (!values.empty())
+    {
+        // Pageable H2D cudaMemcpy can return before DMA completes, and this
+        // context uses a nonblocking stream. Order the copy on that same stream
+        // and explicitly complete it before releasing the caller's source span.
+        checked(cudaMemcpyAsync(static_cast<uint8_t *>(impl_->pointer) + destination,
+            values.data(), values.size_bytes(), cudaMemcpyHostToDevice, impl_->context->stream));
+        checked(cudaStreamSynchronize(impl_->context->stream));
+    }
+}
+void *OwnedBuffer::device_pointer() const { return impl_->pointer; }
+uint64_t OwnedBuffer::bytes() const { return impl_->size; }
+bool Context::owns(const OwnedBuffer &buffer) const { return buffer.impl_->context == state_; }
 } // namespace gs::cuda_ops
