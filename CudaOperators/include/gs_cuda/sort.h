@@ -3,12 +3,14 @@
 
 namespace gs::cuda_ops
 {
+enum class SortOffsets { Int64, Int32 };
 class GS_CUDA_API SortWorkspace
 {
   public:
     // Borrow context and submitted buffers until GPU completion. Wait before
     // destruction. Capture binds stream/addresses/count; rebuild on changes.
-    SortWorkspace(Context &, uint32_t capacity, bool capture = false);
+    SortWorkspace(Context &, uint32_t capacity, bool capture = false,
+        SortOffsets offsets = SortOffsets::Int64);
     ~SortWorkspace();
     SortWorkspace(const SortWorkspace &) = delete;
     SortWorkspace &operator=(const SortWorkspace &) = delete;

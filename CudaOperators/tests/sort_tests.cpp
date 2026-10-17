@@ -9,14 +9,15 @@
 using namespace gs::cuda_ops;
 using namespace gs::render::detail;
 
-static void verify_sort(uint32_t count, uint32_t distribution, bool capture = false)
+static void verify_sort(uint32_t count, uint32_t distribution, bool capture = false,
+    SortOffsets offsets = SortOffsets::Int64)
 {
     GpuDevice gpu;
     Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
     const uint64_t bytes = uint64_t((std::max)(count, 1u)) * 4;
     SharedBuffer keys0(context, bytes), keys1(context, bytes);
     SharedBuffer values0(context, bytes), values1(context, bytes);
-    SortWorkspace workspace(context, count, capture);
+    SortWorkspace workspace(context, count, capture, offsets);
     for (uint32_t trial = 0; trial < (capture ? 3u : 1u); ++trial)
     {
         std::vector<uint32_t> keys(count), expected(count);
@@ -73,9 +74,31 @@ TEST(CudaSort, StablePairsAtBlockBoundaries)
 TEST(CudaSort, StableMillionPairs) { verify_sort(1000000, 3); }
 TEST(CudaSort, StableEightMillionRandomPairs) { verify_sort(8000000, 0); }
 TEST(CudaSort, StableFullLargeSceneCount) { verify_sort(22480361, 0); }
+TEST(CudaSort, Int32OffsetsPreserveStablePairs)
+{
+    for (auto count : {0u, 1u, 511u, 512u, 513u, 65537u})
+        for (uint32_t distribution = 0; distribution < 4; ++distribution)
+            verify_sort(count, distribution, false, SortOffsets::Int32);
+    verify_sort(1000000, 3, false, SortOffsets::Int32);
+    verify_sort(8000000, 0, false, SortOffsets::Int32);
+    verify_sort(22480361, 3, false, SortOffsets::Int32);
+}
+TEST(CudaSort, Int32OffsetsRejectOversizedCapacityBeforeAllocation)
+{
+    GpuDevice gpu;
+    Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
+    EXPECT_THROW(SortWorkspace(context, 0x80000000u, false, SortOffsets::Int32), std::out_of_range);
+    EXPECT_THROW(SortWorkspace(context, 1, false, static_cast<SortOffsets>(99)), std::invalid_argument);
+}
 TEST(CudaSort, GraphReplaysChangingInputsWithStablePairs)
 {
     for (auto count : {0u, 1u, 513u, 1000000u}) for (auto distribution : {0u, 3u}) verify_sort(count, distribution, true);
+}
+
+TEST(CudaSort, Int32GraphReplaysChangingInputsWithStablePairs)
+{
+    for (auto count : {0u, 1u, 513u, 1000000u})
+        for (auto distribution : {0u, 3u}) verify_sort(count, distribution, true, SortOffsets::Int32);
 }
 
 TEST(CudaSort, GraphRejectsChangedBindingsAndCapacity)

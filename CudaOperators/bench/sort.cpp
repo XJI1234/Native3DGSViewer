@@ -26,7 +26,9 @@ int main(int argc, char **argv)
     try
     {
         uint32_t count = 1000000;
-        if (argc != 3) throw std::invalid_argument("Usage: CudaSortBench count output.csv");
+        if (argc != 3 && argc != 4) throw std::invalid_argument("Usage: CudaSortBench count output.csv [i32|i64]");
+        const std::string offset_mode = argc == 4 ? argv[3] : "i64";
+        if (offset_mode != "i32" && offset_mode != "i64") throw std::invalid_argument("Invalid offset mode");
         auto end = argv[1] + std::strlen(argv[1]);
         auto parsed = std::from_chars(argv[1], end, count);
         if (parsed.ec != std::errc{} || parsed.ptr != end || !count || count > 22480361) throw std::invalid_argument("Invalid sort count");
@@ -35,7 +37,7 @@ int main(int argc, char **argv)
         output << "distribution,round,backend,iteration,count,sort_and_interop_ms,cuda_kernel_ms\n";
         GpuDevice gpu;
         Context context(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
-        SortWorkspace cub(context, count);
+        SortWorkspace cub(context, count, false, offset_mode == "i32" ? SortOffsets::Int32 : SortOffsets::Int64);
         SortPass native(gpu);
         auto buffers = native.allocate(count);
         const auto bytes = uint64_t(count) * 4;

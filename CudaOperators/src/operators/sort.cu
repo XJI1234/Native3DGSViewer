@@ -20,10 +20,21 @@ struct SortWorkspace::Impl
     void *scratch = nullptr;
     cudaStream_t stream = nullptr;
     bool capture = false;
+    SortOffsets offsets = SortOffsets::Int64;
     cudaGraph_t graph = nullptr;
     cudaGraphExec_t executable = nullptr;
     std::array<void *, 4> addresses{};
     uint32_t captured_count = 0, selector = 0;
+    void sort(cub::DoubleBuffer<uint32_t> &keys, cub::DoubleBuffer<uint32_t> &values,
+        uint32_t count, size_t &available)
+    {
+        if (offsets == SortOffsets::Int32)
+            checked(cub::DeviceRadixSort::SortPairs(scratch, available, keys, values,
+                int32_t(count), 0, 32, stream));
+        else
+            checked(cub::DeviceRadixSort::SortPairs(scratch, available, keys, values,
+                int64_t(count), 0, 32, stream));
+    }
     ~Impl()
     {
         if (executable) cudaGraphExecDestroy(executable);
@@ -31,15 +42,17 @@ struct SortWorkspace::Impl
         if (scratch) cudaFree(scratch);
     }
 };
-SortWorkspace::SortWorkspace(Context &context, uint32_t capacity, bool capture) : impl_(std::make_unique<Impl>())
+SortWorkspace::SortWorkspace(Context &context, uint32_t capacity, bool capture, SortOffsets offsets) : impl_(std::make_unique<Impl>())
 {
+    if (offsets != SortOffsets::Int64 && offsets != SortOffsets::Int32) throw std::invalid_argument("Invalid CUB offset width");
+    if (offsets == SortOffsets::Int32 && capacity > uint32_t(INT32_MAX)) throw std::out_of_range("CUB int32 offset capacity");
     impl_->capacity = capacity;
     impl_->capture = capture;
+    impl_->offsets = offsets;
     impl_->stream = static_cast<cudaStream_t>(context.native_stream());
     if (!capacity) return;
     cub::DoubleBuffer<uint32_t> keys(nullptr, nullptr), values(nullptr, nullptr);
-    checked(cub::DeviceRadixSort::SortPairs(nullptr, impl_->bytes, keys, values,
-        int64_t(capacity), 0, 32, static_cast<cudaStream_t>(context.native_stream())));
+    impl_->sort(keys, values, capacity, impl_->bytes);
     checked(cudaMalloc(&impl_->scratch, impl_->bytes));
 }
 SortWorkspace::~SortWorkspace() = default;
@@ -74,8 +87,7 @@ uint32_t SortWorkspace::submit(Context &context, SharedBuffer &keys0, SharedBuff
     if (impl_->capture) checked(cudaStreamBeginCapture(impl_->stream, cudaStreamCaptureModeThreadLocal));
     try
     {
-        checked(cub::DeviceRadixSort::SortPairs(impl_->scratch, available, keys, values,
-            int64_t(count), 0, 32, impl_->stream));
+        impl_->sort(keys, values, count, available);
     }
     catch (...)
     {
