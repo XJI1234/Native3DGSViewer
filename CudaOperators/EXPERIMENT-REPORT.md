@@ -2,6 +2,10 @@
 
 分支：`codex/windows-cuda-operators`。测试输入来自 `C:\Users\21544\Desktop\zhishan`；本轮完成工具链和各条主要算子路径的实验筛选，**尚未获得可以进入产品的 CUDA 后端**。原生 D3D12 仍是默认实现，根构建开关 `GS_ENABLE_CUDA_OPERATORS` 默认 OFF。
 
+后续深度调研与R01–R07增量实验见[第二轮报告](RESEARCH-ROUND-2.md)：新增160次真实模型诊断、
+SH布局/自有输入、头依赖修复、排序图像误差因果证据和外部worker故障注入。它们不替代本报告
+七轮正式性能结果；CUDA投影仍受key一致性、82.75%预算占用及Debug Layer/故障退役门槛阻塞。
+
 ## 环境与可复现性
 
 RTX 3080 10GB、驱动617.42、Windows/WDDM、VS2026/MSVC19.50、CMake4.3.2、CUDA13.3.0、C++20、SM86。NVIDIA官方组件逐一核对SHA-256；nvcc13.3.33、cudart13.3.29、Compute Sanitizer13.3.27已真实编译运行。安装在当前用户的 `AppData/Local/Native3DGSViewer/toolchains/cuda/13.3.0`，构建脚本显式选用该路径。详见[工具链收据和探针](evidence/2026-10-17-toolchain/README.md)。

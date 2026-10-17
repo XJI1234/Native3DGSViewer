@@ -1,0 +1,32 @@
+CudaOperators/CMakeFiles/Native3DGSViewer.CudaTests.dir/tests/ownership_tests.cpp.obj: #deps 30, deps mtime 8139112650015645 (VALID)
+    ../../CudaOperators/include/gs_cuda/compact.h
+    ../../CudaOperators/include/gs_cuda/interop.h
+    ../../CudaOperators/include/gs_cuda/project.h
+    ../../CudaOperators/include/gs_cuda/sort.h
+    ../../CudaOperators/include/gs_cuda/tile.h
+    ../../include/render-core/renderer.h
+    ../../include/splat-types/scene.h
+    ../../src/render-core/device/gpu.h
+    ../../src/render-core/passes/layout.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-assertion-result.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-death-test.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-matchers.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-message.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-param-test.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-printers.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-test-part.h
+    ../../third_party/googletest/googletest/include/gtest/gtest-typed-test.h
+    ../../third_party/googletest/googletest/include/gtest/gtest.h
+    ../../third_party/googletest/googletest/include/gtest/gtest_pred_impl.h
+    ../../third_party/googletest/googletest/include/gtest/gtest_prod.h
+    ../../third_party/googletest/googletest/include/gtest/internal/custom/gtest-port.h
+    ../../third_party/googletest/googletest/include/gtest/internal/custom/gtest-printers.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-death-test-internal.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-filepath.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-internal.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-param-util.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-port-arch.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-port.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-string.h
+    ../../third_party/googletest/googletest/include/gtest/internal/gtest-type-util.h
+

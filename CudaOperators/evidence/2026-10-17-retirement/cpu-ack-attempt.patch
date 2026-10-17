@@ -1,0 +1,29 @@
+diff --git a/CudaOperators/src/interop/interop.cpp b/CudaOperators/src/interop/interop.cpp
+index 74f3a23..889cf33 100644
+--- a/CudaOperators/src/interop/interop.cpp
++++ b/CudaOperators/src/interop/interop.cpp
+@@ -55,6 +55,24 @@ struct ContextState
+         try
+         {
+             if (stream && !wait_stream(stream, 5000)) return;
++            if (queue)
++            {
++                // CUDA completion alone does not retire the D3D queue's Wait.
++                // Submit a native tail on the same timeline, after CUDA's final
++                // signal, before destroying the imported semaphore/fence.
++                const auto retired = ++value;
++                checked(queue->Signal(fence.Get(), retired));
++                const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
++                for (;;)
++                {
++                    const auto completed = fence->GetCompletedValue();
++                    if (completed == UINT64_MAX) throw std::runtime_error("D3D12 device removed during CUDA retirement");
++                    if (completed >= retired) break;
++                    if (std::chrono::steady_clock::now() >= deadline) return;
++                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
++                }
++                checked(fence->Signal(++value));
++            }
+             if (semaphore) cudaDestroyExternalSemaphore(semaphore);
+             if (stream) cudaStreamDestroy(stream);
+         }

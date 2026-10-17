@@ -1,0 +1,8 @@
+enable_status=0x0
+Event before=207 after=215
+new Event=0000000000000A00
+query_status=0x0 traces=3
+new Event=0000000000000A34
+query_status=0x0 traces=3
+new Event=0000000000000A64
+query_status=0x0 traces=3

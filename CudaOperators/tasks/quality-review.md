@@ -33,3 +33,32 @@
 后续审查：普通有界tile的racecheck零hazards、synccheck零错误（ownership目录）；前者仅检查CUDA共享内存，不证明全部全局内存/跨API竞态不存在。正式pan视角收益16.70%，但非零alpha面积仅1.42%；不得把该窄带视角等同常规浏览。已增加完整校园俯斜视角与画面面积统计。归属修复后GPU数学与排序方式未改，正式测量仍按各组冻结二进制识别，不能混写为同一版本。
 
 最终生命周期复核：随机种子1将Debug Layer测试排在100次句柄测试之前，同进程592→692再次失败；独立普通配置仍通过。两份结果同时保留于lifecycle-recheck/。没有放宽阈值、冒称修复或将该失败混写为绿色CTest。
+
+## 第二轮增量自审（2026-10-17）
+
+范围：R01–R07，见[第二轮报告](../RESEARCH-ROUND-2.md)。仍是单代理自审，不是独立审查。
+
+- 修复：Ninja对本机MSVC include前缀识别失败，导致头文件变动遗漏重编。
+  raw-byte校准在CMake生成之后执行；首次清理历史无依赖对象。实际ownership依赖30项、
+  根measurement测试依赖24项；不以编译成功代替增量依赖验证。
+- 正确性：Int32只改变CUB公开count类型，仍完整32位keys/values、稳定tie；超过INT32_MAX及
+  无效enum在分配前拒绝。Graph重放变动输入新增Int32覆盖。
+- 正确性：warp/plane选项默认保持原值。Owned/Shared输入重载共用校验与kernel；输入/输出
+  Context、别名、容量均校验。Owned上传明确同stream复制并同步，不依赖pageable cudaMemcpy
+  的返回时机或默认stream为nonblocking stream建立隐式依赖。
+- 架构：CUDA-only输入只存在于私有DLL/实验host；draw的未使用原属性SRV绑定有效4字节占位，
+  HLSL vertex只读取projected/indexes。未把该占位资源用于HLSL投影。无SDK/WinUI/vendor更改。
+- 资源：Owned显著降低重复映射计费，但最大模型8,056,659,968字节占预算82.75%，不通过80%。
+  不以物理别名解释直接扣减DXGI统计，不对单轮时间编造CI。SH暂存64MiB只约束显式应用分配。
+- 图像：完整俯斜视角暴露CUDA key/排序差异。两个模型的全排序oracle在保留CUDA椭圆时通过
+  原门槛，证明排序影响；oracle读取CPU排列，只在计时结束后执行、输出单独图像，不能成为
+  胜出后端。CSV候选集合校验、完整u32长度/唯一排列校验、文件上限限制均保留。
+- 故障：SharingContract通知失败，不进入后端。外部监督器只验证自己创建的独立进程，
+  不操作其他用户进程；确认阻塞后terminate并等待process handle。十次65–78ms与父进程
+  句柄不增长只证明本次注入，不宣称任意驱动故障、正常cudaFree有界或产品可恢复。
+- 保持阻塞：Debug Layer 100次RED仍失败；正常8组CUDA CTest不能覆盖或掩盖它。
+  原15%性能、≤3%回退、80%资源、画质、设备移除与长稳门槛均未放宽。
+
+最终全项目CTest13/13通过（158.34秒，含installed SDK），不包含上述单列Debug Layer RED。
+只保留可复现的实验选项、诊断工具和失败证据；继续拒绝生产启用。主矩阵135次和资源筛查
+25次分别冻结runtime，不能混写成同一源码版本的正式性能扩轮。

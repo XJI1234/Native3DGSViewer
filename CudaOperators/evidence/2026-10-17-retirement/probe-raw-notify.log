@@ -1,0 +1,33 @@
+mode=raw-notify
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+enable_status=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+sharing_contract_hr=0x0
+Event before=205 after=215
+new Event=000000000000098C
+query_status=0x0 traces=3
+trace type=1 handle=000000000000098C
+trace type=2 handle=000000000000098C
+trace type=1 handle=000000000000098C
+new Event=00000000000009AC
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009AC
+trace type=2 handle=00000000000009AC
+trace type=1 handle=00000000000009AC
+new Event=00000000000009CC
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009CC
+trace type=2 handle=00000000000009CC
+trace type=1 handle=00000000000009CC

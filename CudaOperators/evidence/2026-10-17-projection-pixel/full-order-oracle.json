@@ -1,0 +1,74 @@
+[
+  {
+    "model": "shengyi_v1.ply",
+    "reference_order_sha256": "0cd8468fb55fd0a926e6e27823c18345c277f674a6beec50fe73466a934e9788",
+    "cuda_order_sha256": "7ee317ed946a7fd2d910b6cd1549229cee379e0af2c999f79c0dd1539028b490",
+    "total_points": 804758,
+    "different_sorted_positions": 21510,
+    "original": {
+      "max_rgb": 11,
+      "max_alpha": 1,
+      "rgb_rmse": 0.02229444282932316,
+      "pixels_over_8": 2,
+      "image_sha256": "34c0c7c04fe4884d0a998471e15a9e555917fc0629cd9afa9a91a75d41fcebfb"
+    },
+    "full_order_oracle": {
+      "max_rgb": 6,
+      "max_alpha": 1,
+      "rgb_rmse": 0.02005089332287386,
+      "pixels_over_8": 0,
+      "image_sha256": "4a37a853f08af7dd02e589ab90a60011360f701216ffd2f01c2cfad30bca6f09"
+    },
+    "full_quality": {
+      "rgb": {
+        "ssim": 0.9999996290529339,
+        "rmse_255": 0.02005089332287386,
+        "p99_error_255": 0.0,
+        "max_error_255": 6.0
+      },
+      "alpha": {
+        "ssim": 0.9999999016059203,
+        "rmse_255": 0.00537914353639919,
+        "p99_error_255": 0.0,
+        "max_error_255": 1.0
+      },
+      "passed": true
+    }
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference_order_sha256": "6aedc050fc5ea9e198d0695e25b16a3c206eb70c90fcdd37db34eb149ecf80a0",
+    "cuda_order_sha256": "c6ae2f89dee0f73c8b09f9909ae2d3f3ad7742b551756e4197776889bcb6e782",
+    "total_points": 22480361,
+    "different_sorted_positions": 7168514,
+    "original": {
+      "max_rgb": 21,
+      "max_alpha": 2,
+      "rgb_rmse": 0.045186940236104,
+      "pixels_over_8": 2,
+      "image_sha256": "45e1eb8232f0775e399cf131c60f6beb2ee8d70e28911920296053f5b881e150"
+    },
+    "full_order_oracle": {
+      "max_rgb": 5,
+      "max_alpha": 2,
+      "rgb_rmse": 0.0416589499027026,
+      "pixels_over_8": 0,
+      "image_sha256": "b168d0c16dc718ef7146410d695dcca00e13650839cbe707de7274c528a88f90"
+    },
+    "full_quality": {
+      "rgb": {
+        "ssim": 0.9999991368488392,
+        "rmse_255": 0.0416589499027026,
+        "p99_error_255": 0.0,
+        "max_error_255": 5.0
+      },
+      "alpha": {
+        "ssim": 0.99999985061587,
+        "rmse_255": 0.006288461901484317,
+        "p99_error_255": 0.0,
+        "max_error_255": 2.0
+      },
+      "passed": true
+    }
+  }
+]

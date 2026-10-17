@@ -1,0 +1,6 @@
+admission required_local=6600629892 local_usage=217874432 local_budget=9736028160 scratch=3535359 tile_required=0
+sh_upload_seconds=0.623958 staging_limit_bytes=67108864
+cuda_events=on (off reports kernel columns as -1)
+count=22480361 SH=3 stride=1 viewport=1920x1080 radial stddev=3 alpha=0 blur=0 radius=1024 no_mitigation
+frame_slots=1 current-frame projection/sort; CPU wall includes queue residence; no input latency claim
+visible=22480361 total=22480361 (read after all measured frames)

@@ -1,0 +1,35 @@
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (7.0s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+Matched Ninja /showIncludes prefix to compiler bytes (no locale installation required)
+[1/25] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/23] Running utility command for render-shaders
+[3/23] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaLifecycleTests.dir\CXX.dd
+[4/22] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[5/13] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp for CXX dependencies
+[6/13] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\CXX.dd
+[7/8] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj
+FAILED: CudaOperators/CMakeFiles/Native3DGSViewer.CudaTests.dir/tests/project_tests.cpp.obj 
+C:\PROGRA~1\MICROS~1\18\COMMUN~1\VC\Tools\MSVC\1450~1.357\bin\Hostx64\x64\cl.exe  /nologo /TP -DNOMINMAX -IC:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\device -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\passes -IC:\Users\21544\workspace\Native3DGSViewer\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD /utf-8 /Zc:preprocessor /showIncludes @CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj.modmap /FoCudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj /FdCudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\ /FS -c C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(55): error C2061: 语法错误: 标识符“ShLayout”
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(63): error C2065: “layout”: 未声明的标识符
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(63): error C2653: “ShLayout”: 不是类或命名空间名称
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(63): error C2065: “PlaneMajor”: 未声明的标识符
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(86): error C2065: “layout”: 未声明的标识符
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(339): error C2653: “ShLayout”: 不是类或命名空间名称
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(339): error C2065: “PlaneMajor”: 未声明的标识符
+ninja: build stopped: subcommand failed.

@@ -1,0 +1,252 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "reference": "cuda-sort-queued",
+    "candidate": "cuda-sort-i32-queued",
+    "metric": "gpu_total_ms",
+    "reference_ms": 0.78848,
+    "candidate_ms": 0.7889919999999999,
+    "paired_mean_reduction_percent": -0.08738313251862584,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "changjin_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-warp-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.108543999493,
+    "candidate_ms": 0.108543999493,
+    "paired_mean_reduction_percent": 0.0,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "changjin_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-plane-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.108543999493,
+    "candidate_ms": 0.0972800031304,
+    "paired_mean_reduction_percent": 10.377355187954374,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "changjin_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-warp-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 0.749568,
+    "candidate_ms": 0.7633920000000001,
+    "paired_mean_reduction_percent": -1.249880898888985,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "changjin_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-plane-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 0.749568,
+    "candidate_ms": 0.750592,
+    "paired_mean_reduction_percent": -0.6650013169570701,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "reference": "cuda-sort-queued",
+    "candidate": "cuda-sort-i32-queued",
+    "metric": "gpu_total_ms",
+    "reference_ms": 1.39264,
+    "candidate_ms": 1.3941759999999999,
+    "paired_mean_reduction_percent": -0.12342674757529111,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-warp-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.4561920017005,
+    "candidate_ms": 0.458752006292,
+    "paired_mean_reduction_percent": -0.5239238453977224,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-plane-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.4561920017005,
+    "candidate_ms": 0.392192006111,
+    "paired_mean_reduction_percent": 13.622871583162011,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-warp-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 1.417216,
+    "candidate_ms": 1.41312,
+    "paired_mean_reduction_percent": -0.02640598162858924,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-plane-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 1.417216,
+    "candidate_ms": 1.430528,
+    "paired_mean_reduction_percent": 0.1999186401877536,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "reference": "cuda-sort-queued",
+    "candidate": "cuda-sort-i32-queued",
+    "metric": "gpu_total_ms",
+    "reference_ms": 1.9563519999999999,
+    "candidate_ms": 1.970176,
+    "paired_mean_reduction_percent": -0.41001526259976845,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-warp-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.698368012905,
+    "candidate_ms": 0.702463984489,
+    "paired_mean_reduction_percent": -0.6601793789084173,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-plane-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 0.698368012905,
+    "candidate_ms": 0.599039971828,
+    "paired_mean_reduction_percent": 14.180893335783022,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-warp-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 2.018304,
+    "candidate_ms": 2.030592,
+    "paired_mean_reduction_percent": -0.6006488615037164,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-plane-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 2.018304,
+    "candidate_ms": 2.01728,
+    "paired_mean_reduction_percent": 1.5822165540905282,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "reference": "cuda-sort-queued",
+    "candidate": "cuda-sort-i32-queued",
+    "metric": "gpu_total_ms",
+    "reference_ms": 5.5813120000000005,
+    "candidate_ms": 5.5546880000000005,
+    "paired_mean_reduction_percent": 0.40393430886106846,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-warp-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 2.15244793892,
+    "candidate_ms": 2.16678404808,
+    "paired_mean_reduction_percent": -0.6739231374728316,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-plane-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 2.15244793892,
+    "candidate_ms": 1.84934401512,
+    "paired_mean_reduction_percent": 14.072770023916066,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-warp-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 5.93664,
+    "candidate_ms": 5.99808,
+    "paired_mean_reduction_percent": -1.6763568384756826,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-plane-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 5.93664,
+    "candidate_ms": 5.602304,
+    "paired_mean_reduction_percent": 5.765586034435292,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference": "cuda-sort-queued",
+    "candidate": "cuda-sort-i32-queued",
+    "metric": "gpu_total_ms",
+    "reference_ms": 30.383616,
+    "candidate_ms": 30.339072,
+    "paired_mean_reduction_percent": 0.15374665337013482,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-warp-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 13.327872276299999,
+    "candidate_ms": 13.4103040695,
+    "paired_mean_reduction_percent": -0.6367615909136889,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference": "cuda-project-256",
+    "candidate": "cuda-project-plane-256",
+    "metric": "cuda_projection_kernel_ms",
+    "reference_ms": 13.327872276299999,
+    "candidate_ms": 11.2117757797,
+    "paired_mean_reduction_percent": 15.8405832463797,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-warp-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 32.459776000000005,
+    "candidate_ms": 32.549888,
+    "paired_mean_reduction_percent": -0.1313071597817017,
+    "same_images_as_cuda_reference": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "reference": "cuda-project-sort-256",
+    "candidate": "cuda-project-sort-plane-256",
+    "metric": "gpu_total_ms",
+    "reference_ms": 32.459776000000005,
+    "candidate_ms": 30.411264,
+    "paired_mean_reduction_percent": 6.409490030872789,
+    "same_images_as_cuda_reference": true
+  }
+]

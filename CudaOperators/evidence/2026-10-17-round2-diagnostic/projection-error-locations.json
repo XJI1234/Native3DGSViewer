@@ -1,0 +1,50 @@
+[
+  {
+    "model": "shengyi_v1.ply",
+    "max_error": 11,
+    "max_rgb": 11,
+    "max_alpha": 1,
+    "pixels_over_8": 2,
+    "max_location_xyc": [
+      1073,
+      558,
+      1
+    ],
+    "reference_pixel": [
+      225,
+      222,
+      222,
+      255
+    ],
+    "cuda_pixel": [
+      235,
+      233,
+      232,
+      255
+    ]
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "max_error": 21,
+    "max_rgb": 21,
+    "max_alpha": 2,
+    "pixels_over_8": 2,
+    "max_location_xyc": [
+      766,
+      443,
+      1
+    ],
+    "reference_pixel": [
+      132,
+      120,
+      117,
+      255
+    ],
+    "cuda_pixel": [
+      118,
+      99,
+      98,
+      255
+    ]
+  }
+]

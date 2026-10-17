@@ -1,0 +1,21 @@
+{
+  "reference_candidates": 933,
+  "cuda_candidates": 933,
+  "common": 933,
+  "common_relative_order_equal": false,
+  "absolute_rank_mismatches": 19,
+  "maximum_component_changes": {
+    "cx": 0.00012207999998281593,
+    "cy": 6.103600003370957e-05,
+    "a0x": 1.525880000485813e-05,
+    "a0y": 0.0001947134730000133,
+    "a1x": 2.9131769999996004e-05,
+    "a1y": 1.5258799997752703e-05,
+    "r": 1.7881299996247435e-07,
+    "g": 1.192099999824947e-07,
+    "b": 1.7881400005137493e-07,
+    "a": 0.0
+  },
+  "only_reference": [],
+  "only_cuda": []
+}

@@ -1,0 +1,19 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaLifecycle.RepeatsHundredDebugContextBufferTextureLifetimesWithoutHandleGrowth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaLifecycle
+[ RUN      ] CudaLifecycle.RepeatsHundredDebugContextBufferTextureLifetimesWithoutHandleGrowth
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\lifecycle_tests.cpp(31): error: Expected: (after) <= (before + 4), actual: 701 vs 609
+before=605 after=701
+
+[  FAILED  ] CudaLifecycle.RepeatsHundredDebugContextBufferTextureLifetimesWithoutHandleGrowth (655 ms)
+[----------] 1 test from CudaLifecycle (655 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (655 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaLifecycle.RepeatsHundredDebugContextBufferTextureLifetimesWithoutHandleGrowth
+
+ 1 FAILED TEST
