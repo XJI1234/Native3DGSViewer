@@ -152,6 +152,12 @@ GoogleTest 是正确性框架；性能基准独立，不在普通单测中断言
 
 ## 7. 保留、撤回与发布门槛
 
+第二轮研究与实施（2026-10-17）：按[tasks/research-round-2.md](tasks/research-round-2.md)顺序验证原生queue退役、CUB索引宽度、warp计数和SH布局。32位offset只用于count≤INT32_MAX，排序key仍为完整32位；默认workspace策略保持原64位以便归因。Context正常清理必须在CUDA signal/wait完成后确认D3D绑定队列退役，递增共享fence，遵守单提交线程；不得重设旧fence value、强关未知句柄或扩大原句柄容限。任意CUDA API故障下的有界退出与正常退役分开验收。
+
+第二轮私有投影选项：`ProjectCounters::Scalar/WarpAggregated`与`ShLayout::Interleaved/PlaneMajor`互相独立，默认保持Scalar/Interleaved。PlaneMajor的第j个系数通道、第i点地址为`j * meta[0] + i`；与原布局使用相同SH阶数、float32系数和逐点累加顺序。host转换最多64 MiB staging，不分配完整GPU副本；单列一次性上传/转换耗时。无效枚举、归属与容量仍在提交前拒绝。强制终止worker实验只验证不可完成fence下的独立进程隔离，不代表产品故障恢复、任意驱动故障或无泄漏验收。
+
+R06增加私有`OwnedBuffer`作为仅CUDA读取的输入，容量1至2^34字节，与创建Context同生命周期/归属；上传仅在加载期且无在途访问时调用，同步返回后源span可释放。`project`的SharedBuffer/OwnedBuffer输入重载共用验证及kernel，outputs仍须同Context的SharedBuffer，禁止绕过归属/容量校验。D3D12 draw不读取原attributes/SH，只绑定有效的小型占位SRV；不得将OwnedBuffer用于原HLSL投影。故障析构仍为best effort，不宣称所有CUDA调用有界。
+
 实验完成与成功加速分开判断：E01–E10 每项必须有正确性、数值/资源、性能与结论；无法运行的路径写明阻塞及下一步，不填虚构数字。
 
 1. **保留单项优化**：目标工作负载的完整GPU帧时间至少降低5%，且配对95% CI排除零收益；正确性/资源/生命周期均通过。只有算子快、整帧无收益的变体不作为默认实现保留。
