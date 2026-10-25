@@ -1,0 +1,26 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.*
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from CudaProject
+[ RUN      ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees
+[       OK ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees (13217 ms)
+[ RUN      ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors
+[       OK ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors (353 ms)
+[ RUN      ] CudaProject.ValidatesLayoutCapacityAndLaunchSize
+[       OK ] CudaProject.ValidatesLayoutCapacityAndLaunchSize (328 ms)
+[ RUN      ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping
+[       OK ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping (5685 ms)
+[ RUN      ] CudaProject.EmptyFrameResetsCounters
+[       OK ] CudaProject.EmptyFrameResetsCounters (391 ms)
+[ RUN      ] CudaProject.PreservesNearPlaneCrossingThinSplatsAndZeroDistance
+[       OK ] CudaProject.PreservesNearPlaneCrossingThinSplatsAndZeroDistance (1479 ms)
+[ RUN      ] CudaProject.FactoredReciprocalHandlesSubnormalCameraDelta
+[       OK ] CudaProject.FactoredReciprocalHandlesSubnormalCameraDelta (734 ms)
+[----------] 7 tests from CudaProject (22190 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test suite ran. (22190 ms total)
+[  PASSED  ] 7 tests.
+========= ERROR SUMMARY: 0 errors

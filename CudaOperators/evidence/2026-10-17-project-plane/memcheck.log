@@ -1,0 +1,16 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.WarpCounters*:CudaProject.PlaneMajor*
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from CudaProject
+[ RUN      ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes
+[       OK ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes (2460 ms)
+[ RUN      ] CudaProject.PlaneMajorShPreservesAllCoefficientsAndDegrees
+[       OK ] CudaProject.PlaneMajorShPreservesAllCoefficientsAndDegrees (1109 ms)
+[----------] 2 tests from CudaProject (3570 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (3570 ms total)
+[  PASSED  ] 2 tests.
+========= ERROR SUMMARY: 0 errors

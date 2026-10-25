@@ -1,0 +1,18 @@
+mode=raw-roundtrip
+enable_status=0x0
+Event before=205 after=208
+new Event=000000000000099C
+query_status=0x0 traces=3
+trace type=1 handle=000000000000099C
+trace type=2 handle=000000000000099C
+trace type=1 handle=000000000000099C
+new Event=00000000000009BC
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009BC
+trace type=2 handle=00000000000009BC
+trace type=1 handle=00000000000009BC
+new Event=00000000000009E4
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009E4
+trace type=2 handle=00000000000009E4
+trace type=1 handle=00000000000009E4

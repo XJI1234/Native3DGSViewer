@@ -1,0 +1,20 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaTile.*
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from CudaTile
+[ RUN      ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+[       OK ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks (479 ms)
+[ RUN      ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+[       OK ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation (280 ms)
+[ RUN      ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+[       OK ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation (265 ms)
+[ RUN      ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame
+[       OK ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame (344 ms)
+[ RUN      ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases
+[       OK ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases (327 ms)
+[----------] 5 tests from CudaTile (1698 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (1698 ms total)
+[  PASSED  ] 5 tests.

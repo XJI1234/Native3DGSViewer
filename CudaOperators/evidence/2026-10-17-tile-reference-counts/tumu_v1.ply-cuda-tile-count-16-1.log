@@ -1,0 +1,5 @@
+admission required_local=398339688 local_usage=215777280 local_budget=9736028160 scratch=205311
+tile_capacity=1 tile_bytes=20265375
+cuda_events=off (off reports kernel columns as -1)
+count=1248730 SH=3 stride=1 viewport=1920x1080 radial stddev=3 alpha=0 blur=0 radius=1024 no_mitigation
+tile_references=2154154 flags=2 max_tile_length=0 count_only=1 (read after all measured frames)

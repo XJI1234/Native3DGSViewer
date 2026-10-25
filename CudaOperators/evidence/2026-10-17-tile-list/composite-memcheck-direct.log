@@ -1,0 +1,71 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+
+Repeating all tests (iteration 1) . . .
+
+Note: Google Test filter = CudaTile.*
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from CudaTile
+[ RUN      ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+[       OK ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks (2344 ms)
+[ RUN      ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+[       OK ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation (375 ms)
+[ RUN      ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+[       OK ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation (341 ms)
+[ RUN      ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame
+[       OK ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame (359 ms)
+[ RUN      ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases
+[       OK ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases (343 ms)
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (1723 ms)
+[----------] 6 tests from CudaTile (5489 ms total)
+
+[==========] 6 tests from 1 test suite ran. (5489 ms total)
+[  PASSED  ] 6 tests.
+
+Repeating all tests (iteration 2) . . .
+
+Note: Google Test filter = CudaTile.*
+[==========] Running 6 tests from 1 test suite.
+[----------] 6 tests from CudaTile
+[ RUN      ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+[       OK ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks (484 ms)
+[ RUN      ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+[       OK ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation (399 ms)
+[ RUN      ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+[       OK ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation (314 ms)
+[ RUN      ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame
+[       OK ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame (345 ms)
+[ RUN      ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases
+[       OK ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases (343 ms)
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (1770 ms)
+[----------] 6 tests from CudaTile (3658 ms total)
+
+[==========] 6 tests from 1 test suite ran. (3658 ms total)
+[  PASSED  ] 6 tests.
+
+Repeating all tests (iteration 3) . . .
+
+Note: Google Test filter = CudaTile.*
+[==========] Running 6 tests from 1 test suite.
+[----------] 6 tests from CudaTile
+[ RUN      ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks
+[       OK ] CudaTile.ListMatchesIndependentOracleAndRetainsStableGlobalRanks (478 ms)
+[ RUN      ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation
+[       OK ] CudaTile.ListRejectsCapacityOverflowAndInvalidIndicesWithoutTruncation (374 ms)
+[ RUN      ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation
+[       OK ] CudaTile.ListValidatesDimensionsCheckedArithmeticAndBudgetBeforeAllocation (325 ms)
+[ RUN      ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame
+[       OK ] CudaTile.ListCountsMoreThanUint32ReferencesAndRejectsWholeFrame (358 ms)
+[ RUN      ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases
+[       OK ] CudaTile.ListHandlesEmptySourceAndValidatesInputCapacityAndAliases (315 ms)
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+[       OK ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (1764 ms)
+[----------] 6 tests from CudaTile (3616 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (3616 ms total)
+[  PASSED  ] 6 tests.
+========= ERROR SUMMARY: 0 errors

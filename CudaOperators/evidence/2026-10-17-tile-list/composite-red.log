@@ -1,0 +1,18 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+unknown file: error: C++ exception with description "tile composite not implemented" thrown in the test body.
+
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (431 ms)
+[----------] 1 test from CudaTile (431 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (431 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+
+ 1 FAILED TEST

@@ -1,0 +1,4 @@
+admission required_local=6600629892 local_usage=308060160 local_budget=9736028160 scratch=93522339
+cuda_events=on (off reports kernel columns as -1)
+count=22480361 SH=3 stride=1 viewport=1920x1080 radial stddev=3 alpha=0 blur=0 radius=1024 no_mitigation
+visible=14057341 total=22480361 (read after all measured frames)

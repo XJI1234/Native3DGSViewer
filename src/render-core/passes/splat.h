@@ -5,17 +5,6 @@
 
 namespace gs::render::detail
 {
-struct FrameConstants
-{
-    float view_rows[12]{};
-    float camera[4]{};
-    float viewport[4]{};
-    float quality[4]{};
-    float clip[4]{};
-    uint32_t meta[4]{};
-    uint32_t offsets[8]{};
-};
-static_assert(sizeof(FrameConstants) == 160);
 struct SceneGpu
 {
     SceneHandle cpu;
@@ -40,6 +29,8 @@ class SplatPass
                                        bool memory_mitigation = false,
                                        uint32_t point_stride = 1);
     FrameConstants constants(const SceneGpu &, Viewport) const;
+    void project(ID3D12GraphicsCommandList *, SceneGpu &, Viewport,
+                 ID3D12QueryHeap *stage_queries = nullptr);
     void project_sort(ID3D12GraphicsCommandList *, SceneGpu &, Viewport,
                       ID3D12QueryHeap *stage_queries = nullptr);
     void draw(ID3D12GraphicsCommandList *, SceneGpu &, Viewport, D3D12_CPU_DESCRIPTOR_HANDLE);

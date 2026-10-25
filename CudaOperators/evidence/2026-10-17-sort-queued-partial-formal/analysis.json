@@ -1,0 +1,553 @@
+{
+  "protocol": "offscreen-full-GPU-span; per-backend frame slots; no Present; no display FPS",
+  "formal_duration": true,
+  "frame_slots": {
+    "d3d12-queued": 3,
+    "cuda-sort-queued": 3
+  },
+  "note": "Offscreen GPU timing; frame slots follow collection metadata. No Present or input-latency conclusion. Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+  "comparisons": [
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 3,
+      "reference_backend": "d3d12-queued",
+      "reference_median_ms": 25.235968,
+      "candidate_median_ms": 21.024768,
+      "paired_frame_reduction_percent": [
+        16.805122178546828,
+        16.622370102862703,
+        16.663622526636214
+      ],
+      "mean_reduction_percent": 16.69703826934858,
+      "paired_bootstrap_95ci_percent": [
+        16.622370102862703,
+        16.805122178546828
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        19.60148926313494,
+        19.156792648894537,
+        19.38415161106526
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    }
+  ],
+  "runs": [
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "d3d12-queued",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 103.24799170000188,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "d3d12-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-d3d12-queued-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2026, 44, 210, 30.12\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2026, 58, 1980, 255.62\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2373,
+      "medians": {
+        "projection_ms": 7.977984,
+        "sort_and_interop_ms": 7.235584,
+        "draw_ms": 9.985024,
+        "gpu_total_ms": 25.269248,
+        "cpu_wall_ms": 75.9344,
+        "cpu_submit_ms": 0.2109,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 6593699840,
+        "sampled_nonlocal_peak_bytes": 34930688,
+        "process_peak_private_bytes": 6764589056,
+        "process_peak_working_set_bytes": 5451718656
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 25.5885312,
+        "p99_ms": 25.756631040000002,
+        "one_percent_low_gpu_fps": 38.716311646692496
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 104.20388939999975,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "cuda-sort-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-cuda-sort-queued-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2022, 57, 1995, 175.78\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2031, 59, 1995, 234.50\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2855,
+      "medians": {
+        "projection_ms": 8.160256,
+        "sort_and_interop_ms": 2.665472,
+        "draw_ms": 9.960448,
+        "gpu_total_ms": 21.02272,
+        "cpu_wall_ms": 63.0764,
+        "cpu_submit_ms": 0.3802,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 7157047296,
+        "sampled_nonlocal_peak_bytes": 113704960,
+        "process_peak_private_bytes": 7080701952,
+        "process_peak_working_set_bytes": 5568724992
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 21.4541312,
+        "p99_ms": 21.53259008,
+        "one_percent_low_gpu_fps": 46.30528531720079
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "repetition": 2,
+      "exit_code": 0,
+      "wall_seconds": 104.5238634999987,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "cuda-sort-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-cuda-sort-queued-2.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2031, 58, 1995, 158.89\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2026, 59, 1995, 219.68\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2854,
+      "medians": {
+        "projection_ms": 8.169472,
+        "sort_and_interop_ms": 2.664448,
+        "draw_ms": 9.962496,
+        "gpu_total_ms": 21.041152,
+        "cpu_wall_ms": 63.1163,
+        "cpu_submit_ms": 0.3785,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 7157047296,
+        "sampled_nonlocal_peak_bytes": 113704960,
+        "process_peak_private_bytes": 7081304064,
+        "process_peak_working_set_bytes": 5568737280
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 21.4664704,
+        "p99_ms": 21.54682368,
+        "one_percent_low_gpu_fps": 46.27169370176
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "d3d12-queued",
+      "repetition": 2,
+      "exit_code": 0,
+      "wall_seconds": 104.17544149999594,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "d3d12-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-d3d12-queued-2.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2026, 59, 1995, 219.68\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2030, 59, 1995, 199.40\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2374,
+      "medians": {
+        "projection_ms": 7.98208,
+        "sort_and_interop_ms": 7.237632,
+        "draw_ms": 9.96352,
+        "gpu_total_ms": 25.235968,
+        "cpu_wall_ms": 75.90135000000001,
+        "cpu_submit_ms": 0.2099,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 6593699840,
+        "sampled_nonlocal_peak_bytes": 34930688,
+        "process_peak_private_bytes": 6763524096,
+        "process_peak_working_set_bytes": 5451268096
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 25.53856,
+        "p99_ms": 25.69819136,
+        "one_percent_low_gpu_fps": 38.83261094321615
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "d3d12-queued",
+      "repetition": 3,
+      "exit_code": 0,
+      "wall_seconds": 104.24169879999681,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "d3d12-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-d3d12-queued-3.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2030, 59, 1995, 199.40\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2031, 59, 1995, 220.36\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2374,
+      "medians": {
+        "projection_ms": 7.975936,
+        "sort_and_interop_ms": 7.240704,
+        "draw_ms": 9.96352,
+        "gpu_total_ms": 25.2288,
+        "cpu_wall_ms": 75.9006,
+        "cpu_submit_ms": 0.2116,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 6593699840,
+        "sampled_nonlocal_peak_bytes": 34930688,
+        "process_peak_private_bytes": 6764711936,
+        "process_peak_working_set_bytes": 5451071488
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 25.5423488,
+        "p99_ms": 25.69940992,
+        "one_percent_low_gpu_fps": 38.802972783698365
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "repetition": 3,
+      "exit_code": 0,
+      "wall_seconds": 104.90574089999427,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "--backend",
+        "cuda-sort-queued",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-sort-queued-partial-formal\\jiulonghu_v1.ply-cuda-sort-queued-3.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--warmup-seconds",
+        "30",
+        "--sample-seconds",
+        "60"
+      ],
+      "gpu_before": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2031, 59, 1995, 220.36\n"
+      },
+      "gpu_after": {
+        "command": [
+          "nvidia-smi",
+          "--query-gpu=name,driver_version,memory.used,temperature.gpu,clocks.sm,power.draw",
+          "--format=csv,noheader,nounits"
+        ],
+        "exit_code": 0,
+        "output": "NVIDIA GeForce RTX 3080, 617.42, 2033, 59, 1995, 233.58\n"
+      },
+      "visible_count": 14057341,
+      "source_count": 22480361,
+      "sample_count": 2855,
+      "medians": {
+        "projection_ms": 8.162304,
+        "sort_and_interop_ms": 2.663424,
+        "draw_ms": 9.961472,
+        "gpu_total_ms": 21.024768,
+        "cpu_wall_ms": 63.0767,
+        "cpu_submit_ms": 0.3781,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0,
+        "cuda_tile_list_kernel_ms": -1.0,
+        "cuda_composite_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 7157047296,
+        "sampled_nonlocal_peak_bytes": 113704960,
+        "process_peak_private_bytes": 7079718912,
+        "process_peak_working_set_bytes": 5568651264
+      },
+      "image_sha256": "e7db0d0ce2381d0cc127d15ef1af13f4767bca072e05506af03b848d08d09e92",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 21.448294399999998,
+        "p99_ms": 21.528576,
+        "one_percent_low_gpu_fps": 46.32459985769084
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    }
+  ]
+}

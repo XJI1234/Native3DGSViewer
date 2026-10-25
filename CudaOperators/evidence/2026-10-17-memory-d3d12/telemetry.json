@@ -1,0 +1,293 @@
+{
+  "command": [
+    "./out/cuda-results/2026-10-17-project-diagnostic/runtime/Native3DGSViewer.CudaBench.exe",
+    "--model",
+    "C:/Users/21544/Desktop/zhishan/jiulonghu_v1.ply",
+    "--backend",
+    "d3d12",
+    "--warmup-seconds",
+    "2",
+    "--sample-seconds",
+    "4",
+    "--output",
+    "out/cuda-results/memory-d3d12.csv"
+  ],
+  "global_gpu_memory": true,
+  "diagnostic_interference": true,
+  "samples": [
+    {
+      "seconds": 0.0022944999946048483,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:53.917, 0, 10240, 2020, 42, 210, 28.49",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 34615296
+    },
+    {
+      "seconds": 0.5637922999958391,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:54.497, 0, 10240, 2020, 42, 210, 28.42",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 441995264
+    },
+    {
+      "seconds": 1.146432099994854,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:55.063, 0, 10240, 2020, 42, 210, 28.45",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 844677120
+    },
+    {
+      "seconds": 1.7082621000008658,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:55.625, 0, 10240, 2020, 42, 210, 28.61",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 1266458624
+    },
+    {
+      "seconds": 2.267827399999078,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:56.184, 0, 10240, 2020, 42, 210, 28.71",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 1720193024
+    },
+    {
+      "seconds": 2.826172699999006,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:56.750, 0, 10240, 2020, 42, 210, 28.77",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 2251743232
+    },
+    {
+      "seconds": 3.3932210999992094,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:57.315, 0, 10240, 2020, 42, 210, 28.77",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 2789785600
+    },
+    {
+      "seconds": 3.958045499995933,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:57.880, 0, 10240, 2020, 42, 210, 28.75",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 3326640128
+    },
+    {
+      "seconds": 4.523777099995641,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:58.441, 0, 10240, 2020, 42, 210, 28.72",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 3860873216
+    },
+    {
+      "seconds": 5.085148699996353,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:59.001, 0, 10240, 2020, 42, 210, 28.80",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 4396158976
+    },
+    {
+      "seconds": 5.645623299998988,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:39:59.579, 0, 10240, 2023, 42, 210, 28.95",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 4927811584
+    },
+    {
+      "seconds": 6.223945400000957,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:00.153, 0, 10240, 2023, 42, 210, 29.17",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 5318602752
+    },
+    {
+      "seconds": 6.7973378999959095,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:00.719, 0, 10240, 2023, 42, 210, 29.11",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 5318602752
+    },
+    {
+      "seconds": 7.363971799997671,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:01.281, 0, 10240, 2023, 42, 210, 29.09",
+      "process_rss": 8794112,
+      "process_private": 2658304,
+      "children_rss": 2627895296
+    },
+    {
+      "seconds": 7.927581199997803,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:01.843, 0, 10240, 2021, 42, 210, 29.10",
+      "process_rss": 599977984,
+      "process_private": 13004800,
+      "children_rss": 0
+    },
+    {
+      "seconds": 8.48528229999647,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:02.404, 0, 10240, 2021, 42, 210, 29.06",
+      "process_rss": 1272754176,
+      "process_private": 13004800,
+      "children_rss": 0
+    },
+    {
+      "seconds": 9.048474499999429,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:02.978, 0, 10240, 2021, 42, 210, 29.04",
+      "process_rss": 2414882816,
+      "process_private": 13004800,
+      "children_rss": 0
+    },
+    {
+      "seconds": 9.624303599994164,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:03.554, 0, 10240, 2023, 42, 210, 29.05",
+      "process_rss": 3604930560,
+      "process_private": 13004800,
+      "children_rss": 0
+    },
+    {
+      "seconds": 10.198935799999163,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:04.115, 0, 10240, 2023, 43, 210, 29.26",
+      "process_rss": 4774735872,
+      "process_private": 13004800,
+      "children_rss": 0
+    },
+    {
+      "seconds": 10.76144270000077,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:04.687, 0, 10240, 2219, 43, 210, 29.23",
+      "process_rss": 5378207744,
+      "process_private": 1371156480,
+      "children_rss": 0
+    },
+    {
+      "seconds": 11.342897199996514,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:05.266, 0, 10240, 8307, 45, 1995, 58.62",
+      "process_rss": 5448355840,
+      "process_private": 6761684992,
+      "children_rss": 0
+    },
+    {
+      "seconds": 11.91156609999598,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:05.828, 0, 10240, 8305, 46, 1995, 101.81",
+      "process_rss": 5448425472,
+      "process_private": 6761684992,
+      "children_rss": 0
+    },
+    {
+      "seconds": 12.472125499996764,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:06.387, 0, 10240, 8313, 46, 1995, 124.43",
+      "process_rss": 5450788864,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 13.02860679999867,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:06.943, 0, 10240, 8313, 52, 1995, 175.68",
+      "process_rss": 5450788864,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 13.58447139999771,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:07.492, 0, 10240, 8313, 53, 1965, 247.98",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 14.132774899997457,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:08.043, 0, 10240, 8313, 54, 1995, 285.58",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 14.684116899996297,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:08.604, 0, 10240, 8313, 55, 1995, 285.97",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 15.245683799999824,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:09.165, 0, 10240, 8313, 55, 1965, 286.61",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 15.806465900001058,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:09.727, 0, 10240, 8313, 55, 1980, 287.29",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 16.36858239999856,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:10.286, 0, 10240, 8313, 55, 1980, 286.41",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 16.927238699994632,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:10.837, 0, 10240, 8313, 55, 1965, 285.93",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 17.47797680000076,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:11.397, 0, 10240, 8313, 56, 1980, 286.55",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 18.03801189999649,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:11.960, 0, 10240, 8313, 56, 1980, 286.17",
+      "process_rss": 5450792960,
+      "process_private": 6763143168,
+      "children_rss": 0
+    },
+    {
+      "seconds": 18.601272699997935,
+      "gpu_query_exit": 0,
+      "gpu_csv": "2026/10/17 03:40:12.512, 0, 10240, 2021, 56, 1995, 285.67",
+      "process_rss": 1169317888,
+      "process_private": 252981248,
+      "children_rss": 0
+    }
+  ],
+  "timed_out": false,
+  "exit_code": 0
+}

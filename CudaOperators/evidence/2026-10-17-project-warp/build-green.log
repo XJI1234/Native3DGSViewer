@@ -1,0 +1,51 @@
+[1/19] Running utility command for render-shaders
+[2/19] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\bench\scene.cpp for CXX dependencies
+[3/19] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\CXX.dd
+[4/19] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\bench\scene.cpp.obj
+[5/19] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\project.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+project.cu
+
+tmpxft_0000a538_00000000-7_project.cudafe1.cpp
+
+[6/19] Linking CXX shared library cuda\Release\gs-cuda-backend.dll
+[7/19] Linking CXX executable cuda\Release\Native3DGSViewer.CudaLifecycleTests.exe
+[8/19] Linking CXX executable cuda\Release\Native3DGSViewer.CudaBench.exe
+[9/19] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp for CXX dependencies
+[10/19] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp for CXX dependencies
+[11/19] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\CXX.dd
+[12/15] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\ownership_tests.cpp.obj
+[13/15] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj
+[14/15] Linking CXX executable cuda\Release\Native3DGSViewer.CudaTests.exe
+[15/15] Linking CXX executable cuda\Release\Native3DGSViewer.CudaSortBench.exe

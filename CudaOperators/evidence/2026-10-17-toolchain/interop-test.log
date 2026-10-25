@@ -1,0 +1,9 @@
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+    Start 6: CudaToolchain
+1/2 Test #6: CudaToolchain ....................   Passed    0.19 sec
+    Start 7: CudaInterop
+2/2 Test #7: CudaInterop ......................   Passed    0.95 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.15 sec

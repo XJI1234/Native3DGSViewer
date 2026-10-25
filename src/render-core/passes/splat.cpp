@@ -134,6 +134,13 @@ FrameConstants SplatPass::constants(const SceneGpu &s, Viewport viewport) const
 void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport viewport,
                              ID3D12QueryHeap *stage_queries)
 {
+    project(list, s, viewport, stage_queries);
+    sort_.record(list, s.sorting);
+    s.sorted = true;
+}
+void SplatPass::project(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport viewport,
+                       ID3D12QueryHeap *stage_queries)
+{
     auto c = constants(s, viewport);
     list->SetComputeRootSignature(root_.Get());
     list->SetComputeRoot32BitConstants(0, 40, &c, 0);
@@ -153,8 +160,6 @@ void SplatPass::project_sort(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewp
     uav_barrier(list);
     if (stage_queries)
         list->EndQuery(stage_queries, D3D12_QUERY_TYPE_TIMESTAMP, 1);
-    sort_.record(list, s.sorting);
-    s.sorted = true;
 }
 void SplatPass::draw(ID3D12GraphicsCommandList *list, SceneGpu &s, Viewport viewport,
                      D3D12_CPU_DESCRIPTOR_HANDLE target)

@@ -1,0 +1,828 @@
+{
+  "reference": {
+    "pixel_bgra": [
+      222,
+      222,
+      225,
+      255
+    ],
+    "pixel_max_error": 0,
+    "global_max_error": 0,
+    "pixels_over_8": 0,
+    "sha256": "3fdcf7e83106b678c343ab73b99a0048377fa1e27b401454c63a6869a897a134"
+  },
+  "cuda": {
+    "pixel_bgra": [
+      232,
+      233,
+      235,
+      255
+    ],
+    "pixel_max_error": 11,
+    "global_max_error": 11,
+    "pixels_over_8": 2,
+    "sha256": "34c0c7c04fe4884d0a998471e15a9e555917fc0629cd9afa9a91a75d41fcebfb"
+  },
+  "order-corrected": {
+    "pixel_bgra": [
+      222,
+      222,
+      225,
+      255
+    ],
+    "pixel_max_error": 0,
+    "global_max_error": 9,
+    "pixels_over_8": 1,
+    "sha256": "864b96a12b07f4e2e79e8cf5c9eaa3f13b2d1034a612dbfbeaca2fcaabe920ba"
+  },
+  "key_differences": [
+    {
+      "index": "100418",
+      "reference_key": "3196959109",
+      "cuda_key": "3196959108",
+      "reference_rank": "38804",
+      "cuda_rank": "38804"
+    },
+    {
+      "index": "68773",
+      "reference_key": "3197235334",
+      "cuda_key": "3197235333",
+      "reference_rank": "45952",
+      "cuda_rank": "45952"
+    },
+    {
+      "index": "100838",
+      "reference_key": "3197537253",
+      "cuda_key": "3197537252",
+      "reference_rank": "55595",
+      "cuda_rank": "55595"
+    },
+    {
+      "index": "69489",
+      "reference_key": "3197576236",
+      "cuda_key": "3197576235",
+      "reference_rank": "56998",
+      "cuda_rank": "56998"
+    },
+    {
+      "index": "100569",
+      "reference_key": "3197580560",
+      "cuda_key": "3197580561",
+      "reference_rank": "57122",
+      "cuda_rank": "57122"
+    },
+    {
+      "index": "69182",
+      "reference_key": "3197605230",
+      "cuda_key": "3197605229",
+      "reference_rank": "58090",
+      "cuda_rank": "58090"
+    },
+    {
+      "index": "68695",
+      "reference_key": "3197672319",
+      "cuda_key": "3197672320",
+      "reference_rank": "60485",
+      "cuda_rank": "60485"
+    },
+    {
+      "index": "100438",
+      "reference_key": "3197691609",
+      "cuda_key": "3197691608",
+      "reference_rank": "61240",
+      "cuda_rank": "61240"
+    },
+    {
+      "index": "69024",
+      "reference_key": "3197747164",
+      "cuda_key": "3197747163",
+      "reference_rank": "63754",
+      "cuda_rank": "63754"
+    },
+    {
+      "index": "69127",
+      "reference_key": "3197834695",
+      "cuda_key": "3197834694",
+      "reference_rank": "66999",
+      "cuda_rank": "66999"
+    },
+    {
+      "index": "69188",
+      "reference_key": "3197837185",
+      "cuda_key": "3197837186",
+      "reference_rank": "67091",
+      "cuda_rank": "67091"
+    },
+    {
+      "index": "69197",
+      "reference_key": "3197837576",
+      "cuda_key": "3197837575",
+      "reference_rank": "67112",
+      "cuda_rank": "67112"
+    },
+    {
+      "index": "100615",
+      "reference_key": "3197858835",
+      "cuda_key": "3197858834",
+      "reference_rank": "68059",
+      "cuda_rank": "68058"
+    },
+    {
+      "index": "100991",
+      "reference_key": "3197861815",
+      "cuda_key": "3197861814",
+      "reference_rank": "68169",
+      "cuda_rank": "68169"
+    },
+    {
+      "index": "100980",
+      "reference_key": "3197863909",
+      "cuda_key": "3197863910",
+      "reference_rank": "68266",
+      "cuda_rank": "68266"
+    },
+    {
+      "index": "100978",
+      "reference_key": "3197867986",
+      "cuda_key": "3197867987",
+      "reference_rank": "68423",
+      "cuda_rank": "68423"
+    },
+    {
+      "index": "69067",
+      "reference_key": "3197868962",
+      "cuda_key": "3197868961",
+      "reference_rank": "68457",
+      "cuda_rank": "68457"
+    },
+    {
+      "index": "100988",
+      "reference_key": "3197869922",
+      "cuda_key": "3197869921",
+      "reference_rank": "68488",
+      "cuda_rank": "68488"
+    },
+    {
+      "index": "69095",
+      "reference_key": "3197883052",
+      "cuda_key": "3197883053",
+      "reference_rank": "68993",
+      "cuda_rank": "68993"
+    },
+    {
+      "index": "69128",
+      "reference_key": "3197904373",
+      "cuda_key": "3197904374",
+      "reference_rank": "69816",
+      "cuda_rank": "69816"
+    },
+    {
+      "index": "69192",
+      "reference_key": "3197941297",
+      "cuda_key": "3197941296",
+      "reference_rank": "71426",
+      "cuda_rank": "71426"
+    },
+    {
+      "index": "69438",
+      "reference_key": "3197994753",
+      "cuda_key": "3197994754",
+      "reference_rank": "73664",
+      "cuda_rank": "73664"
+    },
+    {
+      "index": "69271",
+      "reference_key": "3198003948",
+      "cuda_key": "3198003949",
+      "reference_rank": "74021",
+      "cuda_rank": "74021"
+    },
+    {
+      "index": "206030",
+      "reference_key": "3198270738",
+      "cuda_key": "3198270739",
+      "reference_rank": "85244",
+      "cuda_rank": "85244"
+    },
+    {
+      "index": "206022",
+      "reference_key": "3198277822",
+      "cuda_key": "3198277823",
+      "reference_rank": "85638",
+      "cuda_rank": "85638"
+    },
+    {
+      "index": "206082",
+      "reference_key": "3198282924",
+      "cuda_key": "3198282925",
+      "reference_rank": "85992",
+      "cuda_rank": "85992"
+    },
+    {
+      "index": "206120",
+      "reference_key": "3198393252",
+      "cuda_key": "3198393251",
+      "reference_rank": "92835",
+      "cuda_rank": "92835"
+    },
+    {
+      "index": "206169",
+      "reference_key": "3198574864",
+      "cuda_key": "3198574865",
+      "reference_rank": "102999",
+      "cuda_rank": "102999"
+    },
+    {
+      "index": "208583",
+      "reference_key": "3198628448",
+      "cuda_key": "3198628447",
+      "reference_rank": "105839",
+      "cuda_rank": "105839"
+    },
+    {
+      "index": "213850",
+      "reference_key": "3198712602",
+      "cuda_key": "3198712601",
+      "reference_rank": "109369",
+      "cuda_rank": "109369"
+    },
+    {
+      "index": "208537",
+      "reference_key": "3198776451",
+      "cuda_key": "3198776452",
+      "reference_rank": "112192",
+      "cuda_rank": "112192"
+    },
+    {
+      "index": "208540",
+      "reference_key": "3198885378",
+      "cuda_key": "3198885377",
+      "reference_rank": "117525",
+      "cuda_rank": "117525"
+    },
+    {
+      "index": "208696",
+      "reference_key": "3199207756",
+      "cuda_key": "3199207755",
+      "reference_rank": "139790",
+      "cuda_rank": "139790"
+    },
+    {
+      "index": "239104",
+      "reference_key": "3199421306",
+      "cuda_key": "3199421307",
+      "reference_rank": "154885",
+      "cuda_rank": "154885"
+    },
+    {
+      "index": "248584",
+      "reference_key": "3199506607",
+      "cuda_key": "3199506608",
+      "reference_rank": "160773",
+      "cuda_rank": "160773"
+    },
+    {
+      "index": "250100",
+      "reference_key": "3199736352",
+      "cuda_key": "3199736351",
+      "reference_rank": "178047",
+      "cuda_rank": "178047"
+    },
+    {
+      "index": "401441",
+      "reference_key": "3199767524",
+      "cuda_key": "3199767523",
+      "reference_rank": "180216",
+      "cuda_rank": "180216"
+    },
+    {
+      "index": "427658",
+      "reference_key": "3200137738",
+      "cuda_key": "3200137739",
+      "reference_rank": "208371",
+      "cuda_rank": "208371"
+    },
+    {
+      "index": "500068",
+      "reference_key": "3200181759",
+      "cuda_key": "3200181758",
+      "reference_rank": "212528",
+      "cuda_rank": "212528"
+    },
+    {
+      "index": "428230",
+      "reference_key": "3200196361",
+      "cuda_key": "3200196362",
+      "reference_rank": "213956",
+      "cuda_rank": "213956"
+    },
+    {
+      "index": "427778",
+      "reference_key": "3200201224",
+      "cuda_key": "3200201223",
+      "reference_rank": "214420",
+      "cuda_rank": "214420"
+    },
+    {
+      "index": "509281",
+      "reference_key": "3200239365",
+      "cuda_key": "3200239366",
+      "reference_rank": "217892",
+      "cuda_rank": "217892"
+    },
+    {
+      "index": "425120",
+      "reference_key": "3200251561",
+      "cuda_key": "3200251560",
+      "reference_rank": "219024",
+      "cuda_rank": "219024"
+    },
+    {
+      "index": "425157",
+      "reference_key": "3200264797",
+      "cuda_key": "3200264798",
+      "reference_rank": "220299",
+      "cuda_rank": "220299"
+    },
+    {
+      "index": "425131",
+      "reference_key": "3200265545",
+      "cuda_key": "3200265544",
+      "reference_rank": "220371",
+      "cuda_rank": "220370"
+    },
+    {
+      "index": "425194",
+      "reference_key": "3200289894",
+      "cuda_key": "3200289893",
+      "reference_rank": "222797",
+      "cuda_rank": "222797"
+    },
+    {
+      "index": "425198",
+      "reference_key": "3200292559",
+      "cuda_key": "3200292558",
+      "reference_rank": "223033",
+      "cuda_rank": "223033"
+    },
+    {
+      "index": "425214",
+      "reference_key": "3200293559",
+      "cuda_key": "3200293560",
+      "reference_rank": "223120",
+      "cuda_rank": "223120"
+    },
+    {
+      "index": "425210",
+      "reference_key": "3200293560",
+      "cuda_key": "3200293561",
+      "reference_rank": "223121",
+      "cuda_rank": "223121"
+    },
+    {
+      "index": "425205",
+      "reference_key": "3200294147",
+      "cuda_key": "3200294146",
+      "reference_rank": "223186",
+      "cuda_rank": "223186"
+    },
+    {
+      "index": "499798",
+      "reference_key": "3200294562",
+      "cuda_key": "3200294561",
+      "reference_rank": "223229",
+      "cuda_rank": "223229"
+    },
+    {
+      "index": "425202",
+      "reference_key": "3200294876",
+      "cuda_key": "3200294875",
+      "reference_rank": "223263",
+      "cuda_rank": "223263"
+    },
+    {
+      "index": "425195",
+      "reference_key": "3200295497",
+      "cuda_key": "3200295498",
+      "reference_rank": "223328",
+      "cuda_rank": "223328"
+    },
+    {
+      "index": "425218",
+      "reference_key": "3200295910",
+      "cuda_key": "3200295909",
+      "reference_rank": "223366",
+      "cuda_rank": "223366"
+    },
+    {
+      "index": "425179",
+      "reference_key": "3200298902",
+      "cuda_key": "3200298901",
+      "reference_rank": "223645",
+      "cuda_rank": "223645"
+    },
+    {
+      "index": "425174",
+      "reference_key": "3200306442",
+      "cuda_key": "3200306443",
+      "reference_rank": "224401",
+      "cuda_rank": "224401"
+    },
+    {
+      "index": "425143",
+      "reference_key": "3200308440",
+      "cuda_key": "3200308439",
+      "reference_rank": "224613",
+      "cuda_rank": "224613"
+    },
+    {
+      "index": "509111",
+      "reference_key": "3200356586",
+      "cuda_key": "3200356587",
+      "reference_rank": "229642",
+      "cuda_rank": "229642"
+    },
+    {
+      "index": "427138",
+      "reference_key": "3200399057",
+      "cuda_key": "3200399056",
+      "reference_rank": "234320",
+      "cuda_rank": "234320"
+    },
+    {
+      "index": "403434",
+      "reference_key": "3200405165",
+      "cuda_key": "3200405166",
+      "reference_rank": "234996",
+      "cuda_rank": "234996"
+    },
+    {
+      "index": "493249",
+      "reference_key": "3200408216",
+      "cuda_key": "3200408217",
+      "reference_rank": "235360",
+      "cuda_rank": "235360"
+    },
+    {
+      "index": "425286",
+      "reference_key": "3200425507",
+      "cuda_key": "3200425506",
+      "reference_rank": "237546",
+      "cuda_rank": "237546"
+    },
+    {
+      "index": "496095",
+      "reference_key": "3200430268",
+      "cuda_key": "3200430269",
+      "reference_rank": "238152",
+      "cuda_rank": "238152"
+    },
+    {
+      "index": "430583",
+      "reference_key": "3200438057",
+      "cuda_key": "3200438056",
+      "reference_rank": "239169",
+      "cuda_rank": "239169"
+    },
+    {
+      "index": "496075",
+      "reference_key": "3200460332",
+      "cuda_key": "3200460333",
+      "reference_rank": "241993",
+      "cuda_rank": "241994"
+    },
+    {
+      "index": "493206",
+      "reference_key": "3200475994",
+      "cuda_key": "3200475995",
+      "reference_rank": "244212",
+      "cuda_rank": "244212"
+    },
+    {
+      "index": "493250",
+      "reference_key": "3200478384",
+      "cuda_key": "3200478385",
+      "reference_rank": "244527",
+      "cuda_rank": "244527"
+    },
+    {
+      "index": "427506",
+      "reference_key": "3200492739",
+      "cuda_key": "3200492738",
+      "reference_rank": "246447",
+      "cuda_rank": "246447"
+    },
+    {
+      "index": "425377",
+      "reference_key": "3200493670",
+      "cuda_key": "3200493671",
+      "reference_rank": "246571",
+      "cuda_rank": "246571"
+    },
+    {
+      "index": "425395",
+      "reference_key": "3200495679",
+      "cuda_key": "3200495680",
+      "reference_rank": "246826",
+      "cuda_rank": "246827"
+    },
+    {
+      "index": "427501",
+      "reference_key": "3200495738",
+      "cuda_key": "3200495737",
+      "reference_rank": "246834",
+      "cuda_rank": "246834"
+    },
+    {
+      "index": "425422",
+      "reference_key": "3200496286",
+      "cuda_key": "3200496287",
+      "reference_rank": "246906",
+      "cuda_rank": "246906"
+    },
+    {
+      "index": "425285",
+      "reference_key": "3200497514",
+      "cuda_key": "3200497513",
+      "reference_rank": "247084",
+      "cuda_rank": "247084"
+    },
+    {
+      "index": "430629",
+      "reference_key": "3200499813",
+      "cuda_key": "3200499814",
+      "reference_rank": "247404",
+      "cuda_rank": "247405"
+    },
+    {
+      "index": "425402",
+      "reference_key": "3200508466",
+      "cuda_key": "3200508465",
+      "reference_rank": "248551",
+      "cuda_rank": "248551"
+    },
+    {
+      "index": "430784",
+      "reference_key": "3200509244",
+      "cuda_key": "3200509243",
+      "reference_rank": "248647",
+      "cuda_rank": "248647"
+    },
+    {
+      "index": "430665",
+      "reference_key": "3200511940",
+      "cuda_key": "3200511939",
+      "reference_rank": "249007",
+      "cuda_rank": "249007"
+    },
+    {
+      "index": "430726",
+      "reference_key": "3200512378",
+      "cuda_key": "3200512377",
+      "reference_rank": "249072",
+      "cuda_rank": "249072"
+    },
+    {
+      "index": "430772",
+      "reference_key": "3200513359",
+      "cuda_key": "3200513360",
+      "reference_rank": "249207",
+      "cuda_rank": "249207"
+    },
+    {
+      "index": "430770",
+      "reference_key": "3200514376",
+      "cuda_key": "3200514375",
+      "reference_rank": "249332",
+      "cuda_rank": "249332"
+    },
+    {
+      "index": "430706",
+      "reference_key": "3200518240",
+      "cuda_key": "3200518239",
+      "reference_rank": "249846",
+      "cuda_rank": "249846"
+    },
+    {
+      "index": "430602",
+      "reference_key": "3200518632",
+      "cuda_key": "3200518631",
+      "reference_rank": "249900",
+      "cuda_rank": "249900"
+    },
+    {
+      "index": "430596",
+      "reference_key": "3200518875",
+      "cuda_key": "3200518874",
+      "reference_rank": "249928",
+      "cuda_rank": "249927"
+    },
+    {
+      "index": "430787",
+      "reference_key": "3200519485",
+      "cuda_key": "3200519486",
+      "reference_rank": "250001",
+      "cuda_rank": "250001"
+    },
+    {
+      "index": "430818",
+      "reference_key": "3200521405",
+      "cuda_key": "3200521404",
+      "reference_rank": "250300",
+      "cuda_rank": "250300"
+    },
+    {
+      "index": "430644",
+      "reference_key": "3200522033",
+      "cuda_key": "3200522034",
+      "reference_rank": "250390",
+      "cuda_rank": "250390"
+    },
+    {
+      "index": "430601",
+      "reference_key": "3200522154",
+      "cuda_key": "3200522155",
+      "reference_rank": "250409",
+      "cuda_rank": "250409"
+    },
+    {
+      "index": "430798",
+      "reference_key": "3200522388",
+      "cuda_key": "3200522389",
+      "reference_rank": "250435",
+      "cuda_rank": "250435"
+    },
+    {
+      "index": "430822",
+      "reference_key": "3200522518",
+      "cuda_key": "3200522519",
+      "reference_rank": "250451",
+      "cuda_rank": "250451"
+    },
+    {
+      "index": "430814",
+      "reference_key": "3200525030",
+      "cuda_key": "3200525031",
+      "reference_rank": "250745",
+      "cuda_rank": "250745"
+    },
+    {
+      "index": "430647",
+      "reference_key": "3200525069",
+      "cuda_key": "3200525068",
+      "reference_rank": "250751",
+      "cuda_rank": "250751"
+    },
+    {
+      "index": "430609",
+      "reference_key": "3200525912",
+      "cuda_key": "3200525911",
+      "reference_rank": "250877",
+      "cuda_rank": "250877"
+    },
+    {
+      "index": "430717",
+      "reference_key": "3200526916",
+      "cuda_key": "3200526915",
+      "reference_rank": "251013",
+      "cuda_rank": "251013"
+    },
+    {
+      "index": "430691",
+      "reference_key": "3200531911",
+      "cuda_key": "3200531912",
+      "reference_rank": "251698",
+      "cuda_rank": "251698"
+    },
+    {
+      "index": "430791",
+      "reference_key": "3200532872",
+      "cuda_key": "3200532871",
+      "reference_rank": "251827",
+      "cuda_rank": "251827"
+    },
+    {
+      "index": "430586",
+      "reference_key": "3200542815",
+      "cuda_key": "3200542816",
+      "reference_rank": "253083",
+      "cuda_rank": "253083"
+    },
+    {
+      "index": "427305",
+      "reference_key": "3200545855",
+      "cuda_key": "3200545856",
+      "reference_rank": "253459",
+      "cuda_rank": "253459"
+    },
+    {
+      "index": "430785",
+      "reference_key": "3200547521",
+      "cuda_key": "3200547522",
+      "reference_rank": "253684",
+      "cuda_rank": "253685"
+    },
+    {
+      "index": "425028",
+      "reference_key": "3200550478",
+      "cuda_key": "3200550479",
+      "reference_rank": "254097",
+      "cuda_rank": "254097"
+    },
+    {
+      "index": "506972",
+      "reference_key": "3200559240",
+      "cuda_key": "3200559241",
+      "reference_rank": "255259",
+      "cuda_rank": "255259"
+    },
+    {
+      "index": "506973",
+      "reference_key": "3200561101",
+      "cuda_key": "3200561102",
+      "reference_rank": "255508",
+      "cuda_rank": "255508"
+    },
+    {
+      "index": "423991",
+      "reference_key": "3200569393",
+      "cuda_key": "3200569394",
+      "reference_rank": "256652",
+      "cuda_rank": "256652"
+    },
+    {
+      "index": "424016",
+      "reference_key": "3200575652",
+      "cuda_key": "3200575653",
+      "reference_rank": "257599",
+      "cuda_rank": "257599"
+    },
+    {
+      "index": "506974",
+      "reference_key": "3200582149",
+      "cuda_key": "3200582148",
+      "reference_rank": "258516",
+      "cuda_rank": "258516"
+    },
+    {
+      "index": "496229",
+      "reference_key": "3200595144",
+      "cuda_key": "3200595145",
+      "reference_rank": "260224",
+      "cuda_rank": "260225"
+    },
+    {
+      "index": "504810",
+      "reference_key": "3200604470",
+      "cuda_key": "3200604471",
+      "reference_rank": "261449",
+      "cuda_rank": "261449"
+    },
+    {
+      "index": "504819",
+      "reference_key": "3200605842",
+      "cuda_key": "3200605841",
+      "reference_rank": "261606",
+      "cuda_rank": "261604"
+    },
+    {
+      "index": "431140",
+      "reference_key": "3200659984",
+      "cuda_key": "3200659983",
+      "reference_rank": "268828",
+      "cuda_rank": "268828"
+    },
+    {
+      "index": "504887",
+      "reference_key": "3200667319",
+      "cuda_key": "3200667320",
+      "reference_rank": "269893",
+      "cuda_rank": "269893"
+    },
+    {
+      "index": "505318",
+      "reference_key": "3200700163",
+      "cuda_key": "3200700164",
+      "reference_rank": "274757",
+      "cuda_rank": "274757"
+    },
+    {
+      "index": "522792",
+      "reference_key": "3201135067",
+      "cuda_key": "3201135068",
+      "reference_rank": "336356",
+      "cuda_rank": "336356"
+    },
+    {
+      "index": "490549",
+      "reference_key": "3201754723",
+      "cuda_key": "3201754724",
+      "reference_rank": "434982",
+      "cuda_rank": "434982"
+    }
+  ],
+  "binary_hashes": {
+    "Native3DGSViewer.CudaBench.exe": "940c0f79077cfa00b6600e69a0d0294921a0eef50ee68377d9f3a49ebcd702f2",
+    "gs-cuda-backend.dll": "5a343caacac99d6ce600f48fb4e6a371c88a466cd317a5a6fa24cbef4b4028c8"
+  }
+}

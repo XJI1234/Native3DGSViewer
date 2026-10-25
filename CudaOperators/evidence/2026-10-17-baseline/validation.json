@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-17T02:20:52.084077+08:00",
+  "d3d12_stage_runs": 45,
+  "measured_frames": 5400,
+  "spz_single_run_smokes": 2,
+  "sort_runs": 3,
+  "ctest_groups_passed": 5,
+  "ctest_groups_total": 5,
+  "binaries_and_shaders_still_match_recorded_hashes": true,
+  "local_markdown_links_valid": true,
+  "json_parse_valid": true,
+  "cuda_operators_implemented": false,
+  "formal_present_acceptance_run": false,
+  "gpu_after": "name, driver_version, memory.total [MiB], memory.used [MiB], temperature.gpu, pstate\nNVIDIA GeForce RTX 3080, 617.42, 10240 MiB, 2006 MiB, 49, P8\n"
+}

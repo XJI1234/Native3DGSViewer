@@ -1,0 +1,23 @@
+{
+  "runs": [
+    {
+      "log": "sort-8000000-1.log",
+      "count": 8000000,
+      "iterations": 30,
+      "median_ms": 2.61222
+    },
+    {
+      "log": "sort-8000000-2.log",
+      "count": 8000000,
+      "iterations": 30,
+      "median_ms": 2.6112
+    },
+    {
+      "log": "sort-8000000-3.log",
+      "count": 8000000,
+      "iterations": 30,
+      "median_ms": 2.61325
+    }
+  ],
+  "median_of_run_medians_ms": 2.61222
+}

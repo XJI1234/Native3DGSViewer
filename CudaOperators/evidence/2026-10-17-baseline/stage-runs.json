@@ -1,0 +1,1085 @@
+{
+  "protocol": "diagnostic: 60 warm-up frames,120 measured frames,1920x1080,SH3,stride1,no Present; 3 repetitions; orbit advances 1 degree per frame,not time-based",
+  "runs": [
+    {
+      "model": "changjin_v1.ply",
+      "mode": "force",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.8557967000015196,
+      "raw_log": "raw\\changjin_v1-force-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.13824,
+        "draw_ms": 0.206848,
+        "gpu_total_ms": 0.44032
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "cached",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.598686400000588,
+      "raw_log": "raw\\changjin_v1-cached-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.178176,
+        "gpu_total_ms": 0.178176
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "orbit",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5878522999992128,
+      "raw_log": "raw\\changjin_v1-orbit-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.123904,
+        "draw_ms": 0.180224,
+        "gpu_total_ms": 0.40089600000000003
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "force",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.159472299994377,
+      "raw_log": "raw\\shengyi_v1-force-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.37888,
+        "sort_ms": 0.330752,
+        "draw_ms": 0.567296,
+        "gpu_total_ms": 1.27693
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "cached",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.9487480999960098,
+      "raw_log": "raw\\shengyi_v1-cached-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.560128,
+        "gpu_total_ms": 0.560128
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "orbit",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.0908016999965184,
+      "raw_log": "raw\\shengyi_v1-orbit-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.37888,
+        "sort_ms": 0.330752,
+        "draw_ms": 0.569344,
+        "gpu_total_ms": 1.28
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "force",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.5514038000037544,
+      "raw_log": "raw\\tumu_v1-force-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.574464,
+        "sort_ms": 0.466944,
+        "draw_ms": 0.872448,
+        "gpu_total_ms": 1.91386
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "cached",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.3241811999978381,
+      "raw_log": "raw\\tumu_v1-cached-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.86528,
+        "gpu_total_ms": 0.86528
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "orbit",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.4842016999973566,
+      "raw_log": "raw\\tumu_v1-orbit-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.575488,
+        "sort_ms": 0.467968,
+        "draw_ms": 0.873472,
+        "gpu_total_ms": 1.91795
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "force",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.7717483999949764,
+      "raw_log": "raw\\zhihuizhimen-force-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.7705,
+        "sort_ms": 1.26976,
+        "draw_ms": 2.69517,
+        "gpu_total_ms": 6.039555
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "cached",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.1496681999997236,
+      "raw_log": "raw\\zhihuizhimen-cached-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 2.69312,
+        "gpu_total_ms": 2.69312
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "orbit",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.630592399997113,
+      "raw_log": "raw\\zhihuizhimen-orbit-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.7664,
+        "sort_ms": 1.26976,
+        "draw_ms": 2.69619,
+        "gpu_total_ms": 5.98221
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "force",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 19.24839190000057,
+      "raw_log": "raw\\jiulonghu_v1-force-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.5073,
+        "sort_ms": 8.108545,
+        "draw_ms": 15.9775,
+        "gpu_total_ms": 34.8365
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "cached",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 15.2607863000012,
+      "raw_log": "raw\\jiulonghu_v1-cached-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 15.7993,
+        "gpu_total_ms": 15.7993
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "orbit",
+      "repetition": 1,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 18.713598399997863,
+      "raw_log": "raw\\jiulonghu_v1-orbit-1.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.514949999999999,
+        "sort_ms": 8.182269999999999,
+        "draw_ms": 15.87965,
+        "gpu_total_ms": 34.7894
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "orbit",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 18.54662819999794,
+      "raw_log": "raw\\jiulonghu_v1-orbit-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.5103,
+        "sort_ms": 8.182784999999999,
+        "draw_ms": 15.8751,
+        "gpu_total_ms": 34.7986
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "cached",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 15.251528300002974,
+      "raw_log": "raw\\jiulonghu_v1-cached-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 15.8003,
+        "gpu_total_ms": 15.8003
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "force",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 18.526133699997445,
+      "raw_log": "raw\\jiulonghu_v1-force-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.497499999999999,
+        "sort_ms": 8.093695,
+        "draw_ms": 15.874,
+        "gpu_total_ms": 34.694649999999996
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "orbit",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.5394184999968274,
+      "raw_log": "raw\\zhihuizhimen-orbit-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.76845,
+        "sort_ms": 1.26874,
+        "draw_ms": 2.67776,
+        "gpu_total_ms": 5.96173
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "cached",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 2.925229500004207,
+      "raw_log": "raw\\zhihuizhimen-cached-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 2.67469,
+        "gpu_total_ms": 2.67469
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "force",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.515422900003614,
+      "raw_log": "raw\\zhihuizhimen-force-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.76742,
+        "sort_ms": 1.26874,
+        "draw_ms": 2.67674,
+        "gpu_total_ms": 5.96173
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "orbit",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.418868000000657,
+      "raw_log": "raw\\tumu_v1-orbit-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.574464,
+        "sort_ms": 0.470016,
+        "draw_ms": 0.867328,
+        "gpu_total_ms": 1.91181
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "cached",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.2029025000010733,
+      "raw_log": "raw\\tumu_v1-cached-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.859136,
+        "gpu_total_ms": 0.859136
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "force",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.4189152999970247,
+      "raw_log": "raw\\tumu_v1-force-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.574464,
+        "sort_ms": 0.468992,
+        "draw_ms": 0.866304,
+        "gpu_total_ms": 1.90976
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "orbit",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.041712300000654,
+      "raw_log": "raw\\shengyi_v1-orbit-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.377856,
+        "sort_ms": 0.328704,
+        "draw_ms": 0.565248,
+        "gpu_total_ms": 1.27181
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "cached",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.907911399997829,
+      "raw_log": "raw\\shengyi_v1-cached-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.557056,
+        "gpu_total_ms": 0.557056
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "force",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.0495101999986218,
+      "raw_log": "raw\\shengyi_v1-force-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.377856,
+        "sort_ms": 0.328704,
+        "draw_ms": 0.564224,
+        "gpu_total_ms": 1.27181
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "orbit",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5622818000047118,
+      "raw_log": "raw\\changjin_v1-orbit-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.123904,
+        "draw_ms": 0.180736,
+        "gpu_total_ms": 0.40089600000000003
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "cached",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.489071399999375,
+      "raw_log": "raw\\changjin_v1-cached-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.178176,
+        "gpu_total_ms": 0.178176
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "force",
+      "repetition": 2,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.550150199997006,
+      "raw_log": "raw\\changjin_v1-force-2.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.123904,
+        "draw_ms": 0.185344,
+        "gpu_total_ms": 0.40448
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "force",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5386275999990175,
+      "raw_log": "raw\\changjin_v1-force-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.123904,
+        "draw_ms": 0.185344,
+        "gpu_total_ms": 0.40448
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "cached",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.48852679999981774,
+      "raw_log": "raw\\changjin_v1-cached-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.178176,
+        "gpu_total_ms": 0.178176
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "changjin_v1.ply",
+      "mode": "orbit",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5483577999984846,
+      "raw_log": "raw\\changjin_v1-orbit-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.095232,
+        "sort_ms": 0.123904,
+        "draw_ms": 0.180224,
+        "gpu_total_ms": 0.400384
+      },
+      "rendered_count": 170799
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "force",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.0693748999983654,
+      "raw_log": "raw\\shengyi_v1-force-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.376832,
+        "sort_ms": 0.364544,
+        "draw_ms": 0.6179840000000001,
+        "gpu_total_ms": 1.35987
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "cached",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.9101726000008057,
+      "raw_log": "raw\\shengyi_v1-cached-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.557056,
+        "gpu_total_ms": 0.557056
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "mode": "orbit",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.049842099993839,
+      "raw_log": "raw\\shengyi_v1-orbit-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.377856,
+        "sort_ms": 0.328704,
+        "draw_ms": 0.565248,
+        "gpu_total_ms": 1.2723200000000001
+      },
+      "rendered_count": 804758
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "force",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.4068332000024384,
+      "raw_log": "raw\\tumu_v1-force-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.575488,
+        "sort_ms": 0.468992,
+        "draw_ms": 0.867328,
+        "gpu_total_ms": 1.91181
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "cached",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.2018945999952848,
+      "raw_log": "raw\\tumu_v1-cached-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 0.859136,
+        "gpu_total_ms": 0.859136
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "tumu_v1.ply",
+      "mode": "orbit",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.4078655999983312,
+      "raw_log": "raw\\tumu_v1-orbit-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.575488,
+        "sort_ms": 0.470016,
+        "draw_ms": 0.867328,
+        "gpu_total_ms": 1.91283
+      },
+      "rendered_count": 1248730
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "force",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.5079248000038206,
+      "raw_log": "raw\\zhihuizhimen-force-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.76845,
+        "sort_ms": 1.26874,
+        "draw_ms": 2.67674,
+        "gpu_total_ms": 5.96275
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "cached",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 2.928528800002823,
+      "raw_log": "raw\\zhihuizhimen-cached-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 2.67469,
+        "gpu_total_ms": 2.67469
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "mode": "orbit",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.5165581999972346,
+      "raw_log": "raw\\zhihuizhimen-orbit-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 1.76742,
+        "sort_ms": 1.27181,
+        "draw_ms": 2.67776,
+        "gpu_total_ms": 5.96582
+      },
+      "rendered_count": 3914609
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "force",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "force",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 18.527522399999725,
+      "raw_log": "raw\\jiulonghu_v1-force-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.500599999999999,
+        "sort_ms": 8.10445,
+        "draw_ms": 15.9145,
+        "gpu_total_ms": 34.7177
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "cached",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "cached",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 15.203056199999992,
+      "raw_log": "raw\\jiulonghu_v1-cached-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.0,
+        "sort_ms": 0.0,
+        "draw_ms": 15.8351,
+        "gpu_total_ms": 15.8351
+      },
+      "rendered_count": 22480361
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "mode": "orbit",
+      "repetition": 3,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+        "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+        "orbit",
+        "120",
+        "3",
+        "1"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 18.839895499993872,
+      "raw_log": "raw\\jiulonghu_v1-orbit-3.log",
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 10.498,
+        "sort_ms": 8.18381,
+        "draw_ms": 15.903749999999999,
+        "gpu_total_ms": 34.7945
+      },
+      "rendered_count": 22480361
+    }
+  ]
+}

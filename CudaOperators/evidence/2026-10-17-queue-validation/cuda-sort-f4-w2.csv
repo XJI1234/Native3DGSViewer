@@ -1,0 +1,5 @@
+frame,time_s,count,projection_ms,sort_and_interop_ms,draw_ms,gpu_total_ms,cpu_wall_ms,cuda_projection_kernel_ms,cuda_sort_kernel_ms,cuda_tile_list_kernel_ms,cuda_composite_kernel_ms,cpu_submit_ms
+0,1e-07,170799,0.098304,0.62976,0.198656,0.92672,1.1227,-1,-1,-1,-1,0.4188
+1,0.001127,170799,0.096256,0.70656,0.200704,1.00352,1.3774,-1,-1,-1,-1,0.4059
+2,0.0025121,170799,0.099328,0.65024,0.19968,0.949248,1.1992,-1,-1,-1,-1,0.5826
+3,0.0037171,170799,0.096256,0.797696,0.19968,1.093632,1.3123,-1,-1,-1,-1,0.4391

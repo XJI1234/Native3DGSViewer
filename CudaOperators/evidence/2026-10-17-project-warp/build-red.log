@@ -1,0 +1,11 @@
+[1/10] Running utility command for render-shaders
+[2/10] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp for CXX dependencies
+[3/10] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\CXX.dd
+[4/5] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj
+FAILED: CudaOperators/CMakeFiles/Native3DGSViewer.CudaTests.dir/tests/project_tests.cpp.obj 
+C:\PROGRA~1\MICROS~1\18\COMMUN~1\VC\Tools\MSVC\1450~1.357\bin\Hostx64\x64\cl.exe  /nologo /TP -DNOMINMAX -IC:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\device -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\passes -IC:\Users\21544\workspace\Native3DGSViewer\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD /utf-8 /Zc:preprocessor /showIncludes @CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj.modmap /FoCudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj /FdCudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\ /FS -c C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(55): error C2061: 语法错误: 标识符“ProjectCounters”
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(79): error C2065: “counters”: 未声明的标识符
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(290): error C2653: “ProjectCounters”: 不是类或命名空间名称
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(290): error C2065: “WarpAggregated”: 未声明的标识符
+ninja: build stopped: subcommand failed.

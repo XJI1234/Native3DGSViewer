@@ -1,0 +1,117 @@
+-- The C compiler identification is MSVC 19.50.35729.0
+-- The CXX compiler identification is MSVC 19.50.35729.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- The ASM compiler identification is MSVC
+CMake Warning (dev) at C:/cmake/share/cmake-4.3/Modules/CMakeDetermineASMCompiler.cmake:234 (message):
+  Policy CMP194 is not set: MSVC is not an assembler for language ASM.  Run
+  "cmake --help-policy CMP194" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  third_party/zstd/build/cmake/CMakeLists.txt:33 (project)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found assembler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe
+-- ZSTD VERSION: 1.5.6
+-- Performing Test C_FLAG_D_UNICODE
+-- Performing Test C_FLAG_D_UNICODE - Success
+-- Performing Test CXX_FLAG_D_UNICODE
+-- Performing Test CXX_FLAG_D_UNICODE - Success
+-- Performing Test C_FLAG_DUNICODE
+-- Performing Test C_FLAG_DUNICODE - Success
+-- Performing Test CXX_FLAG_DUNICODE
+-- Performing Test CXX_FLAG_DUNICODE - Success
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - not found
+-- Found Threads: TRUE
+-- The CUDA compiler identification is NVIDIA 13.3.33 with host compiler MSVC 19.50.35729.0
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: C:/Users/21544/AppData/Local/Native3DGSViewer/toolchains/cuda/13.3.0/bin/nvcc.exe - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: C:/Users/21544/AppData/Local/Native3DGSViewer/toolchains/cuda/13.3.0/include;C:/Users/21544/AppData/Local/Native3DGSViewer/toolchains/cuda/13.3.0/include/cccl (found suitable version "13.3.33", minimum required is "13.3")
+-- Configuring done (13.2s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+[1/2] Building CUDA object CudaOperators\CMakeFiles\Native3DGSViewer.CudaProbe.dir\tests\toolchain_probe.cu.obj
+FAILED: CudaOperators/CMakeFiles/Native3DGSViewer.CudaProbe.dir/tests/toolchain_probe.cu.obj 
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\bin\nvcc.exe -forward-unknown-to-host-compiler  -isystem C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include -isystem C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cccl -D_WINDOWS -Xcompiler=" /EHsc" -Xcompiler="-O2 -Ob2" -DNDEBUG -std=c++20 "--generate-code=arch=compute_86,code=[compute_86,sm_86]" -Xcompiler=-MD -MD -MT CudaOperators\CMakeFiles\Native3DGSViewer.CudaProbe.dir\tests\toolchain_probe.cu.obj -MF CudaOperators\CMakeFiles\Native3DGSViewer.CudaProbe.dir\tests\toolchain_probe.cu.obj.d -x cu -c C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\toolchain_probe.cu -o CudaOperators\CMakeFiles\Native3DGSViewer.CudaProbe.dir\tests\toolchain_probe.cu.obj -Xcompiler=-FdCudaOperators\CMakeFiles\Native3DGSViewer.CudaProbe.dir\,-FS
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(13711): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\include\cuda_runtime_api.h(14214): warning C4819: ���ļ����������ڵ�ǰ����ҳ(936)�б�ʾ���ַ����뽫���ļ�����Ϊ Unicode ��ʽ�Է�ֹ���ݶ�ʧ
+C:\Users\21544\AppData\Local\Native3DGSViewer\toolchains\cuda\13.3.0\bin/../include/cccl\cuda/std/__cccl/preprocessor.h(20): fatal error C1189: #error:  MSVC/cl.exe with traditional preprocessor is used. This may lead to unexpected compilation errors. Please switch to the standard conforming preprocessor by passing `/Zc:preprocessor` to cl.exe. You can define CCCL_IGNORE_MSVC_TRADITIONAL_PREPROCESSOR_WARNING to suppress this warning.
+
+toolchain_probe.cu
+
+ninja: build stopped: subcommand failed.

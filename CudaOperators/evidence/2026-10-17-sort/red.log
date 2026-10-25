@@ -1,0 +1,26 @@
+[0/1] Re-running CMake...
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (6.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+[1/19] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/17] Running utility command for render-shaders
+[3/17] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[4/9] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\sort_tests.cpp for CXX dependencies
+FAILED: CudaOperators/CMakeFiles/Native3DGSViewer.CudaTests.dir/tests/sort_tests.cpp.obj.ddi 
+C:\PROGRA~1\MICROS~1\18\COMMUN~1\VC\Tools\MSVC\1450~1.357\bin\Hostx64\x64\cl.exe -DNOMINMAX -IC:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include -IC:\Users\21544\workspace\Native3DGSViewer\src\render-core\device -IC:\Users\21544\workspace\Native3DGSViewer\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\include -external:IC:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD /utf-8 /Zc:preprocessor C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\sort_tests.cpp -nologo -TP -showIncludes -scanDependencies CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\sort_tests.cpp.obj.ddi -FoCudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\sort_tests.cpp.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\sort_tests.cpp(1): fatal error C1083: 无法打开包括文件: “gs_cuda/sort.h”: No such file or directory
+ninja: build stopped: subcommand failed.

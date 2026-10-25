@@ -1,0 +1,107 @@
+[
+  {
+    "name": "cuda-external",
+    "url": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-runtime-api/group__CUDART__EXTRES__INTEROP.html",
+    "resolved": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-runtime-api/group__CUDART__EXTRES__INTEROP.html",
+    "bytes": 141225,
+    "cached_sha256": "2e1c940dfd5f3409241f35f03db1e3bbce93ccac83c7ed7a47d29b572a199b4b"
+  },
+  {
+    "name": "cuda-sync",
+    "url": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-runtime-api/api-sync-behavior.html",
+    "resolved": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-runtime-api/api-sync-behavior.html",
+    "bytes": 37017,
+    "cached_sha256": "0a4a9ad69b5bdf2727b33b933e8d99b5fc9b6ca4f95445309ac1b4033f1f1252"
+  },
+  {
+    "name": "cub-sort",
+    "url": "https://nvidia.github.io/cccl/cub/api/structcub_1_1DeviceRadixSort.html",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "d3d-fences",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/user-mode-heap-synchronization",
+    "resolved": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/user-mode-heap-synchronization",
+    "bytes": 75969,
+    "cached_sha256": "5cc9ca74db478f55249f1eac9058c7edb6031e371676e9949c248808aae8dd02"
+  },
+  {
+    "name": "d3d-fence-signal",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12/nf-d3d12-id3d12fence-signal",
+    "resolved": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12/nf-d3d12-id3d12fence-signal",
+    "bytes": 49970,
+    "cached_sha256": "e1ec2c4a3c47727291cb99d11424c64de84eda4b81be06f156150593102faaf9"
+  },
+  {
+    "name": "d3d-fence-event",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12/nf-d3d12-id3d12fence-seteventoncompletion",
+    "resolved": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12/nf-d3d12-id3d12fence-seteventoncompletion",
+    "bytes": 51584,
+    "cached_sha256": "008f421343a2e7e8a97a0da251aa969da1bc28d2c321cee5f5a7f2ecc77b40d6"
+  },
+  {
+    "name": "cuda-d3d-sample",
+    "url": "https://raw.githubusercontent.com/NVIDIA/cuda-samples/master/Samples/5_Domain_Specific/simpleD3D12/simpleD3D12.cpp",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "cuda-d3d12",
+    "url": "https://raw.githubusercontent.com/NVIDIA/cuda-samples/master/cpp/5_Domain_Specific/simpleD3D12/simpleD3D12.cpp",
+    "resolved": "https://raw.githubusercontent.com/NVIDIA/cuda-samples/master/cpp/5_Domain_Specific/simpleD3D12/simpleD3D12.cpp",
+    "bytes": 24303,
+    "sha256": "e94ecaaef24917d0c1118f0c33b44e059dff10107a1fe9a9ee4c9f18148a26e3",
+    "cached_sha256": "e94ecaaef24917d0c1118f0c33b44e059dff10107a1fe9a9ee4c9f18148a26e3"
+  },
+  {
+    "name": "cub-doc",
+    "url": "https://nvidia.github.io/cccl/unstable/cub/api/structcub_1_1DeviceRadixSort.html",
+    "resolved": "https://nvidia.github.io/cccl/unstable/cub/api/structcub_1_1DeviceRadixSort.html",
+    "bytes": 1131897,
+    "sha256": "b9f599cc6767d0b685e227244136682b1e822579e2ed47699100c60235df0b6e",
+    "cached_sha256": "b9f599cc6767d0b685e227244136682b1e822579e2ed47699100c60235df0b6e"
+  },
+  {
+    "name": "cub-tags",
+    "url": "https://api.github.com/repos/NVIDIA/cccl/git/ref/tags/v3.3.3",
+    "resolved": "https://api.github.com/repos/NVIDIA/cccl/git/ref/tags/v3.3.3",
+    "bytes": 325,
+    "sha256": "a18fad10ef84863b3633b251072d516a9e8b702ed6fc4b6371bc3b0bdd8cfc65",
+    "cached_sha256": "a18fad10ef84863b3633b251072d516a9e8b702ed6fc4b6371bc3b0bdd8cfc65"
+  },
+  {
+    "name": "cuda-pinned-memory",
+    "url": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-c-best-practices-guide/index.html",
+    "resolved": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-c-best-practices-guide/index.html",
+    "bytes": 433930,
+    "sha256": "6c4cf90b0995747951cef5c65117b8d79206053e571abd6b8d650920ffbff923",
+    "cached_sha256": "6c4cf90b0995747951cef5c65117b8d79206053e571abd6b8d650920ffbff923"
+  },
+  {
+    "name": "cuda-profiler",
+    "url": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html",
+    "resolved": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html",
+    "bytes": 381812,
+    "sha256": "6a84b367be4dd99a9df44a2ad5a0e2c58a1ba499562e939da8363b57889dc15f",
+    "cached_sha256": "6a84b367be4dd99a9df44a2ad5a0e2c58a1ba499562e939da8363b57889dc15f"
+  },
+  {
+    "name": "warp-atomics",
+    "url": "https://developer.nvidia.com/blog/cuda-pro-tip-optimized-filtering-warp-aggregated-atomics/",
+    "cached_sha256": "837dfd978682c5f193ff878c8ea4f7573fbe3dddec7f253a2d3a54e7f71587d7"
+  },
+  {
+    "name": "sharing-contract",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12sdklayers/nn-d3d12sdklayers-id3d12sharingcontract",
+    "cached_sha256": "d2d0891899ecbde2cc1c3afdd9442fc3077dfb5e05b84da931a4c13d2726a018"
+  },
+  {
+    "name": "sharing-fence",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/d3d12sdklayers/nf-d3d12sdklayers-id3d12sharingcontract-sharedfencesignal",
+    "cached_sha256": "6a1933696dcb8e594fdd38d71ac99a973858247a26ca8b13fa9aa6b7be9cd487"
+  },
+  {
+    "name": "terminate-process",
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess",
+    "cached_sha256": "ae2452d8263c525fa2d279b4251ab185247de91b18d679efbb3083856dd7b028"
+  }
+]

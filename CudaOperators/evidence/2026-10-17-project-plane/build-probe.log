@@ -1,0 +1,33 @@
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (7.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+Matched Ninja /showIncludes prefix to compiler bytes (no locale installation required)
+[1/55] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/53] Generating CXX dyndep file CMakeFiles\spz.dir\CXX.dd
+[3/49] Generating CXX dyndep file CMakeFiles\model-io-helper.dir\CXX.dd
+[4/44] Generating CXX dyndep file CMakeFiles\model-io.dir\CXX.dd
+[5/40] Running utility command for render-shaders
+[6/40] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaLifecycleTests.dir\CXX.dd
+[7/39] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[8/30] Generating CXX dyndep file CMakeFiles\native3dgs-engine.dir\CXX.dd
+[9/26] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\CXX.dd
+[10/24] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\CXX.dd
+[11/17] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaSortBench.dir\CXX.dd
+[12/15] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\retirement_probe.cpp for CXX dependencies
+[13/15] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaRetirementProbe.dir\CXX.dd
+[14/15] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaRetirementProbe.dir\tests\retirement_probe.cpp.obj
+[15/15] Linking CXX executable cuda\Release\Native3DGSViewer.CudaRetirementProbe.exe

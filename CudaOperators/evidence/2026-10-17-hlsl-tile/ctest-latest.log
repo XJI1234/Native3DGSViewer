@@ -1,0 +1,21 @@
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+    Start  6: CudaToolchain
+1/8 Test  #6: CudaToolchain ....................   Passed    0.16 sec
+    Start  7: CudaInterop
+2/8 Test  #7: CudaInterop ......................   Passed    2.23 sec
+    Start  8: CudaLifecycleHandles
+3/8 Test  #8: CudaLifecycleHandles .............   Passed    0.70 sec
+    Start  9: CudaLifecycle
+4/8 Test  #9: CudaLifecycle ....................   Passed    0.54 sec
+    Start 10: CudaSort
+5/8 Test #10: CudaSort .........................   Passed   14.25 sec
+    Start 11: CudaProject
+6/8 Test #11: CudaProject ......................   Passed   16.95 sec
+    Start 12: CudaCompact
+7/8 Test #12: CudaCompact ......................   Passed   12.48 sec
+    Start 13: CudaTile
+8/8 Test #13: CudaTile .........................   Passed    9.31 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =  56.63 sec

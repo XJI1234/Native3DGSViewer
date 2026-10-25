@@ -1,0 +1,23 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.OwnedInputs*:CudaProject.WarpCounters*:CudaProject.PlaneMajor*:CudaSort.Int32Graph*
+[==========] Running 4 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaSort
+[ RUN      ] CudaSort.Int32GraphReplaysChangingInputsWithStablePairs
+[       OK ] CudaSort.Int32GraphReplaysChangingInputsWithStablePairs (4960 ms)
+[----------] 1 test from CudaSort (4960 ms total)
+
+[----------] 3 tests from CudaProject
+[ RUN      ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes
+[       OK ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes (660 ms)
+[ RUN      ] CudaProject.PlaneMajorShPreservesAllCoefficientsAndDegrees
+[       OK ] CudaProject.PlaneMajorShPreservesAllCoefficientsAndDegrees (1114 ms)
+[ RUN      ] CudaProject.OwnedInputsMatchSharedInputsAndRejectForeignStorage
+[       OK ] CudaProject.OwnedInputsMatchSharedInputsAndRejectForeignStorage (477 ms)
+[----------] 3 tests from CudaProject (2252 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 2 test suites ran. (7213 ms total)
+[  PASSED  ] 4 tests.
+========= ERROR SUMMARY: 0 errors

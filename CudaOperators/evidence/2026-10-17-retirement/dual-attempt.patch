@@ -1,0 +1,76 @@
+diff --git a/CudaOperators/src/interop/interop.cpp b/CudaOperators/src/interop/interop.cpp
+index 74f3a23..a7b4543 100644
+--- a/CudaOperators/src/interop/interop.cpp
++++ b/CudaOperators/src/interop/interop.cpp
+@@ -43,9 +43,11 @@ struct ContextState
+ {
+     Microsoft::WRL::ComPtr<ID3D12Device> device;
+     Microsoft::WRL::ComPtr<ID3D12Fence> fence;
++    Microsoft::WRL::ComPtr<ID3D12Fence> cuda_fence;
+     Microsoft::WRL::ComPtr<ID3D12CommandQueue> queue;
+     cudaStream_t stream = nullptr;
+     cudaExternalSemaphore_t semaphore = nullptr;
++    cudaExternalSemaphore_t cuda_semaphore = nullptr;
+     uint64_t value = 0;
+     bool active = false;
+     ~ContextState()
+@@ -55,6 +57,24 @@ struct ContextState
+         try
+         {
+             if (stream && !wait_stream(stream, 5000)) return;
++            if (queue)
++            {
++                // CUDA completion alone does not retire the D3D queue's Wait.
++                // Submit a native tail on the same timeline, after CUDA's final
++                // signal, before destroying the imported semaphore/fence.
++                const auto retired = ++value;
++                checked(queue->Signal(fence.Get(), retired));
++                const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
++                for (;;)
++                {
++                    const auto completed = fence->GetCompletedValue();
++                    if (completed == UINT64_MAX) throw std::runtime_error("D3D12 device removed during CUDA retirement");
++                    if (completed >= retired) break;
++                    if (std::chrono::steady_clock::now() >= deadline) return;
++                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
++                }
++            }
++            if (cuda_semaphore) cudaDestroyExternalSemaphore(cuda_semaphore);
+             if (semaphore) cudaDestroyExternalSemaphore(semaphore);
+             if (stream) cudaStreamDestroy(stream);
+         }
+@@ -82,12 +102,17 @@ Context::Context(ID3D12Device *device, LUID adapter) : state_(std::make_shared<C
+     state_->device = device;
+     checked(cudaStreamCreateWithFlags(&state_->stream, cudaStreamNonBlocking));
+     checked(device->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(&state_->fence)));
+-    Handle handle;
+-    checked(device->CreateSharedHandle(state_->fence.Get(), nullptr, GENERIC_ALL, nullptr, &handle.value));
+-    cudaExternalSemaphoreHandleDesc desc{};
+-    desc.type = cudaExternalSemaphoreHandleTypeD3D12Fence;
+-    desc.handle.win32.handle = handle.value;
+-    checked(cudaImportExternalSemaphore(&state_->semaphore, &desc));
++    checked(device->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(&state_->cuda_fence)));
++    auto import_fence = [&](ID3D12Fence *fence, cudaExternalSemaphore_t *semaphore) {
++        Handle handle;
++        checked(device->CreateSharedHandle(fence, nullptr, GENERIC_ALL, nullptr, &handle.value));
++        cudaExternalSemaphoreHandleDesc desc{};
++        desc.type = cudaExternalSemaphoreHandleTypeD3D12Fence;
++        desc.handle.win32.handle = handle.value;
++        checked(cudaImportExternalSemaphore(semaphore, &desc));
++    };
++    import_fence(state_->fence.Get(), &state_->semaphore);
++    import_fence(state_->cuda_fence.Get(), &state_->cuda_semaphore);
+ }
+ Context::~Context() = default;
+ void *Context::native_stream() const { return state_->stream; }
+@@ -116,8 +141,8 @@ void Context::end(ID3D12CommandQueue *queue)
+     if (!queue || !state_->active || state_->queue.Get() != queue) throw std::logic_error("Invalid interop end");
+     cudaExternalSemaphoreSignalParams params{};
+     params.params.fence.value = ++state_->value;
+-    checked(cudaSignalExternalSemaphoresAsync(&state_->semaphore, &params, 1, state_->stream));
+-    checked(queue->Wait(state_->fence.Get(), state_->value));
++    checked(cudaSignalExternalSemaphoresAsync(&state_->cuda_semaphore, &params, 1, state_->stream));
++    checked(queue->Wait(state_->cuda_fence.Get(), state_->value));
+     state_->active = false;
+ }
+ 

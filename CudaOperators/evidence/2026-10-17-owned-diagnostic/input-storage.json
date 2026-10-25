@@ -1,0 +1,42 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "shared_peak_bytes": 324935680,
+    "owned_peak_bytes": 286142464,
+    "budget_bytes": 9736028160,
+    "owned_peak_budget_fraction": 0.0293900612547119,
+    "bit_identical": true
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "shared_peak_bytes": 695422976,
+    "owned_peak_bytes": 508387328,
+    "budget_bytes": 9736028160,
+    "owned_peak_budget_fraction": 0.05221711766289715,
+    "bit_identical": true
+  },
+  {
+    "model": "tumu_v1.ply",
+    "shared_peak_bytes": 954740736,
+    "owned_peak_bytes": 662978560,
+    "budget_bytes": 9736028160,
+    "owned_peak_budget_fraction": 0.06809538233710286,
+    "bit_identical": true
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "shared_peak_bytes": 2511585280,
+    "owned_peak_bytes": 1588580352,
+    "budget_bytes": 9736028160,
+    "owned_peak_budget_fraction": 0.16316513529886914,
+    "bit_identical": true
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "shared_peak_bytes": 13364547584,
+    "owned_peak_bytes": 8056659968,
+    "budget_bytes": 9736028160,
+    "owned_peak_budget_fraction": 0.8275099286483576,
+    "bit_identical": true
+  }
+]

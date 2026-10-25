@@ -1,0 +1,18 @@
+mode=buffer
+enable_status=0x0
+Event before=207 after=217
+new Event=00000000000009E4
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009E4
+trace type=2 handle=00000000000009E4
+trace type=1 handle=00000000000009E4
+new Event=0000000000000A1C
+query_status=0x0 traces=3
+trace type=1 handle=0000000000000A1C
+trace type=2 handle=0000000000000A1C
+trace type=1 handle=0000000000000A1C
+new Event=0000000000000A4C
+query_status=0x0 traces=3
+trace type=1 handle=0000000000000A4C
+trace type=2 handle=0000000000000A4C
+trace type=1 handle=0000000000000A4C

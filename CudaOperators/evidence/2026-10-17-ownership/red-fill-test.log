@@ -1,0 +1,31 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaInterop.ForeignFillFailsWithoutChangingTheResource
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaInterop
+[ RUN      ] CudaInterop.ForeignFillFailsWithoutChangingTheResource
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(26): error: Expected: fill_u32(context, foreign, 99, 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(27): error: Expected: fill_u32(context, foreign, 99, 0) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(28): error: Expected: fill_rgba(context, texture, 0) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(35): error: Expected equality of these values:
+  actual
+    Which is: 99
+  0x12345678u
+    Which is: 305419896
+
+[  FAILED  ] CudaInterop.ForeignFillFailsWithoutChangingTheResource (488 ms)
+[----------] 1 test from CudaInterop (488 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (488 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaInterop.ForeignFillFailsWithoutChangingTheResource
+
+ 1 FAILED TEST

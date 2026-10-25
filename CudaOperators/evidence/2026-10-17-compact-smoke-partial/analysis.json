@@ -1,0 +1,244 @@
+{
+  "protocol": "offscreen-serialized-full-GPU-span; no Present; no display FPS",
+  "formal_duration": false,
+  "note": "Offscreen serialized GPU timing; no Present or input-latency conclusion. Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+  "comparisons": [
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-full",
+      "rounds": 1,
+      "d3d12_median_ms": 1.66656,
+      "candidate_median_ms": 1.789952,
+      "paired_frame_reduction_percent": [
+        -7.40399385560675
+      ],
+      "mean_reduction_percent": -7.40399385560675,
+      "paired_bootstrap_95ci_percent": [
+        -7.40399385560675,
+        -7.40399385560675
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -8.570772058823529
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-buckets",
+      "rounds": 1,
+      "d3d12_median_ms": 1.66656,
+      "candidate_median_ms": 1.860608,
+      "paired_frame_reduction_percent": [
+        -11.643625192012298
+      ],
+      "mean_reduction_percent": -11.643625192012298,
+      "paired_bootstrap_95ci_percent": [
+        -11.643625192012298,
+        -11.643625192012298
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -15.178000426348326
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": true
+    }
+  ],
+  "runs": [
+    {
+      "model": "tumu_v1.ply",
+      "backend": "d3d12",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.5410187999950722,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "d3d12",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\tumu_v1.ply-d3d12-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.466432,
+        "sort_and_interop_ms": 0.475648,
+        "draw_ms": 0.635904,
+        "gpu_total_ms": 1.66656,
+        "cpu_wall_ms": 1.88335,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": -1.0
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 388505600,
+        "sampled_nonlocal_peak_bytes": 32432128,
+        "process_peak_private_bytes": 551972864,
+        "process_peak_working_set_bytes": 449183744
+      },
+      "image_sha256": "2a9b2dfd51b4a15c00a4567f87dff557552af4d4569d6de55f19f04be84488cf",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 1.9703807999999998,
+        "p99_ms": 2.0281651199999997,
+        "one_percent_low_gpu_fps": 490.85825584317666
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-full",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.7715918999965652,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "cuda-compact-full",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\tumu_v1.ply-cuda-compact-full-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.65536,
+        "sort_and_interop_ms": 0.509952,
+        "draw_ms": 0.621568,
+        "gpu_total_ms": 1.789952,
+        "cpu_wall_ms": 1.9491,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.227328002453
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 616316928,
+        "sampled_nonlocal_peak_bytes": 110419968,
+        "process_peak_private_bytes": 867229696,
+        "process_peak_working_set_bytes": 562860032
+      },
+      "image_sha256": "2a9b2dfd51b4a15c00a4567f87dff557552af4d4569d6de55f19f04be84488cf",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.0830208,
+        "p99_ms": 2.16400896,
+        "one_percent_low_gpu_fps": 448.78791360294116
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "tumu_v1.ply",
+      "backend": "cuda-compact-buckets",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 1.7758207000006223,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+        "--backend",
+        "cuda-compact-buckets",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-compact-smoke-partial\\tumu_v1.ply-cuda-compact-buckets-1.csv",
+        "--camera",
+        "fit",
+        "--pan-x",
+        "900.0",
+        "--cuda-events",
+        "on",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.654336,
+        "sort_and_interop_ms": 0.581632,
+        "draw_ms": 0.620544,
+        "gpu_total_ms": 1.860608,
+        "cpu_wall_ms": 2.0239,
+        "cuda_projection_kernel_ms": -1.0,
+        "cuda_sort_kernel_ms": 0.2954239994285
+      },
+      "memory": {
+        "sampled_local_peak_bytes": 616316928,
+        "sampled_nonlocal_peak_bytes": 110419968,
+        "process_peak_private_bytes": 869961728,
+        "process_peak_working_set_bytes": 564613120
+      },
+      "image_sha256": "2a9b2dfd51b4a15c00a4567f87dff557552af4d4569d6de55f19f04be84488cf",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 2.1394432,
+        "p99_ms": 2.2818304,
+        "one_percent_low_gpu_fps": 416.3557876785334
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    }
+  ]
+}

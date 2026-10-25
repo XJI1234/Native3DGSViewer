@@ -1,0 +1,1547 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+
+Repeating all tests (iteration 1) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaLaunchKernel.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb85940] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb48261] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e603bda] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::required_bytes [0x7ff83e600b22] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e600e4a] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaGetLastError.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7707c] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e600e4f] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedTexture::~SharedTexture [0x7ff83e5f253b] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedTexture::~SharedTexture [0x7ff83e5f253b] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc58] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc58] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc66] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc66] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc74] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::TileCompositeWorkspace [0x7ff83e5ffc74] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd554] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd554] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd562] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd562] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x7ff83c0f8475] in nvcuda64.dll
+=========         Host Frame:  [0x5548] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb7446a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd570] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb744bc] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd570] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd581] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd581] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd59f] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd59f] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::CompactWorkspace::CompactWorkspace [0x7ff83e5f9176] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e6054be] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd5c7] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::CompactWorkspace::CompactWorkspace [0x7ff83e5f9176] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e6054be] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd5c7] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::CompactWorkspace::CompactWorkspace [0x7ff83e5f9176] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e6054be] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd5c7] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::CompactWorkspace::CompactWorkspace [0x7ff83e5f9176] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e6054be] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::TileWorkspace::TileWorkspace [0x7ff83e5fd5c7] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::SharedBuffer::~SharedBuffer [0x7ff83e5f2460] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::SortWorkspace::~SortWorkspace [0x7ff83e5f60b0] in gs-cuda-backend.dll
+=========         Host Frame:  [0x1a953] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+unknown file: error: C++ exception with description "unknown error" thrown in the test body.
+
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (2298 ms)
+[----------] 1 test from CudaTile (2298 ms total)
+
+[==========] 1 test from 1 test suite ran. (2298 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+
+ 1 FAILED TEST
+
+Repeating all tests (iteration 2) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamCreate [0x7ff83c128dc5] in nvcuda64.dll
+=========         Host Frame:  [0x15041] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb993c8] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f15c1] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamCreateWithFlags.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9941a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f15c1] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Stream handle is not valid
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f23c0] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f221d] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e604f8c] in gs-cuda-backend.dll
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f17c6] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorInvalidResourceHandle (error 400) due to "invalid resource handle" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f23c0] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f221d] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e604f8c] in gs-cuda-backend.dll
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f17c6] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+unknown file: error: C++ exception with description "unknown error" thrown in the test body.
+
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (57 ms)
+[----------] 1 test from CudaTile (57 ms total)
+
+[==========] 1 test from 1 test suite ran. (57 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+
+ 1 FAILED TEST
+
+Repeating all tests (iteration 3) . . .
+
+Note: Google Test filter = CudaTile.Image*
+[==========] Running 1 test from 1 test suite.
+[----------] 1 test from CudaTile
+[ RUN      ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamCreate [0x7ff83c128dc5] in nvcuda64.dll
+=========         Host Frame:  [0x15041] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb993c8] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f15c1] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamCreateWithFlags.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9941a] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f15c1] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= CUDA API Error: Stream handle is not valid
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamQuery [0x7ff83c1aa735] in nvcuda64.dll
+=========         Host Frame:  [0x16258] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9bff1] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f23c0] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f221d] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e604f8c] in gs-cuda-backend.dll
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f17c6] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+========= Program hit cudaErrorInvalidResourceHandle (error 400) due to "invalid resource handle" on CUDA API call to cudaStreamQuery.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c043] in nvcudart_hybrid64.dll
+=========         Host Frame: gs::cuda_ops::Context::wait_idle [0x7ff83e5f2d55] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f23c0] in gs-cuda-backend.dll
+=========         Host Frame: gs::cuda_ops::Context::~Context [0x7ff83e5f221d] in gs-cuda-backend.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a945ca] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x2c2c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x3cff] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x20cd] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame: gs::cuda_ops::TileCompositeWorkspace::submit [0x7ff83e604f8c] in gs-cuda-backend.dll
+=========         Host Frame: _chkstk [0x7ff8d0c279ef] in ntdll.dll
+=========         Host Frame: RtlUnwindEx [0x7ff8d0b373e2] in ntdll.dll
+=========         Host Frame:  [0x401c] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x18f3] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21a5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x21f6] in VCRUNTIME140_1.dll
+=========         Host Frame: _CxxFrameHandler4 [0x7ff8b0a943f5] in VCRUNTIME140_1.dll
+=========         Host Frame:  [0x54170] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: _chkstk [0x7ff8d0c2796f] in ntdll.dll
+=========         Host Frame: RtlWow64GetCurrentCpuArea [0x7ff8d0b36397] in ntdll.dll
+=========         Host Frame: RtlRaiseException [0x7ff8d0b35226] in ntdll.dll
+=========         Host Frame: RaiseException [0x7ff8ce2766ca] in KERNELBASE.dll
+=========         Host Frame:  [0xffea] in InterceptorInjectionTarget.dll
+=========         Host Frame: CxxThrowException [0x7ff8b0aa55a9] in VCRUNTIME140.dll
+=========         Host Frame: gs::cuda_ops::Context::Context [0x7ff83e5f17c6] in gs-cuda-backend.dll
+=========         Host Frame:  [0x19cec] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f1b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27e06] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d07b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d44f] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4e1b8] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27f5b] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x27ee6] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x4d75c] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54f29] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame:  [0x54470] in Native3DGSViewer.CudaTests.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+unknown file: error: C++ exception with description "unknown error" thrown in the test body.
+
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset (53 ms)
+[----------] 1 test from CudaTile (53 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (53 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaTile.ImageMatchesCpuBackToFrontAcrossMultipleBoundedBatchesAndEmptyReset
+
+ 1 FAILED TEST
+========= Target application returned an error
+========= ERROR SUMMARY: 38 errors

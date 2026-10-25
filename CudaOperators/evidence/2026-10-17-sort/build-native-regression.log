@@ -1,0 +1,74 @@
+CMake is re-running because C:/Users/21544/workspace/Native3DGSViewer/out/cmake/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/21544/workspace/Native3DGSViewer/CMakeLists.txt'
+  is newer than 'C:/Users/21544/workspace/Native3DGSViewer/out/cmake/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (0.1s)
+-- Generating done (0.3s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+  gtest.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cmake\lib\Release\gtest.lib
+  1>
+  zlibstatic.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\zlibstatic.lib
+  libzstd_static.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\zstd_static.lib
+  正在扫描源以查找模块依赖项...
+  gtest_main.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cmake\lib\Release\gtest_main.lib
+  model-io-fault-helper.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io-fault-helper.exe
+  正在扫描源以查找模块依赖项...
+  正在扫描源以查找模块依赖项...
+  正在扫描源以查找模块依赖项...
+  model-io.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io.lib
+  spz.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\spz.lib
+  upload.cpp
+  splat.cpp
+  renderer.cpp
+  picking.cpp
+  正在扫描源以查找模块依赖项...
+  model-io-helper.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io-helper.exe
+  正在编译...
+  picking.cpp
+  renderer.cpp
+  splat.cpp
+  upload.cpp
+  render-core.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\render-core.lib
+  正在扫描源以查找模块依赖项...
+  正在扫描源以查找模块依赖项...
+  native3dgs-engine.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\native3dgs-engine.lib
+  renderer.cpp
+  正在编译...
+  renderer.cpp
+  render-core-testing.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\render-core-testing.lib
+  正在扫描源以查找模块依赖项...
+  camera_tests.cpp
+  image_tests.cpp
+  recovery_tests.cpp
+  test_support.cpp
+  lifecycle_tests.cpp
+  integration_tests.cpp
+  picking_tests.cpp
+  contracts_tests.cpp
+  正在编译...
+  image_tests.cpp
+  recovery_tests.cpp
+  integration_tests.cpp
+  contracts_tests.cpp
+  test_support.cpp
+  camera_tests.cpp
+  picking_tests.cpp
+  lifecycle_tests.cpp
+  Native3DGSViewer.Tests.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.Tests.exe

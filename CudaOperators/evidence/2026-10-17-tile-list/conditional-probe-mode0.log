@@ -1,0 +1,13 @@
+========= COMPUTE-SANITIZER
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamSynchronize.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: NVAON_SharedMemory_Destroy [0x7ff83c2b5b9f] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff83bb9c883] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x1d6b] in Native3DGSViewer.CudaConditionalProbe.exe
+=========         Host Frame:  [0x7e9c] in Native3DGSViewer.CudaConditionalProbe.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff8cf15e8d7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff8d0ac8d9c] in ntdll.dll
+========= 
+unknown error
+========= Target application returned an error
+========= ERROR SUMMARY: 1 error

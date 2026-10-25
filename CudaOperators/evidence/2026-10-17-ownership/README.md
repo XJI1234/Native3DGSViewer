@@ -1,0 +1,11 @@
+# Context and queue ownership regression
+
+The RED API build fails because `Context::owns` did not exist. A separately seeded RED foreign-fill test then confirms a real bug: submitting a buffer imported by another Context did not throw and changed its sentinel from 0x12345678 to 99. The broader bounded-zero-input test also failed missing guards across sort, compaction, projection, tile lists and compositing. All RED logs are retained.
+
+Fix: verify actual D3D12 device LUID at Context construction; bind the first same-device queue for the Context lifetime; reject a different queue at begin/end before submission. COM device identity is checked on first binding. `Context::owns` checks the retained ContextState identity for buffer/texture imports. Every operator checks all borrowed resources; composite construction also checks list ownership. Zero-count foreign fill is rejected. The fill grid's host-side ceil division now uses uint64 to avoid overflow at UINT32_MAX. No GPU math/quality/sorting policy changed.
+
+Three GREEN behavior tests pass: ownership/queue/device identity (using a WARP queue only as a foreign-device negative input), unchanged sentinel after rejected fill, and every input position across operators. Latest CUDA CTest: **8/8 in 56.01 seconds**, including the independent 100-lifecycle test, 10000 handoffs, full-scale stable sort and existing image suites. Memcheck: five tests, zero errors. Ordinary bounded tile image oracle under racecheck: zero hazards/errors/warnings; synccheck: zero errors. These tools run sequentially, outside all formal timings.
+
+Racecheck covers CUDA shared-memory hazards, not all global-memory or D3D12/CUDA races. The unresolved conditional-while probe is not used in these image tests. Fault teardown/cudaFree boundedness, Debug Layer retirement handles and production device recovery remain open; this patch does not assert their resolution.
+
+The two earlier formal groups freeze pre-ownership-guard binaries and retain exact hashes. Later oblique evidence freezes the guarded build. Benchmark camera parameters and post-timing visibility logs are separate host diagnostics; defaults preserve the former fit setup. CUDA remains optional/OFF and no public SDK type changed.

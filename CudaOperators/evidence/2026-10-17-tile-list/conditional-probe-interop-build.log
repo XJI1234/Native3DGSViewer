@@ -1,0 +1,59 @@
+[0/1] Re-running CMake...
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (6.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+[1/16] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/14] Running utility command for render-shaders
+[3/14] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[4/6] Building CUDA object CudaOperators\CMakeFiles\Native3DGSViewer.CudaConditionalProbe.dir\tests\conditional_probe.cu.obj
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(31): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(49): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(68): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(31): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(49): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/include\gs_cuda/interop.h(68): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+conditional_probe.cu
+
+tmpxft_0000b0cc_00000000-7_conditional_probe.cudafe1.cpp
+
+[5/6] Linking CXX executable cuda\Release\Native3DGSViewer.CudaConditionalProbe.exe

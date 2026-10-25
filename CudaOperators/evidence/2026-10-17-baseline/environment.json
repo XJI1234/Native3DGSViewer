@@ -1,0 +1,138 @@
+{
+  "recorded_at": "2026-10-17T02:12:32.812918+08:00",
+  "head": {
+    "exit_code": 0,
+    "stdout": "75a47714e4002f10666fe2b9265dfdc5e3e8439c\n",
+    "stderr": ""
+  },
+  "branch": {
+    "exit_code": 0,
+    "stdout": "codex/windows-cuda-operators\n",
+    "stderr": ""
+  },
+  "gpu": {
+    "exit_code": 0,
+    "stdout": "name, driver_version, memory.total [MiB], memory.used [MiB], temperature.gpu, pstate\nNVIDIA GeForce RTX 3080, 617.42, 10240 MiB, 2185 MiB, 57, P8\n",
+    "stderr": ""
+  },
+  "nvcc_default": {
+    "exit_code": 0,
+    "stdout": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2022 NVIDIA Corporation\nBuilt on Wed_Sep_21_10:41:10_Pacific_Daylight_Time_2022\nCuda compilation tools, release 11.8, V11.8.89\nBuild cuda_11.8.r11.8/compiler.31833905_0\n",
+    "stderr": ""
+  },
+  "cuda_13_3_nvcc_present": false,
+  "cuda_13_3_include_present": false,
+  "cmake": {
+    "exit_code": 0,
+    "stdout": "cmake version 4.3.2\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+    "stderr": ""
+  },
+  "binaries": [
+    {
+      "path": "out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "sha256": "C9F21B9AA51308C393E8ED419DACEFAD71397A07DC47B767D2854B33A202B77D",
+      "file_bytes": 197632
+    },
+    {
+      "path": "out\\Release\\Native3DGSViewer.SortBench.exe",
+      "sha256": "92BA38D0C327C578E8EAD45E68645255480B96E05117C4EDFB6086FAE189E21C",
+      "file_bytes": 75264
+    },
+    {
+      "path": "out\\Release\\Native3DGSViewer.Tests.exe",
+      "sha256": "D75EE701254B7F8E4C5D968A363A1F7069B8D1D9C09E1CD76C44BB5914FC50C2",
+      "file_bytes": 1694720
+    },
+    {
+      "path": "out\\Release\\model-io-helper.exe",
+      "sha256": "333B4C73C5A96CAAB90AF03B59DEF078B64A75177C5AED1408CACA21EE1545DD",
+      "file_bytes": 588288
+    }
+  ],
+  "shaders": [
+    {
+      "path": "out\\cmake\\shaders\\count.cso",
+      "sha256": "FFF1C78B23A11350EB101C1B7C0998D830CAF5ECC9BC53EFD7CD0967066C48DD"
+    },
+    {
+      "path": "out\\cmake\\shaders\\count_wave32.cso",
+      "sha256": "F4B1977BB8B759FF5391BEDE1C8D60D797876145CCF7A9DA4EF8F0832AFA74A8"
+    },
+    {
+      "path": "out\\cmake\\shaders\\count_wave_agnostic.cso",
+      "sha256": "FFF1C78B23A11350EB101C1B7C0998D830CAF5ECC9BC53EFD7CD0967066C48DD"
+    },
+    {
+      "path": "out\\cmake\\shaders\\pick_collect.cso",
+      "sha256": "EBFC921FA061451DF9DC4AE88A6246DC753F6F8A2863DD481E4915359346A963"
+    },
+    {
+      "path": "out\\cmake\\shaders\\pick_reset.cso",
+      "sha256": "3A2A95937EBEB79EC5E04BB6DF6FA28F6C7C86DD008C63A3204226FFB86E6550"
+    },
+    {
+      "path": "out\\cmake\\shaders\\pixel.cso",
+      "sha256": "840234B9959CF49E8D573F997BFF529DBE0FCBED761579ED0D2774274D7771D2"
+    },
+    {
+      "path": "out\\cmake\\shaders\\project.cso",
+      "sha256": "3486769FB21606B8E261A88C98285B6E91B8458B465198105DD33CF8E559823B"
+    },
+    {
+      "path": "out\\cmake\\shaders\\reduce.cso",
+      "sha256": "10684FB17FCECC3D42C925B7544798C54B9BDCBC315B8ADD5210B707B9AF8E2C"
+    },
+    {
+      "path": "out\\cmake\\shaders\\reduce_wave32.cso",
+      "sha256": "EB92AD45EF73FBBC833DF7A044AAFC7409B20B2AEF1CBBB07A65BD19BA70580A"
+    },
+    {
+      "path": "out\\cmake\\shaders\\reduce_wave_agnostic.cso",
+      "sha256": "EB3ACF8DA89B22F96921E06952D719269A7E4946B42BC08BCB346475F255DE95"
+    },
+    {
+      "path": "out\\cmake\\shaders\\reset_args.cso",
+      "sha256": "21C5475CB95087D65F0A595F502CA7C00DE450AB3D57D233A239906A7E816855"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan.cso",
+      "sha256": "407F8644285BDA1820B29EFCFCFB0000BACA35646F941941263614AAEAC82C4C"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan_add.cso",
+      "sha256": "01848D5453239DA5047CC2B36042E685F15155CB8D6C08ADB3EA64A747884332"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan_add_wave32.cso",
+      "sha256": "5442B163C0B8004DB81FA4FE39FA2991BCB9EF2E8225948AF5253FA11DB0F34D"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan_add_wave_agnostic.cso",
+      "sha256": "CDBA336260AF16B2080155511220CFF6AED5BFB921020D3CBB82DF3F6CED7DB2"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan_wave32.cso",
+      "sha256": "7F9DE8C07AF50046312FE6FBFD0A43FD77538F7455FB1B36FCF9A22B3AEE9F5F"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scan_wave_agnostic.cso",
+      "sha256": "76AF348E56842791F5D99A925EF2F9222BEB61A522AAC1B9FBBB0E3145C0163F"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scatter.cso",
+      "sha256": "2939C935585CD7A68A760E28B21D6BC3C90E7020222E4995B158C719178F4500"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scatter_wave32.cso",
+      "sha256": "1B6B10A2616A4EB520CE3C10E46279EF6DBAF81E17B3EF88E3AEE615A3F340BE"
+    },
+    {
+      "path": "out\\cmake\\shaders\\scatter_wave_agnostic.cso",
+      "sha256": "4248B608EE3CB458CD3D53F0B61B78F2A6001610B130AA6632C476E867D46B4F"
+    },
+    {
+      "path": "out\\cmake\\shaders\\vertex.cso",
+      "sha256": "3B9CB3AB7B04F8F30C63734721FA62DA808898CF61E2783D51490E1F146B94FE"
+    }
+  ]
+}

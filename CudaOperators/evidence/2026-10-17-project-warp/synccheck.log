@@ -1,0 +1,14 @@
+========= COMPUTE-SANITIZER
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.WarpCounters*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaProject
+[ RUN      ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes
+[       OK ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes (2422 ms)
+[----------] 1 test from CudaProject (2422 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2422 ms total)
+[  PASSED  ] 1 test.
+========= ERROR SUMMARY: 0 errors

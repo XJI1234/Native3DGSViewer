@@ -1,0 +1,208 @@
+{
+  "protocol": "offscreen-serialized-full-GPU-span; no Present; no display FPS",
+  "formal_duration": false,
+  "note": "Offscreen serialized GPU timing; no Present or input-latency conclusion. Three-round bootstrap may understate uncertainty; lifecycle/resource gates remain separate.",
+  "comparisons": [
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-project-256",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 0.6835199999999999,
+      "paired_frame_reduction_percent": [
+        -55.23255813953487
+      ],
+      "mean_reduction_percent": -55.23255813953487,
+      "paired_bootstrap_95ci_percent": [
+        -55.23255813953487,
+        -55.23255813953487
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -4.074295985620136
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-project-sort-256",
+      "rounds": 1,
+      "d3d12_median_ms": 0.44032,
+      "candidate_median_ms": 0.626688,
+      "paired_frame_reduction_percent": [
+        -42.325581395348856
+      ],
+      "mean_reduction_percent": -42.325581395348856,
+      "paired_bootstrap_95ci_percent": [
+        -42.325581395348856,
+        -42.325581395348856
+      ],
+      "one_percent_low_gpu_fps_change_percent": [
+        -8.252148997134668
+      ],
+      "all_quality_passed": true,
+      "all_bit_identical": false
+    }
+  ],
+  "runs": [
+    {
+      "model": "changjin_v1.ply",
+      "backend": "d3d12",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.6497241000033682,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "d3d12",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\changjin_v1.ply-d3d12-1.csv",
+        "--camera",
+        "fit",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.094208,
+        "sort_and_interop_ms": 0.139264,
+        "draw_ms": 0.206848,
+        "gpu_total_ms": 0.44032,
+        "cpu_wall_ms": 0.60945
+      },
+      "image_sha256": "b6f00ffe49695659332ac64f286f74ee45a8661888996738e42c1e3ded1de51d",
+      "max_channel_error_255": 0,
+      "bit_identical_to_d3d12": true,
+      "tails": {
+        "p95_ms": 0.4496384,
+        "p99_ms": 0.7473356800000001,
+        "one_percent_low_gpu_fps": 1219.9406620861962
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "alpha": {
+          "ssim": 1.0,
+          "rmse_255": 0.0,
+          "p99_error_255": 0.0,
+          "max_error_255": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-project-256",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.8502561999994214,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-project-256",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\changjin_v1.ply-cuda-project-256-1.csv",
+        "--camera",
+        "fit",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.37632,
+        "sort_and_interop_ms": 0.123904,
+        "draw_ms": 0.184832,
+        "gpu_total_ms": 0.6835199999999999,
+        "cpu_wall_ms": 0.82385
+      },
+      "image_sha256": "085353154a4cfaece871c4a4552f52b6ac0fa9385a8d32b6900207f0e6ea001a",
+      "max_channel_error_255": 1,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 0.8285184,
+        "p99_ms": 0.84831232,
+        "one_percent_low_gpu_fps": 1170.2366686638707
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9999995545769741,
+          "rmse_255": 0.007338364575994145,
+          "p99_error_255": 0.0,
+          "max_error_255": 1.0000000000000249
+        },
+        "alpha": {
+          "ssim": 0.9999999913838145,
+          "rmse_255": 0.002863267795567822,
+          "p99_error_255": 0.0,
+          "max_error_255": 1.0000000000000249
+        },
+        "passed": true
+      }
+    },
+    {
+      "model": "changjin_v1.ply",
+      "backend": "cuda-project-sort-256",
+      "repetition": 1,
+      "exit_code": 0,
+      "wall_seconds": 0.8459431000010227,
+      "command": [
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\runtime\\Native3DGSViewer.CudaBench.exe",
+        "--model",
+        "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+        "--backend",
+        "cuda-project-sort-256",
+        "--output",
+        "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\cuda-results\\2026-10-17-project-smoke-attempt1\\changjin_v1.ply-cuda-project-sort-256-1.csv",
+        "--camera",
+        "fit",
+        "--frames",
+        "120",
+        "--warmup-frames",
+        "60"
+      ],
+      "sample_count": 120,
+      "medians": {
+        "projection_ms": 0.449536,
+        "sort_and_interop_ms": 0.0,
+        "draw_ms": 0.177152,
+        "gpu_total_ms": 0.626688,
+        "cpu_wall_ms": 0.76205
+      },
+      "image_sha256": "085353154a4cfaece871c4a4552f52b6ac0fa9385a8d32b6900207f0e6ea001a",
+      "max_channel_error_255": 1,
+      "bit_identical_to_d3d12": false,
+      "tails": {
+        "p95_ms": 0.8061440000000001,
+        "p99_ms": 0.85026816,
+        "one_percent_low_gpu_fps": 1119.2693409742121
+      },
+      "quality": {
+        "rgb": {
+          "ssim": 0.9999995545769741,
+          "rmse_255": 0.007338364575994145,
+          "p99_error_255": 0.0,
+          "max_error_255": 1.0000000000000249
+        },
+        "alpha": {
+          "ssim": 0.9999999913838145,
+          "rmse_255": 0.002863267795567822,
+          "p99_error_255": 0.0,
+          "max_error_255": 1.0000000000000249
+        },
+        "passed": true
+      }
+    }
+  ]
+}

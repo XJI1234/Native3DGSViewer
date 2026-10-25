@@ -1,0 +1,26 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.*
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from CudaProject
+[ RUN      ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees
+[       OK ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees (9769 ms)
+[ RUN      ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors
+[       OK ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors (282 ms)
+[ RUN      ] CudaProject.ValidatesLayoutCapacityAndLaunchSize
+[       OK ] CudaProject.ValidatesLayoutCapacityAndLaunchSize (265 ms)
+[ RUN      ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping
+[       OK ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping (4584 ms)
+[ RUN      ] CudaProject.EmptyFrameResetsCounters
+[       OK ] CudaProject.EmptyFrameResetsCounters (282 ms)
+[ RUN      ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes
+[       OK ] CudaProject.WarpCountersPreserveDivergentOutputsAndTailLanes (484 ms)
+[ RUN      ] CudaProject.PreservesNearPlaneCrossingThinSplatsAndZeroDistance
+[       OK ] CudaProject.PreservesNearPlaneCrossingThinSplatsAndZeroDistance (1162 ms)
+[ RUN      ] CudaProject.FactoredReciprocalHandlesSubnormalCameraDelta
+[       OK ] CudaProject.FactoredReciprocalHandlesSubnormalCameraDelta (545 ms)
+[----------] 8 tests from CudaProject (17377 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (17377 ms total)
+[  PASSED  ] 8 tests.

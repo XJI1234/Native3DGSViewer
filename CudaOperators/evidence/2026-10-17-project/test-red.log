@@ -1,0 +1,35 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.*
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from CudaProject
+[ RUN      ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees
+unknown file: error: C++ exception with description "CUDA projection not implemented" thrown in the test body.
+
+[  FAILED  ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees (539 ms)
+[ RUN      ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors
+unknown file: error: C++ exception with description "CUDA projection not implemented" thrown in the test body.
+
+[  FAILED  ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors (369 ms)
+[ RUN      ] CudaProject.ValidatesLayoutCapacityAndLaunchSize
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(151): error: Expected: submit(64) throws an exception of type std::invalid_argument.
+  Actual: it throws std::logic_error with description "CUDA projection not implemented".
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(153): error: Expected: submit(256) throws an exception of type std::invalid_argument.
+  Actual: it throws std::logic_error with description "CUDA projection not implemented".
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp(156): error: Expected: submit(256) throws an exception of type std::out_of_range.
+  Actual: it throws std::logic_error with description "CUDA projection not implemented".
+
+[  FAILED  ] CudaProject.ValidatesLayoutCapacityAndLaunchSize (355 ms)
+[----------] 3 tests from CudaProject (1264 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (1264 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 3 tests, listed below:
+[  FAILED  ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees
+[  FAILED  ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors
+[  FAILED  ] CudaProject.ValidatesLayoutCapacityAndLaunchSize
+
+ 3 FAILED TESTS

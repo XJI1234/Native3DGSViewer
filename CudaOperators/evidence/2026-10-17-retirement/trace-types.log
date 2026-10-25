@@ -1,0 +1,17 @@
+enable_status=0x0
+Event before=207 after=217
+new Event=00000000000009CC
+query_status=0x0 traces=3
+trace type=1 handle=00000000000009CC
+trace type=2 handle=00000000000009CC
+trace type=1 handle=00000000000009CC
+new Event=0000000000000A00
+query_status=0x0 traces=3
+trace type=1 handle=0000000000000A00
+trace type=2 handle=0000000000000A00
+trace type=1 handle=0000000000000A00
+new Event=0000000000000A34
+query_status=0x0 traces=3
+trace type=1 handle=0000000000000A34
+trace type=2 handle=0000000000000A34
+trace type=1 handle=0000000000000A34

@@ -1,0 +1,77 @@
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (6.9s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+Matched Ninja /showIncludes prefix to compiler bytes (no locale installation required)
+[1/55] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/54] Generating CXX dyndep file CMakeFiles\spz.dir\CXX.dd
+[3/50] Generating CXX dyndep file CMakeFiles\model-io-helper.dir\CXX.dd
+[4/45] Generating CXX dyndep file CMakeFiles\model-io.dir\CXX.dd
+[5/41] Running utility command for render-shaders
+[6/41] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaLifecycleTests.dir\CXX.dd
+[7/40] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[8/32] Generating CXX dyndep file CMakeFiles\native3dgs-engine.dir\CXX.dd
+[9/28] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\bench\scene.cpp for CXX dependencies
+[10/28] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\CXX.dd
+[11/28] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaBench.dir\bench\scene.cpp.obj
+[12/28] Building CUDA object CudaOperators\CMakeFiles\gs-cuda-backend.dir\src\operators\project.cu.obj
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(34): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::shared_ptr<ContextState> state_;
+                                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(53): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+      std::unique_ptr<Impl> impl_;
+                            ^
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\include\gs_cuda\interop.h(73): warning #1394-D: field of class type without a DLL interface used in a class with a DLL interface
+
+      std::unique_ptr<Impl> impl_;
+
+                            ^
+
+
+
+project.cu
+
+tmpxft_0000ac20_00000000-7_project.cudafe1.cpp
+
+[13/28] Linking CXX shared library cuda\Release\gs-cuda-backend.dll
+[14/28] Linking CXX executable cuda\Release\Native3DGSViewer.CudaLifecycleTests.exe
+[15/28] Linking CXX executable cuda\Release\Native3DGSViewer.CudaBench.exe
+[16/28] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp for CXX dependencies
+[17/28] Scanning C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\project_tests.cpp for CXX dependencies
+[18/28] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\CXX.dd
+[19/24] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\ownership_tests.cpp.obj
+[20/24] Building CXX object CudaOperators\CMakeFiles\Native3DGSViewer.CudaTests.dir\tests\project_tests.cpp.obj
+[21/24] Linking CXX executable cuda\Release\Native3DGSViewer.CudaTests.exe
+[22/24] Generating CXX dyndep file CudaOperators\CMakeFiles\Native3DGSViewer.CudaSortBench.dir\CXX.dd
+[23/23] Linking CXX executable cuda\Release\Native3DGSViewer.CudaSortBench.exe

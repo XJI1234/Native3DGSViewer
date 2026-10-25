@@ -1,0 +1,79 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaInterop.EveryOperatorRejectsForeignInputsBeforeEnqueue
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CudaInterop
+[ RUN      ] CudaInterop.EveryOperatorRejectsForeignInputsBeforeEnqueue
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(64): error: Expected: TileCompositeWorkspace(other, lists, 4ull << 20) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(71): error: Expected: sort.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(72): error: Expected: compact.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(71): error: Expected: sort.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(72): error: Expected: compact.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(71): error: Expected: sort.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(72): error: Expected: compact.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(71): error: Expected: sort.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(72): error: Expected: compact.submit(context, *buffers[0], *buffers[1], *buffers[2], *buffers[3], 1) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(82): error: Expected: project(context, frame, *buffers[0], *buffers[1], *buffers[2], *buffers[3], *buffers[4], *buffers[5]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(88): error: Expected: lists.submit(context, *buffers[0], *buffers[1], *buffers[2]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(88): error: Expected: lists.submit(context, *buffers[0], *buffers[1], *buffers[2]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(88): error: Expected: lists.submit(context, *buffers[0], *buffers[1], *buffers[2]) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(90): error: Expected: composite.submit(context, foreign, *local[1], target) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(91): error: Expected: composite.submit(context, *local[0], foreign, target) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+C:\Users\21544\workspace\Native3DGSViewer\CudaOperators\tests\ownership_tests.cpp(92): error: Expected: composite.submit(context, *local[0], *local[1], foreign_target) throws an exception of type std::invalid_argument.
+  Actual: it throws nothing.
+
+[  FAILED  ] CudaInterop.EveryOperatorRejectsForeignInputsBeforeEnqueue (435 ms)
+[----------] 1 test from CudaInterop (435 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (435 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] CudaInterop.EveryOperatorRejectsForeignInputsBeforeEnqueue
+
+ 1 FAILED TEST

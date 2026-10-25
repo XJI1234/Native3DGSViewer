@@ -1,0 +1,714 @@
+#include "gs_cuda/sort.h"
+#include "gs_cuda/project.h"
+#include "gs_cuda/compact.h"
+#include "gs_cuda/tile.h"
+#include "model-io/model_loader.h"
+#include "native3dgs/camera.h"
+#include "splat.h"
+#include "upload.h"
+#include "blit.h"
+#include "hlsl_tile.h"
+#include <cuda_runtime_api.h>
+#include <psapi.h>
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstring>
+#include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numbers>
+#include <thread>
+
+using namespace gs::render;
+using namespace gs::render::detail;
+namespace cuda_ops = gs::cuda_ops;
+using Clock = std::chrono::steady_clock;
+static double seconds(Clock::time_point start) { return std::chrono::duration<double>(Clock::now() - start).count(); }
+
+struct Commands
+{
+    ComPtr<ID3D12CommandAllocator> allocator;
+    ComPtr<ID3D12GraphicsCommandList> list;
+    explicit Commands(GpuDevice &gpu)
+    {
+        check(gpu.device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)), "Bench allocator");
+        check(gpu.device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr, IID_PPV_ARGS(&list)), "Bench commands");
+        check(list->Close(), "Bench close");
+    }
+    void reset() { check(allocator->Reset(), "Bench reset allocator"); check(list->Reset(allocator.Get(), nullptr), "Bench reset commands"); }
+    void submit(GpuDevice &gpu)
+    {
+        check(list->Close(), "Bench submit close");
+        gpu.submit(gpu.direct.Get(), list.Get(), gpu.direct_fence.Get(), gpu.direct_value);
+    }
+};
+
+struct KernelEvents
+{
+    std::array<cudaEvent_t, 5> events{};
+    static void checked(cudaError_t error)
+    {
+        if (error != cudaSuccess) throw std::runtime_error(cudaGetErrorString(error));
+    }
+    KernelEvents()
+    {
+        try { for (auto &event : events) checked(cudaEventCreate(&event)); }
+        catch (...) { for (auto event : events) if (event) cudaEventDestroy(event); throw; }
+    }
+    ~KernelEvents() { for (auto event : events) if (event) cudaEventDestroy(event); }
+    void mark(cuda_ops::Context &context, size_t index)
+    {
+        checked(cudaEventRecord(events.at(index), static_cast<cudaStream_t>(context.native_stream())));
+    }
+    float elapsed(size_t start, size_t finish)
+    {
+        float ms = 0;
+        checked(cudaEventElapsedTime(&ms, events.at(start), events.at(finish)));
+        return ms;
+    }
+};
+
+struct FrameSlot
+{
+    Commands producer, consumer;
+    ComPtr<ID3D12QueryHeap> queries;
+    ComPtr<ID3D12Resource> times;
+    std::unique_ptr<KernelEvents> events;
+    uint64_t fence = 0;
+    uint32_t frame = 0;
+    double time = 0, submit_ms = 0;
+    Clock::time_point start;
+    bool measured = false;
+    FrameSlot(GpuDevice &gpu, bool kernel_events) : producer(gpu), consumer(gpu)
+    {
+        D3D12_QUERY_HEAP_DESC q{}; q.Type = D3D12_QUERY_HEAP_TYPE_TIMESTAMP; q.Count = 4;
+        check(gpu.device->CreateQueryHeap(&q, IID_PPV_ARGS(&queries)), "Frame slot queries");
+        times = gpu.buffer(32, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
+        if (kernel_events) events = std::make_unique<KernelEvents>();
+    }
+};
+
+struct MemorySamples
+{
+    GpuDevice &gpu;
+    std::ofstream output;
+    Clock::time_point start = Clock::now(), last = start;
+    MemorySamples(GpuDevice &device, const std::filesystem::path &path) : gpu(device), output(path)
+    {
+        output << "time_s,stage,local_usage,local_budget,nonlocal_usage,nonlocal_budget,private_bytes,peak_private_bytes,working_set,peak_working_set\n";
+        sample("initial");
+    }
+    void sample(const char *stage)
+    {
+        DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
+        check(gpu.adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local), "Memory local query");
+        check(gpu.adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal), "Memory nonlocal query");
+        PROCESS_MEMORY_COUNTERS_EX process{};
+        process.cb = sizeof(process);
+        if (!K32GetProcessMemoryInfo(GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&process), sizeof(process)))
+            throw std::runtime_error("Process memory query failed");
+        output << seconds(start) << ',' << stage << ',' << local.CurrentUsage << ',' << local.Budget << ','
+               << nonlocal.CurrentUsage << ',' << nonlocal.Budget << ',' << process.PrivateUsage << ','
+               << process.PeakPagefileUsage << ',' << process.WorkingSetSize << ',' << process.PeakWorkingSetSize << '\n';
+        if (!output) throw std::runtime_error("Memory output failed");
+        last = Clock::now();
+    }
+    void periodic() { if (seconds(last) >= 1) sample("frame"); }
+};
+
+static void capture(GpuDevice &gpu, ID3D12Resource *texture, const std::filesystem::path &path)
+{
+    auto desc = texture->GetDesc();
+    D3D12_PLACED_SUBRESOURCE_FOOTPRINT footprint{};
+    uint64_t total = 0;
+    gpu.device->GetCopyableFootprints(&desc, 0, 1, 0, &footprint, nullptr, nullptr, &total);
+    auto readback = gpu.buffer(total, D3D12_HEAP_TYPE_READBACK, D3D12_RESOURCE_STATE_COPY_DEST);
+    Commands commands(gpu);
+    commands.reset();
+    transition(commands.list.Get(), texture, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    D3D12_TEXTURE_COPY_LOCATION source{}, target{};
+    source.pResource = texture;
+    source.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+    target.pResource = readback.Get();
+    target.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+    target.PlacedFootprint = footprint;
+    commands.list->CopyTextureRegion(&target, 0, 0, 0, &source, nullptr);
+    transition(commands.list.Get(), texture, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commands.submit(gpu);
+    gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    void *mapped = nullptr;
+    D3D12_RANGE range{0, size_t(total)};
+    check(readback->Map(0, &range, &mapped), "Bench image map");
+    std::ofstream output(path, std::ios::binary);
+    for (uint32_t y = 0; y < desc.Height; ++y)
+        output.write(static_cast<const char *>(mapped) + y * footprint.Footprint.RowPitch, std::streamsize(desc.Width * 4));
+    D3D12_RANGE empty{};
+    readback->Unmap(0, &empty);
+    if (!output) throw std::runtime_error("Cannot save image");
+}
+
+static void upload_span(GpuDevice &gpu, ID3D12Resource *target, uint64_t destination, std::span<const float> values)
+{
+    constexpr uint64_t page_bytes = 64 * 1024 * 1024;
+    if (values.empty()) return;
+    auto staging = gpu.buffer((std::min)(page_bytes, uint64_t(values.size_bytes())),
+        D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    Commands commands(gpu);
+    for (uint64_t offset = 0; offset < values.size_bytes(); offset += page_bytes)
+    {
+        const auto size = (std::min)(page_bytes, uint64_t(values.size_bytes()) - offset);
+        void *mapped = nullptr;
+        D3D12_RANGE empty{};
+        check(staging->Map(0, &empty, &mapped), "Shared input upload map");
+        std::memcpy(mapped, reinterpret_cast<const uint8_t *>(values.data()) + offset, size_t(size));
+        staging->Unmap(0, nullptr);
+        commands.reset();
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+        commands.list->CopyBufferRegion(target, destination + offset, staging.Get(), 0, size);
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
+        commands.submit(gpu);
+        gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    }
+}
+
+static void upload_sh_planes(GpuDevice &gpu, ID3D12Resource *target,
+    std::span<const float> values, uint32_t count, uint32_t stride)
+{
+    if (values.size() != uint64_t(count) * stride) throw std::invalid_argument("SH plane upload layout");
+    if (values.empty()) return;
+    constexpr uint64_t page_bytes = 64 * 1024 * 1024;
+    const uint64_t batch_capacity = (std::min)(uint64_t(count), page_bytes / (stride * 4ull));
+    auto staging = gpu.buffer(batch_capacity * stride * 4, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+    Commands commands(gpu);
+    for (uint64_t first = 0; first < count; first += batch_capacity)
+    {
+        const uint64_t batch = (std::min)(batch_capacity, count - first);
+        void *mapped = nullptr;
+        D3D12_RANGE empty{};
+        check(staging->Map(0, &empty, &mapped), "SH plane staging map");
+        auto *packed = static_cast<float *>(mapped);
+        for (uint64_t i = 0; i < batch; ++i)
+            for (uint32_t j = 0; j < stride; ++j)
+                packed[j * batch + i] = values[(first + i) * stride + j];
+        staging->Unmap(0, nullptr);
+        commands.reset();
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+        for (uint32_t j = 0; j < stride; ++j)
+            commands.list->CopyBufferRegion(target, (uint64_t(j) * count + first) * 4,
+                staging.Get(), j * batch * 4, batch * 4);
+        transition(commands.list.Get(), target, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
+        commands.submit(gpu);
+        gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+    }
+}
+
+static void upload_owned_span(cuda_ops::Context &context, cuda_ops::OwnedBuffer &target,
+    uint64_t destination, std::span<const float> values)
+{
+    constexpr uint64_t page_floats = 64 * 1024 * 1024 / sizeof(float);
+    for (uint64_t first = 0; first < values.size(); first += page_floats)
+        target.upload(context, destination + first * sizeof(float),
+            values.subspan(size_t(first), size_t((std::min)(page_floats, values.size() - first))));
+}
+
+static void upload_owned_sh_planes(cuda_ops::Context &context, cuda_ops::OwnedBuffer &target,
+    std::span<const float> values, uint32_t count, uint32_t stride)
+{
+    if (values.size() != uint64_t(count) * stride) throw std::invalid_argument("Owned SH plane layout");
+    if (values.empty()) return;
+    const uint64_t capacity = (std::min)(uint64_t(count), uint64_t{64 * 1024 * 1024} / (stride * 4ull));
+    std::vector<float> staging(capacity * stride);
+    for (uint64_t first = 0; first < count; first += capacity)
+    {
+        const auto batch = (std::min)(capacity, count - first);
+        for (uint64_t i = 0; i < batch; ++i)
+            for (uint32_t j = 0; j < stride; ++j)
+                staging[j * batch + i] = values[(first + i) * stride + j];
+        for (uint32_t j = 0; j < stride; ++j)
+            target.upload(context, (uint64_t(j) * count + first) * 4,
+                std::span<const float>(staging).subspan(size_t(j * batch), size_t(batch)));
+    }
+}
+
+// Post-measurement oracle. A CSV changes only local candidates; a .u32 dump
+// replaces the full permutation. Neither mode is part of a rendering backend.
+static size_t apply_reference_order(const std::filesystem::path &path, std::vector<uint8_t> &indexes,
+    std::span<const uint32_t> candidate_ranks, std::span<const uint32_t> candidate_indexes)
+{
+    const auto count = indexes.size() / 4;
+    if (path.extension() == L".u32")
+    {
+        if (std::filesystem::file_size(path) != indexes.size() || indexes.size() > 256ull * 1024 * 1024)
+            throw std::invalid_argument("Full order reference size mismatch or diagnostic limit");
+        std::vector<uint8_t> order(indexes.size());
+        std::ifstream input(path, std::ios::binary);
+        if (!input.read(reinterpret_cast<char *>(order.data()), std::streamsize(order.size())))
+            throw std::runtime_error("Cannot read full order reference");
+        std::vector<bool> seen(count);
+        for (size_t rank = 0; rank < count; ++rank)
+        {
+            uint32_t index = 0; std::memcpy(&index, order.data() + rank * 4, 4);
+            if (index >= count || seen[index]) throw std::invalid_argument("Full order reference is not a permutation");
+            seen[index] = true;
+        }
+        indexes.swap(order);
+        return count;
+    }
+    if (std::filesystem::file_size(path) > 64ull * 1024 * 1024)
+        throw std::invalid_argument("Order reference exceeds diagnostic limit");
+    std::ifstream input(path);
+    std::string line;
+    if (!std::getline(input, line) || !line.starts_with("rank,index,"))
+        throw std::invalid_argument("Invalid order reference header");
+    std::vector<uint32_t> reference;
+    while (std::getline(input, line))
+    {
+        const auto first = line.find(','), second = line.find(',', first + 1);
+        if (first == std::string::npos || second == std::string::npos || reference.size() >= count)
+            throw std::invalid_argument("Invalid order reference row");
+        const auto field = line.substr(first + 1, second - first - 1);
+        size_t used = 0;
+        const auto index = std::stoull(field, &used);
+        if (used != field.size() || index >= count) throw std::invalid_argument("Invalid reference index");
+        reference.push_back(uint32_t(index));
+    }
+    auto expected = reference;
+    std::vector<uint32_t> actual(candidate_indexes.begin(), candidate_indexes.end());
+    std::sort(expected.begin(), expected.end()); std::sort(actual.begin(), actual.end());
+    if (expected != actual || std::adjacent_find(expected.begin(), expected.end()) != expected.end())
+        throw std::invalid_argument("Order diagnostic candidate sets differ");
+    for (size_t i = 0; i < reference.size(); ++i)
+        std::memcpy(indexes.data() + uint64_t(candidate_ranks[i]) * 4, &reference[i], 4);
+    return reference.size();
+}
+
+int wmain(int argc, wchar_t **argv)
+{
+    try
+    {
+        std::map<std::wstring, std::wstring> args;
+        const std::vector<std::wstring> accepted{L"--model", L"--backend", L"--frames", L"--warmup-frames",
+            L"--warmup-seconds", L"--sample-seconds", L"--output", L"--camera", L"--diagnostics", L"--cuda-events", L"--pan-x", L"--tile-capacity", L"--debug-pixel-x", L"--debug-pixel-y",
+            L"--yaw-degrees", L"--pitch-degrees", L"--dolly-steps", L"--debug-order-reference"};
+        for (int i = 1; i < argc; i += 2)
+        {
+            if (i + 1 >= argc || std::find(accepted.begin(), accepted.end(), argv[i]) == accepted.end() || args.contains(argv[i]))
+                throw std::invalid_argument("Unknown, duplicate or incomplete argument");
+            args.emplace(argv[i], argv[i + 1]);
+        }
+        if (!args.contains(L"--model")) throw std::invalid_argument("--model is required");
+        auto get = [&](const wchar_t *key, const wchar_t *fallback) { return args.contains(key) ? args.at(key) : std::wstring(fallback); };
+        auto number = [&](const wchar_t *key, const wchar_t *fallback, double maximum, double minimum = 0) {
+            const auto text = get(key, fallback);
+            size_t used = 0;
+            const double value = std::stod(text, &used);
+            if (used != text.size() || !std::isfinite(value) || value < minimum || value > maximum) throw std::invalid_argument("Invalid numeric argument");
+            return value;
+        };
+        const auto backend = get(L"--backend", L"d3d12");
+        const std::vector<std::wstring> backends{L"d3d12", L"d3d12-queued", L"interop-noop", L"cuda-sort", L"cuda-sort-i32", L"cuda-sort-i32-queued", L"cuda-sort-graph", L"cuda-sort-queued", L"cuda-sort-graph-queued", L"cuda-project-128",
+            L"cuda-project-256", L"cuda-project-sort-128", L"cuda-project-sort-256", L"cuda-compact-full", L"cuda-compact-buckets",
+            L"cuda-project-256-rcp", L"cuda-project-256-rsqrt", L"cuda-project-256-rcp-rsqrt",
+            L"cuda-project-sort-256-rcp", L"cuda-project-sort-256-rsqrt", L"cuda-project-sort-256-rcp-rsqrt",
+            L"cuda-project-warp-256", L"cuda-project-sort-warp-256",
+            L"cuda-project-plane-256", L"cuda-project-sort-plane-256",
+            L"cuda-project-owned-256", L"cuda-project-owned-plane-256",
+            L"cuda-project-sort-owned-256", L"cuda-project-sort-owned-plane-256",
+            L"cuda-project-sort-owned-plane-256-queued",
+            L"cuda-tile-list-8", L"cuda-tile-list-16", L"cuda-tile-count-8", L"cuda-tile-count-16",
+            L"cuda-tile-exact-8", L"cuda-tile-exact-16", L"cuda-tile-unorm-8", L"cuda-tile-unorm-16",
+            L"hlsl-tile-exact-8", L"hlsl-tile-exact-16", L"hlsl-tile-unorm-8", L"hlsl-tile-unorm-16",
+            L"cuda-tile-front-16", L"cuda-tile-early5-16", L"cuda-tile-early4-16", L"cuda-tile-graph-16", L"cuda-tile-early4-graph-16"};
+        if (std::find(backends.begin(), backends.end(), backend) == backends.end()) throw std::invalid_argument("Backend not implemented");
+        const bool interop = !backend.starts_with(L"d3d12"), cuda_projection = backend.starts_with(L"cuda-project");
+        const bool owned_inputs = backend.find(L"owned") != std::wstring::npos;
+        if (args.contains(L"--debug-order-reference") && (!cuda_projection ||
+            !args.contains(L"--debug-pixel-x") || !args.contains(L"--debug-pixel-y")))
+            throw std::invalid_argument("Order diagnostic requires CUDA projection and both pixel coordinates");
+        const uint32_t slot_count = backend.ends_with(L"queued") ? 3u : 1u;
+        const bool cuda_compact = backend.starts_with(L"cuda-compact");
+        const bool hlsl_tile = backend.starts_with(L"hlsl-tile");
+        const bool cuda_tile = backend.starts_with(L"cuda-tile") || hlsl_tile, tile_count_only = backend.starts_with(L"cuda-tile-count");
+        const bool tile_composite = cuda_tile && !tile_count_only && !backend.starts_with(L"cuda-tile-list");
+        const bool cuda_sort = backend.starts_with(L"cuda-sort") || backend.starts_with(L"cuda-project-sort") || cuda_compact || cuda_tile;
+        const uint32_t block_size = backend.ends_with(L"128") ? 128 : 256;
+        const auto counters = backend.find(L"warp") != std::wstring::npos ?
+            cuda_ops::ProjectCounters::WarpAggregated : cuda_ops::ProjectCounters::Scalar;
+        const auto sh_layout = backend.find(L"plane") != std::wstring::npos ?
+            cuda_ops::ShLayout::PlaneMajor : cuda_ops::ShLayout::Interleaved;
+        const auto math = backend.ends_with(L"rcp-rsqrt") ? cuda_ops::ProjectMath::FactoredAndRsqrt :
+            backend.ends_with(L"rsqrt") ? cuda_ops::ProjectMath::ReciprocalSqrt :
+            backend.ends_with(L"rcp") ? cuda_ops::ProjectMath::FactoredReciprocal : cuda_ops::ProjectMath::Reference;
+        const auto event_mode = get(L"--cuda-events", L"off");
+        if (event_mode != L"off" && event_mode != L"on") throw std::invalid_argument("Invalid CUDA events switch");
+        const auto camera_mode = get(L"--camera", L"fit");
+        if (camera_mode != L"fit" && camera_mode != L"orbit") throw std::invalid_argument("Unknown camera path");
+        auto integer = [&](const wchar_t *key, const wchar_t *fallback) {
+            const auto value = number(key, fallback, 10000000);
+            if (value != std::floor(value)) throw std::invalid_argument("Frame count must be integral");
+            return uint32_t(value);
+        };
+        const uint32_t frames = integer(L"--frames", L"120");
+        const uint32_t warm_frames = integer(L"--warmup-frames", L"60");
+        const auto warm_seconds = number(L"--warmup-seconds", L"0", 3600);
+        const auto sample_seconds = number(L"--sample-seconds", L"0", 86400);
+        if (!frames && !sample_seconds) throw std::invalid_argument("Empty sample");
+        QualityConfig quality{};
+        quality.allow_memory_mitigation = false;
+        const Viewport viewport{1920, 1080};
+        const std::filesystem::path output_path(get(L"--output", L"cuda-bench.csv"));
+        if (output_path.has_parent_path()) std::filesystem::create_directories(output_path.parent_path());
+        auto loaded = gs::io::make_model_loader()->load({args.at(L"--model")}, {}, {});
+        if (auto error = std::get_if<gs::io::LoadError>(&loaded)) throw std::runtime_error(error->diagnostic);
+        auto scene = std::get<gs::SceneHandle>(loaded);
+        if (auto error = validate_scene(scene)) throw std::runtime_error(error->diagnostic);
+        gs::engine::CameraController camera;
+        if (auto error = camera.fit_scene(*scene, quality, viewport)) throw std::runtime_error(error->diagnostic);
+        const double degrees_to_pixels = std::numbers::pi / (180 * .005);
+        if (auto error = camera.orbit(number(L"--yaw-degrees", L"0", 360, -360) * degrees_to_pixels,
+                number(L"--pitch-degrees", L"0", 89, -89) * degrees_to_pixels)) throw std::runtime_error(error->diagnostic);
+        if (auto error = camera.dolly(number(L"--dolly-steps", L"0", 100, -100))) throw std::runtime_error(error->diagnostic);
+        if (auto error = camera.pan(number(L"--pan-x", L"0", 1000000), 0)) throw std::runtime_error(error->diagnostic);
+        const auto initial_camera = camera;
+        GpuDevice gpu(get(L"--diagnostics", L"off") == L"on");
+        MemorySamples memory(gpu, output_path.string() + ".memory.csv");
+        std::unique_ptr<cuda_ops::Context> context;
+        std::unique_ptr<cuda_ops::SortWorkspace> workspace;
+        std::unique_ptr<cuda_ops::CompactWorkspace> compact;
+        std::unique_ptr<cuda_ops::TileWorkspace> tiles;
+        std::unique_ptr<cuda_ops::TileCompositeWorkspace> composite;
+        std::unique_ptr<cuda_ops::SharedTexture> composite_target;
+        std::unique_ptr<SurfaceBlit> blit;
+        std::unique_ptr<HlslTilePass> hlsl_composite;
+        cuda_ops::TileConfig tile_config{};
+        std::unique_ptr<KernelEvents> events;
+        if (interop)
+        {
+            context = std::make_unique<cuda_ops::Context>(gpu.device.Get(), gpu.adapter_description.AdapterLuid);
+            if (cuda_compact) compact = std::make_unique<cuda_ops::CompactWorkspace>(*context, uint32_t(scene->count),
+                backend == L"cuda-compact-buckets" ? cuda_ops::CompactMode::DeviceBuckets : cuda_ops::CompactMode::FullCapacity);
+            else if (cuda_sort) workspace = std::make_unique<cuda_ops::SortWorkspace>(*context, uint32_t(scene->count), backend.starts_with(L"cuda-sort-graph"),
+                backend.starts_with(L"cuda-sort-i32") ? cuda_ops::SortOffsets::Int32 : cuda_ops::SortOffsets::Int64);
+            if (event_mode == L"on") events = std::make_unique<KernelEvents>();
+        }
+        SplatPass pass(gpu, quality);
+        DXGI_QUERY_VIDEO_MEMORY_INFO local{}, nonlocal{};
+        check(gpu.adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local), "Admission local query");
+        check(gpu.adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_NON_LOCAL, &nonlocal), "Admission nonlocal query");
+        const auto base_required = incremental_bytes(*scene);
+        if (base_required == UINT64_MAX) throw std::runtime_error("Scene allocation arithmetic exceeds supported capacity");
+        const uint64_t required = base_required + (32ull << 20); // target + shared heap alignment
+        const uint64_t staging = upload_reserve_bytes(*scene, scene->shDegree, 1) + (16ull << 20); // image readback
+        uint64_t tile_bytes = 0;
+        if (cuda_tile)
+        {
+            const auto capacity = args.contains(L"--tile-capacity") ? number(L"--tile-capacity", L"1", INT32_MAX) :
+                tile_count_only ? 1.0 : (std::min)(double(scene->count) * 4, double(INT32_MAX));
+            if (capacity < 1 || capacity != std::floor(capacity)) throw std::invalid_argument("Invalid tile reference capacity");
+            tile_config = {uint32_t(scene->count), viewport.physical_width, viewport.physical_height, backend.ends_with(L"16") ? 16u : 8u,
+                uint32_t(capacity), UINT64_MAX};
+            tile_bytes = cuda_ops::TileWorkspace::required_bytes(*context, tile_config);
+            if (tile_composite) tile_bytes += (hlsl_tile ? HlslTilePass::required_bytes(tile_config) :
+                cuda_ops::TileCompositeWorkspace::required_bytes(viewport.physical_width, viewport.physical_height)) + (16ull << 20);
+        }
+        std::cout << "admission required_local=" << required << " local_usage=" << local.CurrentUsage
+                  << " local_budget=" << local.Budget << " scratch=" << (workspace ? workspace->scratch_bytes() : compact ? compact->scratch_bytes() : 0)
+                  << " tile_required=" << tile_bytes << '\n';
+        if (tile_bytes > UINT64_MAX - required || !fits_scene_budgets(required + tile_bytes, staging, local.Budget, local.CurrentUsage,
+                               nonlocal.Budget, nonlocal.CurrentUsage, gpu.uma))
+            throw std::runtime_error("Equal-quality scene exceeds native 80% admission budget");
+        if (cuda_tile)
+        {
+            tile_config.budget_bytes = tile_bytes;
+            tiles = std::make_unique<cuda_ops::TileWorkspace>(*context, tile_config);
+            std::cout << "tile_capacity=" << tile_config.reference_capacity << " tile_bytes=" << tiles->allocated_bytes() << '\n';
+            if (tile_composite)
+            {
+                composite_target = std::make_unique<cuda_ops::SharedTexture>(*context, viewport.physical_width, viewport.physical_height);
+                if (hlsl_tile) hlsl_composite = std::make_unique<HlslTilePass>(gpu, tile_config, composite_target->resource());
+                else composite = std::make_unique<cuda_ops::TileCompositeWorkspace>(*context, *tiles,
+                        cuda_ops::TileCompositeWorkspace::required_bytes(viewport.physical_width, viewport.physical_height));
+                blit = std::make_unique<SurfaceBlit>(gpu, composite_target->resource());
+            }
+        }
+        UploadTransaction upload(gpu, pass, scene, 1, camera.camera(), scene->shDegree, false, 1);
+        while (!upload.ready) { upload.advance(gpu); if (!upload.ready) std::this_thread::sleep_for(std::chrono::milliseconds(1)); }
+        auto model = upload.scene;
+        memory.sample("native_uploaded");
+        std::array<std::unique_ptr<cuda_ops::SharedBuffer>, 8> shared;
+        std::unique_ptr<cuda_ops::OwnedBuffer> owned_attributes, owned_sh;
+        const uint32_t mutable_buffers = cuda_projection || cuda_tile ? 6 : 4;
+        Commands producer(gpu), consumer(gpu);
+        if (interop)
+        {
+            const uint64_t bytes = (uint64_t(model->count) + 511) / 512 * 512 * 4;
+            for (int i = 0; i < 2; ++i) { model->sorting.keys[i].Reset(); model->sorting.values[i].Reset(); }
+            for (int i = 0; i < 4; ++i) shared[i] = std::make_unique<cuda_ops::SharedBuffer>(*context, bytes);
+            if (cuda_projection || cuda_tile)
+            {
+                model->projected.Reset(); model->arguments.Reset();
+                shared[4] = std::make_unique<cuda_ops::SharedBuffer>(*context, uint64_t(model->count) * sizeof(ProjectedEllipse));
+                shared[5] = std::make_unique<cuda_ops::SharedBuffer>(*context, sizeof(DrawCounters));
+                model->projected = shared[4]->resource(); model->arguments = shared[5]->resource();
+            }
+            if (cuda_projection)
+            {
+                // Re-upload canonical CPU spans before timing. Release original input
+                // allocations first to avoid doubling a 4GB SH buffer on the 10GB GPU.
+                model->attributes.Reset(); model->sh_attributes.Reset();
+                const auto attribute_bytes = uint64_t(model->count) * 56;
+                const auto sh_bytes = (std::max)(uint64_t{4}, uint64_t(model->count) * model->sh_floats_per_splat * 4);
+                if (owned_inputs)
+                {
+                    owned_attributes = std::make_unique<cuda_ops::OwnedBuffer>(*context, attribute_bytes);
+                    owned_sh = std::make_unique<cuda_ops::OwnedBuffer>(*context, sh_bytes);
+                    // The quad draw only reads projected ellipses and indexes.
+                    // Keep its unused root SRVs valid without importing inputs.
+                    model->attributes = gpu.buffer(4, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_GENERIC_READ);
+                }
+                else
+                {
+                    shared[6] = std::make_unique<cuda_ops::SharedBuffer>(*context, attribute_bytes);
+                    shared[7] = std::make_unique<cuda_ops::SharedBuffer>(*context, sh_bytes);
+                    model->attributes = shared[6]->resource();
+                    if (model->sh_floats_per_splat) model->sh_attributes = shared[7]->resource();
+                }
+                const std::array spans{scene->centerLocal, scene->scale, scene->rotation, scene->opacity, scene->rgb0};
+                for (int i = 0; i < 5; ++i)
+                    if (owned_inputs) upload_owned_span(*context, *owned_attributes, model->offsets[i], spans[i]);
+                    else upload_span(gpu, shared[6]->resource(), model->offsets[i], spans[i]);
+                const auto sh_upload_start = Clock::now();
+                if (owned_inputs)
+                {
+                    if (sh_layout == cuda_ops::ShLayout::PlaneMajor)
+                        upload_owned_sh_planes(*context, *owned_sh, scene->shRest, model->count, model->sh_floats_per_splat);
+                    else upload_owned_span(*context, *owned_sh, 0, scene->shRest);
+                }
+                else if (sh_layout == cuda_ops::ShLayout::PlaneMajor)
+                    upload_sh_planes(gpu, shared[7]->resource(), scene->shRest, model->count, model->sh_floats_per_splat);
+                else upload_span(gpu, shared[7]->resource(), 0, scene->shRest);
+                std::cout << "sh_upload_seconds=" << seconds(sh_upload_start) << " staging_limit_bytes=67108864\n";
+            }
+            producer.reset();
+            for (uint32_t i = 0; i < mutable_buffers; ++i) transition(producer.list.Get(), shared[i]->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            producer.submit(gpu);
+            gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+            for (int i = 0; i < 2; ++i) { model->sorting.keys[i] = shared[i]->resource(); model->sorting.values[i] = shared[i + 2]->resource(); }
+            memory.sample("shared_uploaded");
+        }
+        D3D12_RESOURCE_DESC td{};
+        td.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+        td.Width = 1920; td.Height = 1080;
+        td.DepthOrArraySize = td.MipLevels = 1;
+        td.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+        td.SampleDesc.Count = 1;
+        td.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+        D3D12_HEAP_PROPERTIES heap{}; heap.Type = D3D12_HEAP_TYPE_DEFAULT;
+        ComPtr<ID3D12Resource> target;
+        check(gpu.device->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &td, D3D12_RESOURCE_STATE_RENDER_TARGET, nullptr, IID_PPV_ARGS(&target)), "Bench target");
+        ComPtr<ID3D12DescriptorHeap> rtv;
+        D3D12_DESCRIPTOR_HEAP_DESC hd{}; hd.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; hd.NumDescriptors = 1;
+        check(gpu.device->CreateDescriptorHeap(&hd, IID_PPV_ARGS(&rtv)), "Bench RTV");
+        const auto handle = rtv->GetCPUDescriptorHandleForHeapStart();
+        gpu.device->CreateRenderTargetView(target.Get(), nullptr, handle);
+        std::vector<std::unique_ptr<FrameSlot>> slots;
+        for (uint32_t i = 0; i < slot_count; ++i) slots.push_back(std::make_unique<FrameSlot>(gpu, events != nullptr));
+        std::ofstream output(output_path);
+        output << std::setprecision(12) << "frame,time_s,count,projection_ms,sort_and_interop_ms,draw_ms,gpu_total_ms,cpu_wall_ms,cuda_projection_kernel_ms,cuda_sort_kernel_ms,cuda_tile_list_kernel_ms,cuda_composite_kernel_ms,cpu_submit_ms\n";
+        std::cout << "cuda_events=" << (events ? "on" : "off") << " (off reports kernel columns as -1)\n";
+        std::cout << "count=" << model->count << " SH=" << unsigned(model->sh_degree)
+                  << " stride=1 viewport=1920x1080 radial stddev=3 alpha=0 blur=0 radius=1024 no_mitigation\n";
+        uint32_t last_selector = 0;
+        std::cout << "frame_slots=" << slot_count << " current-frame projection/sort; CPU wall includes queue residence; no input latency claim\n";
+        auto resolve = [&](FrameSlot &slot) {
+            if (!slot.fence) return;
+            gpu.wait(gpu.direct_fence.Get(), slot.fence);
+            uint64_t ticks[4]; void *mapped = nullptr;
+            D3D12_RANGE range{0, 32}, empty{};
+            check(slot.times->Map(0, &range, &mapped), "Bench timestamp map");
+            std::memcpy(ticks, mapped, 32); slot.times->Unmap(0, &empty);
+            const double factor = 1000.0 / gpu.timestamp_frequency;
+            auto *events = slot.events.get();
+            if (slot.measured) output << slot.frame << ',' << slot.time << ',' << model->count << ','
+                << (ticks[1] - ticks[0]) * factor << ',' << (ticks[2] - ticks[1]) * factor << ','
+                << (ticks[3] - ticks[2]) * factor << ',' << (ticks[3] - ticks[0]) * factor << ',' << seconds(slot.start) * 1000 << ','
+                << (events && cuda_projection ? events->elapsed(0, 1) : -1) << ','
+                << (events && cuda_sort ? events->elapsed(1, 2) : -1) << ','
+                << (events && tiles ? events->elapsed(2, 3) : -1) << ','
+                << (events && composite ? events->elapsed(3, 4) : -1) << ',' << slot.submit_ms << '\n';
+            slot.fence = 0;
+        };
+        for (int phase = 0; phase < 2; ++phase)
+        {
+            const auto phase_start = Clock::now();
+            const double duration = phase ? sample_seconds : warm_seconds;
+            const uint32_t limit = phase ? frames : warm_frames;
+            for (uint32_t frame = 0; duration > 0 ? seconds(phase_start) < duration : frame < limit; ++frame)
+            {
+                auto &slot = *slots[frame % slot_count];
+                resolve(slot); // Recycle allocator/query/events only after its fence.
+                auto &producer = slot.producer; auto &consumer = slot.consumer;
+                auto &queries = slot.queries; auto &times = slot.times;
+                auto *events = slot.events.get();
+                const auto start = Clock::now();
+                const double t = seconds(phase_start);
+                if (camera_mode == L"orbit")
+                {
+                    camera = initial_camera;
+                    camera.orbit(80 * std::sin(t * 0.4), 20 * std::sin(t * 0.25));
+                    model->camera = camera.camera();
+                }
+                producer.reset();
+                auto *list = producer.list.Get();
+                list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 0);
+                if (!cuda_projection)
+                {
+                    if (cuda_sort) pass.project(list, *model, viewport, queries.Get());
+                    else pass.project_sort(list, *model, viewport, queries.Get());
+                }
+                uint32_t selected = 0;
+                if (interop)
+                {
+                    for (uint32_t i = 0; i < mutable_buffers; ++i) transition(list, shared[i]->resource(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COMMON);
+                    producer.submit(gpu);
+                    context->begin(gpu.direct.Get());
+                    if (events) events->mark(*context, 0);
+                    if (cuda_projection)
+                    {
+                        const auto constants = pass.constants(*model, viewport);
+                        if (owned_inputs) cuda_ops::project(*context, constants, *owned_attributes, *owned_sh,
+                            *shared[4], *shared[0], *shared[2], *shared[5], block_size, math, counters, sh_layout);
+                        else cuda_ops::project(*context, constants, *shared[6], *shared[7],
+                            *shared[4], *shared[0], *shared[2], *shared[5], block_size, math, counters, sh_layout);
+                    }
+                    if (events) events->mark(*context, 1);
+                    if (compact) selected = compact->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
+                    else if (cuda_sort) selected = workspace->submit(*context, *shared[0], *shared[1], *shared[2], *shared[3], model->count);
+                    last_selector = selected;
+                    if (events) events->mark(*context, 2);
+                    if (tiles) tiles->submit(*context, *shared[4], *shared[selected ? 3 : 2], *shared[5]);
+                    if (events && tiles) events->mark(*context, 3);
+                    if (composite)
+                    {
+                        cuda_ops::TileCompositeOptions options{quality.max_stddev, quality.min_alpha, backend.starts_with(L"cuda-tile-unorm")};
+                        options.front_to_back = backend.starts_with(L"cuda-tile-front") || backend.starts_with(L"cuda-tile-early");
+                        options.transmittance_cutoff = backend.starts_with(L"cuda-tile-early5") ? 1e-5f : backend.starts_with(L"cuda-tile-early4") ? 1e-4f : 0;
+                        options.capture_direct = backend.find(L"graph") != std::wstring::npos;
+                        composite->submit(*context, *shared[4], *shared[selected ? 3 : 2], *composite_target, options);
+                    }
+                    if (events && composite) events->mark(*context, 4);
+                    context->end(gpu.direct.Get());
+                    consumer.reset();
+                    list = consumer.list.Get();
+                    for (uint32_t i = 0; i < mutable_buffers; ++i) transition(list, shared[i]->resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                    // For E04 this span contains projection + CUB + interop; CUDA
+                    // events provide separate kernel diagnostics, not D3D clocks.
+                    if (cuda_projection) list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 1);
+                    if (cuda_projection && !cuda_sort) pass.sort().record(list, model->sorting);
+                    if (selected) { std::swap(model->sorting.keys[0], model->sorting.keys[1]); std::swap(model->sorting.values[0], model->sorting.values[1]); }
+                }
+                list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 2);
+                const float clear[4]{};
+                list->ClearRenderTargetView(handle, clear, 0, nullptr);
+                if (hlsl_composite) hlsl_composite->record(list, *tiles, *shared[4], *shared[selected ? 3 : 2],
+                    {quality.max_stddev, quality.min_alpha, backend.starts_with(L"hlsl-tile-unorm")});
+                if (blit) blit->record(list, handle);
+                else pass.draw(list, *model, viewport, handle);
+                if (selected) { std::swap(model->sorting.keys[0], model->sorting.keys[1]); std::swap(model->sorting.values[0], model->sorting.values[1]); }
+                list->EndQuery(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 3);
+                list->ResolveQueryData(queries.Get(), D3D12_QUERY_TYPE_TIMESTAMP, 0, 4, times.Get(), 0);
+                (interop ? consumer : producer).submit(gpu);
+                slot.fence = gpu.direct_value; slot.frame = frame; slot.time = t;
+                slot.start = start; slot.submit_ms = seconds(start) * 1000; slot.measured = phase != 0;
+                if (slot_count == 1) resolve(slot);
+                memory.periodic();
+            }
+            std::vector<FrameSlot *> pending;
+            for (auto &slot : slots) if (slot->fence) pending.push_back(slot.get());
+            std::sort(pending.begin(), pending.end(), [](auto *a, auto *b) { return a->frame < b->frame; });
+            for (auto *slot : pending) resolve(*slot);
+        }
+        if (context && !context->wait_idle()) throw std::runtime_error("CUDA shutdown timeout");
+        capture(gpu, target.Get(), output_path.string() + ".bgra");
+        if (args.contains(L"--debug-pixel-x") || args.contains(L"--debug-pixel-y"))
+        {
+            if (!args.contains(L"--debug-pixel-x") || !args.contains(L"--debug-pixel-y")) throw std::invalid_argument("Both debug pixel coordinates required");
+            const auto x = number(L"--debug-pixel-x", L"0", 1919) + .5, y = number(L"--debug-pixel-y", L"0", 1079) + .5;
+            const auto ellipses = gpu.readback(model->projected.Get(), uint64_t(model->count) * sizeof(ProjectedEllipse), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            auto indexes = gpu.readback(model->sorting.values[last_selector].Get(), uint64_t(model->count) * 4, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            std::ofstream order_dump(output_path.string() + ".indexes.u32", std::ios::binary);
+            order_dump.write(reinterpret_cast<const char *>(indexes.data()), std::streamsize(indexes.size()));
+            if (!order_dump) throw std::runtime_error("Cannot write full order diagnostic");
+            order_dump.close();
+            const auto keys = gpu.readback(model->sorting.keys[last_selector].Get(), uint64_t(model->count) * 4, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+            std::vector<uint32_t> candidate_ranks, candidate_indexes;
+            std::ofstream debug(output_path.string() + ".pixel.csv"); debug << std::setprecision(12) << "rank,index,key,cx,cy,a0x,a0y,a1x,a1y,r,g,b,a\n";
+            for (uint32_t rank = 0; rank < model->count; ++rank)
+            {
+                uint32_t index = 0; std::memcpy(&index, indexes.data() + uint64_t(rank) * 4, 4);
+                if (index >= model->count) throw std::runtime_error("Debug invalid sorted index");
+                ProjectedEllipse e{}; std::memcpy(&e, ellipses.data() + uint64_t(index) * sizeof(e), sizeof(e));
+                if (e.color[3] <= 0 || std::abs(e.center[0] - x) > std::abs(e.axis0[0]) + std::abs(e.axis1[0]) + 1 ||
+                    std::abs(e.center[1] - y) > std::abs(e.axis0[1]) + std::abs(e.axis1[1]) + 1) continue;
+                candidate_ranks.push_back(rank); candidate_indexes.push_back(index);
+                uint32_t key = 0; std::memcpy(&key, keys.data() + uint64_t(rank) * 4, 4);
+                debug << rank << ',' << index << ',' << key;
+                for (const auto value : {e.center[0], e.center[1], e.axis0[0], e.axis0[1], e.axis1[0], e.axis1[1], e.color[0], e.color[1], e.color[2], e.color[3]}) debug << ',' << value;
+                debug << '\n';
+            }
+            if (!debug) throw std::runtime_error("Debug pixel output failed");
+            if (args.contains(L"--debug-order-reference"))
+            {
+                // Post-measurement causal probe only, preserving CUDA ellipses.
+                // This CPU readback/permutation is never an acceleration path.
+                const auto changed = apply_reference_order(std::filesystem::path(args.at(L"--debug-order-reference")),
+                    indexes, candidate_ranks, candidate_indexes);
+                auto staging = gpu.buffer(indexes.size(), D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
+                void *mapped = nullptr; D3D12_RANGE empty{};
+                check(staging->Map(0, &empty, &mapped), "Order diagnostic staging");
+                std::memcpy(mapped, indexes.data(), indexes.size()); staging->Unmap(0, nullptr);
+                Commands commands(gpu); commands.reset();
+                auto *sorted = model->sorting.values[last_selector].Get();
+                transition(commands.list.Get(), sorted, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_DEST);
+                commands.list->CopyBufferRegion(sorted, 0, staging.Get(), 0, indexes.size());
+                transition(commands.list.Get(), sorted, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+                const float clear[4]{}; commands.list->ClearRenderTargetView(handle, clear, 0, nullptr);
+                if (last_selector) std::swap(model->sorting.values[0], model->sorting.values[1]);
+                pass.draw(commands.list.Get(), *model, viewport, handle);
+                if (last_selector) std::swap(model->sorting.values[0], model->sorting.values[1]);
+                commands.submit(gpu); gpu.wait(gpu.direct_fence.Get(), gpu.direct_value);
+                capture(gpu, target.Get(), output_path.string() + ".order-corrected.bgra");
+                std::cout << "post_measurement_order_probe_candidates=" << changed << '\n';
+            }
+        }
+        if (tiles)
+        {
+            const auto data = gpu.readback(tiles->status().resource(), sizeof(cuda_ops::TileStatus), D3D12_RESOURCE_STATE_COMMON);
+            cuda_ops::TileStatus status{}; std::memcpy(&status, data.data(), sizeof(status));
+            std::cout << "tile_references=" << status.references << " flags=" << status.flags << " max_tile_length=" << status.max_tile_length
+                << " count_only=" << tile_count_only << " (read after all measured frames)\n";
+            if (status.flags && !(tile_count_only && status.flags == 2)) throw std::runtime_error("Tile list invalid or exceeds capacity; frame rejected");
+        }
+        const auto final_args_data = gpu.readback(model->arguments.Get(), sizeof(DrawCounters), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+        DrawCounters final_draw{};
+        std::memcpy(&final_draw, final_args_data.data(), sizeof(final_draw));
+        std::cout << "visible=" << final_draw.instance_count << " total=" << model->count << " (read after all measured frames)\n";
+        if (compact)
+        {
+            const auto data = gpu.readback(compact->visible_count_buffer().resource(), 4, D3D12_RESOURCE_STATE_COMMON);
+            uint32_t visible = 0;
+            std::memcpy(&visible, data.data(), 4);
+            if (visible != final_draw.instance_count) throw std::runtime_error("Compact count differs from projected draw count");
+        }
+        memory.sample("captured");
+        if (!output) throw std::runtime_error("Cannot save samples");
+        if (!gpu.debug_errors().empty()) throw std::runtime_error("D3D12 validation failed");
+        return 0;
+    }
+    catch (const GpuFailure &error) { std::cerr << error.operation << " HRESULT=" << std::hex << error.hr << '\n'; }
+    catch (const std::exception &error) { std::cerr << error.what() << '\n'; }
+    return 1;
+}

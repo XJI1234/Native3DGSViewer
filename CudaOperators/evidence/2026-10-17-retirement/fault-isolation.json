@@ -1,0 +1,75 @@
+{
+  "scope": "unresolved fence; external worker termination; no product integration",
+  "binary_sha256": "fe465e3329850174b24f44258431aa7b8aaa5ecc5e3e9519be926231391aa117",
+  "warmup": {
+    "blocked_for_at_least_seconds": 1,
+    "termination_ms": 69.40490000124555,
+    "exit_code": 1,
+    "worker_log": "BLOCKING_CUDA_API_READY\n"
+  },
+  "parent_handles_before": 137,
+  "runs": [
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 64.98450000071898,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 68.31000000238419,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 67.96379998559132,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 65.86490001063794,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 66.0795000003418,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 67.54920000093989,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 68.57519999903161,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 66.26280001364648,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 77.85109999531414,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    },
+    {
+      "blocked_for_at_least_seconds": 1,
+      "termination_ms": 69.62220001150854,
+      "exit_code": 1,
+      "worker_log": "BLOCKING_CUDA_API_READY\n"
+    }
+  ],
+  "parent_handles_after": 137,
+  "passed": true
+}

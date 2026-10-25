@@ -1,0 +1,20 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = CudaProject.*
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from CudaProject
+[ RUN      ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees
+[       OK ] CudaProject.AnalyticalCenteredEllipsesAndShDegrees (2622 ms)
+[ RUN      ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors
+[       OK ] CudaProject.RejectsInvalidInputsAndCullsWithoutCountingAsNumericErrors (327 ms)
+[ RUN      ] CudaProject.ValidatesLayoutCapacityAndLaunchSize
+[       OK ] CudaProject.ValidatesLayoutCapacityAndLaunchSize (310 ms)
+[ RUN      ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping
+[       OK ] CudaProject.MatchesHlslForAnisotropyRotationsShAndClipping (1288 ms)
+[ RUN      ] CudaProject.EmptyFrameResetsCounters
+[       OK ] CudaProject.EmptyFrameResetsCounters (345 ms)
+[----------] 5 tests from CudaProject (4895 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (4895 ms total)
+[  PASSED  ] 5 tests.

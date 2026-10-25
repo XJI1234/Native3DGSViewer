@@ -1,0 +1,54 @@
+[0/1] Re-running CMake...
+CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- ZSTD VERSION: 1.5.6
+-- CMAKE_INSTALL_PREFIX: C:/Program Files (x86)/Native3DGSViewer
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done (6.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+[1/53] Generating CXX dyndep file CudaOperators\CMakeFiles\gs-cuda-backend.dir\CXX.dd
+[2/51] Generating CXX dyndep file CMakeFiles\spz.dir\CXX.dd
+[3/47] Generating CXX dyndep file CMakeFiles\model-io-helper.dir\CXX.dd
+[4/42] Generating CXX dyndep file CMakeFiles\model-io.dir\CXX.dd
+[5/38] Running utility command for render-shaders
+[6/38] Generating ../shaders/tile_composite_8.cso
+FAILED: shaders/tile_composite_8.cso C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/shaders/tile_composite_8.cso 
+C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\21544\workspace\Native3DGSViewer\out\cmake-cuda\CudaOperators && "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T cs_6_0 -E tile_composite -D TILE_SIZE=8 -O3 -WX -Ges -Fo C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/shaders/tile_composite_8.cso C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/shaders/tile.hlsl"
+error: validation errors
+
+
+error: Total Thread Group Shared Memory storage is 40964, exceeded 32768.
+
+Validation failed.
+
+
+
+
+
+[7/38] Generating ../shaders/tile_composite_16.cso
+FAILED: shaders/tile_composite_16.cso C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/shaders/tile_composite_16.cso 
+C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\21544\workspace\Native3DGSViewer\out\cmake-cuda\CudaOperators && "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T cs_6_0 -E tile_composite -D TILE_SIZE=16 -O3 -WX -Ges -Fo C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/shaders/tile_composite_16.cso C:/Users/21544/workspace/Native3DGSViewer/CudaOperators/shaders/tile.hlsl"
+error: validation errors
+
+
+error: Total Thread Group Shared Memory storage is 40964, exceeded 32768.
+
+Validation failed.
+
+
+
+
+
+[8/38] Generating CXX dyndep file CMakeFiles\render-core.dir\CXX.dd
+[9/30] Generating ../shaders/tile_init.cso
+ninja: build stopped: subcommand failed.
