@@ -1,4 +1,4 @@
-/** Stop waiting without allowing late work to publish or write GPU resources. */
+/** Stop waiting; callers must guard late results and retain responsibility for cleanup. */
 export function abortable<T>(work: Promise<T>, signal: AbortSignal): Promise<T> {
     return new Promise<T>((resolve, reject) => {
         const abort = () => {

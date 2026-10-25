@@ -2,6 +2,7 @@
 
 #include "../common/protocol.h"
 
+#include <cmath>
 #include <span>
 
 namespace gs::io::detail

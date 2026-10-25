@@ -153,7 +153,7 @@ GPU 打包代码和布局由 render-core 提供，作为单独批量 kernel/Work
 
 - Blob/File 用 slice/stream 分块读取，PLY 头最多 64 KiB、约 4 MiB 批次作为初始调优值；属性表与大小先受检，保留 PLY 属性重排与额外标量语义。
 - 默认 PLY RDF→RUB，允许调用者明确指定 RUB；中心、四元数和方向 SH 同步转换。不增加猜测式 Auto。
-- SPZ v1–v3 gzip 与 v4 NGSP/TOC 按现有版本规则预检；第三方完整 cloud 的输入/临时/规范化输出峰值计入预算。不能声称 SPZ 已实现恒定内存流式解码。
+- preview.4：SPZ v1–v3 gzip 与 v4 NGSP/TOC 严格预检，v4 逐属性 Zstd 有界解压到 OPFS，复用单线程/pthreads unpack 批次。CPU 估算包含窗口、保留场景、线程栈与 I/O，按预算缩小批次；磁盘和完整质量 GPU 占用随点数增长。见 [v4 规格](SPEC-model-io.md)及[验证](verification/spz-v4-2026-10-25.md)。
 - URL 通过 fetch + AbortController + ReadableStream，限制重定向、协议、字节数、超时和解码后声明。Content-Length 可为空或不可信，以累计实际字节校验；CORS、拒绝访问、断流分别产生稳定错误。
 - 默认 HTTPS，开发 localhost；认证由宿主提供 request hook/短期凭据，不记录请求头、token 或完整 URL。自定义 fetch hook 要遵守取消和体积预算。
 - 初次拒绝 ASCII/大端/压缩 PLY、非法或不完整 SH、未知 SPZ flags、SH4、antialiased 扩展。兼容性由合成/真实样本固定，不按扩展名决定 codec。

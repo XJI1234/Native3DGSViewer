@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2-preview.4 — 2026-10-25
+
+- SPZ v4 改用逐属性 Zstd 解压、OPFS 暂存和有界 WASM 批次，避免中大型模型被整场景峰值估算拒绝。保留完整点、SH0–3、float32 和坐标语义。
+- v4 批次可使用既有 auto/single/pthreads 策略；解压仍为串行。PLY/SPZ 批次随 CPU 可用预算缩小，低预算自动选单线程。
+- 检查 Zstd 窗口、TOC 精确长度、压缩校验和与尾随数据；取消/失败清理临时文件并保留旧场景。详见 [v4 验证与算法分析](docs/verification/spz-v4-2026-10-25.md)。
+
+- SDK 新增可选只读批次、CPU 估算、WASM 堆与 Zstd 窗口诊断；初始化在等待设备前固定 limits 和资产 URL 值，避免宿主异步修改配置。React/Vue 模板同步显示诊断并使用完整 v4 样例验收。
+
+- 全量审查修复恢复清理等待、重复 GPU disposal、Canvas 独占、OPFS 删除重试、极大像素比输入及错误栏布局；共享 normalize 验证拒绝无穷元数据并容纳 float32 局部坐标的可计算舍入误差，原生接口不变。
+
 ## 0.2.2-preview.3 — 2026-10-06
 
 - preview.3 默认启用 adaptive 排序和 auto/4 WASM；strict/single 可显式 opt-out，默认排序行为与 preview.2 不同。

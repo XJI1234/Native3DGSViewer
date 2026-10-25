@@ -48,8 +48,7 @@ scope.onmessage = async (
             if (source.plyCoordinates !== undefined && !['rdf', 'rub'].includes(source.plyCoordinates))
                 throw Error('InvalidInput: plyCoordinates');
             const streamingBytes = wasm._gs_count() * (128 + 24 * ((wasm._gs_degree() + 1) ** 2 - 1));
-            const streaming =
-                (ply && streamingBytes > 64 * 2 ** 20) || (prefix[0] === 0x1f && prefix[1] === 0x8b);
+            const streaming = !ply || streamingBytes > 64 * 2 ** 20;
             let info: DecoderInfo = decoderPolicy(
                 decoder,
                 globalThis.crossOriginIsolated && typeof SharedArrayBuffer !== 'undefined',
@@ -120,7 +119,13 @@ scope.onmessage = async (
                     kind: 'ready',
                     scene: {
                         ...scene,
-                        decoder: info,
+                        decoder: {
+                            ...info,
+                            batchPoints: scene.decodeTimings?.batchPoints,
+                            estimatedCpuPeakBytes: scene.decodeTimings?.estimatedCpuPeakBytes,
+                            wasmHeapBytes: scene.decodeTimings?.wasmHeapBytes,
+                            zstdWindowBytes: scene.decodeTimings?.zstdWindowBytes,
+                        },
                         decodeTimings: { ...scene.decodeTimings, initializationMs },
                     },
                     file,

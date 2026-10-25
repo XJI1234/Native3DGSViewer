@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { gzipSync } from 'node:zlib';
+import { gzipSync, zstdCompressSync } from 'node:zlib';
 import singleFactory from '../../public/assets/decoder.mjs';
 import parallelFactory from '../../public/assets/threaded/decoder.mjs';
 
@@ -97,12 +97,12 @@ test('pthreads preserves all PLY attributes, global bounds and tile padding at e
                     );
             }
 });
-test('pthreads preserves SPZ v1–3 and SH0–3 batch unpack mathematics', () => {
+test('pthreads preserves SPZ v1–4 and SH0–3 batch unpack mathematics', () => {
     const count = 129;
-    for (const version of [1, 2, 3])
+    for (const version of [1, 2, 3, 4])
         for (const degree of [0, 1, 2, 3])
             for (const fractional of [12, 25, 30]) {
-                const header = Buffer.alloc(16);
+                const header = Buffer.alloc(version === 4 ? 32 : 16);
                 header.writeUInt32LE(0x5053474e);
                 header.writeUInt32LE(version, 4);
                 header.writeUInt32LE(count, 8);
@@ -144,7 +144,18 @@ test('pthreads preserves SPZ v1–3 and SH0–3 batch unpack mathematics', () =>
                         attrs[5][i * widths[5] + k] = 64 + ((i * 7 + k * 11) % 128);
                 }
                 const body = Buffer.concat(attrs);
-                const input = gzipSync(Buffer.concat([header, body]));
+                let input;
+                if (version === 4) {
+                    const streams = attrs.filter(a => a.length).map(a => zstdCompressSync(a));
+                    header[15] = streams.length;
+                    header.writeUInt32LE(32, 16);
+                    const toc = Buffer.alloc(streams.length * 16);
+                    streams.forEach((s, i) => {
+                        toc.writeBigUInt64LE(BigInt(s.length), i * 16);
+                        toc.writeBigUInt64LE(BigInt(attrs[i].length), i * 16 + 8);
+                    });
+                    input = Buffer.concat([header, toc, ...streams]);
+                } else input = gzipSync(Buffer.concat([header, body]));
                 const expected = decode(single, input, body, count, degree, 1, version, 0, fractional);
                 for (const threads of [2, 4, 8])
                     assert.deepEqual(

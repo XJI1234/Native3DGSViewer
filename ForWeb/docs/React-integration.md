@@ -1,6 +1,6 @@
 # React 19 接入指南
 
-适用React19、TypeScript严格模式、`@native3dgs/web@0.2.2-preview.3`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
+适用React19、TypeScript严格模式、`@native3dgs/web@0.2.2-preview.4`。浏览器需要实际WebGPU，本轮实测环境为Windows/Edge154/RTX3080。先按[SDK指南](SDK-guide.md)构建本地tgz、安装，并复制全部资产。SDK没有发布到npm，不要直接复制本文包名安装未知公共同名包。
 
 0.2.2-preview.2增加`maxFramesInFlight: 1 | 2 | 3`，通过`useNative3DGS(host, { assets, maxFramesInFlight: 2 })`初始化；默认2，1保留单帧门控。它不是响应式选项，需在创建实例之前确定。结果及适用范围见[连续交互调优记录](verification/parallel-optimization-2026-10-05.md)，不能将本机120次提交/秒当作所有设备的显示帧率承诺。
 
@@ -143,7 +143,7 @@ if (!captured.ok) {
 
 加载effect清理必须cancel，不只是设置alive；alive防止过期UI更新，cancel释放Worker/上传事务。hook卸载负责引擎dispose，宿主不要复用已经Stopped的engine。closeScene与当前open并发会使其返回Cancelled；恢复中的open返回DeviceLost，应等recover完成。
 
-React多个查看器各自占用device/显存。默认GPU/input/scene预算各8GiB、引擎CPU预算512MiB；预算不等于实际可用资源。更高DPR会增加像素填充和截图成本。大PLY/legacy SPZ使用OPFS backing及有界WASM批次，需要HTTPS/localhost、存储配额；SPZ v4保留有界内存解码。ResourceLimit可能来自GPU预算、binding上限、真实分配或存储。异步dispose会等待取消和磁盘清理。详见SDK-guide资源预算章节。
+React多个查看器各自占用device/显存。默认GPU/input/scene预算各8GiB、引擎CPU预算512MiB；预算不等于实际可用资源。更高DPR会增加像素填充和截图成本。大PLY/legacy SPZ使用OPFS backing及有界WASM批次，需要HTTPS/localhost、存储配额；SPZ v4使用有界Zstd/OPFS批次解码，并随CPU预算缩小批次。ResourceLimit可能来自GPU预算、binding上限、真实分配或存储。异步dispose会等待取消和磁盘清理。详见SDK-guide资源预算章节。
 
 ## 6. 上线前核验与排障
 
@@ -190,7 +190,7 @@ React hook / Vue composable 会原样传递初始化选项，保持既有卸载�
 无需新增调用即可使用默认 adaptive + auto/4。若需要逐帧排序/单线程，
 在 hook/composable 创建时传入 `sorting: {mode:'strict'}`、
 `decoder: {mode:'single'}`；这些初始化设置不响应运行中的对象修改。
-下载 preview.3 模板后执行 frozen-lockfile 安装和 build；不要手工替换
+下载 preview.4 模板后执行 frozen-lockfile 安装和 build；不要手工替换
 node_modules 或只复制基础 decoder 文件。生产部署需完整递归复制 SDK
 assets，包括 threaded/、manifest 与 licenses，并配置 COOP/COEP 和 mjs/wasm
 MIME。见 [迁移与部署示例](SDK-migration-preview3.md)。
@@ -213,3 +213,9 @@ const options = {
 两个模板默认使用 auto/4 与 adaptive，Vite dev/preview 提供 COOP/COEP；
 生产 dist 部署的响应头需自行配置。自动增强失败仍可单线程加载，
 显式 parallel 则报告失败以方便验收。
+
+## preview.4：SPZ v4 与内存诊断
+
+升级依赖到 `0.2.2-preview.4`，递归替换全部解码资产并清理旧缓存；见 [迁移指南](SDK-migration-preview4.md)。v4 与 v1–3 共用分批解码，支持 auto/single/parallel；低 CPU 预算自动缩小批次，不减少点数或 SH。可在创建选项传入 `limits: { cpuBytes: 64 * 2 ** 20 }`，实际是否可加载仍取决于 GPU 和 OPFS 配额。
+
+通过适配器返回的 snapshot 读取 `decoder?.batchPoints`、`estimatedCpuPeakBytes`、`wasmHeapBytes` 和 `zstdWindowBytes`；这些可选字段仅在流式加载成功提交后提供，后两种字节统计分别是 WASM 线性堆高水位与压缩窗口，不是进程 RSS。关闭模型后诊断清空；候选加载失败保留旧场景诊断。初始化选项在首次异步等待前复制，修改原 limits 或 URL 对象不会改变实例。

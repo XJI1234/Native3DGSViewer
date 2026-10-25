@@ -40,20 +40,23 @@ try{
         const rejected=await hidden.open(fixture).result;if(rejected.ok||rejected.error.code!=='DeviceLost'||hidden.getSnapshot().phase!=='Faulted')throw Error('Faulted open');
         const recovered=await hidden.recover();if(!recovered.ok||hidden.getSnapshot().phase!=='Ready')throw Error('Injected fault recovery');
         rows.push({browserBoundaryFixtures:{invalidUrl:invalid,zeroViewport:activated,timeout:timed,injectedFault:rejected,recovery:recovered,generation:hidden.getSnapshot().deviceGeneration},hardwareLossInjected:false});
-        const originalCreate=window.gs.Renderer.create;let releaseLate,lateDisposed=false,attempt=0;
+        const duplicate=await window.gs.createEngine({canvas,assets:{baseUrl:new URL('/assets/',location.href)}});
+        if(duplicate.ok||duplicate.error.code!=='InvalidInput'||!(await hidden.capture()).ok)throw Error('Exclusive canvas ownership');
+        rows.push({exclusiveCanvas:duplicate});
+        const originalCreate=window.gs.Renderer.create;let releaseLate,lateDisposed=false,lateRejected=false,attempt=0;
         const lateGate=new Promise(resolve=>{releaseLate=resolve;});
         window.gs.Renderer.create=async(...args)=>{
             if(++attempt!==1)return originalCreate(...args);
-            await lateGate;const renderer=await originalCreate(...args),dispose=renderer.dispose.bind(renderer);
+            await lateGate;let renderer;try{renderer=await originalCreate(...args);}catch(reason){lateRejected=true;throw reason;}const dispose=renderer.dispose.bind(renderer);
             renderer.dispose=async()=>{try{await dispose();}finally{lateDisposed=true;}};
             return renderer;
         };
         try {
             const expired=await hidden.recover();if(expired.ok||expired.error.code!=='Timeout'||hidden.getSnapshot().phase!=='Faulted')throw Error('Recovery deadline state');
             const retry=await hidden.recover();if(!retry.ok)throw Error('Retry after recovery timeout');
-            releaseLate();const start=performance.now();while(!lateDisposed){if(performance.now()-start>5000)throw Error('Late recovery cleanup');await new Promise(r=>setTimeout(r,10));}
+            releaseLate();const start=performance.now();while(!lateDisposed&&!lateRejected){if(performance.now()-start>5000)throw Error('Late recovery cleanup');await new Promise(r=>setTimeout(r,10));}
             const capture=await hidden.capture();if(!capture.ok||hidden.getSnapshot().phase!=='Ready')throw Error('Late creation disrupted current surface');
-            rows.push({lateRecovery:{timeout:expired,retry,capture: capture.ok,disposed:lateDisposed}});
+            rows.push({lateRecovery:{timeout:expired,retry,capture: capture.ok,disposed:lateDisposed,rejectedOccupiedCanvas:lateRejected}});
         } finally {window.gs.Renderer.create=originalCreate;releaseLate();}
         await hidden.dispose();canvas.remove();
         const tightCanvas=document.createElement('canvas');tightCanvas.width=tightCanvas.height=1;

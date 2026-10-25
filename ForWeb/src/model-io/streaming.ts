@@ -1,31 +1,9 @@
 import type { Limits, Scene, Source, Vec3 } from '../splat-types/index';
+import { openFile, write } from './opfs';
+import { inflateSpzV4, inspectSpzV4 } from './spz-v4';
+import { streamingBudget } from './streaming-budget';
 import { check, type Decoder, withBytes } from './wasm';
 
-interface SyncFile {
-    write(data: ArrayBufferView, options: { at: number }): number;
-    read(data: ArrayBufferView, options: { at: number }): number;
-    truncate(size: number): void;
-    flush(): void;
-    close(): void;
-    getSize(): number;
-}
-async function openFile(directory: FileSystemDirectoryHandle, name: string) {
-    const file = await directory.getFileHandle(name, { create: true });
-    if (!('createSyncAccessHandle' in file))
-        throw Error('UnsupportedCapability: synchronous OPFS worker access');
-    const access = await (
-        file as unknown as { createSyncAccessHandle(): Promise<SyncFile> }
-    ).createSyncAccessHandle();
-    return { file, access };
-}
-function write(access: SyncFile, data: Uint8Array, at: number) {
-    let offset = 0;
-    while (offset < data.length) {
-        const n = access.write(data.subarray(offset), { at: at + offset });
-        if (!n) throw Error('ResourceLimit: storage write stalled');
-        offset += n;
-    }
-}
 const chunkBytes = 4 * 2 ** 20;
 type Report = (stage: string, done: number, total: number | null) => void;
 
@@ -168,33 +146,29 @@ export async function decodeStream(
     check(wasm, wasm._gs_begin_batch(ply && source.plyCoordinates !== 'rub' ? 1 : 0, 1));
     const sourceStride = ply ? wasm._gs_meta(11) : 20 + 3 * ((degree + 1) ** 2 - 1);
     const vertexOffset = ply ? wasm._gs_meta(10) : 0;
-    const capacity = Math.min(65536, Math.floor(chunkBytes / sourceStride));
-    const batch = capacity >= 64 ? Math.floor(capacity / 64) * 64 : capacity;
-    if (!batch || (batch < 64 && count > batch))
-        throw Error('ResourceLimit: source record exceeds batch capacity');
     wasm._gs_release();
-    const actualBatch = Math.min(count, batch);
-    const packedBatch = Math.ceil(actualBatch / 64) * 64;
-    const normalizedBatch = actualBatch * (stride + 8) + 256;
-    const inputBatch = actualBatch * sourceStride;
-    // Include allocator growth/headroom, JS attribute slices, packing/rebase and gzip scratch.
-    const nativeScratch = ply ? 2 * normalizedBatch + inputBatch : 3 * normalizedBatch + 2 * inputBatch;
-    const cpuPeak =
-        retainedBytes +
-        (threads > 1 ? 32 * 2 ** 20 + threads * 2 * 2 ** 20 : 0) +
-        32 * 2 ** 20 +
-        Math.max(16 * 2 ** 20, Math.ceil(nativeScratch * 1.5)) +
-        (threads > 1 ? 4 : 2) * inputBatch +
-        packedBatch * stride +
-        chunkBytes +
-        2 ** 20;
-    if (cpuPeak > limits.cpuBytes) throw Error('ResourceLimit: streaming CPU peak');
+    const v4 = !ply && prefix[0] !== 0x1f ? await inspectSpzV4(blob, count, degree, wasm) : undefined;
+    const { batch, cpuPeak } = streamingBudget(
+        count,
+        degree,
+        sourceStride,
+        ply,
+        threads,
+        limits.cpuBytes - retainedBytes,
+        v4?.windowBytes ?? 0,
+    );
     let raw: Blob = blob,
         version = 0,
         fractional = 0,
         widths: number[] = [],
         offsets: number[] = [];
-    if (!ply) {
+    if (v4) {
+        raw = await inflateSpzV4(blob, v4, directory, wasm, report);
+        version = 4;
+        fractional = v4.fractional;
+        widths = v4.widths;
+        offsets = v4.streams.map((stream) => stream.rawOffset);
+    } else if (!ply) {
         raw = await inflate(blob, directory, wasm, 16 + count * (20 + 3 * ((degree + 1) ** 2 - 1)), report);
         const header = new Uint8Array(await raw.slice(0, 16).arrayBuffer());
         const view = new DataView(header.buffer);
@@ -224,6 +198,10 @@ export async function decodeStream(
         max = [-Infinity, -Infinity, -Infinity];
     let maxScale = 0;
     const timings = {
+        batchPoints: batch,
+        estimatedCpuPeakBytes: cpuPeak + retainedBytes,
+        zstdWindowBytes: v4?.windowBytes ?? 0,
+        wasmHeapBytes: wasm.HEAPU8.byteLength,
         readMs: 0,
         readWaitMs: 0,
         writeMs: 0,
@@ -334,6 +312,7 @@ export async function decodeStream(
             }
             maxScale = Math.max(maxScale, wasm._gs_meta(9));
             wasm._gs_release();
+            timings.wasmHeapBytes = Math.max(timings.wasmHeapBytes, wasm.HEAPU8.byteLength);
             report('Decoding', start + n, count);
         }
         const origin = min.map((v, k) => v + (max[k]! - v) / 2) as unknown as Vec3;
@@ -370,6 +349,7 @@ export async function decodeStream(
         } finally {
             wasm._free(p);
         }
+        timings.wasmHeapBytes = Math.max(timings.wasmHeapBytes, wasm.HEAPU8.byteLength);
         packed.access.flush();
         packed.access.close();
         const file = await packed.file.getFile();

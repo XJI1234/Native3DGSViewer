@@ -78,3 +78,7 @@ ErrorCode：UnsupportedCapability、InvalidInput、UnsupportedFormat、ResourceL
 模型原文件、RGBA、构建产物、依赖和临时项目被ignore；PNG/CSV/JSON保留。SDK含小规格/报告/指南，不含大evidence或私有模型。owned资源计数不是RSS/VRAM；跨平台和真实硬件fault仍待验收。交付版本为0.2.2-preview.1，Web PR和原生v0.2.2上的附加资产记录实际Web commit，不改变原生tag，也不发布npm。
 
 六轮OCR审查、所有观察项的处置及最终回归见[OCR闭环报告](ocr-review-report.md)。最终源码新增可移除device-loss订阅、挂起等待取消、实际Canvas呈现验证与回滚、条件React/Vue容器重绑定、OPFS清理deadline和构建输出inventory验证；GPU、联合、真实安装包及38模型验收见[发布结果](large-model-optimization-report.md)。
+
+## preview.4 增量复核
+
+当前完整核心/SDK/模板审查与逐条处置见 [2026-10-25 审查](review-preview4-2026-10-25.md)。本轮增加 v4 有界解码、批次/内存公共诊断、初始化配置快照、恢复清理串行、Canvas 独占、幂等 disposal 等保障；更新 SDK/React/Vue 文档。历史记录不覆盖本轮变更，当前实测见 [v4 验证](spz-v4-2026-10-25.md)。

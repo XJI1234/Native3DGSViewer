@@ -44,3 +44,5 @@ Default is adaptive from preview.3; explicit strict preserves the previous sorti
 camera-jump and recovery semantics are specified in
 [adaptive sorting contract](docs/SPEC-adaptive-sorting.md). See
 [migration](docs/SDK-migration-preview3.md) for additive diagnostics and tradeoffs.
+
+preview.4：SPZ v4 使用有界 Zstd/OPFS 与自适应批次，支持 auto/single/pthreads；全部点/SH0–3 与既有坐标/精度保持。Snapshot.decoder 可选字段公开 CPU 估算、批次、WASM 堆和压缩窗口。见 [迁移](docs/SDK-migration-preview4.md)与[完整 v4 验证](docs/verification/spz-v4-2026-10-25.md)。

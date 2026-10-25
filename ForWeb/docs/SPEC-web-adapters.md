@@ -24,3 +24,5 @@ Always: validate inputs and resource arithmetic, preserve ownership/identity, te
 ### Host binding
 
 Vue watches the host ref after DOM updates and releases each old binding, including late initialization. React accepts HTMLElement|null for reactive callback-ref hosts; the existing RefObject form is reserved for a fixed host mounted with the hook. Returned Vue engine refs are shallow readonly so WebEngine retains its public nominal type. Resize clamps physical dimensions uniformly to adapter limits; pointer completion only releases the tracked pointer.
+
+Pointer deltas use the same finite effective pixel ratio as resize, capped by the adapter dimension and current host size. RefObject hosts must remain mounted; conditional/replaced React hosts use the documented HTMLElement callback-ref form.

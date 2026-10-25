@@ -1,5 +1,11 @@
 # Spec: engine
 
+preview.4 robustness: limits, decoder/sorting options and asset URL values are
+copied/validated before the first asynchronous device operation. Caller mutation
+during initialization cannot change the admitted configuration or later worker
+location. Canvas identity/dimensions remain host-owned. Public decoder allocation
+diagnostics follow committed scene identity, failure retention, close and recovery.
+
 Optional `EngineOptions.sorting` and recovery/capture semantics follow [SPEC-adaptive-sorting.md](SPEC-adaptive-sorting.md). Preview.3 defaults to adaptive sorting and decoder auto/4; explicit strict/single opt-outs remain available.
 
 2026-10-06 增量：EngineOptions 可选 decoder 配置与场景解码诊断见 [SPEC-parallel-decoder](SPEC-parallel-decoder.md)；默认可回退 auto，既有公共方法不变。
@@ -51,3 +57,7 @@ Presentation uses validation/OOM scopes and abort-aware GPU completion. Active o
 `Camera.setFlipY(boolean)` / readonly `flipY` controls a display-only reflection about the scene bounds origin Y. It never mutates decoded splats, allocates a second scene, or changes `getPose()` / `setPose()` canonical coordinates. `frame()` reflects its three view rows and the eye about that origin, including the SH viewing direction. Reflection is performed inside the SDK; hosts MUST NOT add a CSS mirror. Flip persists across orbit/look/pan/fly, fit/reset, model replacement and recovery. Pointer deltas are always taken from untransformed client coordinates.
 
 `Camera.setMode('orbit' | 'fly')` / readonly `mode` selects adapter navigation. Default orbit: left drag follows the pointer, right drag pans, wheel dollies. Fly: primary click requests pointer lock, raw relative mouse looks, WASD/QE translates, Shift accelerates, Escape/blur/hidden/mode change releases capture and clears keys. Pointer-lock failure is nonfatal and a primary drag remains available. Focused arrow keys orbit/look, +/- dolly, allowing keyboard access. Public methods reject invalid inputs without changing state. Mode and flip survive reset/fit.
+
+### preview.4 cleanup ownership
+
+Recovery results can settle promptly on timeout/cancellation; a separate cleanup chain serializes recovery transactions and is joined by dispose before Stopped. Renderer disposal shares its in-flight completion promise. A Canvas is exclusively owned by one live renderer; concurrent engine initialization on that surface returns InvalidInput and does not reconfigure or unconfigure its owner.

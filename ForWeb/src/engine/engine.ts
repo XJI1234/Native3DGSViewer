@@ -84,6 +84,7 @@ export class WebEngine {
     private frameQueue = { owner: undefined as Renderer | undefined, pending: 0 };
     private uploadBarrier: Promise<void> = Promise.resolve();
     private recovery: Promise<Result<void>> | undefined;
+    private recoveryCleanup: Promise<void> = Promise.resolve();
     private recoveryController: AbortController | undefined;
     private retainedScene: Scene | undefined;
     private sceneEpoch = 0;
@@ -107,7 +108,7 @@ export class WebEngine {
     static async create(options: EngineOptions): Promise<Result<WebEngine>> {
         let renderer: Renderer | undefined;
         try {
-            const limits = { ...defaultLimits, ...options.limits };
+            const limits = Object.freeze({ ...defaultLimits, ...options.limits });
             validateLimits(limits);
             const decoderOptions = Object.freeze({ ...options.decoder });
             validateDecoderOptions(decoderOptions);
@@ -116,14 +117,28 @@ export class WebEngine {
             if (![1, 2, 3].includes(maxFramesInFlight))
                 throw Error('InvalidInput: maxFramesInFlight must be 1, 2 or 3');
             if (!options.canvas) throw Error('InvalidInput: canvas');
-            renderer = await Renderer.create(options.canvas, limits.gpuBytes, sorting);
+            const capturedOptions: EngineOptions = {
+                ...options,
+                limits,
+                decoder: decoderOptions,
+                sorting,
+                assets: {
+                    baseUrl: new URL(
+                        String(
+                            options.assets?.baseUrl ??
+                                new URL(/* @vite-ignore */ './assets/', import.meta.url),
+                        ),
+                        location.href,
+                    ).href,
+                    ...(options.assets?.workerUrl !== undefined
+                        ? { workerUrl: new URL(String(options.assets.workerUrl), location.href).href }
+                        : {}),
+                },
+            };
+            renderer = await Renderer.create(capturedOptions.canvas, limits.gpuBytes, sorting);
             return {
                 ok: true,
-                value: new WebEngine(
-                    renderer,
-                    { ...options, decoder: decoderOptions, sorting },
-                    maxFramesInFlight,
-                ),
+                value: new WebEngine(renderer, capturedOptions, maxFramesInFlight),
             };
         } catch (reason) {
             await renderer?.dispose();
@@ -677,7 +692,12 @@ export class WebEngine {
     private async recoverInternal(controller: AbortController): Promise<Result<void>> {
         const timeout = setTimeout(() => controller.abort('Timeout'), this.limits.timeoutMs);
         try {
-            return await abortable(this.recoverTransaction(controller), controller.signal);
+            const transaction = this.recoveryCleanup.then(() => this.recoverTransaction(controller));
+            this.recoveryCleanup = transaction.then(
+                () => {},
+                () => {},
+            );
+            return await abortable(transaction, controller.signal);
         } catch (reason) {
             const failure = error(
                 this.stopped ? 'Stopped' : controller.signal.reason === 'Timeout' ? 'Timeout' : 'DeviceLost',
@@ -692,6 +712,7 @@ export class WebEngine {
     }
     private async recoverTransaction(controller: AbortController): Promise<Result<void>> {
         if (this.stopped) return { ok: false, error: error('Stopped', 'Recovery', 'Stopped') };
+        if (controller.signal.aborted) throw Error('Cancelled');
         this.pending?.abort();
         ++this.requestId;
         this.publish({ phase: 'Recovering', requestId: this.requestId, progress: null, stats: null });
@@ -708,15 +729,16 @@ export class WebEngine {
         scene?.backing?.retain();
         this.active = undefined;
         try {
+            await oldRenderer.dispose();
             for (let attempt = 0; attempt < 2; attempt++) {
                 let replacement: Renderer | undefined;
                 try {
-                    await oldRenderer.dispose();
                     if (controller.signal.aborted) throw Error('Cancelled');
                     const creating = Renderer.create(
                         this.options.canvas,
                         this.limits.gpuBytes,
                         this.options.sorting,
+                        controller.signal,
                     );
                     void creating
                         .then(async (renderer) => {
@@ -844,6 +866,7 @@ export class WebEngine {
             this.active = undefined;
             await this.uploadBarrier;
             await this.recovery;
+            await this.recoveryCleanup;
             const cleanup = await Promise.allSettled([
                 this.renderer.dispose(),
                 retained?.backing?.release(),

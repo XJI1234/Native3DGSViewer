@@ -67,6 +67,60 @@ async function create(width = 640, height = 480) {
     return result.value;
 }
 
+test('initialization snapshots limits and asset URL values before waiting for the device', async () => {
+    const pending = deferred<ReturnType<typeof renderer>>();
+    fake.create.mockReturnValue(pending.promise);
+    const baseUrl = new URL('http://localhost/original/');
+    const workerUrl = new URL('http://localhost/original/decoder.worker.js');
+    const options = {
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        limits: { cpuBytes: 64 * 2 ** 20 },
+        assets: { baseUrl, workerUrl },
+    };
+    const creating = WebEngine.create(options);
+    options.limits.cpuBytes = 0;
+    baseUrl.pathname = '/changed/';
+    workerUrl.pathname = '/changed/worker.js';
+    pending.resolve(renderer());
+    const created = await creating;
+    expect(created.ok).toBe(true);
+    if (!created.ok) throw Error(created.error.diagnostic);
+    try {
+        expect((await created.value.open({ kind: 'blob', blob: new Blob() }).result).ok).toBe(true);
+        expect(fake.decode.mock.calls[0]![1].cpuBytes).toBe(64 * 2 ** 20);
+        expect(fake.decode.mock.calls[0]![2]).toBe('http://localhost/original/');
+        expect(String(fake.decode.mock.calls[0]![7])).toBe('http://localhost/original/decoder.worker.js');
+    } finally {
+        await created.value.dispose();
+    }
+});
+
+test('public decoder allocation diagnostics are frozen, retained on failure and cleared on close', async () => {
+    const decoder = {
+        backend: 'single' as const,
+        threads: 1,
+        fallbackReason: null,
+        batchPoints: 16128,
+        estimatedCpuPeakBytes: 65554816,
+        wasmHeapBytes: 16 * 2 ** 20,
+        zstdWindowBytes: 4 * 2 ** 20,
+    };
+    fake.decode.mockResolvedValue({ ...scene, decoder });
+    const engine = await create();
+    try {
+        expect((await engine.open({ kind: 'blob', blob: new Blob() }).result).ok).toBe(true);
+        expect(engine.getSnapshot().decoder).toEqual(decoder);
+        expect(Object.isFrozen(engine.getSnapshot().decoder)).toBe(true);
+        fake.decode.mockRejectedValue(Error('DecoderFailure: fixture'));
+        expect((await engine.open({ kind: 'blob', blob: new Blob() }).result).ok).toBe(false);
+        expect(engine.getSnapshot().decoder).toEqual(decoder);
+        await engine.closeScene();
+        expect(engine.getSnapshot().decoder).toBeNull();
+    } finally {
+        await engine.dispose();
+    }
+});
+
 test('automatic frames overlap two submissions, bound backlog and consume latest camera', async () => {
     const allocated = renderer();
     fake.create.mockResolvedValue(allocated);
@@ -480,12 +534,24 @@ test('latest-wins ignores stale decoder completion and pause preserves Loading',
     await engine.dispose();
 });
 
-test('failed initialization releases the already-created renderer', async () => {
-    const allocated = renderer();
-    fake.create.mockResolvedValue(allocated);
+test('invalid asset URLs are rejected before allocating a renderer', async () => {
     const result = await WebEngine.create({
         canvas: { width: 640, height: 480 } as HTMLCanvasElement,
         assets: { baseUrl: 'http://[' },
+    });
+    expect(result.ok).toBe(false);
+    expect(fake.create).not.toHaveBeenCalled();
+});
+
+test('failed initialization releases the already-created renderer', async () => {
+    const allocated = renderer();
+    allocated.device.addEventListener.mockImplementationOnce(() => {
+        throw Error('injected watch failure');
+    });
+    fake.create.mockResolvedValue(allocated);
+    const result = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        assets: { baseUrl: 'http://localhost/assets/' },
     });
     expect(result.ok).toBe(false);
     expect(allocated.dispose).toHaveBeenCalledOnce();
@@ -699,9 +765,11 @@ test('old recovery cleanup cannot overwrite a later successful recovery', async 
         cleanup = deferred<void>();
     allocated.dispose.mockImplementationOnce(() => cleanup.promise);
     expect((await engine.recover()).ok).toBe(false);
-    expect((await engine.recover()).ok).toBe(true);
-    expect(engine.getSnapshot().phase).toBe('Idle');
+    const retry = engine.recover();
+    expect(fake.create).toHaveBeenCalledTimes(1);
     cleanup.resolve();
+    expect((await retry).ok).toBe(true);
+    expect(engine.getSnapshot().phase).toBe('Idle');
     await new Promise((resolve) => setTimeout(resolve, 10));
     expect(engine.getSnapshot().phase).toBe('Idle');
     await engine.dispose();
@@ -741,5 +809,39 @@ test('idle RAF refreshes pending ordering while retaining frame backlog bounds',
     allocated.needsSort.mockReturnValue(true);
     internal.tick();
     expect(allocated.render.mock.calls.length).toBe(before + 1);
+    await engine.dispose();
+});
+
+test('dispose joins recovery cleanup after its public timeout result', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const result = await WebEngine.create({
+        canvas: { width: 640, height: 480 } as HTMLCanvasElement,
+        limits: { timeoutMs: 20 },
+    });
+    if (!result.ok) throw Error('create');
+    const cleanup = deferred<void>();
+    allocated.dispose.mockImplementationOnce(() => cleanup.promise);
+    expect((await result.value.recover()).ok).toBe(false);
+    let stopped = false;
+    const disposal = result.value.dispose().then(() => {
+        stopped = true;
+    });
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(stopped).toBe(false);
+    expect(result.value.getSnapshot().phase).toBe('Stopping');
+    cleanup.resolve();
+    await disposal;
+    expect(result.value.getSnapshot().phase).toBe('Stopped');
+});
+
+test('failed old renderer cleanup blocks recovery without retrying rejected disposal', async () => {
+    const allocated = renderer();
+    fake.create.mockResolvedValue(allocated);
+    const engine = await create();
+    allocated.dispose.mockRejectedValueOnce(Error('StorageCleanup: injected failure'));
+    expect((await engine.recover()).ok).toBe(false);
+    expect(allocated.dispose).toHaveBeenCalledOnce();
+    expect(fake.create).toHaveBeenCalledOnce();
     await engine.dispose();
 });

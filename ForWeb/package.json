@@ -1,6 +1,6 @@
 {
   "name": "@native3dgs/web",
-  "version": "0.2.2-preview.3",
+  "version": "0.2.2-preview.4",
   "type": "module",
   "packageManager": "pnpm@11.4.0",
   "engines": {
@@ -48,7 +48,7 @@
     "build:wasm": "node tools/build-wasm.mjs",
     "build": "vite build && tsc --emitDeclarationOnly && node tools/package-notices.mjs",
     "typecheck": "tsc --noEmit",
-    "test:unit": "vitest run tests/unit",
+    "test:unit": "vitest run --dir tests/unit",
     "test:contracts": "node --test tests/contracts/*.test.mjs",
     "test:gpu": "node tools/browser-tests.mjs",
     "test:sdk": "node tools/sdk-consumer.mjs",

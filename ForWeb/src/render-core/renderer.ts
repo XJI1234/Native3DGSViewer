@@ -49,6 +49,7 @@ export class Renderer {
     private dummy: GPUBuffer;
     private frameId = 0;
     private stopped = false;
+    private disposal: Promise<void> | undefined;
     private query: GPUQuerySet | undefined;
     private queryResolve: GPUBuffer | undefined;
     private queryRead: GPUBuffer | undefined;
@@ -137,6 +138,8 @@ export class Renderer {
         }
     }
     private configureSurface(): void {
+        const owner = Renderer.surfaceOwners.get(this.context);
+        if (owner && owner !== this) throw Error('InvalidInput: Canvas already owned');
         if (this.configured) return;
         this.context.configure({
             device: this.device,
@@ -152,11 +155,14 @@ export class Renderer {
         canvas: HTMLCanvasElement,
         budget: number,
         sorting: SortingOptions = {},
+        signal?: AbortSignal,
     ): Promise<Renderer> {
+        if (signal?.aborted) throw Error('Cancelled');
         const sortingOptions = resolveSortingOptions(sorting);
         if (!navigator.gpu) throw Error('UnsupportedCapability: WebGPU');
         const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
         if (!adapter) throw Error('UnsupportedCapability: adapter');
+        if (signal?.aborted) throw Error('Cancelled');
         const device = await adapter.requestDevice({
             requiredFeatures: adapter.features.has('timestamp-query') ? ['timestamp-query'] : [],
             requiredLimits: {
@@ -166,6 +172,7 @@ export class Renderer {
         });
         device.pushErrorScope('validation');
         try {
+            if (signal?.aborted) throw Error('Cancelled');
             const renderer = new Renderer(device, adapter, canvas, budget, sortingOptions);
             const sorted = await testSort(device, new Uint32Array([7, 1, 7, 0, 0xffffffff, 3]));
             const e = await device.popErrorScope();
@@ -173,6 +180,11 @@ export class Renderer {
             const expected = [3, 1, 5, 0, 2, 4];
             if (expected.some((v, i) => sorted[2 * i + 1] !== v))
                 throw Error(`GPU stable sort self-test failed: ${Array.from(sorted)}`);
+            // A timed-out creation must never claim a later engine's Canvas.
+            if (signal?.aborted) throw Error('Cancelled');
+            const owner = Renderer.surfaceOwners.get(renderer.context);
+            if (owner && owner !== renderer) throw Error('InvalidInput: Canvas already owned');
+            Renderer.surfaceOwners.set(renderer.context, renderer);
             return renderer;
         } catch (reason) {
             device.destroy();
@@ -601,9 +613,13 @@ export class Renderer {
         pass.end();
         this.device.queue.submit([encoder.finish()]);
     }
-    async dispose(): Promise<void> {
-        if (this.stopped) return;
+    dispose(): Promise<void> {
+        if (this.disposal) return this.disposal;
         this.stopped = true;
+        this.disposal = this.disposeInternal();
+        return this.disposal;
+    }
+    private async disposeInternal(): Promise<void> {
         this.timedScene = undefined;
         await Promise.race([
             Promise.all([this.timingReady, this.device.queue.onSubmittedWorkDone().catch(() => {})]),

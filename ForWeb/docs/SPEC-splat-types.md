@@ -1,5 +1,11 @@
 # Spec: splat-types
 
+preview.4: `DecoderInfo` keeps backend/threads/fallbackReason and adds optional
+readonly `batchPoints`, `estimatedCpuPeakBytes`, `wasmHeapBytes`, `zstdWindowBytes`.
+These are numeric scene-scoped diagnostics published through Snapshot.decoder;
+CPU estimates and WASM high-water must not be labeled process RSS. See model-io
+for accounting and scene replacement/close/recovery semantics.
+
 2026-10-04. Implementation authorized by the user; provider specification for ForWeb/splat-types.
 
 ## Objective and boundaries

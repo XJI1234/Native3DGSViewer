@@ -61,7 +61,9 @@ describe('DOM navigation lifetime', () => {
             requestFrame: vi.fn(),
         } as unknown as WebEngine;
         const host = { getBoundingClientRect: () => ({ width: 800, height: 600 }) } as HTMLElement;
-        const unbind = bindCanvas(engine, host, canvas as unknown as HTMLCanvasElement, 1);
+        const unbind = bindCanvas(engine, host, canvas as unknown as HTMLCanvasElement, Number.MAX_VALUE);
+        expect(engine.resize).toHaveBeenCalledWith(4096, 3072);
+        const look = vi.spyOn(camera, 'look');
         const fire = (target: EventTarget, type: string, fields: object) =>
             target.dispatchEvent(Object.assign(new Event(type, { cancelable: true }), fields));
         let time = 0;
@@ -75,6 +77,8 @@ describe('DOM navigation lifetime', () => {
         };
         fire(canvas, 'pointerdown', { pointerId: 1, button: 0, clientX: 100, clientY: 100 });
         expect(doc.pointerLockElement).toBe(canvas);
+        fire(canvas, 'pointermove', { movementX: 2, movementY: 3 });
+        expect(look).toHaveBeenCalledWith((2 * 4096) / 800, (3 * 4096) / 800);
         fire(win, 'keydown', { code: 'KeyW' });
         step();
         fire(win, 'keyup', { code: 'KeyW' });

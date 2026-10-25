@@ -1,6 +1,6 @@
 # Web SDK API、部署与运行契约
 
-适用 `@native3dgs/web@0.2.2-preview.3`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。旧项目升级见 [preview.2 → preview.3 迁移](SDK-migration-preview3.md)，并行路径验收见 [性能报告](verification/pthreads-2026-10-06.md)。
+适用 `@native3dgs/web@0.2.2-preview.4`。本文描述实际导出的 API；架构设计中的候选接口不是本版的承诺。React19/Vue3.5是可选peer，普通DOM网站无需安装它们。本版升级见 [preview.4 迁移](SDK-migration-preview4.md)，更早项目另见 [preview.2 → preview.3 迁移](SDK-migration-preview3.md)，并行路径验收见 [性能报告](verification/pthreads-2026-10-06.md)。
 
 ## 1. 生成、安装和部署资产
 
@@ -9,9 +9,9 @@
 pnpm install --frozen-lockfile
 pnpm run build:wasm
 pnpm run build
-pnpm pack --out ./native3dgs-web-0.2.2-preview.3.tgz
+pnpm pack --out ./native3dgs-web-0.2.2-preview.4.tgz
 # 消费项目
-pnpm add C:/path/to/native3dgs-web-0.2.2-preview.3.tgz
+pnpm add C:/path/to/native3dgs-web-0.2.2-preview.4.tgz
 ```
 
 复制包内 `dist/assets/` 到宿主 `public/gs-assets/`，包含 Worker、mjs、wasm、manifest和licenses。可以增加 `scripts/copy-gs-assets.mjs`：
@@ -206,7 +206,9 @@ Camera类声明还包含引擎低层使用的fit(bounds,width,height)、resize(w
 | gpuBytes | 8GiB | 新旧模型/排序/投影/截屏预算，不是显卡剩余VRAM |
 | timeoutMs | 600000 | 完整加载期限；毫秒 |
 
-所有limit都是正safe整数，timeoutMs还必须≤2147483647，避免浏览器计时器溢出。大PLY和legacy gzip SPZ采用分块WASM及OPFS backing，输入页每页最多128MiB、页数不限；单页投影结果进入同一个全局稳定排序。紧凑SH3每点236字节；流式布局按64点属性分块，末尾补齐到64点但逻辑点数不变。投影40字节，排序双缓冲16字节，再加radix scratch。单投影buffer仍受设备binding上限约束，真实GPU分配可能因其他程序占用或驱动限制失败。默认8GiB是策略预算，不代表显卡可用空间。小PLY和SPZ v4保持有界内存路径，v4超过其WASM估计峰值时显式ResourceLimit。替换时新旧同时驻留，宿主可先await closeScene()以降低峰值，但会放弃保留旧模型的失败回退。
+所有limit都是正safe整数，timeoutMs还必须≤2147483647，避免浏览器计时器溢出。大PLY和SPZ1–4采用分块WASM及OPFS backing，输入页每页最多128MiB、页数不限；单页投影结果进入同一个全局稳定排序。紧凑SH3每点236字节；流式布局按64点属性分块，末尾补齐到64点但逻辑点数不变。投影40字节，排序双缓冲16字节，再加radix scratch。单投影buffer仍受设备binding上限约束，真实GPU分配可能因其他程序占用或驱动限制失败。默认8GiB是策略预算，不代表显卡可用空间。小PLY保持有界内存路径。替换时新旧同时驻留，宿主可先await closeScene()以降低峰值，但会放弃保留旧模型的失败回退。
+
+preview.4 的 v4 路径逐属性解压 Zstd，再按批次调用同一 vendor unpack 数学；最大窗口128MiB并计入预算。批次按可用CPU预算收缩，auto在低预算或非隔离网页使用单线程。无需设置更大的cpuBytes才能打开本轮两个v4样例；64MiB策略预算也已实测完整SH3。此值不是进程RSS/机器RAM上限，仍需足够GPU与OPFS。公共只读 snapshot.decoder 可选字段 batchPoints、estimatedCpuPeakBytes、wasmHeapBytes、zstdWindowBytes 用于诊断，前三者分别是批次容量、CPU估算和实测线性堆高水位，均不代表物理内存。升级须同时部署新Worker、单线程和threaded WASM，不能搭配旧资产；详见[v4验证](verification/spz-v4-2026-10-25.md)。
 
 OPFS需要安全来源（HTTPS或localhost）、浏览器存储权限与足够配额。解码临时存储峰值约为输入文件＋解压SPZ属性＋packed backing；成功后只保留backing，closeScene/dispose等待取消与清理。浏览器私密模式可能限制大文件快照，写入长度与File快照长度会核验。配额/快照截断返回ResourceLimit；没有OPFS返回UnsupportedCapability。浏览器异常退出可能留下临时目录；正常API关闭会释放。生产宿主应避免在多标签页活跃时盲目删除其他实例目录。
 
@@ -240,7 +242,7 @@ engine.requestFrame();
 SDK直接构造反射投影视图，不要再给Canvas添加CSS scaleX/scaleY。翻转状态跨fit/reset/open/recover保留，鼠标增量来自未变换client坐标。固定模式左拖旋转、右拖平移、滚轮缩放；自由模式点击视口进入Pointer Lock，鼠标转向、WASD/QE移动、Shift加速，Escape/失焦退出；拒绝Pointer Lock时支持左拖转向。方向键与加减键可在聚焦Canvas时操作。`getPose()`/`setPose()`始终使用未反射的canonical坐标。模板仅使用公开SDK、hook/composable、snapshot与Result，不读取renderer或active字段。
 
 
-### preview.3 默认特性与关闭方式
+### 当前默认特性与关闭方式
 
 不传 decoder/sorting 时，即使用 `decoder: {mode:'auto',threads:4}` 与
 `sorting: {mode:'adaptive',maxSortAgeMs:100,targetFrameMs:1000/60}` 的默认语义。

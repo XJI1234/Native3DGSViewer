@@ -1,10 +1,21 @@
 import type { SceneBacking } from '../splat-types/index';
 
+const removals = new Map<string, Promise<void>>();
 export async function removeJob(job: string): Promise<void> {
+    let removal = removals.get(job);
+    if (!removal) {
+        removal = removeJobInternal(job);
+        removals.set(job, removal);
+        void removal
+            .finally(() => {
+                if (removals.get(job) === removal) removals.delete(job);
+            })
+            .catch(() => {});
+    }
     let timer: ReturnType<typeof setTimeout> | undefined;
     try {
         await Promise.race([
-            removeJobInternal(job),
+            removal,
             new Promise<never>((_resolve, reject) => {
                 timer = setTimeout(
                     () => reject(Error('StorageCleanup: timeout removing model backing')),
@@ -55,7 +66,12 @@ export function diskBacking(job: string, file: File): SceneBacking {
         },
         release() {
             if (references) references--;
-            if (!references) cleanup ??= removeJob(job);
+            if (!references && !cleanup) {
+                cleanup = removeJob(job).catch((reason) => {
+                    cleanup = undefined;
+                    throw reason;
+                });
+            }
             return cleanup ?? Promise.resolve();
         },
     };

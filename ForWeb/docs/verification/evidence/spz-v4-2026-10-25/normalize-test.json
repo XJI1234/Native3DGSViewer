@@ -1,0 +1,32 @@
+{
+  "tests": 1,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-10-25T23:56:59Z",
+  "time": "0s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "ModelIo",
+      "tests": 1,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-25T23:56:59Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "BoundsValidationRejectsNonfiniteMetadataAndAccountsForRebaseRounding",
+          "file": "C:\\Users\\21544\\workspace\\Native3DGSViewer\\tests\\model-io\\model_io_tests.cpp",
+          "line": 528,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-25T23:56:59Z",
+          "time": "0s",
+          "classname": "ModelIo"
+        }
+      ]
+    }
+  ]
+}

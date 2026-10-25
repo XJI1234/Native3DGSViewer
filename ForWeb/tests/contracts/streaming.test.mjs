@@ -133,7 +133,7 @@ test('world batch validation retains near-zero bounds without a disposable float
     for(const worldValidation of [false,true]) {
         assert.equal(wasm._gs_begin_batch(1,2),1);
         assert.equal(put(new Uint8Array(body.buffer),p=>wasm._gs_chunk(p,body.byteLength)),1);
-        if(!worldValidation)assert.equal(wasm._gs_finish(0),0,'old local-batch tolerance reproduces false rejection');
+        if(!worldValidation)assert.equal(wasm._gs_finish(0),1,'validation accounts for float32 local-origin rounding');
         else {
             assert.equal(wasm._gs_finish_batch(),1);
             assert.equal(wasm._gs_meta(1),0);
