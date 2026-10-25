@@ -1,0 +1,82 @@
+{
+  "traced": true,
+  "warning": "Independent traced run; browser Present events are not optical scanout or end-to-end mouse latency.",
+  "rows": [
+    {
+      "model": "zhihuizhimen.ply",
+      "engine": "native",
+      "durationMs": 20000.19999998808,
+      "traceSource": "ForWeb\\docs\\verification\\evidence\\interactive-trace-retry-2026-10-04",
+      "metrics": {
+        "AnimationFrame::Presentation": {
+          "events": 2400,
+          "rate": 119.9988000120714,
+          "intervalP50Ms": 8.337,
+          "intervalP95Ms": 16.38,
+          "onePercentLowFps": 60.65062962934884,
+          "over33_3Percent": 0.0
+        },
+        "DrawFrame": {
+          "events": 1639,
+          "rate": 81.94918050824376,
+          "intervalP50Ms": 8.5425,
+          "intervalP95Ms": 16.854,
+          "onePercentLowFps": 57.02631261153675,
+          "over33_3Percent": 0.0
+        },
+        "DCompPresenter::Present": {
+          "events": 1639,
+          "rate": 81.94918050824376,
+          "intervalP50Ms": 8.6425,
+          "intervalP95Ms": 16.985,
+          "onePercentLowFps": 56.07766426632273,
+          "over33_3Percent": 0.0
+        }
+      },
+      "pipelineStates": {
+        "STATE_PRESENTED_ALL": 1639,
+        "STATE_NO_UPDATE_DESIRED": 761,
+        "STATE_DROPPED": 1
+      },
+      "submissionFps": 81.94918050824376
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "engine": "spark",
+      "durationMs": 20006.5,
+      "traceSource": "ForWeb\\docs\\verification\\evidence\\interactive-trace-retry-2026-10-04",
+      "metrics": {
+        "AnimationFrame::Presentation": {
+          "events": 2314,
+          "rate": 115.66240971684202,
+          "intervalP50Ms": 8.333,
+          "intervalP95Ms": 8.424,
+          "onePercentLowFps": 59.7340342126681,
+          "over33_3Percent": 0.0
+        },
+        "DrawFrame": {
+          "events": 2315,
+          "rate": 115.71239347212156,
+          "intervalP50Ms": 8.345500000000001,
+          "intervalP95Ms": 11.414,
+          "onePercentLowFps": 54.08718854793928,
+          "over33_3Percent": 0.0
+        },
+        "DCompPresenter::Present": {
+          "events": 2314,
+          "rate": 115.66240971684202,
+          "intervalP50Ms": 8.335,
+          "intervalP95Ms": 8.522,
+          "onePercentLowFps": 59.72080523552392,
+          "over33_3Percent": 0.0
+        }
+      },
+      "pipelineStates": {
+        "STATE_PRESENTED_ALL": 2314,
+        "STATE_PRESENTED_PARTIAL": 2314,
+        "STATE_DROPPED": 87
+      },
+      "submissionFps": 115.71239347212156
+    }
+  ]
+}

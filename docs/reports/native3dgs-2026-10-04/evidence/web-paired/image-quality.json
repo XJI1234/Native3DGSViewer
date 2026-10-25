@@ -1,0 +1,236 @@
+[
+  {
+    "model": "changjin_v1_ply-default",
+    "ssim": 0.9992635228935565,
+    "foregroundSsim": 0.993562916783942,
+    "foregroundMae": 1.0189322428108964,
+    "roi": [
+      614,
+      369,
+      1286,
+      728
+    ],
+    "foregroundPixels": 168971
+  },
+  {
+    "model": "changjin_v1_ply-left",
+    "ssim": 0.9968979643311636,
+    "foregroundSsim": 0.9929299319449969,
+    "foregroundMae": 0.9221104611964503,
+    "roi": [
+      221,
+      206,
+      1526,
+      906
+    ],
+    "foregroundPixels": 621962
+  },
+  {
+    "model": "changjin_v1_ply-right",
+    "ssim": 0.9968563733051194,
+    "foregroundSsim": 0.9926751692801402,
+    "foregroundMae": 1.0153217028951707,
+    "roi": [
+      277,
+      212,
+      1622,
+      876
+    ],
+    "foregroundPixels": 643140
+  },
+  {
+    "model": "shengyi_v1_ply-default",
+    "ssim": 0.9997753670190387,
+    "foregroundSsim": 0.9969674740788426,
+    "foregroundMae": 2.5963348600173535,
+    "roi": [
+      684,
+      417,
+      1249,
+      694
+    ],
+    "foregroundPixels": 60698
+  },
+  {
+    "model": "shengyi_v1_ply-left",
+    "ssim": 0.9989142405080051,
+    "foregroundSsim": 0.9964105460915418,
+    "foregroundMae": 2.659462213762185,
+    "roi": [
+      406,
+      301,
+      1529,
+      863
+    ],
+    "foregroundPixels": 240083
+  },
+  {
+    "model": "shengyi_v1_ply-right",
+    "ssim": 0.9987825478756832,
+    "foregroundSsim": 0.9962227355715442,
+    "foregroundMae": 2.5103073384904873,
+    "roi": [
+      408,
+      273,
+      1549,
+      862
+    ],
+    "foregroundPixels": 263065
+  },
+  {
+    "model": "spz_shengyi_v1_spz-default",
+    "ssim": 0.9999286825663312,
+    "foregroundSsim": 0.9990409997107331,
+    "foregroundMae": 0.7031536764829688,
+    "roi": [
+      699,
+      378,
+      1244,
+      666
+    ],
+    "foregroundPixels": 59391
+  },
+  {
+    "model": "spz_shengyi_v1_spz-left",
+    "ssim": 0.9995454004231603,
+    "foregroundSsim": 0.9985005485010733,
+    "foregroundMae": 0.796037194371996,
+    "roi": [
+      447,
+      220,
+      1533,
+      801
+    ],
+    "foregroundPixels": 229282
+  },
+  {
+    "model": "spz_shengyi_v1_spz-right",
+    "ssim": 0.9995293892519079,
+    "foregroundSsim": 0.9983052177122039,
+    "foregroundMae": 0.8020105649444166,
+    "roi": [
+      435,
+      242,
+      1538,
+      766
+    ],
+    "foregroundPixels": 235622
+  },
+  {
+    "model": "spz_tumu_v1_spz-default",
+    "ssim": 0.9999282995248393,
+    "foregroundSsim": 0.9984424017680033,
+    "foregroundMae": 0.9900518186912475,
+    "roi": [
+      749,
+      404,
+      1135,
+      657
+    ],
+    "foregroundPixels": 52941
+  },
+  {
+    "model": "spz_tumu_v1_spz-left",
+    "ssim": 0.9995753116474831,
+    "foregroundSsim": 0.9982844995656439,
+    "foregroundMae": 0.900957434631171,
+    "roi": [
+      574,
+      218,
+      1474,
+      790
+    ],
+    "foregroundPixels": 244612
+  },
+  {
+    "model": "spz_tumu_v1_spz-right",
+    "ssim": 0.9993829391868806,
+    "foregroundSsim": 0.997165334200583,
+    "foregroundMae": 1.0598251603984439,
+    "roi": [
+      404,
+      252,
+      1251,
+      784
+    ],
+    "foregroundPixels": 267407
+  },
+  {
+    "model": "tumu_v1_ply-default",
+    "ssim": 0.9999276536243368,
+    "foregroundSsim": 0.9984035678397974,
+    "foregroundMae": 1.5931629042706932,
+    "roi": [
+      742,
+      444,
+      1169,
+      670
+    ],
+    "foregroundPixels": 46823
+  },
+  {
+    "model": "tumu_v1_ply-left",
+    "ssim": 0.9994731092016537,
+    "foregroundSsim": 0.9972472348293898,
+    "foregroundMae": 1.5685013189478951,
+    "roi": [
+      553,
+      368,
+      1443,
+      815
+    ],
+    "foregroundPixels": 196495
+  },
+  {
+    "model": "tumu_v1_ply-right",
+    "ssim": 0.9994531973527115,
+    "foregroundSsim": 0.997400013038601,
+    "foregroundMae": 1.6059804784047589,
+    "roi": [
+      357,
+      365,
+      1346,
+      809
+    ],
+    "foregroundPixels": 198925
+  },
+  {
+    "model": "zhihuizhimen_ply-default",
+    "ssim": 0.9992824601865159,
+    "foregroundSsim": 0.9883487913973262,
+    "foregroundMae": 7.1355362059983625,
+    "roi": [
+      776,
+      373,
+      1134,
+      738
+    ],
+    "foregroundPixels": 44790
+  },
+  {
+    "model": "zhihuizhimen_ply-left",
+    "ssim": 0.9972615103784559,
+    "foregroundSsim": 0.9865089842467566,
+    "foregroundMae": 6.781929854058082,
+    "roi": [
+      626,
+      238,
+      1264,
+      896
+    ],
+    "foregroundPixels": 160589
+  },
+  {
+    "model": "zhihuizhimen_ply-right",
+    "ssim": 0.9972839900778924,
+    "foregroundSsim": 0.9884147105960931,
+    "foregroundMae": 6.995458699186088,
+    "roi": [
+      570,
+      241,
+      1285,
+      926
+    ],
+    "foregroundPixels": 179831
+  }
+]

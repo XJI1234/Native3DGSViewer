@@ -1,0 +1,65 @@
+{
+  "resultsSha256": "842f10a1182f928ebe1ce29b5d1900f71452bc74a5d36d34b6856c826debebf7",
+  "files": [
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\attempt-1-results.json",
+      "sha256": "95c0f5cd333afe67732abb5f0b3b1d1010840623917e182ba1764d7214150524"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\changjin_v1.ply-native.json",
+      "sha256": "62d675325ee22536ee00822b9a0d1abe35f058738c62ab8f6547a190630bfa76"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\changjin_v1.ply-spark.json",
+      "sha256": "8364443df651f61b05e98846ebc02d3634c1ae88e1ffaf1aac8f70980aa533b2"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\results.json",
+      "sha256": "842f10a1182f928ebe1ce29b5d1900f71452bc74a5d36d34b6856c826debebf7"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\retry-zhihuizhimen.ply-native.json",
+      "sha256": "4867046104b519d47cfa85d62e4b24ed08e2191da809460586af53282401bc48"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\retry-zhihuizhimen.ply-spark.json",
+      "sha256": "fa42472ba501424103b566d61f43969821f8f4173e28e526dceb47c000396b2a"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\shengyi_v1.ply-native.json",
+      "sha256": "a670cea60c7691a9cfc02a56a38a7aedf47debe5eec84e681034c58bfc311e20"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\shengyi_v1.ply-spark.json",
+      "sha256": "1054ea64e799f370c19a3a343a964c2d8be67ff05159854813e53a94992f61a3"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\spz_shengyi_v1.spz-native.json",
+      "sha256": "ed39626f5bed3da7fd0a24eb7fa2950841afe925ce35bc210dc955fb7fddaec2"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\spz_shengyi_v1.spz-spark.json",
+      "sha256": "13d1600b9c2324515311d220094d347ea06dd851ce8844b7f1850bbdc0d6a96a"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\spz_tumu_v1.spz-native.json",
+      "sha256": "a3cbed7056a5a3dcfc3d13dc5d4cac6dafd86c72c23a1cde77b88accd26eebec"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\spz_tumu_v1.spz-spark.json",
+      "sha256": "0d634f740c64dcbba0c47a840f17390d8b777fe2396c150f80b686901f02d07f"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\tumu_v1.ply-native.json",
+      "sha256": "8ea85081e9463b2dd7cd633a03e69f7a900287b2aa7d5b9dfe8c1ca6b59355e5"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\tumu_v1.ply-spark.json",
+      "sha256": "294a40481427abfba3f9b3fa7b510b0d5aabda163452bd2e8f544390018597f6"
+    },
+    {
+      "path": "ForWeb\\docs\\verification\\evidence\\interactive-2026-10-04\\zhihuizhimen.ply-spark.json",
+      "sha256": "1e03d433faeba9dd21e999bddf5976eefe10446cba2c4ac8b2e63deb033614cb"
+    }
+  ]
+}

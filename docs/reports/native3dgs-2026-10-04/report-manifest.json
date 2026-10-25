@@ -1,0 +1,222 @@
+{
+  "reportDate": "2026-10-04",
+  "sourceReference": "d088902bcc464ef7bea1fca857f2b7cd3f10836c",
+  "windowsBinarySha256": "aa2da0d1708c50d433a297627c40b3e797953f0263574c4f271a6c4462610d04",
+  "windowsNewModels": 7,
+  "windowsProcesses": 21,
+  "webPairedModels": 6,
+  "webPairedGroups": 12,
+  "staticViews": 18,
+  "fullModelLoadRows": 38,
+  "pdf": "output\\pdf\\native3dgs-engine-report-2026-10-04.pdf",
+  "sources": [
+    {
+      "id": "S01",
+      "path": "docs/system-technical-design.md",
+      "sha256": "3f39eacb91defdcfd4737dd3f9e9d61d4ba7b9484c020e221bba0eb3d08cf86c"
+    },
+    {
+      "id": "S02",
+      "path": "docs/SPEC-engine-sdk.md",
+      "sha256": "ff98cd18f04647aa384d24417d0092c732f2700620d3b38f198b62656d5fbde6"
+    },
+    {
+      "id": "S03",
+      "path": "docs/windows-performance-verification.md",
+      "sha256": "e973b6306b66c726401574a819e1e34e8bb4355723d17aaa315115f3d17525ff"
+    },
+    {
+      "id": "S04",
+      "path": "docs/reports/native3dgs-2026-10-04/evidence/windows-diagnostics.json",
+      "sha256": "1d3f55987597df43ef9042a494bd5b1ba3f9fe05e0923dd0300e043493641a58"
+    },
+    {
+      "id": "S05",
+      "path": "bench/scene.cpp",
+      "sha256": "2c36aed5f4fb8516d4735df584809e16d95d3724c5b93da7078a7704bd925c12"
+    },
+    {
+      "id": "S06",
+      "path": "ForAndroid/docs/system-technical-design.md",
+      "sha256": "991c04bfe43690d85fa312fcb46016261a4f976e4b42fada95337e5bc6760d28"
+    },
+    {
+      "id": "S07",
+      "path": "ForAndroid/docs/SDK-guide.md",
+      "sha256": "0f96b1803734c6da20e64d9d4d2ce3a306173d7439e4fc2f3f7812e62e455efb"
+    },
+    {
+      "id": "S08",
+      "path": "ForAndroid/docs/verification/device-performance-2026-09-30-adreno750.md",
+      "sha256": "fb453faaacab8268c07138a70f2b0cf32b0d6563bdd43d234fdd8fd3e15e13e3"
+    },
+    {
+      "id": "S09",
+      "path": "ForServer/docs/architecture.md",
+      "sha256": "aa8226d6443073f32ee2ab15dc42d9c980da2c470efcc822e709dc477053cb77"
+    },
+    {
+      "id": "S10",
+      "path": "ForServer/docs/verification-instances-v3.md",
+      "sha256": "ab3719a559a4b7ec7d131efa717c338c2fd295cdf853f090b2c3b0a6abc8671f"
+    },
+    {
+      "id": "S11",
+      "path": "ForServer/docs/verification-cloud-022.md",
+      "sha256": "fb964aebfa2e5e9881dd878954678b0b167fe6352a409ba999b9fc537a5ddfa0"
+    },
+    {
+      "id": "S12",
+      "path": "ForWeb/docs/SDK-guide.md",
+      "sha256": "f4f0a108d98fb18b4ddf47c4cf12c121ff87f332a1e2fb0328ad66bc01b00aad"
+    },
+    {
+      "id": "S13",
+      "path": "ForWeb/docs/verification/large-model-optimization-report.md",
+      "sha256": "a69266c3eaa4c9d4077cf3277492e71af89bf1812b740b97d9283268b6d8ff16"
+    },
+    {
+      "id": "S14",
+      "path": "ForWeb/docs/verification/evidence/model-tests-release.json",
+      "sha256": "6da345dcefa499d3339e60fa75a1a296302bb52fb13de526e8627ff354120dc9"
+    },
+    {
+      "id": "S15",
+      "path": "ForWeb/docs/verification/evidence/maximum-completed-frame.json",
+      "sha256": "42c0448a035691642db907b18d34aab9af8de59e11fe838d165b9d72352addc9"
+    },
+    {
+      "id": "S16",
+      "path": "docs/reports/native3dgs-2026-10-04/evidence/web-paired/results.json",
+      "sha256": "ff88f3dc52052d02a094e8e89ba80791859960369cd0fa0a4961a148c2fb8661"
+    },
+    {
+      "id": "S17",
+      "path": "docs/reports/native3dgs-2026-10-04/evidence/web-paired/image-quality.json",
+      "sha256": "f8befeec9d3c390fb145105f5826667a2c44eef9359e9ec95d84705dc503e4fe"
+    },
+    {
+      "id": "S18",
+      "path": "ForWeb/docs/verification/spark-decoder-source-study.md",
+      "sha256": "ab3cbf03f82300d775460e48bd635e13dac4f2cd29dea8348fbd188587958f12"
+    },
+    {
+      "id": "S19",
+      "path": "ForWeb/apps/benchmark.ts",
+      "sha256": "725d21f2ffaed7c8d114b3ecdb4546e98b3ea070c617eee5e76147ca053978cf"
+    },
+    {
+      "id": "S20",
+      "path": "ForWeb/docs/verification/evidence/model-manifest.json",
+      "sha256": "0b67d68f0cf4763b32baeb8c11689726eb57eb897a578fe68c989a0f90b96615"
+    },
+    {
+      "id": "S21",
+      "path": "ForWeb/docs/verification/evidence/layout-ablation.json",
+      "sha256": "05bf44a5af58a4451d1a16c1875204ac2d043a9324dd6ab4655a5c42331ed8c2"
+    },
+    {
+      "id": "S22",
+      "path": "ForWeb/docs/verification/ocr-review-report.md",
+      "sha256": "ac8a50ede0219c504a6e68758c24d993f9c70f3b85bc6ce9725c8255121b8556"
+    }
+  ],
+  "files": [
+    {
+      "path": "output\\pdf\\native3dgs-engine-report-2026-10-04.pdf",
+      "sha256": "0a6d724f3c5cd814a4f513a287a9cb6c523455a2bba86d05ac91042612412b11"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\report.md",
+      "sha256": "b8eaccf334bd1572f07fefbd5fb7bcee9edc3eb5ba87091b198506074d1710a4"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-android.png",
+      "sha256": "4b94dab9849ceb4fd90ae3bc3336306afa4cf74a9e292a67e0e40b2f79a3ab1c"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-cloud.png",
+      "sha256": "2b5cdf96bbaf7db9b0b99a23ec227b8547802efa42ba982a43fa8fc4ddf53dc6"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-web.png",
+      "sha256": "8e5fb1f7065fa311dbe3076ec5772fc70300516f1e2abc3ae931d92286b9d50c"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-windows.png",
+      "sha256": "4aec778fa03822a55a2f52f4abc1dadc34a194ae8ea30021834e2cad61a2d2d6"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\compute-pipeline.png",
+      "sha256": "a7aa1803a82621b42524045b0f0b2da70fde99609ffefafd9431ca68725af508"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\maximum-load-stages.png",
+      "sha256": "054d577b2deacaf4e6c5143e4bd245562352e2793af981b990d18734dd9fd1e0"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\module-boundaries.png",
+      "sha256": "f1d207ab3198a4af001508176e227bd5bad66635f88e47289c1d76b5f2a3e528"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-completed-comparison.png",
+      "sha256": "790da92310cb2cbb056c7225a1b0ed15720c5a62041a7b72feac6c70dec6be54"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-gpu-scopes.png",
+      "sha256": "beb3ecb837e84b295818954e04785866de4cebea7caa1e139362b5da990f9c53"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-load-comparison.png",
+      "sha256": "44eb9ce1ca06bbbf7bedd8d96b7eea7b383bc70c848cc7f7971b06a43777cc57"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\windows-gpu-stages.png",
+      "sha256": "65a9f57cbbb5b9b46b03186f69462cfce9a470f2f6a97059d9e10d20705fa937"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-android.svg",
+      "sha256": "9da3adf8c6aa5b5565e40160ab1705513db7b1a6e46e74851035a8fce08f8bd3"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-cloud.svg",
+      "sha256": "8a12ce12f2e2cde0f35d33709b004913de1597670838ccd49eb8fff7bcab93fe"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-web.svg",
+      "sha256": "4d6ffda16a381eb3f70a6951936808d8229e23276853994d158386ca55501aca"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\architecture-windows.svg",
+      "sha256": "c92d4fd8f01b1d6a772fe79774f4857125bf949deca2905c2e965fcc8b447ee5"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\compute-pipeline.svg",
+      "sha256": "0a3d4b59bccd5843639470ff273547caa6e91e0df7390cc146d10fab96bdfee2"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\maximum-load-stages.svg",
+      "sha256": "d598e1e18433d0e4cfa3706ec76f211624295de971b533ec0ebbf80c5dd68a0f"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\module-boundaries.svg",
+      "sha256": "5d9fd6f434d9dfda3a67cd390a8ef3f80a65ea2b0a09e42723bcb372fe9b6705"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-completed-comparison.svg",
+      "sha256": "200b415fc3f8dd7e577e387fe93ebd6d546ce46c2c7305ad3af5cdf950816e46"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-gpu-scopes.svg",
+      "sha256": "2be75800ccc961d79ecf7f670772fca35af5d69bd61af602e26af56cae3ac8bd"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\web-load-comparison.svg",
+      "sha256": "a01d8b2c16dfe827b7cbad07377e3811769832e6dd3600e0a79ed82e13703756"
+    },
+    {
+      "path": "docs\\reports\\native3dgs-2026-10-04\\figures\\windows-gpu-stages.svg",
+      "sha256": "d2788cb376cbeee4d0d41395d9a6c2d04afbdd46a3a702828ae719b3772c9150"
+    }
+  ]
+}
