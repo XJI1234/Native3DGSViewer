@@ -1,23 +1,23 @@
 {
   "git": {
     "dependencySourcesClean": true,
-    "commit": "407c698379e3ced68df162cc1f389148c244fa72",
-    "status": " M ForWeb/.gitignore\n M ForWeb/CAPABILITY-MAP.md\n M ForWeb/CHANGELOG.md\n M ForWeb/README.md\n M ForWeb/apps/README.md\n M ForWeb/apps/benchmark.ts\n M ForWeb/apps/react-viewer/README.md\n M ForWeb/apps/vue-viewer/README.md\n M ForWeb/docs/React-integration.md\n M ForWeb/docs/SDK-guide.md\n M ForWeb/docs/SPEC-engine.md\n M ForWeb/docs/SPEC-model-io.md\n M ForWeb/docs/SPEC-render-core.md\n M ForWeb/docs/SPEC-sdk-package.md\n M ForWeb/docs/SPEC-web-viewer.md\n M ForWeb/docs/Vue-integration.md\n M ForWeb/docs/development-environment.md\n M ForWeb/docs/system-technical-design.md\n M ForWeb/docs/verification/evidence/build-manifest.json\n M ForWeb/docs/verification/evidence/integration-tests.json\n M ForWeb/docs/verification/evidence/sdk-consumer.json\n M ForWeb/native/CMakeLists.txt\n M ForWeb/native/decoder.cpp\n M ForWeb/native/decoder.h\n M ForWeb/native/pack.cpp\n M ForWeb/package.json\n M ForWeb/src/engine/engine.ts\n M ForWeb/src/index.ts\n M ForWeb/src/model-io/decoder.worker.ts\n M ForWeb/src/model-io/loader.ts\n M ForWeb/src/model-io/streaming.ts\n M ForWeb/src/model-io/wasm.ts\n M ForWeb/src/react.ts\n M ForWeb/src/render-core/renderer.ts\n M ForWeb/src/render-core/shaders.ts\n M ForWeb/src/splat-types/index.ts\n M ForWeb/tests/unit/lifecycle.test.ts\n M ForWeb/tools/build-wasm.mjs\n M ForWeb/tools/interactive-benchmark.mjs\n M ForWeb/tools/package-notices.mjs\n M ForWeb/tools/package-release.mjs\n M ForWeb/tools/package-templates.mjs\n M ForWeb/tools/sdk-consumer.mjs\n M ForWeb/tools/stability-tests.mjs\n M ForWeb/vite.config.ts\n?? ForWeb/docs/SDK-migration-preview3.md\n?? ForWeb/docs/SPEC-adaptive-sorting.md\n?? ForWeb/docs/SPEC-parallel-decoder.md\n?? ForWeb/docs/verification/adaptive-sorting-2026-10-06.md\n?? ForWeb/docs/verification/evidence/adaptive-2026-10-06/\n?? ForWeb/docs/verification/evidence/decode-current.json\n?? ForWeb/docs/verification/evidence/pthreads-2026-10-06/\n?? ForWeb/docs/verification/pthreads-2026-10-06.md\n?? ForWeb/src/model-io/decoder-options.ts\n?? ForWeb/src/render-core/sorting-policy.ts\n?? ForWeb/tests/contracts/parallel-decoder.test.mjs\n?? ForWeb/tests/unit/decoder-options.test.ts\n?? ForWeb/tests/unit/sorting-policy.test.ts\n?? ForWeb/tools/adaptive-sorting-tests.mjs\n?? ForWeb/tools/adaptive-stage-benchmark.mjs\n?? ForWeb/tools/benchmark-provenance.mjs\n?? ForWeb/tools/parallel-browser-tests.mjs\n?? ForWeb/tools/parallel-capability-tests.mjs\n?? ForWeb/tools/parallel-kernel-benchmark.mjs\n?? ForWeb/tools/parallel-spark-benchmark.mjs\n",
+    "commit": "308a388291dc4431ca1e29f8ede83e9fd65e38b9",
+    "status": "",
     "dependencies": " 52eb8108c5bdec04579160ae17225d66034bd723 ../third_party/googletest (v1.17.0)\n 1a235c70390fadf789695c9ccbf285ae712416b3 ../third_party/miniply (heads/master)\n 0c539948c8d196ae338d91efbc8ca495f1ea0d1d ../third_party/parallel-sort (v1.1.1)\n-d22060043138b38e3aa01f766227ee0bd4e4f83e ../third_party/parallel-sort/sample/libs/cauldron\n 5bf2945de1a003cee07133b1e495fe9c6ffdc7e7 ../third_party/spz (v3.0.0)\n 51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf ../third_party/zlib (v1.3.1)\n 794ea1b0afca0f020f4e57b6732332231fb23c70 ../third_party/zstd (v1.5.6)\n"
   },
-  "recordedAt": "2026-10-06T07:31:34.843Z",
+  "recordedAt": "2026-10-25T15:59:05.252Z",
   "outputs": [
     {
       "path": "dist/assets/decoder.mjs",
-      "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
+      "sha256": "2ee65f77fd23587879af23e54de99407c26e0c9786d1829b0da1e52c281444b3"
     },
     {
       "path": "dist/assets/decoder.wasm",
-      "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
+      "sha256": "3a64298a7681bbf5e5c2372160e9ed9bddc24fc262ada9aab6de4627a1f7d305"
     },
     {
       "path": "dist/assets/decoder.worker.js",
-      "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
+      "sha256": "0abf53b23f72d58a1a779d972665da88ccd777e3fe946eff942977372875601b"
     },
     {
       "path": "dist/assets/licenses/spz.txt",
@@ -37,19 +37,19 @@
     },
     {
       "path": "dist/assets/manifest.json",
-      "sha256": "8662e7c94c065824c1c045bed7358d9efbecf5486eb7a41403663373ccfed395"
+      "sha256": "ff509244ff2db8bebb09b9db98bd664a6246512ec5ae4f87de9944829d51893e"
     },
     {
       "path": "dist/assets/threaded/decoder.mjs",
-      "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+      "sha256": "e8cd57115dbc10a4263a58e6fd3c8ba694168b90c23b5d8c7916888c0b48d385"
     },
     {
       "path": "dist/assets/threaded/decoder.wasm",
-      "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+      "sha256": "e84d894a1d850c7ca778ad1fdd62db8d39d09c15d884a64790c8778067a7f08c"
     },
     {
-      "path": "dist/dom-ppJuA2vp.js",
-      "sha256": "314e95c9d53b95416aba9a6eb025463424b09bbd42fcbb94a9baa01d2a410420"
+      "path": "dist/dom-D6zR0Wr1.js",
+      "sha256": "1f4e042908ae2a52dc918425451d4f5b5ca3aee5488f0b6395008386d8731512"
     },
     {
       "path": "dist/engine/camera.d.ts",
@@ -57,7 +57,7 @@
     },
     {
       "path": "dist/engine/engine.d.ts",
-      "sha256": "09d07a4a95832d92e4f54474070297fdf3c635d3fd4bffdfc5d679a0003f687a"
+      "sha256": "65a72c4d9a3217557119b929f534469815b091c9b5b842077d2e35ffc977ba5e"
     },
     {
       "path": "dist/index.d.ts",
@@ -65,7 +65,7 @@
     },
     {
       "path": "dist/index.js",
-      "sha256": "1a173cdc95c1c6c280cfc5f1f539c39d82a15b39dc159aca7c9f1ca2f69db78f"
+      "sha256": "ae491d4d22bfc2700b0b549963d4e1ab14aa6d2569b2004b57252dd4bc757db6"
     },
     {
       "path": "dist/model-io/backing.d.ts",
@@ -84,12 +84,24 @@
       "sha256": "6efebd8fe9b9e28fa66943d9e5abf17118bb75649dcc878f80802c61cee8a117"
     },
     {
+      "path": "dist/model-io/opfs.d.ts",
+      "sha256": "3b3357ab5ae502dd4a5ea4be1fe4da74ae1bbf793e82b216f140f6af28a97035"
+    },
+    {
+      "path": "dist/model-io/spz-v4.d.ts",
+      "sha256": "4f9d3b2c44ad7946a76dfacfbcbc7a7e46c14f5e1fe9f7a796f92dc5d4af1c39"
+    },
+    {
+      "path": "dist/model-io/streaming-budget.d.ts",
+      "sha256": "0083a9a0525a8c2e78ff8932a3d94fc5126e4d0c3b56b1918e15f5d7c619539f"
+    },
+    {
       "path": "dist/model-io/streaming.d.ts",
       "sha256": "e80af9b7133b5337a3f15a8998289229f240329ec0fcf6dfd567d3168deb07d4"
     },
     {
       "path": "dist/model-io/wasm.d.ts",
-      "sha256": "51f04964967a1da641854a6e7255031c7f6905654832271422b7f9947aba2b7b"
+      "sha256": "10fa2b1e3549e6de479089959c10a831830de8d6e5d25bd57355580a9d901785"
     },
     {
       "path": "dist/react.d.ts",
@@ -97,11 +109,11 @@
     },
     {
       "path": "dist/react.js",
-      "sha256": "0d4634d763281a0adc2e9e8200705b3ef92fd75665e83289db39191ad7aaa462"
+      "sha256": "017b61b499a57960cad520b043749e52115661c39a3352468a31b4a49c25845d"
     },
     {
       "path": "dist/render-core/renderer.d.ts",
-      "sha256": "c4ca9836c3e1c89d6e73498b94831c11e73b2eb0ff2f49401e8fbe8f0e15bf75"
+      "sha256": "90703e4ef637b91986b782a874d8388085666b304fb2a0bb9c3c461f87519178"
     },
     {
       "path": "dist/render-core/shaders.d.ts",
@@ -117,15 +129,15 @@
     },
     {
       "path": "dist/splat-types/async.d.ts",
-      "sha256": "d73fe85922066cff13995dcf3457183392a1c8103da3862283975cddf353fdf3"
+      "sha256": "c91c8fbd9a84c393ce1f70f2038c344bcea05519c8f9c85d1f5d617fa6287aa6"
     },
     {
       "path": "dist/splat-types/index.d.ts",
-      "sha256": "3ce5a91ad3535f8182b84934bf1d76cb945b98d8129cafe9e1c8767e75ab0f21"
+      "sha256": "5b92726d129a260f7ca8494bc217a963cbcbeeacaef5d469db90bea01063c25c"
     },
     {
-      "path": "dist/src-hdSWYNAb.js",
-      "sha256": "ccc1d5ed5949cf1392bec9788f8ba9d2ae0681a52881cb57f1f647dfa687cfd9"
+      "path": "dist/src-DZ1S-uT5.js",
+      "sha256": "4a61b9bb8be1d1f2ead6299078131f0edbce242b5fdd142193357f4148a3305d"
     },
     {
       "path": "dist/vue.d.ts",
@@ -133,7 +145,7 @@
     },
     {
       "path": "dist/vue.js",
-      "sha256": "6bc4be06b4b83fe6db7763a94420e166309974caf6b291d5b9c1ab0152241480"
+      "sha256": "34afe0f7f3daf6207086efe09ec331337deaac670ae9494756dd3d030f30eeea"
     },
     {
       "path": "dist/web-adapters/dom.d.ts",
@@ -143,7 +155,7 @@
   "node": "24.14.1",
   "package": {
     "name": "@native3dgs/web",
-    "version": "0.2.2-preview.3",
+    "version": "0.2.2-preview.4",
     "type": "module",
     "packageManager": "pnpm@11.4.0",
     "engines": {
@@ -191,7 +203,7 @@
       "build:wasm": "node tools/build-wasm.mjs",
       "build": "vite build && tsc --emitDeclarationOnly && node tools/package-notices.mjs",
       "typecheck": "tsc --noEmit",
-      "test:unit": "vitest run tests/unit",
+      "test:unit": "vitest run --dir tests/unit",
       "test:contracts": "node --test tests/contracts/*.test.mjs",
       "test:gpu": "node tools/browser-tests.mjs",
       "test:sdk": "node tools/sdk-consumer.mjs",
@@ -235,23 +247,23 @@
     "files": [
       {
         "name": "decoder.wasm",
-        "sha256": "46914aa2d531414084fd3283c1056f6991a1f82166880cf8df064458b5307cee"
+        "sha256": "3a64298a7681bbf5e5c2372160e9ed9bddc24fc262ada9aab6de4627a1f7d305"
       },
       {
         "name": "decoder.mjs",
-        "sha256": "7e3fa6315c68f51032342354a72e501e490e9b63f6d4ce55e614af90482c3c31"
+        "sha256": "2ee65f77fd23587879af23e54de99407c26e0c9786d1829b0da1e52c281444b3"
       },
       {
         "name": "decoder.worker.js",
-        "sha256": "5b4f1cf5623047fd836520bc1363b4c73384625bb31f62c0b1a0ac0b624d0edf"
+        "sha256": "0abf53b23f72d58a1a779d972665da88ccd777e3fe946eff942977372875601b"
       },
       {
         "name": "threaded/decoder.wasm",
-        "sha256": "fbe68f414b8821adf6bf4695c8183eed5f64454faefcfbdfe575abda831bd542"
+        "sha256": "e84d894a1d850c7ca778ad1fdd62db8d39d09c15d884a64790c8778067a7f08c"
       },
       {
         "name": "threaded/decoder.mjs",
-        "sha256": "703ffe6ebf2cfebd7e087148fef823dcfc207481370fd4a8746c0b1cc80e1ebf"
+        "sha256": "e8cd57115dbc10a4263a58e6fd3c8ba694168b90c23b5d8c7916888c0b48d385"
       }
     ]
   },
@@ -262,7 +274,7 @@
     },
     {
       "path": "src/engine/engine.ts",
-      "sha256": "fc1e2a08f6ca2cc401cecc8d7e7c0a86ff9190424b5f7667192fae8d51c9167a"
+      "sha256": "b9dd0826dc25cfa903120bbfda994f0a63ea810feef7ff2024706c7cd123d13b"
     },
     {
       "path": "src/index.ts",
@@ -270,27 +282,39 @@
     },
     {
       "path": "src/model-io/backing.ts",
-      "sha256": "964ef7e6203314fa57b6b34b3c35314f6b0149dbeaeb05e8b71781f47949e33f"
+      "sha256": "00f69b58d5d84bd964549f6163f619f608b62233194ec950e468d2c8fe083bec"
     },
     {
       "path": "src/model-io/decoder-options.ts",
-      "sha256": "f27a83ed8ac24c5b8e8cb1dab1a12219485a36c60f68d0f579108f8543bb9f85"
+      "sha256": "dfc471596f1a2d196c213ea4d2e15eb34a5b6cf21d1f8b4ebc7792a30e4040f9"
     },
     {
       "path": "src/model-io/decoder.worker.ts",
-      "sha256": "f4a939a999013c39a529bf2f13c242c60ca97a0dcb723287589c6cd39b8e0ea4"
+      "sha256": "14c9479b1793937709b21896b4979f3d8d70f8b231d2d981ea6933b7d305da1b"
     },
     {
       "path": "src/model-io/loader.ts",
       "sha256": "a5b57c13564e9e08e5f5c72ebb6a842fce64f3eba1a8d5c31aeb7d143c386958"
     },
     {
+      "path": "src/model-io/opfs.ts",
+      "sha256": "c25fb2f5452683afc72f9d67d6bb0e9de91cc131c88e98f56c05ff7ab3eb7c14"
+    },
+    {
+      "path": "src/model-io/spz-v4.ts",
+      "sha256": "a4f921a7b217bc8286ea38489bc336e094b39c42fcc21f734b00cb08d4d7264a"
+    },
+    {
+      "path": "src/model-io/streaming-budget.ts",
+      "sha256": "035fedb9fd674eeaa66fce28c432114bddd67b9d8d921f5deb86c9c86a90c487"
+    },
+    {
       "path": "src/model-io/streaming.ts",
-      "sha256": "fbe67c64849259d224e51826a61cfc41a6463ea638b59be719ee179e931ef50b"
+      "sha256": "a9edfb61d1f69563b0dd68bec23d186c176e5b1c74870ae0b58ffe66b73d0194"
     },
     {
       "path": "src/model-io/wasm.ts",
-      "sha256": "5a0681abebd27554a59164975438d56c8ee69a71c9c5c6a46f612fce6b42f35a"
+      "sha256": "ffd0afd6d3056c259300f71d084979be5066d7fc1af19e40080ea1adeef35988"
     },
     {
       "path": "src/react.ts",
@@ -298,7 +322,7 @@
     },
     {
       "path": "src/render-core/renderer.ts",
-      "sha256": "bd4f13bcc1df076914a034c23790b711e290f35520e3ce59cc847d4a0db8951e"
+      "sha256": "b060f11a92661222c4e20731568b59f5783f102087895dbf3f9f40632d8a2fac"
     },
     {
       "path": "src/render-core/shaders.ts",
@@ -314,11 +338,11 @@
     },
     {
       "path": "src/splat-types/async.ts",
-      "sha256": "00c50caf93a1a190b29de33e73749acc45d680152f825376afded00dfeeb49de"
+      "sha256": "250bc2841edadbb8a1feae5163beee827dfb3c809d3d77b6ae05c75d2cc887ce"
     },
     {
       "path": "src/splat-types/index.ts",
-      "sha256": "91a44262d4afc1ab4e7952ed78fc982f1ad7999daebabded8ad86f1b8187a60b"
+      "sha256": "8a50e35e458e0832474462493e2a32566cbd2429d1aa0ee5d08f24e1f63b02e2"
     },
     {
       "path": "src/vue.ts",
@@ -326,7 +350,7 @@
     },
     {
       "path": "src/web-adapters/dom.ts",
-      "sha256": "3b60de3596a87928adbc7db20929eee501a84d2a59a425813d39740f1b94ea71"
+      "sha256": "2b7fefe8a8bcdf499c395c7b766282838ad694f5d01f5b5520cddcf4e2a1796e"
     },
     {
       "path": "native/.clang-format",
@@ -334,15 +358,15 @@
     },
     {
       "path": "native/CMakeLists.txt",
-      "sha256": "f88c387bfe77c16ba465f8676b981592bca8d9f32d67693ea4a687b9ad9fcca6"
+      "sha256": "0f765a396501c39bd6423f697c7a9b2c85b4d6223adb6a2ed9eb778ab8f0575d"
     },
     {
       "path": "native/decoder.cpp",
-      "sha256": "ac8d721ecaf652be195e3667abc57bd7ee192e160721fe3b5a239c9abeba6d19"
+      "sha256": "a884071923a3f332a2b25367c4960bf157131b51eb9220fd64785a19b0831354"
     },
     {
       "path": "native/decoder.h",
-      "sha256": "59af8b7e0ed5c72138efe6d6c0634dc5a342d920d847b6db84db8173305f46c7"
+      "sha256": "12e4f1282353ef378d5c70729bfd55074725fdc80d01ea3b145e1a8357a48eed"
     },
     {
       "path": "native/inflate.cpp",
@@ -351,6 +375,10 @@
     {
       "path": "native/pack.cpp",
       "sha256": "47b6ce44a3db4b82de88ac4df84094407a5df1f59d1ad55fbab75b21bf26268e"
+    },
+    {
+      "path": "native/zstd.cpp",
+      "sha256": "85faa0affe6a4553e8f9d9b3d7d9fa3a5c7135da8fdff002f2415c0dbecd4b25"
     },
     {
       "path": "../include/splat-types/scene.h",
@@ -366,11 +394,11 @@
     },
     {
       "path": "tools/build-wasm.mjs",
-      "sha256": "6b4a5258079377c4ae2289184ed18780fd471a51d85475058c9d848e5b054e2a"
+      "sha256": "e0f6a914ccc9af3d60cb07024c5f7918a57d10a560281612a89e121365934e74"
     },
     {
       "path": "tools/package-notices.mjs",
-      "sha256": "8a562fb32a2478991b47e423c996d8e4a5322d316a84ae58b33fee26dbf9c27a"
+      "sha256": "607687f922b037e5f64ce4fd05e1011ba69e9d4ec94f725ed0628eb8d89294fc"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -378,11 +406,11 @@
     },
     {
       "path": "package.json",
-      "sha256": "457406cc16333d3e78e9f729ca4f788431a579482300eb7c3d3310412017a371"
+      "sha256": "17c8f6ae8b49ce916653d1f0d4b4e6c2f1b45582ffa190046b7ad6fb0fd93fc3"
     },
     {
       "path": "vite.config.ts",
-      "sha256": "854b7c18dcd95539aaccf7c5b2c78bfa73444fb7bc89231d8d03ca46a76e71af"
+      "sha256": "bfa461634a7df1cfb7c8a45402016f8db44748d7c9e1fa16fc59bc11b10809e6"
     },
     {
       "path": "tsconfig.json",
@@ -398,11 +426,11 @@
     },
     {
       "path": "../src/model-io/normalize/normalize.cpp",
-      "sha256": "e626e1c5f46c09d970ecce08631b0dd43f4a6e6f52770bef9b926836751ea15e"
+      "sha256": "774d4594730defe13b39cb89c063b0f0549b192551b9525b34b17fc2daf75ae8"
     },
     {
       "path": "../src/model-io/normalize/normalize.h",
-      "sha256": "b2b35760f2ebb3d7645ede2340cfe30bcb229f232f424a438086006b2ba5d994"
+      "sha256": "10a497410a410d71382735d2027f4734aa6d442feddbec5d2a705ff595931a06"
     }
   ]
 }
