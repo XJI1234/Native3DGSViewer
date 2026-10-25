@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useNative3DGS } from "@native3dgs/web/react";
-import { ViewerSession, number, status, diagnostic, time } from "./viewer";
+import {
+  ViewerSession,
+  number,
+  status,
+  diagnostic,
+  time,
+  memory,
+} from "./viewer";
 import "./style.css";
 const options = {
   decoder: { mode: "auto" as const, threads: 4 },
@@ -250,6 +257,16 @@ export default function App() {
                 {snapshot.decoder
                   ? `${snapshot.decoder.backend} · ${snapshot.decoder.threads}`
                   : "未加载"}
+              </dd>
+              <dt>WASM 内存</dt>
+              <dd data-testid="decoder-memory">
+                {memory(snapshot.decoder?.wasmHeapBytes)}
+              </dd>
+              <dt>解码批次</dt>
+              <dd>
+                {snapshot.decoder?.batchPoints === undefined
+                  ? "未提供"
+                  : number(snapshot.decoder.batchPoints)}
               </dd>
               <dt>排序策略</dt>
               <dd data-testid="sorting">

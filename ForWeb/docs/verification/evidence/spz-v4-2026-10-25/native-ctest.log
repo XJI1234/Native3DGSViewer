@@ -1,0 +1,772 @@
+Start testing: Oct 25 23:53 �й���׼ʱ��
+----------------------------------------------------------
+1/5 Testing: ModelIo
+1/5 Test: ModelIo
+Command: "C:/Users/21544/workspace/Native3DGSViewer/out/Release/Native3DGSViewer.Tests.exe" "--gtest_filter=ModelIo*"
+Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+"ModelIo" start time: Oct 25 23:53 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ModelIo*
+[==========] Running 22 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 17 tests from ModelIo
+[ RUN      ] ModelIo.RejectsMissingFile
+[       OK ] ModelIo.RejectsMissingFile (0 ms)
+[ RUN      ] ModelIo.ReadsReorderedPlyAndConvertsCoordinates
+[       OK ] ModelIo.ReadsReorderedPlyAndConvertsCoordinates (207 ms)
+[ RUN      ] ModelIo.ConvertsChannelMajorShForEveryDegree
+[       OK ] ModelIo.ConvertsChannelMajorShForEveryDegree (113 ms)
+[ RUN      ] ModelIo.RejectsMalformedPly
+[       OK ] ModelIo.RejectsMalformedPly (53 ms)
+[ RUN      ] ModelIo.StreamsAcrossMultiplePlyChunks
+[       OK ] ModelIo.StreamsAcrossMultiplePlyChunks (520 ms)
+[ RUN      ] ModelIo.ConvertsInfinitePlyOpacityLogits
+[       OK ] ModelIo.ConvertsInfinitePlyOpacityLogits (75 ms)
+[ RUN      ] ModelIo.EnforcesLimitsCancellationAndObserverErrors
+[       OK ] ModelIo.EnforcesLimitsCancellationAndObserverErrors (0 ms)
+[ RUN      ] ModelIo.ReadsSpzVersionsOneThroughFour
+[       OK ] ModelIo.ReadsSpzVersionsOneThroughFour (114 ms)
+[ RUN      ] ModelIo.RejectsSpzFeatures
+[       OK ] ModelIo.RejectsSpzFeatures (1 ms)
+[ RUN      ] ModelIo.ConvertsSaturatedSpzAlphaToFiniteOpacity
+[       OK ] ModelIo.ConvertsSaturatedSpzAlphaToFiniteOpacity (47 ms)
+[ RUN      ] ModelIo.RejectsInvalidRotationScaleAndDuplicateProperties
+[       OK ] ModelIo.RejectsInvalidRotationScaleAndDuplicateProperties (53 ms)
+[ RUN      ] ModelIo.SniffsContentAndReportsMonotonicProgress
+[       OK ] ModelIo.SniffsContentAndReportsMonotonicProgress (24 ms)
+[ RUN      ] ModelIo.AcceptsCrlfPlyHeader
+[       OK ] ModelIo.AcceptsCrlfPlyHeader (24 ms)
+[ RUN      ] ModelIo.RandomHeaderAndLayoutMutationsNeverPublishScene
+[       OK ] ModelIo.RandomHeaderAndLayoutMutationsNeverPublishScene (0 ms)
+[ RUN      ] ModelIo.FailureDoesNotPoisonNextLoad
+[       OK ] ModelIo.FailureDoesNotPoisonNextLoad (23 ms)
+[ RUN      ] ModelIo.RepeatedLoadsReleaseHandles
+[       OK ] ModelIo.RepeatedLoadsReleaseHandles (2309 ms)
+[ RUN      ] ModelIo.BoundsValidationRejectsNonfiniteMetadataAndAccountsForRebaseRounding
+[       OK ] ModelIo.BoundsValidationRejectsNonfiniteMetadataAndAccountsForRebaseRounding (0 ms)
+[----------] 17 tests from ModelIo (3570 ms total)
+
+[----------] 3 tests from ModelIoFault
+[ RUN      ] ModelIoFault.IsolatesCrashMalformedIpcAndSharedData
+[       OK ] ModelIoFault.IsolatesCrashMalformedIpcAndSharedData (90 ms)
+[ RUN      ] ModelIoFault.BoundsTimeoutCancellationAndJobFailure
+[       OK ] ModelIoFault.BoundsTimeoutCancellationAndJobFailure (190 ms)
+[ RUN      ] ModelIoFault.ReportsHelperJobMemoryLimit
+[       OK ] ModelIoFault.ReportsHelperJobMemoryLimit (22 ms)
+[----------] 3 tests from ModelIoFault (303 ms total)
+
+[----------] 2 tests from ModelIoCorpus
+[ RUN      ] ModelIoCorpus.LoadsWorkspaceSamples
+[       OK ] ModelIoCorpus.LoadsWorkspaceSamples (4181 ms)
+[ RUN      ] ModelIoCorpus.CancelsActiveDecode
+[       OK ] ModelIoCorpus.CancelsActiveDecode (63 ms)
+[----------] 2 tests from ModelIoCorpus (4245 ms total)
+
+[----------] Global test environment tear-down
+[==========] 22 tests from 3 test suites ran. (8119 ms total)
+[  PASSED  ] 22 tests.
+<end of output>
+Test time =   8.15 sec
+----------------------------------------------------------
+Test Passed.
+"ModelIo" end time: Oct 25 23:53 �й���׼ʱ��
+"ModelIo" time elapsed: 00:00:08
+----------------------------------------------------------
+
+2/5 Testing: RenderCore
+2/5 Test: RenderCore
+Command: "C:/Users/21544/workspace/Native3DGSViewer/out/Release/Native3DGSViewer.Tests.exe" "--gtest_filter=Render*"
+Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+"RenderCore" start time: Oct 25 23:53 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = Render*
+[==========] Running 45 tests from 6 test suites.
+[----------] Global test environment set-up.
+[----------] 9 tests from RenderContracts
+[ RUN      ] RenderContracts.QualityRejectsNonFiniteAndUnsupportedValues
+[       OK ] RenderContracts.QualityRejectsNonFiniteAndUnsupportedValues (0 ms)
+[ RUN      ] RenderContracts.CameraRejectsInvalidProjectionAndQuaternion
+[       OK ] RenderContracts.CameraRejectsInvalidProjectionAndQuaternion (0 ms)
+[ RUN      ] RenderContracts.BudgetUsesIncrementalHeadroomWithoutCountingOldSceneTwice
+[       OK ] RenderContracts.BudgetUsesIncrementalHeadroomWithoutCountingOldSceneTwice (0 ms)
+[ RUN      ] RenderContracts.UmaUploadDoesNotRequireNonlocalSegment
+[       OK ] RenderContracts.UmaUploadDoesNotRequireNonlocalSegment (0 ms)
+[ RUN      ] RenderContracts.SmallUploadReserveUsesPackedSceneSize
+[       OK ] RenderContracts.SmallUploadReserveUsesPackedSceneSize (0 ms)
+[ RUN      ] RenderContracts.RelativeCameraSubtractsDoubleOriginBeforeFloatConversion
+[       OK ] RenderContracts.RelativeCameraSubtractsDoubleOriginBeforeFloatConversion (0 ms)
+[ RUN      ] RenderContracts.SceneRejectsCountOverflowMissingStorageAndShLength
+[       OK ] RenderContracts.SceneRejectsCountOverflowMissingStorageAndShLength (0 ms)
+[ RUN      ] RenderContracts.LargeSceneUsesMeasuredResourceSize
+[       OK ] RenderContracts.LargeSceneUsesMeasuredResourceSize (0 ms)
+[ RUN      ] RenderContracts.RotatedCameraUsesInverseQuaternionRows
+[       OK ] RenderContracts.RotatedCameraUsesInverseQuaternionRows (0 ms)
+[----------] 9 tests from RenderContracts (0 ms total)
+
+[----------] 2 tests from RenderGpu
+[ RUN      ] RenderGpu.Wave8CompatibleSortModesPassGpuSelfTest
+[       OK ] RenderGpu.Wave8CompatibleSortModesPassGpuSelfTest (487 ms)
+[ RUN      ] RenderGpu.StableRadixMatchesCpuIncludingEightMillionKeys
+[       OK ] RenderGpu.StableRadixMatchesCpuIncludingEightMillionKeys (1157 ms)
+[----------] 2 tests from RenderGpu (1644 ms total)
+
+[----------] 10 tests from RenderImage
+[ RUN      ] RenderImage.SampledUploadPacksSelectedSplatsAndSh
+[       OK ] RenderImage.SampledUploadPacksSelectedSplatsAndSh (360 ms)
+[ RUN      ] RenderImage.GaussianPixelsMatchAnalyticReference
+[       OK ] RenderImage.GaussianPixelsMatchAnalyticReference (332 ms)
+[ RUN      ] RenderImage.FarToNearPremultipliedOverlap
+[       OK ] RenderImage.FarToNearPremultipliedOverlap (325 ms)
+[ RUN      ] RenderImage.ShZeroThroughThreeAndFarOriginPreserveTrainingColor
+[       OK ] RenderImage.ShZeroThroughThreeAndFarOriginPreserveTrainingColor (3024 ms)
+[ RUN      ] RenderImage.ConservativeEdgesNearPlaneAndOverflowHaveFiniteResults
+[       OK ] RenderImage.ConservativeEdgesNearPlaneAndOverflowHaveFiniteResults (1667 ms)
+[ RUN      ] RenderImage.RotatedAnisotropicCovarianceAndBlurMatchPrincipalAxes
+[       OK ] RenderImage.RotatedAnisotropicCovarianceAndBlurMatchPrincipalAxes (347 ms)
+[ RUN      ] RenderImage.DepthAndRadialModesProduceTheirDeclaredOverlapOrder
+[       OK ] RenderImage.DepthAndRadialModesProduceTheirDeclaredOverlapOrder (612 ms)
+[ RUN      ] RenderImage.ColorClampAndShCapAreAppliedAfterEvaluation
+[       OK ] RenderImage.ColorClampAndShCapAreAppliedAfterEvaluation (301 ms)
+[ RUN      ] RenderImage.ShCapUsesEachSplatsOwnCoefficients
+[       OK ] RenderImage.ShCapUsesEachSplatsOwnCoefficients (313 ms)
+[ RUN      ] RenderImage.ThinAnisotropicSplatRetainsPositiveMinorAxis
+[       OK ] RenderImage.ThinAnisotropicSplatRetainsPositiveMinorAxis (331 ms)
+[----------] 10 tests from RenderImage (7617 ms total)
+
+[----------] 13 tests from RenderLifecycle
+[ RUN      ] RenderLifecycle.PresentsOnlyCompletedUploadsAndKeepsOldSceneOnCancellation
+[       OK ] RenderLifecycle.PresentsOnlyCompletedUploadsAndKeepsOldSceneOnCancellation (378 ms)
+[ RUN      ] RenderLifecycle.FrameStatsWaitForActiveScenesCompletedFrame
+[       OK ] RenderLifecycle.FrameStatsWaitForActiveScenesCompletedFrame (438 ms)
+[ RUN      ] RenderLifecycle.BudgetMitigationSelectsShZeroAndStrictModeRejects
+[       OK ] RenderLifecycle.BudgetMitigationSelectsShZeroAndStrictModeRejects (948 ms)
+[ RUN      ] RenderLifecycle.BudgetMitigationSamplesPointsOnlyAfterShZero
+[       OK ] RenderLifecycle.BudgetMitigationSamplesPointsOnlyAfterShZero (362 ms)
+[ RUN      ] RenderLifecycle.ManualSamplingWorksWithoutAutomaticMitigation
+[       OK ] RenderLifecycle.ManualSamplingWorksWithoutAutomaticMitigation (348 ms)
+[ RUN      ] RenderLifecycle.AutomaticSamplingStopsAtConfiguredMaximum
+[       OK ] RenderLifecycle.AutomaticSamplingStopsAtConfiguredMaximum (442 ms)
+[ RUN      ] RenderLifecycle.SmallSceneFitsBelowOldFixedUploadReserve
+[       OK ] RenderLifecycle.SmallSceneFitsBelowOldFixedUploadReserve (345 ms)
+[ RUN      ] RenderLifecycle.ZeroViewportWaitsForFirstPresentAndStaleRevisionCannotOverrideResize
+[       OK ] RenderLifecycle.ZeroViewportWaitsForFirstPresentAndStaleRevisionCannotOverrideResize (318 ms)
+[ RUN      ] RenderLifecycle.RepeatedReplaceCancelClearAndDetach
+[       OK ] RenderLifecycle.RepeatedReplaceCancelClearAndDetach (1604 ms)
+[ RUN      ] RenderLifecycle.CommandsAreSafeWhileRenderThreadSubmits
+[       OK ] RenderLifecycle.CommandsAreSafeWhileRenderThreadSubmits (411 ms)
+[ RUN      ] RenderLifecycle.ResizeBeforeAttachSurvivesInitialSurfaceBinding
+[       OK ] RenderLifecycle.ResizeBeforeAttachSurvivesInitialSurfaceBinding (342 ms)
+[ RUN      ] RenderLifecycle.IdenticalCameraAndViewportReuseExistingSort
+[       OK ] RenderLifecycle.IdenticalCameraAndViewportReuseExistingSort (369 ms)
+[ RUN      ] RenderLifecycle.WrongThreadFrameIsRejectedAndReported
+[       OK ] RenderLifecycle.WrongThreadFrameIsRejectedAndReported (322 ms)
+[----------] 13 tests from RenderLifecycle (6633 ms total)
+
+[----------] 6 tests from RenderRecovery
+[ RUN      ] RenderRecovery.ActualDeviceRemovalRebindsAndRestoresRetainedScene
+[       OK ] RenderRecovery.ActualDeviceRemovalRebindsAndRestoresRetainedScene (697 ms)
+[ RUN      ] RenderRecovery.AllocationAndBudgetFailurePreserveOldScene
+[       OK ] RenderRecovery.AllocationAndBudgetFailurePreserveOldScene (332 ms)
+[ RUN      ] RenderRecovery.NeverCompletedFenceHasBoundedRecovery
+[       OK ] RenderRecovery.NeverCompletedFenceHasBoundedRecovery (5707 ms)
+[ RUN      ] RenderRecovery.CancelledUploadWithHungCopyFenceTriggersRecovery
+[       OK ] RenderRecovery.CancelledUploadWithHungCopyFenceTriggersRecovery (697 ms)
+[ RUN      ] RenderRecovery.RebindTimeoutIsFatalWithoutRepeatedRecovery
+[       OK ] RenderRecovery.RebindTimeoutIsFatalWithoutRepeatedRecovery (10673 ms)
+[ RUN      ] RenderRecovery.RecoveryReuploadFailureIsFatal
+[       OK ] RenderRecovery.RecoveryReuploadFailureIsFatal (839 ms)
+[----------] 6 tests from RenderRecovery (18948 ms total)
+
+[----------] 5 tests from RenderPick
+[ RUN      ] RenderPick.ResolvesVisibleContributionMedianAndOffAxisRay
+[       OK ] RenderPick.ResolvesVisibleContributionMedianAndOffAxisRay (0 ms)
+[ RUN      ] RenderPick.GpuUsesProjectedEllipseAndRejectsStaleView
+[       OK ] RenderPick.GpuUsesProjectedEllipseAndRejectsStaleView (412 ms)
+[ RUN      ] RenderPick.ClipsOverlaySegmentAtNearFarAndViewportPlanes
+[       OK ] RenderPick.ClipsOverlaySegmentAtNearFarAndViewportPlanes (0 ms)
+[ RUN      ] RenderPick.GpuRejectsCandidateOverflowAndUsesSampledScene
+[       OK ] RenderPick.GpuRejectsCandidateOverflowAndUsesSampledScene (758 ms)
+[ RUN      ] RenderPick.GpuFollowsVisibleAlphaAcrossSeparatedLayers
+[       OK ] RenderPick.GpuFollowsVisibleAlphaAcrossSeparatedLayers (748 ms)
+[----------] 5 tests from RenderPick (1920 ms total)
+
+[----------] Global test environment tear-down
+[==========] 45 tests from 6 test suites ran. (36765 ms total)
+[  PASSED  ] 45 tests.
+<end of output>
+Test time =  36.80 sec
+----------------------------------------------------------
+Test Passed.
+"RenderCore" end time: Oct 25 23:54 �й���׼ʱ��
+"RenderCore" time elapsed: 00:00:36
+----------------------------------------------------------
+
+3/5 Testing: ModelRenderIntegration
+3/5 Test: ModelRenderIntegration
+Command: "C:/Users/21544/workspace/Native3DGSViewer/out/Release/Native3DGSViewer.Tests.exe" "--gtest_filter=ModelRenderIntegration.*"
+Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+"ModelRenderIntegration" start time: Oct 25 23:54 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ModelRenderIntegration.*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ModelRenderIntegration
+[ RUN      ] ModelRenderIntegration.LoadsUploadsPresentsAndRendersWorkspacePlyAndSpz
+Corpus 0 count=1179648 SH=0 candidates=1179648
+Corpus 1 count=509812 SH=3 candidates=509340
+Corpus 2 count=3914609 SH=3 candidates=3904214
+[       OK ] ModelRenderIntegration.LoadsUploadsPresentsAndRendersWorkspacePlyAndSpz (6122 ms)
+[----------] 1 test from ModelRenderIntegration (6122 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (6122 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   6.15 sec
+----------------------------------------------------------
+Test Passed.
+"ModelRenderIntegration" end time: Oct 25 23:54 �й���׼ʱ��
+"ModelRenderIntegration" time elapsed: 00:00:06
+----------------------------------------------------------
+
+4/5 Testing: Engine
+4/5 Test: Engine
+Command: "C:/Users/21544/workspace/Native3DGSViewer/out/Release/Native3DGSViewer.Tests.exe" "--gtest_filter=Engine*"
+Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+"Engine" start time: Oct 25 23:54 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = Engine*
+[==========] Running 23 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 8 tests from EngineCamera
+[ RUN      ] EngineCamera.MeasurementReprojectsWithAllAxisFlipsAndLargeOrigin
+[       OK ] EngineCamera.MeasurementReprojectsWithAllAxisFlipsAndLargeOrigin (0 ms)
+[ RUN      ] EngineCamera.FitAccountsForTallViewportAndGaussianSupport
+[       OK ] EngineCamera.FitAccountsForTallViewportAndGaussianSupport (0 ms)
+[ RUN      ] EngineCamera.OrbitPanDollyResetAndReplayAreDeterministic
+[       OK ] EngineCamera.OrbitPanDollyResetAndReplayAreDeterministic (0 ms)
+[ RUN      ] EngineCamera.FlyClampsDeltaAndNormalizesDiagonalMovement
+[       OK ] EngineCamera.FlyClampsDeltaAndNormalizesDiagonalMovement (0 ms)
+[ RUN      ] EngineCamera.ModesPreservePoseAndHugeInputNeverFlips
+[       OK ] EngineCamera.ModesPreservePoseAndHugeInputNeverFlips (0 ms)
+[ RUN      ] EngineCamera.InvalidInputsAndUnrepresentableFitPreserveOldPose
+[       OK ] EngineCamera.InvalidInputsAndUnrepresentableFitPreserveOldPose (0 ms)
+[ RUN      ] EngineCamera.FarOriginAndResizeKeepDoublePose
+[       OK ] EngineCamera.FarOriginAndResizeKeepDoublePose (0 ms)
+[ RUN      ] EngineCamera.AxisFlipsMirrorViewAndSurviveFit
+[       OK ] EngineCamera.AxisFlipsMirrorViewAndSurviveFit (0 ms)
+[----------] 8 tests from EngineCamera (0 ms total)
+
+[----------] 11 tests from EngineRuntime
+[ RUN      ] EngineRuntime.OpensControlsPreservesOldSceneOnFailureAndCloses
+[       OK ] EngineRuntime.OpensControlsPreservesOldSceneOnFailureAndCloses (497 ms)
+[ RUN      ] EngineRuntime.MeasuresWithArbitraryCalibrationAndDiscardsCancelledResults
+[       OK ] EngineRuntime.MeasuresWithArbitraryCalibrationAndDiscardsCancelledResults (6865 ms)
+[ RUN      ] EngineRuntime.LatestRequestWinsAndCancelPreservesActiveScene
+[       OK ] EngineRuntime.LatestRequestWinsAndCancelPreservesActiveScene (438 ms)
+[ RUN      ] EngineRuntime.AxisFlipsPersistAcrossPendingSceneActivation
+[       OK ] EngineRuntime.AxisFlipsPersistAcrossPendingSceneActivation (408 ms)
+[ RUN      ] EngineRuntime.BoundedEventsAndShutdownRejectNewWork
+[       OK ] EngineRuntime.BoundedEventsAndShutdownRejectNewWork (405 ms)
+[ RUN      ] EngineRuntime.DeviceRecoveryWaitsForHostReleaseAndRebinds
+[       OK ] EngineRuntime.DeviceRecoveryWaitsForHostReleaseAndRebinds (694 ms)
+[ RUN      ] EngineRuntime.MissingHostReleaseAcknowledgementBecomesPersistentFailure
+[       OK ] EngineRuntime.MissingHostReleaseAcknowledgementBecomesPersistentFailure (10294 ms)
+[ RUN      ] EngineRuntime.CloseDuringRecoveryClearsStaleActiveTicket
+[       OK ] EngineRuntime.CloseDuringRecoveryClearsStaleActiveTicket (959 ms)
+[ RUN      ] EngineRuntime.ConcurrentCommandsDoNotBlockLoadingOrShutdown
+[       OK ] EngineRuntime.ConcurrentCommandsDoNotBlockLoadingOrShutdown (470 ms)
+[ RUN      ] EngineRuntime.RejectsInvalidConfiguration
+[       OK ] EngineRuntime.RejectsInvalidConfiguration (0 ms)
+[ RUN      ] EngineRuntime.ManualPointStrideIsReportedInSnapshot
+[       OK ] EngineRuntime.ManualPointStrideIsReportedInSnapshot (492 ms)
+[----------] 11 tests from EngineRuntime (21527 ms total)
+
+[----------] 4 tests from EngineMetric
+[ RUN      ] EngineMetric.AcceptsArbitraryScaleWithoutModelIdentity
+[       OK ] EngineMetric.AcceptsArbitraryScaleWithoutModelIdentity (2 ms)
+[ RUN      ] EngineMetric.RejectsMalformedUnavailableAndConflictingTransforms
+[       OK ] EngineMetric.RejectsMalformedUnavailableAndConflictingTransforms (9 ms)
+[ RUN      ] EngineMetric.ChecksInverseAndFiniteDistanceAndRestoresSourceCoordinates
+[       OK ] EngineMetric.ChecksInverseAndFiniteDistanceAndRestoresSourceCoordinates (1 ms)
+[ RUN      ] EngineMetric.BoundsNestingEscapedDuplicatesAndCancelledReads
+[       OK ] EngineMetric.BoundsNestingEscapedDuplicatesAndCancelledReads (4 ms)
+[----------] 4 tests from EngineMetric (18 ms total)
+
+[----------] Global test environment tear-down
+[==========] 23 tests from 3 test suites ran. (21546 ms total)
+[  PASSED  ] 23 tests.
+<end of output>
+Test time =  21.58 sec
+----------------------------------------------------------
+Test Passed.
+"Engine" end time: Oct 25 23:54 �й���׼ʱ��
+"Engine" time elapsed: 00:00:21
+----------------------------------------------------------
+
+5/5 Testing: InstalledSDK
+5/5 Test: InstalledSDK
+Command: "C:/Program Files/PowerShell/7/pwsh.exe" "-NoProfile" "-File" "C:/Users/21544/workspace/Native3DGSViewer/tests/sdk/installed-sdk.ps1" "-BuildDirectory" "C:/Users/21544/workspace/Native3DGSViewer/out/cmake" "-Configuration" "Release" "-Scene" "C:/Users/21544/workspace/Native3DGSViewer/../1.ply"
+Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+"InstalledSDK" start time: Oct 25 23:54 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/native3dgs-engine.lib
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/render-core.lib
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/model-io.lib
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/zlibstatic.lib
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/model-io-helper.exe
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/model-io
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/model-io/model_loader.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/model-io/model_types.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/native3dgs
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/native3dgs/camera.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/native3dgs/engine.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/native3dgs/measurement.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/render-core
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/render-core/picking.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/render-core/renderer.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/splat-types
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/include/splat-types/scene.h
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/count.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/count_wave32.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/count_wave_agnostic.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/reduce.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/reduce_wave32.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/reduce_wave_agnostic.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan_wave32.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan_wave_agnostic.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan_add.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan_add_wave32.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scan_add_wave_agnostic.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scatter.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scatter_wave32.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/scatter_wave_agnostic.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/reset_args.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/project.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/vertex.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/pixel.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/pick_reset.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/bin/shaders/pick_collect.cso
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/cmake/Native3DGS/Native3DGSTargets.cmake
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/cmake/Native3DGS/Native3DGSTargets-release.cmake
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/cmake/Native3DGS/Native3DGSConfig.cmake
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/lib/cmake/Native3DGS/Native3DGSConfigVersion.cmake
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/examples/sdk-host
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/examples/sdk-host/CMakeLists.txt
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/examples/sdk-host/main.cpp
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/SPEC-engine-sdk.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/SDK-guide.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/SDK-API-reference.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/README.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/engine-sdk-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/cloud-edge-single-frame-design.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/compatibility-lessons.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/desktop-viewer-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/development-memory.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/engine-sdk-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/large-cached.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/large-force.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/large-orbit.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/ply-cached.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/ply-force.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/ply-orbit.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/shader-hashes.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/small-cached.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/small-force.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/engine/small-orbit.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/render-core
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/render-core/gpu-sort-rtx3080.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/windows
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/evidence/windows/pix-viewer-medium-loaded.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/large-scene-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/model-io-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/model-measurement-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/release-0.1.1.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/release-0.2.0.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/release-0.2.1.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/release-0.2.2.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/render-core-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/.gitignore
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/build_report.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/continuous-interaction.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/continuous-interaction.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/manifest.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/report.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/summary.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/continuous-interaction/trace-summary.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/changjin_v1.ply-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/changjin_v1.ply-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/changjin_v1.ply-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/jiulonghu_v1.ply-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/jiulonghu_v1.ply-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/jiulonghu_v1.ply-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/model-load-stages.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/shengyi_v1.ply-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/shengyi_v1.ply-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/shengyi_v1.ply-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_shengyi_v1.spz-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_shengyi_v1.spz-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_shengyi_v1.spz-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_tumu_v1.spz-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_tumu_v1.spz-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/spz_tumu_v1.spz-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/tumu_v1.ply-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/tumu_v1.ply-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/tumu_v1.ply-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/changjin_v1_ply-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/image-quality.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/results.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/shengyi_v1_ply-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_shengyi_v1_spz-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/spz_tumu_v1_spz-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/tumu_v1_ply-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-default-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-left-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-difference.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-native.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired/zhihuizhimen_ply-right-spark.rgba
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/web-paired-summary.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/windows-diagnostics.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/windows-stages.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/zhihuizhimen.ply-windows-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/zhihuizhimen.ply-windows-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/evidence/zhihuizhimen.ply-windows-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-android.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-android.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-cloud.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-cloud.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-web.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-web.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-windows.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/architecture-windows.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/compute-pipeline.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/compute-pipeline.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/maximum-load-stages.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/maximum-load-stages.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/module-boundaries.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/module-boundaries.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-completed-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-completed-comparison.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-gpu-scopes.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-gpu-scopes.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-load-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/web-load-comparison.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/windows-gpu-stages.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures/windows-gpu-stages.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/figures.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/interactive_figures.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/interactive_summary.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/interactive_trace_summary.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/measure_windows.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/merge_interactive_retry.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/package_interactive.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/package_report.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/README.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/report-manifest.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/reports/native3dgs-2026-10-04/report.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SDK-API-reference.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SDK-guide.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/sdk-review-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SPEC-desktop-viewer.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SPEC-engine-sdk.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SPEC-model-io.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SPEC-model-measurement.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/SPEC-render-core.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/system-technical-design.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/technical-development-plan.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/.gitignore
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/aggregation-guard-verification.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/browser-measured-driver.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/diagnostics.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/environment.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/he_v1.ply-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/he_v1.ply-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/he_v1.ply-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/jiulonghu_v1.ply-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/jiulonghu_v1.ply-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/jiulonghu_v1.ply-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/ocr-followup.txt
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/ocr-initial.txt
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/protocol.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/raw-browser-samples.zip
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/README.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/reference-poses.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/review.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/runs.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/shengyi_v1.ply-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/shengyi_v1.ply-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/shengyi_v1.ply-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_he_v1.spz-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_he_v1.spz-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_he_v1.spz-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_jiulonghu_v1.spz-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_jiulonghu_v1.spz-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_jiulonghu_v1.spz-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_shengyi_v1.spz-native-0.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_shengyi_v1.spz-native-1.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/spz_shengyi_v1.spz-native-2.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/summary.csv
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/summary.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/three-engine-comparison.pdf
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/three-engine-comparison.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/three-engine-comparison.svg
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/he_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/he_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/he_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/he_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/jiulonghu_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/jiulonghu_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/jiulonghu_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/jiulonghu_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/results.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/runner.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/shengyi_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/shengyi_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/shengyi_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/shengyi_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_he_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_he_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_he_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_he_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_jiulonghu_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_jiulonghu_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_jiulonghu_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_jiulonghu_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_shengyi_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_shengyi_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_shengyi_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-0/spz_shengyi_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/he_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/he_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/he_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/he_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/jiulonghu_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/jiulonghu_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/jiulonghu_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/jiulonghu_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/results.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/runner.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/shengyi_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/shengyi_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/shengyi_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/shengyi_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_he_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_he_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_he_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_he_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_jiulonghu_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_jiulonghu_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_jiulonghu_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_jiulonghu_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_shengyi_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_shengyi_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_shengyi_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-1/spz_shengyi_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/he_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/he_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/he_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/he_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/jiulonghu_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/jiulonghu_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/jiulonghu_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/jiulonghu_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/results.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/runner.log
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/shengyi_v1.ply-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/shengyi_v1.ply-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/shengyi_v1.ply-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/shengyi_v1.ply-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_he_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_he_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_he_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_he_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_jiulonghu_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_jiulonghu_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_jiulonghu_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_jiulonghu_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_shengyi_v1.spz-native.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_shengyi_v1.spz-native.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_shengyi_v1.spz-spark.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/web-repeat-2/spz_shengyi_v1.spz-spark.png
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/windows-measured-driver.py
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/windows-pilot-parser-failure.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/verification/three-engine-2026-10-06/windows-results.json
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/docs/windows-performance-verification.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/GUI/README.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/dependencies.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/licenses/miniply/LICENSE.md
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/licenses/spz/LICENSE
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/licenses/zlib/LICENSE
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/licenses/zstd/LICENSE
+-- Installing: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\stage/share/Native3DGS/licenses/parallel-sort/LICENSE.txt
+-- Building for: Visual Studio 18 2026
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+-- The CXX compiler identification is MSVC 19.50.35729.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (12.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/21544/AppData/Local/Temp/Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197/build
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(561,5): warning MSB8029: 中间目录或输出目录无法驻留在临时目录下，因为这可能会导致增量生成出现问题。 [C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\build\ZERO_CHECK.vcxproj]
+  1>Checking Build System
+C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(561,5): warning MSB8029: 中间目录或输出目录无法驻留在临时目录下，因为这可能会导致增量生成出现问题。 [C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\build\sdk-host.vcxproj]
+  Building Custom Rule C:/Users/21544/AppData/Local/Temp/Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197/relocated-sdk/examples/sdk-host/CMakeLists.txt
+  正在扫描源以查找模块依赖项...
+  main.cpp
+  正在编译...
+  main.cpp
+  sdk-host.vcxproj -> C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\build\Release\sdk-host.exe
+C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(561,5): warning MSB8029: 中间目录或输出目录无法驻留在临时目录下，因为这可能会导致增量生成出现问题。 [C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197\build\ALL_BUILD.vcxproj]
+  Building Custom Rule C:/Users/21544/AppData/Local/Temp/Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197/relocated-sdk/examples/sdk-host/CMakeLists.txt
+SDK OK frames=25 active=1 splats=1179648
+MEASUREMENT OK meters=3.94463 scale=2 estimated=1 elapsed_ms=1105
+Independent relocated SDK consumer passed: C:\Users\21544\AppData\Local\Temp\Native3DGS-consumer-36d468bd3fab4a1ba2338f0c31f81197
+<end of output>
+Test time =  27.51 sec
+----------------------------------------------------------
+Test Passed.
+"InstalledSDK" end time: Oct 25 23:55 �й���׼ʱ��
+"InstalledSDK" time elapsed: 00:00:27
+----------------------------------------------------------
+
+End testing: Oct 25 23:55 �й���׼ʱ��

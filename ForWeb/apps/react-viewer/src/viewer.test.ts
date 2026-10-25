@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Camera } from "@native3dgs/web";
 import type { Result, WebEngine } from "@native3dgs/web";
-import { ViewerSession } from "./viewer";
+import { ViewerSession, memory } from "./viewer";
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => {
   vi.clearAllTimers();
@@ -117,4 +117,10 @@ describe("Standalone viewer host transactions", () => {
     expect(viewer.getSnapshot().message).toBe("");
     viewer.dispose();
   });
+});
+
+it("formats optional allocation diagnostics without claiming unknown memory is zero", () => {
+  expect(memory(undefined)).toBe("未提供");
+  expect(memory(16 * 2 ** 20)).toBe("16.0 MiB");
+  expect(memory(0)).toBe("0.0 MiB");
 });
