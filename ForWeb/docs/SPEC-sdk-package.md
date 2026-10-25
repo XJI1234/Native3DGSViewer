@@ -26,11 +26,11 @@ Always: validate inputs and resource arithmetic, preserve ownership/identity, te
 ## Release artifact provenance
 
 The current Web preview attached to native v0.2.2 is named
-`Native3DGS-SDK-0.2.2-Web-WebGPU-preview.3.zip`, with package version
-`0.2.2-preview.3` and internal tarball `native3dgs-web-0.2.2-preview.3.tgz`.
+`Native3DGS-SDK-0.2.2-Web-WebGPU-preview.4.zip`, with package version
+`0.2.2-preview.4` and internal tarball `native3dgs-web-0.2.2-preview.4.tgz`.
 The matching standalone source templates are
-`Native3DGS-Template-0.2.2-Web-React-preview.3.zip` and
-`Native3DGS-Template-0.2.2-Web-Vue-preview.3.zip`.
+`Native3DGS-Template-0.2.2-Web-React-preview.4.zip` and
+`Native3DGS-Template-0.2.2-Web-Vue-preview.4.zip`.
 Packaging requires committed source and a matching build inventory. Internal
 MANIFEST.json identifies actual SDK/template commits, dependencies and per-file
 SHA-256. Template vendor tarballs must exactly match the SDK archive tarball.
@@ -45,3 +45,5 @@ The migration guide must document strict/single opt-outs, threaded assets,
 COOP/COEP/MIME, initialization-only options and measurement attribution.
 Installed SDK and independent template consumers must test real WASM, both
 frameworks, resource cleanup and the default behavior before publication.
+
+preview.4 adds bounded SPZ v4 decode with budget-scaled batches and optional allocation diagnostics. Recursive asset replacement and full-quality/low-budget browser cases are required; see SDK-migration-preview4.md.

@@ -68,3 +68,45 @@ test('GPU disposal remains bounded when timestamp mapping never completes', asyn
         vi.useRealTimers();
     }
 });
+
+test('final backing cleanup can retry a transient directory failure', async () => {
+    const removeEntry = vi.fn(async () => {});
+    const getDirectory = vi
+        .fn()
+        .mockRejectedValueOnce(Error('storage unavailable'))
+        .mockResolvedValue({ removeEntry });
+    vi.stubGlobal('navigator', { storage: { getDirectory } });
+    try {
+        const backing = diskBacking('gs-9876', new File(['x'], 'fixture'));
+        await expect(backing.release()).rejects.toThrow('storage unavailable');
+        await backing.release();
+        await backing.release();
+        expect(getDirectory).toHaveBeenCalledTimes(2);
+        expect(removeEntry).toHaveBeenCalledOnce();
+    } finally {
+        vi.unstubAllGlobals();
+    }
+});
+
+test('concurrent renderer disposal shares the actual cleanup completion', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => {
+        release = resolve;
+    });
+    const destroy = vi.fn();
+    const renderer = Object.assign(Object.create(Renderer.prototype) as Renderer, {
+        ownedScenes: new Set(),
+        timingReady: gate,
+        device: { queue: { onSubmittedWorkDone: () => gate }, destroy },
+        context: { unconfigure: vi.fn() },
+        frame: { destroy },
+        dummy: { destroy },
+    });
+    const first = renderer.dispose(),
+        second = renderer.dispose();
+    expect(first).toBe(second);
+    expect(destroy).not.toHaveBeenCalled();
+    release();
+    await second;
+    expect(destroy).toHaveBeenCalledTimes(3);
+});

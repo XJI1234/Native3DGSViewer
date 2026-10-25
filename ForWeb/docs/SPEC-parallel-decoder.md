@@ -1,5 +1,9 @@
 # 可回退的并行 WASM 解码（preview.3）
 
+2026-10-25 增量：SPZ v4 使用有界 Zstd/OPFS 路径，单线程与 pthreads
+复用 v4 vendor unpack、批次规范化和 tile 打包。auto 继续遵循能力/预算回退，
+Zstd 解压为串行；批次随可用 CPU 预算缩小，详见 [model-io](SPEC-model-io.md)。
+
 2026-10-06。用户已授权实现、完整测试、性能比较及迁移文档。沿用 model-io → engine → adapters；不改 native SDK、渲染数据 ABI、点数、SH、精度或相机交互。
 
 ## 契约与实现顺序

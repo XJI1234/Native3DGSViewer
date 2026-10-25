@@ -31,7 +31,7 @@ export function decoderPolicy(
             throw Error('UnsupportedCapability: cross-origin isolation/SharedArrayBuffer');
         return single('Cross-origin isolation unavailable');
     }
-    if (!streaming) return single('Small PLY or SPZ v4 uses the bounded single-thread path');
+    if (!streaming) return single('Small PLY uses the bounded single-thread path');
     if (mode === 'auto' && count < 262144) return single('Model below parallel threshold');
     // Reserve headroom for base module, pthread stacks and initialization scratch.
     if (cpuAvailable < 128 * 2 ** 20) {

@@ -1,0 +1,103 @@
+{
+  "tool": "open-code-review 1.13.3",
+  "scope": "Audit-only snapshot of complete Web core/SDK/native code plus shared normalization and React/Vue templates",
+  "reviewedFiles": 45,
+  "comments": [
+    {
+      "id": 1,
+      "path": "ForWeb/src/react.ts",
+      "severity": "medium",
+      "finding": "The effect tracks the ref object's identity, not the element it refers to. With a supported RefObject host, rendering the host conditionally (initially null) or replacing its DOM element leaves this dependency unchanged: initialization never starts, or the engine remains bound to the detached element. Resolve host changes through a callback-ref/element-state lifecycle (or another mechanism that observes the actual element), and recreate/clean up the binding when that element changes.",
+      "disposition": "documented-contract",
+      "resolution": "RefObject supports only fixed mounted hosts; conditional/replaced hosts use HTMLElement callback refs. SPEC-web-adapters Host binding and independent SDK browser conditionalHosts tests confirm this."
+    },
+    {
+      "id": 2,
+      "path": "ForWeb/src/splat-types/async.ts",
+      "severity": "high",
+      "finding": "`abortable` only rejects its wrapper; it does not cancel `work` and has no way to dispose a value that resolves after the abort. The comment promises that late work cannot publish or write GPU resources, but that guarantee is false for any caller that wraps resource-producing work (for example, a future upload/renderer creation path): the underlying promise continues and its result is discarded after this wrapper rejects. Require the underlying operation to be cancelled and/or provide an abort cleanup callback (and make every resource-producing caller dispose late results), rather than exposing this as a general cancellation guarantee.",
+      "disposition": "clarified",
+      "resolution": "abortable stops waiting and does not own work cancellation. Corrected misleading comment; all resource-producing callers inspected for signals/late cleanup."
+    },
+    {
+      "id": 3,
+      "path": "ForWeb/apps/vue-viewer/src/style.css",
+      "severity": "unspecified",
+      "finding": "When `message` is non-empty, `.alert` is an additional direct child of `.shell` before the footer. With only four explicit rows, CSS grid places the alert in the footer row and creates an implicit row for the actual footer, so the footer/alert ordering and viewport sizing change exactly when an error is displayed (and the fixed-height shell can overflow). Add an explicit row for the alert (and mirror that in the mobile grid definition), or use an auto-placement layout that accounts for all five children.",
+      "disposition": "fixed",
+      "resolution": "Both template grid layouts include separate alert and footer rows; template browser checks include error state."
+    },
+    {
+      "id": 4,
+      "path": "ForWeb/package.json",
+      "severity": "high",
+      "finding": "The build command cannot produce the package advertised by `exports`: this tree contains neither a Vite configuration nor an `index.html`, and also has no `tsconfig.json` or `tools/package-notices.mjs`. Consequently, `vite build` uses its default HTML entry and fails before generating `dist/index.js` (and the subsequent declaration/notices steps are not runnable either). Include the SDK library build configuration and referenced tooling so a clean checkout can build the exported JS, declarations, and decoder assets.",
+      "disposition": "snapshot-artifact",
+      "resolution": "Audit-only snapshot omitted build tools/config; real repository contains vite.config.ts, tsconfig.json and tools/package-notices.mjs; actual build and installed consumers pass."
+    },
+    {
+      "id": 5,
+      "path": "ForWeb/src/engine/engine.ts",
+      "severity": "high",
+      "finding": "Cancellation settles this wrapper without waiting for recoverTransaction's cleanup. For example, dispose() during oldRenderer.dispose() aborts this promise immediately; dispose() then awaits the already-settled recovery and calls renderer.dispose(), which returns immediately because that renderer is already marked stopped. The engine can therefore publish Stopped and resolve disposal while the original transaction still owns GPU resources and backing references. A timeout also clears the recovery guard while that work is running. Track the underlying transaction/cleanup promise separately and join it during disposal (and before permitting another recovery), even if the public recovery result settles promptly on cancellation.",
+      "disposition": "fixed",
+      "resolution": "Separate serialized recovery cleanup chain is joined by dispose; public timeout remains prompt. Regression holds cleanup and asserts Stopping until release."
+    },
+    {
+      "id": 6,
+      "path": "ForWeb/src/web-adapters/dom.ts",
+      "severity": "medium",
+      "finding": "Pointer input uses the uncapped pixelRatio although resize() caps the rendering ratio. The public API accepts any positive finite value, so a value such as Number.MAX_VALUE produces infinite deltas on an ordinary drag and causes an uncaught 'Non-finite camera input' exception (the pointer-lock path has the same problem). Retain and use a bounded effective ratio for both sizing and pointer movement, or reject ratios that cannot safely be used for input scaling.",
+      "disposition": "fixed",
+      "resolution": "Resize stores the effective bounded pixel ratio; locked and drag input use it. Number.MAX_VALUE regression validates finite input."
+    },
+    {
+      "id": 7,
+      "path": "ForWeb/src/render-core/renderer.ts",
+      "severity": "medium",
+      "finding": "The cached `configured` flag can become stale when a second WebEngine is created for the same canvas. Both renderers obtain the same GPUCanvasContext, but each has a different device. After the second renderer configures it, the first renderer returns here and draws to a texture owned by the second device, producing validation errors (and potentially faulting both instances). `surfaceOwners` currently guards only disposal. Check ownership before returning, and either reject concurrent ownership explicitly or enforce exclusive canvas ownership during creation.",
+      "disposition": "fixed",
+      "resolution": "One live Renderer owns each Canvas context from successful creation; second initialization rejects without disturbing owner. Browser duplicate create/capture and late recovery tests pass."
+    },
+    {
+      "id": 8,
+      "path": "src/model-io/normalize/normalize.h",
+      "severity": "high",
+      "finding": "INFINITY is defined by <cmath>, but neither this header nor its include chain includes it. normalize.cpp includes normalize.h before <cmath>, so this translation unit can fail to compile with INFINITY undeclared (including in the WASM target). Include <cmath> here, or use std::numeric_limits<double>::infinity() with an explicit <limits> include.",
+      "disposition": "fixed",
+      "resolution": "normalize.h explicitly includes cmath. Both Windows Release and single/threaded WASM compile."
+    },
+    {
+      "id": 9,
+      "path": "src/model-io/normalize/normalize.cpp",
+      "severity": "medium",
+      "finding": "This comparison accepts a finite value against infinity: both sides become infinity and `infinity <= infinity` is true. Consequently validate_scene accepts infinite min/max/maxScale metadata even when the arrays are finite. Reject nonfinite operands before applying the tolerance so this validation boundary actually enforces finite metadata.",
+      "disposition": "fixed",
+      "resolution": "near rejects nonfinite operands; shared native regression corrupts min/max/maxScale with infinity."
+    },
+    {
+      "id": 10,
+      "path": "src/model-io/normalize/normalize.cpp",
+      "severity": "medium",
+      "finding": "Rebasing to float can make the writer's output fail validate_scene's bounds comparison. For example, source x coordinates 1 and 10000000000 produce origin 5000000000.5; the first local coordinate rounds to -5000000000, reconstructing a minimum of 0.5 rather than 1, outside near()'s tolerance. gs_finish validates immediately afterward, so otherwise valid PLY/SPZ loads are rejected. Preserve the original world bounds, but make validation account for float32 rebasing error (rather than only the magnitude of the reconstructed world bound), and add a round-trip regression with a large span and near-zero endpoint.",
+      "disposition": "fixed",
+      "resolution": "Bounds validation adds a float32 local-coordinate rounding allowance while retaining original metadata and rejecting larger mismatches. Shared native large-span regression passes."
+    },
+    {
+      "id": 11,
+      "path": "ForWeb/src/model-io/streaming.ts",
+      "severity": "high",
+      "finding": "`_gs_decode_batch` is entered when `threads > 1`, but the native implementation used by this call stores its active `SceneHeader`, `SceneWriter`, `inspected`, and error state in module-global variables while its pthread tasks call `gs_begin_batch`/`gs_release` concurrently. Those tasks can overwrite or free another task's state, producing corrupted tiles or intermittent decoder failures. The parallel path needs per-task decoder state (or otherwise serialized access) before enabling it here.",
+      "disposition": "false-positive",
+      "resolution": "GS_DECODER_LOCAL is thread_local under __EMSCRIPTEN_PTHREADS__ in native/decoder.h. Per-task SceneHeader/writer/probe/error are independent; SH0-3/1-8 thread byte-equivalence tests pass."
+    },
+    {
+      "id": 12,
+      "path": "ForWeb/src/model-io/backing.ts",
+      "severity": "medium",
+      "finding": "When the first release reaches zero references, this caches the cleanup promise forever. `removeJob` races the deletion against a timeout but does not cancel the underlying `removeEntry`; if that race rejects, later `release()` calls return the same rejected promise and never retry, leaving the job directory behind. Preserve a retryable cleanup state (and avoid overlapping removals) so transient OPFS contention/timeouts can eventually reclaim the backing.",
+      "disposition": "fixed",
+      "resolution": "Failed final release resets cached cleanup; underlying removal jobs are deduplicated until settled, so retries do not overlap stalled delete operations. Transient directory failure regression passes."
+    }
+  ]
+}

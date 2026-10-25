@@ -1,0 +1,48 @@
+{
+  "tool": "open-code-review 1.13.3",
+  "reviewedFiles": 33,
+  "comments": [
+    {
+      "path": "ForWeb/apps/vue-viewer/src/App.vue",
+      "finding": "These newly added lines are not formatted consistently with the surrounding template (the `<dt>`/`<dd>` entries are under-indented and the long interpolation lines exceed the project's Prettier formatting). Since `format:check` runs Prettier over `src`, this file will fail the app's format check; run Prettier or apply its wrapping/indentation here.",
+      "severity": "low",
+      "disposition": "fixed",
+      "resolution": "Template Prettier runs after installation of the exact preview.4 tarball; enforced by record-template-build."
+    },
+    {
+      "path": "ForWeb/src/render-core/renderer.ts",
+      "finding": "Caching the disposal promise also caches a rejection. `disposeInternal()` can reject when one of the owned scene/backing releases fails (it propagates the rejected `allSettled` result), so the recovery loop's second attempt calls this same rejected promise and never reaches `Renderer.create` for the retry, even though the device has already been destroyed. Either make disposal completion non-rejecting after cleanup (while reporting the error separately) or ensure recovery does not retry the already-failed disposal promise.",
+      "severity": "medium",
+      "disposition": "fixed",
+      "resolution": "Old renderer disposal is awaited once before the reconstruction retry loop. Cleanup errors remain visible and do not start another reconstruction; regression covers rejection."
+    },
+    {
+      "path": "src/model-io/normalize/normalize.cpp",
+      "finding": "The finite operand checks do not prevent overflow in the subsequent subtractions. For example, with `origin = DBL_MAX`, finite local centers reconstruct `actual = DBL_MAX`; a corrupted minimum of `-DBL_MAX` makes both `abs(expected - origin)` and `abs(actual - expected)` infinite, so this comparison becomes `infinity <= infinity` and accepts the invalid bounds. This newly permits inconsistent finite metadata through the untrusted-scene validator. Reject nonfinite intermediate differences/tolerances (or use an overflow-safe comparison), and add an extreme-finite metadata regression case.",
+      "severity": "medium",
+      "disposition": "fixed",
+      "resolution": "Reject nonfinite intermediate difference and rounding values. Native regression corrupts origin/max with DBL_MAX and min with -DBL_MAX."
+    },
+    {
+      "path": "ForWeb/tests/contracts/spz-v4.test.mjs",
+      "finding": "For `degree === 0`, this fixture still emits a sixth zero-width stream and sets `header[15]` to 6. The v4 contract requires 5 streams at SH0 (as `parseSpzV4` and the browser fixture do), so `_gs_probe` rejects the first iteration and this test fails instead of covering SH0. Build the widths/attributes list conditionally for degree 0.",
+      "severity": "unspecified",
+      "disposition": "false-positive",
+      "resolution": "Fixture filters zero-length attrs before making compressed streams; header[15] uses streams.length, hence SH0 has 5 streams. All four degrees pass the actual WASM contract test."
+    },
+    {
+      "path": "ForWeb/src/engine/engine.ts",
+      "finding": "The serialization barrier does not cover renderer creation that outlives an abort. In `recoverTransaction`, `abortable(creating, signal)` can reject while `Renderer.create()` is still pending; its detached `.then()` disposes the late renderer, but neither creation nor that disposal is awaited by the transaction. Consequently `recoveryCleanup` can resolve (and engine disposal can finish) before the late renderer claims the canvas. A subsequent recovery or engine creation can then fail with `Canvas already owned`, despite awaiting this barrier. Include pending creation and its late disposal in the cleanup promise so the next transaction cannot overlap them.",
+      "severity": "medium",
+      "disposition": "fixed",
+      "resolution": "Renderer.create accepts an internal AbortSignal and checks it before device work and immediately before Canvas ownership publication. Aborted late creation cannot claim a surface; pending platform promises are guarded and destroy late devices. Public recover timeout remains bounded."
+    },
+    {
+      "path": "ForWeb/native/zstd.cpp",
+      "finding": "The decompression state is a single module-global context (and the consumed/produced counters are global as well). `inflateSpzV4` awaits file reads between calls, so two concurrent v4 inflations sharing one WASM instance can interleave: the second `gs_zstd_begin()` resets/frees the first stream and the first operation then continues against the wrong frame. This can produce corrupted output or false length/checksum failures. Serialize access at the API/caller or make the context handle-based/per-operation rather than singleton state.",
+      "severity": "high",
+      "disposition": "false-positive",
+      "resolution": "One module/WASM instance belongs to one decoder Worker/job. Each worker runs exactly one serial inflate, and pthread tasks only unpack after inflate completes. No concurrent inflations share the module; this private ABI is not exported as a host SDK stream API."
+    }
+  ]
+}

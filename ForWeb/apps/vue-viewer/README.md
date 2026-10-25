@@ -1,6 +1,6 @@
 # Native3DGS Vue 查看器模板
 
-独立项目，版本 `0.2.2-preview.3`。使用安装后的 `@native3dgs/web` 公开接口及 `/vue` 适配器，不引用仓库内部源码。模板源码包自带 `vendor/native3dgs-web-0.2.2-preview.3.tgz`，不需要先发布到 npm。锁文件固定全部依赖。
+独立项目，版本 `0.2.2-preview.4`。使用安装后的 `@native3dgs/web` 公开接口及 `/vue` 适配器，不引用仓库内部源码。模板源码包自带 `vendor/native3dgs-web-0.2.2-preview.4.tgz`，不需要先发布到 npm。锁文件固定全部依赖。
 
 ## 快速开始
 
@@ -60,7 +60,7 @@ $env:VIEWER_BASE = '/viewer/'
 pnpm build
 ```
 
-将生成目录部署到同一`/viewer/`路径。preview.3 默认使用 auto/4 多线程 WASM 与 adaptive 排序；Vite dev/preview 已配置 COOP/COEP。生产服务器必须添加这些头才能自动启用 pthreads；缺少隔离时 auto 仍可回退单线程。CSP应允许应用脚本、同源Worker、WASM执行及必要模型connect-src；按网站实际域名配置，不能让资源请求返回登录页或跨域重定向。
+将生成目录部署到同一`/viewer/`路径。preview.4 默认使用 auto/4 多线程 WASM 与 adaptive 排序；Vite dev/preview 已配置 COOP/COEP。生产服务器必须添加这些头才能自动启用 pthreads；缺少隔离时 auto 仍可回退单线程。CSP应允许应用脚本、同源Worker、WASM执行及必要模型connect-src；按网站实际域名配置，不能让资源请求返回登录页或跨域重定向。
 
 ### Nginx 部署排错
 
@@ -93,7 +93,7 @@ location = /gs-assets/threaded/decoder.mjs {
 升级SDK时替换vendor中的tarball、更新package.json文件依赖并重新生成pnpm-lock.yaml；运行unit/typecheck/build及真实浏览器加载/翻转/卸载验收，再发布。两模板故意各自携带相同viewer/style/tests以保持解压即用；维护时同时更新，仓库工具校验一致性。SDK与模板均为preview，附于原生v0.2.2 release，实际来源commit/hash以MANIFEST.json为准。模型和SparkJS不随包分发；第三方许可在安装包资源licenses中，仓库自有代码遵循仓库所有者条款。
 
 
-## preview.3 默认特性与迁移
+## preview.4 默认特性与迁移
 
 模板通过公开 EngineOptions 配置 `decoder: {mode:'auto',threads:4}` 与
 `sorting: {mode:'adaptive'}`，并在诊断面板展示实际解码路径和排序状态。
@@ -101,7 +101,7 @@ location = /gs-assets/threaded/decoder.mjs {
 增强启动复用 threaded/decoder.mjs，不需要额外 worker.js。
 
 自动 pthreads 需要安全上下文、crossOriginIsolated、SharedArrayBuffer、
-分块路径至少 262,144 点、至少两个硬件线程及足够预算。小模型、SPZ v4、
+分块路径至少 262,144 点、至少两个硬件线程及足够预算。小模型、
 非隔离或增强初始化受限时使用 single；gzip 和重定位仍为串行。
 实际后端以 snapshot.decoder 为准，线程更多不保证更快。
 
@@ -124,3 +124,9 @@ SH 和裁剪，仅在小位移时暂时复用透明度顺序，截图强制刷�
 
 新版源码包内 MANIFEST.json 记录实际模板和 SDK 提交、文件完整性清单；
 Release 不附独立哈希文件。Web 包独立于原生 v0.2.2 tag，不表示发布 npm。
+
+## preview.4 的 SPZ v4 路径
+
+v4 逐属性 Zstd 解压到 OPFS，再以有界 WASM 批次保留全部点和 SH0–3；支持单线程与隔离站点的 pthreads。两份完整 v4 样例已纳入生产模板验收。信息面板显示公共 snapshot.decoder 的 WASM 堆高水位和每批点数；缺失诊断显示“未提供”。堆值不代表浏览器 RSS。
+
+在创建配置中设置 `limits: { cpuBytes: 64 * 2 ** 20 }` 可降低 CPU 策略预算，auto 会缩小批次并在需要时回退单线程；仍需足够 GPU 与 OPFS 配额。升级必须一起更换 SDK、Worker、单线程和 threaded WASM，运行 `pnpm assets` 并清除旧缓存。

@@ -8,7 +8,7 @@ await mkdir('.local/template-tests', { recursive: true });
 const output = await mkdtemp(resolve('.local/template-tests/run-'));
 const modelRoot = process.env.GS_MODEL_ROOT;
 if (!modelRoot) throw Error('GS_MODEL_ROOT is required for the external PLY/SPZ acceptance cases');
-for (const name of ['changjin_v1.ply', 'spz/shengyi_v1.spz']) if (!(await stat(resolve(modelRoot,name))).isFile()) throw Error('Missing external fixture: '+name);
+for (const name of ['changjin_v1.ply', 'spz/shengyi_v1.spz', 'spz/danganguan_spzv4.spz', 'spz/zhihuizhimen_spzv4.spz']) if (!(await stat(resolve(modelRoot,name))).isFile()) throw Error('Missing external fixture: '+name);
 const names=['x','y','z','f_dc_0','f_dc_1','f_dc_2','opacity','scale_0','scale_1','scale_2','rot_0','rot_1','rot_2','rot_3'];
 const header=Buffer.from('ply\nformat binary_little_endian 1.0\nelement vertex 3\n'+names.map(n=>'property float '+n+'\n').join('')+'end_header\n');
 const rows=[[0,.6,0,1.5,-1.5,-1.5,3,-2.3,-2.8,-2.8,1,0,0,0],[-.5,-.6,0,-1.5,1.5,-1.5,3,-2.3,-2.8,-2.8,1,0,0,0],[.6,-.3,0,-1.5,-1.5,1.5,3,-2.3,-2.8,-2.8,1,0,0,0]];
@@ -143,6 +143,15 @@ for(const framework of ['react','vue']) for(const mode of ['production','develop
             await input.setInputFiles(resolve(modelRoot,'spz/shengyi_v1.spz'));
             await page.waitForFunction(()=>document.querySelector('[data-testid=count]')?.textContent==='804,758',undefined,{timeout:120000});
             assert.ok((await page.getByTestId('decoder').textContent()).includes('pthreads'),'Automatic pthreads missing');
+            for (const [name,count] of [['danganguan_spzv4.spz','1,859,737'],['zhihuizhimen_spzv4.spz','3,904,214']]) {
+                await input.setInputFiles(resolve(modelRoot,'spz',name));
+                await page.waitForFunction(count=>document.querySelector('[data-testid=count]')?.textContent===count,count,{timeout:180000});
+                assert.ok((await page.getByTestId('decoder').textContent()).includes('pthreads'),'v4 pthreads missing');
+                assert.equal(await page.getByText('SH 3',{exact:true}).count(),1,'v4 SH3 missing');
+                assert.match(await page.getByTestId('decoder-memory').textContent(),/MiB/,'Public v4 memory diagnostics missing');
+                await page.screenshot({path:resolve(output,framework+'-'+name+'.png')});
+            }
+
         }
         const layouts=[];
         for(const width of [320,768,1024,1440]) {
@@ -159,7 +168,7 @@ for(const framework of ['react','vue']) for(const mode of ['production','develop
         assert.deepEqual(errors,[]);
         assert.deepEqual(await inputs(root),sourceBefore,'Source changed during browser test');
         assert.deepEqual(await walk(root+'/dist'),outputsBefore,'Dist changed during browser test');
-        records.push({framework,mode,sources:sourceBefore,outputs:outputsBefore,poses,layouts,actualYReflection:true,faultInjection:'uncaptured validation error + device destruction, not hardware loss',cancelPreservedScene:true,urlFailurePreservedScene:true,recovery:true,realPlySpz:mode==='production',crossOriginIsolated:true,smallModelSingleFallback:true,adaptiveSorting:true,automaticPthreads:mode==='production',unmount:mode==='development',errors});
+        records.push({framework,mode,sources:sourceBefore,outputs:outputsBefore,poses,layouts,actualYReflection:true,faultInjection:'uncaptured validation error + device destruction, not hardware loss',cancelPreservedScene:true,urlFailurePreservedScene:true,recovery:true,realPlySpz:mode==='production',fullSpzV4:mode==='production',crossOriginIsolated:true,smallModelSingleFallback:true,adaptiveSorting:true,automaticPthreads:mode==='production',unmount:mode==='development',errors});
         console.log('PASS',framework,mode);
     } finally { try { await context?.close(); } finally { if(!serverExited)server.kill();
         try { await within(serverClosed,5000,'Vite shutdown timeout'); }

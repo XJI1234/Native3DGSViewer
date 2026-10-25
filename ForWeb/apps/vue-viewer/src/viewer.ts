@@ -227,3 +227,7 @@ export function status(
   if (!initialized) return "正在初始化";
   return phases[phase] ?? phase;
 }
+
+/** Linear WASM memory / engine estimates, never process RSS. */
+export const memory = (bytes: number | undefined): string =>
+  bytes === undefined ? "未提供" : `${(bytes / 2 ** 20).toFixed(1)} MiB`;

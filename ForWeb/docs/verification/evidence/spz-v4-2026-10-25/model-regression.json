@@ -1,0 +1,913 @@
+{
+  "rows": [
+    {
+      "model": "changjin_v1.ply",
+      "sha256": "7c7cb96bed46540483fdd488544dab77a6bf512d97621f1d6b02334793637b83",
+      "result": {
+        "ok": true
+      },
+      "count": 170799,
+      "degree": 3,
+      "ms": 555.2999999970198,
+      "cleanupMs": 15.974999994039536,
+      "stages": {
+        "Inspecting": 35.16499999165535,
+        "Downloading": 267.6200000047684,
+        "Decoding": 104.67500001192093,
+        "Rebasing": 49.08500000834465,
+        "Uploading": 98.68500000238419,
+        "Ready": 0.04999999701976776
+      },
+      "gpuBytes": 49963240,
+      "packing": "tiled",
+      "backingBytes": 40312576,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "citang_v1.ply",
+      "sha256": "11cf012d7db52f12983658be19706a7b1bfc15f5d856839af05b901625035f20",
+      "result": {
+        "ok": true
+      },
+      "count": 2116317,
+      "degree": 3,
+      "ms": 5372.769999995828,
+      "cleanupMs": 53.025000005960464,
+      "stages": {
+        "Inspecting": 34.18000000715256,
+        "Downloading": 3037.579999998212,
+        "Decoding": 864.5049999952316,
+        "Rebasing": 473.77500000596046,
+        "Uploading": 962.6850000023842,
+        "Ready": 0.014999985694885254
+      },
+      "gpuBytes": 619033384,
+      "packing": "tiled",
+      "backingBytes": 499459072,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "danganguan_v1.ply",
+      "sha256": "873d606b256bee9c90e6857da83a97f323d5bf729a9fd70726cf2227422fcc39",
+      "result": {
+        "ok": true
+      },
+      "count": 1888950,
+      "degree": 3,
+      "ms": 5254.719999998808,
+      "cleanupMs": 45.23499999940395,
+      "stages": {
+        "Inspecting": 33.70499999821186,
+        "Downloading": 2843.0199999958277,
+        "Decoding": 925.9549999982119,
+        "Rebasing": 467.82500000298023,
+        "Uploading": 984.1349999904633,
+        "Ready": 0.025000005960464478
+      },
+      "gpuBytes": 552522400,
+      "packing": "tiled",
+      "backingBytes": 445794560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "haiwai_v1.ply",
+      "sha256": "0876561c8762f4eb083e4478e93af89e7dc0f35c45cbd9c50cc4bf065abc86e2",
+      "result": {
+        "ok": true
+      },
+      "count": 1838109,
+      "degree": 3,
+      "ms": 4557.175000011921,
+      "cleanupMs": 51.685000002384186,
+      "stages": {
+        "Inspecting": 38.98499999940395,
+        "Downloading": 2483.859999999404,
+        "Decoding": 823.8849999904633,
+        "Rebasing": 427.5649999976158,
+        "Uploading": 782.8249999880791,
+        "Ready": 0.01000000536441803
+      },
+      "gpuBytes": 537657384,
+      "packing": "tiled",
+      "backingBytes": 433801984,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "he_v1.ply",
+      "sha256": "78872df3e6e108941fd60be72ca74865c21e47c178f9f31bef576d741f605064",
+      "result": {
+        "ok": true
+      },
+      "count": 2973002,
+      "degree": 3,
+      "ms": 7134.390000000596,
+      "cleanupMs": 66.44499999284744,
+      "stages": {
+        "Inspecting": 33.939999997615814,
+        "Downloading": 3820.5,
+        "Decoding": 1211.2099999934435,
+        "Rebasing": 627.1949999928474,
+        "Uploading": 1441.5,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 869619168,
+      "packing": "tiled",
+      "backingBytes": 701641216,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "J1_v3.ply",
+      "sha256": "c13de5aa1813bf80b8da965a6c692512d184fe58a1810491248b17130ae65d15",
+      "result": {
+        "ok": true
+      },
+      "count": 2625008,
+      "degree": 3,
+      "ms": 6185.715000003576,
+      "cleanupMs": 58.060000002384186,
+      "stages": {
+        "Inspecting": 36.83499999344349,
+        "Downloading": 3369.689999997616,
+        "Decoding": 1081.4899999946356,
+        "Rebasing": 575.6299999952316,
+        "Uploading": 1122.0199999958277,
+        "Ready": 0.030000001192092896
+      },
+      "gpuBytes": 767821536,
+      "packing": "tiled",
+      "backingBytes": 619505664,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jiaoxuelou_v2.ply",
+      "sha256": "daf6d0adf83bf86f6afb55778eaaa5de65d76fa15b49be9c3b5ea5e938174e46",
+      "result": {
+        "ok": true
+      },
+      "count": 2233426,
+      "degree": 3,
+      "ms": 5682.030000001192,
+      "cleanupMs": 60.679999992251396,
+      "stages": {
+        "Inspecting": 34.50499999523163,
+        "Downloading": 3054.7900000065565,
+        "Decoding": 1004.0300000011921,
+        "Rebasing": 496.44499999284744,
+        "Uploading": 1092.2250000089407,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 653290560,
+      "packing": "tiled",
+      "backingBytes": 527099392,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jiulonghu_v1.ply",
+      "sha256": "bfabdedb67d3d83dea046834dff6b50152dda3c513ef48037a332671bd155c85",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 51693.52500000596,
+      "cleanupMs": 488.9450000077486,
+      "stages": {
+        "Inspecting": 32.91500000655651,
+        "Downloading": 28812.584999993443,
+        "Decoding": 9893.57500000298,
+        "Rebasing": 3868.625,
+        "Uploading": 9085.765000000596,
+        "Ready": 0.025000005960464478
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "jizhonglou_v2.ply",
+      "sha256": "52d2ec190bf99a0b7dbb1d64379c854b74fead9fb6c223c79567ee15ca127fd0",
+      "result": {
+        "ok": true
+      },
+      "count": 1576115,
+      "degree": 3,
+      "ms": 4063.080000013113,
+      "cleanupMs": 39.38500000536442,
+      "stages": {
+        "Inspecting": 37.54000000655651,
+        "Downloading": 2259.9450000077486,
+        "Decoding": 714.1450000107288,
+        "Rebasing": 367.2849999964237,
+        "Uploading": 684.1149999946356,
+        "Ready": 0.02000001072883606
+      },
+      "gpuBytes": 461018600,
+      "packing": "tiled",
+      "backingBytes": 371966208,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "juyuan_v2.ply",
+      "sha256": "37ee2dbfeebeb1ff27f5592ebab25cc7fc63a7a8de4551a02d5f8befd5c72129",
+      "result": {
+        "ok": true
+      },
+      "count": 2670017,
+      "degree": 3,
+      "ms": 6556.535000011325,
+      "cleanupMs": 80.3999999910593,
+      "stages": {
+        "Inspecting": 34.900000005960464,
+        "Downloading": 3582.6650000065565,
+        "Decoding": 1116.800000011921,
+        "Rebasing": 616.5349999964237,
+        "Uploading": 1205.5849999934435,
+        "Ready": 0.025000005960464478
+      },
+      "gpuBytes": 780997784,
+      "packing": "tiled",
+      "backingBytes": 630138880,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "meiyuan_v2.ply",
+      "sha256": "13483451f28cfd6a488fd83b893a4bb22ee59ff7766537c5e004ee3543c38e0f",
+      "result": {
+        "ok": true
+      },
+      "count": 1312897,
+      "degree": 3,
+      "ms": 3343.875,
+      "cleanupMs": 37.45499999821186,
+      "stages": {
+        "Inspecting": 46.99500000476837,
+        "Downloading": 1752.8049999922514,
+        "Decoding": 557.6799999922514,
+        "Rebasing": 299.79999999701977,
+        "Uploading": 686.5550000071526,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 384038904,
+      "packing": "tiled",
+      "backingBytes": 309858560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "PML_v1.ply",
+      "sha256": "739f5ffc5bf2ca1e231feac3f06c50015416b5fe94a7f171132adffd2c17cfbb",
+      "result": {
+        "ok": true
+      },
+      "count": 851828,
+      "degree": 3,
+      "ms": 2104.7100000083447,
+      "cleanupMs": 30.155000001192093,
+      "stages": {
+        "Inspecting": 33.53500001132488,
+        "Downloading": 1137.7899999916553,
+        "Decoding": 370.8149999976158,
+        "Rebasing": 205.39499999582767,
+        "Uploading": 357.125,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 249163664,
+      "packing": "tiled",
+      "backingBytes": 201034240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "shengyi_v1.ply",
+      "sha256": "31283b07ef49679b5fbe8854669a7a2d948e9cbf76795d4ae4d3057f86683d79",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 2078,
+      "cleanupMs": 29.08500000834465,
+      "stages": {
+        "Inspecting": 35.15500000119209,
+        "Downloading": 1088.9899999946356,
+        "Decoding": 344.9100000113249,
+        "Rebasing": 190.0549999922514,
+        "Uploading": 418.84500001370907,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 235402752,
+      "packing": "tiled",
+      "backingBytes": 189932800,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/citang_v1.spz",
+      "sha256": "1affb1e1dadfc195ef9e652327f39fb633084dee54502cdbb8c5d4d97cea464c",
+      "result": {
+        "ok": true
+      },
+      "count": 2116317,
+      "degree": 3,
+      "ms": 3143.5999999940395,
+      "cleanupMs": 53.15999999642372,
+      "stages": {
+        "Inspecting": 35.87999999523163,
+        "Downloading": 338.97499999403954,
+        "Inflating": 523.859999999404,
+        "Decoding": 691.2199999988079,
+        "Rebasing": 469.27500000596046,
+        "Uploading": 1084.344999998808,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 619033384,
+      "packing": "tiled",
+      "backingBytes": 499459072,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/danganguan_v1.spz",
+      "sha256": "b7ab62c0a2be0bedb08f306a6024f74e0bd997a071ef36e3dc529033e67d3eb2",
+      "result": {
+        "ok": true
+      },
+      "count": 1888950,
+      "degree": 3,
+      "ms": 2640.6449999958277,
+      "cleanupMs": 45.21999999880791,
+      "stages": {
+        "Inspecting": 38.95499999821186,
+        "Downloading": 286.92499999701977,
+        "Inflating": 437.18000000715256,
+        "Decoding": 625.8550000041723,
+        "Rebasing": 456.5649999976158,
+        "Uploading": 795.1350000053644,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 552522400,
+      "packing": "tiled",
+      "backingBytes": 445794560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/haiwai_v1.spz",
+      "sha256": "e4be3db36b388300e88891548061d549e926bc77ac66a6ec98e718003b5b90b5",
+      "result": {
+        "ok": true
+      },
+      "count": 1838109,
+      "degree": 3,
+      "ms": 2866.0900000035763,
+      "cleanupMs": 57.05000001192093,
+      "stages": {
+        "Inspecting": 37.980000004172325,
+        "Downloading": 322.25999999046326,
+        "Inflating": 484.7150000035763,
+        "Decoding": 664.890000000596,
+        "Rebasing": 468.4949999898672,
+        "Uploading": 887.7099999934435,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 537657384,
+      "packing": "tiled",
+      "backingBytes": 433801984,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/he_v1.spz",
+      "sha256": "18da392eb6683b006bbdaec5ac8af7a8155ca58bad62419dff945718c61bf0c4",
+      "result": {
+        "ok": true
+      },
+      "count": 2973002,
+      "degree": 3,
+      "ms": 5055.364999994636,
+      "cleanupMs": 77.01999999582767,
+      "stages": {
+        "Inspecting": 42.50499999523163,
+        "Downloading": 466.75,
+        "Inflating": 741.0849999934435,
+        "Decoding": 1114.5750000029802,
+        "Rebasing": 787.484999999404,
+        "Uploading": 1902.9149999916553,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 869619168,
+      "packing": "tiled",
+      "backingBytes": 701641216,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/J1_v3.spz",
+      "sha256": "2b80aa4a2805ec29a6252a09ae9743a5bc9bb5207e8029a662d83be2c1c3ee5e",
+      "result": {
+        "ok": true
+      },
+      "count": 2625008,
+      "degree": 3,
+      "ms": 3659.494999989867,
+      "cleanupMs": 72.6000000089407,
+      "stages": {
+        "Inspecting": 40.179999992251396,
+        "Downloading": 440.8700000047684,
+        "Inflating": 712.7049999982119,
+        "Decoding": 878.2849999964237,
+        "Rebasing": 565.4650000035763,
+        "Uploading": 1021.9599999934435,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 767821536,
+      "packing": "tiled",
+      "backingBytes": 619505664,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jiaoxuelou_v2.spz",
+      "sha256": "eec92d634f8adab7fcd26a88119aa1cc5d04edbe06c37a2511bc28b6c4d85b30",
+      "result": {
+        "ok": true
+      },
+      "count": 2233426,
+      "degree": 3,
+      "ms": 3173.8649999946356,
+      "cleanupMs": 55.939999997615814,
+      "stages": {
+        "Inspecting": 33.96999999880791,
+        "Downloading": 343.65499998629093,
+        "Inflating": 563.3949999958277,
+        "Decoding": 765.5350000113249,
+        "Rebasing": 509.4599999934435,
+        "Uploading": 957.8050000071526,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 653290560,
+      "packing": "tiled",
+      "backingBytes": 527099392,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jiulonghu_v1.spz",
+      "sha256": "21b143a7262db8d4797f7fc082c744009d3ebc33395c32ba79bacf9bc54444d7",
+      "result": {
+        "ok": true
+      },
+      "count": 22480361,
+      "degree": 3,
+      "ms": 27874.90000000596,
+      "cleanupMs": 493.1050000041723,
+      "stages": {
+        "Inspecting": 33.90500000119209,
+        "Downloading": 2902.9750000089407,
+        "Inflating": 5161.984999999404,
+        "Decoding": 7460.294999986887,
+        "Rebasing": 3438.6599999964237,
+        "Uploading": 8877.015000000596,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 6575533896,
+      "packing": "tiled",
+      "backingBytes": 5305370624,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/jizhonglou_v2.spz",
+      "sha256": "f06f9c62efd6f1f3ad82519295e664af3a65d4a5b4bc8ae84ea850e9b55de12b",
+      "result": {
+        "ok": true
+      },
+      "count": 1576115,
+      "degree": 3,
+      "ms": 2200.839999988675,
+      "cleanupMs": 39.29000000655651,
+      "stages": {
+        "Inspecting": 39.11999998986721,
+        "Downloading": 290.3799999952316,
+        "Inflating": 400.7099999934435,
+        "Decoding": 487.3349999934435,
+        "Rebasing": 358.559999987483,
+        "Uploading": 624.6749999970198,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 461018600,
+      "packing": "tiled",
+      "backingBytes": 371966208,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/juyuan_v2.spz",
+      "sha256": "24133da7801ff5986c350dcc96064cd8e32ecba5226507a68420d698f2c54f2c",
+      "result": {
+        "ok": true
+      },
+      "count": 2670017,
+      "degree": 3,
+      "ms": 3660.9099999964237,
+      "cleanupMs": 75.77000001072884,
+      "stages": {
+        "Inspecting": 36.91499999165535,
+        "Downloading": 381.1850000023842,
+        "Inflating": 619.640000000596,
+        "Decoding": 866.184999987483,
+        "Rebasing": 603.7250000089407,
+        "Uploading": 1153.2299999892712,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 780997784,
+      "packing": "tiled",
+      "backingBytes": 630138880,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/meiyuan_v2.spz",
+      "sha256": "457a2e413ece3725fd1ce0a36114559e1e4d0d85bfc99ee7a1d556c08d9288b0",
+      "result": {
+        "ok": true
+      },
+      "count": 1312897,
+      "degree": 3,
+      "ms": 2051.390000000596,
+      "cleanupMs": 36.60999999940395,
+      "stages": {
+        "Inspecting": 37.685000002384186,
+        "Downloading": 290.5300000011921,
+        "Inflating": 341.54500000178814,
+        "Decoding": 426.8149999976158,
+        "Rebasing": 308.5100000053644,
+        "Uploading": 646.2699999958277,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 384038904,
+      "packing": "tiled",
+      "backingBytes": 309858560,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/shengyi_v1.spz",
+      "sha256": "fd7af1e635b7932fc1fc9a19b2c69606c51a5be0b14ecd62f3fabf9479ca2866",
+      "result": {
+        "ok": true
+      },
+      "count": 804758,
+      "degree": 3,
+      "ms": 1240.9549999982119,
+      "cleanupMs": 24.71500000357628,
+      "stages": {
+        "Inspecting": 38.979999989271164,
+        "Downloading": 216.01999999582767,
+        "Inflating": 239.89499999582767,
+        "Decoding": 238.1550000011921,
+        "Rebasing": 179.04999999701977,
+        "Uploading": 328.82999999821186,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 235402752,
+      "packing": "tiled",
+      "backingBytes": 189932800,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tiyuguan_v1.spz",
+      "sha256": "79bab07b9be85c7c426c124e8e2df263a0184d1ff0ca237189f8f75d1e2ccd63",
+      "result": {
+        "ok": true
+      },
+      "count": 1419007,
+      "degree": 3,
+      "ms": 2117.564999997616,
+      "cleanupMs": 47.85999999940395,
+      "stages": {
+        "Inspecting": 34.84000000357628,
+        "Downloading": 257,
+        "Inflating": 361.3949999958277,
+        "Decoding": 457.6950000077486,
+        "Rebasing": 320.66499999165535,
+        "Uploading": 685.9299999922514,
+        "Ready": 0.024999991059303284
+      },
+      "gpuBytes": 415061448,
+      "packing": "tiled",
+      "backingBytes": 334885888,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tumu_v1.spz",
+      "sha256": "c2296c3500dadd3fe56efb76e984f09fd903f04f676a5e71d4d902a819278167",
+      "result": {
+        "ok": true
+      },
+      "count": 1248730,
+      "degree": 3,
+      "ms": 1974.2449999898672,
+      "cleanupMs": 39.20499999821186,
+      "stages": {
+        "Inspecting": 45.14000000059605,
+        "Downloading": 256.76500000059605,
+        "Inflating": 361.9299999922514,
+        "Decoding": 409.07500000298023,
+        "Rebasing": 285.2849999964237,
+        "Uploading": 616,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 365264048,
+      "packing": "tiled",
+      "backingBytes": 294709248,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/tushuguan_v1.spz",
+      "sha256": "9185c87622c37114d871233df615edee870098872cf8a6a55dbb6b94be3cdaf1",
+      "result": {
+        "ok": true
+      },
+      "count": 1438782,
+      "degree": 3,
+      "ms": 2412.2599999904633,
+      "cleanupMs": 43.7749999910593,
+      "stages": {
+        "Inspecting": 46.74499998986721,
+        "Downloading": 325.6499999910593,
+        "Inflating": 419.67499999701977,
+        "Decoding": 470.8100000023842,
+        "Rebasing": 343.73499999940395,
+        "Uploading": 805.5999999940395,
+        "Ready": 0.024999991059303284
+      },
+      "gpuBytes": 420845968,
+      "packing": "tiled",
+      "backingBytes": 339553024,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/wenke_v2.spz",
+      "sha256": "32913341add47521d7c252ddf8f9d5cb6162fb0b08d694e7b21e50664f8dfee7",
+      "result": {
+        "ok": true
+      },
+      "count": 1757157,
+      "degree": 3,
+      "ms": 2839.6950000077486,
+      "cleanupMs": 46.36499999463558,
+      "stages": {
+        "Inspecting": 37.96500000357628,
+        "Downloading": 349.9950000047684,
+        "Inflating": 492.5300000011921,
+        "Decoding": 599.9600000083447,
+        "Rebasing": 443.54500000178814,
+        "Uploading": 915.6650000065565,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 513976808,
+      "packing": "tiled",
+      "backingBytes": 414695424,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/xingxi_v1.spz",
+      "sha256": "8cdf001e36bdec69c099cba438a7df0cec27cf7c36a6f2fa1c4dafcf4ea55a2a",
+      "result": {
+        "ok": true
+      },
+      "count": 1307854,
+      "degree": 3,
+      "ms": 1936.234999999404,
+      "cleanupMs": 42.189999997615814,
+      "stages": {
+        "Inspecting": 41.26000000536442,
+        "Downloading": 271.7800000011921,
+        "Inflating": 378.0900000035763,
+        "Decoding": 438.8799999952316,
+        "Rebasing": 303.10999999940395,
+        "Uploading": 503.06999999284744,
+        "Ready": 0.024999991059303284
+      },
+      "gpuBytes": 382560656,
+      "packing": "tiled",
+      "backingBytes": 308665344,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "spz/yulin_v1.spz",
+      "sha256": "e5d03e21f82adc4d00a7863f5ffbc140090df30056c049752a1fe1381853d125",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 1718.044999986887,
+      "cleanupMs": 32.90500000119209,
+      "stages": {
+        "Inspecting": 42.304999992251396,
+        "Downloading": 268.14000000059605,
+        "Inflating": 306.9150000065565,
+        "Decoding": 364.7399999946356,
+        "Rebasing": 266.58500000834465,
+        "Uploading": 469.32499998807907,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 300644072,
+      "packing": "tiled",
+      "backingBytes": 242570240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tiyuguan_v1.ply",
+      "sha256": "e5ad87b32f2f9d42aaf2e5e8ae1e9a41beb75385b67d6c5b257060cbd0e874a2",
+      "result": {
+        "ok": true
+      },
+      "count": 1419007,
+      "degree": 3,
+      "ms": 4512.995000004768,
+      "cleanupMs": 43.29000000655651,
+      "stages": {
+        "Inspecting": 39.54500000178814,
+        "Downloading": 2680.9899999946356,
+        "Decoding": 802.7049999982119,
+        "Rebasing": 390.39500001072884,
+        "Uploading": 599.3100000023842,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 415061448,
+      "packing": "tiled",
+      "backingBytes": 334885888,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tumu_v1.ply",
+      "sha256": "2b82a22a97254d2d3375f669e4da15ff8d639da0169c28297a1ce777e9d3c7f9",
+      "result": {
+        "ok": true
+      },
+      "count": 1248730,
+      "degree": 3,
+      "ms": 3658.229999989271,
+      "cleanupMs": 39.09499999880791,
+      "stages": {
+        "Inspecting": 45.019999995827675,
+        "Downloading": 2057.4150000065565,
+        "Decoding": 600.0050000101328,
+        "Rebasing": 310.2399999946356,
+        "Uploading": 645.4950000047684,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 365264048,
+      "packing": "tiled",
+      "backingBytes": 294709248,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "tushuguan_v1.ply",
+      "sha256": "1aaf7a1eac2e67ea49acfd522c28338a885f0f89d0dd1ae68eb8369484531170",
+      "result": {
+        "ok": true
+      },
+      "count": 1438782,
+      "degree": 3,
+      "ms": 4234.859999999404,
+      "cleanupMs": 41.985000014305115,
+      "stages": {
+        "Inspecting": 42.90999999642372,
+        "Downloading": 2405.440000012517,
+        "Decoding": 659.8250000029802,
+        "Rebasing": 402.14000000059605,
+        "Uploading": 724.5100000053644,
+        "Ready": 0.024999991059303284
+      },
+      "gpuBytes": 420845968,
+      "packing": "tiled",
+      "backingBytes": 339553024,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "wenke_v2.ply",
+      "sha256": "c72279b4d219674576c02d2fefb20e0252fe095a58b7c12ac9a3aa4cd73f0258",
+      "result": {
+        "ok": true
+      },
+      "count": 1757157,
+      "degree": 3,
+      "ms": 4746.045000001788,
+      "cleanupMs": 44.15500000119209,
+      "stages": {
+        "Inspecting": 42.314999997615814,
+        "Downloading": 2706.155000001192,
+        "Decoding": 763.9050000011921,
+        "Rebasing": 411.1299999952316,
+        "Uploading": 822.4399999976158,
+        "Ready": 0.034999996423721313
+      },
+      "gpuBytes": 513976808,
+      "packing": "tiled",
+      "backingBytes": 414695424,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "xingxi_v1.ply",
+      "sha256": "a989e7de5f8cad4f56a78ecf13394b49627d6ca10cfc10d68bc45ec55227158d",
+      "result": {
+        "ok": true
+      },
+      "count": 1307854,
+      "degree": 3,
+      "ms": 3574.719999998808,
+      "cleanupMs": 42.230000004172325,
+      "stages": {
+        "Inspecting": 37.605000004172325,
+        "Downloading": 1846.9249999970198,
+        "Decoding": 630.7900000065565,
+        "Rebasing": 336.5300000011921,
+        "Uploading": 722.8350000083447,
+        "Ready": 0.019999995827674866
+      },
+      "gpuBytes": 382560656,
+      "packing": "tiled",
+      "backingBytes": 308665344,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "yulin_v1.ply",
+      "sha256": "8910823c2ce63431f63078c2bed979991f69eb755d58e4d48823aa1fedffc39f",
+      "result": {
+        "ok": true
+      },
+      "count": 1027833,
+      "degree": 3,
+      "ms": 3505.7900000065565,
+      "cleanupMs": 37.05500000715256,
+      "stages": {
+        "Inspecting": 50.525000005960464,
+        "Downloading": 1727.1050000041723,
+        "Decoding": 631.2999999970198,
+        "Rebasing": 372.07999999821186,
+        "Uploading": 724.7300000041723,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 300644072,
+      "packing": "tiled",
+      "backingBytes": 242570240,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "zhihuizhimen.ply",
+      "sha256": "d86fa4be8a412f3b78169ccb3dd25044397fb1d2dd3f275c27497b6b39d3a669",
+      "result": {
+        "ok": true
+      },
+      "count": 3914609,
+      "degree": 3,
+      "ms": 11835.159999996424,
+      "cleanupMs": 97.45499999821186,
+      "stages": {
+        "Inspecting": 45.57999999821186,
+        "Downloading": 6681.7900000065565,
+        "Decoding": 2166.5349999964237,
+        "Rebasing": 988.4249999970198,
+        "Uploading": 1952.7750000059605,
+        "Ready": 0.025000005960464478
+      },
+      "gpuBytes": 1145030904,
+      "packing": "tiled",
+      "backingBytes": 923851264,
+      "cpuResidentBytes": 0
+    },
+    {
+      "model": "zhishan_v3.ply",
+      "sha256": "1625283007c387235b1e40fd5ca3a6e8b284ddc06004f57b58883116467d6846",
+      "result": {
+        "ok": true
+      },
+      "count": 649520,
+      "degree": 3,
+      "ms": 1967.3050000071526,
+      "cleanupMs": 23.400000005960464,
+      "stages": {
+        "Inspecting": 42.99500000476837,
+        "Downloading": 1117.779999986291,
+        "Decoding": 338.1200000047684,
+        "Rebasing": 178.00999999046326,
+        "Uploading": 290.35999999940395,
+        "Ready": 0.015000000596046448
+      },
+      "gpuBytes": 189989360,
+      "packing": "tiled",
+      "backingBytes": 153290496,
+      "cpuResidentBytes": 0
+    }
+  ],
+  "stress": {
+    "accepted": 6,
+    "cancelled": 6,
+    "shutdown": {
+      "decoder": null,
+      "phase": "Stopped",
+      "requestId": 147,
+      "sceneCount": 0,
+      "degree": 0,
+      "source": null,
+      "progress": null,
+      "error": null,
+      "stats": null,
+      "deviceGeneration": 5,
+      "viewportRevision": 2
+    }
+  },
+  "errors": []
+}

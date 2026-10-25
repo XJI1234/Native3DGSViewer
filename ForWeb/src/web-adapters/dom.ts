@@ -6,6 +6,7 @@ export function bindCanvas(
     pixelRatio = window.devicePixelRatio,
 ): () => void {
     if (!Number.isFinite(pixelRatio) || pixelRatio <= 0) throw Error('Invalid pixelRatio');
+    let effectiveRatio = 1;
     const resize = () => {
         if (['Stopping', 'Stopped'].includes(engine.getSnapshot().phase)) return;
         const rect = host.getBoundingClientRect();
@@ -13,6 +14,7 @@ export function bindCanvas(
         if (!Number.isFinite(logical) || logical < 0) return;
         // Divide before multiplying to avoid overflow for a finite but very large ratio.
         const ratio = Math.min(pixelRatio, engine.maxViewportDimension / Math.max(1, logical));
+        effectiveRatio = ratio;
         engine.resize(Math.round(rect.width * ratio), Math.round(rect.height * ratio));
     };
     const observer = new ResizeObserver(resize);
@@ -120,14 +122,14 @@ export function bindCanvas(
         if (document.pointerLockElement === canvas) {
             if (engine.camera.mode !== 'fly') clearFlight();
             else {
-                engine.camera.look(event.movementX * pixelRatio, event.movementY * pixelRatio);
+                engine.camera.look(event.movementX * effectiveRatio, event.movementY * effectiveRatio);
                 engine.requestFrame();
             }
             return;
         }
         if (pointer !== event.pointerId) return;
-        const dx = (event.clientX - x) * pixelRatio,
-            dy = (event.clientY - y) * pixelRatio;
+        const dx = (event.clientX - x) * effectiveRatio,
+            dy = (event.clientY - y) * effectiveRatio;
         x = event.clientX;
         y = event.clientY;
         if (button === 2) engine.camera.pan(dx, dy);

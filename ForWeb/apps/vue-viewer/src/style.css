@@ -96,7 +96,7 @@ p {
   height: 100dvh;
   min-height: 620px;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
 }
 .header {
   display: flex;
@@ -296,7 +296,7 @@ progress {
   .shell {
     height: auto;
     min-height: 100dvh;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
   }
   .workspace {
     display: flex;

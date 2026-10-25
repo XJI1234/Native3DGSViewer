@@ -196,7 +196,7 @@ extern "C"
     {
         try
         {
-            if (!writer || !gs_output || version < 1 || version > 3 || fractional_bits > 30)
+            if (!writer || !gs_output || version < 1 || version > 4 || fractional_bits > 30)
                 return reject("Invalid SPZ batch state");
             spz::PackedGaussians packed;
             packed.version = version;
@@ -419,7 +419,7 @@ extern "C"
         const uint32_t width = 14 + rest, stride = width * 4;
         const uint32_t widths[6] = {version == 1 ? 6u : 9u, 1, 3, 3, version >= 3 ? 4u : 3u, rest};
         const uint64_t encoded_stride = ply ? inspected.ply.stride : widths[0] + 7 + widths[4] + rest;
-        if ((!ply && (version < 1 || version > 3 || fractional_bits > 30)) ||
+        if ((!ply && (version < 1 || version > 4 || fractional_bits > 30)) ||
             encoded_stride * count != bytes)
         {
             reject("InvalidInput: parallel batch bytes/version");

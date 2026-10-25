@@ -8,6 +8,14 @@ export interface DecoderInfo {
     readonly backend: 'single' | 'pthreads';
     readonly threads: number;
     readonly fallbackReason: string | null;
+    /** Committed streaming batch capacity; unavailable on older/memory paths. */
+    readonly batchPoints?: number;
+    /** Conservative engine allocation estimate including retained CPU scenes, not RSS. */
+    readonly estimatedCpuPeakBytes?: number;
+    /** Observed WASM linear-memory high-water, not total browser memory. */
+    readonly wasmHeapBytes?: number;
+    /** Largest SPZ v4 frame window (zero for non-Zstd streaming). */
+    readonly zstdWindowBytes?: number;
 }
 export interface Bounds {
     readonly origin: Vec3;

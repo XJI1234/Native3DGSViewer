@@ -1,0 +1,82 @@
+{
+  "records": [
+    {
+      "mode": "preview",
+      "result": {
+        "results": [
+          {
+            "ok": true
+          },
+          {
+            "ok": true
+          }
+        ],
+        "canvasCount": 2,
+        "remainingCanvases": 0,
+        "react": "Stopped",
+        "vue": "Stopped",
+        "devices": {
+          "created": 3,
+          "active": 0
+        },
+        "conditionalHosts": true,
+        "parallel": {
+          "count": 600000,
+          "decoder": {
+            "backend": "pthreads",
+            "threads": 2,
+            "fallbackReason": null,
+            "batchPoints": 65536,
+            "estimatedCpuPeakBytes": 112984832,
+            "wasmHeapBytes": 20185088,
+            "zstdWindowBytes": 0
+          },
+          "sortReason": "reuse"
+        }
+      },
+      "errors": []
+    },
+    {
+      "mode": "development",
+      "result": {
+        "results": [
+          {
+            "ok": true
+          },
+          {
+            "ok": true
+          }
+        ],
+        "canvasCount": 2,
+        "remainingCanvases": 0,
+        "react": "Stopped",
+        "vue": "Stopped",
+        "devices": {
+          "created": 4,
+          "active": 0
+        },
+        "conditionalHosts": true,
+        "parallel": {
+          "count": 600000,
+          "decoder": {
+            "backend": "pthreads",
+            "threads": 2,
+            "fallbackReason": null,
+            "batchPoints": 65536,
+            "estimatedCpuPeakBytes": 112984832,
+            "wasmHeapBytes": 20185088,
+            "zstdWindowBytes": 0
+          },
+          "sortReason": "reuse"
+        }
+      },
+      "errors": []
+    }
+  ],
+  "browser": "156.0.4314.42",
+  "ssr": true,
+  "installedTarball": true,
+  "productionBundle": true,
+  "developmentStrictMode": true,
+  "documentedTsxAndSfcCompiled": true
+}

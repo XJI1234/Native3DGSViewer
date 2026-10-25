@@ -524,3 +524,33 @@ TEST(ModelIoCorpus, CancelsActiveDecode)
     worker.join();
     expect_error(result, LoadErrorCode::Cancelled);
 }
+
+TEST(ModelIo, BoundsValidationRejectsNonfiniteMetadataAndAccountsForRebaseRounding)
+{
+    using namespace gs::io::detail;
+    const Probe probe{gs::SourceFormat::Ply, 2, 0, 0};
+    const auto layout = make_layout(probe, 4096);
+    ASSERT_TRUE(layout);
+    std::vector<uint8_t> bytes(layout->totalBytes);
+    std::memcpy(bytes.data(), &*layout, sizeof(*layout));
+    auto *header = reinterpret_cast<SceneHeader *>(bytes.data());
+    SceneWriter writer(header, false);
+    const float low[3]{1, 0, 0}, high[3]{1e10f, 0, 0}, scale[3]{-2, -2, -2};
+    const float rotation[4]{0, 0, 0, 1}, dc[3]{};
+    ASSERT_TRUE(writer.write(0, {low, scale, rotation, 0, dc, nullptr}));
+    ASSERT_TRUE(writer.write(1, {high, scale, rotation, 0, dc, nullptr}));
+    ASSERT_TRUE(writer.finish());
+    ASSERT_TRUE(validate_scene(*header, bytes.size()));
+    for (double *field : {&header->min[0], &header->max[0], &header->maxScale})
+    {
+        const double saved = *field;
+        *field = std::numeric_limits<double>::infinity();
+        EXPECT_FALSE(validate_scene(*header, bytes.size()));
+        *field = saved;
+    }
+    header->min[0] -= 10000;
+    EXPECT_FALSE(validate_scene(*header, bytes.size()));
+    header->origin[0] = header->max[0] = std::numeric_limits<double>::max();
+    header->min[0] = -std::numeric_limits<double>::max();
+    EXPECT_FALSE(validate_scene(*header, bytes.size()));
+}

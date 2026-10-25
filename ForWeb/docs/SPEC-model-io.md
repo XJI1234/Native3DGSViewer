@@ -1,5 +1,49 @@
 # Spec: model-io
 
+## SPZ v4 bounded decoding (2026-10-25)
+
+SPZ v4 now uses the disk-backed batch path for every model, including SH0.
+The 32-byte header and uint64 TOC are revalidated against admitted count/degree,
+supported flags and exact input length. Five/six sequential Zstd frames inflate
+into attribute ranges of one job-owned OPFS file. Each range must contain exactly
+one ordinary, dictionary-free frame, with exact decoded length and no trailing
+compressed bytes. Checksums are verified when present. Zstd window requirements
+are inspected before decoding, capped at 128 MiB, and included in CPU admission;
+oversized windows report ResourceLimit, never grow WASM without admission.
+
+Unpacking uses the pinned vendor's v4 math (v3 smallest-three quaternions and
+unchanged attribute layout), then existing tile packing and one global rebase.
+No whole compressed input, full attribute array or normalized scene is retained
+in WASM/JS. Point order, all SH coefficients, coordinate convention and GPU ABI
+are preserved. Single/pthreads selection and fallback apply to v4 batches too;
+Zstd inflate remains serial and is not described as parallel decompression.
+
+For PLY and SPZ1–4, batch capacity shrinks in 64-point tiles to fit available CPU
+budget (including retained scenes, runtime, allocator allowance, thread stacks,
+input/output copies, bounded compression scratch and Zstd window). A failure to
+fit the smallest batch remains ResourceLimit. GPU/storage limits remain enforced;
+this change does not claim unlimited-size rendering or silently reduce quality.
+Cancellation/timeout/error remove all temporary job files; success retains only
+the packed scene backing until the final owner releases it.
+
+Internal `scene.decodeTimings` also exposes numeric allocation diagnostics:
+`batchPoints`, `estimatedCpuPeakBytes` (includes retained engine pages),
+`wasmHeapBytes` (observed linear heap high-water), `zstdWindowBytes` (maximum
+declared frame window). These are not milliseconds or process RSS; all other
+existing timing fields retain their original meaning.
+
+preview.4 additionally publishes these four fields as optional, readonly numeric
+members of `Snapshot.decoder: DecoderInfo`. They describe the committed scene's
+decoder and are replaced/cleared with it, including recovery. Hosts and framework
+templates can inspect them without reading private scene/renderer objects.
+`estimatedCpuPeakBytes` is admission accounting, `wasmHeapBytes` is linear memory,
+and neither is total process RSS. Absent fields mean unavailable (older/small
+memory paths), never zero memory use. Existing backend/threads/fallback semantics
+and callers remain source-compatible.
+
+This extension supersedes historical statements below that v4 uses whole-scene
+in-memory admission. Public EngineOptions and source/error contracts are unchanged.
+
 2026-10-06 增量：可回退的单线程/pthreads 并行路径契约见 [SPEC-parallel-decoder](SPEC-parallel-decoder.md)。解码、归并、资源、失败和验收规则先于实现；已有 Source/错误/模型语义保持。
 
 2026-10-04. Implementation authorized by the user; provider specification for ForWeb/model-io.

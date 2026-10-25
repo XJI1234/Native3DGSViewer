@@ -30,7 +30,8 @@ uint64_t rest_width(uint8_t degree)
 
 bool near(double a, double b)
 {
-    return std::abs(a - b) <= 1e-6 * std::max({1.0, std::abs(a), std::abs(b)});
+    return std::isfinite(a) && std::isfinite(b) &&
+           std::abs(a - b) <= 1e-6 * std::max({1.0, std::abs(a), std::abs(b)});
 }
 
 } // namespace
@@ -53,10 +54,9 @@ bool SceneWriter::write(uint64_t i, const RawSplat &raw, SplatWriteError *failur
     {
         if (!std::isfinite(raw.position[k]) || !std::isfinite(raw.logScale[k]) ||
             !std::isfinite(raw.dc[k]))
-            return reject(!std::isfinite(raw.position[k])
-                              ? SplatAttribute::Position
-                              : !std::isfinite(raw.logScale[k]) ? SplatAttribute::Scale
-                                                                : SplatAttribute::Dc,
+            return reject(!std::isfinite(raw.position[k])   ? SplatAttribute::Position
+                          : !std::isfinite(raw.logScale[k]) ? SplatAttribute::Scale
+                                                            : SplatAttribute::Dc,
                           k);
         const double world = double(raw.position[k]) * (rdf_ ? flips.flipP[k] : 1.0);
         array(header_, Center)[3 * i + k] = static_cast<float>(world);
@@ -184,7 +184,20 @@ bool validate_scene(const SceneHeader &h, uint64_t mappingBytes)
     }
     for (int k = 0; k < 3; ++k)
     {
-        if (!std::isfinite(h.origin[k]) || !near(min[k], h.min[k]) || !near(max[k], h.max[k]))
+        const auto valid_bound = [origin = h.origin[k]](double actual, double expected) {
+            if (!std::isfinite(origin) || !std::isfinite(actual) || !std::isfinite(expected))
+                return false;
+            // Center storage is float32 relative to a double origin. Near-zero world
+            // endpoints can lose absolute precision when the local extent is large.
+            const double rounding =
+                std::numeric_limits<float>::epsilon() *
+                std::max(std::abs(actual - origin), std::abs(expected - origin));
+            const double difference = std::abs(actual - expected);
+            return std::isfinite(rounding) && std::isfinite(difference) &&
+                   difference <=
+                       rounding + 1e-6 * std::max({1.0, std::abs(actual), std::abs(expected)});
+        };
+        if (!valid_bound(min[k], h.min[k]) || !valid_bound(max[k], h.max[k]))
             return false;
     }
     return near(maxScale, h.maxScale);

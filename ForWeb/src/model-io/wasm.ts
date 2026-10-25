@@ -16,6 +16,12 @@ export interface Decoder {
     _gs_inflate_consumed(): number;
     _gs_inflate_produced(): number;
     _gs_inflate_end(): void;
+    _gs_zstd_window(ptr: number, length: number): number;
+    _gs_zstd_begin(windowLog: number): number;
+    _gs_zstd_step(input: number, length: number, output: number, capacity: number): number;
+    _gs_zstd_consumed(): number;
+    _gs_zstd_produced(): number;
+    _gs_zstd_end(): void;
     _gs_chunk(ptr: number, size: number): number;
     _gs_spz(ptr: number, size: number): number;
     _gs_finish(spz: number): number;
