@@ -117,6 +117,7 @@ void MainWindow::initialize_viewer()
         viewer::log::write("info", "engine_created",
                            {{"generation", std::to_string(startup.surface_generation)},
                             {"sort_mode", sort_mode},
+                            {"cuda_available", startup.stats.cuda_available ? "true" : "false"},
                             {"sort_self_test", startup.stats.sort_self_test_passed ? "passed" : "not_run"},
                             {"wave32_fallback_hr", viewer::log::hresult(
                                 startup.stats.wave32_fallback_hr)}});
@@ -152,6 +153,7 @@ void MainWindow::build_interface()
     fly_button_ = root_.FindName(L"FlyButton").as<RadioButton>();
     empty_text_ = root_.FindName(L"EmptyText").as<TextBlock>();
     busy_text_ = root_.FindName(L"BusyText").as<TextBlock>();
+    cuda_indicator_ = root_.FindName(L"CudaIndicator").as<Border>();
     status_text_ = root_.FindName(L"StatusText").as<TextBlock>();
     model_text_ = root_.FindName(L"ModelText").as<TextBlock>();
     busy_panel_ = root_.FindName(L"BusyPanel").as<Border>();
@@ -696,6 +698,8 @@ void MainWindow::update_engine()
     }
     const auto state = engine_->snapshot();
     update_measurement(state);
+    cuda_indicator_.Visibility(state.active_scene && state.stats.cuda_sort_active ?
+                               Visibility::Visible : Visibility::Collapsed);
     const auto now = std::chrono::steady_clock::now();
     if (state.active_scene && state.stats.memory_mitigation &&
         state.active_request != mitigation_notice_request_)
@@ -726,6 +730,7 @@ void MainWindow::update_engine()
                             {"cpu_frame_ms", std::to_string(stats.cpu_frame_ms.value_or(-1))},
                             {"gpu_frame_ms", std::to_string(stats.gpu_frame_ms.value_or(-1))},
                             {"gpu_sort_ms", std::to_string(stats.gpu_sort_ms.value_or(-1))},
+                            {"cuda_sort_active", stats.cuda_sort_active ? "true" : "false"},
                             {"render_sh_degree", std::to_string(stats.active_sh_degree)},
                             {"rendered_splats", std::to_string(stats.active_splats)},
                             {"drawn_splats", std::to_string(stats.drawn_splats)},

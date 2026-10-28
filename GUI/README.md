@@ -43,6 +43,15 @@ Y 镜像由相机视图与 `SwapChainPanel` 的水平显示镜像共同完成；
 
 SDK 宿主可在创建引擎前通过 `EngineConfig::quality.point_stride` 手动指定 1/2/4/8/16 倍点间隔，通过 `max_point_stride` 限制自动抽样上限，并用 `allow_memory_mitigation=false` 禁止自动降低质量；模板桌面程序目前使用默认自动策略。`RenderStats` 的源/实际点数、SH 阶数和 `active_ticket` 让宿主区分手动设置、预算缓解和场景切换。小场景上传页按实际数据大小分配，显存预算预检不再为每个模型固定预留 64 MiB 页。
 
-从仓库根目录运行 `./packaging/build-installer.ps1` 生成 `out/installer/Native3DGSViewer-0.2.2-Windows-x64-Setup.exe`。安装包不携带构建机上的日志。
+从仓库根目录运行 `./packaging/build-installer.ps1` 生成 `out/installer/Native3DGSViewer-0.2.3-Windows-x64-Setup.exe`。安装包不携带构建机上的日志。
 
 大场景按实际 CPU 可用内存、提交余量及 DXGI 当前显存预算准入。SH 3 阶属性拆分为基础缓冲和 SH 缓冲，单缓冲地址仍受 32 位字节偏移约束；达到该技术边界会返回不支持的场景错误。22,480,361 点 SH3 的 PLY 已在 RTX 3080 上完成加载和 GPU 单帧烟雾测试；首次排序开销较高，具体交互性能以 `render_sample` 和同机基准为准。
+
+
+## 可选 CUDA 排序（2026-10-28）
+
+先运行 `pwsh -NoProfile -File CudaOperators/tools/build.ps1 -Targets gs-cuda-backend`，再执行原有桌面构建。脚本需要固定 CUDA 13.3 工具链，会将静态 cudart 后端及许可证放到 out/Release；桌面程序和 SDK 不链接 CUDA，DLL 缺失仍可完整使用 DX12。
+
+启动匹配实际 D3D12 适配器并执行探测 kernel。当前实测策略：小于 2,000,000 个实际渲染点使用 DX12；达到阈值且 CUDA 可用时使用 CUB Graph。共享资源分配失败回退 DX12；提交故障通过设备恢复切回 DX12。D3D12 Debug Layer 激活时保守采用 DX12，已知该配置下的外部 fence 退役句柄滞留尚未解决。阈值来自 RTX 3080，其他显卡仍需校准。
+
+视口右上角仅在活动场景首个 CUDA 帧完成后显示“已启用 CUDA 加速”；小模型、无场景或恢复阶段隐藏。启用 CUDA 的安装器使用 `packaging/build-installer.ps1 -EnableCuda`。SDK 可选安装 `cmake --install out/cmake-cuda --config Release --prefix out/sdk --component CUDA`，将 bin 下 DLL 与宿主 exe 同目录部署；默认 SDK 组件不带 CUDA。

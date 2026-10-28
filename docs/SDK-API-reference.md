@@ -185,6 +185,10 @@ XY ZW 四元数、垂直 FOV、近远裁剪面；`Viewport` 单位为物理像�
 `gpu_sort_ms`、`gpu_draw_ms`、`present_call_ms` 是可选测量值；
 `sort_shader_mode`、`sort_self_test_passed` 与 `wave32_fallback_hr`
 可用于诊断设备变体。`presented_frame_id` 是最近呈现帧 ID；
+`cuda_available` 表示当前设备和配置可使用可选 CUDA 提供者；
+`cuda_sort_active` 表示当前场景已有完成的 CUDA 排序帧，静止视角复用时保持。
+无 DLL、不支持或诊断配置仍使用 DX12；实际渲染点数低于 2,000,000 使用 DX12。
+0.2.3 扩展了 `RenderStats`，消费者须重新编译，不能混用旧头文件和新静态库。
 `candidate_splats`、`drawn_splats`、`rejected_projection_splats`
 分别为候选、绘制和投影拒绝点数；`sort_reuse_count`、`sort_pass_count`
 为排序复用和轮次；`completed_upload_bytes` 为已上传字节；

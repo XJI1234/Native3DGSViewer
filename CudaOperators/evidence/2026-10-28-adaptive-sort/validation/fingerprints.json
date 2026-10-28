@@ -1,0 +1,210 @@
+{
+  "recorded_at": "2026-10-28T01:50:37.5291290+08:00",
+  "head": "ea005561252df0b66e44c1da7ecf1051701d0f6a",
+  "diff_sha256_utf8_lf_no_final_newline": "C424813B7D04D9AE5E1F527E49F480BAA14A07D2C1D9A5F2473A2FF0A7B5C5AC",
+  "note": "Uncommitted work; listed source hashes include final documentation and comment corrections. Runtime binaries were verified before the final comment-only source edit; executable behavior is unchanged.",
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "2CF09F350788898B072FD7016E5B87CE0D0BEC8EE8D046F51BB4A0C2E182CD77"
+    },
+    {
+      "path": "CudaOperators/CMakeLists.txt",
+      "sha256": "552B069F675F1F1C0E1E4CC7CB3C1D29E26D4CDA808BC6B489CF091057B5CC0F"
+    },
+    {
+      "path": "CudaOperators/README.md",
+      "sha256": "DD3C108724155CD100EE06D65775D7B24BF010A698A6B2C114BA78DF4377FF48"
+    },
+    {
+      "path": "CudaOperators/SPEC-cuda-operators.md",
+      "sha256": "33A97657D4A2B4E734A7FC99CEA5D6ABEA811C6DC16BE417B14DD8E6B83DD3CE"
+    },
+    {
+      "path": "CudaOperators/src/interop/interop.cpp",
+      "sha256": "FED1147CEBD75B6870ECBD445BB4B754A73551B1C2C1FBC4EF51B9EDA40B33F8"
+    },
+    {
+      "path": "CudaOperators/src/sort_provider.cpp",
+      "sha256": "AD051A6707B68E53D7171A0CAA94B6F248364D87C51ED1228541389A502A6795"
+    },
+    {
+      "path": "CudaOperators/tasks/plan.md",
+      "sha256": "6CCD46567FD3CA796DC4C59F40259EE4434F5B2B488C7F6D6E8B5E930B30FFBE"
+    },
+    {
+      "path": "CudaOperators/tasks/todo.md",
+      "sha256": "4CE2C20DE307C32EE51447D31A48466F7DD97FBE4CB93F2BFFB9CA699832BE1E"
+    },
+    {
+      "path": "docs/SPEC-desktop-viewer.md",
+      "sha256": "A5F8640D4C701087F0244BF679421F14BD658DE5DF3D4566696991ADF80A1DCE"
+    },
+    {
+      "path": "docs/SPEC-engine-sdk.md",
+      "sha256": "7BC67240E2329856DCA3E361E3E8149D2F37D02196F2A16BFB5F937BD8329352"
+    },
+    {
+      "path": "docs/SPEC-render-core.md",
+      "sha256": "3C7ED6C4D4CC832F4D5AD220D0FAB58D18621682F6C9992759C6D74156BE23D3"
+    },
+    {
+      "path": "GUI/MainWindow.xaml",
+      "sha256": "E697BEFF6295F80DC64946CE2778B4368CD9FA2EAA25195F79922980386A53AE"
+    },
+    {
+      "path": "GUI/MainWindow.xaml.cpp",
+      "sha256": "0DE2BC17B735BD99CDEDA4F95F90A8EFDA7A900E21E8CCFF074036BBF39646D5"
+    },
+    {
+      "path": "GUI/MainWindow.xaml.h",
+      "sha256": "B018D863BE7B89846A92A1C7E3356CAED8FE64091E897DAEFFE7A5794910D320"
+    },
+    {
+      "path": "GUI/README.md",
+      "sha256": "75F23375C35812E84042AB67BCAFE0156448723EB7CF9AE19A1BAEF9A145C18B"
+    },
+    {
+      "path": "include/render-core/renderer.h",
+      "sha256": "B063A1E51ACFE9C8FD5D9AFCCB94A4AE449EB7750AC9E2135273CE2A1189C89D"
+    },
+    {
+      "path": "packaging/build-installer.ps1",
+      "sha256": "C213229E85CF0BE2B485E38C298E5301667E6794219E6D477035D606C507B9F4"
+    },
+    {
+      "path": "src/render-core/device/cuda_api.h",
+      "sha256": "3189E34CF9C72AB6A47BEACAF204396956CE18A69C6A71AD748586D1C9CD1C1F"
+    },
+    {
+      "path": "src/render-core/device/cuda_sort.cpp",
+      "sha256": "3D9B38C1A74599FE405F8F8335EC223A329C8248880A41495990AA620A4208C5"
+    },
+    {
+      "path": "src/render-core/device/cuda_sort.h",
+      "sha256": "0C3A32000E98D03B3BACC69095675DF2F3FEFE6E9A51DFD7E469DECE9E75DEA2"
+    },
+    {
+      "path": "src/render-core/device/renderer.cpp",
+      "sha256": "FB48BAAADD3D450E14CDD7B81D555F03F51D1A82A3D22BF528C4956581B36284"
+    },
+    {
+      "path": "src/render-core/device/test_renderer.h",
+      "sha256": "49BF8F683BBD841EED617AF877E15840411ECD423095207EE530F19699ECDA04"
+    },
+    {
+      "path": "src/render-core/passes/splat.h",
+      "sha256": "FDEB81E0BDD1828D808DD7784F3A387D0231D695DF83C8DD859FB29B18F45365"
+    },
+    {
+      "path": "tests/render-core/contracts_tests.cpp",
+      "sha256": "98DBF11936DE723CAB3CB22FADFF553313BC007E2CBC156A53CC578C66600008"
+    },
+    {
+      "path": "tests/render-core/lifecycle_tests.cpp",
+      "sha256": "16C7D9639E05B8E726B4A7E909D2CDEF17DF844F7082706E29555A5289E986D1"
+    },
+    {
+      "path": "tests/render-core/recovery_tests.cpp",
+      "sha256": "55699B19DACCDB0ABABF469D1BC0538ABA16A7CFEE3C11C55C64EA0F56C7E278"
+    }
+  ],
+  "runtime_files": [
+    {
+      "path": "out/Release/Native3DGSViewer.GUI.exe",
+      "sha256": "B1806C1C09B884F4AC1A1D4050A67537A4F63E91E47CDC2A973ACCCD318CADC9"
+    },
+    {
+      "path": "out/Release/Native3DGSViewer.Tests.exe",
+      "sha256": "87878B9C58E3FBFBA7E67EE3DA0901350641CAC3DDCA6E8A7CEEDB6D6AAA45A0"
+    },
+    {
+      "path": "out/Release/gs-cuda-backend.dll",
+      "sha256": "B2F62592AF98EDEB1C9257E735D2D90BAB2703C75C39E64AF4235DF6DE6472B7"
+    },
+    {
+      "path": "out/Release/shaders/count_wave_agnostic.cso",
+      "sha256": "FFF1C78B23A11350EB101C1B7C0998D830CAF5ECC9BC53EFD7CD0967066C48DD"
+    },
+    {
+      "path": "out/Release/shaders/count_wave32.cso",
+      "sha256": "F4B1977BB8B759FF5391BEDE1C8D60D797876145CCF7A9DA4EF8F0832AFA74A8"
+    },
+    {
+      "path": "out/Release/shaders/count.cso",
+      "sha256": "FFF1C78B23A11350EB101C1B7C0998D830CAF5ECC9BC53EFD7CD0967066C48DD"
+    },
+    {
+      "path": "out/Release/shaders/pick_collect.cso",
+      "sha256": "EBFC921FA061451DF9DC4AE88A6246DC753F6F8A2863DD481E4915359346A963"
+    },
+    {
+      "path": "out/Release/shaders/pick_reset.cso",
+      "sha256": "3A2A95937EBEB79EC5E04BB6DF6FA28F6C7C86DD008C63A3204226FFB86E6550"
+    },
+    {
+      "path": "out/Release/shaders/pixel.cso",
+      "sha256": "840234B9959CF49E8D573F997BFF529DBE0FCBED761579ED0D2774274D7771D2"
+    },
+    {
+      "path": "out/Release/shaders/project.cso",
+      "sha256": "3486769FB21606B8E261A88C98285B6E91B8458B465198105DD33CF8E559823B"
+    },
+    {
+      "path": "out/Release/shaders/reduce_wave_agnostic.cso",
+      "sha256": "EB3ACF8DA89B22F96921E06952D719269A7E4946B42BC08BCB346475F255DE95"
+    },
+    {
+      "path": "out/Release/shaders/reduce_wave32.cso",
+      "sha256": "EB92AD45EF73FBBC833DF7A044AAFC7409B20B2AEF1CBBB07A65BD19BA70580A"
+    },
+    {
+      "path": "out/Release/shaders/reduce.cso",
+      "sha256": "10684FB17FCECC3D42C925B7544798C54B9BDCBC315B8ADD5210B707B9AF8E2C"
+    },
+    {
+      "path": "out/Release/shaders/reset_args.cso",
+      "sha256": "21C5475CB95087D65F0A595F502CA7C00DE450AB3D57D233A239906A7E816855"
+    },
+    {
+      "path": "out/Release/shaders/scan_add_wave_agnostic.cso",
+      "sha256": "CDBA336260AF16B2080155511220CFF6AED5BFB921020D3CBB82DF3F6CED7DB2"
+    },
+    {
+      "path": "out/Release/shaders/scan_add_wave32.cso",
+      "sha256": "5442B163C0B8004DB81FA4FE39FA2991BCB9EF2E8225948AF5253FA11DB0F34D"
+    },
+    {
+      "path": "out/Release/shaders/scan_add.cso",
+      "sha256": "01848D5453239DA5047CC2B36042E685F15155CB8D6C08ADB3EA64A747884332"
+    },
+    {
+      "path": "out/Release/shaders/scan_wave_agnostic.cso",
+      "sha256": "76AF348E56842791F5D99A925EF2F9222BEB61A522AAC1B9FBBB0E3145C0163F"
+    },
+    {
+      "path": "out/Release/shaders/scan_wave32.cso",
+      "sha256": "7F9DE8C07AF50046312FE6FBFD0A43FD77538F7455FB1B36FCF9A22B3AEE9F5F"
+    },
+    {
+      "path": "out/Release/shaders/scan.cso",
+      "sha256": "407F8644285BDA1820B29EFCFCFB0000BACA35646F941941263614AAEAC82C4C"
+    },
+    {
+      "path": "out/Release/shaders/scatter_wave_agnostic.cso",
+      "sha256": "4248B608EE3CB458CD3D53F0B61B78F2A6001610B130AA6632C476E867D46B4F"
+    },
+    {
+      "path": "out/Release/shaders/scatter_wave32.cso",
+      "sha256": "1B6B10A2616A4EB520CE3C10E46279EF6DBAF81E17B3EF88E3AEE615A3F340BE"
+    },
+    {
+      "path": "out/Release/shaders/scatter.cso",
+      "sha256": "2939C935585CD7A68A760E28B21D6BC3C90E7020222E4995B158C719178F4500"
+    },
+    {
+      "path": "out/Release/shaders/vertex.cso",
+      "sha256": "3B9CB3AB7B04F8F30C63734721FA62DA808898CF61E2783D51490E1F146B94FE"
+    }
+  ]
+}

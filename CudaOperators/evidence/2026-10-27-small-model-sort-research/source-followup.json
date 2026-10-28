@@ -1,0 +1,40 @@
+[
+  {
+    "id": "cub_index",
+    "url": "https://nvidia.github.io/cccl/cub/api/index.html",
+    "error": "404 Client Error: Not Found for url: https://nvidia.github.io/cccl/cub/api/index.html"
+  },
+  {
+    "id": "cub_new",
+    "url": "https://nvidia.github.io/cccl/cub/api/structcub_1_1DeviceRadixSort.html",
+    "error": "404 Client Error: Not Found for url: https://nvidia.github.io/cccl/cub/api/structcub_1_1DeviceRadixSort.html"
+  },
+  {
+    "id": "cub_raw",
+    "url": "https://raw.githubusercontent.com/NVIDIA/cccl/v3.3.3/cub/cub/device/device_radix_sort.cuh",
+    "error": "HTTPSConnectionPool(host='raw.githubusercontent.com', port=443): Read timed out. (read timeout=25)"
+  },
+  {
+    "id": "onesweep_paper",
+    "url": "https://arxiv.org/abs/2206.01784",
+    "status": 200,
+    "links": [
+      [
+        "",
+        "http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2206.01784&description=Onesweep: A Faster Least Significant Digit Radix Sort for GPUs"
+      ],
+      [
+        "",
+        "https://reddit.com/submit?url=https://arxiv.org/abs/2206.01784&title=Onesweep: A Faster Least Significant Digit Radix Sort for GPUs"
+      ]
+    ],
+    "title": "[2206.01784] Onesweep: A Faster Least Significant Digit Radix Sort for GPUs"
+  },
+  {
+    "id": "cuda13_3",
+    "url": "https://docs.nvidia.com/cuda/archive/13.3.0/cuda-programming-guide/04-special-topics/graphics-interop.html",
+    "status": 200,
+    "links": [],
+    "title": "4.19. CUDA Interoperability with APIs — CUDA Programming Guide"
+  }
+]

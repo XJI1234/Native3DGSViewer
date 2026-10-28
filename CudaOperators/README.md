@@ -2,7 +2,7 @@
 
 状态：规格已批准，按切片实施中。分支：`codex/windows-cuda-operators`。
 
-[实测与取舍总报告](EXPERIMENT-REPORT.md)汇总E00–E10的执行证据、失败路径和产品准入缺口。CUDA13.3工具链可用；排序在大场景有局部GPU收益，尚无通过性能、画质与完整稳定性门槛的产品后端。
+[实测与取舍总报告](EXPERIMENT-REPORT.md)汇总E00–E10的执行证据、失败路径和产品准入缺口。CUDA13.3工具链可用；排序在大场景有局部GPU收益，2026-10-28 用户授权按规模接入稳定排序提供者，见 [逐项优化报告](../docs/windows-cuda-adaptive-sort-2026-10-28.md)。这不代表完整长稳门槛通过。
 
 [完整校园七轮正式对照](evidence/2026-10-17-oblique-formal-seven/README.md)：2248万点、同三帧槽，GPU34.9251→29.7800ms，降低14.77% [14.65,14.94]，图像byte一致；低于15%产品后端门槛。Debug Layer句柄滞留仍可复现，产品CUDA集成/长稳验收尚未执行。
 
@@ -26,3 +26,6 @@ CUDA13.3/MSVC19.50/SM86工具链、共享buffer/纹理、10000次fence交接及�
 [E09三帧槽/Graph三轮消融](evidence/2026-10-17-queue-graph-diagnostic/README.md)完成90次运行、全图byte一致。CUDA三帧槽相对原生三帧槽在391万/2248万点约降低GPU帧耗时7.78%/14.86%，小模型仍回退，Graph在大场景没有独立收益。正式候选采用普通CUB三帧槽。采集支持 `--formal --image-reference d3d12-queued --backends d3d12-queued cuda-sort-queued`；每后端30秒预热/60秒采样、默认3轮。
 
 [E06–E08画质失败调查](evidence/2026-10-17-hlsl-tile/README.md)：analytic CUDA/HLSL tile对薄quad的亚像素光栅化/插值不能完全复现，两个中等模型超出原最大误差门槛，并且明显慢于原生。提前终止和Graph无法解除画质失败，不接入生产。conditional while另有未解决稳定性问题，正常路径禁用。
+
+
+2026-10-28：200 万点以下 DX12；达到阈值且实际设备探测成功则 CUB Graph，GUI 按实际完成帧显示提示。归并、提前录制/批量屏障/冗余 fence 消融、整段 external-semaphore Graph 的未胜出实验源码与数据保存在 evidence/2026-10-28-adaptive-sort，未进入产品。默认 GS_ENABLE_CUDA_OPERATORS=OFF 仍无需 CUDA 工具链；开启构建会将可选 DLL 部署至 out/Release。调试层配置保留 DX12；详情见本轮报告与 GUI/README。

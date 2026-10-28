@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory = $true)][string]$BuildDirectory,
     [string]$Configuration = 'Release',
     [string]$Scene,
-    [string]$PackageArchive
+    [string]$PackageArchive,
+    [ValidateSet('true', 'false')][string]$ExpectedCudaActive
 )
 $ErrorActionPreference = 'Stop'
 $consumerRoot = Join-Path ([IO.Path]::GetTempPath()) ('Native3DGS-consumer-' + [Guid]::NewGuid().ToString('N'))
@@ -21,6 +22,13 @@ try {
     & cmake --build (Join-Path $consumerRoot 'build') --config $Configuration --parallel 4
     if ($LASTEXITCODE -ne 0) { throw 'Consumer build failed' }
     $hostExecutable = Join-Path $consumerRoot "build/$Configuration/sdk-host.exe"
+    if (Test-Path -LiteralPath (Join-Path $package 'bin/gs-cuda-backend.dll')) {
+        foreach ($runtimeFile in @('gs-cuda-backend.dll', 'licenses/cuda/cudart-LICENSE', 'licenses/cuda/cccl-LICENSE')) {
+            if (-not (Test-Path -LiteralPath (Join-Path (Split-Path $hostExecutable) $runtimeFile))) {
+                throw "Optional CUDA runtime was not deployed: $runtimeFile"
+            }
+        }
+    }
     if ($Scene) {
         $metricPath = Join-Path $consumerRoot 'arbitrary.metric.json'
         @'
@@ -30,9 +38,14 @@ try {
 "quality":{"status":"estimated"},"meters_per_model_unit":2,
 "enu_from_ply":[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]}
 '@ | Set-Content -LiteralPath $metricPath -Encoding utf8NoBOM
-        & $hostExecutable $Scene $metricPath
-    } else { & $hostExecutable }
-    if ($LASTEXITCODE -ne 0) { throw 'Installed consumer run failed' }
+        $hostOutput = @(& $hostExecutable $Scene $metricPath)
+    } else { $hostOutput = @(& $hostExecutable) }
+    $hostExitCode = $LASTEXITCODE
+    $hostOutput | Write-Output
+    if ($hostExitCode -ne 0) { throw 'Installed consumer run failed' }
+    if ($ExpectedCudaActive -and ($hostOutput -join "`n") -notmatch "cuda_sort_active=$ExpectedCudaActive(?:\s|$)") {
+        throw "Installed consumer did not report expected CUDA=$ExpectedCudaActive"
+    }
     Write-Output "Independent relocated SDK consumer passed: $consumerRoot"
 } finally {
     if (Test-Path -LiteralPath $consumerRoot) {

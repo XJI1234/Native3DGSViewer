@@ -48,6 +48,7 @@ struct ContextState
     cudaExternalSemaphore_t semaphore = nullptr;
     uint64_t value = 0;
     bool active = false;
+    int device_index = 0;
     ~ContextState()
     {
         // Best-effort in-process cleanup. CUDA may block inside any API, so this
@@ -56,6 +57,7 @@ struct ContextState
         // an external worker supervisor (see the fault-isolation experiment).
         try
         {
+            if (stream) checked(cudaSetDevice(device_index));
             if (stream && !wait_stream(stream, 5000)) return;
             if (semaphore) cudaDestroyExternalSemaphore(semaphore);
             if (stream) cudaStreamDestroy(stream);
@@ -80,6 +82,7 @@ Context::Context(ID3D12Device *device, LUID adapter) : state_(std::make_shared<C
         { selected = i; break; }
     }
     if (selected < 0) throw std::runtime_error("No CUDA device matches D3D12 adapter LUID");
+    state_->device_index = selected;
     checked(cudaSetDevice(selected));
     state_->device = device;
     checked(cudaStreamCreateWithFlags(&state_->stream, cudaStreamNonBlocking));
@@ -92,10 +95,11 @@ Context::Context(ID3D12Device *device, LUID adapter) : state_(std::make_shared<C
     checked(cudaImportExternalSemaphore(&state_->semaphore, &desc));
 }
 Context::~Context() = default;
-void *Context::native_stream() const { return state_->stream; }
-bool Context::wait_idle(uint32_t timeout_ms) { return wait_stream(state_->stream, timeout_ms); }
+void *Context::native_stream() const { checked(cudaSetDevice(state_->device_index)); return state_->stream; }
+bool Context::wait_idle(uint32_t timeout_ms) { native_stream(); return wait_stream(state_->stream, timeout_ms); }
 void Context::begin(ID3D12CommandQueue *queue)
 {
+    native_stream();
     if (!queue || state_->active) throw std::logic_error("Invalid interop begin");
     if (state_->queue && state_->queue.Get() != queue) throw std::logic_error("Interop queue changed");
     if (!state_->queue)

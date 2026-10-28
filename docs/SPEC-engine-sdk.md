@@ -1,5 +1,10 @@
 # Spec: 原生 3DGS 引擎与 SDK
 
+## 2026-10-28：自适应排序状态
+
+EngineState.stats 透传 RenderStats.cuda_available 与 cuda_sort_active；仅实际场景 CUDA 排序成功才置 active，缓存复用保留。该变更需重新编译 C++ SDK 消费者；不暴露 CUDA 类型或新增链接依赖。DLL 可选，未部署时完整 DX12 功能可用。
+
+
 2026-09-26。范围为首期所有非 UI 组件：共享场景、隔离 model-io、D3D12 render-core、纯 C++ 相机控制、异步请求协调与渲染线程、宿主 surface 生命周期、基准工具和可安装 SDK。不创建 WinUI 窗口、文件选择器、输入事件适配器或桌面应用；后续多模型、LoD、编辑和动画沿用原计划另立规格。
 
 ## 交付形式

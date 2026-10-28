@@ -1,0 +1,817 @@
+{
+  "runs": 162,
+  "valid_runs": 158,
+  "all_images_identical": true,
+  "summary": [
+    {
+      "group": "baseline",
+      "model": "changjin_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.5247999999999999,
+      "sort_and_interop_ms": 0.131584,
+      "cpu_submit_ms": 0.1241
+    },
+    {
+      "group": "baseline",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7403519999999999,
+      "sort_and_interop_ms": 0.36275199999999996,
+      "cpu_submit_ms": 0.25707500000000005
+    },
+    {
+      "group": "baseline",
+      "model": "shengyi_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.303552,
+      "sort_and_interop_ms": 0.336896,
+      "cpu_submit_ms": 0.182575
+    },
+    {
+      "group": "baseline",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.391104,
+      "sort_and_interop_ms": 0.420864,
+      "cpu_submit_ms": 0.3225
+    },
+    {
+      "group": "baseline",
+      "model": "tumu_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.938176,
+      "sort_and_interop_ms": 0.477184,
+      "cpu_submit_ms": 0.206925
+    },
+    {
+      "group": "baseline",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.950464,
+      "sort_and_interop_ms": 0.47462400000000005,
+      "cpu_submit_ms": 0.32672500000000004
+    },
+    {
+      "group": "baseline",
+      "model": "zhihuizhimen.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.783296,
+      "sort_and_interop_ms": 1.296384,
+      "cpu_submit_ms": 0.156825
+    },
+    {
+      "group": "baseline",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.302271999999999,
+      "sort_and_interop_ms": 0.746752,
+      "cpu_submit_ms": 0.2847
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.522752,
+      "sort_and_interop_ms": 0.131072,
+      "cpu_submit_ms": 0.08265
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7331840000000001,
+      "sort_and_interop_ms": 0.356352,
+      "cpu_submit_ms": 0.2303
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-pre-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.726016,
+      "sort_and_interop_ms": 0.349184,
+      "cpu_submit_ms": 0.198575
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-batch-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.731392,
+      "sort_and_interop_ms": 0.354048,
+      "cpu_submit_ms": 0.2373
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-unfenced-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7319039999999999,
+      "sort_and_interop_ms": 0.354304,
+      "cpu_submit_ms": 0.23729999999999998
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-fast-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7436800000000001,
+      "sort_and_interop_ms": 0.349184,
+      "cpu_submit_ms": 0.19515
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.707072,
+      "sort_and_interop_ms": 0.32844799999999996,
+      "cpu_submit_ms": 0.148425
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-i32-graph-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7400960000000001,
+      "sort_and_interop_ms": 0.345088,
+      "cpu_submit_ms": 0.15157500000000002
+    },
+    {
+      "group": "experiments",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-merge-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.812032,
+      "sort_and_interop_ms": 0.432128,
+      "cpu_submit_ms": 0.2292
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.301504,
+      "sort_and_interop_ms": 0.335872,
+      "cpu_submit_ms": 0.1082
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.3762560000000001,
+      "sort_and_interop_ms": 0.408832,
+      "cpu_submit_ms": 0.2244
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-pre-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.3762560000000001,
+      "sort_and_interop_ms": 0.40934400000000004,
+      "cpu_submit_ms": 0.226225
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-batch-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.381376,
+      "sort_and_interop_ms": 0.41215999999999997,
+      "cpu_submit_ms": 0.2123
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-unfenced-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.3731840000000002,
+      "sort_and_interop_ms": 0.40627199999999997,
+      "cpu_submit_ms": 0.22560000000000002
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-fast-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.37856,
+      "sort_and_interop_ms": 0.408832,
+      "cpu_submit_ms": 0.217175
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.368064,
+      "sort_and_interop_ms": 0.400384,
+      "cpu_submit_ms": 0.16670000000000001
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-i32-graph-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.368576,
+      "sort_and_interop_ms": 0.40192,
+      "cpu_submit_ms": 0.168275
+    },
+    {
+      "group": "experiments",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-merge-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.7879040000000002,
+      "sort_and_interop_ms": 0.8202240000000001,
+      "cpu_submit_ms": 0.270775
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.9394559999999998,
+      "sort_and_interop_ms": 0.479232,
+      "cpu_submit_ms": 0.14705
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.956096,
+      "sort_and_interop_ms": 0.475136,
+      "cpu_submit_ms": 0.28264999999999996
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-pre-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.956096,
+      "sort_and_interop_ms": 0.47385600000000005,
+      "cpu_submit_ms": 0.26045
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-batch-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 2.044416,
+      "sort_and_interop_ms": 0.47795200000000004,
+      "cpu_submit_ms": 0.29755
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-unfenced-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.948672,
+      "sort_and_interop_ms": 0.468992,
+      "cpu_submit_ms": 0.26039999999999996
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-fast-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.9432960000000001,
+      "sort_and_interop_ms": 0.466432,
+      "cpu_submit_ms": 0.24907500000000002
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.933568,
+      "sort_and_interop_ms": 0.457728,
+      "cpu_submit_ms": 0.19245
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-i32-graph-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.942528,
+      "sort_and_interop_ms": 0.46464,
+      "cpu_submit_ms": 0.19225
+    },
+    {
+      "group": "experiments",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-merge-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 2.600704,
+      "sort_and_interop_ms": 1.120768,
+      "cpu_submit_ms": 0.32142499999999996
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.766144,
+      "sort_and_interop_ms": 1.279488,
+      "cpu_submit_ms": 0.15055
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.286656,
+      "sort_and_interop_ms": 0.750336,
+      "cpu_submit_ms": 0.278975
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-pre-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.3184,
+      "sort_and_interop_ms": 0.7518719999999999,
+      "cpu_submit_ms": 0.28825
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-batch-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.302016,
+      "sort_and_interop_ms": 0.750848,
+      "cpu_submit_ms": 0.28900000000000003
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-unfenced-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.2863999999999995,
+      "sort_and_interop_ms": 0.7490559999999999,
+      "cpu_submit_ms": 0.27545000000000003
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-fast-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.297408,
+      "sort_and_interop_ms": 0.7488,
+      "cpu_submit_ms": 0.268275
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.273856,
+      "sort_and_interop_ms": 0.732416,
+      "cpu_submit_ms": 0.2066
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-i32-graph-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.287168,
+      "sort_and_interop_ms": 0.7365120000000001,
+      "cpu_submit_ms": 0.2077
+    },
+    {
+      "group": "experiments",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-merge-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 7.625984,
+      "sort_and_interop_ms": 3.04,
+      "cpu_submit_ms": 0.337175
+    },
+    {
+      "group": "confirmation",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 1,
+      "count": 170799,
+      "gpu_total_ms": 0.702464,
+      "sort_and_interop_ms": 0.324608,
+      "cpu_submit_ms": 0.14325
+    },
+    {
+      "group": "confirmation",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 1,
+      "count": 170799,
+      "gpu_total_ms": 0.713728,
+      "sort_and_interop_ms": 0.336896,
+      "cpu_submit_ms": 0.16275
+    },
+    {
+      "group": "confirmation",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 1,
+      "count": 170799,
+      "gpu_total_ms": 0.718848,
+      "sort_and_interop_ms": 0.34150400000000003,
+      "cpu_submit_ms": 0.20745
+    },
+    {
+      "group": "confirmation",
+      "model": "changjin_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 1,
+      "count": 170799,
+      "gpu_total_ms": 0.498688,
+      "sort_and_interop_ms": 0.123904,
+      "cpu_submit_ms": 0.08155000000000001
+    },
+    {
+      "group": "confirmation",
+      "model": "shengyi_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.296384,
+      "sort_and_interop_ms": 0.33433599999999997,
+      "cpu_submit_ms": 0.107175
+    },
+    {
+      "group": "confirmation",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.371136,
+      "sort_and_interop_ms": 0.407552,
+      "cpu_submit_ms": 0.238425
+    },
+    {
+      "group": "confirmation",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.3632,
+      "sort_and_interop_ms": 0.39808,
+      "cpu_submit_ms": 0.16665
+    },
+    {
+      "group": "confirmation",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.36192,
+      "sort_and_interop_ms": 0.39756800000000003,
+      "cpu_submit_ms": 0.143075
+    },
+    {
+      "group": "confirmation",
+      "model": "tumu_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.93536,
+      "sort_and_interop_ms": 0.47820799999999997,
+      "cpu_submit_ms": 0.12965
+    },
+    {
+      "group": "confirmation",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.937408,
+      "sort_and_interop_ms": 0.4672,
+      "cpu_submit_ms": 0.234375
+    },
+    {
+      "group": "confirmation",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.92512,
+      "sort_and_interop_ms": 0.452112,
+      "cpu_submit_ms": 0.155125
+    },
+    {
+      "group": "confirmation",
+      "model": "tumu_v1.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 1248730,
+      "gpu_total_ms": 1.926912,
+      "sort_and_interop_ms": 0.45363200000000004,
+      "cpu_submit_ms": 0.16185
+    },
+    {
+      "group": "confirmation",
+      "model": "citang_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.175424,
+      "sort_and_interop_ms": 0.745984,
+      "cpu_submit_ms": 0.123025
+    },
+    {
+      "group": "confirmation",
+      "model": "citang_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.03744,
+      "sort_and_interop_ms": 0.566272,
+      "cpu_submit_ms": 0.250075
+    },
+    {
+      "group": "confirmation",
+      "model": "citang_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.006208,
+      "sort_and_interop_ms": 0.548608,
+      "cpu_submit_ms": 0.1814
+    },
+    {
+      "group": "confirmation",
+      "model": "citang_v1.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.1841280000000003,
+      "sort_and_interop_ms": 0.566272,
+      "cpu_submit_ms": 0.226375
+    },
+    {
+      "group": "confirmation",
+      "model": "spz/citang_v1.spz",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.1708160000000003,
+      "sort_and_interop_ms": 0.738304,
+      "cpu_submit_ms": 0.126175
+    },
+    {
+      "group": "confirmation",
+      "model": "spz/citang_v1.spz",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.001088,
+      "sort_and_interop_ms": 0.5529599999999999,
+      "cpu_submit_ms": 0.22655
+    },
+    {
+      "group": "confirmation",
+      "model": "spz/citang_v1.spz",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 2.99392,
+      "sort_and_interop_ms": 0.542208,
+      "cpu_submit_ms": 0.16415
+    },
+    {
+      "group": "confirmation",
+      "model": "spz/citang_v1.spz",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 2116317,
+      "gpu_total_ms": 3.183872,
+      "sort_and_interop_ms": 0.545024,
+      "cpu_submit_ms": 0.168875
+    },
+    {
+      "group": "confirmation",
+      "model": "zhihuizhimen.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.82784,
+      "sort_and_interop_ms": 1.288704,
+      "cpu_submit_ms": 0.169325
+    },
+    {
+      "group": "confirmation",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.289216,
+      "sort_and_interop_ms": 0.74752,
+      "cpu_submit_ms": 0.2706
+    },
+    {
+      "group": "confirmation",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.255167999999999,
+      "sort_and_interop_ms": 0.726272,
+      "cpu_submit_ms": 0.18595
+    },
+    {
+      "group": "confirmation",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.686272,
+      "sort_and_interop_ms": 0.739584,
+      "cpu_submit_ms": 0.204025
+    },
+    {
+      "group": "confirmation",
+      "model": "jiulonghu_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 22480361,
+      "gpu_total_ms": 34.835968,
+      "sort_and_interop_ms": 7.95776,
+      "cpu_submit_ms": 0.2013
+    },
+    {
+      "group": "confirmation",
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-queued",
+      "rounds": 2,
+      "count": 22480361,
+      "gpu_total_ms": 29.590272,
+      "sort_and_interop_ms": 2.714112,
+      "cpu_submit_ms": 0.375625
+    },
+    {
+      "group": "confirmation",
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 22480361,
+      "gpu_total_ms": 29.216512,
+      "sort_and_interop_ms": 2.6688,
+      "cpu_submit_ms": 0.28054999999999997
+    },
+    {
+      "group": "confirmation",
+      "model": "jiulonghu_v1.ply",
+      "backend": "cuda-sort-fast-graph-queued",
+      "rounds": 2,
+      "count": 22480361,
+      "gpu_total_ms": 32.015872,
+      "sort_and_interop_ms": 2.7719679999999998,
+      "cpu_submit_ms": 0.35740000000000005
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "changjin_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.523776,
+      "sort_and_interop_ms": 0.131584,
+      "cpu_submit_ms": 0.09129999999999999
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.7032320000000001,
+      "sort_and_interop_ms": 0.324608,
+      "cpu_submit_ms": 0.1614
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "changjin_v1.ply",
+      "backend": "cuda-sort-roundtrip-queued",
+      "rounds": 2,
+      "count": 170799,
+      "gpu_total_ms": 0.714496,
+      "sort_and_interop_ms": 0.336128,
+      "cpu_submit_ms": 0.16215000000000002
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "shengyi_v1.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.2968959999999998,
+      "sort_and_interop_ms": 0.33433599999999997,
+      "cpu_submit_ms": 0.106725
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.3670399999999998,
+      "sort_and_interop_ms": 0.401408,
+      "cpu_submit_ms": 0.17822500000000002
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "shengyi_v1.ply",
+      "backend": "cuda-sort-roundtrip-queued",
+      "rounds": 2,
+      "count": 804758,
+      "gpu_total_ms": 1.368064,
+      "sort_and_interop_ms": 0.40192,
+      "cpu_submit_ms": 0.16975
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "zhihuizhimen.ply",
+      "backend": "d3d12-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.745407999999999,
+      "sort_and_interop_ms": 1.282048,
+      "cpu_submit_ms": 0.189025
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-graph-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.358592,
+      "sort_and_interop_ms": 0.8384,
+      "cpu_submit_ms": 0.54225
+    },
+    {
+      "group": "roundtrip-graph",
+      "model": "zhihuizhimen.ply",
+      "backend": "cuda-sort-roundtrip-queued",
+      "rounds": 2,
+      "count": 3914609,
+      "gpu_total_ms": 5.37344,
+      "sort_and_interop_ms": 0.7915519999999999,
+      "cpu_submit_ms": 0.4205
+    }
+  ]
+}

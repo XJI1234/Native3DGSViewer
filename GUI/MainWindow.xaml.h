@@ -61,6 +61,7 @@ struct MainWindow : MainWindowT<MainWindow>
     Microsoft::UI::Xaml::Controls::RadioButton orbit_button_{nullptr}, fly_button_{nullptr};
     Microsoft::UI::Xaml::Controls::TextBlock empty_text_{nullptr}, busy_text_{nullptr};
     Microsoft::UI::Xaml::Controls::TextBlock status_text_{nullptr}, model_text_{nullptr};
+    Microsoft::UI::Xaml::Controls::Border cuda_indicator_{nullptr};
     Microsoft::UI::Xaml::Controls::Border busy_panel_{nullptr};
     Microsoft::UI::Xaml::DispatcherTimer timer_{nullptr};
     std::unique_ptr<gs::engine::IEngine> engine_;

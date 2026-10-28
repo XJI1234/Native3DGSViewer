@@ -1,4 +1,5 @@
 #include "test_support.h"
+#include "cuda_sort.h"
 using namespace render_test;
 namespace
 {
@@ -153,4 +154,63 @@ TEST(RenderRecovery, RecoveryReuploadFailureIsFatal)
     EXPECT_FALSE(std::any_of(s.events.begin(), s.events.end(), [](const auto &e) {
         return e.kind == RendererEvent::Kind::DeviceRestored;
     }));
+}
+
+TEST(RenderRecovery, FailedCudaSubmissionRestoresSceneWithDx12)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    control->enable_diagnostics = false;
+    Session s(control);
+    if (!s.renderer->get_stats().cuda_available) GTEST_SKIP() << "Optional CUDA provider unavailable";
+    const auto ticket = s.upload(make_scene(cuda_sort_threshold, 0, [](SceneData &data) {
+        std::fill(data.opacity.begin() + 1, data.opacity.end(), 0.f);
+    }));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    const auto old = s.renderer->surface_generation();
+    control->fail_cuda_submit = true;
+    CameraState moved{}; moved.position_rub.x = .01;
+    ASSERT_FALSE(s.renderer->set_camera(ticket, moved));
+    s.renderer->render_frame();
+    ASSERT_TRUE(std::any_of(s.events.begin(), s.events.end(), [](const auto &e) {
+        return e.kind == RendererEvent::Kind::DeviceLost;
+    }));
+    // DeviceLost requires the host to release its swapchain before the next
+    // render_frame attempts to recreate D3D12's per-adapter device singleton.
+    s.surface.Reset();
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->surface_generation() != old; }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    EXPECT_FALSE(s.renderer->get_stats().cuda_available);
+    s.bind();
+    ASSERT_TRUE(s.pump_until([&] {
+        return std::any_of(s.events.begin(), s.events.end(), [](const auto &e) {
+            return e.kind == RendererEvent::Kind::DeviceRestored;
+        });
+    }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    EXPECT_EQ(s.renderer->get_stats().active_ticket, ticket);
+    EXPECT_EQ(s.renderer->get_stats().active_splats, cuda_sort_threshold);
+    // Retained large scene now uses DX12; a new upload must work as well.
+    const auto again = s.upload(make_scene(1));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(again); }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+}
+
+TEST(RenderRecovery, ActualRemovalAfterCudaSceneRestoresRetainedScene)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    control->enable_diagnostics = false;
+    Session s(control);
+    if (!s.renderer->get_stats().cuda_available) GTEST_SKIP() << "Optional CUDA provider unavailable";
+    const auto ticket = s.upload(make_scene(cuda_sort_threshold, 0, [](SceneData &data) {
+        std::fill(data.opacity.begin() + 1, data.opacity.end(), 0.f);
+    }));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket) && s.renderer->get_stats().cuda_sort_active; }));
+    const auto old = s.renderer->surface_generation();
+    remove_device(s);
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->surface_generation() != old; }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    s.bind();
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    EXPECT_EQ(s.renderer->get_stats().active_ticket, ticket);
 }

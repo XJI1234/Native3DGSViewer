@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.43" timestamp="2026-10-28T01:43:47.862" name="AllTests">
+  <testsuite name="RenderLifecycle" tests="1" failures="0" disabled="0" skipped="0" errors="0" time="0.43" timestamp="2026-10-28T01:43:47.862">
+    <testcase name="AdaptiveBackendRendersFullSceneWithOptionalProvider" file="C:\Users\21544\workspace\Native3DGSViewer\tests\render-core\lifecycle_tests.cpp" line="340" status="run" result="completed" time="0.43" timestamp="2026-10-28T01:43:47.862" classname="RenderLifecycle">
+      <properties>
+        <property name="cuda_available" value="false"/>
+      </properties>
+    </testcase>
+  </testsuite>
+</testsuites>

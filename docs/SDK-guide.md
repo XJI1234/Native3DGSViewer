@@ -1,4 +1,4 @@
-# Native3DGS SDK 0.2.2
+# Native3DGS SDK 0.2.3
 
 逐项接口、调用语法、返回值和线程/所有权约束见
 [Windows SDK 接口手册](SDK-API-reference.md)。
@@ -15,6 +15,10 @@ cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 ```
 
 Link `Native3DGS::Engine` and call `native3dgs_deploy_runtime(host_target)` to place the helper and compiled shaders next to the executable. `Native3DGS::ModelIo` and `Native3DGS::RenderCore` are available for hosts that manage their own worker threads. The package includes pinned dependencies and notices; building a consumer needs neither decoder source nor DXC.
+
+The 0.2.3 Windows release ZIP also includes the optional `bin/gs-cuda-backend.dll` and CUDA notices. `native3dgs_deploy_runtime` copies them beside the host when present. No CUDA toolkit or CUDA link dependency is required by consumers. Runtime adapter LUID matching and a real kernel probe determine availability; scenes with at least 2,000,000 rendered points use CUB Graph, smaller scenes use DX12. Missing/incompatible providers, unsupported devices or preparation failure retain DX12. Debug Layer configurations use DX12. Inspect `stats.cuda_available` and `stats.cuda_sort_active`; display an acceleration indicator only for an active scene with the latter true. Consumers must rebuild against the 0.2.3 headers and libraries because `RenderStats` grew.
+
+To reproduce the release SDK with CUDA, build `CudaOperators/tools/build.ps1 -Targets gs-cuda-backend`, then install both `SDK` and `CUDA` components from `out/cmake-cuda` into the same new prefix. Archive that prefix's contents as `Native3DGS-SDK-0.2.3-Windows-x64.zip`. The ordinary SDK-only CPack configuration remains usable for a DX12-only distribution.
 
 Create an engine, obtain its snapshot's surface generation, then call `addref_surface_queue(generation)`. The returned pointer has one owned COM reference. Use this queue for a DXGI composition swapchain: BGRA8 UNORM, premultiplied alpha, flip sequential, stretch, single sample, two or three buffers. Pass `IDXGISwapChain3` to `attach_swapchain`; engine retains its own reference. Attach the surface to a WinUI `SwapChainPanel` on the host UI thread. The console example tests the native composition contract without creating a desktop UI.
 
@@ -55,4 +59,4 @@ Visible-surface depth uses contribution-weighted median Gaussian depth; this is 
 The sample accepts an optional second argument: `sdk-host.exe model.ply scene.metric.json`.
 The installed consumer test imports a deliberately unrelated calibration and completes two GPU picks.
 
-The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.2-Windows-x64.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.
+The published ZIP can be verified independently with `tests/sdk/installed-sdk.ps1 -BuildDirectory out/cmake -PackageArchive out/packages/Native3DGS-SDK-0.2.3-Windows-x64.zip -Scene ../1.ply`. It extracts and relocates the package in the system temp directory, builds/runs the consumer, and removes its temporary tree in a checked finally block. Build/run logs are written to the caller's console. The archive also contains `share/Native3DGS/docs/` with the complete development specifications and verification records, plus `share/Native3DGS/GUI/README.md` for the desktop host.

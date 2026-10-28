@@ -4,8 +4,8 @@
 #ifndef OutputDir
   #error OutputDir is required
 #endif
-#define ViewerVersion "0.2.2"
-#define SetupFilename "Native3DGSViewer-0.2.2-Windows-x64-Setup"
+#define ViewerVersion "0.2.3"
+#define SetupFilename "Native3DGSViewer-0.2.3-Windows-x64-Setup"
 
 [Setup]
 AppId={{D7C155A0-3A8A-4D9A-98C2-5869E3CBF043}

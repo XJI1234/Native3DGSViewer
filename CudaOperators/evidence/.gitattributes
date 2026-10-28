@@ -1,2 +1,4 @@
 # Compiler diagnostics are verbatim evidence, including Ninja's trailing spaces.
 *.log -whitespace
+# Preserve retrieved documentation text as collected research evidence.
+2026-10-27-small-model-sort-research/*.txt -whitespace

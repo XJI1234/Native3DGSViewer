@@ -4,6 +4,7 @@
 #include "test_renderer.h"
 #endif
 #include "upload.h"
+#include "cuda_sort.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -136,6 +137,8 @@ struct FrameSlot
     ComPtr<ID3D12CommandAllocator> allocator;
     ComPtr<ID3D12GraphicsCommandList> list;
     ComPtr<ID3D12Resource> readback;
+    ComPtr<ID3D12CommandAllocator> producer_allocator;
+    ComPtr<ID3D12GraphicsCommandList> producer;
     std::shared_ptr<SceneGpu> scene;
     uint64_t fence = 0, frame = 0;
     double cpu_ms = 0, present_ms = 0;
@@ -603,14 +606,17 @@ class Renderer final : public IRenderer
     {
         bool diagnostics = false;
 #ifdef GS_RENDER_TEST_HOOKS
-        diagnostics = control_ != nullptr;
+        diagnostics = control_ && control_->enable_diagnostics;
 #endif
         gpu_ = std::make_unique<GpuDevice>(diagnostics, adapter_luid_);
         adapter_luid_ = gpu_->adapter_description.AdapterLuid;
+        cuda_device_ = cuda_disabled_ ? nullptr : CudaSortDevice::probe(gpu_->device.Get());
         pass_ = std::make_unique<SplatPass>(*gpu_, quality_);
         pass_->sort().validate();
         {
             std::lock_guard lock(mutex_);
+            stats_.cuda_available = cuda_device_ != nullptr;
+            stats_.cuda_sort_active = false;
             stats_.sort_shader_mode = pass_->sort().mode();
             stats_.sort_self_test_passed = true;
             stats_.wave32_fallback_hr = pass_->sort().wave32_fallback_hr();
@@ -635,6 +641,12 @@ class Renderer final : public IRenderer
                                                   IID_PPV_ARGS(&slot.list)),
                   "Frame list");
             check(slot.list->Close(), "Frame close");
+            check(gpu_->device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+                                                       IID_PPV_ARGS(&slot.producer_allocator)), "CUDA producer allocator");
+            check(gpu_->device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
+                                                 slot.producer_allocator.Get(), nullptr,
+                                                 IID_PPV_ARGS(&slot.producer)), "CUDA producer list");
+            check(slot.producer->Close(), "CUDA producer initial close");
             slot.readback = gpu_->buffer(sizeof(FrameReadback), D3D12_HEAP_TYPE_READBACK,
                                          D3D12_RESOURCE_STATE_COPY_DEST);
             void *mapped = nullptr;
@@ -724,6 +736,7 @@ class Renderer final : public IRenderer
                     std::lock_guard lock(mutex_);
                     active_ticket_ = 0;
                     active_cpu_.reset();
+                    stats_.cuda_sort_active = false;
                     stats_.active_ticket = 0;
                     stats_.active_source_splats = 0;
                     stats_.active_source_sh_degree = 0;
@@ -914,6 +927,7 @@ class Renderer final : public IRenderer
                     slot.frame >= stats_.presented_frame_id)
                 {
                     stats_.presented_frame_id = slot.frame;
+                    stats_.cuda_sort_active = slot.scene->cuda_sort != nullptr;
                     stats_.cpu_frame_ms = slot.cpu_ms;
                     stats_.present_call_ms = slot.present_ms;
                     stats_.gpu_frame_ms =
@@ -946,6 +960,27 @@ class Renderer final : public IRenderer
         check(slot.list->Reset(slot.allocator.Get(), nullptr), "Frame list reset");
         auto *list = slot.list.Get();
         auto candidate = (pending_ && pending_->ready) ? pending_->scene : active_;
+        if (candidate && !candidate->cuda_attempted) {
+            candidate->cuda_attempted = true;
+            bool allow_cuda = cuda_device_ && use_cuda_sort(true, candidate->count);
+#ifdef GS_RENDER_TEST_HOOKS
+            if (control_ && control_->fail_cuda_prepare) allow_cuda = false;
+#endif
+            if (allow_cuda) {
+                try { candidate->cuda_sort = cuda_device_->prepare(*gpu_, candidate->sorting); }
+                catch (const std::bad_alloc &) { /* Optional acceleration: preserve DX12. */ }
+            }
+        }
+        const bool cuda_sort = candidate && candidate->cuda_sort && !candidate->sorted;
+        if (cuda_sort) {
+            check(slot.producer_allocator->Reset(), "CUDA producer allocator reset");
+            check(slot.producer->Reset(slot.producer_allocator.Get(), nullptr), "CUDA producer reset");
+            list = slot.producer.Get();
+            if (!candidate->cuda_sort->initialized) {
+                candidate->cuda_sort->barriers(list, false);
+                candidate->cuda_sort->initialized = true;
+            }
+        }
         list->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3);
         if (candidate && !candidate->sorted)
         {
@@ -954,7 +989,8 @@ class Renderer final : public IRenderer
             if (candidate->sh_attributes)
                 transition(list, candidate->sh_attributes.Get(), D3D12_RESOURCE_STATE_COMMON,
                            D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-            pass_->project_sort(list, *candidate, viewport_);
+            if (cuda_sort) pass_->project(list, *candidate, viewport_);
+            else pass_->project_sort(list, *candidate, viewport_);
             {
                 std::lock_guard lock(mutex_);
                 ++stats_.sort_pass_count;
@@ -971,6 +1007,27 @@ class Renderer final : public IRenderer
             std::lock_guard lock(mutex_);
             ++stats_.sort_reuse_count;
         }
+        if (cuda_sort) {
+            candidate->cuda_sort->barriers(list, true);
+            check(list->Close(), "CUDA producer close");
+            // Keep the measured, sequential handoff. The prerecord/batched/unfenced
+            // experiment did not improve full-frame time consistently.
+            gpu_->submit(gpu_->direct.Get(), slot.producer.Get(),
+                         gpu_->direct_fence.Get(), gpu_->direct_value);
+            bool submitted = false;
+#ifdef GS_RENDER_TEST_HOOKS
+            if (!(control_ && control_->fail_cuda_submit.exchange(false)))
+#endif
+                submitted = candidate->cuda_sort->submit(gpu_->direct.Get());
+            if (!submitted) {
+                cuda_disabled_ = true;
+                throw GpuFailure{DXGI_ERROR_DEVICE_REMOVED, "CUDA sort submission failed; recovering with DX12"};
+            }
+            candidate->sorted = true;
+
+            list = slot.list.Get();
+            candidate->cuda_sort->barriers(list, false);
+        }
         list->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3 + 1);
         UINT buffer = swapchain_->GetCurrentBackBufferIndex();
         auto *target = targets_[buffer].Get();
@@ -979,9 +1036,12 @@ class Renderer final : public IRenderer
         transition(list, target, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
         const float clear[4]{};
         list->ClearRenderTargetView(handle, clear, 0, nullptr);
+        const bool alternate = candidate && candidate->cuda_sort && candidate->cuda_sort->selector;
+        if (alternate) std::swap(candidate->sorting.values[0], candidate->sorting.values[1]);
         if (candidate)
             pass_->draw(list, *candidate, viewport_, handle);
         const bool picked = record_pick(list, candidate);
+        if (alternate) std::swap(candidate->sorting.values[0], candidate->sorting.values[1]);
         list->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3 + 2);
         list->ResolveQueryData(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, slotIndex * 3, 3,
                                slot.readback.Get(), 0);
@@ -1047,6 +1107,7 @@ class Renderer final : public IRenderer
             pending_.reset();
             {
                 std::lock_guard lock(mutex_);
+                stats_.cuda_sort_active = false;
                 stats_.active_ticket = active_->ticket;
                 stats_.active_source_splats = active_->cpu->count;
                 stats_.active_source_sh_degree = active_->cpu->shDegree;
@@ -1063,7 +1124,7 @@ class Renderer final : public IRenderer
                 emit(RendererEvent::Kind::DeviceRestored, active_->ticket);
             }
         }
-        else if (recovering_ && !active_)
+        else if (recovering_ && !active_ && !pending_)
         {
             recovering_ = false;
             emit(RendererEvent::Kind::DeviceRestored);
@@ -1105,6 +1166,8 @@ class Renderer final : public IRenderer
         {
             std::lock_guard lock(mutex_);
             recovering_ = true;
+            stats_.cuda_available = false;
+            stats_.cuda_sort_active = false;
             stats_.active_ticket = 0;
             stats_.active_source_splats = 0;
             stats_.active_source_sh_degree = 0;
@@ -1158,6 +1221,7 @@ class Renderer final : public IRenderer
         queries_.Reset();
         rtv_.Reset();
         pass_.reset();
+        cuda_device_.reset();
         gpu_.reset();
         // Deliver DeviceLost before recreating the D3D12 singleton on this adapter.
         // The host must release its old queue/device/swapchain references at that event.
@@ -1227,6 +1291,8 @@ class Renderer final : public IRenderer
     mutable std::mutex mutex_;
     std::deque<Command> commands_;
     std::unique_ptr<GpuDevice> gpu_;
+    std::shared_ptr<CudaSortDevice> cuda_device_;
+    bool cuda_disabled_ = false;
     std::optional<LUID> adapter_luid_;
     std::unique_ptr<SplatPass> pass_;
     std::unique_ptr<PickPass> pick_pass_;

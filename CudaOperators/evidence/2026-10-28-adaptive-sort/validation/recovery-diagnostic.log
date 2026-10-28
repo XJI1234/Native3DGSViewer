@@ -1,0 +1,25 @@
+Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = RenderRecovery.FailedCuda*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RenderRecovery
+[ RUN      ] RenderRecovery.FailedCudaSubmissionRestoresSceneWithDx12
+recovery event=0
+recovery event=0
+recovery event=1
+recovery event=3 hr=-2005270523 CUDA sort submission failed; recovering with DX12 DRED breadcrumbs=0 fault=0
+recovery event=9 hr=-2005270524 D3D12 hardware SM6 WaveOps wave8-128
+C:\Users\21544\workspace\Native3DGSViewer\tests\render-core\recovery_tests.cpp(186): error: Value of: recovered
+  Actual: false
+Expected: true
+
+[  FAILED  ] RenderRecovery.FailedCudaSubmissionRestoresSceneWithDx12 (10560 ms)
+[----------] 1 test from RenderRecovery (10560 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (10560 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] RenderRecovery.FailedCudaSubmissionRestoresSceneWithDx12
+
+ 1 FAILED TEST

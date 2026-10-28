@@ -1,5 +1,10 @@
 # Spec: desktop-viewer（Windows 桌面查看与交互）
 
+## 2026-10-28：CUDA 状态
+
+模型视口右上角显示“已启用 CUDA 加速”，条件为存在活动场景且 stats.cuda_sort_active。默认隐藏；设备仅支持 CUDA、小模型走 DX12、清空或恢复未完成时不显示。提示不接收指针事件，不覆盖测距面板。
+
+
 状态：GUI 基础实现已落地，完整验收仍在进行；2026-09-26。现行宿主接口为 [engine/SDK](SPEC-engine-sdk.md) 的 `gs::engine::IEngine`；已验证内容见[桌面查看器验证记录](desktop-viewer-verification.md)。下文早期 `ViewerCoordinator` 设计仅作为需求推导记录，实际可复用接口和操作以 [GUI 指南](../GUI/README.md)为准。
 
 ## 1. 目标与范围

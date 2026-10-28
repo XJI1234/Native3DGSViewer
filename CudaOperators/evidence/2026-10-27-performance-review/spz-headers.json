@@ -1,0 +1,154 @@
+[
+  {
+    "model": "spz/citang_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 2116317,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/danganguan_spzv4.spz",
+    "magic": "0x5053474e",
+    "version": 4,
+    "count": 1859737,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/danganguan_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1888950,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/haiwai_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1838109,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/he_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 2973002,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/J1_v3.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 2625008,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/jiaoxuelou_v2.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 2233426,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/jiulonghu_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 22480361,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/jizhonglou_v2.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1576115,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/juyuan_v2.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 2670017,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/meiyuan_v2.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1312897,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 804758,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/tiyuguan_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1419007,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1248730,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/tushuguan_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1438782,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/wenke_v2.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1757157,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/xingxi_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1307854,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/yulin_v1.spz",
+    "magic": "0x5053474e",
+    "version": 3,
+    "count": 1027833,
+    "SH": 3,
+    "flags": 0
+  },
+  {
+    "model": "spz/zhihuizhimen_spzv4.spz",
+    "magic": "0x5053474e",
+    "version": 4,
+    "count": 3904214,
+    "SH": 3,
+    "flags": 0
+  }
+]

@@ -1,5 +1,6 @@
 #include "test_support.h"
 #include <thread>
+#include "cuda_sort.h"
 using namespace render_test;
 namespace
 {
@@ -265,4 +266,89 @@ TEST(RenderLifecycle, WrongThreadFrameIsRejectedAndReported)
     auto after = s.renderer->get_stats();
     EXPECT_EQ(after.wrong_thread_frame_calls, before.wrong_thread_frame_calls + 1);
     EXPECT_EQ(after.sort_pass_count, before.sort_pass_count);
+}
+
+TEST(RenderLifecycle, AdaptiveCudaTracksSceneSwitchReuseCancellationAndClear)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    control->enable_diagnostics = false;
+    Session s(control);
+    if (!s.renderer->get_stats().cuda_available) GTEST_SKIP() << "Optional CUDA provider unavailable";
+    const auto scene = make_scene(cuda_sort_threshold, 0, [](SceneData &data) {
+        std::fill(data.opacity.begin() + 1, data.opacity.end(), 0.f);
+    });
+    const auto first = s.upload(scene);
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(first); }));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().gpu_frame_ms.has_value(); }));
+    PickRequest request{1, first, s.renderer->surface_generation(), 0, {}, {128, 128}, 64, 64};
+    ASSERT_FALSE(s.renderer->request_pick(request));
+    std::optional<PickResult> result;
+    ASSERT_TRUE(s.pump_until([&] { result = s.renderer->take_pick_result(); return result.has_value(); }));
+    EXPECT_EQ(result->status, PickStatus::Hit);
+    EXPECT_NEAR(result->position_rub.z, -2, 1e-5);
+    const auto passes = s.renderer->get_stats().sort_pass_count;
+    for (int i = 0; i < 8; ++i) s.renderer->render_frame();
+    EXPECT_EQ(s.renderer->get_stats().sort_pass_count, passes);
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    CameraState camera{}; camera.position_rub.x = .01;
+    ASSERT_FALSE(s.renderer->set_camera(first, camera));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().sort_pass_count > passes; }));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    const auto cancelled = s.upload(make_scene(10000));
+    s.renderer->cancel_upload(cancelled);
+    for (int i = 0; i < 8; ++i) s.renderer->render_frame();
+    EXPECT_EQ(s.renderer->get_stats().active_ticket, first);
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    const auto small_ticket = s.upload(make_scene(1));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(small_ticket); }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    const auto again = s.upload(scene);
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(again); }));
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().cuda_sort_active; }));
+    s.renderer->clear_scene();
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().active_ticket == 0; }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+}
+
+TEST(RenderLifecycle, CudaPreparationFailureFallsBackWithoutLosingScene)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    control->enable_diagnostics = false;
+    control->fail_cuda_prepare = true;
+    Session s(control);
+    if (!s.renderer->get_stats().cuda_available) GTEST_SKIP() << "Optional CUDA provider unavailable";
+    const auto ticket = s.upload(make_scene(cuda_sort_threshold, 0, [](SceneData &data) {
+        std::fill(data.opacity.begin() + 1, data.opacity.end(), 0.f);
+    }));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    ASSERT_TRUE(s.pump_until([&] { return s.renderer->get_stats().gpu_frame_ms.has_value(); }));
+}
+
+TEST(RenderLifecycle, CudaDiagnosticsRetainsDx12RecoveryPath)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    Session s(control);
+    EXPECT_FALSE(s.renderer->get_stats().cuda_available);
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+    const auto ticket = s.upload(make_scene());
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket); }));
+    EXPECT_FALSE(s.renderer->get_stats().cuda_sort_active);
+}
+
+TEST(RenderLifecycle, AdaptiveBackendRendersFullSceneWithOptionalProvider)
+{
+    auto control = std::make_shared<RendererTestControl>();
+    control->enable_diagnostics = false;
+    Session s(control);
+    const bool available = s.renderer->get_stats().cuda_available;
+    RecordProperty("cuda_available", available ? "true" : "false");
+    const auto ticket = s.upload(make_scene(cuda_sort_threshold, 0, [](SceneData &data) {
+        std::fill(data.opacity.begin() + 1, data.opacity.end(), 0.f);
+    }));
+    ASSERT_TRUE(s.pump_until([&] { return s.ready(ticket) && s.renderer->get_stats().gpu_frame_ms.has_value(); }));
+    EXPECT_EQ(s.renderer->get_stats().active_splats, cuda_sort_threshold);
+    EXPECT_FALSE(s.renderer->get_stats().memory_mitigation);
+    EXPECT_EQ(s.renderer->get_stats().cuda_sort_active, available);
 }

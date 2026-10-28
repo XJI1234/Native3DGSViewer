@@ -4,7 +4,7 @@ Native3DGS 是原生 3D 高斯泼溅（3D Gaussian Splatting，3DGS）渲染工�
 
 **项目状态：**模型读取、渲染核心、引擎、测试、可安装 SDK 和 WinUI 3 桌面查看器已实现。RTX 3080 已完成主要本机验证；Windows 11 23H2 的 Intel Arc 核显已实机打开 SPZ/PLY 并正常浏览。与 Spark 的图像一致性、完整查看器性能及其他 GPU 厂商的验收仍待完成，详见[验证记录](docs/engine-sdk-verification.md)和[桌面验证记录](docs/desktop-viewer-verification.md)。
 
-当前发行说明见 [0.2.2](docs/release-0.2.2.md)；资源与 Android 集成经验见[开发记忆](docs/development-memory.md)。
+当前发行说明见 [0.2.3](docs/release-0.2.3.md)；Windows 新增按规模自动选择的可选 CUDA 排序，实际启用时视口角落显示提示。其他平台沿用原构建。资源与 Android 集成经验见[开发记忆](docs/development-memory.md)。
 
 ## 功能
 
@@ -91,7 +91,7 @@ cmake --build out/cmake --config Release --parallel 8
 
 ## 桌面查看器
 
-构建后启动 `out/Release/Native3DGSViewer.GUI.exe`，或运行 `packaging/build-installer.ps1 -SkipBuild`（需要 Inno Setup 6）生成 `out/installer/Native3DGSViewer-Setup-x64.exe`。安装包是当前用户自包含安装，带有运行库、解码辅助程序、shader 和第三方许可文件。打开窗口后选择一个 PLY/SPZ 文件，或将文件拖入视口；也可传入单个文件路径作为启动参数。
+构建后启动 `out/Release/Native3DGSViewer.GUI.exe`，或运行 `packaging/build-installer.ps1 -SkipBuild`（需要 Inno Setup 6）生成 `out/installer/Native3DGSViewer-0.2.3-Windows-x64-Setup.exe`。使用 `-EnableCuda` 可构建并携带可选 CUDA 后端；运行时探测实际设备，低于 200 万点保留 DX12，达到阈值且支持时启用 CUDA。安装包是当前用户自包含安装，带有运行库、解码辅助程序、shader 和第三方许可文件。打开窗口后选择一个 PLY/SPZ 文件，或将文件拖入视口；也可传入单个文件路径作为启动参数。
 
 - 固定模式：按住左键拖动，模型沿鼠标方向旋转；右键平移，滚轮缩放；“适配”和“重置”恢复模型视角。
 - 自由模式：点击视口并移动鼠标转向；W/A/S/D 移动，Q/E 下降/上升，Shift 加速，Esc 退出捕获。
@@ -168,7 +168,7 @@ native3dgs_deploy_runtime(my-viewer)
 cpack --config out/cmake/CPackConfig.cmake -C Release -B out/packages
 ```
 
-产物为 `out/packages/Native3DGS-SDK-0.2.0-windows-x64-SDK.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
+产物为 `out/packages/Native3DGS-SDK-0.2.3-Windows-x64.zip`，包含完整 `docs/`、GUI 宿主说明、公共头、库、着色器、辅助程序及许可声明。发行版另包含可选 CUDA DLL 与许可证，其打包和自动部署方式见 [SDK 指南](docs/SDK-guide.md)。[独立 SDK 消费测试](tests/sdk/installed-sdk.ps1)可用场景文件验证解包、重定位、构建和运行。
 
 ## 修改源码
 

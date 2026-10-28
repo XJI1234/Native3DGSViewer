@@ -109,6 +109,8 @@ struct RenderStats
     uint32_t active_splats = 0;
     uint32_t active_point_stride = 1;
     bool memory_mitigation = false;
+    bool cuda_available = false;
+    bool cuda_sort_active = false;
     SortShaderMode sort_shader_mode = SortShaderMode::Standard;
     bool sort_self_test_passed = false;
     HRESULT wave32_fallback_hr = S_OK;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(Native3DGSViewer VERSION 0.2.2 LANGUAGES C CXX)
+project(Native3DGSViewer VERSION 0.2.3 LANGUAGES C CXX)
 
 if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
   message(FATAL_ERROR "Native3DGSViewer requires Windows x64")
@@ -116,7 +116,7 @@ add_custom_target(render-shaders DEPENDS ${RENDER_SHADER_OUTPUTS})
 add_custom_command(TARGET render-shaders POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/shaders"
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RENDER_SHADER_OUTPUTS} "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/shaders" VERBATIM)
-add_library(render-core STATIC src/render-core/scene/contracts.cpp src/render-core/scene/upload.cpp src/render-core/device/gpu.cpp src/render-core/device/renderer.cpp src/render-core/passes/sort.cpp src/render-core/passes/splat.cpp src/render-core/passes/picking.cpp)
+add_library(render-core STATIC src/render-core/scene/contracts.cpp src/render-core/scene/upload.cpp src/render-core/device/gpu.cpp src/render-core/device/renderer.cpp src/render-core/device/cuda_sort.cpp src/render-core/passes/sort.cpp src/render-core/passes/splat.cpp src/render-core/passes/picking.cpp)
 target_include_directories(render-core PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include> PRIVATE src/render-core/scene src/render-core/device src/render-core/passes third_party/parallel-sort/ffx-parallelsort)
 target_compile_definitions(render-core PRIVATE NOMINMAX)
 target_link_libraries(render-core PRIVATE d3d12 dxgi dxguid)
@@ -154,6 +154,9 @@ target_link_libraries(Native3DGSViewer.Tests PRIVATE native3dgs-engine render-co
 add_dependencies(Native3DGSViewer.Tests model-io-helper model-io-fault-helper)
 add_test(NAME ModelIo COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_filter=ModelIo*)
 add_test(NAME RenderCore COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_filter=Render*)
+# CUDA production lifecycle must run before any process-global Debug Layer activation.
+add_test(NAME AdaptiveSortProduction COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>"
+  --gtest_filter=RenderLifecycle.Adaptive*:RenderLifecycle.CudaPreparation*:RenderRecovery.FailedCuda*:RenderRecovery.ActualRemovalAfterCuda*)
 add_test(NAME ModelRenderIntegration COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_filter=ModelRenderIntegration.*)
 add_test(NAME Engine COMMAND "$<TARGET_FILE:Native3DGSViewer.Tests>" --gtest_filter=Engine*)
 add_test(NAME InstalledSDK COMMAND pwsh -NoProfile -File "${CMAKE_SOURCE_DIR}/tests/sdk/installed-sdk.ps1"
@@ -211,7 +214,7 @@ set(CPACK_COMPONENTS_ALL SDK)
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 include(CPack)
 
-option(GS_ENABLE_CUDA_OPERATORS "Build the optional Windows CUDA experiment host" OFF)
+option(GS_ENABLE_CUDA_OPERATORS "Build the optional Windows CUDA backend and experiment tools" OFF)
 if(GS_ENABLE_CUDA_OPERATORS)
   add_subdirectory(CudaOperators)
 endif()

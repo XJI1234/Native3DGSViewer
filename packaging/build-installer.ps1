@@ -1,5 +1,6 @@
 param(
     [switch]$SkipBuild,
+    [switch]$EnableCuda,
     [string]$MSBuildPath,
     [string]$IsccPath
 )
@@ -20,6 +21,21 @@ if (-not $SkipBuild) {
     if (-not (Test-Path -LiteralPath $MSBuildPath)) { throw "MSBuild not found: $MSBuildPath" }
     & $MSBuildPath (Join-Path $repo 'Native3DGSViewer.sln') /restore /m /p:Configuration=Release /p:Platform=x64
     if ($LASTEXITCODE -ne 0) { throw 'Release build failed.' }
+}
+
+if ($EnableCuda -and -not $SkipBuild) {
+    & pwsh -NoProfile -File (Join-Path $repo 'CudaOperators/tools/build.ps1') -Targets gs-cuda-backend
+    if ($LASTEXITCODE -ne 0) { throw 'Optional CUDA backend build failed.' }
+}
+if ($EnableCuda -and -not (Test-Path -LiteralPath (Join-Path $release 'gs-cuda-backend.dll'))) {
+    throw 'CUDA was requested but the optional backend DLL is missing.'
+}
+if (Test-Path -LiteralPath (Join-Path $release 'gs-cuda-backend.dll')) {
+    foreach ($notice in @('cudart-LICENSE', 'cccl-LICENSE')) {
+        if (-not (Test-Path -LiteralPath (Join-Path $release "licenses/cuda/$notice"))) {
+            throw "CUDA distribution notice missing: $notice"
+        }
+    }
 }
 
 $shaders = @('count', 'reduce', 'scan', 'scan_add', 'scatter', 'reset_args',
@@ -65,7 +81,7 @@ if (-not $crt) { throw 'Visual C++ x64 runtime files were not found.' }
 Copy-Item -Path (Join-Path $crt '*.dll') -Destination $resolvedStage
 
 $licenses = Join-Path $resolvedStage 'licenses'
-New-Item -ItemType Directory -Path $licenses | Out-Null
+New-Item -ItemType Directory -Path $licenses -Force | Out-Null
 $notices = @{
     'miniply-LICENSE.md' = 'third_party\miniply\LICENSE.md'
     'spz-LICENSE' = 'third_party\spz\LICENSE'
@@ -97,4 +113,4 @@ if (-not (Test-Path -LiteralPath $IsccPath)) { throw "Inno Setup compiler not fo
 $defines = @("/DStageDir=$resolvedStage", "/DOutputDir=$installer")
 & $IsccPath @defines (Join-Path $PSScriptRoot 'viewer.iss')
 if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed.' }
-Get-Item -LiteralPath (Join-Path $installer 'Native3DGSViewer-0.2.2-Windows-x64-Setup.exe')
+Get-Item -LiteralPath (Join-Path $installer 'Native3DGSViewer-0.2.3-Windows-x64-Setup.exe')

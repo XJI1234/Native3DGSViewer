@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cub_github",
+    "url": "https://github.com/NVIDIA/cccl/blob/v3.3.3/cub/cub/device/device_radix_sort.cuh",
+    "status": 200,
+    "title": "cccl/cub/cub/device/device_radix_sort.cuh at v3.3.3 \u00b7 NVIDIA/cccl \u00b7 GitHub"
+  },
+  {
+    "id": "ampere",
+    "url": "https://docs.nvidia.com/cuda/ampere-tuning-guide/index.html",
+    "status": 200,
+    "title": "1. NVIDIA Ampere GPU Architecture Tuning Guide \u2014 Ampere Tuning Guide 13.4 documentation"
+  },
+  {
+    "id": "runtime_graph",
+    "url": "https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__GRAPH.html",
+    "status": 200,
+    "title": "6.20. Graph Management \u2014 CUDA Runtime API Reference Manual 13.4 documentation"
+  }
+]

@@ -1,0 +1,2144 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.1071948999997403,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 170799,
+    "sh_degree": 3,
+    "scene_bytes": 40308564,
+    "load_ms": 91.0093,
+    "output": "splats=170799 sh_degree=3 scene_bytes=40308564 load_ms=91.0093\n"
+  },
+  {
+    "model": "citang_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.020447000000786,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\citang_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 937.641,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=937.641\n"
+  },
+  {
+    "model": "danganguan_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.9737243999989005,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\danganguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 917.922,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=917.922\n"
+  },
+  {
+    "model": "haiwai_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.9816720000017085,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\haiwai_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 926.242,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=926.242\n"
+  },
+  {
+    "model": "he_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.4194021000002977,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\he_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 1312.65,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=1312.65\n"
+  },
+  {
+    "model": "J1_v3.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.2303185999990092,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\J1_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1157.94,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1157.94\n"
+  },
+  {
+    "model": "jiaoxuelou_v2.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.1347693999996409,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiaoxuelou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 1056.34,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=1056.34\n"
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 10.59623079999983,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 10028.9,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=10028.9\n"
+  },
+  {
+    "model": "jizhonglou_v2.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.831038799999078,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jizhonglou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 774.616,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=774.616\n"
+  },
+  {
+    "model": "juyuan_v2.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.3419801000000007,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\juyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1263.7,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1263.7\n"
+  },
+  {
+    "model": "meiyuan_v2.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.5969595000005938,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\meiyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 553.911,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=553.911\n"
+  },
+  {
+    "model": "PML_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.4136531999993167,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\PML_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 851828,
+    "sh_degree": 3,
+    "scene_bytes": 201031408,
+    "load_ms": 381.395,
+    "output": "splats=851828 sh_degree=3 scene_bytes=201031408 load_ms=381.395\n"
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.45109020000018063,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 414.092,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=414.092\n"
+  },
+  {
+    "model": "spz/citang_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.6052166999998008,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\citang_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 1538.98,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=1538.98\n"
+  },
+  {
+    "model": "spz/danganguan_spzv4.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.038940399999774,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1859737,
+    "sh_degree": 3,
+    "scene_bytes": 438897932,
+    "load_ms": 974.386,
+    "output": "splats=1859737 sh_degree=3 scene_bytes=438897932 load_ms=974.386\n"
+  },
+  {
+    "model": "spz/danganguan_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.381801200001064,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 1307.07,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=1307.07\n"
+  },
+  {
+    "model": "spz/haiwai_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.3467943000014202,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\haiwai_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 1272.15,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=1272.15\n"
+  },
+  {
+    "model": "spz/he_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 2.136278800000582,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\he_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 2050.11,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=2050.11\n"
+  },
+  {
+    "model": "spz/J1_v3.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.905835899999147,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\J1_v3.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1828.5,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1828.5\n"
+  },
+  {
+    "model": "spz/jiaoxuelou_v2.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.6337885999982973,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiaoxuelou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 1556.78,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=1556.78\n"
+  },
+  {
+    "model": "spz/jiulonghu_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 16.292670499999076,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiulonghu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 15605.5,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=15605.5\n"
+  },
+  {
+    "model": "spz/jizhonglou_v2.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.175511200000983,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jizhonglou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 1122.13,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=1122.13\n"
+  },
+  {
+    "model": "spz/juyuan_v2.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 2.009338999998363,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\juyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1929.12,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1929.12\n"
+  },
+  {
+    "model": "spz/meiyuan_v2.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.9251733999990392,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\meiyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 881.584,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=881.584\n"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.7042192000008072,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\shengyi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 672.414,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=672.414\n"
+  },
+  {
+    "model": "spz/tiyuguan_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.9960208000011335,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tiyuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 946.936,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=946.936\n"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.983323599999494,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tumu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 938.705,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=938.705\n"
+  },
+  {
+    "model": "spz/tushuguan_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.016756600000008,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tushuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 969.285,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=969.285\n"
+  },
+  {
+    "model": "spz/wenke_v2.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.3502158999999665,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\wenke_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 1289.09,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=1289.09\n"
+  },
+  {
+    "model": "spz/xingxi_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.0015940000012051,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\xingxi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 955.934,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=955.934\n"
+  },
+  {
+    "model": "spz/yulin_v1.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.8348184000005858,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\yulin_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 796.833,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=796.833\n"
+  },
+  {
+    "model": "spz/zhihuizhimen_spzv4.spz",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 2.3845177000002877,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\zhihuizhimen_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 3904214,
+    "sh_degree": 3,
+    "scene_bytes": 921394504,
+    "load_ms": 2270.65,
+    "output": "splats=3904214 sh_degree=3 scene_bytes=921394504 load_ms=2270.65\n"
+  },
+  {
+    "model": "tiyuguan_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.6556063999996695,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tiyuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 607.856,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=607.856\n"
+  },
+  {
+    "model": "tumu_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.6125730000003387,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 561.089,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=561.089\n"
+  },
+  {
+    "model": "tushuguan_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.7491408999994746,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tushuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 699.365,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=699.365\n"
+  },
+  {
+    "model": "wenke_v2.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.9330381999989186,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\wenke_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 875.856,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=875.856\n"
+  },
+  {
+    "model": "xingxi_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.6132705999989412,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\xingxi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 569.562,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=569.562\n"
+  },
+  {
+    "model": "yulin_v1.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.483848300000318,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\yulin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 446.541,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=446.541\n"
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 1.7605464999996912,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+      "load",
+      "1"
+    ],
+    "splats": 3914609,
+    "sh_degree": 3,
+    "scene_bytes": 923847724,
+    "load_ms": 1648.49,
+    "output": "splats=3914609 sh_degree=3 scene_bytes=923847724 load_ms=1648.49\n"
+  },
+  {
+    "model": "zhishan.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.22267939999983355,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 202.983,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=202.983\n"
+  },
+  {
+    "model": "zhishan_cleaned.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.2301697000002605,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_cleaned.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 209.951,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=209.951\n"
+  },
+  {
+    "model": "zhishan_v3.ply",
+    "repetition": 1,
+    "exit_code": 0,
+    "process_wall_s": 0.3055335999997624,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 649520,
+    "sh_degree": 3,
+    "scene_bytes": 153286720,
+    "load_ms": 280.99,
+    "output": "splats=649520 sh_degree=3 scene_bytes=153286720 load_ms=280.99\n"
+  },
+  {
+    "model": "zhishan_v3.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.3043413999985205,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 649520,
+    "sh_degree": 3,
+    "scene_bytes": 153286720,
+    "load_ms": 277.535,
+    "output": "splats=649520 sh_degree=3 scene_bytes=153286720 load_ms=277.535\n"
+  },
+  {
+    "model": "zhishan_cleaned.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.22971760000109498,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_cleaned.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 206.867,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=206.867\n"
+  },
+  {
+    "model": "zhishan.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.23127460000068822,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 210.598,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=210.598\n"
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.7383582000002207,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+      "load",
+      "1"
+    ],
+    "splats": 3914609,
+    "sh_degree": 3,
+    "scene_bytes": 923847724,
+    "load_ms": 1625.31,
+    "output": "splats=3914609 sh_degree=3 scene_bytes=923847724 load_ms=1625.31\n"
+  },
+  {
+    "model": "yulin_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.47124970000004396,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\yulin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 437.334,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=437.334\n"
+  },
+  {
+    "model": "xingxi_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.6008244999993622,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\xingxi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 555.934,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=555.934\n"
+  },
+  {
+    "model": "wenke_v2.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.8050745999989886,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\wenke_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 751.04,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=751.04\n"
+  },
+  {
+    "model": "tushuguan_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.651753699999972,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tushuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 602.994,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=602.994\n"
+  },
+  {
+    "model": "tumu_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.566446700000597,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 520.551,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=520.551\n"
+  },
+  {
+    "model": "tiyuguan_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.6331798999999592,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tiyuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 586.704,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=586.704\n"
+  },
+  {
+    "model": "spz/zhihuizhimen_spzv4.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 2.106680000000779,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\zhihuizhimen_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 3904214,
+    "sh_degree": 3,
+    "scene_bytes": 921394504,
+    "load_ms": 1996.56,
+    "output": "splats=3904214 sh_degree=3 scene_bytes=921394504 load_ms=1996.56\n"
+  },
+  {
+    "model": "spz/yulin_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.7155891000002157,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\yulin_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 680.316,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=680.316\n"
+  },
+  {
+    "model": "spz/xingxi_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.9053647000000637,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\xingxi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 862.189,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=862.189\n"
+  },
+  {
+    "model": "spz/wenke_v2.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.21320360000027,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\wenke_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 1158.02,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=1158.02\n"
+  },
+  {
+    "model": "spz/tushuguan_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.9920903999991424,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tushuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 946.193,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=946.193\n"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.8546263000007457,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tumu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 811.88,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=811.88\n"
+  },
+  {
+    "model": "spz/tiyuguan_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.9557239999994636,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tiyuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 909.545,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=909.545\n"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.5895051999996213,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\shengyi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 556.465,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=556.465\n"
+  },
+  {
+    "model": "spz/meiyuan_v2.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.8875779999998485,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\meiyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 844.018,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=844.018\n"
+  },
+  {
+    "model": "spz/juyuan_v2.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.7815823999990243,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\juyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1702.45,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1702.45\n"
+  },
+  {
+    "model": "spz/jizhonglou_v2.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.0758612000008725,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jizhonglou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 1021.74,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=1021.74\n"
+  },
+  {
+    "model": "spz/jiulonghu_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 15.123137599999609,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiulonghu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 14559.0,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=14559\n"
+  },
+  {
+    "model": "spz/jiaoxuelou_v2.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.5365729000004649,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiaoxuelou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 1466.91,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=1466.91\n"
+  },
+  {
+    "model": "spz/J1_v3.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.8005650000013702,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\J1_v3.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1719.98,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1719.98\n"
+  },
+  {
+    "model": "spz/he_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 2.012626400000954,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\he_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 1926.36,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=1926.36\n"
+  },
+  {
+    "model": "spz/haiwai_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.2359051999992516,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\haiwai_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 1178.58,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=1178.58\n"
+  },
+  {
+    "model": "spz/danganguan_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.2639741000002687,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 1203.17,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=1203.17\n"
+  },
+  {
+    "model": "spz/danganguan_spzv4.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.000718200000847,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1859737,
+    "sh_degree": 3,
+    "scene_bytes": 438897932,
+    "load_ms": 943.59,
+    "output": "splats=1859737 sh_degree=3 scene_bytes=438897932 load_ms=943.59\n"
+  },
+  {
+    "model": "spz/citang_v1.spz",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.4659160999999585,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\citang_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 1398.09,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=1398.09\n"
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.37591229999998177,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 346.947,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=346.947\n"
+  },
+  {
+    "model": "PML_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.3935780000010709,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\PML_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 851828,
+    "sh_degree": 3,
+    "scene_bytes": 201031408,
+    "load_ms": 360.334,
+    "output": "splats=851828 sh_degree=3 scene_bytes=201031408 load_ms=360.334\n"
+  },
+  {
+    "model": "meiyuan_v2.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.5937672999989445,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\meiyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 548.874,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=548.874\n"
+  },
+  {
+    "model": "juyuan_v2.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.1849770000007993,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\juyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1103.11,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1103.11\n"
+  },
+  {
+    "model": "jizhonglou_v2.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.7273430000004737,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jizhonglou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 677.112,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=677.112\n"
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 9.988834400000997,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 9242.69,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=9242.69\n"
+  },
+  {
+    "model": "jiaoxuelou_v2.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.0412689999993745,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiaoxuelou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 972.265,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=972.265\n"
+  },
+  {
+    "model": "J1_v3.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.1775383000003785,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\J1_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1098.15,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1098.15\n"
+  },
+  {
+    "model": "he_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 1.3343189000006532,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\he_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 1245.65,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=1245.65\n"
+  },
+  {
+    "model": "haiwai_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.815279800001008,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\haiwai_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 757.757,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=757.757\n"
+  },
+  {
+    "model": "danganguan_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.8443346000003658,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\danganguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 784.867,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=784.867\n"
+  },
+  {
+    "model": "citang_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.9349543000007543,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\citang_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 871.142,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=871.142\n"
+  },
+  {
+    "model": "changjin_v1.ply",
+    "repetition": 2,
+    "exit_code": 0,
+    "process_wall_s": 0.10378980000132287,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 170799,
+    "sh_degree": 3,
+    "scene_bytes": 40308564,
+    "load_ms": 90.8971,
+    "output": "splats=170799 sh_degree=3 scene_bytes=40308564 load_ms=90.8971\n"
+  },
+  {
+    "model": "changjin_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.09654999999838765,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\changjin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 170799,
+    "sh_degree": 3,
+    "scene_bytes": 40308564,
+    "load_ms": 83.0738,
+    "output": "splats=170799 sh_degree=3 scene_bytes=40308564 load_ms=83.0738\n"
+  },
+  {
+    "model": "citang_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.9398736000002827,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\citang_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 875.617,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=875.617\n"
+  },
+  {
+    "model": "danganguan_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.8454670999999507,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\danganguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 787.981,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=787.981\n"
+  },
+  {
+    "model": "haiwai_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.8093095999993238,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\haiwai_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 752.198,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=752.198\n"
+  },
+  {
+    "model": "he_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.3182732000004762,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\he_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 1231.37,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=1231.37\n"
+  },
+  {
+    "model": "J1_v3.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.1854728999987856,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\J1_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1104.49,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1104.49\n"
+  },
+  {
+    "model": "jiaoxuelou_v2.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.0008842999995977,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiaoxuelou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 929.974,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=929.974\n"
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 9.834941400000389,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jiulonghu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 9239.67,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=9239.67\n"
+  },
+  {
+    "model": "jizhonglou_v2.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.7162329999991925,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\jizhonglou_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 665.449,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=665.449\n"
+  },
+  {
+    "model": "juyuan_v2.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.1733920000006037,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\juyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1094.69,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1094.69\n"
+  },
+  {
+    "model": "meiyuan_v2.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.5967020999996748,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\meiyuan_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 552.685,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=552.685\n"
+  },
+  {
+    "model": "PML_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.39383100000122795,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\PML_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 851828,
+    "sh_degree": 3,
+    "scene_bytes": 201031408,
+    "load_ms": 362.218,
+    "output": "splats=851828 sh_degree=3 scene_bytes=201031408 load_ms=362.218\n"
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.3885840000002645,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\shengyi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 358.055,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=358.055\n"
+  },
+  {
+    "model": "spz/citang_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.4311605999992025,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\citang_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2116317,
+    "sh_degree": 3,
+    "scene_bytes": 499450812,
+    "load_ms": 1365.73,
+    "output": "splats=2116317 sh_degree=3 scene_bytes=499450812 load_ms=1365.73\n"
+  },
+  {
+    "model": "spz/danganguan_spzv4.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.0025497999995423,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1859737,
+    "sh_degree": 3,
+    "scene_bytes": 438897932,
+    "load_ms": 943.634,
+    "output": "splats=1859737 sh_degree=3 scene_bytes=438897932 load_ms=943.634\n"
+  },
+  {
+    "model": "spz/danganguan_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.2960035999985848,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\danganguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1888950,
+    "sh_degree": 3,
+    "scene_bytes": 445792200,
+    "load_ms": 1235.49,
+    "output": "splats=1888950 sh_degree=3 scene_bytes=445792200 load_ms=1235.49\n"
+  },
+  {
+    "model": "spz/haiwai_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.2608643000003212,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\haiwai_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1838109,
+    "sh_degree": 3,
+    "scene_bytes": 433793724,
+    "load_ms": 1201.35,
+    "output": "splats=1838109 sh_degree=3 scene_bytes=433793724 load_ms=1201.35\n"
+  },
+  {
+    "model": "spz/he_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.9827669000005699,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\he_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2973002,
+    "sh_degree": 3,
+    "scene_bytes": 701628472,
+    "load_ms": 1887.28,
+    "output": "splats=2973002 sh_degree=3 scene_bytes=701628472 load_ms=1887.28\n"
+  },
+  {
+    "model": "spz/J1_v3.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.7979071000008844,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\J1_v3.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2625008,
+    "sh_degree": 3,
+    "scene_bytes": 619501888,
+    "load_ms": 1718.72,
+    "output": "splats=2625008 sh_degree=3 scene_bytes=619501888 load_ms=1718.72\n"
+  },
+  {
+    "model": "spz/jiaoxuelou_v2.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.5674866999997903,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiaoxuelou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2233426,
+    "sh_degree": 3,
+    "scene_bytes": 527088536,
+    "load_ms": 1497.96,
+    "output": "splats=2233426 sh_degree=3 scene_bytes=527088536 load_ms=1497.96\n"
+  },
+  {
+    "model": "spz/jiulonghu_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 14.991816199999448,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jiulonghu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 22480361,
+    "sh_degree": 3,
+    "scene_bytes": 5305365196,
+    "load_ms": 14351.4,
+    "output": "splats=22480361 sh_degree=3 scene_bytes=5305365196 load_ms=14351.4\n"
+  },
+  {
+    "model": "spz/jizhonglou_v2.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.1422696999998152,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\jizhonglou_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1576115,
+    "sh_degree": 3,
+    "scene_bytes": 371963140,
+    "load_ms": 1091.91,
+    "output": "splats=1576115 sh_degree=3 scene_bytes=371963140 load_ms=1091.91\n"
+  },
+  {
+    "model": "spz/juyuan_v2.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.8024169000000256,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\juyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 2670017,
+    "sh_degree": 3,
+    "scene_bytes": 630124012,
+    "load_ms": 1726.1,
+    "output": "splats=2670017 sh_degree=3 scene_bytes=630124012 load_ms=1726.1\n"
+  },
+  {
+    "model": "spz/meiyuan_v2.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.896314399999028,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\meiyuan_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1312897,
+    "sh_degree": 3,
+    "scene_bytes": 309843692,
+    "load_ms": 853.901,
+    "output": "splats=1312897 sh_degree=3 scene_bytes=309843692 load_ms=853.901\n"
+  },
+  {
+    "model": "spz/shengyi_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.5671320999990712,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\shengyi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 804758,
+    "sh_degree": 3,
+    "scene_bytes": 189922888,
+    "load_ms": 537.551,
+    "output": "splats=804758 sh_degree=3 scene_bytes=189922888 load_ms=537.551\n"
+  },
+  {
+    "model": "spz/tiyuguan_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.9526508999988437,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tiyuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 908.818,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=908.818\n"
+  },
+  {
+    "model": "spz/tumu_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.8518571999993583,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tumu_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 812.765,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=812.765\n"
+  },
+  {
+    "model": "spz/tushuguan_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.9787794000003487,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\tushuguan_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 933.173,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=933.173\n"
+  },
+  {
+    "model": "spz/wenke_v2.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.2140419999996084,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\wenke_v2.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 1161.42,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=1161.42\n"
+  },
+  {
+    "model": "spz/xingxi_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.8972266000000673,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\xingxi_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 855.874,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=855.874\n"
+  },
+  {
+    "model": "spz/yulin_v1.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.7249514999984967,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\yulin_v1.spz",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 690.033,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=690.033\n"
+  },
+  {
+    "model": "spz/zhihuizhimen_spzv4.spz",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 2.1691032000017003,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\spz\\zhihuizhimen_spzv4.spz",
+      "load",
+      "1"
+    ],
+    "splats": 3904214,
+    "sh_degree": 3,
+    "scene_bytes": 921394504,
+    "load_ms": 2055.99,
+    "output": "splats=3904214 sh_degree=3 scene_bytes=921394504 load_ms=2055.99\n"
+  },
+  {
+    "model": "tiyuguan_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.6931653000010556,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tiyuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1419007,
+    "sh_degree": 3,
+    "scene_bytes": 334885652,
+    "load_ms": 645.675,
+    "output": "splats=1419007 sh_degree=3 scene_bytes=334885652 load_ms=645.675\n"
+  },
+  {
+    "model": "tumu_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.585226799999873,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tumu_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1248730,
+    "sh_degree": 3,
+    "scene_bytes": 294700280,
+    "load_ms": 537.114,
+    "output": "splats=1248730 sh_degree=3 scene_bytes=294700280 load_ms=537.114\n"
+  },
+  {
+    "model": "tushuguan_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.6668835000000399,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\tushuguan_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1438782,
+    "sh_degree": 3,
+    "scene_bytes": 339552552,
+    "load_ms": 620.752,
+    "output": "splats=1438782 sh_degree=3 scene_bytes=339552552 load_ms=620.752\n"
+  },
+  {
+    "model": "wenke_v2.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.8100673999997525,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\wenke_v2.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1757157,
+    "sh_degree": 3,
+    "scene_bytes": 414689052,
+    "load_ms": 749.966,
+    "output": "splats=1757157 sh_degree=3 scene_bytes=414689052 load_ms=749.966\n"
+  },
+  {
+    "model": "xingxi_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.6061031999997795,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\xingxi_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1307854,
+    "sh_degree": 3,
+    "scene_bytes": 308653544,
+    "load_ms": 557.942,
+    "output": "splats=1307854 sh_degree=3 scene_bytes=308653544 load_ms=557.942\n"
+  },
+  {
+    "model": "yulin_v1.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.48209459999998217,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\yulin_v1.ply",
+      "load",
+      "1"
+    ],
+    "splats": 1027833,
+    "sh_degree": 3,
+    "scene_bytes": 242568588,
+    "load_ms": 444.612,
+    "output": "splats=1027833 sh_degree=3 scene_bytes=242568588 load_ms=444.612\n"
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 1.7086080000008224,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhihuizhimen.ply",
+      "load",
+      "1"
+    ],
+    "splats": 3914609,
+    "sh_degree": 3,
+    "scene_bytes": 923847724,
+    "load_ms": 1597.51,
+    "output": "splats=3914609 sh_degree=3 scene_bytes=923847724 load_ms=1597.51\n"
+  },
+  {
+    "model": "zhishan.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.22299279999970167,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 203.003,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=203.003\n"
+  },
+  {
+    "model": "zhishan_cleaned.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.22312659999988682,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_cleaned.ply",
+      "load",
+      "1"
+    ],
+    "splats": 455325,
+    "sh_degree": 3,
+    "scene_bytes": 107456700,
+    "load_ms": 202.875,
+    "output": "splats=455325 sh_degree=3 scene_bytes=107456700 load_ms=202.875\n"
+  },
+  {
+    "model": "zhishan_v3.ply",
+    "repetition": 3,
+    "exit_code": 0,
+    "process_wall_s": 0.3059558000004472,
+    "command": [
+      "C:\\Users\\21544\\workspace\\Native3DGSViewer\\out\\Release\\Native3DGSViewer.SceneBench.exe",
+      "C:\\Users\\21544\\Desktop\\zhishan\\zhishan_v3.ply",
+      "load",
+      "1"
+    ],
+    "splats": 649520,
+    "sh_degree": 3,
+    "scene_bytes": 153286720,
+    "load_ms": 280.039,
+    "output": "splats=649520 sh_degree=3 scene_bytes=153286720 load_ms=280.039\n"
+  }
+]

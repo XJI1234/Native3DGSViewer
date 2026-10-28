@@ -6,7 +6,10 @@ namespace gs::render::detail
 {
 struct RendererTestControl
 {
+    bool enable_diagnostics = true;
     std::atomic<bool> fail_allocation{false};
+    std::atomic<bool> fail_cuda_prepare{false};
+    std::atomic<bool> fail_cuda_submit{false};
     std::atomic<bool> reject_budget{false};
     std::atomic<bool> fence_timeout{false};
     std::atomic<bool> copy_fence_timeout{false};

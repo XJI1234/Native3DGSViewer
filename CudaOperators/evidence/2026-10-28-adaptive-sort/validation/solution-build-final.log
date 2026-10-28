@@ -1,0 +1,114 @@
+适用于 .NET Framework MSBuild 版本 18.5.4+cb4e32d21
+
+C:\Users\21544\workspace\Native3DGSViewer\Native3DGSViewer.Build.proj : warning NU1503: 正在跳过项目“C:\Users\21544\workspace\Native3DGSViewer\Native3DGSViewer.Build.proj”的还原操作。项目文件可能无效或缺少还原所需的目标。 [C:\Users\21544\workspace\Native3DGSViewer\Native3DGSViewer.sln]
+  正在确定要还原的项目…
+C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(198,5): warning : 找不到可还原的项目! [C:\Users\21544\workspace\Native3DGSViewer\Native3DGSViewer.sln]
+  -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+  CMake Deprecation Warning at third_party/zstd/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  
+  
+  -- ZSTD VERSION: 1.5.6
+  -- CMAKE_INSTALL_PREFIX: C:/Program Files/Native3DGSViewer
+  -- CMAKE_INSTALL_LIBDIR: lib
+  -- ZSTD_LEGACY_SUPPORT defined!
+  -- ZSTD_MULTITHREAD_SUPPORT is enabled
+  -- Configuring done (0.1s)
+  -- Generating done (0.3s)
+  -- Build files have been written to: C:/Users/21544/workspace/Native3DGSViewer/out/cmake
+  閫傜敤浜?.NET Framework MSBuild 鐗堟湰 18.5.4+cb4e32d21
+  
+    zlibstatic.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\zlibstatic.lib
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    model-io.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io.lib
+    1>
+    gtest.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cmake\lib\Release\gtest.lib
+    libzstd_static.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\zstd_static.lib
+    model-io-fault-helper.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io-fault-helper.exe
+    gtest_main.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\cmake\lib\Release\gtest_main.lib
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    spz.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\spz.lib
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    model-io-helper.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\model-io-helper.exe
+    sort.cpp
+    gpu.cpp
+    renderer.cpp
+    cuda_sort.cpp
+    splat.cpp
+    picking.cpp
+    upload.cpp
+    姝ｅ湪缂栬瘧...
+    renderer.cpp
+    sort.cpp
+    splat.cpp
+    upload.cpp
+    gpu.cpp
+    picking.cpp
+    cuda_sort.cpp
+    render-core.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\render-core.lib
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    native3dgs-engine.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\native3dgs-engine.lib
+    gpu-sort.cpp
+    renderer.cpp
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    scene.cpp
+    Native3DGSViewer.InteractionBench.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.InteractionBench.exe
+    姝ｅ湪缂栬瘧...
+    gpu-sort.cpp
+    姝ｅ湪缂栬瘧...
+    renderer.cpp
+    姝ｅ湪缂栬瘧...
+    scene.cpp
+    Native3DGSViewer.SortBench.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.SortBench.exe
+    render-core-testing.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\render-core-testing.lib
+    Native3DGSViewer.SceneBench.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.SceneBench.exe
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    contracts_tests.cpp
+    image_tests.cpp
+    picking_tests.cpp
+    integration_tests.cpp
+    recovery_tests.cpp
+    test_support.cpp
+    sort_tests.cpp
+    camera_tests.cpp
+    lifecycle_tests.cpp
+    姝ｅ湪缂栬瘧...
+    integration_tests.cpp
+    contracts_tests.cpp
+    sort_tests.cpp
+    test_support.cpp
+    lifecycle_tests.cpp
+    image_tests.cpp
+    picking_tests.cpp
+    camera_tests.cpp
+    recovery_tests.cpp
+    Native3DGSViewer.Tests.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.Tests.exe
+    姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+    Native3DGSViewer.TestBridge.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.Tests.dll
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  正在生成代码
+  已完成代码的生成
+  正在生成代码
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 4539 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  Native3DGSViewer.GUI.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.GUI.exe
+  MainWindow.xaml.cpp
+  正在生成代码
+  已完成代码的生成
+  正在生成代码
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 4539 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  Native3DGSViewer.GUI.vcxproj -> C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.GUI.exe

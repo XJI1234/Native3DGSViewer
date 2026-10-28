@@ -5,6 +5,7 @@
 
 namespace gs::render::detail
 {
+class CudaSortScene;
 struct SceneGpu
 {
     SceneHandle cpu;
@@ -19,6 +20,8 @@ struct SceneGpu
     uint32_t sh_floats_per_splat = 0;
     bool memory_mitigation = false;
     bool sorted = false;
+    bool cuda_attempted = false;
+    std::shared_ptr<CudaSortScene> cuda_sort;
 };
 class SplatPass
 {

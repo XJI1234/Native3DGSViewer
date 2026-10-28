@@ -1,5 +1,6 @@
 enable_language(CUDA)
 find_package(CUDAToolkit 13.3 REQUIRED)
+file(TO_CMAKE_PATH "${CUDAToolkit_ROOT}" GS_CUDA_TOOLKIT_ROOT)
 if(NOT CUDAToolkit_VERSION VERSION_LESS 13.4)
   message(FATAL_ERROR "The experiment pins CUDA 13.3; select its explicit toolkit root")
 endif()
@@ -27,13 +28,25 @@ target_include_directories(Native3DGSViewer.CudaConditionalProbe PRIVATE "${PROJ
 target_compile_definitions(Native3DGSViewer.CudaConditionalProbe PRIVATE NOMINMAX)
 cuda_experiment_output(Native3DGSViewer.CudaConditionalProbe)
 
-add_library(gs-cuda-backend SHARED src/interop/interop.cpp src/operators/fill.cu src/operators/sort.cu src/operators/project.cu src/operators/compact.cu src/operators/tile.cu src/operators/tile_raster.cu)
+add_library(gs-cuda-backend SHARED src/sort_provider.cpp src/interop/interop.cpp src/operators/fill.cu src/operators/sort.cu src/operators/project.cu src/operators/compact.cu src/operators/tile.cu src/operators/tile_raster.cu)
 set_source_files_properties(src/operators/tile_raster.cu PROPERTIES COMPILE_OPTIONS "-lineinfo")
 target_include_directories(gs-cuda-backend PUBLIC include "${PROJECT_SOURCE_DIR}/src/render-core/passes")
+target_include_directories(gs-cuda-backend PRIVATE "${PROJECT_SOURCE_DIR}/src/render-core/device")
 target_compile_definitions(gs-cuda-backend PRIVATE GS_CUDA_EXPORTS NOMINMAX)
 target_link_libraries(gs-cuda-backend PRIVATE CUDA::cudart_static d3d12 dxgi)
 set_target_properties(gs-cuda-backend PROPERTIES CUDA_RUNTIME_LIBRARY Static)
 cuda_experiment_output(gs-cuda-backend)
+# Optional deployment beside the desktop/engine executables; no link dependency.
+add_custom_command(TARGET gs-cuda-backend POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:gs-cuda-backend>" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/gs-cuda-backend.dll"
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/licenses/cuda"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different "${GS_CUDA_TOOLKIT_ROOT}/licenses/cuda_cudart/LICENSE" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/licenses/cuda/cudart-LICENSE"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different "${GS_CUDA_TOOLKIT_ROOT}/licenses/cccl/LICENSE" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/licenses/cuda/cccl-LICENSE"
+  VERBATIM)
+install(TARGETS gs-cuda-backend RUNTIME DESTINATION bin COMPONENT CUDA)
+install(FILES "${GS_CUDA_TOOLKIT_ROOT}/licenses/cuda_cudart/LICENSE" DESTINATION share/Native3DGS/licenses/cuda RENAME cudart-LICENSE COMPONENT CUDA)
+install(FILES "${GS_CUDA_TOOLKIT_ROOT}/licenses/cccl/LICENSE" DESTINATION share/Native3DGS/licenses/cuda RENAME cccl-LICENSE COMPONENT CUDA)
+
 
 add_executable(Native3DGSViewer.CudaTests tests/interop_tests.cpp tests/ownership_tests.cpp tests/sort_tests.cpp tests/project_tests.cpp tests/compact_tests.cpp tests/tile_tests.cpp)
 target_include_directories(Native3DGSViewer.CudaTests PRIVATE include "${PROJECT_SOURCE_DIR}/src/render-core/device")

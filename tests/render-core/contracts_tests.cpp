@@ -1,4 +1,5 @@
 #include "contracts.h"
+#include "cuda_sort.h"
 #include "test_support.h"
 #include <gtest/gtest.h>
 #include <limits>
@@ -117,4 +118,13 @@ TEST(RenderContracts, RotatedCameraUsesInverseQuaternionRows)
     const std::array<float, 9> expected{0, 0, -1, 0, 1, 0, 1, 0, 0};
     for (size_t i = 0; i < rows.size(); ++i)
         EXPECT_NEAR(rows[i], expected[i], 1e-6);
+}
+
+TEST(RenderContracts, AdaptiveSortRequiresCapabilityAndConservativeThreshold)
+{
+    EXPECT_FALSE(use_cuda_sort(false, 22480361));
+    EXPECT_FALSE(use_cuda_sort(true, 170799));
+    EXPECT_FALSE(use_cuda_sort(true, cuda_sort_threshold - 1));
+    EXPECT_TRUE(use_cuda_sort(true, cuda_sort_threshold));
+    EXPECT_TRUE(use_cuda_sort(true, 22480361));
 }

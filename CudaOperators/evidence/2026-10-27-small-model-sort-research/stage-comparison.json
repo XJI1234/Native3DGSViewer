@@ -1,0 +1,68 @@
+[
+  {
+    "model": "changjin_v1.ply",
+    "count": 170799,
+    "dx_sort_ms": 0.124928,
+    "cuda_sort_interop_ms": 0.360448,
+    "sort_gap_ms": 0.23552,
+    "dx_submit_ms": 0.08215,
+    "cuda_submit_ms": 0.21265,
+    "ffx_count_scatter_groups": 334,
+    "cub_i64_main_groups": 27
+  },
+  {
+    "model": "zhishan.ply",
+    "count": 455325,
+    "dx_sort_ms": 0.2304,
+    "cuda_sort_interop_ms": 0.376832,
+    "sort_gap_ms": 0.146432,
+    "dx_submit_ms": 0.17545,
+    "cuda_submit_ms": 0.29715,
+    "ffx_count_scatter_groups": 890,
+    "cub_i64_main_groups": 70
+  },
+  {
+    "model": "shengyi_v1.ply",
+    "count": 804758,
+    "dx_sort_ms": 0.334848,
+    "cuda_sort_interop_ms": 0.406016,
+    "sort_gap_ms": 0.07116800000000001,
+    "dx_submit_ms": 0.1042,
+    "cuda_submit_ms": 0.2091,
+    "ffx_count_scatter_groups": 1572,
+    "cub_i64_main_groups": 124
+  },
+  {
+    "model": "tumu_v1.ply",
+    "count": 1248730,
+    "dx_sort_ms": 0.475136,
+    "cuda_sort_interop_ms": 0.4736,
+    "sort_gap_ms": -0.0015359999999999818,
+    "dx_submit_ms": 0.19025,
+    "cuda_submit_ms": 0.2986,
+    "ffx_count_scatter_groups": 2439,
+    "cub_i64_main_groups": 192
+  },
+  {
+    "model": "zhihuizhimen.ply",
+    "count": 3914609,
+    "dx_sort_ms": 1.29024,
+    "cuda_sort_interop_ms": 0.751104,
+    "sort_gap_ms": -0.5391360000000001,
+    "dx_submit_ms": 0.1469,
+    "cuda_submit_ms": 0.28975,
+    "ffx_count_scatter_groups": 7646,
+    "cub_i64_main_groups": 600
+  },
+  {
+    "model": "jiulonghu_v1.ply",
+    "count": 22480361,
+    "dx_sort_ms": 7.832064000000001,
+    "cuda_sort_interop_ms": 2.681856,
+    "sort_gap_ms": -5.150208000000001,
+    "dx_submit_ms": 0.19269999999999998,
+    "cuda_submit_ms": 0.33925000000000005,
+    "ffx_count_scatter_groups": 16000,
+    "cub_i64_main_groups": 3444
+  }
+]

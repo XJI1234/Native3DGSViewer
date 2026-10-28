@@ -1,0 +1,45 @@
+UpdateCTestConfiguration  from :C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda/DartConfiguration.tcl
+Test project C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 3
+    Start 3: AdaptiveSortProduction
+
+3: Test command: C:\Users\21544\workspace\Native3DGSViewer\out\Release\Native3DGSViewer.Tests.exe "--gtest_filter=RenderLifecycle.Adaptive*:RenderLifecycle.CudaPreparation*:RenderRecovery.FailedCuda*:RenderRecovery.ActualRemovalAfterCuda*"
+3: Working Directory: C:/Users/21544/workspace/Native3DGSViewer/out/cmake-cuda
+3: Test timeout computed to be: 10000000
+3: Running main() from C:\Users\21544\workspace\Native3DGSViewer\third_party\googletest\googletest\src\gtest_main.cc
+3: Note: Google Test filter = RenderLifecycle.Adaptive*:RenderLifecycle.CudaPreparation*:RenderRecovery.FailedCuda*:RenderRecovery.ActualRemovalAfterCuda*
+3: [==========] Running 5 tests from 2 test suites.
+3: [----------] Global test environment set-up.
+3: [----------] 3 tests from RenderLifecycle
+3: [ RUN      ] RenderLifecycle.AdaptiveCudaTracksSceneSwitchReuseCancellationAndClear
+3: [       OK ] RenderLifecycle.AdaptiveCudaTracksSceneSwitchReuseCancellationAndClear (689 ms)
+3: [ RUN      ] RenderLifecycle.CudaPreparationFailureFallsBackWithoutLosingScene
+3: [       OK ] RenderLifecycle.CudaPreparationFailureFallsBackWithoutLosingScene (426 ms)
+3: [ RUN      ] RenderLifecycle.AdaptiveBackendRendersFullSceneWithOptionalProvider
+3: [       OK ] RenderLifecycle.AdaptiveBackendRendersFullSceneWithOptionalProvider (456 ms)
+3: [----------] 3 tests from RenderLifecycle (1572 ms total)
+3: 
+3: [----------] 2 tests from RenderRecovery
+3: [ RUN      ] RenderRecovery.FailedCudaSubmissionRestoresSceneWithDx12
+3: [       OK ] RenderRecovery.FailedCudaSubmissionRestoresSceneWithDx12 (780 ms)
+3: [ RUN      ] RenderRecovery.ActualRemovalAfterCudaSceneRestoresRetainedScene
+3: [       OK ] RenderRecovery.ActualRemovalAfterCudaSceneRestoresRetainedScene (925 ms)
+3: [----------] 2 tests from RenderRecovery (1705 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 5 tests from 2 test suites ran. (3278 ms total)
+3: [  PASSED  ] 5 tests.
+1/1 Test #3: AdaptiveSortProduction ...........   Passed    3.30 sec
+
+The following tests passed:
+	AdaptiveSortProduction
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   3.31 sec

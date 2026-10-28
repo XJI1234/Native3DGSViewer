@@ -83,7 +83,10 @@ int wmain(int argc, wchar_t **argv)
             {
                 std::cout << "SDK OK frames=" << state.stats.presented_frame_id
                           << " active=" << state.active_request
-                          << " splats=" << state.stats.candidate_splats << "\n";
+                          << " splats=" << state.stats.candidate_splats
+                          << " cuda_available=" << (state.stats.cuda_available ? "true" : "false")
+                          << " cuda_sort_active=" << (state.stats.cuda_sort_active ? "true" : "false")
+                          << "\n";
                 break;
             }
             if (std::chrono::steady_clock::now() >= deadline)

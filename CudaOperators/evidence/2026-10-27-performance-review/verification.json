@@ -1,0 +1,16 @@
+{
+  "inputs": 42,
+  "PLY_files": 23,
+  "SPZ_files": 19,
+  "load_runs": 126,
+  "static_runs": 252,
+  "static_sample_frames": 30240,
+  "static_all_bit_identical": true,
+  "formal_runs": 9,
+  "formal_sample_frames": 181836,
+  "static_improved_file_count": 30,
+  "static_regressed_file_count": 12,
+  "static_runtime_unchanged": true,
+  "extended_collection_stopped_at_user_request": true,
+  "formal_collection_complete": false
+}

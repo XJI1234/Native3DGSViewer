@@ -20,6 +20,9 @@
         </Grid>
         <Grid Grid.Row="1" Margin="16,0,16,12" Background="#FFFAFBFC">
             <SwapChainPanel x:Name="ScenePanel" AllowDrop="True" />
+            <Border x:Name="CudaIndicator" Background="#EFFFFFFF" CornerRadius="6" Padding="12,7" Margin="16" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" IsHitTestVisible="False">
+                <TextBlock Text="已启用 CUDA 加速" FontSize="12" Foreground="#FF286340" AutomationProperties.LiveSetting="Polite" />
+            </Border>
             <Canvas x:Name="MeasurementOverlay" IsHitTestVisible="False" />
             <Border x:Name="MeasurementPanel" Background="#F5FFFFFF" BorderBrush="#FFE2E6EA" BorderThickness="1" CornerRadius="6" Padding="16" Margin="16" Width="390" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed">
                 <StackPanel Spacing="10">
